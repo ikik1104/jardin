@@ -11,8 +11,7 @@
 <body>
 	<c:forEach var="dtos" items="${list }">
 	${dtos.bId }
-	${dtos.bTitle }<br>
-	
+	${dtos.bTitle }<br> sefsef
 	</c:forEach>
 </body>
 </html>
