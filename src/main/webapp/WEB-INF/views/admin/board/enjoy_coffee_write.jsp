@@ -43,7 +43,7 @@
 	<section>
 
 
-		<h1>enjoy Coffee 입력</h1>  <!-- <<<<< 20.06.02 수정요청 >>>>> -->
+		<h1>enjoy Coffee 입력</h1>  <!-- <<<<< 20.06.02 수정요청2 >>>>> -->
 
 			<form action="" name="inputform" method="get">
 				<div id="input_form">
