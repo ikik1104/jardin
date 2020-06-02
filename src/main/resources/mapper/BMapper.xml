@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javalec.ex.dao.BDao">
+	<select id="getAllBoards" resultType="com.javalec.ex.dto.BDto">
+		select *from mvc_board
+	</select>
+
+
+</mapper>
