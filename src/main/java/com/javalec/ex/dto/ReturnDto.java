@@ -4,15 +4,15 @@ import java.sql.Timestamp;
 
 public class ReturnDto {
 
-	private int rt_num; //¹İÇ°±³È¯ °íÀ¯¹øÈ£
-	private int rt_receipt_num; //¹İÇ°±³È¯ Á¢¼ö¹øÈ£
-	private int ol_num; //ÁÖ¹® °íÀ¯¹øÈ£
-	private String rt_sort; //ºĞ·ù
-	private int rt_amount; //¼ö·®
-	private String rt_status; //¹İÇ°±³È¯ »óÅÂ
-	private String rt_reason; //¹İÇ°±³È¯ »çÀ¯
-	private Timestamp rt_receipt_date; //¹İÇ°±³È¯ Á¢¼öÀÏ
-	private Timestamp rt_end_date; //¹İÇ°±³È¯ ¿Ï·áÀÏ
+	private int rt_num; //ë°˜í’ˆêµí™˜ ê³ ìœ ë²ˆí˜¸
+	private int rt_receipt_num; //ë°˜í’ˆêµí™˜ ì ‘ìˆ˜ë²ˆí˜¸
+	private int ol_num; //ì£¼ë¬¸ ê³ ìœ ë²ˆí˜¸
+	private String rt_sort; //ë¶„ë¥˜
+	private int rt_amount; //ìˆ˜ëŸ‰
+	private String rt_status; //ë°˜í’ˆêµí™˜ ìƒíƒœ
+	private String rt_reason; //ë°˜í’ˆêµí™˜ ì‚¬ìœ 
+	private Timestamp rt_receipt_date; //ë°˜í’ˆêµí™˜ ì ‘ìˆ˜ì¼
+	private Timestamp rt_end_date; //ë°˜í’ˆêµí™˜ ì™„ë£Œì¼
 	public ReturnDto() {
 		super();
 		// TODO Auto-generated constructor stub

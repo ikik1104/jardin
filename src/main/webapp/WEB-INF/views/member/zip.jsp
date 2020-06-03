@@ -12,9 +12,9 @@
 <meta name="description" content="JARDIN" />
 <meta name="keywords" content="JARDIN" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scaleable=no" />
-<link rel="stylesheet" type="text/css" href="../user/css/reset.css" />
-<link rel="stylesheet" type="text/css" href="../user/css/content.css" />
-<script type="text/javascript" src="../user/js/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="user/css/reset.css" />
+<link rel="stylesheet" type="text/css" href="user/css/content.css" />
+<script type="text/javascript" src="user/js/jquery.min.js"></script>
 </head>
 <body>
 <div id="layerWrap">
@@ -23,7 +23,7 @@
 			
 		<div class="inputBody">
 			<div class="title">우편번호 검색 </div>
-			<p class="close"><a onclick="parent.$.fancybox.close();" href="javascript:;"><img src="../user/images/btn/btn_input_close.gif" alt="닫기" /></a></p>
+			<p class="close"><a onclick="parent.$.fancybox.close();" href="javascript:;"><img src="user/images/btn/btn_input_close.gif" alt="닫기" /></a></p>
 
 			<p class="popalert">찾으실 지역의 동/읍/면 이름을 공백 없이 입력해 주세요.<br/>예) 여의도동, 오천읍, 수지면</p>
 

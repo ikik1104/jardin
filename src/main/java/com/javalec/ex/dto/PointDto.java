@@ -4,11 +4,11 @@ import java.sql.Timestamp;
 
 public class PointDto {
 
-	private int po_num; //Æ÷ÀÎÆ® »ç¿ë °íÀ¯¹øÈ£
-	private int m_num; //È¸¿ø °íÀ¯¹øÈ£
-	private String  po_type; //Æ÷ÀÎÆ® Å¸ÀÔ
-	private int po_point; //Æ÷ÀÎÆ®
-	private Timestamp po_sysdate; //µî·ÏÀÏ
+	private int po_num; //í¬ì¸íŠ¸ ì‚¬ìš© ê³ ìœ ë²ˆí˜¸
+	private int m_num; //íšŒì› ê³ ìœ ë²ˆí˜¸
+	private String  po_type; //í¬ì¸íŠ¸ íƒ€ì…
+	private int po_point; //í¬ì¸íŠ¸
+	private Timestamp po_sysdate; //ë“±ë¡ì¼
 	public PointDto() {
 		super();
 		// TODO Auto-generated constructor stub

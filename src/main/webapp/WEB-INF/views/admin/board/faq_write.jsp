@@ -5,7 +5,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
-		<link rel="stylesheet" type="text/css" href="css/admin_main.css">
+		<link rel="stylesheet" type="text/css" href="admin/css/admin_main.css">
 		<style type="text/css">
 			#input_form{
 			margin: 20px;	
@@ -59,4 +59,4 @@
 	</section>
 	</body>
 </html>
-<script type="text/javascript" src = "js/notice_write.js"></script>
+<script type="text/javascript" src = "admin/js/notice_write.js"></script>

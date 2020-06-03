@@ -18,12 +18,12 @@
 <table width="700" cellpadding="0" cellspacing="0" align="center">
 <tr>
 	<td style="width:700px;height:175px;padding:0;margin:0;vertical-align:top;font-size:0;line-height:0;">
-		<img src="../user/images/email/img_email_top.jpg" alt="JARDIN" />					
+		<img src="user/images/email/img_email_top.jpg" alt="JARDIN" />					
 	</td>
 </tr>
 <tr>
 	<td style="width:700px;height:78px;padding:0;margin:0;vertical-align:top;">
-		<p style="width:620px;margin:50px 0 40px 38px;text-align:center;font-size:0;line-height:0;"><img src="../user/images/email/img_txt_join01.jpg" alt="원두커피의 名家, JARDIN 회원가입을 축하드립니다." /></p>
+		<p style="width:620px;margin:50px 0 40px 38px;text-align:center;font-size:0;line-height:0;"><img src="user/images/email/img_txt_join01.jpg" alt="원두커피의 名家, JARDIN 회원가입을 축하드립니다." /></p>
 	</td>
 </tr>
 <tr>
@@ -31,7 +31,7 @@
 		<table width="618" height="125" cellpadding="0" cellspacing="0" align="center" style="margin:0 0 0 40px;border:1px #d9d9d9 solid;">
 		<tr>
 			<td style="width:618px;height:125px;padding:0;margin:0;vertical-align:top;font-size:0;line-height:0;background:#f9f9f9;">
-				<p style="width:620px;margin:30px 0 0 0;padding:0;text-align:center;vertical-align:top;"><span style="color:#f7703c; font-size:15px;line-height:1.2;vertical-align:top;"><strong>홍길동</strong>&nbsp;</span><img src="../user/images/email/img_txt_join02.jpg" alt="님 쟈뎅샵에 가입해 주셔서 감사드립니다." /></p>
+				<p style="width:620px;margin:30px 0 0 0;padding:0;text-align:center;vertical-align:top;"><span style="color:#f7703c; font-size:15px;line-height:1.2;vertical-align:top;"><strong>홍길동</strong>&nbsp;</span><img src="user/images/email/img_txt_join02.jpg" alt="님 쟈뎅샵에 가입해 주셔서 감사드립니다." /></p>
 				<p style="width:620px;margin:20px 0 0 0;padding:0;text-align:center;color:#888888;font-size:12px;line-height:1.4;">쟈뎅샵에서는 고객님께 보다 나은 서비스를 제공하기 위해 항상 노력하고 있습니다.<br/>앞으로 많은 관심 부탁드립니다.</p>
 			</td>
 		</tr>
@@ -40,12 +40,12 @@
 </tr>
 <tr>
 	<td style="width:700px;height:120px;padding:0;margin:0;vertical-align:top;">
-		<p style="width:700px;margin:30px 0 50px 0;text-align:center;"><a href="#"><img src="../user/images/email/btn_jardin.jpg" alt="JARDIN 바로가기" /></a></p>
+		<p style="width:700px;margin:30px 0 50px 0;text-align:center;"><a href="#"><img src="user/images/email/btn_jardin.jpg" alt="JARDIN 바로가기" /></a></p>
 	</td>
 </tr>
 <tr>
 	<td style="width:700px;height:50px;padding:0;vertical-align:top;font-size:0;line-height:0;text-align:center;">
-		<img src="../user/images/email/img_email_bottom.jpg" alt="" />
+		<img src="user/images/email/img_email_bottom.jpg" alt="" />
 	</td>
 </tr>
 <tr>

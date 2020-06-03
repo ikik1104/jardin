@@ -12,10 +12,10 @@
 <meta name="description" content="JARDIN" />
 <meta name="keywords" content="JARDIN" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scaleable=no" />
-<link rel="stylesheet" type="text/css" href="../user/css/reset.css" />
-<link rel="stylesheet" type="text/css" href="../user/css/content.css" />
-<script type="text/javascript" src="../user/js/jquery.min.js"></script>
-<script type="text/javascript" src="../user/js/common.js"></script>
+<link rel="stylesheet" type="text/css" href="user/css/reset.css" />
+<link rel="stylesheet" type="text/css" href="user/css/content.css" />
+<script type="text/javascript" src="user/js/jquery.min.js"></script>
+<script type="text/javascript" src="user/js/common.js"></script>
 <script type="text/javascript">
 $(function() {
 
@@ -29,7 +29,7 @@ $(function() {
 		
 	<div class="inputBody">
 		<div class="title">쿠폰 조회</div>
-		<p class="close"><a onclick="parent.$.fancybox.close();" href="javascript:;"><img src="../user/images/btn/btn_input_close.gif" alt="닫기" /></a></p>
+		<p class="close"><a onclick="parent.$.fancybox.close();" href="javascript:;"><img src="user/images/btn/btn_input_close.gif" alt="닫기" /></a></p>
 
 		<div id="member">
 			<h3 class="dep">쿠폰 적용</h3>
@@ -51,7 +51,7 @@ $(function() {
 					<tbody>
 						<tr>
 							<td class="left">
-								<p class="img"><img src="../user/images/img/sample_product.jpg" alt="상품" width="66" height="66" /></p>
+								<p class="img"><img src="user/images/img/sample_product.jpg" alt="상품" width="66" height="66" /></p>
 
 								<ul class="goods">
 									<li>
@@ -102,7 +102,7 @@ $(function() {
 					<tbody>
 						<tr>
 							<td class="left">
-								<p class="img"><img src="../user/images/img/sample_product.jpg" alt="상품" width="66" height="66" /></p>
+								<p class="img"><img src="user/images/img/sample_product.jpg" alt="상품" width="66" height="66" /></p>
 
 								<ul class="goods">
 									<li>

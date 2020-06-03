@@ -4,14 +4,14 @@ import java.sql.Timestamp;
 
 public class RefundDto {
 
-	private int rf_num; //È¯ºÒ °íÀ¯¹øÈ£
-	private int rf_receipt_num; //È¯ºÒ Á¢¼ö¹øÈ£
-	private int ol_id; //ÁÖ¹® °íÀ¯¹øÈ£
-	private int rf_price; //È¯ºÒ ±İ¾×
-	private String rf_status; //È¯ºÒ »óÅÂ
-	private String rf_method; //È¯ºÒ ¼ö´Ü
-	private Timestamp rt_reciept_date; //È¯ºÒ Á¢¼öÀÏ
-	private Timestamp rt_end_date; //È¯ºÒ ¿Ï·áÀÏ
+	private int rf_num; //í™˜ë¶ˆ ê³ ìœ ë²ˆí˜¸
+	private int rf_receipt_num; //í™˜ë¶ˆ ì ‘ìˆ˜ë²ˆí˜¸
+	private int ol_id; //ì£¼ë¬¸ ê³ ìœ ë²ˆí˜¸
+	private int rf_price; //í™˜ë¶ˆ ê¸ˆì•¡
+	private String rf_status; //í™˜ë¶ˆ ìƒíƒœ
+	private String rf_method; //í™˜ë¶ˆ ìˆ˜ë‹¨
+	private Timestamp rt_reciept_date; //í™˜ë¶ˆ ì ‘ìˆ˜ì¼
+	private Timestamp rt_end_date; //í™˜ë¶ˆ ì™„ë£Œì¼
 	public RefundDto() {
 		super();
 		// TODO Auto-generated constructor stub

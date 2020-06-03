@@ -9,10 +9,10 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
-		<link rel="stylesheet" type="text/css" href="css/admin_main.css">
-		<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-        <script type="text/javascript" src="js/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="js/prefixfree.dynamic-dom.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="admin/css/admin_main.css">
+		<script type="text/javascript" src="admin/js/jquery-3.4.1.min.js"></script>
+        <script type="text/javascript" src="admin/js/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="admin/js/prefixfree.dynamic-dom.min.js"></script>
 		<style type="text/css">
 			
 			#search_form table{
@@ -193,7 +193,7 @@
 							<td><input type="checkbox"></td>
 							<td>1</td>
 							<td>HOT</td>
-							<td><img alt="아이콘 이미지" src="images/event_list_2.jpg" height="40px"></td>
+							<td><img alt="아이콘 이미지" src="admin/images/event_list_2.jpg" height="40px"></td>
 							<td>사용중</td>
 							<td>1996.11.04</td>
 							<td>1996.11.04</td>
@@ -203,7 +203,7 @@
 							<td><input type="checkbox"></td>
 							<td>1</td>
 							<td>HOT</td>
-							<td><img alt="아이콘 이미지" src="images/event_list_2.jpg" height="40px"></td>
+							<td><img alt="아이콘 이미지" src="admin/images/event_list_2.jpg" height="40px"></td>
 							<td>사용중</td>
 							<td>1996.11.04</td>
 							<td>1996.11.04</td>
@@ -213,7 +213,7 @@
 							<td><input type="checkbox"></td>
 							<td>1</td>
 							<td>HOT</td>
-							<td><img alt="아이콘 이미지" src="images/event_list_2.jpg" height="40px"></td>
+							<td><img alt="아이콘 이미지" src="admin/images/event_list_2.jpg" height="40px"></td>
 							<td>사용중</td>
 							<td>1996.11.04</td>
 							<td>1996.11.04</td>
@@ -223,7 +223,7 @@
 							<td><input type="checkbox"></td>
 							<td>1</td>
 							<td>HOT</td>
-							<td><img alt="아이콘 이미지" src="images/event_list_2.jpg" height="40px"></td>
+							<td><img alt="아이콘 이미지" src="admin/images/event_list_2.jpg" height="40px"></td>
 							<td>사용중</td>
 							<td>1996.11.04</td>
 							<td>1996.11.04</td>
@@ -233,7 +233,7 @@
 							<td><input type="checkbox"></td>
 							<td>1</td>
 							<td>HOT</td>
-							<td><img alt="아이콘 이미지" src="images/event_list_2.jpg" height="40px"></td>
+							<td><img alt="아이콘 이미지" src="admin/images/event_list_2.jpg" height="40px"></td>
 							<td>사용중</td>
 							<td>1996.11.04</td>
 							<td>1996.11.04</td>
@@ -243,7 +243,7 @@
 							<td><input type="checkbox"></td>
 							<td>1</td>
 							<td>HOT</td>
-							<td><img alt="아이콘 이미지" src="images/event_list_2.jpg" height="40px"></td>
+							<td><img alt="아이콘 이미지" src="admin/images/event_list_2.jpg" height="40px"></td>
 							<td>사용중</td>
 							<td>1996.11.04</td>
 							<td>1996.11.04</td>
@@ -253,7 +253,7 @@
 							<td><input type="checkbox"></td>
 							<td>1</td>
 							<td>HOT</td>
-							<td><img alt="아이콘 이미지" src="images/event_list_2.jpg" height="40px"></td>
+							<td><img alt="아이콘 이미지" src="admin/images/event_list_2.jpg" height="40px"></td>
 							<td>사용중</td>
 							<td>1996.11.04</td>
 							<td>1996.11.04</td>
@@ -263,7 +263,7 @@
 							<td><input type="checkbox"></td>
 							<td>1</td>
 							<td>HOT</td>
-							<td><img alt="아이콘 이미지" src="images/event_list_2.jpg" height="40px"></td>
+							<td><img alt="아이콘 이미지" src="admin/images/event_list_2.jpg" height="40px"></td>
 							<td>사용중</td>
 							<td>1996.11.04</td>
 							<td>1996.11.04</td>
@@ -273,7 +273,7 @@
 							<td><input type="checkbox"></td>
 							<td>1</td>
 							<td>HOT</td>
-							<td><img alt="아이콘 이미지" src="images/event_list_2.jpg" height="40px"></td>
+							<td><img alt="아이콘 이미지" src="admin/images/event_list_2.jpg" height="40px"></td>
 							<td>사용중</td>
 							<td>1996.11.04</td>
 							<td>1996.11.04</td>
@@ -283,7 +283,7 @@
 							<td><input type="checkbox"></td>
 							<td>1</td>
 							<td>HOT</td>
-							<td><img alt="아이콘 이미지" src="images/event_list_2.jpg" height="40px"></td>
+							<td><img alt="아이콘 이미지" src="admin/images/event_list_2.jpg" height="40px"></td>
 							<td>사용중</td>
 							<td>1996.11.04</td>
 							<td>1996.11.04</td>
@@ -293,7 +293,7 @@
 							<td><input type="checkbox"></td>
 							<td>1</td>
 							<td>HOT</td>
-							<td><img alt="아이콘 이미지" src="images/event_list_2.jpg" height="40px"></td>
+							<td><img alt="아이콘 이미지" src="admin/images/event_list_2.jpg" height="40px"></td>
 							<td>사용중</td>
 							<td>1996.11.04</td>
 							<td>1996.11.04</td>

@@ -5,12 +5,12 @@ import java.sql.Timestamp;
 public class FaqDto {
 
 	
-	private int f_num; //FAQ °íÀ¯¹øÈ£
-	private String f_step; //Ä«Å×°í¸®
-	private String f_title; //Áú¹®
-	private String f_content; //´äº¯
-	private Timestamp f_sysdate; //ÀÛ¼ºÀÏ
-	private String f_delflag; //»èÁ¦À¯¹«
+	private int f_num; //FAQ ê³ ìœ ë²ˆí˜¸
+	private String f_step; //ì¹´í…Œê³ ë¦¬
+	private String f_title; //ì§ˆë¬¸
+	private String f_content; //ë‹µë³€
+	private Timestamp f_sysdate; //ì‘ì„±ì¼
+	private String f_delflag; //ì‚­ì œìœ ë¬´
 	public FaqDto() {
 		super();
 		// TODO Auto-generated constructor stub
