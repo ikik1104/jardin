@@ -2,12 +2,15 @@ package com.javalec.ex.dto;
 
 public class AdminDto {
 
-	
+
+	private int rownum; //DB에서 가져오는 rownum
 	private int ad_num; //관리자 고유번호
 	private String ad_id; //아이디
 	private String ad_pw; //패스워드
 	private String ad_name; //이름
 	private String ad_grade; //관리자등급
+
+
 	public AdminDto() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -20,6 +23,14 @@ public class AdminDto {
 		this.ad_name = ad_name;
 		this.ad_grade = ad_grade;
 	}
+	
+	public int getRownum() {
+		return rownum;
+	}
+	
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}	
 	public int getAd_num() {
 		return ad_num;
 	}

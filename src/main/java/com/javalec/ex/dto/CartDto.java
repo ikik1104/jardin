@@ -4,13 +4,14 @@ import java.sql.Timestamp;
 
 public class CartDto {
 
-	private int ca_num; //��ٱ��� ������ȣ
-	private int m_num; //ȸ�� ������ȣ
-	private int p_num; //��ǰ�ڵ� 
-	private int ca_amount; //����
-	private Timestamp ca_sysdate; //��ٱ��� �����
+
+	private int ca_num; //장바구니 고유번호
+	private int m_num; //회원 고유번호
+	private int p_num; //상품코드 
+	private int ca_amount; //수량
+	private Timestamp ca_sysdate; //장바구니 등록일
 	private ProductDto pDto;
-	
+
 	public CartDto() {
 		super();
 		// TODO Auto-generated constructor stub

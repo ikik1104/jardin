@@ -24,8 +24,8 @@
 <script type="text/javascript" src="user/js/idangerous.swiper-2.1.min.js"></script>
 <script type="text/javascript" src="user/js/jquery.anchor.js"></script>
 <!--[if lt IE 9]>
-<script type="text/javascript" src="../user/js/html5.js"></script>
-<script type="text/javascript" src="../user/js/respond.min.js"></script>
+<script type="text/javascript" src="user/js/html5.js"></script>
+<script type="text/javascript" src="user/js/respond.min.js"></script>
 <![endif]-->
 <script type="text/javascript">
 $(document).ready(function() {
@@ -42,16 +42,16 @@ $(document).ready(function() {
 <!--익스레이어팝업-->
 <div id="ieUser" style="display:none">
 	<div class="iewrap">	
-		<p class="img"><img src="../user/images/ico/ico_alert.gif" alt="알림" /></p>
+		<p class="img"><img src="user/images/ico/ico_alert.gif" alt="알림" /></p>
 		<p class="txt">IE버전이 낮아 홈페이지 이용에 불편함이 있으므로 <strong>IE9이상이나 다른 브라우저</strong>를 이용해 주세요. </p>
 		<ul>
-			<li><a href="http://windows.microsoft.com/ko-kr/internet-explorer/download-ie" target="_blank"><img src="../user/images/ico/ico_ie.gif" alt="IE 최신브라우저 다운" ></a></li>
-			<li><a href="https://www.google.com/intl/ko/chrome/browser" target="_blank"><img src="../user/images/ico/ico_chrome.gif" alt="IE 최신브라우저 다운" ></a></li>
-			<li><a href="http://www.mozilla.org/ko/firefox/new" target="_blank"><img src="../user/images/ico/ico_mozila.gif" alt="MOZILA 최신브라우저 다운" ></a></li>
-			<li><a href="http://www.apple.com/safari" target="_blank"><img src="../user/images/ico/ico_safari.gif" alt="SAFARI 최신브라우저 다운" ></a></li>
-			<li><a href="http://www.opera.com/ko/o/ie-simple" target="_blank"><img src="../user/images/ico/ico_opera.gif" alt="OPERA 최신브라우저 다운" ></a></li>		
+			<li><a href="http://windows.microsoft.com/ko-kr/internet-explorer/download-ie" target="_blank"><img src="user/images/ico/ico_ie.gif" alt="IE 최신브라우저 다운" ></a></li>
+			<li><a href="https://www.google.com/intl/ko/chrome/browser" target="_blank"><img src="user/images/ico/ico_chrome.gif" alt="IE 최신브라우저 다운" ></a></li>
+			<li><a href="http://www.mozilla.org/ko/firefox/new" target="_blank"><img src="user/images/ico/ico_mozila.gif" alt="MOZILA 최신브라우저 다운" ></a></li>
+			<li><a href="http://www.apple.com/safari" target="_blank"><img src="user/images/ico/ico_safari.gif" alt="SAFARI 최신브라우저 다운" ></a></li>
+			<li><a href="http://www.opera.com/ko/o/ie-simple" target="_blank"><img src="user/images/ico/ico_opera.gif" alt="OPERA 최신브라우저 다운" ></a></li>		
 		</ul>
-		<p class="btn" onclick="msiehide();"><img src="../user/images/ico/ico_close.gif" alt="닫기" /></p>
+		<p class="btn" onclick="msiehide();"><img src="user/images/ico/ico_close.gif" alt="닫기" /></p>
 	</div>
 </div>
 <!--//익스레이어팝업-->
@@ -94,10 +94,10 @@ $(document).ready(function() {
 	<div id="header">
 		
 		<div id="snbBox">
-			<h1><img src="../user/images/txt/logo.gif" alt="JARDIN SHOP" /></h1>
+			<h1><img src="user/images/txt/logo.gif" alt="JARDIN SHOP" /></h1>
 			<div id="quickmenu">
-				<div id="mnaviOpen"><img src="../user/images/btn/btn_mnavi.gif" width="33" height="31" alt="메뉴열기" /></div>
-				<div id="mnaviClose"><img src="../user/images/btn/btn_mnavi_close.gif" width="44" height="43" alt="메뉴닫기" /></div>
+				<div id="mnaviOpen"><img src="user/images/btn/btn_mnavi.gif" width="33" height="31" alt="메뉴열기" /></div>
+				<div id="mnaviClose"><img src="user/images/btn/btn_mnavi_close.gif" width="44" height="43" alt="메뉴닫기" /></div>
 				<ul>
 					<li><a href="#">EVENT</a></li>
 					<li><a href="#">CUSTOMER</a></li>
@@ -114,7 +114,7 @@ $(document).ready(function() {
 
 				<div id="search">
 					<input type="text" class="searchType" />
-					<input type="image" src="../user/images/btn/btn_main_search.gif" width="23" height="20" alt="검색하기" />
+					<input type="image" src="user/images/btn/btn_main_search.gif" width="23" height="20" alt="검색하기" />
 				</div>
 			</div>
 		</div>
@@ -256,7 +256,7 @@ $(document).ready(function() {
 								<tr>
 									<td><input type="checkbox" /></td>
 									<td class="left">
-										<p class="img"><img src="../user/images/img/sample_product.jpg" alt="상품" width="66" height="66" /></p>
+										<p class="img"><img src="user/images/img/sample_product.jpg" alt="상품" width="66" height="66" /></p>
 
 										<ul class="goods">
 											<li>
@@ -277,7 +277,6 @@ $(document).ready(function() {
 								<c:set var="sum" value="${sum + cartlist.pDto.p_price * cartlist.ca_amount }"/>
 								<c:set var="sumpoint" value="${sumpoint + cartlist.pDto.p_point * cartlist.ca_amount}"/>
 								</c:forEach>
-								
 							</tbody>
 						</table>
 					</div>
@@ -384,7 +383,7 @@ $(function() {
 			</div>
 			
 			<div id="finfo">
-				<div id="flogo"><img src="../user/images/txt/flogo.gif" alt="JARDIN THE COFFEE CREATOR, SINCE 1984" /></div>
+				<div id="flogo"><img src="user/images/txt/flogo.gif" alt="JARDIN THE COFFEE CREATOR, SINCE 1984" /></div>
 				<address>
 					<ul>
 						<li>㈜쟈뎅</li>
@@ -397,7 +396,7 @@ $(function() {
 					</ul>
 				</address>
 
-				<div id="inicis"><img src="../user/images/ico/ico_inicis.png" alt="이니시스 결제시스템" /></div>
+				<div id="inicis"><img src="user/images/ico/ico_inicis.png" alt="이니시스 결제시스템" /></div>
 			</div>
 		</div>
 	</div>
