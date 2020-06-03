@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="com.javalec.ex.dao.MtmDao">
+
+	<select id="getAllInquiry" parameterType="Integer" resultType="com.javalec.ex.dto.MtmUserDto">
+		
+		select * from 
+		(select rownum, mtmu.* from 
+		(select * from mtm_inqury_user_tb where m_num = #{param1} order by iu_num asc) mtmu) 
+        order by rownum desc
+		
+	</select>
+	
+	<select id="getOneInquiry" resultType="com.javalec.ex.dto.MtmUserDto">
+		select * from mtm_inqury_user_tb where iu_num = #{param1}
+	</select>
+	
+	<select id="getOneAnswer" resultType="com.javalec.ex.dto.MtmAnswerDto">
+		select * from mtm_inqury_answer_tb where iu_num = #{param1}
+	</select>
+	
+	<select id="getPreTitle" resultType="com.javalec.ex.dto.MtmAnswerDto">
+		select iu_title, iu_status from 
+		(select rownum rnum, mtmu.* from 
+		(select * from mtm_inqury_user_tb order by iu_num desc) mtmu) 
+		where rnum = #{param1}-1
+	</select>
+
+	<select id="getNextTitle" resultType="com.javalec.ex.dto.MtmAnswerDto">
+		select iu_title, iu_status from 
+		(select rownum rnum, mtmu.* from 
+		(select * from mtm_inqury_user_tb order by iu_num desc) mtmu) 
+		where rnum = #{param1}+1
+	</select>
+	
+</mapper>

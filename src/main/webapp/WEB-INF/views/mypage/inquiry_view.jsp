@@ -12,17 +12,17 @@
 <meta name="description" content="JARDIN SHOP" />
 <meta name="keywords" content="JARDIN SHOP" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scaleable=no" />
-<link rel="stylesheet" type="text/css" href="../user/css/reset.css?v=Y" />
-<link rel="stylesheet" type="text/css" href="../user/css/layout.css?v=Y" />
-<link rel="stylesheet" type="text/css" href="../user/css/content.css?v=Y" />
-<script type="text/javascript" src="../user/js/jquery.min.js"></script>
-<script type="text/javascript" src="../user/js/top_navi.js"></script>
-<script type="text/javascript" src="../user/js/left_navi.js"></script>
-<script type="text/javascript" src="../user/js/main.js"></script>
-<script type="text/javascript" src="../user/js/common.js"></script>
-<script type="text/javascript" src="../user/js/jquery.easing.1.3.js"></script>
-<script type="text/javascript" src="../user/js/idangerous.swiper-2.1.min.js"></script>
-<script type="text/javascript" src="../user/js/jquery.anchor.js"></script>
+<link rel="stylesheet" type="text/css" href="user/css/reset.css?v=Y" />
+<link rel="stylesheet" type="text/css" href="user/css/layout.css?v=Y" />
+<link rel="stylesheet" type="text/css" href="user/css/content.css?v=Y" />
+<script type="text/javascript" src="user/js/jquery.min.js"></script>
+<script type="text/javascript" src="user/js/top_navi.js"></script>
+<script type="text/javascript" src="user/js/left_navi.js"></script>
+<script type="text/javascript" src="user/js/main.js"></script>
+<script type="text/javascript" src="user/js/common.js"></script>
+<script type="text/javascript" src="user/js/jquery.easing.1.3.js"></script>
+<script type="text/javascript" src="user/js/idangerous.swiper-2.1.min.js"></script>
+<script type="text/javascript" src="user/js/jquery.anchor.js"></script>
 <!--[if lt IE 9]>
 <script type="text/javascript" src="../user/js/html5.js"></script>
 <script type="text/javascript" src="../user/js/respond.min.js"></script>
@@ -42,16 +42,16 @@ $(document).ready(function() {
 <!--익스레이어팝업-->
 <div id="ieUser" style="display:none">
 	<div class="iewrap">	
-		<p class="img"><img src="../user/images/ico/ico_alert.gif" alt="알림" /></p>
+		<p class="img"><img src="user/images/ico/ico_alert.gif" alt="알림" /></p>
 		<p class="txt">IE버전이 낮아 홈페이지 이용에 불편함이 있으므로 <strong>IE9이상이나 다른 브라우저</strong>를 이용해 주세요. </p>
 		<ul>
-			<li><a href="http://windows.microsoft.com/ko-kr/internet-explorer/download-ie" target="_blank"><img src="../user/images/ico/ico_ie.gif" alt="IE 최신브라우저 다운" ></a></li>
-			<li><a href="https://www.google.com/intl/ko/chrome/browser" target="_blank"><img src="../user/images/ico/ico_chrome.gif" alt="IE 최신브라우저 다운" ></a></li>
-			<li><a href="http://www.mozilla.org/ko/firefox/new" target="_blank"><img src="../user/images/ico/ico_mozila.gif" alt="MOZILA 최신브라우저 다운" ></a></li>
-			<li><a href="http://www.apple.com/safari" target="_blank"><img src="../user/images/ico/ico_safari.gif" alt="SAFARI 최신브라우저 다운" ></a></li>
-			<li><a href="http://www.opera.com/ko/o/ie-simple" target="_blank"><img src="../user/images/ico/ico_opera.gif" alt="OPERA 최신브라우저 다운" ></a></li>		
+			<li><a href="http://windows.microsoft.com/ko-kr/internet-explorer/download-ie" target="_blank"><img src="user/images/ico/ico_ie.gif" alt="IE 최신브라우저 다운" ></a></li>
+			<li><a href="https://www.google.com/intl/ko/chrome/browser" target="_blank"><img src="user/images/ico/ico_chrome.gif" alt="IE 최신브라우저 다운" ></a></li>
+			<li><a href="http://www.mozilla.org/ko/firefox/new" target="_blank"><img src="user/images/ico/ico_mozila.gif" alt="MOZILA 최신브라우저 다운" ></a></li>
+			<li><a href="http://www.apple.com/safari" target="_blank"><img src="user/images/ico/ico_safari.gif" alt="SAFARI 최신브라우저 다운" ></a></li>
+			<li><a href="http://www.opera.com/ko/o/ie-simple" target="_blank"><img src="user/images/ico/ico_opera.gif" alt="OPERA 최신브라우저 다운" ></a></li>		
 		</ul>
-		<p class="btn" onclick="msiehide();"><img src="../user/images/ico/ico_close.gif" alt="닫기" /></p>
+		<p class="btn" onclick="msiehide();"><img src="user/images/ico/ico_close.gif" alt="닫기" /></p>
 	</div>
 </div>
 <!--//익스레이어팝업-->
@@ -94,10 +94,10 @@ $(document).ready(function() {
 	<div id="header">
 		
 		<div id="snbBox">
-			<h1><img src="../user/images/txt/logo.gif" alt="JARDIN SHOP" /></h1>
+			<h1><img src="user/images/txt/logo.gif" alt="JARDIN SHOP" /></h1>
 			<div id="quickmenu">
-				<div id="mnaviOpen"><img src="../user/images/btn/btn_mnavi.gif" width="33" height="31" alt="메뉴열기" /></div>
-				<div id="mnaviClose"><img src="../user/images/btn/btn_mnavi_close.gif" width="44" height="43" alt="메뉴닫기" /></div>
+				<div id="mnaviOpen"><img src="user/images/btn/btn_mnavi.gif" width="33" height="31" alt="메뉴열기" /></div>
+				<div id="mnaviClose"><img src="user/images/btn/btn_mnavi_close.gif" width="44" height="43" alt="메뉴닫기" /></div>
 				<ul>
 					<li><a href="#">EVENT</a></li>
 					<li><a href="#">CUSTOMER</a></li>
@@ -114,7 +114,7 @@ $(document).ready(function() {
 
 				<div id="search">
 					<input type="text" class="searchType" />
-					<input type="image" src="../user/images/btn/btn_main_search.gif" width="23" height="20" alt="검색하기" />
+					<input type="image" src="user/images/btn/btn_main_search.gif" width="23" height="20" alt="검색하기" />
 				</div>
 			</div>
 		</div>
@@ -233,19 +233,18 @@ $(document).ready(function() {
 						<div class="viewHead">
 							<div class="subject">
 								<ul>
-									<li class="cate">[기타]</li>
-									<li>문의 드립니다.</li>
+									<li class="cate">${ inq_view.getIu_sort() }</li>
+									<li>${ inq_view.getIu_title() }</li>
 								</ul>
 							</div>
 							<div class="day">
-								<p class="txt">등록일<span>14.01.28</span></p>
-								<p class="btn"><span class="obtnMini">답변완료</span></p>
+								<p class="txt">등록일<span>${ inq_view.getIu_date() }</span></p>
+								<p class="btn"><span class="obtnMini">${ inq_view.getIu_status }</span></p>
 							</div>
 						</div>
 
 						<div class="viewContents">
-							문의드립니다.<br/>
-							빠른 답변 부탁드립니다
+							${ inq_view.getIu_content() }
 						</div>
 					</div>
 
@@ -253,20 +252,11 @@ $(document).ready(function() {
 					<div class="answer">
 						<div class="inbox">
 							<div class="aname">
-								<p>담당자 <span>[2014-03-04&nbsp;&nbsp;15:01:59]</span></p>
+								<p>담당자 <span>[${ ans_view.getIa_date() }]</span></p>
 							</div>
 
 							<div class="atxt">
-								쟈뎅 커피를 사랑해주셔서 감사합니다. 앞으로도 노력하는 쟈뎅이 되겠습니다. 감사합니다.
-								쟈뎅 커피를 사랑해주셔서 감사합니다. 앞으로도 노력하는 쟈뎅이 되겠습니다. 감사합니다.
-								쟈뎅 커피를 사랑해주셔서 감사합니다. 앞으로도 노력하는 쟈뎅이 되겠습니다. 감사합니다.
-								쟈뎅 커피를 사랑해주셔서 감사합니다. 앞으로도 노력하는 쟈뎅이 되겠습니다. 감사합니다.
-								쟈뎅 커피를 사랑해주셔서 감사합니다. 앞으로도 노력하는 쟈뎅이 되겠습니다. 감사합니다.
-								쟈뎅 커피를 사랑해주셔서 감사합니다. 앞으로도 노력하는 쟈뎅이 되겠습니다. 감사합니다.
-								쟈뎅 커피를 사랑해주셔서 감사합니다. 앞으로도 노력하는 쟈뎅이 되겠습니다. 감사합니다.
-								쟈뎅 커피를 사랑해주셔서 감사합니다. 앞으로도 노력하는 쟈뎅이 되겠습니다. 감사합니다.
-								쟈뎅 커피를 사랑해주셔서 감사합니다. 앞으로도 노력하는 쟈뎅이 되겠습니다. 감사합니다.
-								쟈뎅 커피를 사랑해주셔서 감사합니다. 앞으로도 노력하는 쟈뎅이 되겠습니다. 감사합니다.
+								${ ans_view.getIa_content() }
 							</div>
 						</div>
 					</div>
@@ -285,19 +275,38 @@ $(document).ready(function() {
 							<tbody>
 								<tr>
 									<th class="pre">PREV</th>
-									<td><a href="#">상품 재입고는 언제 되나요?</a></td>
-									<td>
-										<div class="parea">
-											<div class="nbtnMini">답변대기</div>
-										</div>
-									</td>
+                                    
+                                    <c:if test="${ empty pre_title }">
+                                        <td>이전 글이 없습니다.</td>
+                                    </c:if>
+                                    <c:if test="${ not empty pre_title }">
+    									<td><a href="#">${ pre_title.getIu_title() }</a></td>
+    									<td>
+    										<div class="parea">
+    											<div class="nbtnMini">${ pre_title.getIu_status }</div>
+    										</div>
+    									</td>
+                                    </c:if>
+                                    
 								</tr>
 
 								<tr>
 									<th class="next">NEXT</th>
-									<td>다음 글이 없습니다.</td>
-									<td>&nbsp;</td>
+                                    
+                                    <c:if test="${ empty next_title }">
+                                        <td>다음 글이 없습니다.</td>
+								        <td>&nbsp;</td>
+                                    </c:if>
+                                    <c:if test="${ not empty next_title }">
+                                        <td><a href="#">${ next_title.getIu_title() }</a></td>
+                                        <td>
+                                            <div class="parea">
+                                                <div class="nbtnMini">${ next_title.getIu_status }</div>
+                                            </div>
+                                        </td>
+                                    </c:if>
 								</tr>
+                                
 							</tbody>
 						</table>
 					</div>
@@ -341,7 +350,7 @@ $(document).ready(function() {
 			</div>
 			
 			<div id="finfo">
-				<div id="flogo"><img src="../user/images/txt/flogo.gif" alt="JARDIN THE COFFEE CREATOR, SINCE 1984" /></div>
+				<div id="flogo"><img src="user/images/txt/flogo.gif" alt="JARDIN THE COFFEE CREATOR, SINCE 1984" /></div>
 				<address>
 					<ul>
 						<li>㈜쟈뎅</li>
@@ -354,7 +363,7 @@ $(document).ready(function() {
 					</ul>
 				</address>
 
-				<div id="inicis"><img src="../user/images/ico/ico_inicis.png" alt="이니시스 결제시스템" /></div>
+				<div id="inicis"><img src="user/images/ico/ico_inicis.png" alt="이니시스 결제시스템" /></div>
 			</div>
 		</div>
 	</div>

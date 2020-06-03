@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn"%>
 <!DOCTYPE html>
@@ -248,60 +248,41 @@ $(document).ready(function() {
 								<th scope="col">처리상태</th>
 							</thead>
 							<tbody>
-								<tr>
-									<td class="tnone">4</td>
-									<td>배송</td>
-									<td class="left"><a href="#">배송문의 드립니다!</a></td>
-									<td class="tnone">14-05-31</td>
-									<td>
-										<ul class="state">
-											<li><div class="nbtnMini iw83">답변대기</div></li>
-										</ul>
-									</td>
-								</tr>
+<!-- 								<tr> -->
+<!-- 									<td class="tnone">4</td> -->
+<!-- 									<td>배송</td> -->
+<!-- 									<td class="left"><a href="#">배송문의 드립니다!</a></td> -->
+<!-- 									<td class="tnone">14-05-31</td> -->
+<!-- 									<td> -->
+<!-- 										<ul class="state"> -->
+<!-- 											<li><div class="nbtnMini iw83">답변대기</div></li> -->
+<!-- 										</ul> -->
+<!-- 									</td> -->
+<!-- 								</tr> -->
+                                
+                                
+                                <c:forEach var="inq" items="${ inquiry }">
+                                    <tr>
+                                        <td class="tnone">${ inq.getRownum() } </td>
+                                        <td>${ inq.getIu_sort() }</td>
+                                        <td class="left"><a href="inquiry_view?iu_num=${ inq.getIu_num() }&rownum=${ inq.getRownum() }">${ inq.getIu_title() }</a></td>
+                                        <td class="tnone">${ inq.getIu_date() }</td>
+                                        <td>
+                                            <ul class="state">
+                                                <li><div class="nbtnMini iw83">${ inq.getIu_status() }</div></li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
 
-								<tr>
-									<td class="tnone">3</td>
-									<td>상품</td>
-									<td class="left"><a href="#">상품 재입고 언제 되나요? (1)</a></td>
-									<td class="tnone">14-05-31</td>
-									<td>
-										<ul class="state">
-											<li><div class="obtnMini iw83">답변완료</div></li>
-										</ul>
-									</td>
-								</tr>
-
-								<tr>
-									<td class="tnone">2</td>
-									<td>반품/교환</td>
-									<td class="left"><a href="#">문의드립니다. (1)</a></td>
-									<td class="tnone">14-05-31</td>
-									<td>
-										<ul class="state">
-											<li><div class="obtnMini iw83">답변완료</div></li>
-										</ul>
-									</td>
-								</tr>
-
-								<tr>
-									<td class="tnone">1</td>
-									<td>기타</td>
-									<td class="left"><a href="#">상품 문의 드립니다 (1)</a></td>
-									<td class="tnone">14-05-31</td>
-									<td>
-										<ul class="state">
-											<li><div class="obtnMini iw83">답변완료</div></li>
-										</ul>
-									</td>
-								</tr>
+								
 
 							</tbody>
 						</table>
 
-						<div class="noData">
-							문의 하신 내용이 없습니다.
-						</div>
+<!-- 						<div class="noData"> -->
+<!-- 							문의 하신 내용이 없습니다. -->
+<!-- 						</div> -->
 					</div>
 					
 
@@ -309,7 +290,7 @@ $(document).ready(function() {
 						
 						<div class="bwright">
 							<ul>
-								<li><a href="#" class="writeBtn">글쓰기</a></li>
+								<li><a href="inquiry_write" class="writeBtn">글쓰기</a></li>
 							</ul>
 						</div>
 
