@@ -9,7 +9,7 @@ import com.javalec.ex.dto.MtmUserDto;
 
 public interface ADBService {
 	
-	List<Map<String, String>> getAllBoards();
+	List<MtmUserDto> getAllBoards();
 	
 	
 	

@@ -4,22 +4,24 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.javalec.ex.dao.ADBMtmDao">
 
-	<select id="getAllBoards" resultType="HashMap">
-		select iu_title, iu_date from mtm_inqury_user_tb
+	<resultMap type="com.javalec.ex.dto.MemberDto" id="MemberDto">
+	    <result column="m_id" property="m_id"/>
+	</resultMap>
 	
+	<resultMap type="com.javalec.ex.dto.MtmUserDto" id="MtmUserDto">
+	    <result column="rownum" property="rownum"/>	
+	    <result column="iu_title" property="iu_title"/>
+	    <result column="iu_date" property="iu_date"/>
+	    <result column="iu_status" property="iu_status"/>
+	    <collection property="memDto" resultMap="MemberDto"/>	    
+	</resultMap>
+
+
+	<select id="getAllBoards" resultMap="MtmUserDto">
+		select rownum, mem.m_id, iu_title, iu_date, iu_status from mtm_inqury_user_tb mtm, member_tb mem 
+		where mem.m_num=mtm.m_num order by iu_num desc
 	</select>
 
-		<!--  
-
-	<select id="getAllBoards" resultType="HashMap">
-		select rownum rownum, mem.m_id m_id, mtm.iu_title iu_title,
-		mtm.iu_date iu_date, mtm.iu_status iu_status
-		 from member_tb mem, mtm_inqury_user_tb mtm where mem.m_num = mtm.m_num
-		order by mtm.iu_num desc		
-	</select>
-	<select id="getAllBoards" resultType="com.javalec.ex.dto.MtmUserDto">
 		
-	</select>
--->
 
 </mapper>

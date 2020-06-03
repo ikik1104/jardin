@@ -12,6 +12,5 @@ import com.javalec.ex.dto.MtmUserDto;
 @Repository
 public interface ADBMtmDao {
 	
-	List<Map<String, String>> getAllBoards();
-	/*List<MemberDto> getM_name();	*/
+	List<MtmUserDto> getAllBoards();
 }

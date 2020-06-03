@@ -168,14 +168,14 @@
 							<th>답변상태</th>
 							<th>답변/삭제</th>
 						</tr>
-						<c:forEach var="mtmdto" items="${mtm_list }">
+						<c:forEach var="mtm_list" items="${mtm_list }">
 						<tr>
 							<td><input type="checkbox"></td>
-							<td>${mtmdto.rownum }</td>
-							<td>${mtmdto.iu_title }</td>
-							<td>${mtmdto.m_id }</td>
-							<td>${mtmdto.iu_join_date }</td>
-							<td>${mtmdto.iu_status }</td>
+							<td>${mtm_list.rownum }</td>
+							<td>${mtm_list.iu_title }</td>
+							<td>${mtm_list.memDto.m_id }</td>
+							<td>${mtm_list.iu_date }</td>
+							<td>${mtm_list.iu_status }</td>
 							<td>
 								<button type="button" onclick="">답변</button>
 								<button type="button" onclick="">삭제</button>

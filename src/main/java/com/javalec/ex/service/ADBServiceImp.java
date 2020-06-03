@@ -18,7 +18,7 @@ public class ADBServiceImp implements ADBService {
 	ADBMtmDao adbmtmdao;
 
 	@Override
-	public List<Map<String, String>> getAllBoards() {
+	public List<MtmUserDto> getAllBoards() {
 		return adbmtmdao.getAllBoards();
 	}
 
