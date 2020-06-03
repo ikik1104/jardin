@@ -3,13 +3,13 @@ package com.javalec.ex.dto;
 import java.sql.Timestamp;
 
 public class E_CommentDto {
-
-	private int ec_num; //ÀÌº¥Æ® ´ñ±Û °íÀ¯¹øÈ£
-	private int m_num; //(ÀÛ¼ºÀÚ)È¸¿ø °íÀ¯¹øÈ£
-	private int e_num; //ÀÌº¥Æ® °Ô½Ã¹° ¹øÈ£
-	private String ec_content; //±Û³»¿ë
-	private String ec_pw; //ºñ¹Ğ¹øÈ£
-	private Timestamp ec_sysdate; //µî·ÏÀÏ
+	private int rownum;		//DBì—ì„œ ê°€ì ¸ì˜¤ëŠ” rownum
+	private int ec_num; //ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
+	private int m_num; //(ï¿½Û¼ï¿½ï¿½ï¿½)È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
+	private int e_num; //ï¿½Ìºï¿½Æ® ï¿½Ô½Ã¹ï¿½ ï¿½ï¿½È£
+	private String ec_content; //ï¿½Û³ï¿½ï¿½ï¿½
+	private String ec_pw; //ï¿½ï¿½Ğ¹ï¿½È£
+	private Timestamp ec_sysdate; //ï¿½ï¿½ï¿½ï¿½ï¿½
 	public E_CommentDto() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -23,6 +23,14 @@ public class E_CommentDto {
 		this.ec_pw = ec_pw;
 		this.ec_sysdate = ec_sysdate;
 	}
+
+	public int getRownum() {
+		return rownum;
+	}
+
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}		
 	public int getEc_num() {
 		return ec_num;
 	}

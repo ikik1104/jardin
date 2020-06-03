@@ -168,18 +168,21 @@
 							<th>답변상태</th>
 							<th>답변/삭제</th>
 						</tr>
+						<c:forEach var="mtmdto" items="${mtm_list }">
 						<tr>
 							<td><input type="checkbox"></td>
-							<td>1</td>
-							<td>안녕</td>
-							<td>김홍익</td>
-							<td>1996.11.04</td>
-							<td>대기</td>
+							<td>${mtmdto.rownum }</td>
+							<td>${mtmdto.iu_title }</td>
+							<td>${mtmdto.m_id }</td>
+							<td>${mtmdto.iu_join_date }</td>
+							<td>${mtmdto.iu_status }</td>
 							<td>
 								<button type="button" onclick="">답변</button>
 								<button type="button" onclick="">삭제</button>
-							</td>
+							</td>							
 						</tr>
+						</c:forEach>
+						
 						
 					</table>
 					<div class="detail_btn">

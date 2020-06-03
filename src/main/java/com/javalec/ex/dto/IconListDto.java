@@ -3,7 +3,7 @@ package com.javalec.ex.dto;
 import java.sql.Timestamp;
 
 public class IconListDto {
-
+	private int rownum;		//DB에서 가져오는 rownum
 	private int ic_num;     //아이콘고유번호
 	private String ic_name;     //아이콘명
 	private String ic_img;     //아이콘이미지
@@ -24,6 +24,13 @@ public class IconListDto {
 		this.ic_update = ic_update;
 	}
 
+	public int getRownum() {
+		return rownum;
+	}
+
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}	
 	public int getIc_num() {
 		return ic_num;
 	}

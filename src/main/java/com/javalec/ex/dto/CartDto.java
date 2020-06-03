@@ -3,12 +3,12 @@ package com.javalec.ex.dto;
 import java.sql.Timestamp;
 
 public class CartDto {
-
-	private int ca_num; //Àå¹Ù±¸´Ï °íÀ¯¹øÈ£
-	private int m_num; //È¸¿ø °íÀ¯¹øÈ£
-	private int p_num; //»óÇ°ÄÚµå 
-	private int ca_amount; //¼ö·®
-	private Timestamp ca_sysdate; //Àå¹Ù±¸´Ï µî·ÏÀÏ
+	private int rownum;		//DBì—ì„œ ê°€ì ¸ì˜¤ëŠ” rownum
+	private int ca_num; //ï¿½ï¿½Ù±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
+	private int m_num; //È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
+	private int p_num; //ï¿½ï¿½Ç°ï¿½Úµï¿½ 
+	private int ca_amount; //ï¿½ï¿½ï¿½ï¿½
+	private Timestamp ca_sysdate; //ï¿½ï¿½Ù±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
 	public CartDto() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -21,6 +21,13 @@ public class CartDto {
 		this.ca_amount = ca_amount;
 		this.ca_sysdate = ca_sysdate;
 	}
+	public int getRownum() {
+		return rownum;
+	}
+	
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}	
 	public int getCa_num() {
 		return ca_num;
 	}

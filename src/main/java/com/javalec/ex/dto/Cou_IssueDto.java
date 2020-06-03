@@ -4,11 +4,12 @@ import java.sql.Timestamp;
 
 public class Cou_IssueDto {
 
-	private int ci_num; //¹ß±Ş °íÀ¯¹øÈ£
-	private int m_num; //È¸¿ø °íÀ¯¹øÈ£
-	private int co_num; //»ç¿ë ÄíÆù(ÄíÆù °íÀ¯¹øÈ£ )
-	private Timestamp ci_issue_day; //¹ß±ŞÀÏ
-	private Timestamp ci_end_day; //»ç¿ë Á¾·áÀÏ
+	private int rownum;		//DBì—ì„œ ê°€ì ¸ì˜¤ëŠ” rownum
+	private int ci_num; //ï¿½ß±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
+	private int m_num; //È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
+	private int co_num; //ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£ )
+	private Timestamp ci_issue_day; //ï¿½ß±ï¿½ï¿½ï¿½
+	private Timestamp ci_end_day; //ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	
 	public Cou_IssueDto() {
 		super();
@@ -22,6 +23,13 @@ public class Cou_IssueDto {
 		this.ci_issue_day = ci_issue_day;
 		this.ci_end_day = ci_end_day;
 	}
+	public int getRownum() {
+		return rownum;
+	}
+	
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}	
 	public int getCi_num() {
 		return ci_num;
 	}

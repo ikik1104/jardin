@@ -3,7 +3,8 @@ package com.javalec.ex.dto;
 import java.sql.Timestamp;
 
 public class DeliveryDto {
-
+	
+	private int rownum;		//DB에서 가져오는 rownum
 	private int d_id;     //배송고유번호
 	private int ol_order_num;     //주문번호
 	private String d_status;     //배송상태
@@ -24,6 +25,13 @@ public class DeliveryDto {
 		this.d_track_num = d_track_num;
 	}
 
+	public int getRownum() {
+		return rownum;
+	}
+
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}	
 	public int getD_id() {
 		return d_id;
 	}

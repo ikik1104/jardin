@@ -3,29 +3,29 @@ package com.javalec.ex.dto;
 import java.sql.Timestamp;
 
 public class ProductDto {
-
-	private int p_num; //Á¦Ç°°íÀ¯¹øÈ£
-	private String p_step1; //ºĞ·ù1
-	private String p_step2; //ºĞ·ù2
-	private String p_name; //Á¦Ç°¸í
-	private int p_price; //°¡°İ
-	private int p_point; //Æ÷ÀÎÆ®
-	private String p_producer; //Á¦Á¶¿ø
-	private String p_expiry; //À¯Åë±âÇÑ
-	private String p_type; //½ÄÇ°À¯Çü
-	private String p_capacity; //¿ë·®
-	private String p_detail; //¿øÀç·á¸í ¹× ÇÔ·®
-	private String p_location; //¾÷¼Ò¸í ¹× ¼ÒÀçÁö
-	private String p_gene; //À¯ÀüÀÚ ÀçÁ¶ÇÕÀ¯¹«
-	private String p_import; //¼öÀÔ½ÄÇ° À¯¹«
-	private int p_stock; //Àç°í
-	private String p_thumb_img1; //Á¦Ç° ½æ³×ÀÏ ÀÌ¹ÌÁö
-	private String p_thumb_img2; //Á¦Ç° ½æ³×ÀÏ ÀÌ¹ÌÁö
-	private String p_thumb_img3; //Á¦Ç° ½æ³×ÀÏ ÀÌ¹ÌÁö
-	private String p_content_img; //Á¦Ç° »ó¼¼ ÀÌ¹ÌÁö
-	private Timestamp p_sysdate; //Á¦Ç° µî·ÏÀÏ
-	private Timestamp p_update; //Á¦Ç° ¼öÁ¤ÀÏ
-	private String p_delflag; //Á¦Ç°»èÁ¦À¯¹«
+	private int rownum;		//DBì—ì„œ ê°€ì ¸ì˜¤ëŠ” rownum
+	private int p_num; //ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
+	private String p_step1; //ï¿½Ğ·ï¿½1
+	private String p_step2; //ï¿½Ğ·ï¿½2
+	private String p_name; //ï¿½ï¿½Ç°ï¿½ï¿½
+	private int p_price; //ï¿½ï¿½ï¿½ï¿½
+	private int p_point; //ï¿½ï¿½ï¿½ï¿½Æ®
+	private String p_producer; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private String p_expiry; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private String p_type; //ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½
+	private String p_capacity; //ï¿½ë·®
+	private String p_detail; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ô·ï¿½
+	private String p_location; //ï¿½ï¿½ï¿½Ò¸ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private String p_gene; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private String p_import; //ï¿½ï¿½ï¿½Ô½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½
+	private int p_stock; //ï¿½ï¿½ï¿½
+	private String p_thumb_img1; //ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½
+	private String p_thumb_img2; //ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½
+	private String p_thumb_img3; //ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½
+	private String p_content_img; //ï¿½ï¿½Ç° ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½
+	private Timestamp p_sysdate; //ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½ï¿½
+	private Timestamp p_update; //ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private String p_delflag; //ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	
 	public ProductDto() {
 		super();
@@ -61,6 +61,13 @@ public class ProductDto {
 		this.p_delflag = p_delflag;
 	}
 
+	public int getRownum() {
+		return rownum;
+	}
+
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}	
 	public int getP_num() {
 		return p_num;
 	}

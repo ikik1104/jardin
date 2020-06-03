@@ -3,17 +3,17 @@ package com.javalec.ex.dto;
 import java.sql.Timestamp;
 
 public class EventDto {
-
-	private int e_num; //ÀÌº¥Æ® °íÀ¯¹øÈ£
-	private String e_title; //Á¦¸ñ
-	private Timestamp e_start_day; //½ÃÀÛÀÏ
-	private Timestamp e_end_day; //Á¾·áÀÏ
-	private String e_thumb_img; //½æ³×ÀÏ ÀÌ¹ÌÁö
-	private String e_content_img; //³»¿ë ÀÌ¹ÌÁö
-	private String e_content; //±Û³»¿ë
-	private Timestamp e_sysdate; //µî·ÏÀÏ
-	private int co_num; //ÀÌº¥Æ® ÄíÆù
-	private Timestamp e_win_day; //´çÃ·ÀÚ ¹ßÇ¥ÀÏ
+	private int rownum;		//DBì—ì„œ ê°€ì ¸ì˜¤ëŠ” rownum
+	private int e_num; //ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
+	private String e_title; //ï¿½ï¿½ï¿½ï¿½
+	private Timestamp e_start_day; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private Timestamp e_end_day; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private String e_thumb_img; //ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½
+	private String e_content_img; //ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½
+	private String e_content; //ï¿½Û³ï¿½ï¿½ï¿½
+	private Timestamp e_sysdate; //ï¿½ï¿½ï¿½ï¿½ï¿½
+	private int co_num; //ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½
+	private Timestamp e_win_day; //ï¿½ï¿½Ã·ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½
 	public EventDto() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -32,6 +32,15 @@ public class EventDto {
 		this.co_num = co_num;
 		this.e_win_day = e_win_day;
 	}
+	
+
+	public int getRownum() {
+		return rownum;
+	}
+
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}		
 	public int getE_num() {
 		return e_num;
 	}

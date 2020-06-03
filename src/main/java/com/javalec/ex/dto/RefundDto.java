@@ -3,15 +3,15 @@ package com.javalec.ex.dto;
 import java.sql.Timestamp;
 
 public class RefundDto {
-
-	private int rf_num; //È¯ºÒ °íÀ¯¹øÈ£
-	private int rf_receipt_num; //È¯ºÒ Á¢¼ö¹øÈ£
-	private int ol_id; //ÁÖ¹® °íÀ¯¹øÈ£
-	private int rf_price; //È¯ºÒ ±İ¾×
-	private String rf_status; //È¯ºÒ »óÅÂ
-	private String rf_method; //È¯ºÒ ¼ö´Ü
-	private Timestamp rt_reciept_date; //È¯ºÒ Á¢¼öÀÏ
-	private Timestamp rt_end_date; //È¯ºÒ ¿Ï·áÀÏ
+	private int rownum;		//DBì—ì„œ ê°€ì ¸ì˜¤ëŠ” rownum
+	private int rf_num; //È¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
+	private int rf_receipt_num; //È¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
+	private int ol_id; //ï¿½Ö¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
+	private int rf_price; //È¯ï¿½ï¿½ ï¿½İ¾ï¿½
+	private String rf_status; //È¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	private String rf_method; //È¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	private Timestamp rt_reciept_date; //È¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private Timestamp rt_end_date; //È¯ï¿½ï¿½ ï¿½Ï·ï¿½ï¿½ï¿½
 	public RefundDto() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -28,6 +28,14 @@ public class RefundDto {
 		this.rt_reciept_date = rt_reciept_date;
 		this.rt_end_date = rt_end_date;
 	}
+
+	public int getRownum() {
+		return rownum;
+	}
+
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}		
 	public int getRf_num() {
 		return rf_num;
 	}

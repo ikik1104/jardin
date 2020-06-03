@@ -4,13 +4,13 @@ import java.sql.Timestamp;
 
 public class FaqDto {
 
-	
-	private int f_num; //FAQ °íÀ¯¹øÈ£
-	private String f_step; //Ä«Å×°í¸®
-	private String f_title; //Áú¹®
-	private String f_content; //´äº¯
-	private Timestamp f_sysdate; //ÀÛ¼ºÀÏ
-	private String f_delflag; //»èÁ¦À¯¹«
+	private int rownum;		//DBì—ì„œ ê°€ì ¸ì˜¤ëŠ” rownum
+	private int f_num; //FAQ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
+	private String f_step; //Ä«ï¿½×°ï¿½
+	private String f_title; //ï¿½ï¿½ï¿½ï¿½
+	private String f_content; //ï¿½äº¯
+	private Timestamp f_sysdate; //ï¿½Û¼ï¿½ï¿½ï¿½
+	private String f_delflag; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public FaqDto() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -24,6 +24,15 @@ public class FaqDto {
 		this.f_sysdate = f_sysdate;
 		this.f_delflag = f_delflag;
 	}
+	
+
+	public int getRownum() {
+		return rownum;
+	}
+
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}			
 	public int getF_num() {
 		return f_num;
 	}

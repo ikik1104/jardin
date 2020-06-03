@@ -3,16 +3,16 @@ package com.javalec.ex.dto;
 import java.sql.Timestamp;
 
 public class ReturnDto {
-
-	private int rt_num; //¹İÇ°±³È¯ °íÀ¯¹øÈ£
-	private int rt_receipt_num; //¹İÇ°±³È¯ Á¢¼ö¹øÈ£
-	private int ol_num; //ÁÖ¹® °íÀ¯¹øÈ£
-	private String rt_sort; //ºĞ·ù
-	private int rt_amount; //¼ö·®
-	private String rt_status; //¹İÇ°±³È¯ »óÅÂ
-	private String rt_reason; //¹İÇ°±³È¯ »çÀ¯
-	private Timestamp rt_receipt_date; //¹İÇ°±³È¯ Á¢¼öÀÏ
-	private Timestamp rt_end_date; //¹İÇ°±³È¯ ¿Ï·áÀÏ
+	private int rownum;		//DBì—ì„œ ê°€ì ¸ì˜¤ëŠ” rownum
+	private int rt_num; //ï¿½ï¿½Ç°ï¿½ï¿½È¯ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
+	private int rt_receipt_num; //ï¿½ï¿½Ç°ï¿½ï¿½È¯ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
+	private int ol_num; //ï¿½Ö¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
+	private String rt_sort; //ï¿½Ğ·ï¿½
+	private int rt_amount; //ï¿½ï¿½ï¿½ï¿½
+	private String rt_status; //ï¿½ï¿½Ç°ï¿½ï¿½È¯ ï¿½ï¿½ï¿½ï¿½
+	private String rt_reason; //ï¿½ï¿½Ç°ï¿½ï¿½È¯ ï¿½ï¿½ï¿½ï¿½
+	private Timestamp rt_receipt_date; //ï¿½ï¿½Ç°ï¿½ï¿½È¯ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private Timestamp rt_end_date; //ï¿½ï¿½Ç°ï¿½ï¿½È¯ ï¿½Ï·ï¿½ï¿½ï¿½
 	public ReturnDto() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -30,6 +30,14 @@ public class ReturnDto {
 		this.rt_receipt_date = rt_receipt_date;
 		this.rt_end_date = rt_end_date;
 	}
+
+	public int getRownum() {
+		return rownum;
+	}
+
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}		
 	public int getRt_num() {
 		return rt_num;
 	}

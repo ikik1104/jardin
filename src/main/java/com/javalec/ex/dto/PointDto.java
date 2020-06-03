@@ -3,12 +3,12 @@ package com.javalec.ex.dto;
 import java.sql.Timestamp;
 
 public class PointDto {
-
-	private int po_num; //Æ÷ÀÎÆ® »ç¿ë °íÀ¯¹øÈ£
-	private int m_num; //È¸¿ø °íÀ¯¹øÈ£
-	private String  po_type; //Æ÷ÀÎÆ® Å¸ÀÔ
-	private int po_point; //Æ÷ÀÎÆ®
-	private Timestamp po_sysdate; //µî·ÏÀÏ
+	private int rownum;		//DBì—ì„œ ê°€ì ¸ì˜¤ëŠ” rownum
+	private int po_num; //ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
+	private int m_num; //È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
+	private String  po_type; //ï¿½ï¿½ï¿½ï¿½Æ® Å¸ï¿½ï¿½
+	private int po_point; //ï¿½ï¿½ï¿½ï¿½Æ®
+	private Timestamp po_sysdate; //ï¿½ï¿½ï¿½ï¿½ï¿½
 	public PointDto() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -21,6 +21,14 @@ public class PointDto {
 		this.po_point = po_point;
 		this.po_sysdate = po_sysdate;
 	}
+
+	public int getRownum() {
+		return rownum;
+	}
+
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}		
 	public int getPo_num() {
 		return po_num;
 	}

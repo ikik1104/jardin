@@ -3,7 +3,7 @@ package com.javalec.ex.dto;
 import java.sql.Timestamp;
 
 public class EnjoyCoffeeDto {
-	
+	private int rownum;		//DB에서 가져오는 rownum
 	private int ej_num;     //인조이커피 고유번호
 	private int ad_num;     //관리자 고유번호(작성자)
 	private String ej_title;     //제목
@@ -26,6 +26,13 @@ public class EnjoyCoffeeDto {
 		this.ej_hit = ej_hit;
 	}
 
+	public int getRownum() {
+		return rownum;
+	}
+
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}		
 	public int getEj_num() {
 		return ej_num;
 	}

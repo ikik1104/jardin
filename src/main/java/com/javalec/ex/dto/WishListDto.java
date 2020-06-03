@@ -3,12 +3,12 @@ package com.javalec.ex.dto;
 import java.sql.Timestamp;
 
 public class WishListDto {
-
-	private int w_num; //À§½Ã¸®½ºÆ® °íÀ¯¹øÈ£
-	private int m_num; //È¸¿ø °íÀ¯¹øÈ£
-	private int p_num; //»óÇ° °íÀ¯¹øÈ£
-	private int w_amount; //¼ö·®
-	private Timestamp w_sysdate; //µî·ÏÀÏ
+	private int rownum;		//DBì—ì„œ ê°€ì ¸ì˜¤ëŠ” rownum
+	private int w_num; //ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
+	private int m_num; //È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
+	private int p_num; //ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
+	private int w_amount; //ï¿½ï¿½ï¿½ï¿½
+	private Timestamp w_sysdate; //ï¿½ï¿½ï¿½ï¿½ï¿½
 	public WishListDto() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -21,6 +21,14 @@ public class WishListDto {
 		this.w_amount = w_amount;
 		this.w_sysdate = w_sysdate;
 	}
+
+	public int getRownum() {
+		return rownum;
+	}
+
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}		
 	public int getW_num() {
 		return w_num;
 	}

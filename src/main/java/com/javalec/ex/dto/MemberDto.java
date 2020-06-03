@@ -3,7 +3,7 @@ package com.javalec.ex.dto;
 import java.sql.Timestamp;
 
 public class MemberDto {
-
+	private int rownum;		//DB에서 가져오는 rownum
 	private int m_num;     //회원 고유번호
 	private String m_name;     //이름
 	private String m_id;     //아이디
@@ -54,6 +54,13 @@ public class MemberDto {
 		this.m_join_date = m_join_date;
 	}
 
+	public int getRownum() {
+		return rownum;
+	}
+
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}	
 	public int getM_num() {
 		return m_num;
 	}

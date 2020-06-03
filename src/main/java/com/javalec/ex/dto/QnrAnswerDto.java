@@ -3,7 +3,7 @@ package com.javalec.ex.dto;
 import java.sql.Timestamp;
 
 public class QnrAnswerDto {
-
+	private int rownum;		//DB에서 가져오는 rownum
 	private int qa_num;     //질문/답변 답변 고유번호
 	private int qu_num;     //질문/답변 게시글 고유번호
 	private int ad_num;     //관리자 고유번호(작성자)
@@ -21,6 +21,13 @@ public class QnrAnswerDto {
 		this.qa_date = qa_date;
 	}
 
+	public int getRownum() {
+		return rownum;
+	}
+
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}	
 	public int getQa_num() {
 		return qa_num;
 	}

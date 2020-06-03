@@ -4,16 +4,16 @@ import java.sql.Timestamp;
 
 public class CouponDto {
 
-	
-	private int co_num; //ÄíÆù °íÀ¯¹øÈ£
-	private String co_name; //ÄíÆù¸í
-	private Timestamp co_start_day; //½ÃÀÛÀÏ
-	private Timestamp co_end_day; //Á¾·áÀÏ
-	private int co_expiry; //ÄíÆùÀ¯È¿±â°£
-	private String co_discount; //ÄíÆù Å¸ÀÔ
-	private int co_amount; //ÇÒÀÎ±İ¾×
-	private Timestamp co_sysdate; //ÄíÆù µî·ÏÀÏ
-	private int co_product; //»óÇ°ÄíÆù Àû¿ë Á¦Ç° °íÀ¯¹øÈ£
+	private int rownum;		//DBì—ì„œ ê°€ì ¸ì˜¤ëŠ” rownum
+	private int co_num; //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
+	private String co_name; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private Timestamp co_start_day; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private Timestamp co_end_day; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private int co_expiry; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¿ï¿½â°£
+	private String co_discount; //ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½
+	private int co_amount; //ï¿½ï¿½ï¿½Î±İ¾ï¿½
+	private Timestamp co_sysdate; //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
+	private int co_product; //ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
 	
 	
 	public CouponDto() {
@@ -33,6 +33,13 @@ public class CouponDto {
 		this.co_sysdate = co_sysdate;
 		this.co_product = co_product;
 	}
+	public int getRownum() {
+		return rownum;
+	}
+
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}			
 	public int getCo_num() {
 		return co_num;
 	}
