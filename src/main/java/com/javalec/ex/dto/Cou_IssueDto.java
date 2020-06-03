@@ -4,11 +4,11 @@ import java.sql.Timestamp;
 
 public class Cou_IssueDto {
 
-	private int ci_num; //¹ß±Ş °íÀ¯¹øÈ£
-	private int m_num; //È¸¿ø °íÀ¯¹øÈ£
-	private int co_num; //»ç¿ë ÄíÆù(ÄíÆù °íÀ¯¹øÈ£ )
-	private Timestamp ci_issue_day; //¹ß±ŞÀÏ
-	private Timestamp ci_end_day; //»ç¿ë Á¾·áÀÏ
+	private int ci_num; //ë°œê¸‰ ê³ ìœ ë²ˆí˜¸
+	private int m_num; //íšŒì› ê³ ìœ ë²ˆí˜¸
+	private int co_num; //ì‚¬ìš© ì¿ í°(ì¿ í° ê³ ìœ ë²ˆí˜¸ )
+	private Timestamp ci_issue_day; //ë°œê¸‰ì¼
+	private Timestamp ci_end_day; //ì‚¬ìš© ì¢…ë£Œì¼
 	
 	public Cou_IssueDto() {
 		super();

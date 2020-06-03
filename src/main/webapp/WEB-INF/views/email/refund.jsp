@@ -18,24 +18,24 @@
 <table width="700" cellpadding="0" cellspacing="0" align="center">
 <tr>
 	<td style="width:700px;height:175px;padding:0;margin:0;vertical-align:top;font-size:0;line-height:0;">
-		<img src="../user/images/email/img_email_top.jpg" alt="JARDIN" />					
+		<img src="user/images/email/img_email_top.jpg" alt="JARDIN" />					
 	</td>
 </tr>
 <tr>
 	<td style="width:700px;height:78px;padding:0;margin:0;vertical-align:top;">
-		<p style="width:620px;margin:50px 0 0 38px;text-align:center;font-size:0;line-height:0;"><img src="../user/images/email/img_txt_refund01.jpg" alt="원두커피의 名家, JARDIN 주문이 취소되었습니다." /></p>
+		<p style="width:620px;margin:50px 0 0 38px;text-align:center;font-size:0;line-height:0;"><img src="user/images/email/img_txt_refund01.jpg" alt="원두커피의 名家, JARDIN 주문이 취소되었습니다." /></p>
 	</td>
 </tr>
 <tr>
 	<td style="width:700px;padding:0;margin:0;vertical-align:top;">
-		<p style="width:620px;margin:30px 0 0 38px;text-align:center;font-size:0;line-height:0;"><img src="../user/images/email/img_txt_payment02.jpg" alt="JARDIN SHOP을 이용해 주셔서 진심으로 감사드립니다." /></p>
+		<p style="width:620px;margin:30px 0 0 38px;text-align:center;font-size:0;line-height:0;"><img src="user/images/email/img_txt_payment02.jpg" alt="JARDIN SHOP을 이용해 주셔서 진심으로 감사드립니다." /></p>
 
 		<p style="width:620px;margin:10px 0 50px 38px;text-align:center;font-size:12px;line-height:1;color:#888888;">회원님께서 구매하신 내역이 아래와 같이 정상적으로 취소되었습니다.</p>
 	</td>
 </tr>
 <tr>
 	<td style="width:700px;padding:0;margin:0;vertical-align:top;">
-		<p style="width:620px;margin:30px 0 10px 38px;font-size:0;line-height:0;"><img src="../user/images/email/img_txt_payment03.jpg" alt="구매내역" /></p>
+		<p style="width:620px;margin:30px 0 10px 38px;font-size:0;line-height:0;"><img src="user/images/email/img_txt_payment03.jpg" alt="구매내역" /></p>
 	</td>
 </tr>
 <tr>
@@ -43,18 +43,18 @@
 		<table width="620" cellpadding="0" cellspacing="0" align="center" style="margin:0 0 40px 40px;">
 		<tr>
 			<td colspan="2" style="width:407px;height:40px;padding:0;margin:0;vertical-align:middle;font-size:0;line-height:0;border-top:1px #5b524d solid;border-bottom:1px #5b524d solid;text-align:center;">
-				<img src="../user/images/email/img_txt_payment04.jpg" alt="상품명/옵션" />
+				<img src="user/images/email/img_txt_payment04.jpg" alt="상품명/옵션" />
 			</td>
 			<td style="width:100px;height:40px;padding:0;margin:0;vertical-align:middle;font-size:0;line-height:0;border-top:1px #5b524d solid;border-bottom:1px #5b524d solid;text-align:center;">
-				<img src="../user/images/email/img_txt_payment05.jpg" alt="수량" />
+				<img src="user/images/email/img_txt_payment05.jpg" alt="수량" />
 			</td>
 			<td style="width:113px;height:40px;padding:0;margin:0;vertical-align:middle;font-size:0;line-height:0;border-top:1px #5b524d solid;border-bottom:1px #5b524d solid;text-align:center;">
-				<img src="../user/images/email/img_txt_payment06.jpg" alt="구매일자" />
+				<img src="user/images/email/img_txt_payment06.jpg" alt="구매일자" />
 			</td>
 		</tr>
 		<tr>
 			<td style="width:100px;padding:12px 0;margin:0;vertical-align:middle;font-size:12px;line-height:1.2;text-align:center;border-bottom:1px #d9d9d9 solid;">
-				<img src="../user/images/email/img_payment_sample.jpg" alt="상품" />
+				<img src="user/images/email/img_payment_sample.jpg" alt="상품" />
 			</td>
 			<td style="width:307px;padding:12px 0;margin:0;vertical-align:middle;font-size:12px;line-height:1.2;text-align:left;border-bottom:1px #d9d9d9 solid;">
 				<a href="#" style="color:#747474;vertical-align:middle;text-decoration:none;"><strong>쟈뎅 오리지널 콜롬비아 페레이라 원두커피백 15p</strong></a>
@@ -71,7 +71,7 @@
 </tr>
 <tr>
 	<td style="width:700px;padding:0;margin:0;vertical-align:top;">
-		<p style="width:620px;margin:0 0 10px 38px;font-size:0;line-height:0;"><img src="../user/images/email/img_txt_payment08.jpg" alt="취소 결제 내역" /></p>
+		<p style="width:620px;margin:0 0 10px 38px;font-size:0;line-height:0;"><img src="user/images/email/img_txt_payment08.jpg" alt="취소 결제 내역" /></p>
 	</td>
 </tr>
 <tr>
@@ -82,7 +82,7 @@
 				<table width="305" cellpadding="0" cellspacing="0" align="center" style="margin:0;">
 					<tr>
 						<td style="padding:15px 0 5px 19px; color:#888;background:#f9f9f9;">
-							<img src="../user/images/email/arrow.jpg">&nbsp;주문금액
+							<img src="user/images/email/arrow.jpg">&nbsp;주문금액
 						</td>
 						<td style="padding:15px 20px 5px 0;color:#666;text-align:right;background:#f9f9f9;">
 							<strong style="color:#888;">45,000</strong> 원
@@ -90,7 +90,7 @@
 					</tr>
 					<tr>
 						<td style="padding:5px 0 5px 19px; color:#888;background:#f9f9f9;">
-							<img src="../user/images/email/arrow.jpg">&nbsp;배송비
+							<img src="user/images/email/arrow.jpg">&nbsp;배송비
 						</td>
 						<td style="padding:5px 20px 5px 0;color:#666;text-align:right;background:#f9f9f9;">
 							<strong style="color:#888;">2,500</strong> 원
@@ -98,7 +98,7 @@
 					</tr>
 					<tr>
 						<td style="padding:5px 0 5px 19px; color:#888;background:#f9f9f9;">
-							<img src="../user/images/email/arrow.jpg">&nbsp;포인트
+							<img src="user/images/email/arrow.jpg">&nbsp;포인트
 						</td>
 						<td style="padding:5px 20px 5px 0;color:#666;text-align:right;background:#f9f9f9;">
 							<strong style="color:#888;">-9,800</strong> 원
@@ -106,7 +106,7 @@
 					</tr>
 					<tr>
 						<td style="padding:5px 0 5px 19px; color:#888;background:#f9f9f9;">
-							<img src="../user/images/email/arrow.jpg">&nbsp;할인쿠폰
+							<img src="user/images/email/arrow.jpg">&nbsp;할인쿠폰
 						</td>
 						<td style="padding:5px 20px 5px 0;color:#666;text-align:right;background:#f9f9f9;">
 							<strong style="color:#888;">-5,500</strong> 원
@@ -114,7 +114,7 @@
 					</tr>
 					<tr>
 						<td style="padding:5px 0 15px 19px; color:#888;background:#f9f9f9;border-top:1px #eeeeee solid;border-bottom:1px #dcdcdc soilid;">
-							<img src="../user/images/email/arrow.jpg">&nbsp;<strong style="color:#444;">총 결제금액</strong>
+							<img src="user/images/email/arrow.jpg">&nbsp;<strong style="color:#444;">총 결제금액</strong>
 						</td>
 						<td style="padding:5px 20px 15px 0;color:#666;text-align:right;background:#f9f9f9;border-top:1px #eeeeee solid;border-bottom:1px #dcdcdc soilid;">
 							<strong style="color:#f7703c;font-size:15px;">32,200</strong> 원
@@ -122,7 +122,7 @@
 					</tr>
 					<tr>
 						<td style="padding:20px 0 20px 19px; color:#888;background:#ffffff;border-top:1px #eeeeee solid;border-bottom:1px #dcdcdc soilid;" colspan="2">
-							<img src="../user/images/email/arrow.jpg">&nbsp;결제 수단 : <span style="color:#666;">신용카드</span>  (<strong style="color:#444;">결제완료</strong>)
+							<img src="user/images/email/arrow.jpg">&nbsp;결제 수단 : <span style="color:#666;">신용카드</span>  (<strong style="color:#444;">결제완료</strong>)
 						</td>
 					</tr>
 				</table>
@@ -131,7 +131,7 @@
 				<table width="306" cellpadding="0" cellspacing="0" align="center" style="margin:0;">
 					<tr>
 						<td style="padding:15px 0 5px 19px; color:#888;">
-							<img src="../user/images/email/arrow.jpg">&nbsp;최소일
+							<img src="user/images/email/arrow.jpg">&nbsp;최소일
 						</td>
 						<td style="padding:15px 20px 5px 0;color:#666;text-align:right;">
 							2014.04.11
@@ -139,7 +139,7 @@
 					</tr>
 					<tr>
 						<td style="padding:5px 0 5px 19px; color:#888;">
-							<img src="../user/images/email/arrow.jpg">&nbsp;환불 방법
+							<img src="user/images/email/arrow.jpg">&nbsp;환불 방법
 						</td>
 						<td style="padding:5px 20px 5px 0;color:#666;text-align:right;">
 							카드 결제 취소
@@ -147,7 +147,7 @@
 					</tr>
 					<tr>
 						<td style="padding:5px 0 5px 19px; color:#888;">
-							<img src="../user/images/email/arrow.jpg">&nbsp;<strong style="color:#666;">환불 총액</strong>
+							<img src="user/images/email/arrow.jpg">&nbsp;<strong style="color:#666;">환불 총액</strong>
 						</td>
 						<td style="padding:5px 20px 5px 0;color:#666;text-align:right;">
 							<strong style="color:#f7703c;font-size:15px;">32,200</strong> 원
@@ -175,7 +175,7 @@
 				<table width="305" cellpadding="0" cellspacing="0" align="center" style="margin:0;">
 					<tr>
 						<td style="padding:15px 0 5px 19px; color:#888;background:#f9f9f9;">
-							<img src="../user/images/email/arrow.jpg">&nbsp;주문금액
+							<img src="user/images/email/arrow.jpg">&nbsp;주문금액
 						</td>
 						<td style="padding:15px 20px 5px 0;color:#666;text-align:right;background:#f9f9f9;">
 							<strong style="color:#888;">45,000</strong> 원
@@ -183,7 +183,7 @@
 					</tr>
 					<tr>
 						<td style="padding:5px 0 5px 19px; color:#888;background:#f9f9f9;">
-							<img src="../user/images/email/arrow.jpg">&nbsp;배송비
+							<img src="user/images/email/arrow.jpg">&nbsp;배송비
 						</td>
 						<td style="padding:5px 20px 5px 0;color:#666;text-align:right;background:#f9f9f9;">
 							<strong style="color:#888;">2,500</strong> 원
@@ -191,7 +191,7 @@
 					</tr>
 					<tr>
 						<td style="padding:5px 0 5px 19px; color:#888;background:#f9f9f9;">
-							<img src="../user/images/email/arrow.jpg">&nbsp;포인트
+							<img src="user/images/email/arrow.jpg">&nbsp;포인트
 						</td>
 						<td style="padding:5px 20px 5px 0;color:#666;text-align:right;background:#f9f9f9;">
 							<strong style="color:#888;">-9,800</strong> 원
@@ -199,7 +199,7 @@
 					</tr>
 					<tr>
 						<td style="padding:5px 0 5px 19px; color:#888;background:#f9f9f9;">
-							<img src="../user/images/email/arrow.jpg">&nbsp;할인쿠폰
+							<img src="user/images/email/arrow.jpg">&nbsp;할인쿠폰
 						</td>
 						<td style="padding:5px 20px 5px 0;color:#666;text-align:right;background:#f9f9f9;">
 							<strong style="color:#888;">-5,500</strong> 원
@@ -207,7 +207,7 @@
 					</tr>
 					<tr>
 						<td style="padding:5px 0 15px 19px; color:#888;background:#f9f9f9;border-top:1px #eeeeee solid;border-bottom:1px #dcdcdc soilid;">
-							<img src="../user/images/email/arrow.jpg">&nbsp;<strong style="color:#444;">총 결제금액</strong>
+							<img src="user/images/email/arrow.jpg">&nbsp;<strong style="color:#444;">총 결제금액</strong>
 						</td>
 						<td style="padding:5px 20px 15px 0;color:#666;text-align:right;background:#f9f9f9;border-top:1px #eeeeee solid;border-bottom:1px #dcdcdc soilid;">
 							<strong style="color:#f7703c;font-size:15px;">32,200</strong> 원
@@ -215,7 +215,7 @@
 					</tr>
 					<tr>
 						<td style="padding:20px 0 20px 19px; color:#888;background:#ffffff;border-top:1px #eeeeee solid;border-bottom:1px #dcdcdc soilid;" colspan="2">
-							<img src="../user/images/email/arrow.jpg">&nbsp;결제 수단 : <span style="color:#666;">통장 입금</span> (<strong style="color:#f7703c">입금전</strong>)
+							<img src="user/images/email/arrow.jpg">&nbsp;결제 수단 : <span style="color:#666;">통장 입금</span> (<strong style="color:#f7703c">입금전</strong>)
 						</td>
 					</tr>
 				</table>
@@ -224,7 +224,7 @@
 				<table width="306" cellpadding="0" cellspacing="0" align="center" style="margin:0;">
 					<tr>
 						<td style="padding:15px 0 5px 19px; color:#888;">
-							<img src="../user/images/email/arrow.jpg">&nbsp;최소일
+							<img src="user/images/email/arrow.jpg">&nbsp;최소일
 						</td>
 						<td style="padding:15px 20px 5px 0;color:#666;text-align:right;">
 							2014.04.11
@@ -232,7 +232,7 @@
 					</tr>
 					<tr>
 						<td style="padding:5px 0 5px 19px; color:#888;">
-							<img src="../user/images/email/arrow.jpg">&nbsp;환불 방법
+							<img src="user/images/email/arrow.jpg">&nbsp;환불 방법
 						</td>
 						<td style="padding:5px 20px 5px 0;color:#666;text-align:right;">
 							카드 결제 취소
@@ -240,7 +240,7 @@
 					</tr>
 					<tr>
 						<td style="padding:5px 0 5px 19px; color:#888;">
-							<img src="../user/images/email/arrow.jpg">&nbsp;<strong style="color:#666;">환불 총액</strong>
+							<img src="user/images/email/arrow.jpg">&nbsp;<strong style="color:#666;">환불 총액</strong>
 						</td>
 						<td style="padding:5px 20px 5px 0;color:#666;text-align:right;">
 							<strong style="color:#f7703c;font-size:15px;">0</strong> 원
@@ -267,7 +267,7 @@
 				<table width="305" cellpadding="0" cellspacing="0" align="center" style="margin:0;">
 					<tr>
 						<td style="padding:15px 0 5px 19px; color:#888;background:#f9f9f9;">
-							<img src="../user/images/email/arrow.jpg">&nbsp;주문금액
+							<img src="user/images/email/arrow.jpg">&nbsp;주문금액
 						</td>
 						<td style="padding:15px 20px 5px 0;color:#666;text-align:right;background:#f9f9f9;">
 							<strong style="color:#888;">45,000</strong> 원
@@ -275,7 +275,7 @@
 					</tr>
 					<tr>
 						<td style="padding:5px 0 5px 19px; color:#888;background:#f9f9f9;">
-							<img src="../user/images/email/arrow.jpg">&nbsp;배송비
+							<img src="user/images/email/arrow.jpg">&nbsp;배송비
 						</td>
 						<td style="padding:5px 20px 5px 0;color:#666;text-align:right;background:#f9f9f9;">
 							<strong style="color:#888;">2,500</strong> 원
@@ -283,7 +283,7 @@
 					</tr>
 					<tr>
 						<td style="padding:5px 0 5px 19px; color:#888;background:#f9f9f9;">
-							<img src="../user/images/email/arrow.jpg">&nbsp;포인트
+							<img src="user/images/email/arrow.jpg">&nbsp;포인트
 						</td>
 						<td style="padding:5px 20px 5px 0;color:#666;text-align:right;background:#f9f9f9;">
 							<strong style="color:#888;">-9,800</strong> 원
@@ -291,7 +291,7 @@
 					</tr>
 					<tr>
 						<td style="padding:5px 0 5px 19px; color:#888;background:#f9f9f9;">
-							<img src="../user/images/email/arrow.jpg">&nbsp;할인쿠폰
+							<img src="user/images/email/arrow.jpg">&nbsp;할인쿠폰
 						</td>
 						<td style="padding:5px 20px 5px 0;color:#666;text-align:right;background:#f9f9f9;">
 							<strong style="color:#888;">-5,500</strong> 원
@@ -299,7 +299,7 @@
 					</tr>
 					<tr>
 						<td style="padding:5px 0 15px 19px; color:#888;background:#f9f9f9;border-top:1px #eeeeee solid;border-bottom:1px #dcdcdc soilid;">
-							<img src="../user/images/email/arrow.jpg">&nbsp;<strong style="color:#444;">총 결제금액</strong>
+							<img src="user/images/email/arrow.jpg">&nbsp;<strong style="color:#444;">총 결제금액</strong>
 						</td>
 						<td style="padding:5px 20px 15px 0;color:#666;text-align:right;background:#f9f9f9;border-top:1px #eeeeee solid;border-bottom:1px #dcdcdc soilid;">
 							<strong style="color:#f7703c;font-size:15px;">32,200</strong> 원
@@ -307,7 +307,7 @@
 					</tr>
 					<tr>
 						<td style="padding:20px 0 20px 19px; color:#888;background:#ffffff;border-top:1px #eeeeee solid;border-bottom:1px #dcdcdc soilid;" colspan="2">
-							<img src="../user/images/email/arrow.jpg">&nbsp;결제 수단 : <span style="color:#666;">통장 입금</span>  (<strong style="color:#444;">입금완료</strong>)
+							<img src="user/images/email/arrow.jpg">&nbsp;결제 수단 : <span style="color:#666;">통장 입금</span>  (<strong style="color:#444;">입금완료</strong>)
 						</td>
 					</tr>
 				</table>
@@ -316,7 +316,7 @@
 				<table width="306" cellpadding="0" cellspacing="0" align="center" style="margin:0;">
 					<tr>
 						<td style="padding:15px 0 5px 19px; color:#888;">
-							<img src="../user/images/email/arrow.jpg">&nbsp;최소일
+							<img src="user/images/email/arrow.jpg">&nbsp;최소일
 						</td>
 						<td style="padding:15px 20px 5px 0;color:#666;text-align:right;">
 							2014.04.11
@@ -324,7 +324,7 @@
 					</tr>
 					<tr>
 						<td style="padding:5px 0 5px 19px; color:#888;">
-							<img src="../user/images/email/arrow.jpg">&nbsp;환불 방법
+							<img src="user/images/email/arrow.jpg">&nbsp;환불 방법
 						</td>
 						<td style="padding:5px 20px 5px 0;color:#666;text-align:right;">
 							카드 결제 취소
@@ -332,7 +332,7 @@
 					</tr>
 					<tr>
 						<td style="padding:5px 0 5px 19px; color:#888;">
-							<img src="../user/images/email/arrow.jpg">&nbsp;<strong style="color:#666;">환불 총액</strong>
+							<img src="user/images/email/arrow.jpg">&nbsp;<strong style="color:#666;">환불 총액</strong>
 						</td>
 						<td style="padding:5px 20px 5px 0;color:#666;text-align:right;">
 							<strong style="color:#f7703c;font-size:15px;">32,200</strong> 원
@@ -361,12 +361,12 @@
 </tr>
 <tr>
 	<td style="width:700px;height:100px;padding:0;margin:0;vertical-align:top;">
-		<p style="width:700px;margin:10px 0 50px 0;text-align:center;"><a href="#"><img src="../user/images/email/btn_jardin.jpg" alt="JARDIN 바로가기" /></a></p>
+		<p style="width:700px;margin:10px 0 50px 0;text-align:center;"><a href="#"><img src="user/images/email/btn_jardin.jpg" alt="JARDIN 바로가기" /></a></p>
 	</td>
 </tr>
 <tr>
 	<td style="width:700px;height:50px;padding:0;vertical-align:top;font-size:0;line-height:0;text-align:center;">
-		<img src="../user/images/email/img_email_bottom.jpg" alt="" />
+		<img src="user/images/email/img_email_bottom.jpg" alt="" />
 	</td>
 </tr>
 <tr>

@@ -8,12 +8,11 @@ import com.javalec.ex.dto.BDto;
 
 @Repository
 public interface BDao {
-	//1. ±â´Éº° Àû°í
-	//2. mapper.xml
-	//3. ¼­ºñ½º
-	//4. ¼­ºñ½º ÀÓÇÁ
-	//5. ÄÁÆ®·Ñ·¯
+	//1. ê¸°ëŠ¥ë³„ ì ê³ 
+		//2. mapper.xml
+		//3. ì„œë¹„ìŠ¤
+		//4. ì„œë¹„ìŠ¤ ì„í”„
+		//5. ì»¨íŠ¸ë¡¤ëŸ¬
 	
-	//º¸´õ ¸®½ºÆ® ºÒ·¯¿À±â
 	List<BDto> getAllBoards();
 }

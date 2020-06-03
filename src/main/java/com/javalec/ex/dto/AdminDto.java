@@ -3,11 +3,11 @@ package com.javalec.ex.dto;
 public class AdminDto {
 
 	
-	private int ad_num; //°ü¸®ÀÚ °íÀ¯¹øÈ£
-	private String ad_id; //¾ÆÀÌµğ
-	private String ad_pw; //ÆĞ½º¿öµå
-	private String ad_name; //ÀÌ¸§
-	private String ad_grade; //°ü¸®ÀÚµî±Ş
+	private int ad_num; //ê´€ë¦¬ì ê³ ìœ ë²ˆí˜¸
+	private String ad_id; //ì•„ì´ë””
+	private String ad_pw; //íŒ¨ìŠ¤ì›Œë“œ
+	private String ad_name; //ì´ë¦„
+	private String ad_grade; //ê´€ë¦¬ìë“±ê¸‰
 	public AdminDto() {
 		super();
 		// TODO Auto-generated constructor stub

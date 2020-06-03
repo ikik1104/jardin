@@ -9,9 +9,9 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
-		<link rel="stylesheet" type="text/css" href="css/admin_main.css">
+		<link rel="stylesheet" type="text/css" href="admin/css/admin_main.css">
 		<!-- 페이지 상단 또는 하단에 라이브러르 추가 --> 
-		<script type="text/javascript" src="se2/js/HuskyEZCreator.js" charset="utf-8"></script> 
+		<script type="text/javascript" src="admin/se2/js/HuskyEZCreator.js" charset="utf-8"></script> 
 		<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 		<!-- 페이지 로딩시 초기화 --> 
 		<script>
@@ -125,4 +125,4 @@
 	</section>
 	</body>
 </html>
-<script type="text/javascript" src = "js/notice_write.js"></script>
+<script type="text/javascript" src = "admin/js/notice_write.js"></script>

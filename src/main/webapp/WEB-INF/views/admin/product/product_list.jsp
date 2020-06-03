@@ -9,10 +9,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
-		<link rel="stylesheet" type="text/css" href="css/admin_main.css">
-		<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-        <script type="text/javascript" src="js/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="js/prefixfree.dynamic-dom.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="admin/css/admin_main.css">
 		<style type="text/css">
 			
 			#search_form table{
@@ -225,347 +222,35 @@
 							<th>상품명</th>
 							<th>판매가</th>
 							<th>포인트</th>
-							<th>공급사</th>
 							<th>재고</th>
 							<th>등록일</th>
 							<th>수정일</th>
 							<th>판매상태</th>
 							<th>수정</th>
 						</tr>
+						<c:forEach items="${list}" var="pro" >
 						<tr>
 							<td><input type="checkbox"></td>
-							<td>김홍익</td>
-							<td>hh@HH.123</td>
-							<td>(123-456) 가산 제이플라츠</td>
-							<td>010-3038-8146</td>
-							<td>1996.11.04</td>
-							<td>여성</td>
-							<td>아니오</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td><button type="button" onclick="스크립트()">수정</button></td>
+							<td>${pro.p_num}</td>
+							<td>${pro.p_thumb_img1}${pro.p_thumb_img2}${pro.p_thumb_img3}
+<%-- 								<img alt="썸네일" src="${pro.p_thumb_img1}"> --%>
+<%-- 								<img alt="상단이미지1" src="${pro.p_thumb_img2}"> --%>
+<%-- 								<img alt="상단이미지2" src="${pro.p_thumb_img3}"> --%>
+							</td>
+							<td>${pro.p_name}</td>
+							<td>${pro.p_price}</td>
+							<td>${pro.p_point}</td>
+							<td>${pro.p_stock}</td>
+							<td>${pro.p_sysdate}</td>
+							<td>${pro.p_update}</td>
+							<td>${pro.p_delflag}</td>
+<!-- 							<td><button type="button" onclick="스크립트()">수정</button></td> -->
+							<td><button type="button" onclick="product_updateForm">수정</button></td>
 						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>김홍익</td>
-							<td>hh@HH.123</td>
-							<td>(123-456) 가산 제이플라츠</td>
-							<td>010-3038-8146</td>
-							<td>1996.11.04</td>
-							<td>여성</td>
-							<td>아니오</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td><button type="button" onclick="스크립트()">수정</button></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>김홍익</td>
-							<td>hh@HH.123</td>
-							<td>(123-456) 가산 제이플라츠</td>
-							<td>010-3038-8146</td>
-							<td>1996.11.04</td>
-							<td>여성</td>
-							<td>아니오</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td><button type="button" onclick="스크립트()">수정</button></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>김홍익</td>
-							<td>hh@HH.123</td>
-							<td>(123-456) 가산 제이플라츠</td>
-							<td>010-3038-8146</td>
-							<td>1996.11.04</td>
-							<td>여성</td>
-							<td>아니오</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td><button type="button" onclick="스크립트()">수정</button></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>김홍익</td>
-							<td>hh@HH.123</td>
-							<td>(123-456) 가산 제이플라츠</td>
-							<td>010-3038-8146</td>
-							<td>1996.11.04</td>
-							<td>여성</td>
-							<td>아니오</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td><button type="button" onclick="스크립트()">수정</button></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>김홍익</td>
-							<td>hh@HH.123</td>
-							<td>(123-456) 가산 제이플라츠</td>
-							<td>010-3038-8146</td>
-							<td>1996.11.04</td>
-							<td>여성</td>
-							<td>아니오</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td><button type="button" onclick="스크립트()">수정</button></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>김홍익</td>
-							<td>hh@HH.123</td>
-							<td>(123-456) 가산 제이플라츠</td>
-							<td>010-3038-8146</td>
-							<td>1996.11.04</td>
-							<td>여성</td>
-							<td>아니오</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td><button type="button" onclick="스크립트()">수정</button></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>김홍익</td>
-							<td>hh@HH.123</td>
-							<td>(123-456) 가산 제이플라츠</td>
-							<td>010-3038-8146</td>
-							<td>1996.11.04</td>
-							<td>여성</td>
-							<td>아니오</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td><button type="button" onclick="스크립트()">수정</button></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>김홍익</td>
-							<td>hh@HH.123</td>
-							<td>(123-456) 가산 제이플라츠</td>
-							<td>010-3038-8146</td>
-							<td>1996.11.04</td>
-							<td>여성</td>
-							<td>아니오</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td><button type="button" onclick="스크립트()">수정</button></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>김홍익</td>
-							<td>hh@HH.123</td>
-							<td>(123-456) 가산 제이플라츠</td>
-							<td>010-3038-8146</td>
-							<td>1996.11.04</td>
-							<td>여성</td>
-							<td>아니오</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td><button type="button" onclick="스크립트()">수정</button></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>김홍익</td>
-							<td>hh@HH.123</td>
-							<td>(123-456) 가산 제이플라츠</td>
-							<td>010-3038-8146</td>
-							<td>1996.11.04</td>
-							<td>여성</td>
-							<td>아니오</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td><button type="button" onclick="스크립트()">수정</button></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>김홍익</td>
-							<td>hh@HH.123</td>
-							<td>(123-456) 가산 제이플라츠</td>
-							<td>010-3038-8146</td>
-							<td>1996.11.04</td>
-							<td>여성</td>
-							<td>아니오</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td><button type="button" onclick="스크립트()">수정</button></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>김홍익</td>
-							<td>hh@HH.123</td>
-							<td>(123-456) 가산 제이플라츠</td>
-							<td>010-3038-8146</td>
-							<td>1996.11.04</td>
-							<td>여성</td>
-							<td>아니오</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td><button type="button" onclick="스크립트()">수정</button></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>김홍익</td>
-							<td>hh@HH.123</td>
-							<td>(123-456) 가산 제이플라츠</td>
-							<td>010-3038-8146</td>
-							<td>1996.11.04</td>
-							<td>여성</td>
-							<td>아니오</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td><button type="button" onclick="스크립트()">수정</button></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>김홍익</td>
-							<td>hh@HH.123</td>
-							<td>(123-456) 가산 제이플라츠</td>
-							<td>010-3038-8146</td>
-							<td>1996.11.04</td>
-							<td>여성</td>
-							<td>아니오</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td><button type="button" onclick="스크립트()">수정</button></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>김홍익</td>
-							<td>hh@HH.123</td>
-							<td>(123-456) 가산 제이플라츠</td>
-							<td>010-3038-8146</td>
-							<td>1996.11.04</td>
-							<td>여성</td>
-							<td>아니오</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td><button type="button" onclick="스크립트()">수정</button></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>김홍익</td>
-							<td>hh@HH.123</td>
-							<td>(123-456) 가산 제이플라츠</td>
-							<td>010-3038-8146</td>
-							<td>1996.11.04</td>
-							<td>여성</td>
-							<td>아니오</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td><button type="button" onclick="스크립트()">수정</button></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>김홍익</td>
-							<td>hh@HH.123</td>
-							<td>(123-456) 가산 제이플라츠</td>
-							<td>010-3038-8146</td>
-							<td>1996.11.04</td>
-							<td>여성</td>
-							<td>아니오</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td><button type="button" onclick="스크립트()">수정</button></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>김홍익</td>
-							<td>hh@HH.123</td>
-							<td>(123-456) 가산 제이플라츠</td>
-							<td>010-3038-8146</td>
-							<td>1996.11.04</td>
-							<td>여성</td>
-							<td>아니오</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td><button type="button" onclick="스크립트()">수정</button></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>김홍익</td>
-							<td>hh@HH.123</td>
-							<td>(123-456) 가산 제이플라츠</td>
-							<td>010-3038-8146</td>
-							<td>1996.11.04</td>
-							<td>여성</td>
-							<td>아니오</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td><button type="button" onclick="스크립트()">수정</button></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>김홍익</td>
-							<td>hh@HH.123</td>
-							<td>(123-456) 가산 제이플라츠</td>
-							<td>010-3038-8146</td>
-							<td>1996.11.04</td>
-							<td>여성</td>
-							<td>아니오</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td><button type="button" onclick="스크립트()">수정</button></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>김홍익</td>
-							<td>hh@HH.123</td>
-							<td>(123-456) 가산 제이플라츠</td>
-							<td>010-3038-8146</td>
-							<td>1996.11.04</td>
-							<td>여성</td>
-							<td>아니오</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td>예</td>
-							<td><button type="button" onclick="스크립트()">수정</button></td>
-						</tr>
-						
+						</c:forEach>
 					</table>
 					<div class="detail_btn">
-						<a href="#">임시버튼</a>
+						<a href="product_insertForm">임시버튼</a>
 					</div>
 				</div>
 			</div>

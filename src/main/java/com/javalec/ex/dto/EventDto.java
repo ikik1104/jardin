@@ -4,16 +4,17 @@ import java.sql.Timestamp;
 
 public class EventDto {
 
-	private int e_num; //ÀÌº¥Æ® °íÀ¯¹øÈ£
-	private String e_title; //Á¦¸ñ
-	private Timestamp e_start_day; //½ÃÀÛÀÏ
-	private Timestamp e_end_day; //Á¾·áÀÏ
-	private String e_thumb_img; //½æ³×ÀÏ ÀÌ¹ÌÁö
-	private String e_content_img; //³»¿ë ÀÌ¹ÌÁö
-	private String e_content; //±Û³»¿ë
-	private Timestamp e_sysdate; //µî·ÏÀÏ
-	private int co_num; //ÀÌº¥Æ® ÄíÆù
-	private Timestamp e_win_day; //´çÃ·ÀÚ ¹ßÇ¥ÀÏ
+	private int e_num; //ì´ë²¤íŠ¸ ê³ ìœ ë²ˆí˜¸
+	private String e_title; //ì œëª©
+	private Timestamp e_start_day; //ì‹œì‘ì¼
+	private Timestamp e_end_day; //ì¢…ë£Œì¼
+	private String e_thumb_img; //ì¸ë„¤ì¼ ì´ë¯¸ì§€
+	private String e_content_img; //ë‚´ìš© ì´ë¯¸ì§€
+	private String e_content; //ê¸€ë‚´ìš©
+	private Timestamp e_sysdate; //ë“±ë¡ì¼
+	private int co_num; //ì´ë²¤íŠ¸ ì¿ í°
+	private Timestamp e_win_day; //ë‹¹ì²¨ì ë°œí‘œì¼
+	
 	public EventDto() {
 		super();
 		// TODO Auto-generated constructor stub

@@ -4,12 +4,12 @@ import java.sql.Timestamp;
 
 public class E_CommentDto {
 
-	private int ec_num; //ÀÌº¥Æ® ´ñ±Û °íÀ¯¹øÈ£
-	private int m_num; //(ÀÛ¼ºÀÚ)È¸¿ø °íÀ¯¹øÈ£
-	private int e_num; //ÀÌº¥Æ® °Ô½Ã¹° ¹øÈ£
-	private String ec_content; //±Û³»¿ë
-	private String ec_pw; //ºñ¹Ğ¹øÈ£
-	private Timestamp ec_sysdate; //µî·ÏÀÏ
+	private int ec_num; //ì´ë²¤íŠ¸ ëŒ“ê¸€ ê³ ìœ ë²ˆí˜¸
+	private int m_num; //(ì‘ì„±ì)íšŒì› ê³ ìœ ë²ˆí˜¸
+	private int e_num; //ì´ë²¤íŠ¸ ê²Œì‹œë¬¼ ë²ˆí˜¸
+	private String ec_content; //ê¸€ë‚´ìš©
+	private String ec_pw; //ë¹„ë°€ë²ˆí˜¸
+	private Timestamp ec_sysdate; //ë“±ë¡ì¼
 	public E_CommentDto() {
 		super();
 		// TODO Auto-generated constructor stub

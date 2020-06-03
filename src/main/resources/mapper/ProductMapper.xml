@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javalec.ex.dao.ProductDao">
+	
+	<!-- 제품 전체 리스트  -->
+	<select id="getAllPList" resultType="com.javalec.ex.dto.ProductDto">
+		select * from product_tb order by p_num desc
+	</select>
+
+	<!-- 제품 insert -->
+	<insert id="insertProduct" parameterType="com.javalec.ex.dto.ProductDto">
+		insert into product_tb values(p_seq.nextval,#{p_step1},#{p_step2},#{p_name},#{p_price},#{p_point},#{p_producer},#{p_expiry},
+		#{p_type},#{p_capacity},#{p_detail},#{p_location},#{p_gene},#{p_import},#{p_stock},#{p_thumb_img1},#{p_thumb_img2},#{p_thumb_img3},#{p_content_img},sysdate,sysdate,'n')
+	</insert>
+	
+	<!-- 제품 하나의 정보  -->
+	<select id="getProductInfo" resultType="com.javalec.ex.dto.ProductDto" parameterType="Integer">
+		select * from product_tb where p_num = #{p_num}
+	</select>
+	
+	<!-- 제품 수정 -->
+	<update id="updateProduct" parameterType="com.javalec.ex.dto.ProductDto">
+		update product_tb set p_step1=#{p_step1},p_step2=#{p_step2},p_name=#{p_name},p_price=#{p_price},p_point=#{p_point},p_producer=#{p_producer},p_expiry=#{p_expiry},p_type=#{p_type},
+		p_capacity=#{p_capacity},p_detail=#{p_detail},p_location=#{p_location},p_gene=#{p_gene},p_import=#{p_import},p_stock=#{p_stock},
+		p_thumb_img1=#{p_thumb_img1},p_thumb_img2=#{p_thumb_img2},p_thumb_img3=#{p_thumb_img3},p_content_img=#{p_content_img},p_update=sysdate where p_num = #{p_num}
+	</update>
+
+</mapper>

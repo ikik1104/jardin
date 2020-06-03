@@ -9,10 +9,10 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
-		<link rel="stylesheet" type="text/css" href="css/admin_main.css">
-		<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-        <script type="text/javascript" src="js/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="js/prefixfree.dynamic-dom.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="admin/css/admin_main.css">
+		<script type="text/javascript" src="admin/js/jquery-3.4.1.min.js"></script>
+        <script type="text/javascript" src="admin/js/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="admin/js/prefixfree.dynamic-dom.min.js"></script>
 		<style type="text/css">
 			
 			#search_form table{
@@ -161,7 +161,7 @@
 							<th>SMS 수신여부</th>
 						</tr>
 						<tr>
-							<td class="table_left" id="thumbnail"><img alt="썸네일 이미지" src="images/event_list_3.jpg"></td>
+							<td class="table_left" id="thumbnail"><img alt="썸네일 이미지" src="admin/images/event_list_3.jpg"></td>
 							<td class="table_left">김홍익</td>
 							<td class="table_left">hh@HH.123</td>
 							<td>(123-456) 가산 제이플라츠</td>

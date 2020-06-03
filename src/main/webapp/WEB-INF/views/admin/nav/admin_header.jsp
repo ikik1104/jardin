@@ -1,17 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-		<link rel="stylesheet" type="text/css" href="css/admin_header.css">
-		<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-        <script type="text/javascript" src="js/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="js/prefixfree.dynamic-dom.min.js"></script>
-        <script type="text/javascript" src="js/admin_header.js"></script> 
+		<link rel="stylesheet" type="text/css" href="admin/css/admin_header.css">
+		<script type="text/javascript" src="admin/js/jquery-3.4.1.min.js"></script>
+        <script type="text/javascript" src="admin/js/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="admin/js/prefixfree.dynamic-dom.min.js"></script>
+        <script type="text/javascript" src="admin/js/admin_header.js"></script> 
 	<header>
 		<div>
 			<div id="top">
 			<a href="admin_main.html"><p>LMS <span>STARTUP</span> Type</p></a>
 			<ul id="top_ul">
 				<li>관리자</li>
-				<li><img src="images/logout.png"></li>
+				<li><img src="admin/images/logout.png"></li>
 				<li>
 					<select>
 						<option>한국어</option>

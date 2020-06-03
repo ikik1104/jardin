@@ -4,11 +4,11 @@ import java.sql.Timestamp;
 
 public class CartDto {
 
-	private int ca_num; //Àå¹Ù±¸´Ï °íÀ¯¹øÈ£
-	private int m_num; //È¸¿ø °íÀ¯¹øÈ£
-	private int p_num; //»óÇ°ÄÚµå 
-	private int ca_amount; //¼ö·®
-	private Timestamp ca_sysdate; //Àå¹Ù±¸´Ï µî·ÏÀÏ
+	private int ca_num; //ì¥ë°”êµ¬ë‹ˆ ê³ ìœ ë²ˆí˜¸
+	private int m_num; //íšŒì› ê³ ìœ ë²ˆí˜¸
+	private int p_num; //ìƒí’ˆì½”ë“œ 
+	private int ca_amount; //ìˆ˜ëŸ‰
+	private Timestamp ca_sysdate; //ì¥ë°”êµ¬ë‹ˆ ë“±ë¡ì¼
 	public CartDto() {
 		super();
 		// TODO Auto-generated constructor stub

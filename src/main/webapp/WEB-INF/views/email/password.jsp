@@ -18,12 +18,12 @@
 <table width="700" cellpadding="0" cellspacing="0" align="center">
 <tr>
 	<td style="width:700px;height:175px;padding:0;margin:0;vertical-align:top;font-size:0;line-height:0;">
-		<img src="../user/images/email/img_email_top.jpg" alt="JARDIN" />					
+		<img src="user/images/email/img_email_top.jpg" alt="JARDIN" />					
 	</td>
 </tr>
 <tr>
 	<td style="width:700px;height:78px;padding:0;margin:0;vertical-align:top;">
-		<p style="width:620px;margin:50px 0 40px 38px;text-align:center;font-size:0;line-height:0;"><img src="../user/images/email/img_txt_password01.jpg" alt="원두커피의 名家, JARDIN 임시 비밀번호가 발급되었습니다." /></p>
+		<p style="width:620px;margin:50px 0 40px 38px;text-align:center;font-size:0;line-height:0;"><img src="user/images/email/img_txt_password01.jpg" alt="원두커피의 名家, JARDIN 임시 비밀번호가 발급되었습니다." /></p>
 	</td>
 </tr>
 <tr>
@@ -31,7 +31,7 @@
 		<table width="618" height="194" cellpadding="0" cellspacing="0" align="center" style="margin:0 0 0 40px;border:1px #d9d9d9 solid;">
 		<tr>
 			<td style="width:618px;height:194px;padding:0;margin:0;vertical-align:top;font-size:0;line-height:0;background:#f9f9f9;">
-				<p style="width:620px;margin:30px 0 0 0;padding:0;text-align:center;"><img src="../user/images/email/img_txt_password02.jpg" alt="JARDIN에서 비밀번호 찾기를 요청하셨습니다." /></p>
+				<p style="width:620px;margin:30px 0 0 0;padding:0;text-align:center;"><img src="user/images/email/img_txt_password02.jpg" alt="JARDIN에서 비밀번호 찾기를 요청하셨습니다." /></p>
 				<p style="width:620px;margin:10px 0 0 0;padding:0;text-align:center;color:#888888;font-size:12px;line-height:1;">아래의 PASSWORD는 임시 PASSWORD이므로 홈페이지 로그인 후 다시 수정해 주십시오.</p>
 				<p style="width:620px;margin:28px 0 0 0;padding:0;text-align:center;color:#666666;font-size:12px;line-height:1;"><strong>임시 패스워드 : <span style="color:#f7703c;line-height:1;">dasdw2341</span></strong></p>
 				<p style="width:620px;margin:30px 0 0 0;padding:0;text-align:center;color:#888888;font-size:12px;line-height:1.4;">쟈뎅샵에서는 고객님께 보다 나은 서비스를 제공하기 위해 항상 노력하고 있습니다.<br/>앞으로 많은 관심 부탁드립니다.</p>
@@ -42,12 +42,12 @@
 </tr>
 <tr>
 	<td style="width:700px;height:120px;padding:0;margin:0;vertical-align:top;">
-		<p style="width:700px;margin:30px 0 50px 0;text-align:center;"><a href="#"><img src="../user/images/email/btn_jardin.jpg" alt="JARDIN 바로가기" /></a></p>
+		<p style="width:700px;margin:30px 0 50px 0;text-align:center;"><a href="#"><img src="user/images/email/btn_jardin.jpg" alt="JARDIN 바로가기" /></a></p>
 	</td>
 </tr>
 <tr>
 	<td style="width:700px;height:50px;padding:0;vertical-align:top;font-size:0;line-height:0;text-align:center;">
-		<img src="../user/images/email/img_email_bottom.jpg" alt="" />
+		<img src="user/images/email/img_email_bottom.jpg" alt="" />
 	</td>
 </tr>
 <tr>
