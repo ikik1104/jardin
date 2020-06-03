@@ -3,7 +3,7 @@ package com.javalec.ex.dto;
 import java.sql.Timestamp;
 
 public class ReviewUserDto {
-
+	private int rownum;		//DB에서 가져오는 rownum
 	private int ru_num;     //리뷰 고유번호
 	private int  p_num;     //리뷰 제품 고유번호
 	private int m_num;     //회원 고유번호(작성자)
@@ -34,6 +34,13 @@ public class ReviewUserDto {
 		this.ru_img = ru_img;
 	}
 
+	public int getRownum() {
+		return rownum;
+	}
+
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}	
 	public int getRu_num() {
 		return ru_num;
 	}

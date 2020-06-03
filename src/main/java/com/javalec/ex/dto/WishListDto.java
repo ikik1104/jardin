@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 public class WishListDto {
 
-
+	private int rownum;		//DB에서 가져오는 rownum
 	private int w_num; //위시리스트 고유번호
 	private int m_num; //회원 고유번호
 	private int p_num; //상품 고유번호
@@ -23,6 +23,14 @@ public class WishListDto {
 		this.w_amount = w_amount;
 		this.w_sysdate = w_sysdate;
 	}
+
+	public int getRownum() {
+		return rownum;
+	}
+
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}		
 	public int getW_num() {
 		return w_num;
 	}

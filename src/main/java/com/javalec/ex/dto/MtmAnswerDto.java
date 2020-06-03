@@ -3,7 +3,7 @@ package com.javalec.ex.dto;
 import java.sql.Timestamp;
 
 public class MtmAnswerDto {
-
+	private int rownum;		//DB에서 가져오는 rownum
 	private int ia_num;     //1:1 문의 답변 고유번호
 	private int iu_num;     //1:1 문의 게시글 고유번호
 	private int ad_num;     //관리자 고유번호(작성자)
@@ -21,6 +21,13 @@ public class MtmAnswerDto {
 		this.ia_date = ia_date;
 	}
 
+	public int getRownum() {
+		return rownum;
+	}
+
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}	
 	public int getIa_num() {
 		return ia_num;
 	}

@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 public class ProductDto {
 
+	private int rownum;		//DB에서 가져오는 rownum
 	private int p_num; //제품고유번호
 	private String p_step1; //분류1
 	private String p_step2; //분류2
@@ -26,7 +27,6 @@ public class ProductDto {
 	private Timestamp p_sysdate; //제품 등록일
 	private Timestamp p_update; //제품 수정일
 	private String p_delflag; //제품삭제유무
-	
 	
 	public ProductDto() {
 		super();
@@ -62,6 +62,13 @@ public class ProductDto {
 		this.p_delflag = p_delflag;
 	}
 
+	public int getRownum() {
+		return rownum;
+	}
+
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}	
 	public int getP_num() {
 		return p_num;
 	}

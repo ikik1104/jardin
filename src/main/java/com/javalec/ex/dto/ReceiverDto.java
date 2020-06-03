@@ -1,7 +1,7 @@
 package com.javalec.ex.dto;
 
 public class ReceiverDto {
-
+	private int rownum;		//DB에서 가져오는 rownum
 	private int ol_order_num;     //주문번호
 	private String or_name;     //주문자 이름
 	private int or_zipcode;     //주문자 우편번호
@@ -41,6 +41,13 @@ public class ReceiverDto {
 		this.or_msg = or_msg;
 	}
 
+	public int getRownum() {
+		return rownum;
+	}
+
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}	
 	public int getOl_order_num() {
 		return ol_order_num;
 	}

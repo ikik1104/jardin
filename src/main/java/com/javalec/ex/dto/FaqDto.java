@@ -4,13 +4,14 @@ import java.sql.Timestamp;
 
 public class FaqDto {
 
-	
+	private int rownum;		//DB에서 가져오는 rownum
 	private int f_num; //FAQ 고유번호
 	private String f_step; //카테고리
 	private String f_title; //질문
 	private String f_content; //답변
 	private Timestamp f_sysdate; //작성일
 	private String f_delflag; //삭제유무
+
 	public FaqDto() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -24,6 +25,15 @@ public class FaqDto {
 		this.f_sysdate = f_sysdate;
 		this.f_delflag = f_delflag;
 	}
+	
+
+	public int getRownum() {
+		return rownum;
+	}
+
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}			
 	public int getF_num() {
 		return f_num;
 	}

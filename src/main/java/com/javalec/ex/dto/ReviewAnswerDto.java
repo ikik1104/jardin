@@ -3,7 +3,7 @@ package com.javalec.ex.dto;
 import java.sql.Timestamp;
 
 public class ReviewAnswerDto {
-
+	private int rownum;		//DB에서 가져오는 rownum
 	private int ra_num;     //리뷰 답글 고유번호
 	private int ru_num;     //리뷰 게시글 고유번호
 	private int ad_num;     //관리자 고유번호(작성자)
@@ -21,6 +21,13 @@ public class ReviewAnswerDto {
 		this.ra_date = ra_date;
 	}
 
+	public int getRownum() {
+		return rownum;
+	}
+
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}	
 	public int getRa_num() {
 		return ra_num;
 	}

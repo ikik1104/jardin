@@ -4,11 +4,13 @@ import java.sql.Timestamp;
 
 public class PointDto {
 
+	private int rownum;		//DB에서 가져오는 rownum
 	private int po_num; //포인트 사용 고유번호
 	private int m_num; //회원 고유번호
 	private String  po_type; //포인트 타입
 	private int po_point; //포인트
 	private Timestamp po_sysdate; //등록일
+
 	public PointDto() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -21,6 +23,14 @@ public class PointDto {
 		this.po_point = po_point;
 		this.po_sysdate = po_sysdate;
 	}
+
+	public int getRownum() {
+		return rownum;
+	}
+
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}		
 	public int getPo_num() {
 		return po_num;
 	}

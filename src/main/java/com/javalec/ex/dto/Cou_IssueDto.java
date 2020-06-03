@@ -4,11 +4,13 @@ import java.sql.Timestamp;
 
 public class Cou_IssueDto {
 
+	private int rownum;		//DB에서 가져오는 rownum
 	private int ci_num; //발급 고유번호
 	private int m_num; //회원 고유번호
 	private int co_num; //사용 쿠폰(쿠폰 고유번호 )
 	private Timestamp ci_issue_day; //발급일
 	private Timestamp ci_end_day; //사용 종료일
+
 	
 	public Cou_IssueDto() {
 		super();
@@ -22,6 +24,13 @@ public class Cou_IssueDto {
 		this.ci_issue_day = ci_issue_day;
 		this.ci_end_day = ci_end_day;
 	}
+	public int getRownum() {
+		return rownum;
+	}
+	
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}	
 	public int getCi_num() {
 		return ci_num;
 	}

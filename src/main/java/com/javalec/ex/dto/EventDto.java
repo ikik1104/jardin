@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 public class EventDto {
 
+	private int rownum;		//DB에서 가져오는 rownum
 	private int e_num; //이벤트 고유번호
 	private String e_title; //제목
 	private Timestamp e_start_day; //시작일
@@ -33,6 +34,15 @@ public class EventDto {
 		this.co_num = co_num;
 		this.e_win_day = e_win_day;
 	}
+	
+
+	public int getRownum() {
+		return rownum;
+	}
+
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}		
 	public int getE_num() {
 		return e_num;
 	}

@@ -1,7 +1,7 @@
 package com.javalec.ex.dto;
 
 public class OrderlistCouDto {
-
+	private int rownum;		//DB에서 가져오는 rownum
 	private int ol_order_num;     //주문번호
 	private int oc_cart_c;     //장바구니쿠폰
 	private int oc_deliv_c;     //배송비쿠폰
@@ -24,6 +24,13 @@ public class OrderlistCouDto {
 		this.m_num = m_num;
 	}
 
+	public int getRownum() {
+		return rownum;
+	}
+
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}	
 	public int getOl_order_num() {
 		return ol_order_num;
 	}

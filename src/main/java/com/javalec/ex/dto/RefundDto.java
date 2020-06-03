@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 public class RefundDto {
 
+	private int rownum;		//DB에서 가져오는 rownum
 	private int rf_num; //환불 고유번호
 	private int rf_receipt_num; //환불 접수번호
 	private int ol_id; //주문 고유번호
@@ -12,6 +13,7 @@ public class RefundDto {
 	private String rf_method; //환불 수단
 	private Timestamp rt_reciept_date; //환불 접수일
 	private Timestamp rt_end_date; //환불 완료일
+
 	public RefundDto() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -28,6 +30,14 @@ public class RefundDto {
 		this.rt_reciept_date = rt_reciept_date;
 		this.rt_end_date = rt_end_date;
 	}
+
+	public int getRownum() {
+		return rownum;
+	}
+
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}		
 	public int getRf_num() {
 		return rf_num;
 	}

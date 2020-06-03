@@ -3,7 +3,7 @@ package com.javalec.ex.dto;
 import java.sql.Timestamp;
 
 public class NoticeDto {
-
+	private int rownum;		//DB에서 가져오는 rownum
 	private int no_num;     //공지글 번호
 	private int ad_num;     //관리자 고유번호(작성자)
 	private String no_title;     //제목
@@ -23,6 +23,13 @@ public class NoticeDto {
 		this.no_hit = no_hit;
 	}
 
+	public int getRownum() {
+		return rownum;
+	}
+
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}	
 	public int getNo_num() {
 		return no_num;
 	}

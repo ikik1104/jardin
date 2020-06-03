@@ -4,13 +4,14 @@ import java.sql.Timestamp;
 
 public class CartDto {
 
-
+	private int rownum;		//DB에서 가져오는 rownum
 	private int ca_num; //장바구니 고유번호
 	private int m_num; //회원 고유번호
 	private int p_num; //상품코드 
 	private int ca_amount; //수량
 	private Timestamp ca_sysdate; //장바구니 등록일
 	private ProductDto pDto;
+
 
 	public CartDto() {
 		super();
@@ -26,6 +27,14 @@ public class CartDto {
 		this.ca_sysdate = ca_sysdate;
 		this.pDto = pDto;
 	}
+
+	public int getRownum() {
+		return rownum;
+	}
+	
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}	
 
 	public int getCa_num() {
 		return ca_num;

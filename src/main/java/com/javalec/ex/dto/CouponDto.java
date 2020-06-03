@@ -4,7 +4,8 @@ import java.sql.Timestamp;
 
 public class CouponDto {
 
-	
+
+	private int rownum;		//DB에서 가져오는 rownum
 	private int co_num; //쿠폰 고유번호
 	private String co_name; //쿠폰명
 	private Timestamp co_start_day; //시작일
@@ -14,7 +15,6 @@ public class CouponDto {
 	private int co_amount; //할인금액
 	private Timestamp co_sysdate; //쿠폰 등록일
 	private int co_product; //상품쿠폰 적용 제품 고유번호
-	
 	
 	public CouponDto() {
 		super();
@@ -33,6 +33,13 @@ public class CouponDto {
 		this.co_sysdate = co_sysdate;
 		this.co_product = co_product;
 	}
+	public int getRownum() {
+		return rownum;
+	}
+
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}			
 	public int getCo_num() {
 		return co_num;
 	}

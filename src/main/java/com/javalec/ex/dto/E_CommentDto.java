@@ -4,12 +4,14 @@ import java.sql.Timestamp;
 
 public class E_CommentDto {
 
+	private int rownum;		//DB에서 가져오는 rownum
 	private int ec_num; //이벤트 댓글 고유번호
 	private int m_num; //(작성자)회원 고유번호
 	private int e_num; //이벤트 게시물 번호
 	private String ec_content; //글내용
 	private String ec_pw; //비밀번호
 	private Timestamp ec_sysdate; //등록일
+
 	public E_CommentDto() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -23,6 +25,14 @@ public class E_CommentDto {
 		this.ec_pw = ec_pw;
 		this.ec_sysdate = ec_sysdate;
 	}
+
+	public int getRownum() {
+		return rownum;
+	}
+
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}		
 	public int getEc_num() {
 		return ec_num;
 	}

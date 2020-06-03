@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 public class ReturnDto {
 
+	private int rownum;		//DB에서 가져오는 rownum
 	private int rt_num; //반품교환 고유번호
 	private int rt_receipt_num; //반품교환 접수번호
 	private int ol_num; //주문 고유번호
@@ -13,6 +14,7 @@ public class ReturnDto {
 	private String rt_reason; //반품교환 사유
 	private Timestamp rt_receipt_date; //반품교환 접수일
 	private Timestamp rt_end_date; //반품교환 완료일
+
 	public ReturnDto() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -30,6 +32,14 @@ public class ReturnDto {
 		this.rt_receipt_date = rt_receipt_date;
 		this.rt_end_date = rt_end_date;
 	}
+
+	public int getRownum() {
+		return rownum;
+	}
+
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}		
 	public int getRt_num() {
 		return rt_num;
 	}
