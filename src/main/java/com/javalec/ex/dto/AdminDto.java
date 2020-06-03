@@ -2,12 +2,12 @@ package com.javalec.ex.dto;
 
 public class AdminDto {
 
-	
-	private int ad_num; //°ü¸®ÀÚ °íÀ¯¹øÈ£
-	private String ad_id; //¾ÆÀÌµğ
-	private String ad_pw; //ÆĞ½º¿öµå
-	private String ad_name; //ÀÌ¸§
-	private String ad_grade; //°ü¸®ÀÚµî±Ş
+	private int rownum;		//DBì—ì„œ ê°€ì ¸ì˜¤ëŠ” rownum
+	private int ad_num; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
+	private String ad_id; //ï¿½ï¿½ï¿½Ìµï¿½
+	private String ad_pw; //ï¿½Ğ½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private String ad_name; //ï¿½Ì¸ï¿½
+	private String ad_grade; //ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½
 	public AdminDto() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -20,6 +20,14 @@ public class AdminDto {
 		this.ad_name = ad_name;
 		this.ad_grade = ad_grade;
 	}
+	
+	public int getRownum() {
+		return rownum;
+	}
+	
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}	
 	public int getAd_num() {
 		return ad_num;
 	}
