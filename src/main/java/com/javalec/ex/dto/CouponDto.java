@@ -5,15 +5,15 @@ import java.sql.Timestamp;
 public class CouponDto {
 
 	
-	private int co_num; //ÄíÆù °íÀ¯¹øÈ£
-	private String co_name; //ÄíÆù¸í
-	private Timestamp co_start_day; //½ÃÀÛÀÏ
-	private Timestamp co_end_day; //Á¾·áÀÏ
-	private int co_expiry; //ÄíÆùÀ¯È¿±â°£
-	private String co_discount; //ÄíÆù Å¸ÀÔ
-	private int co_amount; //ÇÒÀÎ±İ¾×
-	private Timestamp co_sysdate; //ÄíÆù µî·ÏÀÏ
-	private int co_product; //»óÇ°ÄíÆù Àû¿ë Á¦Ç° °íÀ¯¹øÈ£
+	private int co_num; //ì¿ í° ê³ ìœ ë²ˆí˜¸
+	private String co_name; //ì¿ í°ëª…
+	private Timestamp co_start_day; //ì‹œì‘ì¼
+	private Timestamp co_end_day; //ì¢…ë£Œì¼
+	private int co_expiry; //ì¿ í°ìœ íš¨ê¸°ê°„
+	private String co_discount; //ì¿ í° íƒ€ì…
+	private int co_amount; //í• ì¸ê¸ˆì•¡
+	private Timestamp co_sysdate; //ì¿ í° ë“±ë¡ì¼
+	private int co_product; //ìƒí’ˆì¿ í° ì ìš© ì œí’ˆ ê³ ìœ ë²ˆí˜¸
 	
 	
 	public CouponDto() {

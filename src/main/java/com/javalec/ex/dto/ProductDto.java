@@ -4,28 +4,29 @@ import java.sql.Timestamp;
 
 public class ProductDto {
 
-	private int p_num; //Á¦Ç°°íÀ¯¹øÈ£
-	private String p_step1; //ºĞ·ù1
-	private String p_step2; //ºĞ·ù2
-	private String p_name; //Á¦Ç°¸í
-	private int p_price; //°¡°İ
-	private int p_point; //Æ÷ÀÎÆ®
-	private String p_producer; //Á¦Á¶¿ø
-	private String p_expiry; //À¯Åë±âÇÑ
-	private String p_type; //½ÄÇ°À¯Çü
-	private String p_capacity; //¿ë·®
-	private String p_detail; //¿øÀç·á¸í ¹× ÇÔ·®
-	private String p_location; //¾÷¼Ò¸í ¹× ¼ÒÀçÁö
-	private String p_gene; //À¯ÀüÀÚ ÀçÁ¶ÇÕÀ¯¹«
-	private String p_import; //¼öÀÔ½ÄÇ° À¯¹«
-	private int p_stock; //Àç°í
-	private String p_thumb_img1; //Á¦Ç° ½æ³×ÀÏ ÀÌ¹ÌÁö
-	private String p_thumb_img2; //Á¦Ç° ½æ³×ÀÏ ÀÌ¹ÌÁö
-	private String p_thumb_img3; //Á¦Ç° ½æ³×ÀÏ ÀÌ¹ÌÁö
-	private String p_content_img; //Á¦Ç° »ó¼¼ ÀÌ¹ÌÁö
-	private Timestamp p_sysdate; //Á¦Ç° µî·ÏÀÏ
-	private Timestamp p_update; //Á¦Ç° ¼öÁ¤ÀÏ
-	private String p_delflag; //Á¦Ç°»èÁ¦À¯¹«
+	private int p_num; //ì œí’ˆê³ ìœ ë²ˆí˜¸
+	private String p_step1; //ë¶„ë¥˜1
+	private String p_step2; //ë¶„ë¥˜2
+	private String p_name; //ì œí’ˆëª…
+	private int p_price; //ê°€ê²©
+	private int p_point; //í¬ì¸íŠ¸
+	private String p_producer; //ì œì¡°ì›
+	private String p_expiry; //ìœ í†µê¸°í•œ
+	private String p_type; //ì‹í’ˆìœ í˜•
+	private String p_capacity; //ìš©ëŸ‰
+	private String p_detail; //ì›ì¬ë£Œëª… ë° í•¨ëŸ‰
+	private String p_location; //ì—…ì†Œëª… ë° ì†Œì¬ì§€
+	private String p_gene; //ìœ ì „ì ì¬ì¡°í•©ìœ ë¬´
+	private String p_import; //ìˆ˜ì…ì‹í’ˆ ìœ ë¬´
+	private int p_stock; //ì¬ê³ 
+	private String p_thumb_img1; //ì œí’ˆ ì¸ë„¤ì¼ ì´ë¯¸ì§€1
+	private String p_thumb_img2; //ì œí’ˆ ì¸ë„¤ì¼ ì´ë¯¸ì§€2
+	private String p_thumb_img3; //ì œí’ˆ ì¸ë„¤ì¼ ì´ë¯¸ì§€3
+	private String p_content_img; //ì œí’ˆ ìƒì„¸ ì´ë¯¸ì§€
+	private Timestamp p_sysdate; //ì œí’ˆ ë“±ë¡ì¼
+	private Timestamp p_update; //ì œí’ˆ ìˆ˜ì •ì¼
+	private String p_delflag; //ì œí’ˆì‚­ì œìœ ë¬´
+	
 	
 	public ProductDto() {
 		super();

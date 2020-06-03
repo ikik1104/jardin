@@ -4,11 +4,13 @@ import java.sql.Timestamp;
 
 public class WishListDto {
 
-	private int w_num; //À§½Ã¸®½ºÆ® °íÀ¯¹øÈ£
-	private int m_num; //È¸¿ø °íÀ¯¹øÈ£
-	private int p_num; //»óÇ° °íÀ¯¹øÈ£
-	private int w_amount; //¼ö·®
-	private Timestamp w_sysdate; //µî·ÏÀÏ
+
+	private int w_num; //ìœ„ì‹œë¦¬ìŠ¤íŠ¸ ê³ ìœ ë²ˆí˜¸
+	private int m_num; //íšŒì› ê³ ìœ ë²ˆí˜¸
+	private int p_num; //ìƒí’ˆ ê³ ìœ ë²ˆí˜¸
+	private int w_amount; //ìˆ˜ëŸ‰
+	private Timestamp w_sysdate; //ë“±ë¡ì¼
+	
 	public WishListDto() {
 		super();
 		// TODO Auto-generated constructor stub

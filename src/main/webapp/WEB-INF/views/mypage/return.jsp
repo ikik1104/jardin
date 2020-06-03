@@ -12,11 +12,11 @@
 <meta name="description" content="JARDIN" />
 <meta name="keywords" content="JARDIN" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scaleable=no" />
-<link rel="stylesheet" type="text/css" href="../user/css/reset.css" />
-<link rel="stylesheet" type="text/css" href="../user/css/content.css" />
+<link rel="stylesheet" type="text/css" href="user/css/reset.css" />
+<link rel="stylesheet" type="text/css" href="user/css/content.css" />
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-<script type="text/javascript" src="../user/js/jquery.min.js"></script>
-<script type="text/javascript" src="../user/js/common.js"></script>
+<script type="text/javascript" src="user/js/jquery.min.js"></script>
+<script type="text/javascript" src="user/js/common.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 <script type="text/javascript">
 $(function() {
@@ -36,7 +36,7 @@ $(function() {
 		
 	<div class="inputBody">
 		<div class="title">반품/교환 상품정보</div>
-		<p class="close"><a onclick="parent.$.fancybox.close();" href="javascript:;"><img src="../user/images/btn/btn_input_close.gif" alt="닫기" /></a></p>
+		<p class="close"><a onclick="parent.$.fancybox.close();" href="javascript:;"><img src="user/images/btn/btn_input_close.gif" alt="닫기" /></a></p>
 
 		<div class="orderDivNm">
 			<table summary="상품 게시판으로 주문하신 상품명, 수량, 판매가, 배송순으로 조회 하시고 쿠폰을 적용하실 수 있습니다." class="orderTable" border="1" cellspacing="0">
@@ -62,7 +62,7 @@ $(function() {
 							<p class="orderNum">201205301204-8057</p>
 						</td>
 						<td class="left">
-							<p class="img"><img src="../user/images/img/sample_product.jpg" alt="상품" width="66" height="66" /></p>
+							<p class="img"><img src="user/images/img/sample_product.jpg" alt="상품" width="66" height="66" /></p>
 
 							<ul class="goods">
 								<li>

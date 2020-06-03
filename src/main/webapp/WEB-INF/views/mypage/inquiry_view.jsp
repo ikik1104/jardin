@@ -24,8 +24,8 @@
 <script type="text/javascript" src="user/js/idangerous.swiper-2.1.min.js"></script>
 <script type="text/javascript" src="user/js/jquery.anchor.js"></script>
 <!--[if lt IE 9]>
-<script type="text/javascript" src="../user/js/html5.js"></script>
-<script type="text/javascript" src="../user/js/respond.min.js"></script>
+<script type="text/javascript" src="user/js/html5.js"></script>
+<script type="text/javascript" src="user/js/respond.min.js"></script>
 <![endif]-->
 <script type="text/javascript">
 $(document).ready(function() {

@@ -12,10 +12,10 @@
 <meta name="description" content="JARDIN" />
 <meta name="keywords" content="JARDIN" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scaleable=no" />
-<link rel="stylesheet" type="text/css" href="../user/css/reset.css" />
-<link rel="stylesheet" type="text/css" href="../user/css/content.css" />
-<script type="text/javascript" src="../user/js/jquery.min.js"></script>
-<script type="text/javascript" src="../user/js/common.js"></script>
+<link rel="stylesheet" type="text/css" href="user/css/reset.css" />
+<link rel="stylesheet" type="text/css" href="user/css/content.css" />
+<script type="text/javascript" src="user/js/jquery.min.js"></script>
+<script type="text/javascript" src="user/js/common.js"></script>
 <script type="text/javascript">
 $(function() {
 
@@ -29,7 +29,7 @@ $(function() {
 		
 	<div class="inputBody">
 		<div class="title">포토리뷰 작성하기</div>
-		<p class="close"><a onclick="parent.$.fancybox.close();" href="javascript:;"><img src="../user/images/btn/btn_input_close.gif" alt="닫기" /></a></p>
+		<p class="close"><a onclick="parent.$.fancybox.close();" href="javascript:;"><img src="user/images/btn/btn_input_close.gif" alt="닫기" /></a></p>
 			
 		<div class="checkDivMt">
 			<table summary="분류, 구매여부, 작은이미지, 평가, 제목, 상세 내용 순으로 포토 리뷰를 작성 하실수 있습니다." class="checkTable" border="1" cellspacing="0">
@@ -82,45 +82,45 @@ $(function() {
 								<li>
 									<input type="radio" name="appraisal" id="starFive" checked="checked"/>
 									<label for="starFive" class="star">
-										<img src="../user/images/ico/ico_star.gif" alt="별점" />
-										<img src="../user/images/ico/ico_star.gif" alt="별점" />
-										<img src="../user/images/ico/ico_star.gif" alt="별점" />
-										<img src="../user/images/ico/ico_star.gif" alt="별점" />
-										<img src="../user/images/ico/ico_star.gif" alt="별점" />
+										<img src="user/images/ico/ico_star.gif" alt="별점" />
+										<img src="user/images/ico/ico_star.gif" alt="별점" />
+										<img src="user/images/ico/ico_star.gif" alt="별점" />
+										<img src="user/images/ico/ico_star.gif" alt="별점" />
+										<img src="user/images/ico/ico_star.gif" alt="별점" />
 									</label>
 								</li>
 
 								<li>
 									<input type="radio" name="appraisal" id="starFour" />
 									<label for="starFour" class="star">
-										<img src="../user/images/ico/ico_star.gif" alt="별점" />
-										<img src="../user/images/ico/ico_star.gif" alt="별점" />
-										<img src="../user/images/ico/ico_star.gif" alt="별점" />
-										<img src="../user/images/ico/ico_star.gif" alt="별점" />
+										<img src="user/images/ico/ico_star.gif" alt="별점" />
+										<img src="user/images/ico/ico_star.gif" alt="별점" />
+										<img src="user/images/ico/ico_star.gif" alt="별점" />
+										<img src="user/images/ico/ico_star.gif" alt="별점" />
 									</label>
 								</li>
 
 								<li>
 									<input type="radio" name="appraisal" id="starThree" />
 									<label for="starThree" class="star">
-										<img src="../user/images/ico/ico_star.gif" alt="별점" />
-										<img src="../user/images/ico/ico_star.gif" alt="별점" />
-										<img src="../user/images/ico/ico_star.gif" alt="별점" />
+										<img src="user/images/ico/ico_star.gif" alt="별점" />
+										<img src="user/images/ico/ico_star.gif" alt="별점" />
+										<img src="user/images/ico/ico_star.gif" alt="별점" />
 									</label>
 								</li>
 
 								<li>
 									<input type="radio" name="appraisal" id="startwo" />
 									<label for="startwo" class="star">
-										<img src="../user/images/ico/ico_star.gif" alt="별점" />
-										<img src="../user/images/ico/ico_star.gif" alt="별점" />
+										<img src="user/images/ico/ico_star.gif" alt="별점" />
+										<img src="user/images/ico/ico_star.gif" alt="별점" />
 									</label>
 								</li>
 
 								<li>
 									<input type="radio" name="appraisal" id="starOne" />
 									<label for="starOne" class="star">
-										<img src="../user/images/ico/ico_star.gif" alt="별점" />
+										<img src="user/images/ico/ico_star.gif" alt="별점" />
 									</label>
 								</li>
 							</ul>

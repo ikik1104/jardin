@@ -12,11 +12,11 @@
 <meta name="description" content="JARDIN" />
 <meta name="keywords" content="JARDIN" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scaleable=no" />
-<link rel="stylesheet" type="text/css" href="../user/css/reset.css" />
-<link rel="stylesheet" type="text/css" href="../user/css/content.css" />
+<link rel="stylesheet" type="text/css" href="user/css/reset.css" />
+<link rel="stylesheet" type="text/css" href="user/css/content.css" />
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-<script type="text/javascript" src="../user/js/jquery.min.js"></script>
-<script type="text/javascript" src="../user/js/common.js"></script>
+<script type="text/javascript" src="user/js/jquery.min.js"></script>
+<script type="text/javascript" src="user/js/common.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 <script type="text/javascript">
 $(function() {
@@ -36,7 +36,7 @@ $(function() {
 		
 	<div class="inputBody">
 		<div class="title">옵션 변경</div>
-		<p class="close"><a onclick="parent.$.fancybox.close();" href="javascript:;"><img src="../user/images/btn/btn_input_close.gif" alt="닫기" /></a></p>
+		<p class="close"><a onclick="parent.$.fancybox.close();" href="javascript:;"><img src="user/images/btn/btn_input_close.gif" alt="닫기" /></a></p>
 
 		<div class="checkDiv">
 			<table summary="상품명, 주문수량, 가격/포인트, 옵션 순으로 조회 또는 변경 하실수 있습니다." class="checkTable" border="1" cellspacing="0">

@@ -5,7 +5,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
-		<link rel="stylesheet" type="text/css" href="css/admin_main.css">
+		<link rel="stylesheet" type="text/css" href="admin/css/admin_main.css">
 	</head>
 	<body>
 	<jsp:include page="../nav/admin_header.jsp"/>
