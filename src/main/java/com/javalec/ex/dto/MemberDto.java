@@ -24,13 +24,14 @@ public class MemberDto {
 	private Timestamp m_left_date;     //탈퇴일
 	private String m_left_reason;     //탈퇴사유
 	private Timestamp m_join_date;     //가입일
+	private int m_point;
 	
 	public MemberDto() {}
 
 	public MemberDto(int m_num, String m_name, String m_id, String m_pw, String m_email, String m_email_ok,
 			int m_zipcode, String m_address1, String m_address2, String m_phone, String m_sms_ok, String m_tel,
 			Timestamp m_birth, String m_birth_sort, String m_level, Timestamp m_last_login, String m_status,
-			Timestamp m_left_date, String m_left_reason, Timestamp m_join_date) {
+			Timestamp m_left_date, String m_left_reason, Timestamp m_join_date, int m_point) {
 		super();
 		this.m_num = m_num;
 		this.m_name = m_name;
@@ -52,6 +53,7 @@ public class MemberDto {
 		this.m_left_date = m_left_date;
 		this.m_left_reason = m_left_reason;
 		this.m_join_date = m_join_date;
+		this.m_point = m_point;
 	}
 
 	public int getM_num() {
@@ -213,6 +215,15 @@ public class MemberDto {
 	public void setM_join_date(Timestamp m_join_date) {
 		this.m_join_date = m_join_date;
 	}
+
+	public int getM_point() {
+		return m_point;
+	}
+
+	public void setM_point(int m_point) {
+		this.m_point = m_point;
+	}
+	
 	
 	
 }

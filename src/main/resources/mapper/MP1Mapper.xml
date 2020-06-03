@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javalec.ex.dao.MP1Dao">
+
+	<resultMap type="com.javalec.ex.dto.ProductDto" id="ProductDto">
+	    <result column="p_num" property="p_num"/>
+	    <result column="p_thumb_img1" property="p_thumb_img1"/>
+	    <result column="p_name" property="p_name"/>
+	    <result column="p_price" property="p_price"/>
+	    <result column="p_point" property="p_point"/>
+	</resultMap>
+
+	<resultMap type="com.javalec.ex.dto.CartDto" id="CartDto">
+	    <result column="ca_num" property="ca_num"/>
+	    <result column="m_num" property="m_num"/>
+	    <result column="ca_amount" property="ca_amount"/>
+	    <collection property="pDto" resultMap="ProductDto"/>
+	</resultMap>
+
+	<!-- 회원 보유 쿠폰 수 카운트 -->
+	<select id="getCouponCount" parameterType="Integer" resultType="Integer">
+		select count(*) from c_issue_tb where m_num=#{param1}  
+	</select>
+
+	<!-- 회원 보유 포인트 불러오기 -->
+	<select id="getMemInfo" parameterType="Integer" resultType="com.javalec.ex.dto.MemberDto">
+		select * from member_tb where m_num=#{param1}
+	</select>
+	
+	<!-- 회원 주문건수 카운트 -->
+	<select id="getOrderCount" parameterType="Integer" resultType="Integer">
+		select count(*) from orderlist_cou_tb where m_num=#{param1}  
+	</select>
+	
+	<!-- 회원 장바구니 제품 list 불러오기  -->
+	<select id="getAllCart" parameterType="Integer" resultMap="CartDto">
+		select p.p_num, p_thumb_img1, p_name, p_price, p_point, ca_num, m_num, ca_amount from product_tb p ,cart_tb c where c.m_num = #{param1} and c.p_num = p.p_num
+	</select>
+
+
+</mapper>

@@ -204,7 +204,7 @@ $(document).ready(function() {
 				<ul>	
 					<li><a href="#" id="leftNavi1">주문/배송 조회</a></li>
 					<li><a href="#" id="leftNavi2">반품/배송 현황</a></li>
-					<li><a href="#" id="leftNavi3">장바구니</a></li>
+					<li><a href="cart?m_num=1" id="leftNavi3">장바구니</a></li>
 					<li><a href="#" id="leftNavi4">위시리스트</a></li>
 					<li><a href="#" id="leftNavi5">나의 쿠폰</a></li>
 					<li><a href="#" id="leftNavi6">나의 포인트</a></li>

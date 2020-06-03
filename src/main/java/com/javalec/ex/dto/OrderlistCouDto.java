@@ -8,11 +8,12 @@ public class OrderlistCouDto {
 	private int oc_semi_sum;     //최종결제금액1
 	private int oc_deliv_fee;     //배송비
 	private int oc_final_sum;     //최종결제금액2
+	private int m_num;
 	
 	public OrderlistCouDto() {}
 
 	public OrderlistCouDto(int ol_order_num, int oc_cart_c, int oc_deliv_c, int oc_semi_sum, int oc_deliv_fee,
-			int oc_final_sum) {
+			int oc_final_sum, int m_num) {
 		super();
 		this.ol_order_num = ol_order_num;
 		this.oc_cart_c = oc_cart_c;
@@ -20,6 +21,7 @@ public class OrderlistCouDto {
 		this.oc_semi_sum = oc_semi_sum;
 		this.oc_deliv_fee = oc_deliv_fee;
 		this.oc_final_sum = oc_final_sum;
+		this.m_num = m_num;
 	}
 
 	public int getOl_order_num() {
@@ -69,6 +71,15 @@ public class OrderlistCouDto {
 	public void setOc_final_sum(int oc_final_sum) {
 		this.oc_final_sum = oc_final_sum;
 	}
+
+	public int getM_num() {
+		return m_num;
+	}
+
+	public void setM_num(int m_num) {
+		this.m_num = m_num;
+	}
+	
 	
 	
 }

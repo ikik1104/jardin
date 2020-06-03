@@ -12,17 +12,17 @@
 <meta name="description" content="JARDIN SHOP" />
 <meta name="keywords" content="JARDIN SHOP" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scaleable=no" />
-<link rel="stylesheet" type="text/css" href="../user/css/reset.css?v=Y" />
-<link rel="stylesheet" type="text/css" href="../user/css/layout.css?v=Y" />
-<link rel="stylesheet" type="text/css" href="../user/css/content.css?v=Y" />
-<script type="text/javascript" src="../user/js/jquery.min.js"></script>
-<script type="text/javascript" src="../user/js/top_navi.js"></script>
-<script type="text/javascript" src="../user/js/left_navi.js"></script>
-<script type="text/javascript" src="../user/js/main.js"></script>
-<script type="text/javascript" src="../user/js/common.js"></script>
-<script type="text/javascript" src="../user/js/jquery.easing.1.3.js"></script>
-<script type="text/javascript" src="../user/js/idangerous.swiper-2.1.min.js"></script>
-<script type="text/javascript" src="../user/js/jquery.anchor.js"></script>
+<link rel="stylesheet" type="text/css" href="user/css/reset.css?v=Y" />
+<link rel="stylesheet" type="text/css" href="user/css/layout.css?v=Y" />
+<link rel="stylesheet" type="text/css" href="user/css/content.css?v=Y" />
+<script type="text/javascript" src="user/js/jquery.min.js"></script>
+<script type="text/javascript" src="user/js/top_navi.js"></script>
+<script type="text/javascript" src="user/js/left_navi.js"></script>
+<script type="text/javascript" src="user/js/main.js"></script>
+<script type="text/javascript" src="user/js/common.js"></script>
+<script type="text/javascript" src="user/js/jquery.easing.1.3.js"></script>
+<script type="text/javascript" src="user/js/idangerous.swiper-2.1.min.js"></script>
+<script type="text/javascript" src="user/js/jquery.anchor.js"></script>
 <!--[if lt IE 9]>
 <script type="text/javascript" src="../user/js/html5.js"></script>
 <script type="text/javascript" src="../user/js/respond.min.js"></script>
@@ -204,7 +204,7 @@ $(document).ready(function() {
 				<ul>	
 					<li><a href="#" id="leftNavi1">주문/배송 조회</a></li>
 					<li><a href="#" id="leftNavi2">반품/배송 현황</a></li>
-					<li><a href="#" id="leftNavi3">장바구니</a></li>
+					<li><a href="cart?m_num=3" id="leftNavi3">장바구니</a></li>
 					<li><a href="#" id="leftNavi4">위시리스트</a></li>
 					<li><a href="#" id="leftNavi5">나의 쿠폰</a></li>
 					<li><a href="#" id="leftNavi6">나의 포인트</a></li>
@@ -222,10 +222,10 @@ $(document).ready(function() {
 					
 					<div class="myInfo">
 						<ul>
-							<li class="info"><strong>가나다</strong> 님의 정보를 한눈에 확인하세요.</li>
-							<li>보유 쿠폰<br/><span class="num">199</span> <span class="unit">장</span></li>
-							<li class="point">내 포인트<br/><span class="num">100,000</span> <span class="unit">P</span></li>
-							<li class="last">진행중인 주문<br/><span class="num">199</span> <span class="unit">건</span></li>
+							<li class="info"><strong>${memDto.m_id }</strong> 님의 정보를 한눈에 확인하세요.</li>
+							<li>보유 쿠폰<br/><span class="num">${coupon }</span> <span class="unit">장</span></li>
+							<li class="point">내 포인트<br/><span class="num">${memDto.m_point }</span> <span class="unit">P</span></li>
+							<li class="last">진행중인 주문<br/><span class="num">${order }</span> <span class="unit">건</span></li>
 						</ul>
 					</div>
 
@@ -252,6 +252,7 @@ $(document).ready(function() {
 								<th scope="col" class="tnone">주문</th>
 							</thead>
 							<tbody>
+								<c:forEach var="cartlist" items="${cartlist }">
 								<tr>
 									<td><input type="checkbox" /></td>
 									<td class="left">
@@ -259,13 +260,13 @@ $(document).ready(function() {
 
 										<ul class="goods">
 											<li>
-												<a href="#">쟈뎅 오리지널 콜롬비아 페레이라 원두커피백 15p</a>
+												<a href="#">${cartlist.pDto.p_name }</a>
 											</li>
 										</ul>
 									</td>
-									<td class="tnone">1,123,400 원<br/><span class="pointscore">11,234 Point</span></td>
-									<td><input class="spinner" value="1" maxlength="3" /></td>
-									<td>1,123,400 원</td>
+									<td class="tnone">${cartlist.pDto.p_price } 원<br/><span class="pointscore">${cartlist.pDto.p_point } Point</span></td>
+									<td><input class="spinner" value="${cartlist.ca_amount }" maxlength="3" /></td>
+									<td>${cartlist.pDto.p_price * cartlist.ca_amount  }원</td>
 									<td class="tnone">
 										<ul class="order">	
 											<li><a href="#" class="obtnMini iw70">바로구매</a></li>
@@ -273,28 +274,10 @@ $(document).ready(function() {
 										</ul>
 									</td>
 								</tr>
+								<c:set var="sum" value="${sum + cartlist.pDto.p_price * cartlist.ca_amount }"/>
+								<c:set var="sumpoint" value="${sumpoint + cartlist.pDto.p_point * cartlist.ca_amount}"/>
+								</c:forEach>
 								
-								<tr>
-									<td><input type="checkbox" /></td>
-									<td class="left">
-										<p class="img"><img src="../user/images/img/sample_product.jpg" alt="상품" width="66" height="66" /></p>
-
-										<ul class="goods">
-											<li>
-												<a href="#">쟈뎅 오리지널 콜롬비아 페레이라 원두커피백 15p</a>
-											</li>
-										</ul>
-									</td>
-									<td class="tnone">1,123,400 원<br/><span class="pointscore">11,234 Point</span></td>
-									<td><input class="spinner" value="1" maxlength="3" /></td>
-									<td>1,123,400 원</td>
-									<td class="tnone">
-										<ul class="order">	
-											<li><a href="#" class="obtnMini iw70">바로구매</a></li>
-											<li><a href="#" class="nbtnMini iw70">상품삭제</a></li>
-										</ul>
-									</td>
-								</tr>
 							</tbody>
 						</table>
 					</div>
@@ -317,17 +300,24 @@ $(document).ready(function() {
 						<ul class="info">
 							<li>
 								<span class="title">상품 합계금액</span>
-								<span class="won"><strong>1,132,310</strong> 원</span>
+								<span class="won"><strong><c:out value="${sum }"/></strong> 원</span>
 							</li>
 							<li>
 								<span class="title">배송비</span>
-								<span class="won"><strong>2,500</strong> 원</span>
+								<span class="won"><strong>
+									<c:if test="${sum < 30000 }">
+										<c:out value="3000"/>
+									</c:if>
+									<c:if test="${sum >= 30000 }">
+										<c:out value="0"/>
+									</c:if>
+								</strong> 원</span>
 							</li>
 						</ul>
 						<ul class="total">
-							<li class="mileage">(적립 마일리지 <strong>11,324</strong> Point) </li>
+							<li class="mileage">(적립 마일리지 <strong><c:out value="${sumpoint }"/></strong> Point) </li>
 							<li class="txt"><strong>결제 예정 금액</strong></li>
-							<li class="money"><span>1,134,810</span> 원</li>
+							<li class="money"><span><c:out value="${sum }"/></span> 원</li>
 						</ul>
 					</div>
 					<!-- //총 주문금액 -->
