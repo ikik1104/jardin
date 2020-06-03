@@ -8,8 +8,8 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 		<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
 	        <property name="driverClassName" value="oracle.jdbc.OracleDriver"/>
-	        <property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521:orcl"/>
-	        <property name="username" value="ora_user"/>
+	        <property name="jdbcUrl" value="jdbc:oracle:thin:@gongsam.dlinkddns.com:2222:orcl"/>
+	        <property name="username" value="jardin_team2"/>
 	        <property name="password" value="1234"/>
    		 </bean>
    		 <!-- 커넥션 pool을 사용할 dataSource bean 셋팅-->
