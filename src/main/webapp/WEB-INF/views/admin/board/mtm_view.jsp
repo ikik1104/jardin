@@ -56,6 +56,7 @@
 		
 		function search() {
 			//ajax 구현 해서 바로 검색결과 띄워주기
+			
 		}
 		
 		//구현 끝~! ㅋㅋ
@@ -94,8 +95,7 @@
 			
 			
 		}
-	
-		//게시글 삭제 체크 
+		//게시글 삭제 체크
 		function del_check(iu_num){
 			if(confirm("해당 게시글을 삭제하시겠습니까? (삭제한 데이터는 복구할 수 없습니다.)")){
 	            $.ajax({
@@ -108,7 +108,7 @@
 	                     if(val == 1){ //리턴값이 1이면 (=성공)
 	                        alert("삭제처리 완료되었습니다.");
 	                     //location.href="product_list";
-	                        location.reload(); //페이지 새로고침
+	                        location.href="mtm_list?rownum=getElementById('rownum')"; //페이지 새로고침
 	                     }else{ // 0이면 실패
 	                        alert("삭제처리 실패.");
 	                     }
@@ -119,111 +119,89 @@
 	               });
 	         }
 		}
+		
 </script>
 	</head>
 	<body>
 	<jsp:include page="../nav/admin_header.jsp"/>
 	<jsp:include page="../nav/board_nav.jsp"/>
 	<section>
-		<h1>1:1문의 리스트</h1>
-		<div id="main_list">
-			<div id="main_user_list">
-				<h2>임시로 놔두기</h2>
-				<div class="list_count">임시로 놔두기(총 게시물 수 등등 표시?)</div>
-				<div id="search_form">
-					<form name="inputform" method="get" onsubmit="return false;">
-					<table border="1">
-						<tr>
-							<td>검색어</td>
-							<td><select name="keysort">
-								<option>아이디</option>
-								<option>글제목</option>
-								<option>글내용</option>
-							</select>
-							<input type="text" name="keyword">
-							</td>
-						</tr>
+		<h1>1:1문의 조회/답변</h1>
+		
+		<div>
+			<h1>게시글 정보</h1>
+			<table border="1">
+				<tr>
+					<th>번호</th>
+					<td>${MtmUserDto.iu_num }</td>
+					<th>작성자</th>
+					<td>${m_id }</td>
+				</tr>
+				<tr>
+					<th>제목</th>
+					<td colspan="3">${MtmUserDto.iu_title }</td>
+				</tr>
+				<tr>
+					<th>답변상태</th>
+					<td colspan="3">${MtmUserDto.iu_status }</td>
+				</tr>
+				<tr>
+					<th>등록일</th>
+					<td>${MtmUserDto.iu_date}</td>
+					<th>분류</th>
+					<td>${MtmUserDto.iu_sort}</td>
+				</tr>										
+			</table>
+		</div>
+		
+		<div>
+			<h1>게시글 내용</h1>	
+				<pre style="white-space:pre-warp">
+				<!-- 이미지 첨부 
+				<c:if test="${MtmUserDto.iu_img!='없음' }">
+					<img src="../upload/${MtmUserDto.iu_img}" width="100%" alt="${ MtmUserDto.iu_img}">
+				</c:if>
+				-->
+				${MtmUserDto.iu_content }
+				</pre>
+				<button type="button" onclick="del_check(${MtmUserDto.iu_num})">게시글 삭제</button>
+		</div>
+		
+		<div>
+			<h1>답변 조회/작성/수정</h1>	
+			<table border="1">
+				<tr>
+					<th>작성자</th>
+					<td>${MtmAnswerDto.admindto.ad_grade }(${MtmAnswerDto.admindto.ad_id })</td>
+				</tr>
+				<tr>
+					<th>등록일</th>
+					<td>${MtmAnswerDto.mtmanswerdto.ia_date }</td>
+				</tr>			
+				<tr>
+					<th>내용</th>
+					<td>
+						<!-- 에디터로 수정해야 함★★★★★★★ -->
+						<pre style="white-space:pre-warp">
+						${MtmAnswerDto.mtmanswerdto.ia_content }
 						
-						<tr id="search_date">
-							<td>기간검색</td>
-							<td>
-							<fmt:formatDate var="sys" value="${sysdate}" pattern="yyyy-MM-dd"/>
-							<select name="****미정****" >
-								<option>등록일</option>
-								<option>수정일</option>
-							</select>
-							<input type="date" name="e_start_day" id="e_start_day" onchange="date_chk2()"> ~ 
-							<input type="date" name="e_end_day" id="e_end_day" value="${sys}" onchange="date_chk2()">
-							<button type="button" onclick="search_date('today')">오늘</button>
-							<button type="button" onclick="search_date('7day')">7일</button>
-							<button type="button" onclick="search_date('15day')">15일</button>
-							<button type="button" onclick="search_date('1month')">1개월</button>
-							<button type="button" onclick="search_date('3month')">3개월</button>
-							<button type="button" onclick="search_date('all')">전체</button>
-							</td>
-						</tr>
-						<tr>
-							<td>답변상태</td>
-							<td><select name="status">
-								<option>전체</option>
-								<option>답변대기</option>
-								<option>답변완료</option>
-							</select>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="2"><button onclick="search()">검색</button></td>
-						</tr>
-					</table>
-					</form>
-					
-				</div>
-				<div>
-					<table border="1" id="event_list">
-						<tr>
-							<th><input type="checkbox" ></th>
-							<th>번호</th>
-							<th>제목</th>
-							<th>분류</th>
-							<th>작성자</th>
-							<th>등록일</th>
-							<th>답변상태</th>
-							<th>답변/삭제</th>
-						</tr>
-						<c:forEach var="mtm_list" items="${mtm_list }">
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>${mtm_list.rownum }</td>
-							<td>
-								<a href="mtm_view?m_id=${mtm_list.memDto.m_id }&rownum=${mtm_list.rownum }&iu_num=${mtm_list.iu_num}
-								&iu_title=${mtm_list.iu_title}&iu_content=${mtm_list.iu_content}&iu_sort=${mtm_list.iu_sort}&iu_date=${mtm_list.iu_date}
-								&iu_status=${mtm_list.iu_status}&iu_img=${mtm_list.iu_img}"> 
-									${mtm_list.iu_title }${mtm_list.iu_num }
-								</a>
-							</td>
-							<td>${mtm_list.iu_sort }</td>
-							<td>${mtm_list.memDto.m_id }</td>
-							<td>${mtm_list.iu_date }</td>
-							<td>${mtm_list.iu_status }</td>
-							<td>
-								<button type="button" onclick="location.href='mtm_view?m_id=${mtm_list.memDto.m_id }&rownum=${mtm_list.rownum }&iu_num=${mtm_list.iu_num}
-									&iu_title=${mtm_list.iu_title}&iu_content=${mtm_list.iu_content}&iu_sort=${mtm_list.iu_sort}&iu_date=${mtm_list.iu_date}
-									&iu_status=${mtm_list.iu_status}&iu_img=${mtm_list.iu_img}'">
-									답변
-								</button>
-								<button type="button" onclick="del_check(${mtm_list.iu_num})">삭제</button>
-							</td>
-						</tr>
-						</c:forEach>
-						
-						
-					</table>
-					<div class="detail_btn">
-						<a href="#">임시버튼</a>
-					</div>
-				</div>
+						</pre>
+					</td>
+				</tr>			
+			</table>
+			
+			<div>
+				<button type="button" onclick="location.href='mtm_list?rownum=${MtmUserDto.rownum}'">취소</button>
+				<button type="button" onclick="location.href='mtm_answer_write?ad_num=${MtmAnswerDto.admindto.ad_num }&ia_content=${MtmAnswerDto.mtmanswerdto.ia_content }'">
+					답변등록
+				</button>
+				<button type="button" onclick="mtm_answer_modify">답변수정</button>				
+				<button type="button" onclick="mtm_answer_delete">답변삭제</button>							
 			</div>
-				</div>
+			
+		</div>
+		<input type="hidden" value="${MtmUserDto.rownum }" id="rownum">
+	
 	</section>
 	</body>
 </html>
