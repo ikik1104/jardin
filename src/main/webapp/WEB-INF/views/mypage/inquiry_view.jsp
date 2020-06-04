@@ -70,17 +70,11 @@ $(document).ready(function() {
     	 
     	 console.log(typeof iu_num);
     	 console.log("inquiry : "+iu_num);
-    	 
-//     	 var Obj = {};
-//     	 Obj.iu_num = iu_num;
-    	 
-//     	 var jsonData = JSON.stringify(Obj);
-    	 
-    	 
+    	     	 
     	 if(confirm("1:1문의를 삭제하시겠습니까? (삭제시 더이상 답변을 확인할 수 없습니다.)")){
              $.ajax({
                url : "inquiry_delete",
-               method : "POST",
+               type : "POST",
                data: JSON.stringify(iu_num),
                contentType: "application/json",
                dataType : "json",
@@ -88,7 +82,6 @@ $(document).ready(function() {
                   if(val == 1){ //리턴값이 1이면 (=성공)
                      alert("삭제가 완료되었습니다.");
                  	 location.href="inquiry";
-//                      location.reload(); //페이지 새로고침
                   }else{ // 0이면 실패
                      alert("삭제처리 실패.");
                   }
@@ -354,7 +347,7 @@ $(document).ready(function() {
 						<div class="bRight">
 							<ul>
 								<li><a href="inquiry_modify?m_num=${ inq_view.getM_num() }&iu_num=${ inq_view.getIu_num() }&rownum=${ rownum }" class="nbtnbig mw">수정</a></li>
-								<li><a class="nbtnbig mw" ><button onclick="inq_delete(${inq_view.getIu_num()})">삭제</button></a></li>
+								<li><a href="#" class="nbtnbig mw" onclick="inq_delete(${inq_view.getIu_num()})">삭제</a></li>
 								<li><a href="inquiry?m_num=${ inq_view.getM_num() }" class="sbtnMini mw">목록</a></li>
 							</ul>
 						</div>
