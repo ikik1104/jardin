@@ -13,9 +13,6 @@ public class MtmUserDto {
 	private Timestamp iu_date;     //등록일
 	private String iu_status;     //답변 상태
 	private String iu_img;     //첨부 이미지
-	private int rownum;
-	
-	
 
 	public MtmUserDto() {}
 
@@ -105,13 +102,6 @@ public class MtmUserDto {
 		this.iu_img = iu_img;
 	}
 
-	public int getRownum() {
-		return rownum;
-	}
-
-	public void setRownum(int rownum) {
-		this.rownum = rownum;
-	}
 
 	
 	

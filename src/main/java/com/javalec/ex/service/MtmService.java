@@ -10,7 +10,11 @@ public interface MtmService {
 	List<MtmUserDto> getAllInquiry(int m_num);
 	MtmUserDto getOneInquiry(int iu_num);
 	MtmAnswerDto getOneAnswer(int iu_num);
-	List<MtmUserDto> getPreTitle(int iu_rownum);
-	List<MtmUserDto> getNextTitle(int iu_rownum);
+	MtmUserDto getPreTitle(int m_num, int rownum);
+	MtmUserDto getNextTitle(int m_num, int rownum);
+	void insertInquiry(MtmUserDto mtmUserDto); //글쓰기 등록 
+	MtmUserDto modifyView(int iu_num); //문의 수정 보기
+	void modifyInquiry(MtmUserDto mtmUserDto); //문의 수정 보기
+	int deleteInquiry(int iu_num); //문의 삭제
 	
 }

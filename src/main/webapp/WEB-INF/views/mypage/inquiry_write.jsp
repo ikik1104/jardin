@@ -30,8 +30,6 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	
-
-
 });
 </script>
 </head>
@@ -63,7 +61,18 @@ $(document).ready(function() {
 
      $(document).ready(function () {
          msiecheck();
+         
+//          $(".sbtnMini").on("click", function(){
+//         	 input_inq.submit();
+//          });
+         
      });
+     
+     
+     var submit = function () {
+    	 input_inq.submit();
+     }
+     
 
      var msiecheck = function () {
          var browser = navigator.userAgent.toLowerCase();
@@ -86,6 +95,12 @@ $(document).ready(function() {
 		$("#ieUser").hide();
         clearTimeout(msietimer);
      }
+     
+    
+     
+     
+     
+     
 </script>
 
 <div id="allwrap">
@@ -229,50 +244,61 @@ $(document).ready(function() {
 						</ul>
 					</div>
 
-					<div class="checkDiv">
-						<table summary="분류, 제목, 상세내용, 첨부파일 순으로 궁금하신 점을 문의 하실수 있습니다." class="checkTable" border="1" cellspacing="0">
-							<caption>1:1문의</caption>
-							<colgroup>
-							<col width="19%" class="tw30" />
-							<col width="*" />
-							</colgroup>
-							<tbody>
-								<tr>
-									<th scope="row"><span>분류</span></th>
-									<td>
-										<select>
-											<option value="">선택해주세요.</option>
-										</select>
-									</td>
-								</tr>
-								<tr>
-									<th scope="row"><span>제목</span></th>
-									<td>
-										<input type="text" class="wlong" />
-									</td>
-								</tr>
-								<tr>
-									<th scope="row"><span>상세 내용</span></th>
-									<td>
-										<textarea class="tta"></textarea>
-									</td>
-								</tr>
-								<tr>
-									<th scope="row"><span>첨부파일</span></th>
-									<td>
-										<input type="file" class="fileType" />
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
+                    <!-- 입력폼 -->
+                    <form action="inquiry_write_regi" method="post" name="input_inq">
+    					<div class="checkDiv">
+    						<table summary="분류, 제목, 상세내용, 첨부파일 순으로 궁금하신 점을 문의 하실수 있습니다." class="checkTable" border="1" cellspacing="0">
+    							<caption>1:1문의</caption>
+    							<colgroup>
+    							<col width="19%" class="tw30" />
+    							<col width="*" />
+    							</colgroup>
+    							<tbody>
+    								<tr>
+    									<th scope="row"><span>분류</span></th>
+    									<td>
+    										<select name="iu_sort">
+    											<option value="">선택해주세요.</option>
+    											<option value="상품">상품문의</option>
+    											<option value="배송">배송문의</option>
+    											<option value="교환/반품/취소">교환/반품/취소</option>
+    											<option value="주문/입금확인">주문/입금확인</option>
+    											<option value="기타">기타</option>
+    										</select>
+    									</td>
+    								</tr>
+    								<tr>
+    									<th scope="row"><span>제목</span></th>
+    									<td>
+    										<input type="text" class="wlong" name="iu_title" />
+    									</td>
+    								</tr>
+    								<tr>
+    									<th scope="row"><span>상세 내용</span></th>
+    									<td>
+    										<textarea class="tta" name="iu_content"></textarea>
+    									</td>
+    								</tr>
+    								<tr>
+    									<th scope="row"><span>첨부파일</span></th>
+    									<td>
+    										<input type="file" class="fileType" name="iu_img"/>
+                                            <!-- 회원고유번호 hidden -->
+                                            <input type="hidden" name="m_num" value="${ userNum }">
+    									</td>
+    								</tr>
+    							</tbody>
+    						</table>
+    					</div>
+                    </form>
+                    <!-- //입력폼 -->
 
 					<!-- Btn Area -->
 					<div class="btnArea">
 						<div class="bCenter">
 							<ul>																
-								<li><a href="#" class="nbtnbig">취소</a></li>
-								<li><a href="#" class="sbtnMini">확인</a></li>
+								<li><a href="inquiry" onclick="return confirm('1:1문의 작성을 취소하시겠습니까?');" class="nbtnbig">취소</a></li>
+								<li><a href="#" class="sbtnMini" onclick="submit()">확인</a></li>
 							</ul>
 						</div>
 					</div>

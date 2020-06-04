@@ -9,10 +9,7 @@
 </head>
 <body>
 
-<c:forEach var="inq" items="${inquiry }">
-    ${inq.getIu_num() }
-    ${inq.getIu_title() }<br> 
-</c:forEach>
+"로그인 성공"
 
 
 

@@ -5,6 +5,11 @@
         
 <mapper namespace="com.javalec.ex.dao.MtmDao">
 
+<!-- 	<resultMap type="com.javalec.ex.dto.MtmUserDto" id="MtmUserDto"> -->
+<!-- 	    <result column="iu_title" property="iu_title"/> -->
+<!-- 	    <result column="iu_status" property="iu_status"/> -->
+<!-- 	</resultMap> -->
+
 	<select id="getAllInquiry" parameterType="Integer" resultType="com.javalec.ex.dto.MtmUserDto">
 		
 		select * from 
@@ -22,18 +27,43 @@
 		select * from mtm_inqury_answer_tb where iu_num = #{param1}
 	</select>
 	
-	<select id="getPreTitle" resultType="com.javalec.ex.dto.MtmAnswerDto">
-		select iu_title, iu_status from 
+	<select id="getPreTitle" parameterType="Integer" resultType="com.javalec.ex.dto.MtmUserDto">
+
+		select * from 
 		(select rownum rnum, mtmu.* from 
-		(select * from mtm_inqury_user_tb order by iu_num desc) mtmu) 
-		where rnum = #{param1}-1
+		(select * from mtm_inqury_user_tb where m_num=#{param1} order by iu_num asc) mtmu) 
+		where rnum=#{param2}-1 
+		
 	</select>
 
-	<select id="getNextTitle" resultType="com.javalec.ex.dto.MtmAnswerDto">
-		select iu_title, iu_status from 
+	<select id="getNextTitle" parameterType="Integer" resultType="com.javalec.ex.dto.MtmUserDto">
+		select * from 
 		(select rownum rnum, mtmu.* from 
-		(select * from mtm_inqury_user_tb order by iu_num desc) mtmu) 
-		where rnum = #{param1}+1
+		(select * from mtm_inqury_user_tb where m_num=#{param1} order by iu_num asc) mtmu) 
+		where rnum=#{param2}+1 
 	</select>
+	
+	<!-- 1:1문의 user 작성  -->
+	<insert id="insertInquiry">
+		insert into mtm_inqury_user_tb values (
+		IU_SEQ.nextval, #{ m_num }, #{ iu_title }, #{ iu_content }, #{iu_sort}, default, default, #{ iu_img }  
+		)
+	</insert>
+	
+	<!-- 1:1 문의 수정 보기 -->
+	<select id = "modifyView" resultType="com.javalec.ex.dto.MtmUserDto">
+		select * from mtm_inqury_user_tb where iu_num=#{param1}
+	</select>
+	
+	<!-- 1:1문의 수정 등록 -->
+	<update id="modifyInquiry">
+		update mtm_inqury_user_tb set iu_title = #{iu_title}, iu_content = #{iu_content}, iu_sort=#{iu_sort}, iu_img=#{iu_img} where iu_num = ${iu_num}
+	</update>
+	
+	<!-- 1:1문의 삭제 -->
+	<delete id="deleteInquiry">
+		delete from mtm_inqury_user_tb where iu_num = #{iu_num}
+	</delete>
+	
 	
 </mapper>
