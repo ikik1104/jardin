@@ -27,19 +27,39 @@
 			}
 		</style>
 		<script type="text/javascript">
-
+		function delProduct(num){
+			
+			if(confirm("해당 상품을 삭제처리 하시겠습니까? (해당 데이터는 삭제제품에서 확인/변경 가능합니다.)")){
+				$.ajax({
+				      url : "product_delete",
+				      method : "POST",
+				      data: JSON.stringify(num),
+				      dataType : "json",
+				      contentType: "application/json",
+				      success : function(val){
+				    	  if(val == 1){ //리턴값이 1이면 (=성공)
+					         alert("삭제처리 완료되었습니다.");
+// 							location.href="product_list";
+					         location.reload(); //페이지 새로고침
+				    	  }else{ // 0이면 실패
+				    		  alert("삭제처리 실패.");
+				    	  }
+				      },
+				      error : function(){
+				         alert("서버통신실패");
+				      }
+				   });
+			}
+			 
+		}
+		
 		function date_chk2(){
 			var start = inputform.e_start_day.value;
 			var end = inputform.e_end_day.value;
 			
-			var date1 = new Date();
 			var start_date = new Date(start);
 			var end_date = new Date(end);
-			if(end_date.getTime()<date1.getTime()){
-				alert("종료일은 오늘 날짜 이후 or 시작일 이후의 날짜를 선택해주세요.");
-				inputform.e_end_day.value ="";
-				return false;
-			}
+
 			if(end_date.getTime()<start_date.getTime()){
 				alert("시작일 이후의 날짜를 선택해주세요.");
 				inputform.e_end_day.value ="";
@@ -87,11 +107,16 @@
 			}
 		}
 		
+		//step1선택에 따른 step2띄워주기
 		function aa(val) {
 			var step2= document.getElementsByClassName("step2");
+			var option = document.getElementById(val);
 			
 			$(".step2").css("display", "none");
-			$("#"+val).css("display", "inline-block");
+			$(".step2").removeAttr("name");
+			
+			$(option).css("display", "inline-block");
+			$(option).attr("name", "p_step2")
 		}
 </script>
 	<style type="text/css">
@@ -116,7 +141,7 @@
 	</head>
 	<body>
 	<jsp:include page="../nav/admin_header.jsp"/>
-	<jsp:include page="../nav/board_nav.jsp"/>
+	<jsp:include page="../nav/product_nav.jsp"/>
 	<section>
 		<h1>제품 리스트</h1>
 		<div id="main_list">
@@ -124,25 +149,21 @@
 				<h2>임시로 놔두기</h2>
 				<div class="list_count">임시로 놔두기(총 게시물 수 등등 표시?)</div>
 				<div id="search_form">
-					<form name="inputform" method="get" onsubmit="return false;">
+					<form action="product_searchList" name="inputform" method="get" >
 					<table border="1">
 						<tr>
-							<td>검색어</td>
-							<td><select name="">
-								<option>아이디</option>
-								<option>글제목</option>
-								<option>글내용</option>
-							</select>
-							<input type="text" name="검색키워드">
+							<td>상품명</td>
+							<td>
+							<input type="text"  name="p_name">
 							</td>
 						</tr>
 						<tr id="search_date">
 							<td>기간검색</td>
 							<td>
 							<fmt:formatDate var="sys" value="${sysdate}" pattern="yyyy-MM-dd"/>
-							<select name="****미정****" >
-								<option>등록일</option>
-								<option>수정일</option>
+							<select name="dateType" >
+								<option value="p_sysdate">등록일</option>
+								<option value="p_update">수정일</option>
 							</select>
 							<input type="date" name="e_start_day" id="e_start_day" onchange="date_chk2()"> ~ 
 							<input type="date" name="e_end_day" id="e_end_day" value="${sys}" onchange="date_chk2()">
@@ -166,39 +187,46 @@
 								<option value="대량구매">대량구매</option>
 							</select>
 							
-							<select name="step2" id="원두" class="step2" style="display: inline;">
-								<option value="">클래스</option>
-								<option value="">로스터리샵</option>	
-								<option value="">커피휘엘</option>	
-								<option value="">산지별 생두</option>	
+							<select  id="원두" name="p_step2" class="step2" style="display: inline;">
+								<option value="클래스">클래스</option>
+								<option value="로스터리샵">로스터리샵</option>	
+								<option value="커피휘엘">커피휘엘</option>	
+								<option value="산지별">산지별 생두</option>	
 							</select>
-							<select name="step2" id="원두커피백" class="step2">
-								<option value="">드립커피 로스트</option>
-								<option value="">오리지널 커피백</option>	
-								<option value="">마일드 커피백</option>	
+							<select  id="원두커피백" class="step2">
+								<option value="드립커피">드립커피 로스트</option>
+								<option value="오리지널">오리지널 커피백</option>	
+								<option value="마일드">마일드 커피백</option>	
 							</select>
-							<select name="step2" id="인스턴트" class="step2">
-								<option value="">카페모리</option>
-								<option value="">홈스타일카페모리</option>	
-								<option value="">포타제</option>	
+							<select  id="인스턴트" class="step2">
+								<option value="카페모리">카페모리</option>
+								<option value="홈스타일카페모리">홈스타일카페모리</option>	
+								<option value="포타제">포타제</option>	
 							</select>
-							<select name="step2" id="음료" class="step2">
-								<option value="">카페리얼</option>
-								<option value="">워터커피</option>	
-								<option value="">모히또</option>	
+							<select  id="음료" class="step2">
+								<option value="카페리얼">카페리얼</option>
+								<option value="워터커피">워터커피</option>	
+								<option value="모히또">모히또</option>	
 							</select>
-							<select name="step2" id="커피용품" class="step2">
-								<option value="">카페리얼</option>
-								<option value="">워터커피</option>	
-								<option value="">모히또</option>	
+							<select  id="커피용품" class="step2">
+								<option value="종이컵">카페리얼</option>
+								<option value="커피 필터 등">워터커피</option>	
+								<option value="기타">모히또</option>	
+							</select>
+							<select  id="선물세트" class="step2">
+								<option value="선물세트">"선물세트"</option>
+							</select>
+							<select  id="대량구매" class="step2">
+								<option value="대량구매">대량구매</option>
 							</select>
 							</td>
 						</tr>
 						<tr>
-							<td colspan="2"><button onclick="search()">검색</button></td>
+							<td colspan="2"><button type="submit">검색</button></td>
 							<td></td>
 						</tr>
 					</table>
+					<input type="hidden" name="p_delflag" value="N">
 					</form>
 				</div>
 				<div id="search2">
@@ -226,11 +254,12 @@
 							<th>등록일</th>
 							<th>수정일</th>
 							<th>판매상태</th>
-							<th>수정</th>
+							<th>수정/삭제</th>
 						</tr>
-						<c:forEach items="${list}" var="pro" >
+						<c:forEach items="${list}" var="pro" varStatus="status">
 						<tr>
 							<td><input type="checkbox"></td>
+							<td>${status.count}</td>
 							<td>${pro.p_num}</td>
 							<td>${pro.p_thumb_img1}${pro.p_thumb_img2}${pro.p_thumb_img3}
 <%-- 								<img alt="썸네일" src="${pro.p_thumb_img1}"> --%>
@@ -245,7 +274,8 @@
 							<td>${pro.p_update}</td>
 							<td>${pro.p_delflag}</td>
 <!-- 							<td><button type="button" onclick="스크립트()">수정</button></td> -->
-							<td><button type="button" onclick="product_updateForm">수정</button></td>
+							<td><button type="button" onclick="location.href='product_updateForm?p_num=${pro.p_num}'">수정</button></td>
+							<td><button type="button" onclick="delProduct(${pro.p_num})">삭제</button></td>
 						</tr>
 						</c:forEach>
 					</table>

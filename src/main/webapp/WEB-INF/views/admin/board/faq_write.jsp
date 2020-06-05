@@ -28,16 +28,16 @@
 	<jsp:include page="../nav/board_nav.jsp"/>
 	<section>
 		<h1>FAQ 입력</h1>
-			<form action="" name="inputform" method="get">
+			<form action="insertFAQ" name="inputform" method="get">
 				<div id="input_form">
 					<table border="1">
 						<tr>
 							<td>카테고리</td>
 							<td>
 								<select name="f_step">
-									<option>회원</option>
-									<option>상품</option>
-									<option>주문</option>
+									<option value="user">회원</option>
+									<option value="product">상품</option>
+									<option value="order">주문</option>
 								</select>
 							</td>
 						</tr>

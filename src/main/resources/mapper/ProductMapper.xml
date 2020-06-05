@@ -3,10 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.javalec.ex.dao.ProductDao">
-	
 	<!-- 제품 전체 리스트  -->
 	<select id="getAllPList" resultType="com.javalec.ex.dto.ProductDto">
-		select * from product_tb order by p_num desc
+		select * from product_tb  where p_delflag = 'N' order by p_num desc
 	</select>
 
 	<!-- 제품 insert -->
@@ -27,4 +26,38 @@
 		p_thumb_img1=#{p_thumb_img1},p_thumb_img2=#{p_thumb_img2},p_thumb_img3=#{p_thumb_img3},p_content_img=#{p_content_img},p_update=sysdate where p_num = #{p_num}
 	</update>
 
+	<!-- 제품 삭제처리 -->
+	<update id="deleteProduct" parameterType="Integer">
+		update product_tb set p_delflag='Y' where p_num = #{p_num}
+	</update>
+	
+	<!-- 삭제된 제품 전체리스트 -->
+	<select id="getDelPList" resultType="com.javalec.ex.dto.ProductDto">
+		select * from product_tb  where p_delflag = 'Y' order by p_num desc
+	</select>
+	
+	<!-- 제품 복구처리 -->
+	<update id="backProduct" parameterType="Integer">
+		update product_tb set p_delflag='N' where p_num = #{p_num}
+	</update>
+	
+	<!-- 제품 리스트 검색 -->
+	<select id="getSearchList" parameterType="hashmap"  resultType="com.javalec.ex.dto.ProductDto" >
+        select * 
+		from product_tb 
+		where 
+		p_delflag = #{p_delflag} and
+		#{dateType}  between to_date(#{e_start_day},'yyyy/MM/dd') and to_date(#{e_end_day},'yyyy/MM/dd') and 
+        p_name like '%' ||#{p_name} || '%' and
+        p_step2 = #{p_step2}
+        
+	</select>
+	
+	<!-- ================================= 유저 ================================== -->
+	
+	<!-- 제품 전체 리스트  -->
+	<select id="getU_ProductList" parameterType="String" resultType="com.javalec.ex.dto.ProductDto">
+		select * from product_tb  where p_delflag = 'N' and p_step2= #{p_step2} order by p_num desc
+	</select>
+	
 </mapper>

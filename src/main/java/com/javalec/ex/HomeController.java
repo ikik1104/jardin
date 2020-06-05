@@ -33,7 +33,7 @@ public class HomeController {
 		
 		model.addAttribute("serverTime", formattedDate );
 		
-		return "event/event_view";
+		return "layout/main";
 	}
 	
 }

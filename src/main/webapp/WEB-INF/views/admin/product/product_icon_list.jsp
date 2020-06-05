@@ -119,7 +119,7 @@
 	</head>
 	<body>
 	<jsp:include page="../nav/admin_header.jsp"/>
-	<jsp:include page="../nav/board_nav.jsp"/>
+	<jsp:include page="../nav/product_nav.jsp"/>
 	<section>
 		<h1>아이콘 검색</h1>
 		<div id="main_list">

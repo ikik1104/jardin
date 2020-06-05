@@ -6,10 +6,9 @@
 			<a>상품<span id="s_icon" class="icon_minus"></span></a>
 			<div class="tes_list">
 				<ul>
-					<li><a href="#"><img src="admin/images/icon_title_left.png">상품 리스트</a></li>
-					<li><a href="#"><img src="admin/images/icon_title_left.png">상품 등록</a></li>
-					<li><a href="#"><img src="admin/images/icon_title_left.png">상품 아이콘 관리</a></li>
-					<li><a href="#"><img src="admin/images/icon_title_left.png">삭제 상품 관리</a></li>
+					<li><a href="product_list"><img src="admin/images/icon_title_left.png">상품 리스트</a></li>
+					<li><a href="product_insertForm"><img src="admin/images/icon_title_left.png">상품 등록</a></li>
+					<li><a href="product_delList"><img src="admin/images/icon_title_left.png">삭제 상품 관리</a></li>
 				</ul>
 			</div>
 		</div>
