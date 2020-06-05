@@ -702,9 +702,9 @@
 .finishbtn{display:inline-block; width:40px; height:20px; line-height:20px; font-size:12px; color:#fff; font-weight:600; text-align:center; background:url('../images/btn/btn_finish.png') left top no-repeat;}
 .finishbtn:hover{color:#fff;}
 .selectbtn{display:block; width:108px; height:28px; text-align:center; line-height:28px; color:#666; font-size:14px; font-weight:600; border:1px #d3d3d3 solid;}
-.selectbtn:hover{color:#666; text-decoration:none;}
+.selectbtn:hover{color:#666; text-decoration:none; cursor: pointer;}
 .selectbtn2{display:block; width:108px; height:28px; text-align:center; line-height:28px; color:#f7703c; font-size:14px; font-weight:600; border:1px #f7703c solid;}
-.selectbtn2:hover{color:#f7703c; text-decoration:none;}
+.selectbtn2:hover{color:#f7703c; text-decoration:none; cursor: pointer;}
 
 
 /* BTN WIDTH CHANGE */
@@ -734,8 +734,8 @@
 .cartarea{width:510px; margin:30px auto 0;}
 .cartarea li{float:left; width:160px; padding:0 5px;}
 .cartarea li a{display:block; width:100%; font-size:16px; color:#fff; text-align:center; font-weight:600; padding:16px 0; line-height:1.2;}
-.cartarea li a.ty1{background:#f7703c;}
-.cartarea li a.ty2{background:#5b524d;}
+.cartarea li a.ty1{background:#f7703c; cursor: pointer;}
+.cartarea li a.ty2{background:#5b524d; cursor: pointer;}
 .cartarea li a.ty3{width:158px; color:#666; background:#fff; border:1px #d3d3d3 solid; padding:15px 0;}
 
 .infobtn{width:100%; margin:44px 0 0 0;}

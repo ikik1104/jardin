@@ -16,7 +16,7 @@ public class MemberDto {
 	private String m_phone;     //휴대전화
 	private String m_sms_ok;     //sms 수신 여부
 	private String m_tel;     //유선전화
-	private Timestamp m_birth;     //생년월일
+	private String m_birth;     //생년월일
 	private String m_birth_sort;     //생일 양력/음력
 	private String m_level;     //회원 등급
 	private Timestamp m_last_login;     //마지막 로그인 날짜
@@ -30,7 +30,7 @@ public class MemberDto {
 
 	public MemberDto(int m_num, String m_name, String m_id, String m_pw, String m_email, String m_email_ok,
 			int m_zipcode, String m_address1, String m_address2, String m_phone, String m_sms_ok, String m_tel,
-			Timestamp m_birth, String m_birth_sort, String m_level, Timestamp m_last_login, String m_status,
+			String m_birth, String m_birth_sort, String m_level, Timestamp m_last_login, String m_status,
 			Timestamp m_left_date, String m_left_reason, Timestamp m_join_date, int m_point) {
 		super();
 		this.m_num = m_num;
@@ -159,11 +159,11 @@ public class MemberDto {
 		this.m_tel = m_tel;
 	}
 
-	public Timestamp getM_birth() {
+	public String getM_birth() {
 		return m_birth;
 	}
 
-	public void setM_birth(Timestamp m_birth) {
+	public void setM_birth(String m_birth) {
 		this.m_birth = m_birth;
 	}
 

@@ -27,13 +27,7 @@
 <script type="text/javascript" src="user/js/html5.js"></script>
 <script type="text/javascript" src="user/js/respond.min.js"></script>
 <![endif]-->
-<script type="text/javascript">
-$(document).ready(function() {
-	
 
-
-});
-</script>
 </head>
 <body>
 
@@ -222,55 +216,40 @@ $(document).ready(function() {
 								<th scope="col">합계</th>
 							</thead>
 							<tbody>
-								<tr>
-									<td class="left">
-										<p class="img"><img src="user/images/img/sample_product.jpg" alt="상품" width="66" height="66" /></p>
-
-										<ul class="goods">
-											<li>
-												<a href="#">쟈뎅 오리지널 콜롬비아 페레이라 원두커피백 15p</a>
-											</li>
-										</ul>
-									</td>
-									<td class="tnone">
-										123,400 원
-
-										<!-- 회원일 시 -->
-										<br/><span class="pointscore">1,234 Point</span>
-										<!-- //회원일 시 -->
-									</td>
-									<td>1 개</td>
-									<td>123,400 원</td>
-								</tr>
-								
-								<tr>
-									<td class="left">
-										<p class="img"><img src="user/images/img/sample_product.jpg" alt="상품" width="66" height="66" /></p>
-
-										<ul class="goods">
-											<li>
-												<a href="#">가나다라마바사아자차카타파하 가나다라마바사아자차카타파하 가나다라마바사아자차카타파하</a>
-											</li>
-										</ul>
-									</td>
-									<td class="tnone">
-										123,400 원
-
-										<!-- 회원일 시 -->
-										<br/><span class="pointscore">1,234 Point</span>
-										<!-- //회원일 시 -->
-									</td>
-									<td>1 개</td>
-									<td>123,400 원</td>
-								</tr>
+								<c:forEach var="cartlist" items="${cartlist }" >
+									<tr>
+										<td class="left">
+											<p class="img"><img src="user/images/img/sample_product.jpg" alt="상품" width="66" height="66" /></p>
+	
+											<ul class="goods">
+												<li>
+													<a href="detail?p_num=${cartlist.pDto.p_num }">${cartlist.pDto.p_name }</a>
+												</li>
+											</ul>
+										</td>
+										<td class="tnone">
+											${cartlist.pDto.p_price } 원
+	
+											<!-- 회원일 시 -->
+											<br/><span class="pointscore">${cartlist.pDto.p_point } Point</span>
+											<!-- //회원일 시 -->
+										</td>
+										<td>${cartlist.ca_amount }</td>
+										<td>${cartlist.pDto.p_price * cartlist.ca_amount }원</td>
+									</tr>
+									<c:set var="sum" value="${sum + cartlist.pDto.p_price * cartlist.ca_amount }"/>
+								</c:forEach>
 							</tbody>
 						</table>
 					</div>
 					<div class="poroductTotal">
 						<ul>	
-							<li>상품 합계금액 <strong>1,132,310</strong> 원</li>
-							<li>+ 배송비 <strong>2,500</strong> 원</li>
-							<li>= 총 합계 <strong>1,134,810</strong> 원</li>
+							<li>상품 합계금액 <strong>${sum }</strong> 원</li>
+							<li>+ 배송비 <strong>
+								<c:if test="${sum < 30000 }"><c:set var="del_price" value ="30000" />${del_price }</c:if>
+								<c:if test="${sum >= 30000 }"><c:set var="del_price" value ="0" />${del_price }</c:if>
+							</strong> 원</li>
+							<li>= 총 합계 <strong>${sum + del_price }</strong> 원</li>
 						</ul>
 					</div>
 					<!-- //주문 상품 -->
@@ -508,11 +487,11 @@ $(document).ready(function() {
 							<tbody>
 								<tr>
 									<th scope="row"><span>총 주문금액</span></th>
-									<td>1,132,310 원</td>
+									<td>${sum }원</td>
 								</tr>
 								<tr>
 									<th scope="row"><span>배송비</span></th>
-									<td>2,500 원 (선불)</td>
+									<td>${del_price }(선불)</td>
 								</tr>
 								<tr>
 									<th scope="row"><span>쿠폰 할인</span></th>
@@ -539,7 +518,7 @@ $(document).ready(function() {
 											</li>
 											<li>
 												<span class="valign">( 사용 가능 포인트 : </span>
-												<span class="orange">15,000</span>
+												<span class="orange">${memDto.m_point }</span>
 												<span class="valign"> Point)</span>
 											</li>
 										</ul>

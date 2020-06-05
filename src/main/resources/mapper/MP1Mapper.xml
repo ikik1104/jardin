@@ -39,5 +39,24 @@
 		select p.p_num, p_thumb_img1, p_name, p_price, p_point, ca_num, m_num, ca_amount from product_tb p ,cart_tb c where c.m_num = #{param1} and c.p_num = p.p_num
 	</select>
 
+	<!-- 회원 장바구니 제품 1개 삭제   -->
+	<delete id="cart_del">
+		delete from cart_tb where p_num=#{param1} and m_num=#{param2}
+	</delete>
+	
+	<!-- 회원 장바구니 제품 업데이트 -->
+	<update id="cartUpdate">
+		update cart_tb set ca_amount=#{param3}, ca_sysdate=sysdate where p_num=#{param2} and m_num=#{param1}
+	</update>
+	
+	<!-- 주문하기로 넘어가는 제품 payment_cart_tb에 삽입 -->
+	<insert id="paymentCart">
+		insert into payment_cart_tb values(#{param1}, #{param2}, #{param3})
+	</insert>
+	
+	<!-- payment_cart_tb 비우기 -->
+	<delete id="delPaymentCart">
+		delete from payment_cart_tb where m_num=#{param1}
+	</delete>
 
 </mapper>

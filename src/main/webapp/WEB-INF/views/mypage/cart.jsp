@@ -23,16 +23,192 @@
 <script type="text/javascript" src="user/js/jquery.easing.1.3.js"></script>
 <script type="text/javascript" src="user/js/idangerous.swiper-2.1.min.js"></script>
 <script type="text/javascript" src="user/js/jquery.anchor.js"></script>
+<script type="text/javascript" src="admin/js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <!--[if lt IE 9]>
 <script type="text/javascript" src="user/js/html5.js"></script>
 <script type="text/javascript" src="user/js/respond.min.js"></script>
 <![endif]-->
 <script type="text/javascript">
-$(document).ready(function() {
+
+	$(document).ready(function() {
+		
+		// 체크박스 
+		$("#checkAll").click(function(){
+			// 전체 선택 체크박스가 체크된 상태일 경우
+			if($('#checkAll').prop('checked')){
+				// 해당 화면에 있는 모든 checkbox들 체크
+				$('input[name=chk]:checkbox').each(function(){
+					$(this).prop('checked', true);
+				});
+				// 전체 선택 체크박스 해제된 경우
+			}else{
+				// 해당 화면에 있는 모든 checkbox들 체크 해제
+				$('input[name=chk]:checkbox').each(function(){
+					$(this).prop('checked', false);
+				});
+			}
+		});
+		
+		$(".chk").click(function(){
+			var checkboxLength = $('input:checkbox[name="chk"]').length;
+			var checkedLength = $('input:checkbox[name="chk"]:checked').length;
+			if(checkboxLength == checkedLength){
+				$('#checkAll').prop('checked', true);
+			}else {
+				$('#checkAll').prop('checked', false);
+			}
+			
+		});
+		
+		// 전체 선택 버튼 클릭 시, 
+		$("#selectbtn").click(function(){
+				// 해당 화면에 있는 모든 checkbox들 체크
+				$('#checkAll').prop('checked', true);
+				$('input[name=chk]:checkbox').each(function(){
+					$(this).prop('checked', true);
+				});
+		});
 	
+	});
+	
+	
+	// 수량 변경에 따른 해당 제품 총합계, 총 적립 마일리지 변경
+	function ch1(price, num){
+		var id = document.getElementById("ipt_"+num);
+		$('#td1_'+num).text(price * id.value+"원");
+		var total_price = 0;
+		var productNum= $('input:checkbox[name="chk"]').length;
+		for(var i=0; i<productNum; i++){
+			var p_price1 = $('.td1').eq(i).text()
+			var p_price2 = p_price1.substring(0,(p_price1.length-1));
+			total_price += Number(p_price2);
+		}
+		$('#sum1').text(total_price);
+		
+		if(total_price>=30000){
+			$('#del_price').text("0");
+		}else{
+			$('#del_price').text("3000");
+		}
+		var deliv_price = Number($('#del_price').text());
+		var final_price = total_price + deliv_price;
+		$('#sum2').text(final_price);
+		var total_point = total_price * 0.01;
+		$('#total_m').text(total_point);
+	}	
+	
+	// 선택한 제품 장바구니에서 삭제
+    function cart_del(p_num, m_num) {
 
+    	var arrData = [p_num, m_num]; 
+    	
+        if(confirm("제품을 장바구니에서 삭제하시겠습니까?")){
+           
+        	$.ajax({
+                url : "cart_del",
+                method : "POST",
+                data: JSON.stringify(arrData),
+                dataType : "json",
+                contentType: "application/json",
+                success : function(val){
+                   if(val == 1){
+                      location.reload();
+                   }
+                },
+                error : function(){
+                   alert("서버통신실패");
+                }
+             });
+        }
+     }
+	
+    // 체크한 제품 한 번에 삭제
+    function chk_del(m_num){
+		if(confirm("선택하신 제품을 장바구니에서 삭제하시겠습니까?")){
+			$("input[name=chk]:checked").each(function(){
+		  		var chk_value =$(this).attr('id');  //id = chk_${p_num}
+		    	var p_num = parseInt(chk_value.substring(4,chk_value.length));
+		    	var arrData = [p_num, m_num]
+		    	$.ajax({
+		        	type:"POST",
+		        	url : "cart_del",
+		        	data: JSON.stringify(arrData),
+		         	contentType: "application/json",
+		            success : function(data){
+		                        if(data == 1){
+		                           location.reload();
+		                        }
+		                      },
+		            error:function(){
+		                   alert("서버통신실패");
+		            }
+		        });
+			});
+		}
+	}
+    
+    // 전체상품 주문하기
+    function orderAll(m_num){
+    	// 전체상품 주문하기 버튼 클릭 시, 모든 상품의 체크박스 checked
+    	$('#checkAll').prop('checked', true);
+		$('input[name=chk]:checkbox').each(function(){
+			$(this).prop('checked', true);
+		});
+	
+    	$('input:checkbox[name=chk]:checked').each(function(){
+    		var chk_value =$(this).attr('id');  //id = chk_${p_num}
+    		var p_num = parseInt(chk_value.substring(4,chk_value.length));
+	    	var	p_amt = $('#ipt_'+p_num).val();
+			var arrData = [m_num, p_num, p_amt];
+			
+		$.ajax({
+	        	type:"POST",
+	        	url : "cartUpdate",
+	        	data: JSON.stringify(arrData),
+	         	contentType: "application/json",
+	            success : function(data){
+	                        if(data == 1){
+		    	       	}
+		        	  },
+			error:function(){
+					alert("서버통신실패");
+				  }
+		});
+	});
+    	location.href="payment?m_num="+m_num;
+    }
 
-});
+    
+ // 선택상품 주문하기
+    function orderSel(m_num){
+
+    	$('input:checkbox[name=chk]:checked').each(function(){
+    		var chk_value =$(this).attr('id');  //id = chk_${p_num}
+    		var p_num = parseInt(chk_value.substring(4,chk_value.length));
+	    	var	p_amt = $('#ipt_'+p_num).val();
+			var arrData = [m_num, p_num, p_amt];
+			
+		$.ajax({
+	        	type:"POST",
+	        	url : "cartUpdate",
+	        	data: JSON.stringify(arrData),
+	         	contentType: "application/json",
+	            success : function(data){
+	                        if(data == 1){
+		    	       	}
+		        	  },
+			error:function(){
+					alert("서버통신실패");
+				  }
+		});
+	});
+    	window.location.href="payment?m_num="+m_num;
+   
+    }
+    
+
+    
 </script>
 </head>
 <body>
@@ -244,7 +420,7 @@ $(document).ready(function() {
 							<col width="14%" class="tnone" />
 							</colgroup>
 							<thead>
-								<th scope="col"><input type="checkbox" /></th>
+								<th scope="col"><input type="checkbox" id="checkAll" /></th>
 								<th scope="col">상품명</th>
 								<th scope="col" class="tnone">가격/포인트</th>
 								<th scope="col">수량</th>
@@ -254,23 +430,23 @@ $(document).ready(function() {
 							<tbody>
 								<c:forEach var="cartlist" items="${cartlist }">
 								<tr>
-									<td><input type="checkbox" /></td>
+									<td><input type="checkbox" class="chk" name="chk" id="chk_${cartlist.pDto.p_num }"/></td>
 									<td class="left">
 										<p class="img"><img src="user/images/img/sample_product.jpg" alt="상품" width="66" height="66" /></p>
 
 										<ul class="goods">
 											<li>
-												<a href="#">${cartlist.pDto.p_name }</a>
+												<a href="detail?p_num=${cartlist.pDto.p_num }">${cartlist.pDto.p_name }</a>
 											</li>
 										</ul>
 									</td>
 									<td class="tnone">${cartlist.pDto.p_price } 원<br/><span class="pointscore">${cartlist.pDto.p_point } Point</span></td>
-									<td><input class="spinner" value="${cartlist.ca_amount }" maxlength="3" /></td>
-									<td>${cartlist.pDto.p_price * cartlist.ca_amount  }원</td>
+									<td><input id="ipt_${cartlist.pDto.p_num}" class="spinner" onblur="ch1(${cartlist.pDto.p_price }, ${cartlist.pDto.p_num})" value="${cartlist.ca_amount }" maxlength="3" /></td>
+									<td class="td1" id="td1_${cartlist.pDto.p_num}">${cartlist.pDto.p_price * cartlist.ca_amount  }원</td>
 									<td class="tnone">
 										<ul class="order">	
 											<li><a href="#" class="obtnMini iw70">바로구매</a></li>
-											<li><a href="#" class="nbtnMini iw70">상품삭제</a></li>
+											<li><a href="#" onclick="cart_del(${cartlist.pDto.p_num }, ${memDto.m_num })" class="nbtnMini iw70">상품삭제</a></li>
 										</ul>
 									</td>
 								</tr>
@@ -284,9 +460,9 @@ $(document).ready(function() {
 					<div class="btnArea">
 						<div class="bRight">
 							<ul>
-								<li><a href="#" class="selectbtn">전체선택</a></li>
-								<li><a href="#" class="selectbtn2">선택수정</a></li>
-								<li><a href="#" class="selectbtn2">선택삭제</a></li>
+								<li><a id="selectbtn" class="selectbtn">전체선택</a></li>
+<!-- 								<li><a href="#" class="selectbtn2">선택수정</a></li> -->
+								<li><a id="selectbtn2" class="selectbtn2" onclick="chk_del(${memDto.m_num })">선택삭제</a></li>
 							</ul>
 						</div>
 					</div>
@@ -299,11 +475,11 @@ $(document).ready(function() {
 						<ul class="info">
 							<li>
 								<span class="title">상품 합계금액</span>
-								<span class="won"><strong><c:out value="${sum }"/></strong> 원</span>
+								<span class="won"><strong id="sum1">${sum }</strong> 원</span>
 							</li>
 							<li>
 								<span class="title">배송비</span>
-								<span class="won"><strong>
+								<span id="del_price" class="won"><strong>
 									<c:if test="${sum < 30000 }">
 										<c:out value="3000"/>
 									</c:if>
@@ -314,17 +490,17 @@ $(document).ready(function() {
 							</li>
 						</ul>
 						<ul class="total">
-							<li class="mileage">(적립 마일리지 <strong><c:out value="${sumpoint }"/></strong> Point) </li>
+							<li class="mileage">(적립 마일리지 <strong id="total_m"><c:out value="${sumpoint }"/></strong> Point) </li>
 							<li class="txt"><strong>결제 예정 금액</strong></li>
-							<li class="money"><span><c:out value="${sum }"/></span> 원</li>
+							<li class="money"><span id="sum2">${sum }</span> 원</li>
 						</ul>
 					</div>
 					<!-- //총 주문금액 -->
 
 					<div class="cartarea">
 						<ul>
-							<li><a href="#" class="ty1">선택상품 <span>주문하기</span></a></li>
-							<li><a href="#" class="ty2">전체상품 <span>주문하기</span></a></li>
+							<li><a class="ty1" onclick="orderSel(${memDto.m_num })">선택상품 <span>주문하기</span></a></li>
+							<li><a class="ty2" onclick="orderAll(${memDto.m_num })">전체상품 <span>주문하기</span></a></li>
 							<li class="last"><a href="#" class="ty3">쇼핑 <span>계속하기</span></a></li>
 						</ul>
 					</div>

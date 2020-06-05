@@ -39,4 +39,30 @@ public class MP1ServiceImpl implements MP1Service {
 		return mp1Dao.getAllCart(m_num);
 	}
 
+	// 장바구니에서 제품 삭제
+	@Override
+	public int cart_del(int p_num, int m_num) {
+		return mp1Dao.cart_del(p_num, m_num);
+	}
+	// 장바구니 업데이트 
+	@Override
+	public int cartUpdate(int m_num, int p_num, int p_amt) {
+	
+		return mp1Dao.cartUpdate(m_num, p_num, p_amt);
+	}
+
+	// 주문하기로 넘어가는 제품 payment_cart_tb에 삽입 
+	@Override
+	public int paymentCart(int m_num, int p_num, int p_amt) {
+		
+		return mp1Dao.paymentCart(m_num, p_num, p_amt);
+		
+	}
+	
+	//  payment_cart_tb 비우기
+	@Override
+	public int delPaymentCart(int m_num) {
+		return mp1Dao.delPaymentCart(m_num);
+	}
+	
 }
