@@ -78,4 +78,9 @@
 		update mtm_inqury_user_tb set iu_status='답변대기' where iu_num=#{iu_num}
 	</update>
 
+	<!-- 1:1문의 답변 1개 수정 -->
+	<update id="modifyAnswerBoard">
+		update mtm_inqury_answer_tb set ia_content=#{ia_content} where ia_num=#{ia_num}
+	</update>
+
 </mapper>

@@ -35,4 +35,7 @@ public interface ADBMtmDao {
 	//1:1 문의 답변상태 '답변대기'로 변경
 	int updateStatusWait(int iu_num);
 	
+	//1:1문의 답변 1개 수정
+	int modifyAnswerBoard(MtmAnswerDto mtmAnswerDto);
+	
 }

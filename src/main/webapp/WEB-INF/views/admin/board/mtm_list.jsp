@@ -125,14 +125,28 @@
 	<jsp:include page="../nav/admin_header.jsp"/>
 	<jsp:include page="../nav/board_nav.jsp"/>
 	<section>
-		<h1>1:1문의 리스트</h1>
+		<h1>1:1문의 관리</h1>
 		<div id="main_list">
 			<div id="main_user_list">
-				<h2>임시로 놔두기</h2>
+				<h2>게시글 검색</h2>
 				<div class="list_count">임시로 놔두기(총 게시물 수 등등 표시?)</div>
 				<div id="search_form">
 					<form name="inputform" method="get" onsubmit="return false;">
 					<table border="1">
+						<tr id="search_date">
+							<td>등록일</td>
+							<td>
+							<fmt:formatDate var="sys" value="${sysdate}" pattern="yyyy-MM-dd"/>
+							<input type="date" name="e_start_day" id="e_start_day" onchange="date_chk2()"> ~ 
+							<input type="date" name="e_end_day" id="e_end_day" value="${sys}" onchange="date_chk2()">
+							<button type="button" onclick="search_date('today')">오늘</button>
+							<button type="button" onclick="search_date('7day')">7일</button>
+							<button type="button" onclick="search_date('15day')">15일</button>
+							<button type="button" onclick="search_date('1month')">1개월</button>
+							<button type="button" onclick="search_date('3month')">3개월</button>
+							<button type="button" onclick="search_date('all')">전체</button>
+							</td>
+						</tr>
 						<tr>
 							<td>검색어</td>
 							<td><select name="keysort">
@@ -144,24 +158,6 @@
 							</td>
 						</tr>
 						
-						<tr id="search_date">
-							<td>기간검색</td>
-							<td>
-							<fmt:formatDate var="sys" value="${sysdate}" pattern="yyyy-MM-dd"/>
-							<select name="****미정****" >
-								<option>등록일</option>
-								<option>수정일</option>
-							</select>
-							<input type="date" name="e_start_day" id="e_start_day" onchange="date_chk2()"> ~ 
-							<input type="date" name="e_end_day" id="e_end_day" value="${sys}" onchange="date_chk2()">
-							<button type="button" onclick="search_date('today')">오늘</button>
-							<button type="button" onclick="search_date('7day')">7일</button>
-							<button type="button" onclick="search_date('15day')">15일</button>
-							<button type="button" onclick="search_date('1month')">1개월</button>
-							<button type="button" onclick="search_date('3month')">3개월</button>
-							<button type="button" onclick="search_date('all')">전체</button>
-							</td>
-						</tr>
 						<tr>
 							<td>답변상태</td>
 							<td><select name="status">
@@ -198,7 +194,7 @@
 								<a href="mtm_view?m_id=${mtm_list.memDto.m_id }&rownum=${mtm_list.rownum }&iu_num=${mtm_list.iu_num}
 								&iu_title=${mtm_list.iu_title}&iu_content=${mtm_list.iu_content}&iu_sort=${mtm_list.iu_sort}&iu_date=${mtm_list.iu_date}
 								&iu_status=${mtm_list.iu_status}&iu_img=${mtm_list.iu_img}"> 
-									${mtm_list.iu_title }${mtm_list.iu_num }
+									${mtm_list.iu_title }
 								</a>
 							</td>
 							<td>${mtm_list.iu_sort }</td>

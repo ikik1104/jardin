@@ -67,7 +67,10 @@ public class ADBServiceImp implements ADBService {
 		return result;
 	}
 	
-	
+	//1:1문의 답변 1개 수정
+	public int modifyAnswerBoard(MtmAnswerDto mtmAnswerDto) {
+		return adbmtmdao.modifyAnswerBoard(mtmAnswerDto);
+	}
 
 	
 

@@ -2,8 +2,8 @@ package com.javalec.ex.dto;
 
 public class AllDto {
 
-	MtmAnswerDto mtmanswerdto;
-	AdminDto admindto;
+	private MtmAnswerDto mtmanswerdto;
+	private AdminDto admindto;
 	
 	public MtmAnswerDto getMtmanswerdto() {
 		return mtmanswerdto;

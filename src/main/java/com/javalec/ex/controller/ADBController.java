@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.javalec.ex.dto.AdminDto;
 import com.javalec.ex.dto.AllDto;
 import com.javalec.ex.dto.MtmAnswerDto;
 import com.javalec.ex.dto.MtmUserDto;
@@ -60,11 +61,10 @@ public class ADBController {
 	//1:1 답변 1개 작성
 	@PostMapping("mtm_answer_write")
 	public String mtm_answer_write(MtmAnswerDto mtmAnswerDto, Model model){
-		System.out.println("넘어는..왔니?");
 		int success = adbservice.insertAnswerBoard(mtmAnswerDto);
 		String alerttext="";
 		switch(success) {
-		case 0 : alerttext="alert('답변을 등록하지 못했습니다. 다시 시도해 주세요.');"; break;
+		case 0 : alerttext="alert('답변을 등록하지 못했습니다. 다시 시도해 주세요.'); history.go(-1);"; break;
 		case 1 : alerttext="alert('답변을 등록했습니다.'); location.href='mtm_list?rownum="+mtmAnswerDto.getRownum()+"';"; break;
 		}//switch
 		model.addAttribute("alerttext", alerttext);
@@ -78,5 +78,28 @@ public class ADBController {
 		int success = adbservice.deleteAnswerBoard(arrNum[0], arrNum[2]);		
 		return success;
 	}	
+	
+	//1:1문의 답변 수정
+	@RequestMapping("mtm_answer_modify")
+	public String mtm_answer_modify
+	(MtmAnswerDto mtmAnswerDto, Model model) {
+		int success = adbservice.modifyAnswerBoard(mtmAnswerDto);
+		String alerttext="";
+		switch(success) {
+		case 0 : alerttext="alert('답변을 수정하지 못했습니다. 다시 시도해 주세요.'); history.go(-1);"; break;
+		case 1 : alerttext="alert('답변을 수정했습니다.'); location.href='mtm_list?rownum="+mtmAnswerDto.getRownum()+"';"; break;
+		}//switch
+		model.addAttribute("alerttext", alerttext);
+		return "admin/board/mtm_view";		
+	}
+	
+	//공지사항 리스트 불러오기
+	//notice_list
+	
+	//공지사항 글등록
+	//notice_write
+	
+	//공지사항 글수정
+	//notice_modify
 
 }
