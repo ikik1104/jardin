@@ -8,7 +8,7 @@
 </head>
 <body>
 <h2>로그인 됨</h2>
-<% session.setAttribute("adNum", "1"); 
+<% session.setAttribute("adNum", 1); 
 session.setAttribute("adminId", "inquiryadmin");
 session.setAttribute("adminGrade", "문의담당자");%>
 

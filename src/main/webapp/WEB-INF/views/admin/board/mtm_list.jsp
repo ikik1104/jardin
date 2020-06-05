@@ -184,6 +184,7 @@
 							<th>작성자</th>
 							<th>등록일</th>
 							<th>답변상태</th>
+							
 							<th>답변/삭제</th>
 						</tr>
 						<c:forEach var="mtm_list" items="${mtm_list }">

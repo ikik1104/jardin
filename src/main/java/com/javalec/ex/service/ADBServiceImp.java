@@ -13,6 +13,7 @@ import com.javalec.ex.dto.BDto;
 import com.javalec.ex.dto.MemberDto;
 import com.javalec.ex.dto.MtmAnswerDto;
 import com.javalec.ex.dto.MtmUserDto;
+import com.javalec.ex.dto.NoticeDto;
 
 @Service
 public class ADBServiceImp implements ADBService {
@@ -72,6 +73,17 @@ public class ADBServiceImp implements ADBService {
 		return adbmtmdao.modifyAnswerBoard(mtmAnswerDto);
 	}
 
+	//공지사항 전체 리스트 불러오기	
+	@Override
+	public List<AllDto> getAllNoticeBoards() {
+		return adbmtmdao.getAllNoticeBoards();
+	}
+
+	//공지사항 새글 1개 등록
+	@Override
+	public int insertNoticeBoard(NoticeDto noticeDto) {
+		return adbmtmdao.insertNoticeBoard(noticeDto);
+	}
 	
 
 	

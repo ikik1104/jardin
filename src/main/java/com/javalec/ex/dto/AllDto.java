@@ -4,6 +4,7 @@ public class AllDto {
 
 	private MtmAnswerDto mtmanswerdto;
 	private AdminDto admindto;
+	private NoticeDto noticedto;
 	
 	public MtmAnswerDto getMtmanswerdto() {
 		return mtmanswerdto;
@@ -16,6 +17,12 @@ public class AllDto {
 	}
 	public void setAdmindto(AdminDto admindto) {
 		this.admindto = admindto;
+	}
+	public NoticeDto getNoticedto() {
+		return noticedto;
+	}
+	public void setNoticedto(NoticeDto noticedto) {
+		this.noticedto = noticedto;
 	}
 	
 	

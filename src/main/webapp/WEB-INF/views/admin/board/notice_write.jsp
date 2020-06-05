@@ -19,6 +19,12 @@
 					fCreator: 'createSEditor2' 
 					}); 
 				}); 
+		
+		//공지글을 등록/수정하면 다시 이 페이지로 돌아와 alert을 띄움
+		window.onload=function(){
+			${alerttext}
+		}
+		
 		</script>
 		<style type="text/css">
 			#input_form{
@@ -42,26 +48,28 @@
 	<jsp:include page="../nav/board_nav.jsp"/>
 	<section>
 		<h1>공지사항 입력</h1>
-			<form action="" name="inputform" method="get">
+			<form action="notice_insert" name="inputform" method="post">
 				<div id="input_form">
 					<table border="1">
 						<tr>
 							<td>글 제목</td>
-							<td><input type="text" name="글제목"></td>
+							<td><input type="text" name="no_title"></td>
 						</tr>
 						<tr>
 							<td>작성자</td>
-							<td><input type="text" name="ad DB관리자 명?or임의로 넣기 orDB에 안넣기?"></td>
+							<td>${adminGrade }(${adminId })</td>
 						</tr>
 						<tr>
 							<td>글 내용</td>
-							<td><textarea name="글내용" id="smartEditor" style="width:100%; height: 412px;"></textarea></td>
+							<td><textarea name="no_content" id="smartEditor" style="width:100%; height: 412px;"></textarea></td>
 						</tr>
 					</table>
 					<div id="btn_div">
-						<button type="button" onclick="location.href="입력전페이지 이동">취소</button>
-						<button type="button" onclick="location.href="유효성 검사">등록</button>
+						<button type="button" onclick="location.href='notice_list?rownum=${rownum}'">목록</button>
+						<button type="submit" >등록</button>
 					</div>
+					<input type="hidden" value="${rownum }" name="rownum">
+					<input type="hidden" value="${adNum }" name="ad_num">					
 				</div>
 			</form>
 	</section>

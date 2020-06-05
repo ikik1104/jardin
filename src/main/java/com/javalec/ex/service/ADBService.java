@@ -8,6 +8,7 @@ import com.javalec.ex.dto.BDto;
 import com.javalec.ex.dto.MemberDto;
 import com.javalec.ex.dto.MtmAnswerDto;
 import com.javalec.ex.dto.MtmUserDto;
+import com.javalec.ex.dto.NoticeDto;
 
 public interface ADBService {
 	
@@ -28,5 +29,11 @@ public interface ADBService {
 	
 	//1:1문의 답변 1개 수정
 	int modifyAnswerBoard(MtmAnswerDto mtmAnswerDto);
+	
+	//공지사항 전체 리스트 불러오기
+	List<AllDto> getAllNoticeBoards();
+
+	//공지사항 새 글 1개 등록
+	int insertNoticeBoard(NoticeDto noticeDto); 
 	
 }

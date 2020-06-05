@@ -4,11 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.javalec.ex.dao.ADBMtmDao">
 
-	<!--  1:1문의 전체 리스트 불러오기-->
-	<resultMap type="com.javalec.ex.dto.MemberDto" id="MemberDto">
-	    <result column="m_id" property="m_id"/>
-	</resultMap>
-	
+	<!-- Dto 객체 선언 -->
 	<resultMap type="com.javalec.ex.dto.MtmUserDto" id="MtmUserDto">
 	    <result column="rownum" property="rownum"/>	
 	    <result column="iu_title" property="iu_title"/>
@@ -22,7 +18,42 @@
 	    
 	    <collection property="memDto" resultMap="MemberDto"/>	    
 	</resultMap>
-
+	
+	<resultMap type="com.javalec.ex.dto.MemberDto" id="MemberDto">
+	    <result column="m_id" property="m_id"/>
+	</resultMap>
+	
+		<resultMap type="com.javalec.ex.dto.AdminDto" id="AdminDto">
+	    <result column="ad_num" property="ad_num"/>
+	    <result column="ad_id" property="ad_id"/>	 
+	    <result column="ad_pw" property="ad_pw"/>
+	    <result column="ad_name" property="ad_name"/> 	     	      
+	    <result column="ad_grade" property="ad_grade"/>  		      
+	</resultMap>
+	
+	<resultMap type="com.javalec.ex.dto.MtmAnswerDto" id="MtmAnswerDto">
+	    <result column="ia_num" property="ia_num"/>
+	    <result column="ia_content" property="ia_content"/>
+	    <result column="ia_date" property="ia_date"/>    
+	</resultMap>
+	
+	<resultMap type="com.javalec.ex.dto.AllDto" id="AllDto">
+		<collection property="admindto" resultMap="AdminDto"/>	     
+	    <collection property="mtmanswerdto" resultMap="MtmAnswerDto"/>	  
+	    <collection property="noticedto" resultMap="NoticeDto"/>	    	     
+	</resultMap>	
+		
+	<resultMap type="com.javalec.ex.dto.NoticeDto" id="NoticeDto">
+	    <result column="rownum" property="rownum"/>		
+	    <result column="no_num" property="no_num"/>	      	    
+	    <result column="ad_num" property="ad_num"/>	
+	    <result column="no_title" property="no_title"/>	
+	    <result column="no_content" property="no_content"/>	
+	    <result column="no_date" property="no_date"/>	
+	    <result column="no_hit" property="no_hit"/>		
+	</resultMap>
+	
+	<!--  1:1문의 전체 리스트 불러오기-->
 	<select id="getAllBoards" resultMap="MtmUserDto">
 		select rownum, mem.m_id, iu_title, iu_date, iu_status, iu_num, iu_sort, iu_content, iu_img
 		from mtm_inqury_user_tb mtm, member_tb mem 
@@ -35,23 +66,6 @@
 	</delete>	
 	
 	<!-- 1:1 답변 1개 불러오기 -->
-	<resultMap type="com.javalec.ex.dto.AdminDto" id="AdminDto">
-	    <result column="ad_num" property="ad_num"/>
-	    <result column="ad_id" property="ad_id"/>	   
-	    <result column="ad_grade" property="ad_grade"/>  	      
-	</resultMap>
-	
-	<resultMap type="com.javalec.ex.dto.MtmAnswerDto" id="MtmAnswerDto">
-	    <result column="ia_num" property="ia_num"/>
-	    <result column="ia_content" property="ia_content"/>
-	    <result column="ia_date" property="ia_date"/>    
-	</resultMap>
-	
-	<resultMap type="com.javalec.ex.dto.AllDto" id="AllDto">
-		<collection property="admindto" resultMap="AdminDto"/>	     
-	    <collection property="mtmanswerdto" resultMap="MtmAnswerDto"/>	    
-	</resultMap>	
-	
 	<select id="getAnswerBoard" resultMap="AllDto">
 		select ia_num, ia_content, ia_date, ad.ad_num, ad.ad_id, ad.ad_grade 
 		from mtm_inqury_answer_tb mtm, admin_tb ad
@@ -83,4 +97,16 @@
 		update mtm_inqury_answer_tb set ia_content=#{ia_content} where ia_num=#{ia_num}
 	</update>
 
+	<!-- 공지사항 전체 리스트 불러오기 -->
+
+	<select id="getAllNoticeBoards" resultMap="AllDto">
+		select rownum, ad_id, ad_grade, ad.ad_num, no_num, no_title, no_content, no_date, no_hit 
+		from admin_tb ad, notice_tb no where ad.ad_num=no.ad_num order by no_num desc
+	</select>	
+
+	<!-- 공지사항 새글 1개 등록 -->
+	<insert id="insertNoticeBoard">
+		insert into notice_tb values(n_seq.nextval,#{ad_num},#{no_title}, 
+		#{no_content}, sysdate, 0)
+	</insert>	
 </mapper>
