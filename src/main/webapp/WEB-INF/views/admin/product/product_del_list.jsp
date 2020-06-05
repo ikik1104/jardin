@@ -10,9 +10,6 @@
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
 		<link rel="stylesheet" type="text/css" href="admin/css/admin_main.css">
-		<script type="text/javascript" src="admin/js/jquery-3.4.1.min.js"></script>
-        <script type="text/javascript" src="admin/js/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="admin/js/prefixfree.dynamic-dom.min.js"></script>
 		<style type="text/css">
 			
 			#search_form table{
@@ -30,7 +27,32 @@
 			}
 		</style>
 		<script type="text/javascript">
-
+		function backProduct(num){
+			
+			if(confirm("해당 상품을 복구처리 하시겠습니까? (제품 수정은 복구시 가능합니다.)")){
+				$.ajax({
+				      url : "product_back",
+				      method : "POST",
+				      data: JSON.stringify(num),
+				      dataType : "json",
+				      contentType: "application/json",
+				      success : function(val){
+				    	  if(val == 1){ //리턴값이 1이면 (=성공)
+					         alert("복구처리 완료되었습니다.");
+// 							location.href="product_list";
+					         location.reload(); //페이지 새로고침
+				    	  }else{ // 0이면 실패
+				    		  alert("복구 실패.");
+				    	  }
+				      },
+				      error : function(){
+				         alert("서버통신실패");
+				      }
+				   });
+			}
+			 
+		}
+		
 		function date_chk2(){
 			var start = inputform.e_start_day.value;
 			var end = inputform.e_end_day.value;
@@ -90,6 +112,7 @@
 			}
 		}
 		
+		//step1선택에 따른 step2띄워주기
 		function aa(val) {
 			var step2= document.getElementsByClassName("step2");
 			
@@ -119,9 +142,9 @@
 	</head>
 	<body>
 	<jsp:include page="../nav/admin_header.jsp"/>
-	<jsp:include page="../nav/board_nav.jsp"/>
+	<jsp:include page="../nav/product_nav.jsp"/>
 	<section>
-		<h1>삭제 상품 리스트</h1>
+		<h1>삭제된 제품 리스트</h1>
 		<div id="main_list">
 			<div id="main_user_list">
 				<h2>임시로 놔두기</h2>
@@ -132,8 +155,9 @@
 						<tr>
 							<td>검색어</td>
 							<td><select name="">
-								<option>상품명</option>
-								<option>상품코드</option>
+								<option>아이디</option>
+								<option>글제목</option>
+								<option>글내용</option>
 							</select>
 							<input type="text" name="검색키워드">
 							</td>
@@ -143,7 +167,6 @@
 							<td>
 							<fmt:formatDate var="sys" value="${sysdate}" pattern="yyyy-MM-dd"/>
 							<select name="****미정****" >
-								<option>삭제일</option>
 								<option>등록일</option>
 								<option>수정일</option>
 							</select>
@@ -158,6 +181,46 @@
 							</td>
 						</tr>
 						<tr>
+							<td>분류</td>
+							<td>
+							<select name="step1" onchange="aa(this.value)">
+								<option value="원두">원두</option>
+								<option value="원두커피백">원두커피백</option>
+								<option value="인스턴트">인스턴트</option>
+								<option value="커피용품">커피용품</option>
+								<option value="선물세트">선물세트</option>
+								<option value="대량구매">대량구매</option>
+							</select>
+							
+							<select name="step2" id="원두" class="step2" style="display: inline;">
+								<option value="">클래스</option>
+								<option value="">로스터리샵</option>	
+								<option value="">커피휘엘</option>	
+								<option value="">산지별 생두</option>	
+							</select>
+							<select name="step2" id="원두커피백" class="step2">
+								<option value="">드립커피 로스트</option>
+								<option value="">오리지널 커피백</option>	
+								<option value="">마일드 커피백</option>	
+							</select>
+							<select name="step2" id="인스턴트" class="step2">
+								<option value="">카페모리</option>
+								<option value="">홈스타일카페모리</option>	
+								<option value="">포타제</option>	
+							</select>
+							<select name="step2" id="음료" class="step2">
+								<option value="">카페리얼</option>
+								<option value="">워터커피</option>	
+								<option value="">모히또</option>	
+							</select>
+							<select name="step2" id="커피용품" class="step2">
+								<option value="">카페리얼</option>
+								<option value="">워터커피</option>	
+								<option value="">모히또</option>	
+							</select>
+							</td>
+						</tr>
+						<tr>
 							<td colspan="2"><button onclick="search()">검색</button></td>
 							<td></td>
 						</tr>
@@ -167,18 +230,16 @@
 				<div id="search2">
 					<p>검색 <span class="top_cnt">22</span>개 / 전체<span class="top_cnt">22</span>개 | 품절 <span class="top_cnt">1</span>개</p>
 					<select name="sort" onchange="에이작스스크립트()">
-								<option value="">삭제일 ↑</option>
-								<option value="">삭제일 ↓</option>	
 								<option value="">등록일 ↑</option>
 								<option value="">등록일 ↓</option>	
-								<option value="">아이콘이름 ↑</option>
-								<option value="">아이콘이름 ↓</option>	
+								<option value="">상품명 ↑</option>
+								<option value="">상품명 ↓</option>	
 								<option value="">판매가 ↑</option>
 								<option value="">판매가 ↓</option>	
 							</select>
 				</div>
 				<div id="list_div">
-					<table border="1" id="list_table">
+					<table border="1" id="event_list">
 						<tr>
 							<th><input type="checkbox"></th>
 							<th>번호</th>
@@ -187,281 +248,35 @@
 							<th>상품명</th>
 							<th>판매가</th>
 							<th>포인트</th>
-							<th>공급사</th>
 							<th>재고</th>
 							<th>등록일</th>
-							<th>삭제일</th>
+							<th>수정일</th>
 							<th>판매상태</th>
+							<th>수정/삭제</th>
 						</tr>
+						<c:forEach items="${list}" var="pro" varStatus="status">
 						<tr>
 							<td><input type="checkbox"></td>
-							<td>1</td>
-							<td>20202323</td>
-							<td><img alt="아이콘 이미지" src="admin/images/event_list_2.jpg" height="50px" width="50px"></td>
-							<td>상품명</td>
-							<td>12000</td>
-							<td>120</td>
-							<td>공급사</td>
-							<td>50</td>
-							<td>20.05.06</td>
-							<td>20.05.06</td>
-							<td>
-							<select onchange="상태변경 ajax()" name="state">
-								<option value="">판매중지</option>
-								<option value="">판매중</option>
-							</select>
+							<td>${status.count}</td>
+							<td>${pro.p_num}</td>
+							<td>${pro.p_thumb_img1}${pro.p_thumb_img2}${pro.p_thumb_img3}
+<%-- 								<img alt="썸네일" src="${pro.p_thumb_img1}"> --%>
+<%-- 								<img alt="상단이미지1" src="${pro.p_thumb_img2}"> --%>
+<%-- 								<img alt="상단이미지2" src="${pro.p_thumb_img3}"> --%>
 							</td>
+							<td>${pro.p_name}</td>
+							<td>${pro.p_price}</td>
+							<td>${pro.p_point}</td>
+							<td>${pro.p_stock}</td>
+							<td>${pro.p_sysdate}</td>
+							<td>${pro.p_update}</td>
+							<td>${pro.p_delflag}</td>
+							<td><button type="button" onclick="backProduct('${pro.p_num}')">복구</button></td>
 						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>1</td>
-							<td>20202323</td>
-							<td><img alt="아이콘 이미지" src="admin/images/event_list_2.jpg" height="50px" width="50px"></td>
-							<td>상품명</td>
-							<td>12000</td>
-							<td>120</td>
-							<td>공급사</td>
-							<td>50</td>
-							<td>20.05.06</td>
-							<td>20.05.06</td>
-							<td>
-							<select onchange="상태변경 ajax()" name="state">
-								<option value="">판매중지</option>
-								<option value="">판매중</option>
-							</select>
-							</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>1</td>
-							<td>20202323</td>
-							<td><img alt="아이콘 이미지" src="admin/images/event_list_2.jpg" height="50px" width="50px"></td>
-							<td>상품명</td>
-							<td>12000</td>
-							<td>120</td>
-							<td>공급사</td>
-							<td>50</td>
-							<td>20.05.06</td>
-							<td>20.05.06</td>
-							<td>
-							<select onchange="상태변경 ajax()" name="state">
-								<option value="">판매중지</option>
-								<option value="">판매중</option>
-							</select>
-							</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>1</td>
-							<td>20202323</td>
-							<td><img alt="아이콘 이미지" src="admin/images/event_list_2.jpg" height="50px" width="50px"></td>
-							<td>상품명</td>
-							<td>12000</td>
-							<td>120</td>
-							<td>공급사</td>
-							<td>50</td>
-							<td>20.05.06</td>
-							<td>20.05.06</td>
-							<td>
-							<select onchange="상태변경 ajax()" name="state">
-								<option value="">판매중지</option>
-								<option value="">판매중</option>
-							</select>
-							</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>1</td>
-							<td>20202323</td>
-							<td><img alt="아이콘 이미지" src="admin/images/event_list_2.jpg" height="50px" width="50px"></td>
-							<td>상품명</td>
-							<td>12000</td>
-							<td>120</td>
-							<td>공급사</td>
-							<td>50</td>
-							<td>20.05.06</td>
-							<td>20.05.06</td>
-							<td>
-							<select onchange="상태변경 ajax()" name="state">
-								<option value="">판매중지</option>
-								<option value="">판매중</option>
-							</select>
-							</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>1</td>
-							<td>20202323</td>
-							<td><img alt="아이콘 이미지" src="admin/images/event_list_2.jpg" height="50px" width="50px"></td>
-							<td>상품명</td>
-							<td>12000</td>
-							<td>120</td>
-							<td>공급사</td>
-							<td>50</td>
-							<td>20.05.06</td>
-							<td>20.05.06</td>
-							<td>
-							<select onchange="상태변경 ajax()" name="state">
-								<option value="">판매중지</option>
-								<option value="">판매중</option>
-							</select>
-							</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>1</td>
-							<td>20202323</td>
-							<td><img alt="아이콘 이미지" src="admin/images/event_list_2.jpg" height="50px" width="50px"></td>
-							<td>상품명</td>
-							<td>12000</td>
-							<td>120</td>
-							<td>공급사</td>
-							<td>50</td>
-							<td>20.05.06</td>
-							<td>20.05.06</td>
-							<td>
-							<select onchange="상태변경 ajax()" name="state">
-								<option value="">판매중지</option>
-								<option value="">판매중</option>
-							</select>
-							</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>1</td>
-							<td>20202323</td>
-							<td><img alt="아이콘 이미지" src="admin/images/event_list_2.jpg" height="50px" width="50px"></td>
-							<td>상품명</td>
-							<td>12000</td>
-							<td>120</td>
-							<td>공급사</td>
-							<td>50</td>
-							<td>20.05.06</td>
-							<td>20.05.06</td>
-							<td>
-							<select onchange="상태변경 ajax()" name="state">
-								<option value="">판매중지</option>
-								<option value="">판매중</option>
-							</select>
-							</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>1</td>
-							<td>20202323</td>
-							<td><img alt="아이콘 이미지" src="admin/images/event_list_2.jpg" height="50px" width="50px"></td>
-							<td>상품명</td>
-							<td>12000</td>
-							<td>120</td>
-							<td>공급사</td>
-							<td>50</td>
-							<td>20.05.06</td>
-							<td>20.05.06</td>
-							<td>
-							<select onchange="상태변경 ajax()" name="state">
-								<option value="">판매중지</option>
-								<option value="">판매중</option>
-							</select>
-							</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>1</td>
-							<td>20202323</td>
-							<td><img alt="아이콘 이미지" src="admin/images/event_list_2.jpg" height="50px" width="50px"></td>
-							<td>상품명</td>
-							<td>12000</td>
-							<td>120</td>
-							<td>공급사</td>
-							<td>50</td>
-							<td>20.05.06</td>
-							<td>20.05.06</td>
-							<td>
-							<select onchange="상태변경 ajax()" name="state">
-								<option value="">판매중지</option>
-								<option value="">판매중</option>
-							</select>
-							</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>1</td>
-							<td>20202323</td>
-							<td><img alt="아이콘 이미지" src="admin/images/event_list_2.jpg" height="50px" width="50px"></td>
-							<td>상품명</td>
-							<td>12000</td>
-							<td>120</td>
-							<td>공급사</td>
-							<td>50</td>
-							<td>20.05.06</td>
-							<td>20.05.06</td>
-							<td>
-							<select onchange="상태변경 ajax()" name="state">
-								<option value="">판매중지</option>
-								<option value="">판매중</option>
-							</select>
-							</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>1</td>
-							<td>20202323</td>
-							<td><img alt="아이콘 이미지" src="admin/images/event_list_2.jpg" height="50px" width="50px"></td>
-							<td>상품명</td>
-							<td>12000</td>
-							<td>120</td>
-							<td>공급사</td>
-							<td>50</td>
-							<td>20.05.06</td>
-							<td>20.05.06</td>
-							<td>
-							<select onchange="상태변경 ajax()" name="state">
-								<option value="">판매중지</option>
-								<option value="">판매중</option>
-							</select>
-							</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>1</td>
-							<td>20202323</td>
-							<td><img alt="아이콘 이미지" src="admin/images/event_list_2.jpg" height="50px" width="50px"></td>
-							<td>상품명</td>
-							<td>12000</td>
-							<td>120</td>
-							<td>공급사</td>
-							<td>50</td>
-							<td>20.05.06</td>
-							<td>20.05.06</td>
-							<td>
-							<select onchange="상태변경 ajax()" name="state">
-								<option value="">판매중지</option>
-								<option value="">판매중</option>
-							</select>
-							</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>1</td>
-							<td>20202323</td>
-							<td><img alt="아이콘 이미지" src="admin/images/event_list_2.jpg" height="50px" width="50px"></td>
-							<td>상품명</td>
-							<td>12000</td>
-							<td>120</td>
-							<td>공급사</td>
-							<td>50</td>
-							<td>20.05.06</td>
-							<td>20.05.06</td>
-							<td>
-							<select onchange="상태변경 ajax()" name="state">
-								<option value="">판매중지</option>
-								<option value="">판매중</option>
-							</select>
-							</td>
-						</tr>
+						</c:forEach>
 					</table>
 					<div class="detail_btn">
-						<a href="#">임시버튼</a>
+						<a href="product_insertForm">임시버튼</a>
 					</div>
 				</div>
 			</div>

@@ -38,9 +38,9 @@
 	            	<li><a href="#">기타</a></li>
 	           		 </ul>
 	            </li>
-	             <li id="ca_product"><a href="product.jsp"><span></span>상품</a>
+	             <li id="ca_product"><a href="product_list"><span></span>상품</a>
 	            	<ul class="sub_list">
-	            	<li><a href="#">상품</a></li>
+	            	<li><a href="product_list">상품</a></li>
 	           		 </ul>
 	            </li>
 	            <li id="ca_order"><a href="order.jsp"><span></span>주문/배송</a>

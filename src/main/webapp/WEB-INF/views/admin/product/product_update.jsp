@@ -11,23 +11,18 @@
 		<title>Insert title here</title>
 		<link rel="stylesheet" type="text/css" href="admin/css/admin_main.css">
 		<!-- 페이지 상단 또는 하단에 라이브러르 추가 --> 
-		<script type="text/javascript" src="se2/admin/js/HuskyEZCreator.js" charset="utf-8"></script> 
 		<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 		<!-- 페이지 로딩시 초기화 --> 
 		<script>
-		$(document).ready(function(){
-				nhn.husky.EZCreator.createInIFrame({ 
-					oAppRef: editor, 
-					elPlaceHolder: 'txtContent', 
-					sSkinURI: '/plugin/smarteditor2/SmartEditor2Skin.html', 
-					fCreator: 'createSEditor2' 
-					}); 
-				
+		
+		$(document).ready(function(){ //페이지 로딩시 실행
 				
 			//넘어온 value 넣어주기		
 			//step1
-			$("#p_step1").each(function(){
-			    if($(this).val()=="${pdto.p_step1}"){
+			
+			//#p_step1 = select id
+			$("#p_step1 option").each(function(){ //select box의 옵션을 전부 들고와서 for문처럼 돌림
+			    if($(this).val()=="${pdto.p_step1}"){ //이 옵션의 값이 넘어온 값과 같다면
 			      $(this).attr("selected","selected"); // attr적용안될경우 prop으로 
 			      $(".step2").css("display", "none");
 					$("#${pdto.p_step1}").css("display", "block");
@@ -35,7 +30,7 @@
 			});
 			
 			//step2
-			$("#p_step2").each(function(){
+			$(".step2 option").each(function(){
 			    if($(this).val()=="${pdto.p_step2}"){
 			      $(this).attr("selected","selected"); // attr적용안될경우 prop으로 
 			    }
@@ -50,12 +45,16 @@
 		var step2= document.getElementsByClassName("step2");
 		var option = document.getElementById(val);
 		
+
 		$(".step2").css("display", "none");
-		$("#"+val).css("display", "block");
+		$(".step2").removeAttr("name");
+		
+		$(option).css("display", "block");
+		$(option).attr("name", "p_step2")
 		}
 		
 		function point_change(val) {
-			var point = val*0.1;
+			var point = val*0.01;
 			$("#point").val(point);
 		}
 		
@@ -82,7 +81,7 @@
 	</head>
 	<body>
 	<jsp:include page="../nav/admin_header.jsp"/>
-	<jsp:include page="../nav/board_nav.jsp"/>
+	<jsp:include page="../nav/product_nav.jsp"/>
 	<section>
 		<h1>제품 수정</h1>
 			<form action="product_update" name="inputform" method="get" enctype="multipart/form-data">
@@ -104,37 +103,43 @@
 						<tr>
 							<td>분류 2</td>
 							<td>
-							<select name="p_step2" id="원두" class="step2" style="display: inline;">
+							<select id="원두" name="p_step2" class="step2" style="display: inline;">
 								<option value="클래스">클래스</option>
 								<option value="로스터리샵">로스터리샵</option>	
 								<option value="커피휘엘">커피휘엘</option>	
 								<option value="산지별생두">산지별 생두</option>	
 							</select>
-							<select name="p_step2" id="원두커피백" class="step2">
+							<select  id="원두커피백" class="step2">
 								<option value="드립커피로스트">드립커피 로스트</option>
 								<option value="오리지널커피백">오리지널 커피백</option>	
 								<option value="마일드커피백">마일드 커피백</option>	
 							</select>
-							<select name="p_step2" id="인스턴트" class="step2">
+							<select  id="인스턴트" class="step2">
 								<option value="카페모리">카페모리</option>
 								<option value="홈스타일카페모리">홈스타일카페모리</option>	
 								<option value="포타제">포타제</option>	
 							</select>
-							<select name="p_step2" id="음료" class="step2">
+							<select  id="음료" class="step2">
 								<option value="카페리얼">카페리얼</option>
 								<option value="워터커피">워터커피</option>	
 								<option value="모히또">모히또</option>	
 							</select>
-							<select name="p_step2" id="커피용품" class="step2">
+							<select  id="커피용품" class="step2">
 								<option value="종이컵">종이컵</option>
 								<option value="커피필터">커피필터</option>	
 								<option value="기타">종이 등</option>	
+							</select>
+							<select  id="선물세트" class="step2">
+								<option value="선물세트">"선물세트"</option>
+							</select>
+							<select  id="대량구매" class="step2">
+								<option value="대량구매">대량구매</option>
 							</select>
 							</td>
 						</tr>
 						<tr>
 							<td>제품명</td>
-							<td><input type="text" name="p_name" value="${pdto.p_num}" maxlength="40"></td>
+							<td><input type="text" name="p_name" value="${pdto.p_name}" maxlength="40"></td>
 						</tr>
 						<tr>
 							<td>가격</td>
@@ -171,15 +176,15 @@
 						<tr>
 							<td>유전자 재조합 유무</td>
 							<td>
-								예<input type="radio" name="p_gene" value="유전자 재조합 상품" <c:if test="${pdto.p_gene} == 유전자 재조합 상품">selected</c:if> >&nbsp;&nbsp;&nbsp;
-								아니오<input type="radio" name="p_gene" value="해당사항없음" <c:if test="${pdto.p_gene} == 해당사항없음">selected</c:if> >
+								예<input type="radio" name="p_gene" value="유전자 재조합 상품" <c:if test="${pdto.p_gene eq '유전자 재조합 상품'}">checked="checked"</c:if> >&nbsp;&nbsp;&nbsp;
+								아니오<input type="radio" name="p_gene" value="해당사항없음" <c:if test="${pdto.p_gene eq '해당사항없음'}">checked="checked"</c:if> >
 							</td>
 						</tr>
 						<tr>
 							<td>수입식품 여부</td>
 							<td>
-								예<input type="radio" name="p_import" value="수입식품" <c:if test="${pdto.p_import} == 수입식품">selected</c:if> >&nbsp;&nbsp;&nbsp;
-								아니오<input type="radio" name="p_import" value="해당사항없음" <c:if test="${pdto.p_import} == 해당사항없음">selected</c:if> >
+								예<input type="radio" name="p_import" value="수입식품" <c:if test="${pdto.p_import eq '수입식품'}">checked="checked"</c:if> >&nbsp;&nbsp;&nbsp;
+								아니오<input type="radio" name="p_import" value="해당사항없음" <c:if test="${pdto.p_import eq '해당사항없음'}">checked="checked"</c:if> >
 							</td>
 						</tr>
 						<tr>
@@ -208,6 +213,7 @@
 						</tr>
 					</table>
 					<div id="btn_div">
+						<input type="hidden" value="${pdto.p_num}" name="p_num">
 						<button type="button" onclick="location.href="입력전페이지 이동">취소</button>
 						<button type="button" onclick="location.href="유효성 검사">등록</button>
 						<button type="submit" >임시등록</button>
@@ -217,4 +223,3 @@
 	</section>
 	</body>
 </html>
-<script type="text/javascript" src = "admin/js/notice_write.js"></script>
