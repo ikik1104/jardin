@@ -13,7 +13,15 @@ public class MtmUserDto {
 	private Timestamp iu_date;     //등록일
 	private String iu_status;     //답변 상태
 	private String iu_img;     //첨부 이미지
+	private MemberDto memDto;
+	
+	public MemberDto getMemDto() {
+		return memDto;
+	}
 
+	public void setMemDto(MemberDto memDto) {
+		this.memDto = memDto;
+	}
 
 	public MtmUserDto() {}
 
@@ -102,8 +110,6 @@ public class MtmUserDto {
 	public void setIu_img(String iu_img) {
 		this.iu_img = iu_img;
 	}
-
-
 	
 	
 	

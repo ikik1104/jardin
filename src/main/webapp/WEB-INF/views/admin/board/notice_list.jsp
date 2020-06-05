@@ -95,37 +95,14 @@
 			
 		}
 	
-		//1:1문의 삭제 체크 
-		function del_check(iu_num){
-			if(confirm("해당 게시글을 삭제하시겠습니까? (삭제한 데이터는 복구할 수 없습니다.)")){
-	            $.ajax({
-	                  url : "mtm_delete",
-	                  method : "POST",
-	                  data: JSON.stringify(iu_num),
-	                  dataType : "json",
-	                  contentType: "application/json",
-	                  success : function(val){
-	                     if(val == 1){ //리턴값이 1이면 (=성공)
-	                        alert("삭제처리 완료되었습니다.");
-	                     //location.href="product_list";
-	                        location.reload(); //페이지 새로고침
-	                     }else{ // 0이면 실패
-	                        alert("삭제처리 실패.");
-	                     }
-	                  },
-	                  error : function(){
-	                     alert("서버통신실패");
-	                  }
-	               });
-	         }
-		}
+	
 </script>
 	</head>
 	<body>
 	<jsp:include page="../nav/admin_header.jsp"/>
 	<jsp:include page="../nav/board_nav.jsp"/>
 	<section>
-		<h1>1:1문의 관리</h1>
+		<h1>공지사항 관리</h1>
 		<div id="main_list">
 			<div id="main_user_list">
 				<h2>게시글 검색</h2>
@@ -157,16 +134,6 @@
 							<input type="text" name="keyword">
 							</td>
 						</tr>
-						
-						<tr>
-							<td>답변상태</td>
-							<td><select name="status">
-								<option>전체</option>
-								<option>답변대기</option>
-								<option>답변완료</option>
-							</select>
-							</td>
-						</tr>
 						<tr>
 							<td colspan="2"><button onclick="search()">검색</button></td>
 						</tr>
@@ -175,40 +142,38 @@
 					
 				</div>
 				<div>
+					<button type="button" onclick="location.href='notice_write?rownum=${rownum }'">
+						새 글 등록
+					</button>
+				</div>
+				<div>
 					<table border="1" id="event_list">
 						<tr>
 							<th><input type="checkbox" ></th>
 							<th>번호</th>
 							<th>제목</th>
-							<th>분류</th>
 							<th>작성자</th>
 							<th>등록일</th>
-							<th>답변상태</th>
-							
-							<th>답변/삭제</th>
+							<th>조회수</th>
+							<th>수정/삭제</th>
 						</tr>
-						<c:forEach var="mtm_list" items="${mtm_list }">
+						<c:forEach var="notice_list" items="${notice_list }">
 						<tr>
 							<td><input type="checkbox"></td>
-							<td>${mtm_list.rownum }</td>
+							<td>${notice_list.noticedto.rownum }</td>
 							<td>
-								<a href="mtm_view?m_id=${mtm_list.memDto.m_id }&rownum=${mtm_list.rownum }&iu_num=${mtm_list.iu_num}
-								&iu_title=${mtm_list.iu_title}&iu_content=${mtm_list.iu_content}&iu_sort=${mtm_list.iu_sort}&iu_date=${mtm_list.iu_date}
-								&iu_status=${mtm_list.iu_status}&iu_img=${mtm_list.iu_img}"> 
-									${mtm_list.iu_title }
+								<a href="notice_view?rownum=${notice_list.noticedto.rownum }" target="_blank"> 
+									${notice_list.noticedto.no_title }
 								</a>
 							</td>
-							<td>${mtm_list.iu_sort }</td>
-							<td>${mtm_list.memDto.m_id }</td>
-							<td>${mtm_list.iu_date }</td>
-							<td>${mtm_list.iu_status }</td>
+							<td>${notice_list.admindto.ad_grade }(${notice_list.admindto.ad_id })</td>
+							<td>${notice_list.noticedto.no_date }</td>
+							<td>${notice_list.noticedto.no_hit }</td>
 							<td>
-								<button type="button" onclick="location.href='mtm_view?m_id=${mtm_list.memDto.m_id }&rownum=${mtm_list.rownum }&iu_num=${mtm_list.iu_num}
-									&iu_title=${mtm_list.iu_title}&iu_content=${mtm_list.iu_content}&iu_sort=${mtm_list.iu_sort}&iu_date=${mtm_list.iu_date}
-									&iu_status=${mtm_list.iu_status}&iu_img=${mtm_list.iu_img}'">
-									답변
+								<button type="button" onclick="">
+									수정
 								</button>
-								<button type="button" onclick="del_check(${mtm_list.iu_num})">삭제</button>
+								<button type="button" onclick="del_check(${notice_list.noticedto.no_num}, ${notice_list.noticedto.rownum })">삭제</button>
 							</td>
 						</tr>
 						</c:forEach>
