@@ -46,10 +46,10 @@
 	<jsp:include page="../nav/admin_header.jsp"/>
 	<jsp:include page="../nav/board_nav.jsp"/>
 	<section>
-		<h1>공지사항 등록</h1>
-			<form action="notice_insert" name="inputform" method="post">
+		<h1>공지사항 조회/수정</h1>
+			<form action="notice_modify" name="inputform" method="post">
 				<div id="input_form">
-					<h1>공지사항 작성</h1>
+					<h1>공지사항 조회/수정</h1>
 					<table border="1">
 						<tr>
 							<td>작성자</td>
@@ -57,22 +57,24 @@
 						</tr>
 						<tr>
 							<td>제목</td>
-							<td><input type="text" name="no_title"></td>
+							<td><textarea name="no_title"><!-- 여기에 제목 불러오기 --></textarea></td>
 						</tr>									
 						<tr>
 							<td>내용</td>
 							<td>
 								<!-- 텍스트에디터로 변경?★★★★★★★★★ -->
-								<textarea name="no_content" id="smartEditor" style="width:100%; height: 412px;"></textarea>
+								<textarea name="no_content" id="smartEditor" style="width:100%; height: 412px;">
+								<!-- 여기에 내용 불러오기 -->
+								</textarea>
 							</td>
 						</tr>
 					</table>
 					<div id="btn_div">
 						<button type="button" onclick="location.href='notice_list?rownum=${rownum}'">목록</button>
-						<button type="submit" >등록</button>
+						<button type="submit" >수정</button>
+						<button type="button" >삭제</button>						
 					</div>
-					<input type="hidden" value="${rownum }" name="rownum">
-					<input type="hidden" value="${adNum }" name="ad_num">					
+					<input type="hidden" value="${rownum }" name="rownum">				
 				</div>
 			</form>
 	</section>
