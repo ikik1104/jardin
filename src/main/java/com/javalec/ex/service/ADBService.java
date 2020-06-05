@@ -20,6 +20,10 @@ public interface ADBService {
 	//1:1 답변 1개 불러오기
 	AllDto getAnswerBoard(int iu_num);
 	
-
+	//1:1 답변 1개 작성(해당 문의글 답변상태 '답변완료'로 바꾸기 메소드 포함)
+	int insertAnswerBoard(MtmAnswerDto mtmAnswerDto);
+	
+	//1:1 답변 1개 삭제(해당 문의글 답변상태 '답변대기'로 바꾸기 메소드 포함)
+	int deleteAnswerBoard(int ia_num, int iu_num);	
 	
 }

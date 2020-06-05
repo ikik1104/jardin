@@ -23,4 +23,16 @@ public interface ADBMtmDao {
 	//1:1 답변 1개 불러오기
 	AllDto getAnswerBoard(int iu_num);
 
+	//1:1 답변 1개 작성
+	int insertAnswerBoard(MtmAnswerDto mtmAnswerDto);
+	
+	//1:1 문의 답변상태 '답변완료'로 변경
+	int updateStatusFinish(MtmAnswerDto mtmAnswerDto); 
+	
+	//1:1 답변 1개 삭제
+	int deleteAnswerBoard(int ia_num);
+	
+	//1:1 문의 답변상태 '답변대기'로 변경
+	int updateStatusWait(int iu_num);
+	
 }

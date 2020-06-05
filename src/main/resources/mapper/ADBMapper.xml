@@ -57,5 +57,25 @@
 		from mtm_inqury_answer_tb mtm, admin_tb ad
 		where mtm.ad_num=ad.ad_num and mtm.iu_num=#{iu_num}
 	</select>
+	
+	<!-- 1:1 답변 1개 등록 -->
+	<insert id="insertAnswerBoard">
+		insert into mtm_inqury_answer_tb values(ia_seq.nextval, #{iu_num}, #{ad_num}, #{ia_content}, sysdate)
+	</insert>
+	
+	<!-- 1:1 문의글 상태 '답변완료'로 바꾸기 -->
+	<update id="updateStatusFinish">
+		update mtm_inqury_user_tb set iu_status='답변완료' where iu_num=#{iu_num}
+	</update>
+
+	<!-- 1:1 답변 1개 삭제 -->
+	<delete id="deleteAnswerBoard">
+		delete from mtm_inqury_answer_tb where ia_num=#{ia_num}
+	</delete>
+
+	<!-- 1:1 문의글 상태 '답변대기'로 바꾸기 -->
+	<update id="updateStatusWait">
+		update mtm_inqury_user_tb set iu_status='답변대기' where iu_num=#{iu_num}
+	</update>
 
 </mapper>

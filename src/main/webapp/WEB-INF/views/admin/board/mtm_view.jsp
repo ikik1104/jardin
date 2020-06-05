@@ -95,8 +95,8 @@
 			
 			
 		}
-		//게시글 삭제 체크
-		function del_check(iu_num){
+		//1:1문의 삭제 체크
+		function user_del_check(iu_num){
 			if(confirm("해당 게시글을 삭제하시겠습니까? (삭제한 데이터는 복구할 수 없습니다.)")){
 	            $.ajax({
 	                  url : "mtm_delete",
@@ -120,6 +120,35 @@
 	         }
 		}
 		
+		function answer_del_check(ia_num, rownum, iu_num){
+			var arrNum = [ ia_num, rownum, iu_num];
+			if(confirm("해당 답변을 삭제하시겠습니까? (삭제한 데이터는 복구할 수 없습니다.)")){
+	            $.ajax({
+	                  url : "mtm_answer_delete",
+	                  method : "POST",
+	                  data: JSON.stringify(arrNum),
+	                  dataType : "json",
+	                  contentType: "application/json",
+	                  success : function(val){
+	                     if(val == 1){ //리턴값이 1이면 (=성공)
+	                        alert("삭제처리 완료되었습니다.");
+	                       location.href='mtm_list?rownum='+rownum;
+	                     }else{ // 0이면 실패
+	                        alert("삭제처리 실패.");
+	                     }
+	                  },
+	                  error : function(){
+	                     alert("서버통신실패");
+	                  }
+	               });
+	         }
+		}		
+		
+		//답변을 등록/수정하면 다시 이 페이지로 돌아와 alert을 띄움
+		window.onload=function(){
+			${alerttext}
+		}
+			
 </script>
 	</head>
 	<body>
@@ -164,43 +193,75 @@
 				-->
 				${MtmUserDto.iu_content }
 				</pre>
-				<button type="button" onclick="del_check(${MtmUserDto.iu_num})">게시글 삭제</button>
+				<button type="button" onclick="user_del_check(${MtmUserDto.iu_num})">게시글 삭제</button>
 		</div>
 		
 		<div>
 			<h1>답변 조회/작성/수정</h1>	
-			<table border="1">
-				<tr>
-					<th>작성자</th>
-					<td>${MtmAnswerDto.admindto.ad_grade }(${MtmAnswerDto.admindto.ad_id })</td>
-				</tr>
-				<tr>
-					<th>등록일</th>
-					<td>${MtmAnswerDto.mtmanswerdto.ia_date }</td>
-				</tr>			
-				<tr>
-					<th>내용</th>
-					<td>
-						<!-- 에디터로 수정해야 함★★★★★★★ -->
-						<pre style="white-space:pre-warp">
-						${MtmAnswerDto.mtmanswerdto.ia_content }
-						
-						</pre>
-					</td>
-				</tr>			
-			</table>
-			
-			<div>
-				<button type="button" onclick="location.href='mtm_list?rownum=${MtmUserDto.rownum}'">취소</button>
-				<button type="button" onclick="location.href='mtm_answer_write?ad_num=${MtmAnswerDto.admindto.ad_num }&ia_content=${MtmAnswerDto.mtmanswerdto.ia_content }'">
-					답변등록
-				</button>
-				<button type="button" onclick="mtm_answer_modify">답변수정</button>				
-				<button type="button" onclick="mtm_answer_delete">답변삭제</button>							
-			</div>
-			
+					<!-- 답변이 있을 경우 -->
+					<c:if test="${ MtmAnswerDto.admindto.ad_num!=null}">
+						<form action="mtm_answer_modify" method="post" name="modify_form">
+							<table border="1">
+							<tr>
+								<th>작성자</th>
+								<td>
+									${MtmAnswerDto.admindto.ad_grade }(${MtmAnswerDto.admindto.ad_id })
+								</td>
+							</tr>
+							<tr>
+								<th>등록일</th>
+								<td>
+									${MtmAnswerDto.mtmanswerdto.ia_date }
+								</td>
+							</tr>			
+							<tr>
+								<th>내용</th>
+								<td>
+									<!-- 에디터로 수정해야 함★★★★★★★ -->
+									<textarea cols="20" wrap="hard" name="ia_content">
+${MtmAnswerDto.mtmanswerdto.ia_content }
+									</textarea>
+								</td>
+							</tr>			
+							</table>
+						<div>
+							<button type="button" onclick="location.href='mtm_list?rownum=${MtmUserDto.rownum}'">목록</button>
+							<button type="submit" >답변수정</button>				
+							<button type="button" onclick="answer_del_check(${MtmAnswerDto.mtmanswerdto.ia_num}, ${MtmUserDto.rownum}, ${ MtmUserDto.iu_num })">삭제</button>
+						</div>																		
+							<input type="hidden" value="${MtmUserDto.rownum}" name="rownum">
+							<input type="hidden" value="${MtmAnswerDto.mtmanswerdto.ia_num }" name="ia_num">							
+						</form>
+					</c:if>
+					<!-- 답변이 없을 경우 -->					
+					<c:if test="${ MtmAnswerDto.admindto.ad_num==null}">
+						<p>	
+								작성한 답변이 없습니다.
+						</p>
+						<form action="mtm_answer_write" method="post" name="write_form">
+							<table border="1">
+							<tr>
+								<th>작성자</th>
+								<td>${adminGrade }(${adminId })</td>
+							</tr>	
+							<tr>
+								<th>내용</th>
+								<td>
+									<!-- 에디터로 수정해야 함★★★★★★★ -->
+									<textarea cols="20" wrap="hard" name="ia_content"></textarea>
+								</td>
+							</tr>			
+							</table>
+							<div>
+								<button type="button" onclick="location.href='mtm_list?rownum=${MtmUserDto.rownum}'">목록</button>
+								<button type="submit">답변등록</button>
+							</div>							
+							<input type="hidden" value="${adNum}" name="ad_num">							
+							<input type="hidden" value="${MtmUserDto.rownum}" name="rownum">					
+							<input type="hidden" value=${ MtmUserDto.iu_num } name="iu_num">		
+						</form>						
+					</c:if>					
 		</div>
-		<input type="hidden" value="${MtmUserDto.rownum }" id="rownum">
 	
 	</section>
 	</body>
