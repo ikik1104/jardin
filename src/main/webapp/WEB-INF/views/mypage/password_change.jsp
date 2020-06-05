@@ -17,6 +17,14 @@
 <script type="text/javascript" src="user/js/jquery.min.js"></script>
 </head>
 <body>
+
+<script>
+function pw_ch(){
+	
+}
+
+</script>
+
 <div id="layerWrap">
 
 <div class="inputWrap">
@@ -27,6 +35,7 @@
 
 
 		<div class="checkDiv">
+        
 			<table summary="새로운 비밀번호로 변경 하실수 있습니다." class="checkTable" border="1" cellspacing="0">
 				<caption>비밀번호 변경</caption>
 				<colgroup>
@@ -52,7 +61,7 @@
 
 
 		<div class="centerbrn pd10">
-			<a href="#">확인</a>
+			<a onclick="pw_ch()">확인</a>
 		</div>
 
 	</div>

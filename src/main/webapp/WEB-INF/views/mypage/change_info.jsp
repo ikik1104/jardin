@@ -22,16 +22,7 @@
 <script type="text/javascript" src="user/js/jquery.easing.1.3.js"></script>
 <script type="text/javascript" src="user/js/idangerous.swiper-2.1.min.js"></script>
 <script type="text/javascript" src="user/js/jquery.anchor.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<!-- 부트스트랩 -->
-<!-- 합쳐지고 최소화된 최신 CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-
-<!-- 부가적인 테마 -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-
-<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
 
 
 <!--[if lt IE 9]>
@@ -217,27 +208,6 @@ $(document).ready(function() {
 								<tr>
 									<th scope="row"><span>비밀번호 변경 *</span></th>
 									<td><a href="password_change?m_pw=${ info_view.getM_pw() }" data-toggle="modal" data-target="#myModal" class="nbtnMini iw86">비밀번호 변경</a></td>
-                                   
-<!--                                     비밀번호 모달 -->
-<!--                                     Modal -->
-<!--                                     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"> -->
-<!--                                       <div class="modal-dialog" role="document"> -->
-<!--                                         <div class="modal-content"> -->
-<!--                                           <div class="modal-header"> -->
-<!--                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
-<!--                                             <h4 class="modal-title" id="myModalLabel">Modal 제목</h4> -->
-<!--                                           </div> -->
-<!--                                           <div class="modal-body"> -->
-<!--                                             내용 -->
-<!--                                           </div> -->
-<!--                                           <div class="modal-footer"> -->
-<!--                                             <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button> -->
-<!--                                           </div> -->
-<!--                                         </div> -->
-<!--                                       </div> -->
-<!--                                     </div> -->
-<!--                                     //비밀번호 모달 -->
-                                    
 								</tr>
 								<tr>
 									<th scope="row"><span>이메일</span></th>
