@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.javalec.ex.dao.ChangeInfoDao;
+import com.javalec.ex.dto.MemberDto;
 import com.javalec.ex.dto.MtmUserDto;
+import com.javalec.ex.service.ChangeInfoService;
 import com.javalec.ex.service.MtmService;
 import com.javalec.ex.service.SessionService;
 
@@ -23,24 +26,20 @@ public class My2Controller {
 	private MtmService mtmService;
 	@Autowired
 	private SessionService sessionService;
+	@Autowired
+	private ChangeInfoService changeInfoService;
 	
 	//로그인 세션용 임시 - 추후 삭제 요망
-	@RequestMapping("inquiry_test")
+	@RequestMapping("login")
 	public String inquiry_test(HttpSession session) {
 		session.setAttribute("userID","Hong1");
-		//테스트
 		String m_id = (String)session.getAttribute("userID");
-		if(m_id != null) {
-			System.out.println("성공한듯");
-		} else {
-			System.out.println("실패각..");
-		}
-		//
 		session.setAttribute("userNum", sessionService.getMnum(m_id));
 		return "mypage/inquiry_test";
 	}
 	
-	@RequestMapping("inquiry_test2")
+	//로그아웃용 임시 - 추후 삭제 요망
+	@RequestMapping("logout")
 	public String inquiry_test2(HttpSession session) {
 		session.invalidate();
 		return "home";
@@ -52,7 +51,6 @@ public class My2Controller {
 		//세션체크
 		if(session.getAttribute("userNum") == null) {return "home";}
 		int m_num = (Integer)session.getAttribute("userNum");
-		System.out.println(m_num);
 		//세션체크끝
 		model.addAttribute("inquiry", mtmService.getAllInquiry(m_num));
 		return "mypage/inquiry";
@@ -116,12 +114,56 @@ public class My2Controller {
 	@ResponseBody
 	@RequestMapping("inquiry_delete")
 	public int inquiry_delete(@RequestBody int iu_num) {
-		System.out.println("아작스"+ iu_num);
 		int success = mtmService.deleteInquiry(iu_num);
 		return success;
 	}
 	
+	//회원정보수정 수정 양식 보기
+	@RequestMapping("change_info")
+	public String change_info(HttpSession session, Model model) {
+		if(session.getAttribute("userNum") == null) { return "home";} //세션체크
+		int m_num = (Integer) session.getAttribute("userNum");
+
+		MemberDto memberDto = changeInfoService.getOneInfo(m_num);
+
+		//email 분리
+		String email = memberDto.getM_email();
+		int index = email.indexOf("@");
+		model.addAttribute("email_id", email.substring(0, index));
+		model.addAttribute("email_domain", email.substring(index+1));
+		
+		//휴대전화번호 분리
+		String phoneSet = memberDto.getM_phone();
+		String[] phone = phoneSet.split("-");
+		for(int i=0; i<phone.length; i++) {
+			model.addAttribute("phone"+(i+1), phone[i]);
+		}
+		
+		//유션전화 분리
+		String telSet = memberDto.getM_tel();
+		String[] tel = telSet.split("-");
+		for(int i=0; i<tel.length; i++) {
+			model.addAttribute("tel"+(i+1), tel[i]);
+		}
+		
+		//생년월일 분리
+		String birthSet = memberDto.getM_birth();
+		String[] birth = birthSet.split("/");
+		for(int i=0; i<birth.length; i++) {
+			model.addAttribute("birth"+(i+1), birth[i]);
+			System.out.println(birth[i]);
+		}
+		
+		model.addAttribute("info_view", memberDto);
+		return "mypage/change_info";
+	}
 	
+	
+	//비밀번호변경
+	@RequestMapping("password_change")
+	public String password_change() {
+		return "mypage/password_change";
+	}
 	
 	
 	

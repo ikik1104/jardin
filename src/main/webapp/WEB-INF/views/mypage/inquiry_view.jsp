@@ -63,8 +63,16 @@ $(document).ready(function() {
 
      $(document).ready(function () {
          msiecheck();
+     
+         if($(".obtnMini").text() == "답변대기"){
+        	 $(".obtnMini").css('background-color', '#999999');
+         } else {
+        	 $(".obtnMini").css('background-color', '#f7703c');
+         }
          
      }); //jquery
+     
+     
      
      function inq_delete(iu_num){
     	 
@@ -305,32 +313,30 @@ $(document).ready(function() {
 								<tr>
 									<th class="pre">PREV</th>
                                     
-                                    <c:if test="${ empty pre_title }">
-                                        <td>이전 글이 없습니다.</td>
+                                    <c:if test="${ empty next_title }">
+                                        <td>다음 글이 없습니다.</td>
+                                        <td>&nbsp;</td>
                                     </c:if>
-                                    <c:if test="${ not empty pre_title }">
-    									<td><a href="#">${ pre_title.getIu_title() }</a></td>
-    									<td>
-    										<div class="parea">
-    											<div class="nbtnMini">${ pre_title.getIu_status() }</div>
-    										</div>
-    									</td>
+                                    <c:if test="${ not empty next_title }">
+                                        <td><a href="inquiry_view?iu_num=${ next_title.getIu_num() }&m_num=${ next_title.getM_num() }&rownum=${ rownum+1 }">${ next_title.getIu_title() }</a></td>
+                                        <td>
+                                            <div class="parea">
+                                                <div class="nbtnMini">${ next_title.getIu_status() }</div>
+                                            </div>
+                                        </td>
                                     </c:if>
-                                    
 								</tr>
 
 								<tr>
 									<th class="next">NEXT</th>
-                                    
-                                    <c:if test="${ empty next_title }">
-                                        <td>다음 글이 없습니다.</td>
-								        <td>&nbsp;</td>
+                                    <c:if test="${ empty pre_title }">
+                                        <td>이전 글이 없습니다.</td>
                                     </c:if>
-                                    <c:if test="${ not empty next_title }">
-                                        <td><a href="#">${ next_title.getIu_title() }</a></td>
+                                    <c:if test="${ not empty pre_title }">
+                                        <td><a href="inquiry_view?iu_num=${ pre_title.getIu_num() }&m_num=${ pre_title.getM_num() }&rownum=${ rownum-1 }">${ pre_title.getIu_title() }</a></td>
                                         <td>
                                             <div class="parea">
-                                                <div class="nbtnMini">${ next_title.getIu_status() }</div>
+                                                <div class="nbtnMini">${ pre_title.getIu_status() }</div>
                                             </div>
                                         </td>
                                     </c:if>

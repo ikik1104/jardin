@@ -19,10 +19,11 @@
 <script type="text/javascript" src="user/js/top_navi.js"></script>
 <script type="text/javascript" src="user/js/left_navi.js"></script>
 <script type="text/javascript" src="user/js/main.js"></script>
-<script type="text/javascript" src="user/js/common.js"></script>
+
 <script type="text/javascript" src="user/js/jquery.easing.1.3.js"></script>
 <script type="text/javascript" src="user/js/idangerous.swiper-2.1.min.js"></script>
 <script type="text/javascript" src="user/js/jquery.anchor.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!--[if lt IE 9]>
 <script type="text/javascript" src="user/js/html5.js"></script>
 <script type="text/javascript" src="user/js/respond.min.js"></script>
@@ -60,9 +61,23 @@ $(document).ready(function() {
 
      var settimediv = 200000; //지속시간(1000= 1초)
      var msietimer;
-
+     
      $(document).ready(function () {
          msiecheck();
+         
+         //휴대전화번호 010, 011 ...
+         $("#phone1").val("${phone1}").attr("selected","selected");
+
+         //유선전화번호 
+         $("#tel1").val("${tel1}").attr("selected","selected");
+         
+		 //생일 : 년
+        $("#birth1").val("${birth1}").attr("selected","selected");
+        //생일 : 월 
+        $("#birth2").val("${birth2}").attr("selected","selected");
+        //생일 : 일 
+        $("#birth3").val("${birth3}").attr("selected","selected");
+
      });
 
      var msiecheck = function () {
@@ -236,7 +251,7 @@ $(document).ready(function() {
 						</ul>
 					</div>
 
-
+                    <form action="change_info" method="post" name="ch_info">
 					<div class="memberbd">
 						<table summary="이름, 아이디, 비밀번호, 비밀번호 확인, 이메일, 이메일수신여부, 주소, 휴대폰, 유선전화, 생년월일 순으로 회원가입 정보를 수정할수 있습니다." class="memberWrite" border="1" cellspacing="0">
 							<caption>회원가입 수정</caption>
@@ -247,23 +262,23 @@ $(document).ready(function() {
 							<tbody>
 								<tr>
 									<th scope="row"><span>이름 *</span></th>
-									<td>김슬기</td>
+									<td>${ info_view.getM_name() }</td>
 								</tr>
 								<tr>
 									<th scope="row"><span>아이디 *</span></th>
-									<td>sleifhglsle123</td>
+									<td>${ info_view.getM_id() }</td>
 								</tr>
 								<tr>
 									<th scope="row"><span>비밀번호 변경 *</span></th>
-									<td><a href="password_change.html" class="nbtnMini iw86">비밀번호 변경</a></td>
+									<td><a href="password_change?m_pw=${ info_view.getM_pw() }" class="nbtnMini iw86">비밀번호 변경</a></td>
 								</tr>
 								<tr>
 									<th scope="row"><span>이메일</span></th>
 									<td>
 										<ul class="pta">
-											<li><input type="text" class="w134" /></li>
+											<li><input type="text" class="w134" name="eamil_id" value="${ email_id }"/></li>
 											<li><span class="valign">&nbsp;@&nbsp;</span></li>
-											<li class="r10"><input type="text" class="w134" /></li>
+											<li class="r10"><input type="text" class="w134" name="email_domain" value="${ email_domain }"/></li>
 											<li>
 												<select id="emailList">
 													<option value="#" selected="selected">직접입력</option>
@@ -292,13 +307,23 @@ $(document).ready(function() {
 									<td>
 										<p>쟈뎅에서 진행되는 이벤트와 쇼핑에 대한 정보를 이메일로 받아보시겠습니까?</p>
 										<ul class="question">
-											<li>
-												<input type="radio" name="receive" id="receive_yes" class="radio_t" checked="checked"/><label for="receive_yes">예</label>
-											</li>
-											<li>
-												<input type="radio" name="receive" id="receive_no" class="radio_t"/><label for="receive_no">아니오</label>
-											</li>
-										</ul>
+                                            <c:if test="${ info_view.getM_email_ok() eq '예' }">
+    											<li>
+    												<input type="radio" name="receive" id="receive_yes" class="radio_t" checked="checked"/><label for="receive_yes">예</label>
+    											</li>
+    											<li>
+    												<input type="radio" name="receive" id="receive_no" class="radio_t"/><label for="receive_no">아니오</label>
+    											</li>
+										    </c:if>
+                                            <c:if test="${ info_view.getM_email_ok() eq '아니오' }">
+    											<li>
+    												<input type="radio" name="receive" id="receive_yes" class="radio_t"/><label for="receive_yes">예</label>
+    											</li>
+    											<li>
+    												<input type="radio" name="receive" id="receive_no" class="radio_t" checked="checked"/><label for="receive_no">아니오</label>
+    											</li>
+										    </c:if>
+                                        </ul>
 										<p class="gray">* 거래관련 정보는 고객님의 거래안전을 위하여 이메일 수신거부와 관계없이 발송됩니다.</p>
 									</td>
 								</tr>
@@ -307,10 +332,10 @@ $(document).ready(function() {
 									<td>
 										<ul class="pta">
 											<li>
-												<input type="text" class="w134" />&nbsp;
+												<input type="text" class="w134" value="${ info_view.getM_zipcode() }"/>&nbsp;
 											</li>
 											<li><a href="member/zip.html" class="addressBtn"><span>우편번호 찾기</span></a></li>
-											<li class="pt5"><input type="text" class="addressType" /></li>
+											<li class="pt5"><input type="text" class="addressType" value="${ info_view.getM_address1() } ${ info_view.getM_address2() }" /></li>
 											<li>
 												<span class="mvalign">※ 상품 배송 시 받으실 주소입니다. 주소를 정확히 적어 주세요.</span>
 											</li>
@@ -322,8 +347,8 @@ $(document).ready(function() {
 									<td>
 										<ul class="pta">
 											<li>
-												<select>
-													<option value="010" selected="selected">010</option>
+												<select name="phone1" id="phone1">
+													<option value="010">010</option>
 													<option value="011">011</option>
 													<option value="016">016</option>
 													<option value="017">017</option>
@@ -332,17 +357,27 @@ $(document).ready(function() {
 												</select>
 											</li>
 											<li>&nbsp;<span class="valign">-</span>&nbsp;</li>
-											<li><input type="text" class="w74" maxlength="4" /> <span class="valign">-</span>&nbsp;</li>
-											<li class="r10"><input type="text" class="w74" maxlength="4" /></li>
+											<li><input type="text" class="w74" maxlength="4" name="phone2" value="${ phone2 }"/> <span class="valign">-</span>&nbsp;</li>
+											<li class="r10"><input type="text" class="w74" maxlength="4" name="phone3" value="${ phone3 }"/></li>
 											<li class="cb pt5"><span class="mvalign">※ SMS 서비스를 받아보시겠습니까?</span></li>
 											<li class="pt5">
 												<ul class="baseQues">
-													<li>
-														<input type="radio" name="sms" id="sms_yes" class="radio_t" checked="checked"/><label for="sms_yes">예</label>
-													</li>
-													<li>
-														<input type="radio" name="sms" id="sms_no" class="radio_t"/><label for="sms_no">아니오</label>
-													</li>
+                                                    <c:if test="${ info_view.getM_sms_ok() eq '예' }">
+    													<li>
+    														<input type="radio" name="sms" id="sms_yes" class="radio_t" checked="checked"/><label for="sms_yes">예</label>
+    													</li>
+    													<li>
+    														<input type="radio" name="sms" id="sms_no" class="radio_t"/><label for="sms_no">아니오</label>
+    													</li>
+                                                    </c:if>
+                                                    <c:if test="${ info_view.getM_sms_ok() eq '아니오' }">
+    													<li>
+    														<input type="radio" name="sms" id="sms_yes" class="radio_t"/><label for="sms_yes">예</label>
+    													</li>
+    													<li>
+    														<input type="radio" name="sms" id="sms_no" class="radio_t" checked="checked"/><label for="sms_no">아니오</label>
+    													</li>
+                                                    </c:if>
 												</ul>
 											</li>
 										</ul>
@@ -353,8 +388,8 @@ $(document).ready(function() {
 									<td>
 										<ul class="pta">
 											<li>
-												<select>
-													<option value="02" selected="selected">02</option>
+												<select name="tel1" id="tel1">
+													<option value="02">02</option>
 													<option value="031">031</option>
 													<option value="032">032</option>
 													<option value="033">033</option>
@@ -374,8 +409,8 @@ $(document).ready(function() {
 												</select>
 											</li>
 											<li>&nbsp;<span class="valign">-</span>&nbsp;</li>
-											<li><input type="text" class="w74" maxlength="4" /> <span class="valign">-</span>&nbsp;</li>
-											<li><input type="text" class="w74" maxlength="4" /></li>
+											<li><input type="text" class="w74" maxlength="4" value="${tel2 }" name="tel2"/> <span class="valign">-</span>&nbsp;</li>
+											<li><input type="text" class="w74" maxlength="4" value="${tel3 }" name="tel3"/></li>
 										</ul>
 									</td>
 								</tr>
@@ -384,12 +419,12 @@ $(document).ready(function() {
 									<td>
 										<ul class="pta">
 											<li>
-												<select>
-													<option value='' selected="selected">선택하세요</option>
+												<select name="birth1" id="birth1">
+													<option value=''>선택하세요</option>
 													<script type="text/javascript">
 													//<![CDATA[
 														for(var i=1940; i<=2014; i++){
-															document.write("<option value=''>" + i + "년"+ "</option>");	
+															document.write("<option value='"+i+"'>" + i + "</option>");	
 														};
 													//]]>
 													</script>
@@ -397,15 +432,15 @@ $(document).ready(function() {
 											</li>
 											<li>&nbsp;<span class="valign">년</span>&nbsp;&nbsp;&nbsp;</li>
 											<li>
-												<select>
-													<option value='' selected="selected">선택하세요</option>
+												<select name="birth2" id="birth2">
+													<option value=''>선택하세요</option>
 													<script type="text/javascript">
 													//<![CDATA[
 														for(var i=1; i<=12; i++){
 															if(i<10){
-																document.write("<option value=''>0" + i + "월"+"</option>");
+																document.write("<option value='0"+i+"'>0" + i +"</option>");
 															}else{
-																document.write("<option value=''>" + i + "월"+ "</option>");
+																document.write("<option value='"+i+"'>" + i + "</option>");
 															};
 														};
 													//]]>
@@ -414,15 +449,15 @@ $(document).ready(function() {
 											</li>
 											<li>&nbsp;<span class="valign">월</span>&nbsp;&nbsp;&nbsp;</li>
 											<li>
-												<select>
-													<option value='' selected="selected">선택하세요</option>
+												<select name="birth3" id="birth3">
+													<option value=''>선택하세요</option>
 													<script type="text/javascript">
 													//<![CDATA[
 														for(var i=1; i<=31; i++){
 															if(i<10){
-																document.write("<option value=''>0" + i + "일"+"</option>");
+																document.write("<option value='0"+i+"'>0" + i +"</option>");
 															}else{
-																document.write("<option value=''>" + i + "일"+ "</option>");
+																document.write("<option value='"+i+"'>" + i + "</option>");
 															};
 														};
 													//]]>
@@ -430,15 +465,27 @@ $(document).ready(function() {
 												</select>
 											</li>
 											<li class="r20">&nbsp;<span class="valign">일</span></li>
+                                            
+                                            
 											<li class="pt5">
 												<ul class="baseQues">
-													<li>
-														<input type="radio" name="birth" id="solar" class="radio_t" checked="checked"/><label for="solar">양력</label>
-													</li>
-													<li>
-														<input type="radio" name="birth" id="lunar" class="radio_t"/><label for="lunar">음력</label>
-													</li>
-												</ul>
+                                                    <c:if test="${ info_view.getM_birth_sort() eq '양력' }">
+    													<li>
+    														<input type="radio" name="birth" id="solar" class="radio_t" checked="checked"/><label for="solar">양력</label>
+    													</li>
+    													<li>
+    														<input type="radio" name="birth" id="lunar" class="radio_t"/><label for="lunar">음력</label>
+    													</li>
+											 	    </c:if>
+                                                    <c:if test="${ info_view.getM_birth_sort() eq '음력' }">
+    													<li>
+    														<input type="radio" name="birth" id="solar" class="radio_t"/><label for="solar">양력</label>
+    													</li>
+    													<li>
+    														<input type="radio" name="birth" id="lunar" class="radio_t" checked="checked"/><label for="lunar">음력</label>
+    													</li>
+											 	    </c:if>
+                                                </ul>
 											</li>
 										</ul>
 									</td>
@@ -446,10 +493,10 @@ $(document).ready(function() {
 							</tbody>
 							</table>
 						</div>
-						
+					</form>	
 
 					</div>
-
+            
 					
 					<!-- Btn Area -->
 					<div class="btnArea">
@@ -491,9 +538,11 @@ $(function(){
 
 });
 </script>
+<script type="text/javascript" src="user/js/common.js"></script>
 
 
-				</div>
+
+
 			</div>
 			<!-- //contents -->
 
