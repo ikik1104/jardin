@@ -63,7 +63,43 @@ $(document).ready(function() {
 
      $(document).ready(function () {
          msiecheck();
-     });
+     
+         if($(".obtnMini").text() == "답변대기"){
+        	 $(".obtnMini").css('background-color', '#999999');
+         } else {
+        	 $(".obtnMini").css('background-color', '#f7703c');
+         }
+         
+     }); //jquery
+     
+     
+     
+     function inq_delete(iu_num){
+    	 
+    	 console.log(typeof iu_num);
+    	 console.log("inquiry : "+iu_num);
+    	     	 
+    	 if(confirm("1:1문의를 삭제하시겠습니까? (삭제시 더이상 답변을 확인할 수 없습니다.)")){
+             $.ajax({
+               url : "inquiry_delete",
+               type : "POST",
+               data: JSON.stringify(iu_num),
+               contentType: "application/json",
+               dataType : "json",
+               success : function(val){
+                  if(val == 1){ //리턴값이 1이면 (=성공)
+                     alert("삭제가 완료되었습니다.");
+                 	 location.href="inquiry";
+                  }else{ // 0이면 실패
+                     alert("삭제처리 실패.");
+                  }
+               },
+               error : function(){
+                  alert("서버통신실패");
+               }
+            });
+      	}
+     }
 
      var msiecheck = function () {
          var browser = navigator.userAgent.toLowerCase();
@@ -239,7 +275,7 @@ $(document).ready(function() {
 							</div>
 							<div class="day">
 								<p class="txt">등록일<span>${ inq_view.getIu_date() }</span></p>
-								<p class="btn"><span class="obtnMini">${ inq_view.getIu_status }</span></p>
+								<p class="btn"><span class="obtnMini">${ inq_view.getIu_status() }</span></p>
 							</div>
 						</div>
 
@@ -249,19 +285,20 @@ $(document).ready(function() {
 					</div>
 
 					<!-- 답변 -->
-					<div class="answer">
-						<div class="inbox">
-							<div class="aname">
-								<p>담당자 <span>[${ ans_view.getIa_date() }]</span></p>
-							</div>
-
-							<div class="atxt">
-								${ ans_view.getIa_content() }
-							</div>
-						</div>
-					</div>
-					<!-- //답변 -->
-
+                    <c:if test="${ not empty ans_view }">
+    					<div class="answer">
+    						<div class="inbox">
+    							<div class="aname">
+    								<p>담당자 <span>[${ ans_view.getIa_date() }]</span></p>
+    							</div>
+    
+    							<div class="atxt">
+    								${ ans_view.getIa_content() }
+    							</div>
+    						</div>
+    					</div>
+                    </c:if>
+                    <!-- //답변 -->
 
 					<!-- 이전다음글 -->
 					<div class="pnDiv web">
@@ -276,32 +313,30 @@ $(document).ready(function() {
 								<tr>
 									<th class="pre">PREV</th>
                                     
-                                    <c:if test="${ empty pre_title }">
-                                        <td>이전 글이 없습니다.</td>
+                                    <c:if test="${ empty next_title }">
+                                        <td>다음 글이 없습니다.</td>
+                                        <td>&nbsp;</td>
                                     </c:if>
-                                    <c:if test="${ not empty pre_title }">
-    									<td><a href="#">${ pre_title.getIu_title() }</a></td>
-    									<td>
-    										<div class="parea">
-    											<div class="nbtnMini">${ pre_title.getIu_status }</div>
-    										</div>
-    									</td>
+                                    <c:if test="${ not empty next_title }">
+                                        <td><a href="inquiry_view?iu_num=${ next_title.getIu_num() }&m_num=${ next_title.getM_num() }&rownum=${ rownum+1 }">${ next_title.getIu_title() }</a></td>
+                                        <td>
+                                            <div class="parea">
+                                                <div class="nbtnMini">${ next_title.getIu_status() }</div>
+                                            </div>
+                                        </td>
                                     </c:if>
-                                    
 								</tr>
 
 								<tr>
 									<th class="next">NEXT</th>
-                                    
-                                    <c:if test="${ empty next_title }">
-                                        <td>다음 글이 없습니다.</td>
-								        <td>&nbsp;</td>
+                                    <c:if test="${ empty pre_title }">
+                                        <td>이전 글이 없습니다.</td>
                                     </c:if>
-                                    <c:if test="${ not empty next_title }">
-                                        <td><a href="#">${ next_title.getIu_title() }</a></td>
+                                    <c:if test="${ not empty pre_title }">
+                                        <td><a href="inquiry_view?iu_num=${ pre_title.getIu_num() }&m_num=${ pre_title.getM_num() }&rownum=${ rownum-1 }">${ pre_title.getIu_title() }</a></td>
                                         <td>
                                             <div class="parea">
-                                                <div class="nbtnMini">${ next_title.getIu_status }</div>
+                                                <div class="nbtnMini">${ pre_title.getIu_status() }</div>
                                             </div>
                                         </td>
                                     </c:if>
@@ -317,9 +352,9 @@ $(document).ready(function() {
 					<div class="btnArea">
 						<div class="bRight">
 							<ul>
-								<li><a href="#" class="nbtnbig mw">수정</a></li>
-								<li><a href="#" class="nbtnbig mw">삭제</a></li>
-								<li><a href="#" class="sbtnMini mw">목록</a></li>
+								<li><a href="inquiry_modify?m_num=${ inq_view.getM_num() }&iu_num=${ inq_view.getIu_num() }&rownum=${ rownum }" class="nbtnbig mw">수정</a></li>
+								<li><a href="#" class="nbtnbig mw" onclick="inq_delete(${inq_view.getIu_num()})">삭제</a></li>
+								<li><a href="inquiry?m_num=${ inq_view.getM_num() }" class="sbtnMini mw">목록</a></li>
 							</ul>
 						</div>
 					</div>

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> 
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn"%>
 <!DOCTYPE html>
@@ -30,8 +30,6 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	
-
-
 });
 </script>
 </head>
@@ -63,7 +61,14 @@ $(document).ready(function() {
 
      $(document).ready(function () {
          msiecheck();
+         
      });
+     
+     
+     var submit = function () {
+    	 modi_inq.submit();
+     }
+     
 
      var msiecheck = function () {
          var browser = navigator.userAgent.toLowerCase();
@@ -86,6 +91,12 @@ $(document).ready(function() {
 		$("#ieUser").hide();
         clearTimeout(msietimer);
      }
+     
+    
+     
+     
+     
+     
 </script>
 
 <div id="allwrap">
@@ -229,97 +240,66 @@ $(document).ready(function() {
 						</ul>
 					</div>
 
+                    <!-- 입력폼 -->
+                    <form action="inquiry_modi_regi?iu_num=${ iu_num }&rownum=${ rownum }" method="post" name="modi_inq">
+    					<div class="checkDiv">
+    						<table summary="분류, 제목, 상세내용, 첨부파일 순으로 궁금하신 점을 문의 하실수 있습니다." class="checkTable" border="1" cellspacing="0">
+    							<caption>1:1문의</caption>
+    							<colgroup>
+    							<col width="19%" class="tw30" />
+    							<col width="*" />
+    							</colgroup>
+    							<tbody>
+    								<tr>
+    									<th scope="row"><span>분류</span></th>
+    									<td>
+    										<select name="iu_sort">
+    											<option value="">선택해주세요.</option>
+    											<option value="상품">상품문의</option>
+    											<option value="배송">배송문의</option>
+    											<option value="교환/반품/취소">교환/반품/취소</option>
+    											<option value="주문/입금확인">주문/입금확인</option>
+    											<option value="기타">기타</option>
+    										</select>
+    									</td>
+    								</tr>
+    								<tr>
+    									<th scope="row"><span>제목</span></th>
+    									<td>
+    										<input type="text" class="wlong" name="iu_title" value="${ modi_view.getIu_title() }" />
+    									</td>
+    								</tr>
+    								<tr>
+    									<th scope="row"><span>상세 내용</span></th>
+    									<td>
+    										<textarea class="tta" name="iu_content">${ modi_view.getIu_content() }</textarea>
+    									</td>
+    								</tr>
+    								<tr>
+    									<th scope="row"><span>첨부파일</span></th>
+    									<td>
+    										<input type="file" class="fileType" name="iu_img"/>
+                                            <!-- 회원고유번호 hidden -->
+                                            <input type="hidden" name="m_num" value="${ modi_view.getM_num() }">
+    									</td>
+    								</tr>
+    							</tbody>
+    						</table>
+    					</div>
+                    </form>
+                    <!-- //입력폼 -->
 
-					<div class="orderDivNm">
-						<table summary="NO, 종류, 적립포인트, 적립날짜, 상태 순으로 현재 적립된 포인트를 조회 하실수 있습니다." class="orderTable2" border="1" cellspacing="0">
-							<caption>적립내역 보기</caption>
-							<colgroup>
-							<col width="9%" class="tnone" />
-							<col width="14%" class="tw20" />
-							<col width="*" />
-							<col width="15%" class="tnone" />
-							<col width="15%" class="tw30" />
-							</colgroup>
-							<thead>
-								<th scope="col" class="tnone">NO.</th>
-								<th scope="col">분류</th>
-								<th scope="col">제목</th>
-								<th scope="col" class="tnone">등록일</th>
-								<th scope="col">처리상태</th>
-							</thead>
-							<tbody>
-<!-- 								<tr> -->
-<!-- 									<td class="tnone">4</td> -->
-<!-- 									<td>배송</td> -->
-<!-- 									<td class="left"><a href="#">배송문의 드립니다!</a></td> -->
-<!-- 									<td class="tnone">14-05-31</td> -->
-<!-- 									<td> -->
-<!-- 										<ul class="state"> -->
-<!-- 											<li><div class="nbtnMini iw83">답변대기</div></li> -->
-<!-- 										</ul> -->
-<!-- 									</td> -->
-<!-- 								</tr> -->
-                                <c:forEach var="inq" items="${ inquiry }">
-                                    <tr>
-                                        <td class="tnone">${ inq.getRownum() } </td>
-                                        <td>${ inq.getIu_sort() }</td>
-                                        <td class="left"><a href="inquiry_view?m_num=${ inq.getM_num() }&iu_num=${ inq.getIu_num() }&rownum=${ inq.getRownum() }">${ inq.getIu_title() }</a></td>
-                                        <td class="tnone">${ inq.getIu_date() }</td>
-                                        <td>
-                                            <ul class="state">
-                                                <li><div class="nbtnMini iw83">${ inq.getIu_status() }</div></li>
-                                            </ul>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-							</tbody>
-						</table>
-
-<!-- 						<div class="noData"> -->
-<!-- 							문의 하신 내용이 없습니다. -->
-<!-- 						</div> -->
+					<!-- Btn Area -->
+					<div class="btnArea">
+						<div class="bCenter">
+							<ul>																
+								<li><a href="inquiry" onclick="return confirm('1:1문의 작성을 취소하시겠습니까?');" class="nbtnbig">취소</a></li>
+								<li><a href="#" class="sbtnMini" onclick="submit()">확인</a></li>
+							</ul>
+						</div>
 					</div>
+					<!-- //Btn Area -->
 					
-
-					<div class="btnAreaList">
-						
-						<div class="bwright">
-							<ul>
-								<li><a href="inquiry_write" class="writeBtn">글쓰기</a></li>
-							</ul>
-						</div>
-
-						<!-- 페이징이동1 -->
-						<div class="allPageMoving1">
-
-						<a href="#" class="n"><img src="user/images/btn/btn_pre2.gif" alt="처음으로"/></a><a href="#" class="pre"><img src="user/images/btn/btn_pre1.gif" alt="앞페이지로"/></a>
-						<strong>1</strong>
-						<a href="#">2</a>
-						<a href="#">3</a>
-						<a href="#">4</a>
-						<a href="#">5</a>
-						<a href="#" class="next"><img src="user/images/btn/btn_next1.gif" alt="뒤페이지로"/></a><a href="#" class="n"><img src="user/images/btn/btn_next2.gif" alt="마지막페이지로"/></a>
-
-						</div>
-						<!-- //페이징이동1 -->
-					</div>
-
-					<div class="searchWrap">
-						<div class="search">
-							<ul>
-								<li class="web"><img src="user/images/txt/txt_search.gif" alt="search" /></li>
-								<li class="se">
-									<select>
-										<option value="" />제목</option>
-									</select>
-								</li>
-								<li><input type="text" class="searchInput" /></li>
-								<li class="web"><a href="#"><img src="user/images/btn/btn_search.gif" alt="검색" /></a></li>
-								<li class="mobile"><a href="#"><img src="user/images/btn/btn_search_m.gif" alt="검색" /></a></li>
-							</ul>
-						</div>
-					</div>
-
 				</div>
 			</div>
 			<!-- //contents -->

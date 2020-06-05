@@ -31,13 +31,34 @@ public class MtmServiceImp implements MtmService {
 	}
 
 	@Override
-	public List<MtmUserDto> getPreTitle(int iu_rownum) {
-		return mtmDao.getPreTitle(iu_rownum);
+	public MtmUserDto getPreTitle(int m_num, int rownum) {
+		return mtmDao.getPreTitle(m_num, rownum);
 	}
 
 	@Override
-	public List<MtmUserDto> getNextTitle(int iu_rownum) {
-		return mtmDao.getNextTitle(iu_rownum);
+	public MtmUserDto getNextTitle(int m_num, int rownum) {
+		return mtmDao.getNextTitle(m_num, rownum);
 	}
+
+	@Override
+	public void insertInquiry(MtmUserDto mtmUserDto) {
+		mtmDao.insertInquiry(mtmUserDto);
+	}
+
+	@Override
+	public MtmUserDto modifyView(int iu_num) {
+		return mtmDao.modifyView(iu_num);
+	}
+
+	@Override
+	public void modifyInquiry(MtmUserDto mtmUserDto) {
+		mtmDao.modifyInquiry(mtmUserDto);
+	}
+
+	@Override
+	public int deleteInquiry(int iu_num) {
+		return mtmDao.deleteInquiry(iu_num);
+	}
+
 
 }
