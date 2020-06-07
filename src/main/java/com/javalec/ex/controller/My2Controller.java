@@ -159,11 +159,38 @@ public class My2Controller {
 	}
 	
 	
-	//비밀번호변경
+	//비밀번호변경 모달창 열기
 	@RequestMapping("password_change")
-	public String password_change() {
+	public String password_change(HttpServletRequest request, Model model) {
+		model.addAttribute("m_id", request.getParameter("m_id"));
 		return "mypage/password_change";
 	}
+	
+//	//기존 비밀번호 일치 체크
+//	@ResponseBody
+//	@RequestMapping("pw_check")
+//	public int pw_check() {
+//		
+//		
+//	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

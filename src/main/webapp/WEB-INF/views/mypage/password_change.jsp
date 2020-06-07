@@ -20,8 +20,39 @@
 
 <script>
 function pw_ch(){
+
+	
+	//비번 변경
+	var pw_original = $("#pw_original").val();
+	$.ajax({
+           type : "POST",
+           url : "pw_check",
+           data: {
+           		
+           }, 
+           	
+           contentType: "application/json",
+           dataType : "json",
+           success : function(val){
+              if(val == 1){ //리턴값이 1이면 (=성공)
+                 alert("삭제가 완료되었습니다.");
+             	 location.href="inquiry";
+              }else{ // 0이면 실패
+                 alert("삭제처리 실패.");
+              }
+           },
+           error : function(){
+              alert("서버통신실패");
+           }
+        });
+	
+	
 	
 }
+
+
+
+
 
 </script>
 
@@ -35,7 +66,6 @@ function pw_ch(){
 
 
 		<div class="checkDiv">
-        
 			<table summary="새로운 비밀번호로 변경 하실수 있습니다." class="checkTable" border="1" cellspacing="0">
 				<caption>비밀번호 변경</caption>
 				<colgroup>
@@ -45,7 +75,10 @@ function pw_ch(){
 				<tbody>
 					<tr>
 						<th scope="row"><span>현재 비밀번호</span></th>
-						<td><input type="password" class="w215" /></td>
+						<td>
+							<input type="password" class="w215" id="pw_original"/>
+							<p id="pw_check">비밀번호가 일치하지 않습니다.</p>
+						</td>
 					</tr>
 					<tr>
 						<th scope="row"><span>새로운 비밀번호</span></th>

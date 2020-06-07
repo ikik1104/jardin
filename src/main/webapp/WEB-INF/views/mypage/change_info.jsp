@@ -207,7 +207,7 @@ $(document).ready(function() {
 								</tr>
 								<tr>
 									<th scope="row"><span>비밀번호 변경 *</span></th>
-									<td><a href="password_change?m_pw=${ info_view.getM_pw() }" data-toggle="modal" data-target="#myModal" class="nbtnMini iw86">비밀번호 변경</a></td>
+									<td><a href="password_change?m_id=${ info_view.getM_id() }" data-toggle="modal" data-target="#myModal" class="nbtnMini iw86">비밀번호 변경</a></td>
 								</tr>
 								<tr>
 									<th scope="row"><span>이메일</span></th>
