@@ -21,33 +21,27 @@
 <script>
 function pw_ch(){
 
-	
 	//비번 변경
-	var pw_original = $("#pw_original").val();
 	$.ajax({
            type : "POST",
            url : "pw_check",
            data: {
-           		
+        	   m_id : "${m_id}",
+        	   pw_ori : $("#pw_ori").val(),
+        	   pw_new : $("#pw_new").val()
            }, 
-           	
-           contentType: "application/json",
-           dataType : "json",
            success : function(val){
               if(val == 1){ //리턴값이 1이면 (=성공)
-                 alert("삭제가 완료되었습니다.");
-             	 location.href="inquiry";
+                 alert("비밀번호 변경이 완료되었습니다.");
+             	 parent.$.fancybox.close();;
               }else{ // 0이면 실패
-                 alert("삭제처리 실패.");
+                 alert("실패"); //기존 비번이 일치하지 않는지 다른 에러인지어케확인
               }
            },
            error : function(){
               alert("서버통신실패");
            }
         });
-	
-	
-	
 }
 
 
@@ -76,13 +70,13 @@ function pw_ch(){
 					<tr>
 						<th scope="row"><span>현재 비밀번호</span></th>
 						<td>
-							<input type="password" class="w215" id="pw_original"/>
+							<input type="password" class="w215" id="pw_ori"/>
 							<p id="pw_check">비밀번호가 일치하지 않습니다.</p>
 						</td>
 					</tr>
 					<tr>
 						<th scope="row"><span>새로운 비밀번호</span></th>
-						<td><input type="password" class="w215" /></td>
+						<td><input type="password" class="w215" id="pw_new"/></td>
 					</tr>
 					<tr>
 						<th scope="row"><span>새로운 비밀번호 <u>재입력</u></span></th>

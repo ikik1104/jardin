@@ -166,13 +166,21 @@ public class My2Controller {
 		return "mypage/password_change";
 	}
 	
-//	//기존 비밀번호 일치 체크
-//	@ResponseBody
-//	@RequestMapping("pw_check")
-//	public int pw_check() {
-//		
-//		
-//	}
+	//기존 비밀번호 일치 체크
+	@ResponseBody
+	@RequestMapping("pw_check")
+	public int pw_check(HttpServletRequest request) {
+		String m_id = request.getParameter("m_id");
+		String pw_ori = request.getParameter("pw_ori");
+		String pw_new = request.getParameter("pw_new");
+		
+		System.out.println("mid : "+m_id);
+		System.out.println("pw_ori : "+pw_ori);
+		System.out.println("pw_new : "+pw_new);
+		
+		int success = changeInfoService.pwChange(pw_new, m_id, pw_ori);
+		return success;
+	}
 	
 	
 	

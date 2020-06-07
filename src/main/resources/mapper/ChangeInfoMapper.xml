@@ -4,11 +4,15 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
         
 <mapper namespace="com.javalec.ex.dao.ChangeInfoDao">
+	<!-- 회원의 모든정보 가져오기 -->
 	<select id="getOneInfo" resultType="com.javalec.ex.dto.MemberDto">
-		
 		select * from member_tb where m_num=#{param1}
-		
 	</select>
-
+	
+	<!-- 비밀번호 업데이트 -->
+	<update id="pwChange">
+		update member_tb set m_pw=#{param1} where m_id=#{param2} and m_pw=#{param3}
+	</update>
+	
 
 </mapper>

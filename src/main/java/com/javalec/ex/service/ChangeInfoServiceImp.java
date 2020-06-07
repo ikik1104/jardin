@@ -18,4 +18,9 @@ public class ChangeInfoServiceImp implements ChangeInfoService {
 		return changeInfoDao.getOneInfo(m_num);
 	}
 
+	@Override
+	public int pwChange(String pw_new, String m_id, String pw_ori) {
+		return changeInfoDao.pwChange(pw_new, m_id, pw_ori);
+	}
+
 }

@@ -8,7 +8,7 @@ import com.javalec.ex.dto.MemberDto;
 public interface ChangeInfoDao {
 
 	MemberDto getOneInfo(int m_num); //회원정보 가져오기
-//	String // 기존비번 일치체크
+	int pwChange(String pw_new, String m_id, String pw_ori); //비밀번호 업데이트
 	
 	
 }
