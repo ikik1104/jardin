@@ -27,7 +27,17 @@
 <script type="text/javascript" src="user/js/html5.js"></script>
 <script type="text/javascript" src="user/js/respond.min.js"></script>
 <![endif]-->
+<script type="text/javascript">
+	$(document).ready(function() {
+		if (self.name != 'reload') {
+	         self.name = 'reload';
+	         self.location.reload(true);
+	     }
+	     else self.name = '';
+	});
+</script>
 
+	
 </head>
 <body>
 
