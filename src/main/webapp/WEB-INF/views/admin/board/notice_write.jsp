@@ -68,10 +68,9 @@
 						</tr>
 					</table>
 					<div id="btn_div">
-						<button type="button" onclick="location.href='notice_list?rownum=${rownum}'">목록</button>
+						<button type="button" onclick="location.href='notice_list'">목록</button>
 						<button type="submit" >등록</button>
 					</div>
-					<input type="hidden" value="${rownum }" name="rownum">
 					<input type="hidden" value="${adNum }" name="ad_num">					
 				</div>
 			</form>

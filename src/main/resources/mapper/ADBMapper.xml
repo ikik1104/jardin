@@ -4,6 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.javalec.ex.dao.ADBMtmDao">
 
+	<!-- 1:1문의, 공지사항 -->
+
 	<!-- Dto 객체 선언 -->
 	<resultMap type="com.javalec.ex.dto.MtmUserDto" id="MtmUserDto">
 	    <result column="rownum" property="rownum"/>	
@@ -109,4 +111,22 @@
 		insert into notice_tb values(n_seq.nextval,#{ad_num},#{no_title}, 
 		#{no_content}, sysdate, 0)
 	</insert>	
+	
+	<!-- 공지글 1개 불러오기 -->
+	<select id="getNoticeBoard" resultMap="AllDto">
+		select no_title, no_content, no_num, ad.ad_num, ad.ad_id, ad.ad_grade 
+		from notice_tb noti, admin_tb ad
+		where noti.ad_num=ad.ad_num and noti.no_num=#{no_num}		
+	</select>
+	
+	<!-- 공지글 1개 수정 -->
+	<update id="modifyNoticeBoard" >
+		update notice_tb set no_title=#{no_title}, no_content=#{no_content} where no_num=#{no_num}	
+	</update>
+	
+	<!-- 공지글 삭제 -->
+	<delete id="deleteNoticeBoard">
+		delete from notice_tb where no_num=#{no_num}
+	</delete>		
+	
 </mapper>

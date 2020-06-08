@@ -23,6 +23,7 @@ public class AllDto {
 	}
 	public void setNoticedto(NoticeDto noticedto) {
 		this.noticedto = noticedto;
+
 	}
 	
 	
