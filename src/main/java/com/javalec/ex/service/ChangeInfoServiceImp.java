@@ -23,4 +23,9 @@ public class ChangeInfoServiceImp implements ChangeInfoService {
 		return changeInfoDao.pwChange(pw_new, m_id, pw_ori);
 	}
 
+	@Override
+	public int infoChange(MemberDto memberDto) {
+		return changeInfoDao.infoChange(memberDto);
+	}
+
 }

@@ -120,10 +120,10 @@ public class My2Controller {
 	
 	//회원정보수정 수정 양식 보기
 	@RequestMapping("change_info")
-	public String change_info(HttpSession session, Model model) {
+	public String change_info(HttpSession session, Model model, HttpServletRequest request) {
 		if(session.getAttribute("userNum") == null) { return "home";} //세션체크
 		int m_num = (Integer) session.getAttribute("userNum");
-
+		
 		MemberDto memberDto = changeInfoService.getOneInfo(m_num);
 
 		//email 분리
@@ -173,16 +173,24 @@ public class My2Controller {
 		String m_id = request.getParameter("m_id");
 		String pw_ori = request.getParameter("pw_ori");
 		String pw_new = request.getParameter("pw_new");
-		
-		System.out.println("mid : "+m_id);
-		System.out.println("pw_ori : "+pw_ori);
-		System.out.println("pw_new : "+pw_new);
-		
 		int success = changeInfoService.pwChange(pw_new, m_id, pw_ori);
 		return success;
 	}
 	
+	//우편번호창 열기
+	@RequestMapping("zip_open")
+	public String zip_open() {
+		return "member/zip";
+	}
 	
+	//회원정보 수정 완료시키기
+	@ResponseBody
+	@RequestMapping("submit_change_info")
+	public int submit_change_info(MemberDto memberDto, Model model) {
+		int success=changeInfoService.infoChange(memberDto);
+		return success;
+	}
+
 	
 	
 	

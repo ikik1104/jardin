@@ -14,5 +14,10 @@
 		update member_tb set m_pw=#{param1} where m_id=#{param2} and m_pw=#{param3}
 	</update>
 	
+	<!-- 회원정보 업데이트 -->
+	<update id="infoChange">
+		update member_tb set m_email=#{m_email}, m_email_ok=#{m_email_ok}, m_zipcode=#{m_zipcode}, m_address1=#{m_address1}, m_address2=#{m_address2}, m_phone=#{m_phone}, m_sms_ok=#{m_sms_ok}, m_tel=#{m_tel}, m_birth=#{m_birth}, m_birth_sort=#{m_birth_sort} where m_id=#{m_id}
+	</update>
+	
 
 </mapper>

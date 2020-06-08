@@ -35,13 +35,13 @@ function pw_ch(){
                  alert("비밀번호 변경이 완료되었습니다.");
              	 parent.$.fancybox.close();;
               }else{ // 0이면 실패
-                 alert("실패"); //기존 비번이 일치하지 않는지 다른 에러인지어케확인
+                 $('#pw_check').text('비밀번호가 일치하지 않습니다.');
               }
            },
            error : function(){
               alert("서버통신실패");
            }
-        });
+	});
 }
 
 
@@ -71,7 +71,7 @@ function pw_ch(){
 						<th scope="row"><span>현재 비밀번호</span></th>
 						<td>
 							<input type="password" class="w215" id="pw_ori"/>
-							<p id="pw_check">비밀번호가 일치하지 않습니다.</p>
+							<p id="pw_check"></p>
 						</td>
 					</tr>
 					<tr>

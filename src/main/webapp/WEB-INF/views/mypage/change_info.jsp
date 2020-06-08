@@ -102,6 +102,42 @@ $(document).ready(function() {
 		$("#ieUser").hide();
         clearTimeout(msietimer);
      }
+     
+     //이메일, 연락처, 주소 폼 맞추기
+     function info_submit(){
+    	 $.ajax({
+             type : "POST",
+             url : "submit_change_info",
+             data: {
+          	   m_id : "${ info_view.getM_id() }",
+          	   m_email : $("input[name=email_id]").val() + "@" + $("input[name=email_domain]").val(),
+          	   m_email_ok : $("input[name=m_email_ok]").val(),
+          	   m_zipcode : $("input[name=m_zipcode]").val(),
+          	   m_address1 : $("input[name=m_address1]").val(),
+          	   m_address2 : $("input[name=m_address2]").val(),
+          	   m_phone : $("#phone1").val()+"-"+$("input[name=phone2]").val()+"-"+$("input[name=phone3]").val(),
+          	   m_sms_ok : $("input[name=m_sms_ok]").val(),
+          	   m_tel : $("#tel1").val()+"-"+$("input[name=tel2]").val()+"-"+$("input[name=tel3]").val(),
+          	   m_birth : $("#birth1").val()+"/"+$("#birth2").val()+"/"+$("#birth3").val(),
+          	   m_birth_sort : $("input[name=m_birth_sort]").val()
+             }, 
+             success : function(val){
+                if(val == 1){ //리턴값이 1이면 (=성공)
+                   alert("회원정보 수정이 완료되었습니다.");
+                   location.reload();
+                }else{ // 0이면 실패
+                   alert("회원정보 수정사항이 반영되지 않았습니다. 다시 확인해주세요.");
+                }
+             },
+             error : function(){
+                alert("서버통신실패");
+             }
+  		});
+
+     }
+     
+     
+     
 </script>
 
 <div id="allwrap">
@@ -188,7 +224,7 @@ $(document).ready(function() {
 						</ul>
 					</div>
 
-                    <form action="change_info" method="post" name="ch_info">
+                    <form action="submit_change_info" method="post" name="ch_info">
 					<div class="memberbd">
 						<table summary="이름, 아이디, 비밀번호, 비밀번호 확인, 이메일, 이메일수신여부, 주소, 휴대폰, 유선전화, 생년월일 순으로 회원가입 정보를 수정할수 있습니다." class="memberWrite" border="1" cellspacing="0">
 							<caption>회원가입 수정</caption>
@@ -204,6 +240,7 @@ $(document).ready(function() {
 								<tr>
 									<th scope="row"><span>아이디 *</span></th>
 									<td>${ info_view.getM_id() }</td>
+                                    <input type="hidden" name="m_id" value="${ info_view.getM_id() }">
 								</tr>
 								<tr>
 									<th scope="row"><span>비밀번호 변경 *</span></th>
@@ -213,10 +250,11 @@ $(document).ready(function() {
 									<th scope="row"><span>이메일</span></th>
 									<td>
 										<ul class="pta">
-											<li><input type="text" class="w134" name="eamil_id" value="${ email_id }"/></li>
+											<li><input type="text" class="w134" name="email_id" value="${ email_id }"/></li>
 											<li><span class="valign">&nbsp;@&nbsp;</span></li>
 											<li class="r10"><input type="text" class="w134" name="email_domain" value="${ email_domain }"/></li>
-											<li>
+											<input type="hidden" name="m_email" value=""/>
+                                            <li>
 												<select id="emailList">
 													<option value="#" selected="selected">직접입력</option>
 													<option value="naver.com">naver.com</option>
@@ -246,18 +284,18 @@ $(document).ready(function() {
 										<ul class="question">
                                             <c:if test="${ info_view.getM_email_ok() eq '예' }">
     											<li>
-    												<input type="radio" name="receive" id="receive_yes" class="radio_t" checked="checked"/><label for="receive_yes">예</label>
+    												<input type="radio" name="m_email_ok" value="예" id="receive_yes" class="radio_t" checked="checked"/><label for="receive_yes">예</label>
     											</li>
     											<li>
-    												<input type="radio" name="receive" id="receive_no" class="radio_t"/><label for="receive_no">아니오</label>
+    												<input type="radio" name="m_email_ok" value="아니오" id="receive_no" class="radio_t"/><label for="receive_no">아니오</label>
     											</li>
 										    </c:if>
                                             <c:if test="${ info_view.getM_email_ok() eq '아니오' }">
     											<li>
-    												<input type="radio" name="receive" id="receive_yes" class="radio_t"/><label for="receive_yes">예</label>
+    												<input type="radio" name="m_email_ok" value="예" id="receive_yes" class="radio_t"/><label for="receive_yes">예</label>
     											</li>
     											<li>
-    												<input type="radio" name="receive" id="receive_no" class="radio_t" checked="checked"/><label for="receive_no">아니오</label>
+    												<input type="radio" name="m_email_ok" value="아니오" id="receive_no" class="radio_t" checked="checked"/><label for="receive_no">아니오</label>
     											</li>
 										    </c:if>
                                         </ul>
@@ -269,10 +307,11 @@ $(document).ready(function() {
 									<td>
 										<ul class="pta">
 											<li>
-												<input type="text" class="w134" value="${ info_view.getM_zipcode() }"/>&nbsp;
+												<input type="text" class="w134" name="m_zipcode" value="${ info_view.getM_zipcode() }"/>&nbsp;
 											</li>
-											<li><a href="member/zip.html" class="addressBtn"><span>우편번호 찾기</span></a></li>
-											<li class="pt5"><input type="text" class="addressType" value="${ info_view.getM_address1() } ${ info_view.getM_address2() }" /></li>
+											<li><a href="zip_open" class="addressBtn"><span>우편번호 찾기</span></a></li>
+											<li class="pt5"><input type="text" class="addressType" name="m_address1" value="${ info_view.getM_address1() }" /></li>
+											<li class="pt5"><input type="text" class="addressType" name="m_address2" value="${ info_view.getM_address2() }" /></li>
 											<li>
 												<span class="mvalign">※ 상품 배송 시 받으실 주소입니다. 주소를 정확히 적어 주세요.</span>
 											</li>
@@ -301,18 +340,18 @@ $(document).ready(function() {
 												<ul class="baseQues">
                                                     <c:if test="${ info_view.getM_sms_ok() eq '예' }">
     													<li>
-    														<input type="radio" name="sms" id="sms_yes" class="radio_t" checked="checked"/><label for="sms_yes">예</label>
+    														<input type="radio" name="m_sms_ok" value="예" id="sms_yes" class="radio_t" checked="checked"/><label for="sms_yes">예</label>
     													</li>
     													<li>
-    														<input type="radio" name="sms" id="sms_no" class="radio_t"/><label for="sms_no">아니오</label>
+    														<input type="radio" name="m_sms_ok" value="아니오" id="sms_no" class="radio_t"/><label for="sms_no">아니오</label>
     													</li>
                                                     </c:if>
                                                     <c:if test="${ info_view.getM_sms_ok() eq '아니오' }">
     													<li>
-    														<input type="radio" name="sms" id="sms_yes" class="radio_t"/><label for="sms_yes">예</label>
+    														<input type="radio" name="m_sms_ok" value="예" id="sms_yes" class="radio_t"/><label for="sms_yes">예</label>
     													</li>
     													<li>
-    														<input type="radio" name="sms" id="sms_no" class="radio_t" checked="checked"/><label for="sms_no">아니오</label>
+    														<input type="radio" name="m_sms_ok" value="아니오" id="sms_no" class="radio_t" checked="checked"/><label for="sms_no">아니오</label>
     													</li>
                                                     </c:if>
 												</ul>
@@ -343,6 +382,7 @@ $(document).ready(function() {
 													<option value="063">063</option>
 													<option value="064">064</option>
 													<option value="070">070</option>
+													<option value="010">010</option>
 												</select>
 											</li>
 											<li>&nbsp;<span class="valign">-</span>&nbsp;</li>
@@ -403,23 +443,22 @@ $(document).ready(function() {
 											</li>
 											<li class="r20">&nbsp;<span class="valign">일</span></li>
                                             
-                                            
 											<li class="pt5">
 												<ul class="baseQues">
                                                     <c:if test="${ info_view.getM_birth_sort() eq '양력' }">
     													<li>
-    														<input type="radio" name="birth" id="solar" class="radio_t" checked="checked"/><label for="solar">양력</label>
+    														<input type="radio" name="m_birth_sort" value="양력" id="solar" class="radio_t" checked="checked"/><label for="solar">양력</label>
     													</li>
     													<li>
-    														<input type="radio" name="birth" id="lunar" class="radio_t"/><label for="lunar">음력</label>
+    														<input type="radio" name="m_birth_sort" value="음력" id="lunar" class="radio_t"/><label for="lunar">음력</label>
     													</li>
 											 	    </c:if>
                                                     <c:if test="${ info_view.getM_birth_sort() eq '음력' }">
     													<li>
-    														<input type="radio" name="birth" id="solar" class="radio_t"/><label for="solar">양력</label>
+    														<input type="radio" name="m_birth_sort" value="양력" id="solar" class="radio_t"/><label for="solar">양력</label>
     													</li>
     													<li>
-    														<input type="radio" name="birth" id="lunar" class="radio_t" checked="checked"/><label for="lunar">음력</label>
+    														<input type="radio" name="m_birth_sort" value="음력" id="lunar" class="radio_t" checked="checked"/><label for="lunar">음력</label>
     													</li>
 											 	    </c:if>
                                                 </ul>
@@ -439,8 +478,8 @@ $(document).ready(function() {
 					<div class="btnArea">
 						<div class="bCenter">
 							<ul>
-								<li><a href="#" class="nbtnbig">취소하기</a></li>
-								<li><a href="#" class="sbtnMini">수정하기</a></li>
+								<li><a href="change_info" class="nbtnbig">취소하기</a></li>
+								<li><a href="#" class="sbtnMini" onclick="info_submit()">수정하기</a></li>
 							</ul>
 						</div>
 					</div>
