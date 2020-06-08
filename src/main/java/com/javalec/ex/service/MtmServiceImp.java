@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.javalec.ex.dao.MtmDao;
 import com.javalec.ex.dto.MtmAnswerDto;
 import com.javalec.ex.dto.MtmUserDto;
+import com.javalec.ex.dto.PageDto;
 
 @Service
 public class MtmServiceImp implements MtmService {
@@ -16,8 +17,13 @@ public class MtmServiceImp implements MtmService {
 	MtmDao mtmDao;
 	
 	@Override
-	public List<MtmUserDto> getAllInquiry(int m_num) {
-		return mtmDao.getAllInquiry(m_num);
+	public int countInquiry(int m_num) {
+		return mtmDao.countInquiry(m_num);
+	}
+	
+	@Override
+	public List<MtmUserDto> getAllInquiry(int m_num, PageDto pageDto) {
+		return mtmDao.getAllInquiry(m_num, pageDto);
 	}
 
 	@Override
@@ -59,6 +65,8 @@ public class MtmServiceImp implements MtmService {
 	public int deleteInquiry(int iu_num) {
 		return mtmDao.deleteInquiry(iu_num);
 	}
+
+	
 
 
 }

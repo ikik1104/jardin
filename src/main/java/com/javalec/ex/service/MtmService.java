@@ -4,10 +4,12 @@ import java.util.List;
 
 import com.javalec.ex.dto.MtmAnswerDto;
 import com.javalec.ex.dto.MtmUserDto;
+import com.javalec.ex.dto.PageDto;
 
 public interface MtmService {
 
-	List<MtmUserDto> getAllInquiry(int m_num);
+	int countInquiry(int m_num);//특정 회원의 문의글수
+	List<MtmUserDto> getAllInquiry(int m_num, PageDto pageDto);
 	MtmUserDto getOneInquiry(int iu_num);
 	MtmAnswerDto getOneAnswer(int iu_num);
 	MtmUserDto getPreTitle(int m_num, int rownum);

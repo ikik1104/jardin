@@ -5,17 +5,17 @@
         
 <mapper namespace="com.javalec.ex.dao.MtmDao">
 
-<!-- 	<resultMap type="com.javalec.ex.dto.MtmUserDto" id="MtmUserDto"> -->
-<!-- 	    <result column="iu_title" property="iu_title"/> -->
-<!-- 	    <result column="iu_status" property="iu_status"/> -->
-<!-- 	</resultMap> -->
+	<select id="countInquiry" parameterType="Integer" resultType="Integer">
+		select count(*) from mtm_inqury_user_tb where m_num = #{param1}	
+	</select>
 
-	<select id="getAllInquiry" parameterType="Integer" resultType="com.javalec.ex.dto.MtmUserDto">
+	<select id="getAllInquiry" resultType="com.javalec.ex.dto.MtmUserDto">
 		
 		select * from 
-		(select rownum, mtmu.* from 
-		(select * from mtm_inqury_user_tb where m_num = #{param1} order by iu_num asc) mtmu) 
-        order by rownum desc
+		(select rownum rnum, mtmu.* from 
+		(select * from mtm_inqury_user_tb where m_num = #{m_num} order by iu_num asc) mtmu)
+		where rnum between #{pageDto.startRow} and #{pageDto.endRow} 
+        order by rnum desc
 		
 	</select>
 	

@@ -184,17 +184,7 @@ $(document).ready(function() {
 								<th scope="col">처리상태</th>
 							</thead>
 							<tbody>
-<!-- 								<tr> -->
-<!-- 									<td class="tnone">4</td> -->
-<!-- 									<td>배송</td> -->
-<!-- 									<td class="left"><a href="#">배송문의 드립니다!</a></td> -->
-<!-- 									<td class="tnone">14-05-31</td> -->
-<!-- 									<td> -->
-<!-- 										<ul class="state"> -->
-<!-- 											<li><div class="nbtnMini iw83">답변대기</div></li> -->
-<!-- 										</ul> -->
-<!-- 									</td> -->
-<!-- 								</tr> -->
+
                                 <c:forEach var="inq" items="${ inquiry }">
                                     <tr>
                                         <td class="tnone">${ inq.getRownum() } </td>
@@ -208,6 +198,7 @@ $(document).ready(function() {
                                         </td>
                                     </tr>
                                 </c:forEach>
+                                
 							</tbody>
 						</table>
 
@@ -228,16 +219,50 @@ $(document).ready(function() {
 						<!-- 페이징이동1 -->
 						<div class="allPageMoving1">
 
-						<a href="#" class="n"><img src="user/images/btn/btn_pre2.gif" alt="처음으로"/></a><a href="#" class="pre"><img src="user/images/btn/btn_pre1.gif" alt="앞페이지로"/></a>
-						<strong>1</strong>
-						<a href="#">2</a>
-						<a href="#">3</a>
-						<a href="#">4</a>
-						<a href="#">5</a>
-						<a href="#" class="next"><img src="user/images/btn/btn_next1.gif" alt="뒤페이지로"/></a><a href="#" class="n"><img src="user/images/btn/btn_next2.gif" alt="마지막페이지로"/></a>
+						<c:choose>
+							<c:when test="${ searchflag != null }">
+								<a href="#" class="n"><img src="user/images/btn/btn_pre2.gif" alt="처음으로"/></a>
+								<a href="#" class="pre"><img src="user/images/btn/btn_pre1.gif" alt="앞페이지로"/></a>
+								<strong>1</strong>
+								<a href="#">2</a>
+								<a href="#">3</a>
+								<a href="#">4</a>
+								<a href="#">5</a>
+								<a href="#" class="next"><img src="user/images/btn/btn_next1.gif" alt="뒤페이지로"/></a>
+								<a href="#" class="n"><img src="user/images/btn/btn_next2.gif" alt="마지막페이지로"/></a>
+							</c:when>
+							<c:otherwise>
+								<a href="inquiry?page=1" class="n"><img src="user/images/btn/btn_pre2.gif" alt="처음으로"/></a>
+								<c:if test="${ paging.getPage()<=1 }">
+									<img src="user/images/btn/btn_pre1.gif" alt="앞페이지로"/>
+								</c:if>
+								<c:if test="${ paging.getPage()>1 }">
+									<a href="inquiry?page=${ paging.getPage() - 1 }" class="pre"><img src="user/images/btn/btn_pre1.gif" alt="앞페이지로"/></a>
+								</c:if>
+								<c:forEach var="num" begin="${ paging.getStartPage() }" end="${ paging.getEndPage() }" step="1">
+									<c:choose>
+										<c:when test="${ num == paging.getPage() }">
+											<strong>${ num }</strong>
+										</c:when>
+										<c:when test="${ num != paging.getPage() }">
+											<a href="inquiry?page=${ num }"></a>
+										</c:when>
+									</c:choose>
+								</c:forEach>
+								
+								<c:if test="${ paging.getPage()>= paging.getLastPage() }">
+									<img src="user/images/btn/btn_next1.gif" alt="뒤페이지로"/>
+								</c:if>
+								<c:if test="${ paging.getPage() < paging.getLastPage() }">
+									<a href="inquiry?page=${ paging.getPage() + 1 }" class="next"><img src="user/images/btn/btn_next1.gif" alt="뒤페이지로"/></a>
+								</c:if>
+								<a href="inquiry?page=${ paging.getLastPage() }" class="n"><img src="user/images/btn/btn_next2.gif" alt="마지막페이지로"/></a>
+							</c:otherwise>
+						</c:choose>
 
 						</div>
 						<!-- //페이징이동1 -->
+						
 					</div>
 
 					<div class="searchWrap">

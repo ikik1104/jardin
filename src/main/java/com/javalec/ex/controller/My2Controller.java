@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.javalec.ex.dto.MemberDto;
 import com.javalec.ex.dto.MtmUserDto;
+import com.javalec.ex.dto.PageDto;
 import com.javalec.ex.service.ChangeInfoService;
 import com.javalec.ex.service.LeaveService;
 import com.javalec.ex.service.MtmService;
@@ -49,19 +50,26 @@ public class My2Controller {
 	
 	//1:1문의 리스트 페이지
 	@RequestMapping("inquiry")
-	public String inquiry(HttpServletRequest request, Model model, HttpSession session) {
-		//세션체크
-		if(session.getAttribute("userNum") == null) {return "home";}
-		int m_num = (Integer)session.getAttribute("userNum");
-		//세션체크끝
-		model.addAttribute("inquiry", mtmService.getAllInquiry(m_num));
+	public String inquiry(PageDto pageDto, HttpServletRequest request, Model model, HttpSession session) {
+		if(session.getAttribute("userNum") == null) {return "home";}//세션체크
+		int m_num = (Integer)session.getAttribute("userNum"); //회원 아이디 변수에 담기
+		int total = mtmService.countInquiry(m_num);
+		int cntPerPage = 10;
+		String page = request.getParameter("page"); //열려야하는 페이지
+		if(page == null) { page = "1"; }
+		pageDto = new PageDto(total, Integer.parseInt(page), cntPerPage);
+		
+//		String option = request.getParameter("option"); //검색 옵션
+//		String search = request.getParameter("search"); //검색어
+		model.addAttribute("paging", pageDto);
+		model.addAttribute("inquiry", mtmService.getAllInquiry(m_num, pageDto));
 		return "mypage/inquiry";
 	}
 	
 	//1:1문의 뷰 페이지
 	@RequestMapping("inquiry_view")
 	public String inquiry_view(HttpServletRequest request, Model model, HttpSession session) {
-		if(session.getAttribute("userNum") == null) {return "home";}//세션체크끝
+		if(session.getAttribute("userNum") == null) {return "home";}//세션체크
 		int m_num = Integer.parseInt(request.getParameter("m_num"));
 		int iu_num = Integer.parseInt(request.getParameter("iu_num"));
 		int rownum = Integer.parseInt(request.getParameter("rownum"));
