@@ -17,6 +17,12 @@ import com.javalec.ex.dto.NoticeDto;
 
 @Service
 public class ADBServiceImp implements ADBService {
+	
+	/*
+	1:1문의
+	공지사항 
+	*/
+	
 	@Autowired
 	ADBMtmDao adbmtmdao;
 
@@ -83,6 +89,24 @@ public class ADBServiceImp implements ADBService {
 	@Override
 	public int insertNoticeBoard(NoticeDto noticeDto) {
 		return adbmtmdao.insertNoticeBoard(noticeDto);
+	}
+
+	//공지글 1개 불러오기
+	@Override
+	public AllDto getNoticeBoard(int no_num) {
+		return adbmtmdao.getNoticeBoard(no_num);
+	}
+
+	//공지글 1개 수정
+	@Override
+	public int modifyNoticeBoard(NoticeDto noticeDto) {
+		return adbmtmdao.modifyNoticeBoard(noticeDto);
+	}
+
+	//공지글 1개 삭제
+	@Override
+	public int deleteNoticeBoard(int no_num) {
+		return adbmtmdao.deleteNoticeBoard(no_num);
 	}
 	
 

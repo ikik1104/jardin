@@ -19,11 +19,17 @@ import com.javalec.ex.dto.AllDto;
 import com.javalec.ex.dto.MtmAnswerDto;
 import com.javalec.ex.dto.MtmUserDto;
 import com.javalec.ex.dto.NoticeDto;
+import com.javalec.ex.dto.UtilDto;
 import com.javalec.ex.service.ADBService;
 import com.javalec.ex.service.BService;
 
 @Controller
 public class ADBController {
+	
+	/*
+	1:1문의
+	공지사항 
+	*/
 
 	@Autowired
 	private ADBService adbservice;
@@ -36,8 +42,15 @@ public class ADBController {
 	
 	//1:1문의 전체 리스트 불러오기
 	@RequestMapping("mtm_list")
-	public String mtm_list(Model model) {
+	public String mtm_list(UtilDto utilDto, Model model) {
+		int page=1;
+		if(!(utilDto.getPage()==0)) {
+			page=utilDto.getPage();
+		}
+		
 		model.addAttribute("mtm_list", adbservice.getAllBoards());
+		model.addAttribute("UtilDto", utilDto);
+		
 		System.out.println("mtm_list 작동");
 		return "admin/board/mtm_list";
 	}	
@@ -95,35 +108,70 @@ public class ADBController {
 		return "admin/board/mtm_view";		
 	}
 	
-	//공지사항 리스트 불러오기
+	//공지사항 전체 리스트 불러오기
 	@RequestMapping("notice_list")
-	public String notice_list(Model model) {
+	public String notice_list(UtilDto utilDto, Model model) {
+		int page=1;
+		if(!(utilDto.getPage()==0)) {
+			page=utilDto.getPage();
+		} 
+		model.addAttribute("UtilDto", utilDto);
 		model.addAttribute("notice_list", adbservice.getAllNoticeBoards());
-		model.addAttribute("rownum", adbservice.getAllNoticeBoards().get(0).getNoticedto().getRownum());
 		return "admin/board/notice_list";
 	}	
 	
 	//공지사항 글등록 페이지 열기
 	@RequestMapping("notice_write")
-	public String notice_write(@RequestParam("rownum") int rownum, Model model) {
-		model.addAttribute("rownum", rownum );
+	public String notice_write(Model model) {
 		return "admin/board/notice_write";
 	}
 	
 	//공지사항 새글 1개 등록
-	@RequestMapping("notice_insert")
-	public String notice_insert(NoticeDto noticeDto, @RequestParam("rownum") int rownum, Model model) {
+	@PostMapping("notice_insert")
+	public String notice_insert(NoticeDto noticeDto, Model model) {
 		int success = adbservice.insertNoticeBoard(noticeDto);
 		String alerttext="";
 		switch(success) {
 		case 0 : alerttext="alert('공지글을 등록하지 못했습니다. 다시 시도해 주세요.'); history.go(-1);"; break;
-		case 1 : alerttext="alert('공지글을 등록했습니다.'); location.href='notice_list?rownum="+rownum+"';"; break;
+		case 1 : alerttext="alert('공지글을 등록했습니다.'); location.href='notice_list';"; break;
 		}//switch
 		model.addAttribute("alerttext", alerttext);
 		return "admin/board/notice_write";		
 	}
 	
-	//공지사항 글수정
-	//notice_modify
+	//공지글 1개 불러오기
+	@RequestMapping("notice_view")
+	public String notice_view(UtilDto utilDto, @RequestParam("no_num") int no_num, Model model) {
+		AllDto allDto2 = adbservice.getNoticeBoard(no_num);
+		model.addAttribute("UtilDto", utilDto);//페이징
+		model.addAttribute("AllDto2", allDto2);//공지글		
+		return "admin/board/notice_view";
+	}
+	
+	//공지글 1개 글수정
+	@PostMapping("notice_modify")
+	public String notice_modify(NoticeDto noticeDto, UtilDto utilDto, Model model) {
+		
+		int page=1;
+		if(!(utilDto.getPage()==0)) {
+			page=utilDto.getPage();
+		} 	
+		int success = adbservice.modifyNoticeBoard(noticeDto);
+		
+		String alerttext="";
+		switch(success) {
+		case 0 : alerttext="alert('공지글을 수정하지 못했습니다. 다시 시도해 주세요.'); history.go(-1);"; break;
+		case 1 : alerttext="alert('공지글을 수정했습니다.'); location.href='notice_list?rownum="+utilDto.getPage()+"';"; break;
+		}//switch
+		model.addAttribute("alerttext", alerttext);		
+		return "admin/board/notice_view";
+	}
+	//공지글 1개 삭제
+	@ResponseBody
+	@RequestMapping("notice_delete")
+	public int notice_delete(@RequestBody int no_num, Model model) {
+		int success = adbservice.deleteNoticeBoard(no_num);
+		return success;
+	}		
 
 }

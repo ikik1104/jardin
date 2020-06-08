@@ -31,7 +31,6 @@
 			margin: 20px;	
 			}
 			table {
-				margin:0 auto;
 				 min-width: 1000px;
 			}
 			table tr td:NTH-OF-TYPE(1) {
@@ -47,28 +46,31 @@
 	<jsp:include page="../nav/admin_header.jsp"/>
 	<jsp:include page="../nav/board_nav.jsp"/>
 	<section>
-		<h1>공지사항 입력</h1>
+		<h1>공지사항 등록</h1>
 			<form action="notice_insert" name="inputform" method="post">
 				<div id="input_form">
+					<h1>공지사항 작성</h1>
 					<table border="1">
-						<tr>
-							<td>글 제목</td>
-							<td><input type="text" name="no_title"></td>
-						</tr>
 						<tr>
 							<td>작성자</td>
 							<td>${adminGrade }(${adminId })</td>
 						</tr>
 						<tr>
-							<td>글 내용</td>
-							<td><textarea name="no_content" id="smartEditor" style="width:100%; height: 412px;"></textarea></td>
+							<td>제목</td>
+							<td><input type="text" name="no_title"></td>
+						</tr>									
+						<tr>
+							<td>내용</td>
+							<td>
+								<!-- 텍스트에디터로 변경?★★★★★★★★★ -->
+								<textarea name="no_content" id="smartEditor" style="width:100%; height: 412px;"></textarea>
+							</td>
 						</tr>
 					</table>
 					<div id="btn_div">
-						<button type="button" onclick="location.href='notice_list?rownum=${rownum}'">목록</button>
+						<button type="button" onclick="location.href='notice_list'">목록</button>
 						<button type="submit" >등록</button>
 					</div>
-					<input type="hidden" value="${rownum }" name="rownum">
 					<input type="hidden" value="${adNum }" name="ad_num">					
 				</div>
 			</form>

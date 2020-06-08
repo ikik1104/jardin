@@ -12,6 +12,11 @@ import com.javalec.ex.dto.NoticeDto;
 
 public interface ADBService {
 	
+	/*
+	1:1문의
+	공지사항 
+	*/
+	
 	//1:1문의 전체 리스트 불러오기
 	List<MtmUserDto> getAllBoards();
 	
@@ -35,5 +40,14 @@ public interface ADBService {
 
 	//공지사항 새 글 1개 등록
 	int insertNoticeBoard(NoticeDto noticeDto); 
+	
+	//공지글 1개 불러오기
+	AllDto getNoticeBoard(int no_num);
+	
+	//공지글 1개 수정
+	int modifyNoticeBoard(NoticeDto noticeDto);
+	
+	//공지글 1개 삭제
+	int deleteNoticeBoard(int no_num);
 	
 }

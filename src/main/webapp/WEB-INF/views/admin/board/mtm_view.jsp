@@ -107,7 +107,6 @@
 	                  success : function(val){
 	                     if(val == 1){ //리턴값이 1이면 (=성공)
 	                        alert("삭제처리 완료되었습니다.");
-	                     //location.href="product_list";
 	                        location.href="mtm_list?rownum=getElementById('rownum')"; //페이지 새로고침
 	                     }else{ // 0이면 실패
 	                        alert("삭제처리 실패.");

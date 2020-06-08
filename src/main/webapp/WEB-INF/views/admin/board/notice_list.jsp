@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> 
@@ -95,7 +96,29 @@
 			
 		}
 	
-	
+		//공지글 삭제 체크 
+		function del_check(no_num){
+			if(confirm("해당 게시글을 삭제하시겠습니까? (삭제한 데이터는 복구할 수 없습니다.)")){
+	            $.ajax({
+	                  url : "notice_delete",
+	                  method : "POST",
+	                  data: JSON.stringify(no_num),
+	                  dataType : "json",
+	                  contentType: "application/json",
+	                  success : function(val){
+	                     if(val == 1){ //리턴값이 1이면 (=성공)
+	                        alert("삭제처리 완료되었습니다.");
+	                        location.reload(); //페이지 새로고침
+	                     }else{ // 0이면 실패
+	                        alert("삭제처리 실패.");
+	                     }
+	                  },
+	                  error : function(){
+	                     alert("서버통신실패");
+	                  }
+	               });
+	         }
+		}	
 </script>
 	</head>
 	<body>
@@ -142,7 +165,7 @@
 					
 				</div>
 				<div>
-					<button type="button" onclick="location.href='notice_write?rownum=${rownum }'">
+					<button type="button" onclick="location.href='notice_write'">
 						새 글 등록
 					</button>
 				</div>
@@ -162,7 +185,7 @@
 							<td><input type="checkbox"></td>
 							<td>${notice_list.noticedto.rownum }</td>
 							<td>
-								<a href="notice_view?rownum=${notice_list.noticedto.rownum }" target="_blank"> 
+								<a href="notice_view?no_num=${notice_list.noticedto.no_num }&rownum=${notice_list.noticedto.rownum }"> 
 									${notice_list.noticedto.no_title }
 								</a>
 							</td>
@@ -170,10 +193,10 @@
 							<td>${notice_list.noticedto.no_date }</td>
 							<td>${notice_list.noticedto.no_hit }</td>
 							<td>
-								<button type="button" onclick="">
+								<button type="button" onclick="location.href='notice_view?no_num=${notice_list.noticedto.no_num}'">
 									수정
 								</button>
-								<button type="button" onclick="del_check(${notice_list.noticedto.no_num}, ${notice_list.noticedto.rownum })">삭제</button>
+								<button type="button" onclick="del_check(${notice_list.noticedto.no_num})">삭제</button>
 							</td>
 						</tr>
 						</c:forEach>
