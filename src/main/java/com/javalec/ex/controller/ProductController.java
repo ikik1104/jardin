@@ -5,6 +5,8 @@ import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,6 +44,7 @@ public class ProductController {
 	@RequestMapping("product_insert")
 	public String product_insert(Model model,ProductDto pdto) {
 		pService.insertProduct(pdto);
+		
 		return "redirect:product_list";
 	}
 	
@@ -96,15 +99,9 @@ public class ProductController {
 	//(검색) 검색한 리스트
 	@RequestMapping("product_searchList")
 	public String product_searchList(@RequestParam HashMap<String, String> map , Model model) {
-		String p_name = (String)map.get("p_name");
-		String dateType = (String)map.get("dateType");
-		String e_start_day = (String)map.get("e_start_day");
-		String e_end_day = (String)map.get("e_end_day");
-		String p_step2 = (String)map.get("p_step2");
-		String p_delflag = (String) map.get("p_delflag");
-		
 		
 		model.addAttribute("list", pService.getSearchList(map));
+		model.addAttribute("map", map);
 		
 		return "admin/product/product_list";
 	}
@@ -113,10 +110,20 @@ public class ProductController {
 	
 	//쟈뎅 제품뿌리기
 	@RequestMapping("u_product_list")
-	public String user_product_list(@RequestParam String p_step2 ,  Model model) {
-		model.addAttribute("list", pService.getAllPList());
+	public String user_product_list(HttpServletRequest request ,  Model model) {
+		String p_step1;
+		String p_step2;
 		
-		model.addAttribute("list", pService.getU_ProductList(p_step2));
+		if(request.getParameter("p_step2")==null) {
+			p_step1 = request.getParameter("p_ste1");
+			// step1 들어옴 
+			// step1 전체 리스트 가져오기
+			model.addAttribute("list", pService.getAllPList());
+		}else {
+			p_step2 = request.getParameter("p_ste1");
+			//step2 step2의 리스트 가져옴
+			model.addAttribute("list", pService.getU_ProductList(p_step2));
+		}
 		
 		return "admin/product/product_list";
 	}

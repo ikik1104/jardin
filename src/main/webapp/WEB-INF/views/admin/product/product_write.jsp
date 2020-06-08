@@ -89,7 +89,7 @@
 						<tr>
 							<td>분류 2</td>
 							<td>
-							<select id="원두" class="step2" style="display: inline;">
+							<select id="원두" class="step2" name="p_step2" style="display: inline;">
 								<option value="클래스">클래스</option>
 								<option value="로스터리샵">로스터리샵</option>	
 								<option value="커피휘엘">커피휘엘</option>	
@@ -179,23 +179,23 @@
 						</tr>
 						<tr>
 							<td>제품 대표이미지</td>
-							<td><input type="file" name="p_thumb_img1"></td>
-<!-- 							<td><input type="text" name="p_thumb_img1"></td> -->
+<!-- 							<td><input type="file" name="p_thumb_img1"></td> -->
+							<td><input type="text" name="p_thumb_img1"></td>
 						</tr>
 						<tr>
 							<td>제품 이미지1</td>
-							<td><input type="file" name="p_thumb_img2"></td>
-<!-- 							<td><input type="text" name="p_thumb_img2"></td> -->
+<!-- 							<td><input type="file" name="p_thumb_img2"></td> -->
+							<td><input type="text" name="p_thumb_img2"></td>
 						</tr>
 						<tr>
 							<td>제품 이미지2</td>
-							<td><input type="file" name="p_thumb_img3"></td>
-<!-- 							<td><input type="text" name="p_thumb_img3"></td> -->
+<!-- 							<td><input type="file" name="p_thumb_img3"></td> -->
+							<td><input type="text" name="p_thumb_img3"></td>
 						</tr>
 						<tr>
 							<td>상세내용 이미지</td>
-							<td><input type="file" name="p_content_img"></td>
-<!-- 							<td><input type="text" name="p_content_img"></td> -->
+<!-- 							<td><input type="file" name="p_content_img"></td> -->
+							<td><input type="text" name="p_content_img"></td>
 						</tr>
 					</table>
 					<div id="btn_div">

@@ -2,6 +2,50 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.javalec.ex.dao.ADBMtmDao">
+<mapper namespace="com.javalec.ex.dao.AdminBoardDao">
+	<!-- 관리자 -->
+	
+	<!-- faq작성  -->
+	<insert id="insertFaq" parameterType="com.javalec.ex.dto.FaqDto">
+		insert into faq_tb values(faq_seq.nextval,#{f_step},#{f_title},#{f_content},to_date(sysdate,'YY/MM/DD'),'N')
+	</insert>
+	
+	<!-- faq수정 -->
+	<update id="updateFaq" parameterType="com.javalec.ex.dto.FaqDto">
+		update faq_tb set f_step=#{f_step}, f_title=#{f_title}, f_content=#{f_content} where f_num = #{f_num} 
+	</update>
+			
+	<!-- faq삭제 -->
+	<delete id="deleteFaq" parameterType="Integer">
+		delete from faq_tb where f_num = #{f_num}
+	</delete>
+	
+	<!-- faq노출 상태 변경 -->
+	<update id="updateFaqDelflag" parameterType="Integer">
+		update faq_tb set 
+		f_delflag = case 
+		when f_delflag = 'Y' then 'N' 
+		when f_delflag = 'N' then 'Y'
+		end
+		where f_num = #{f_num}
+	</update>
+	
+	
+	<!-- faq전체 리스트 -->
+	<select id="getAllFaqList" resultType="com.javalec.ex.dto.FaqDto">
+		select rownum,f.* from faq_tb f order by f_num desc
+	</select>
+	
+	<!-- faq 하나의 정보-->
+	<select id="faqInfo" parameterType="Integer" resultType="com.javalec.ex.dto.FaqDto">
+		select * from faq_tb where f_num = #{f_num}
+	</select>
+	
+	<!-- 유저 -->
+	<!-- faq 리스트 -->
+	<select id="getFaqList" resultType="com.javalec.ex.dto.FaqDto">
+		select rownum,f.* from faq_tb f where f_delflag='N' order by f_num desc
+	</select>
+			
 
 </mapper>

@@ -7,39 +7,39 @@
 			<ul>
 				<li class="brand t1"><a href="#" id="topNavi1">JARDIN’s BRAND</a>
 				</li>
-				<li class="t2"><a href="u_product_list" id="topNavi2">원두</a>
+				<li class="t2"><a href="u_product_list?step1='원두'" id="topNavi2">원두</a>
 					<ul id="topSubm2">
-						<li><a href="product_class?step2='클래스'">클래스</a></li>
-						<li><a href="product_?step2='바리스타'">바리스타</a></li>
+						<li><a href="u_product_list?step2='클래스'">클래스</a></li>
+						<li><a href="u_product_list?step2='바리스타'">바리스타</a></li>
 						<li><a href="u_product_list?step2='마스터즈'">마스터즈</a></li>
 						<li><a href="u_product_list?step2='쟈뎅'">쟈뎅</a></li>
 					</ul>
 				</li>
-				<li class="t1"><a href="u_product_list?step2='드립커피'" id="topNavi3">인스턴트커피</a>
+				<li class="t1"><a href="u_product_list?step1='인스턴트 커피'" id="topNavi3">인스턴트커피</a>
 					<ul id="topSubm3">
 						<li><a href="u_product_list?step2='카페모리'">카페모리</a></li>
-						<li><a href="u_product_list?step2='에스프레소'">에스프레소 스틱</a></li>
+						<li><a href="u_product_list?step2='에스프레소 스틱'">에스프레소 스틱</a></li>
 					</ul>
 				</li>
-				<li class="t2"><a href="u_product_list?step2='까페모리'" id="topNavi4">차</a>
+				<li class="t2"><a href="u_product_list?step2='차'" id="topNavi4">차</a>
 					<ul id="topSubm4">
 						<li><a href="u_product_list?step2='아워티(티백)'">아워티(티백)</a></li>
 					</ul>
 				</li>
-				<li class="t1"><a href="u_product_list?step2='카페리얼'"id="topNavi5">음료/커피/티</a>
+				<li class="t1"><a href="u_product_list?step1='음료/커피/티'"id="topNavi5">음료/커피/티</a>
 					<ul id="topSubm5">
 						<li><a href="u_product_list?step2='시그니처'">시그니처</a></li>
 						<li><a href="u_product_list?step2='카페리얼'">카페리얼</a></li>
 						<li><a href="u_product_list?step2='아워티(음료)'">아워티(음료)</a></li>
 					</ul>
 				</li>
-				<li class="t2"><a href="u_product_list?step2='종이컵'" id="topNavi6">선물세트</a>
+				<li class="t2"><a href="u_product_list?step1='선물세트'" id="topNavi6">선물세트</a>
 					<ul id="topSubm6">
 						<li><a href="u_product_list?step2='선물세트'">선물세트</a></li>
 						<li><a href="u_product_list?step2='DIY선물세트'">DIY선물세트</a></li>
 					</ul>
 				</li>
-				<li class="t1"><a href="u_product_list?step2='선물세트'" id="topNavi7">브랜드관</a>
+				<li class="t1"><a href="u_product_list?step1='브랜드관'" id="topNavi7">브랜드관</a>
 					<ul id="topSubm6">
 						<li><a href="u_product_list?step2='GS'">GS</a></li>
 						<li><a href="u_product_list?step2='투썸'">투썸</a></li>
