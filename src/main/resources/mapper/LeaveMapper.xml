@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="com.javalec.ex.dao.LeaveDao">
+	
+	<!-- 회원정보 업데이트 -->
+	<update id="memberLeave" parameterType="String">
+		update member_tb set m_name='탈퇴', m_pw='탈퇴', m_email='탈퇴', m_email_ok='탈퇴', m_zipcode=-9999, m_address1='탈퇴', m_address2='탈퇴', m_phone='탈퇴', m_sms_ok='탈퇴', m_tel='탈퇴', m_birth='탈퇴', m_birth_sort='탈퇴', m_level='탈퇴', m_status='탈퇴', m_left_date=sysdate, m_left_reason=#{m_left_reason}, m_point=0 where m_id=#{m_id} and m_pw=#{m_pw}
+	</update>
+	
+
+</mapper>

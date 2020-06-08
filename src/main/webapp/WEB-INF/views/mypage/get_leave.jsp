@@ -34,6 +34,12 @@ $(document).ready(function() {
 
 });
 </script>
+<style>
+.error_msg{
+    color: red;
+    padding-left: 5px;
+}
+</style>
 </head>
 <body>
 
@@ -86,6 +92,61 @@ $(document).ready(function() {
 		$("#ieUser").hide();
         clearTimeout(msietimer);
      }
+     
+     function leave_cancel(){
+    	 location.reload();
+     }
+     
+     function leave_submit(){
+    	 
+    	 if($("input[name=m_id]").val()==""){
+    		 $('#id_error').text(' 아이디를 입력하세요.');
+    		 return;
+    	 } else{
+    		 $('#id_error').text('');
+    	 }
+    	 
+    	 
+    	 if($("input[name=m_pw]").val()==""){
+    		 $('#pw_error').text(' 패스워드를 입력하세요.');
+    		 return;
+    	 } else {
+    		 $('#pw_error').text('');
+    	 }
+    	 
+    	 if($("#m_left_reason").val()==""){
+    		 $('#reason_error').text(' 탈퇴 사유를 선택해주세요.');
+    		 return;
+    	 } else{
+    		 $('#reason_error').text('');
+    	 }
+    	 
+    	 if (confirm("정말 탈퇴하시겠습니까? 탈퇴시 모든 개인정보가 삭제되며 포인트, 쿠폰 등 멤버십 혜택은 반환되지 않습니다.") == true){    //확인
+    		 $.ajax({
+                 type : "POST",
+                 url : "leave_success",
+                 data: {
+              	   m_id : $("input[name=m_id]").val(),
+              	   m_pw : $("input[name=m_pw]").val(),
+              	   m_left_reason : $("#m_left_reason").val()
+                 }, 
+                 success : function(val){
+                    if(val == 1){ //리턴값이 1이면 (=성공)
+                       alert("회원탈퇴가 완료되었습니다.");
+                    	location.href="logout";
+                    }else{ // 0이면 실패
+                    	alert("아이디 혹은 비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
+                    }
+                 },
+                 error : function(){
+                    alert("서버통신실패");
+                 }
+    		});
+		 } else {   //취소
+		    return;
+		 }
+     }
+     
 </script>
 
 <div id="allwrap">
@@ -187,27 +248,39 @@ $(document).ready(function() {
 							<tbody>
 								<tr>
 									<th scope="row"><span>아이디</span></th>
-									<td><input type="text" class="w186" name="m_id" /></td>
+									<td><input type="text" class="w186" name="m_id" /><span id="id_error" class="error_msg"></span></td>
 								</tr>
 								<tr>
 									<th scope="row"><span>비밀번호</span></th>
-									<td><input type="password" class="w186" name="m_pw" /></td>
+									<td><input type="password" class="w186" name="m_pw" /><span id="pw_error" class="error_msg"></span></td>
 								</tr>
 								<tr>
 									<th scope="row"><span>탈퇴사유</span></th>
 									<td>
-										<select>
+										<select name="m_left_reason" id="m_left_reason">
 											<option value="">선택해주세요.</option>
-											<option value="re_regi">아이디 변경/재가입</option>
-											<option value="low_use">이용빈도 낮음</option>
-											<option value="dissati">서비스 불만족</option>
-											<option value="etc">기타</option>
+											<option value="아이디 변경/재가입">아이디 변경/재가입</option>
+											<option value="이용빈도 낮음">이용빈도 낮음</option>
+											<option value="서비스 불만족">서비스 불만족</option>
+											<option value="기타">기타</option>
 										</select>
+                                        <span id="reason_error" class="error_msg"></span>
 									</td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
+
+                    <!-- Btn Area -->
+                    <div class="btnArea">
+                        <div class="bCenter">
+                            <ul>
+                                <li><a href="#" class="nbtnbig" onclick="leave_cancel()">취소하기</a></li>
+                                <li><a href="#" class="sbtnMini" onclick="leave_submit()">탈퇴하기</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- //Btn Area -->
 
 
 				</div>

@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.javalec.ex.dao.ChangeInfoDao;
 import com.javalec.ex.dto.MemberDto;
 import com.javalec.ex.dto.MtmUserDto;
 import com.javalec.ex.service.ChangeInfoService;
+import com.javalec.ex.service.LeaveService;
 import com.javalec.ex.service.MtmService;
 import com.javalec.ex.service.SessionService;
 
@@ -28,6 +28,8 @@ public class My2Controller {
 	private SessionService sessionService;
 	@Autowired
 	private ChangeInfoService changeInfoService;
+	@Autowired
+	private LeaveService leaveService;
 	
 	//로그인 세션용 임시 - 추후 삭제 요망
 	@RequestMapping("login")
@@ -198,7 +200,13 @@ public class My2Controller {
 		return "mypage/get_leave";
 	}
 	
-	
+	//회원탈퇴하기
+	@ResponseBody
+	@RequestMapping("leave_success")
+	public int leave_success(MemberDto memberDto) {
+		int success = leaveService.memberLeave(memberDto);
+		return success;
+	}
 	
 	
 	
