@@ -187,17 +187,21 @@ $(document).ready(function() {
 							<tbody>
 								<tr>
 									<th scope="row"><span>아이디</span></th>
-									<td><input type="text" class="w186" /></td>
+									<td><input type="text" class="w186" name="m_id" /></td>
 								</tr>
 								<tr>
 									<th scope="row"><span>비밀번호</span></th>
-									<td><input type="password" class="w186" /></td>
+									<td><input type="password" class="w186" name="m_pw" /></td>
 								</tr>
 								<tr>
 									<th scope="row"><span>탈퇴사유</span></th>
 									<td>
 										<select>
 											<option value="">선택해주세요.</option>
+											<option value="re_regi">아이디 변경/재가입</option>
+											<option value="low_use">이용빈도 낮음</option>
+											<option value="dissati">서비스 불만족</option>
+											<option value="etc">기타</option>
 										</select>
 									</td>
 								</tr>

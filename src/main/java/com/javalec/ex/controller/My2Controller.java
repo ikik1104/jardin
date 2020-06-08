@@ -191,7 +191,12 @@ public class My2Controller {
 		return success;
 	}
 
-	
+	//회원탈퇴 페이지 열기
+	@RequestMapping("get_leave")
+	public String get_leave(HttpSession session, Model model) {
+		if(session.getAttribute("userNum") == null) { return "home";} //세션체크
+		return "mypage/get_leave";
+	}
 	
 	
 	

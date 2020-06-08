@@ -111,15 +111,15 @@ $(document).ready(function() {
              data: {
           	   m_id : "${ info_view.getM_id() }",
           	   m_email : $("input[name=email_id]").val() + "@" + $("input[name=email_domain]").val(),
-          	   m_email_ok : $("input[name=m_email_ok]").val(),
+          	   m_email_ok : $('input[name="m_email_ok"]:checked').val(),
           	   m_zipcode : $("input[name=m_zipcode]").val(),
           	   m_address1 : $("input[name=m_address1]").val(),
           	   m_address2 : $("input[name=m_address2]").val(),
           	   m_phone : $("#phone1").val()+"-"+$("input[name=phone2]").val()+"-"+$("input[name=phone3]").val(),
-          	   m_sms_ok : $("input[name=m_sms_ok]").val(),
+          	   m_sms_ok : $('input[name="m_sms_ok"]:checked').val(),
           	   m_tel : $("#tel1").val()+"-"+$("input[name=tel2]").val()+"-"+$("input[name=tel3]").val(),
           	   m_birth : $("#birth1").val()+"/"+$("#birth2").val()+"/"+$("#birth3").val(),
-          	   m_birth_sort : $("input[name=m_birth_sort]").val()
+          	   m_birth_sort : $('input[name="m_birth_sort"]:checked').val()
              }, 
              success : function(val){
                 if(val == 1){ //리턴값이 1이면 (=성공)
