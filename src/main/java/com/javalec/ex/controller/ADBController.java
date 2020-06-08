@@ -16,23 +16,29 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.javalec.ex.dto.AdminDto;
 import com.javalec.ex.dto.AllDto;
+import com.javalec.ex.dto.EventDto;
 import com.javalec.ex.dto.MtmAnswerDto;
 import com.javalec.ex.dto.MtmUserDto;
 import com.javalec.ex.dto.NoticeDto;
 import com.javalec.ex.dto.UtilDto;
 import com.javalec.ex.service.ADBService;
+import com.javalec.ex.service.AdminCouponService;
 import com.javalec.ex.service.BService;
 
 @Controller
 public class ADBController {
 	
 	/*
+ 	[관리자]
 	1:1문의
 	공지사항 
+	이벤트
 	*/
 
 	@Autowired
 	private ADBService adbservice;
+	@Autowired
+	private AdminCouponService admincouponservice;
 	
 	//테스트용 관리자 로그인
 	@RequestMapping("tempForLogin")
@@ -166,6 +172,7 @@ public class ADBController {
 		model.addAttribute("alerttext", alerttext);		
 		return "admin/board/notice_view";
 	}
+	
 	//공지글 1개 삭제
 	@ResponseBody
 	@RequestMapping("notice_delete")
@@ -173,5 +180,32 @@ public class ADBController {
 		int success = adbservice.deleteNoticeBoard(no_num);
 		return success;
 	}		
-
+	
+	//이벤트 전체 리스트 불러오기
+	@RequestMapping("event_list")
+	public String event_list(UtilDto utilDto, Model model){
+		model.addAttribute("AllDtos", adbservice.getAllEventBoards());
+		return "admin/board/event_list";
+	}
+	
+	//이벤트 작성 페이지 접속
+	@RequestMapping("event_write")
+	public String event_write(Model model) {
+		model.addAttribute("AllDtos", admincouponservice.getAllCoupons());
+		return "admin/board/event_write";
+	}
+	
+	//이벤트 새글 1개 등록
+	@PostMapping("event_insert")
+	public String event_insert(EventDto eventDto, UtilDto utilDto, Model model) {
+		int success = adbservice.insertEventBoard(eventDto);
+		
+		String alerttext="";
+		switch(success) {
+		case 0 : alerttext="alert('이벤트글을 등록하지 못했습니다. 다시 시도해 주세요.'); history.go(-1);"; break;
+		case 1 : alerttext="alert('이벤트글을 등록했습니다.'); location.href='event_list?rownum="+utilDto.getPage()+"';"; break;
+		}//switch
+		model.addAttribute("alerttext", alerttext);				
+		return "admin/board/event_write";
+	}
 }

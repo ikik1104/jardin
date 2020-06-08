@@ -62,6 +62,10 @@
 			}
 		}
 		
+		window.onload=function(){
+			${alerttext}
+		}
+		
 		</script>
 		<style type="text/css">
 			#input_form{
@@ -84,10 +88,14 @@
 	<jsp:include page="../nav/admin_header.jsp"/>
 	<jsp:include page="../nav/board_nav.jsp"/>
 	<section>
-		<h1>이벤트 입력</h1>
-			<form action="" name="inputform" method="get" enctype="multipart/form-data">
+		<h1>이벤트 등록</h1>
+			<form action="event_insert" name="inputform" method="post">
 				<div id="input_form">
-					<table border="1">
+					<table border="1">	
+						<tr>
+							<td>작성자</td>
+							<td>${adminGrade }(${adminId })</td>
+						</tr>					
 						<tr>
 							<td>글 제목</td>
 							<td><input type="text" name="e_title"></td>
@@ -104,23 +112,20 @@
 						</tr>
 						<tr>
 							<td>썸네일 이미지</td>
-							<td><input type="file" name="썸네일 이미지"></td>
+							<td><input type="file" name="e_thumb_img"></td>
 						</tr>
 						<tr>
 							<td>내용 이미지</td>
-							<td><input type="file" name="내용이미지"></td>
+							<td><input type="file" name="e_content_img"></td>
 						</tr>
 						<tr>
 							<td>쿠폰</td>
 							<td>
 							<select name="co_num"> <!-- model에 쿠폰 리스트 같이 보내서 ${coupon.name} , ${coupon.seq}사용 -->
-<%-- 								<c:forEach items="coupon" var="${coupon}"> --%>
-									<option value="null?">쿠폰없음</option>
-									<option value="${coupon.seq}">쿠폰명${coupon.name}</option>
-									<option value="${coupon.seq}">쿠폰명${coupon.name}</option>
-									<option value="${coupon.seq}">쿠폰명${coupon.name}</option>
-									<option value="${coupon.seq}">쿠폰명${coupon.name}</option>
-<%-- 								</c:forEach> --%>
+								<option>쿠폰없음</option>
+								<c:forEach var="AllDtos" items="${AllDtos }">
+									<option value="${AllDtos.coupondto.co_num}">${AllDtos.coupondto.co_name}</option>
+								</c:forEach>
 							</select>
 							</td>
 						</tr>
@@ -130,10 +135,11 @@
 						</tr>
 					</table>
 					<div id="btn_div">
-						<button type="button" onclick="location.href="입력전페이지 이동">취소</button>
-						<button type="button" onclick="location.href="유효성 검사">등록</button>
+						<button type="button" onclick="location.href='event_list'">취소</button>
+						<button type="submit">등록</button>
 					</div>
 				</div>
+				<input type="hidden" value="${adNum }" name="ad_num">
 			</form>
 	</section>
 	</body>

@@ -3,12 +3,12 @@ package com.javalec.ex.dto;
 public class UtilDto {
 	//페이징, 검색 변수 담는 Dto
 	
-	int page;
-	int listcount;
-	int startrow;
-	int endrow;
-	int startpage;
-	int endpage;
+	private int page;
+	private int listcount;
+	private int startrow;
+	private int endrow;
+	private int startpage;
+	private int endpage;
 	
 	public int getPage() {
 		return page;

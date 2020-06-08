@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.javalec.ex.dto.AllDto;
 import com.javalec.ex.dto.BDto;
+import com.javalec.ex.dto.EventDto;
 import com.javalec.ex.dto.MemberDto;
 import com.javalec.ex.dto.MtmAnswerDto;
 import com.javalec.ex.dto.MtmUserDto;
@@ -13,8 +14,10 @@ import com.javalec.ex.dto.NoticeDto;
 public interface ADBService {
 	
 	/*
+ 	[관리자]
 	1:1문의
 	공지사항 
+	이벤트
 	*/
 	
 	//1:1문의 전체 리스트 불러오기
@@ -49,5 +52,11 @@ public interface ADBService {
 	
 	//공지글 1개 삭제
 	int deleteNoticeBoard(int no_num);
+	
+	//이벤트 전체 리스트 불러오기
+	List<AllDto> getAllEventBoards();
+	
+	//이벤트 새 글 1개 등록
+	int insertEventBoard(EventDto eventDto);
 	
 }

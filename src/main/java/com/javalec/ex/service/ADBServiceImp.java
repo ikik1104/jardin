@@ -10,6 +10,7 @@ import com.javalec.ex.dao.ADBMtmDao;
 import com.javalec.ex.dao.BDao;
 import com.javalec.ex.dto.AllDto;
 import com.javalec.ex.dto.BDto;
+import com.javalec.ex.dto.EventDto;
 import com.javalec.ex.dto.MemberDto;
 import com.javalec.ex.dto.MtmAnswerDto;
 import com.javalec.ex.dto.MtmUserDto;
@@ -19,8 +20,10 @@ import com.javalec.ex.dto.NoticeDto;
 public class ADBServiceImp implements ADBService {
 	
 	/*
+	[관리자]
 	1:1문의
 	공지사항 
+	이벤트
 	*/
 	
 	@Autowired
@@ -107,6 +110,20 @@ public class ADBServiceImp implements ADBService {
 	@Override
 	public int deleteNoticeBoard(int no_num) {
 		return adbmtmdao.deleteNoticeBoard(no_num);
+	}
+
+	//공지글 전체 리스트 불러오기
+	@Override
+	public List<AllDto> getAllEventBoards() {
+		return adbmtmdao.getAllEventBoards();
+	}
+
+	
+	
+	//이벤트 새글 1개 등록
+	@Override
+	public int insertEventBoard(EventDto eventDto) {
+		return adbmtmdao.insertEventBoard(eventDto);
 	}
 	
 

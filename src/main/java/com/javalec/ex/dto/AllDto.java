@@ -5,6 +5,8 @@ public class AllDto {
 	private MtmAnswerDto mtmanswerdto;
 	private AdminDto admindto;
 	private NoticeDto noticedto;
+	private EventDto eventdto;
+	private CouponDto coupondto;
 	
 	public MtmAnswerDto getMtmanswerdto() {
 		return mtmanswerdto;
@@ -24,6 +26,18 @@ public class AllDto {
 	public void setNoticedto(NoticeDto noticedto) {
 		this.noticedto = noticedto;
 
+	}
+	public EventDto getEventdto() {
+		return eventdto;
+	}
+	public void setEventdto(EventDto eventdto) {
+		this.eventdto = eventdto;
+	}
+	public CouponDto getCoupondto() {
+		return coupondto;
+	}
+	public void setCoupondto(CouponDto coupondto) {
+		this.coupondto = coupondto;
 	}
 	
 	

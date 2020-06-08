@@ -15,6 +15,7 @@ public class EventDto {
 	private Timestamp e_sysdate; //등록일
 	private int co_num; //이벤트 쿠폰
 	private Timestamp e_win_day; //당첨자 발표일
+	private int ad_num;//관리자 고유번호(작성자)
 	
 	public EventDto() {
 		super();
@@ -102,6 +103,12 @@ public class EventDto {
 	}
 	public void setE_win_day(Timestamp e_win_day) {
 		this.e_win_day = e_win_day;
+	}
+	public int getAd_num() {
+		return ad_num;
+	}
+	public void setAd_num(int ad_num) {
+		this.ad_num = ad_num;
 	}
 	
 	

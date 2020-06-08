@@ -35,6 +35,7 @@
 		</style>
 		<script type="text/javascript">
 
+		
 		function date_chk2(){
 			var start = inputform.e_start_day.value;
 			var end = inputform.e_end_day.value;
@@ -148,30 +149,67 @@
 					
 				</div>
 				<div>
+					<button type="button" onclick="location.href='event_apply_list'">
+						신청자 리스트
+					</button>
+					<button type="button" onclick="location.href='event_write'">
+						새 글 등록
+					</button>					
+				</div>				
+				<div>
 					<table border="1" id="event_list">
 						<tr>
-							<th>회원 아이디</th>
-							<th>이름</th>
-							<th>이메일</th>
-							<th>주소</th>
-							<th>휴대전화</th>
-							<th>생년월일</th>
-							<th>성별</th>
-							<th>뉴스레터 수신여부</th>
-							<th>SMS 수신여부</th>
+							<th><input type="checkbox" ></th>						
+							<th>번호</th>
+							<th>제목</th>
+							<th>작성자</th>
+							<th>등록일</th>
+							<th>시작일</th>
+							<th>종료일</th>
+							<th>쿠폰</th>
+							<th>당첨자 발표일</th>
+							<th>이벤트 상태</th>
+							<th>수정/삭제</th>							
 						</tr>
+						<c:forEach var="AllDtos" items="${AllDtos }">
 						<tr>
-							<td class="table_left" id="thumbnail"><img alt="썸네일 이미지" src="admin/images/event_list_3.jpg"></td>
-							<td class="table_left">김홍익</td>
-							<td class="table_left">hh@HH.123</td>
-							<td>(123-456) 가산 제이플라츠</td>
-							<td>010-3038-8146</td>
-							<td>1996.11.04</td>
-							<td>여성</td>
-							<td>아니오</td>
-							<td>예</td>
+							<td><input type="checkbox"></td>
+							<td>${AllDtos.eventdto.rownum }</td>
+							<td>
+								<a href="event_view?e_num=${AllDtos.eventdto.e_num}"> 
+									${AllDtos.eventdto.e_title }
+								</a>
+							</td>
+							<td>${AllDtos.admindto.ad_grade }(${AllDtos.admindto.ad_id })</td>
+							<td>${AllDtos.eventdto.e_sysdate }</td>
+							<td>${AllDtos.eventdto.e_start_day }</td>
+							<td>${AllDtos.eventdto.e_end_day }</td>		
+							<c:if test="${AllDtos.eventdto.co_num!=null }">
+								<td>있음</td>
+							</c:if>			
+							<c:if test="${AllDtos.eventdto.co_num==null }">
+								<td>없음</td>
+							</c:if>								
+							<td>${AllDtos.eventdto.e_win_day }</td>
+								<!-- 이 부분 ㄱㄱ -->
+								<c:if test="${today>=openDate && today<=closeDate}">	
+									<td>진행중</td>
+								</c:if>			
+								<c:if test="${today<openDate}">	
+									<td>시작 전</td>
+								</c:if>
+								<c:if test="${today>closeDate}">
+									<td>종료</td>
+								</c:if>					
+							
+							<td>
+								<button type="button" onclick="location.href='event_view?e_num=${AllDtos.eventdto.e_num}'">
+									수정
+								</button>
+								<button type="button" onclick="del_check(${AllDtos.eventdto.e_num})">삭제</button>
+							</td>
 						</tr>
-						
+						</c:forEach>						
 					</table>
 					<div class="detail_btn">
 						<a href="#">임시버튼</a>

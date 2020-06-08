@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.javalec.ex.dao.ADBMtmDao">
 
-	<!-- 1:1문의, 공지사항 -->
+	<!-- [관리자] 1:1문의, 공지사항, 이벤트 -->
 
 	<!-- Dto 객체 선언 -->
 	<resultMap type="com.javalec.ex.dto.MtmUserDto" id="MtmUserDto">
@@ -42,7 +42,8 @@
 	<resultMap type="com.javalec.ex.dto.AllDto" id="AllDto">
 		<collection property="admindto" resultMap="AdminDto"/>	     
 	    <collection property="mtmanswerdto" resultMap="MtmAnswerDto"/>	  
-	    <collection property="noticedto" resultMap="NoticeDto"/>	    	     
+	    <collection property="noticedto" resultMap="NoticeDto"/>	    
+	    <collection property="eventdto" resultMap="EventDto"/>	    	    	     
 	</resultMap>	
 		
 	<resultMap type="com.javalec.ex.dto.NoticeDto" id="NoticeDto">
@@ -53,6 +54,22 @@
 	    <result column="no_content" property="no_content"/>	
 	    <result column="no_date" property="no_date"/>	
 	    <result column="no_hit" property="no_hit"/>		
+	</resultMap>
+	
+	<resultMap type="com.javalec.ex.dto.EventDto" id="EventDto">
+	    <result column="rownum" property="rownum"/>		
+	    <result column="e_num" property="e_num"/>	     
+	    <result column="e_title" property="e_title"/>	
+	    <result column="e_start_day" property="e_start_day"/>
+	    <result column="e_end_day" property="e_end_day"/>
+	    <result column="e_thumb_img" property="e_thumb_img"/>	
+	    <result column="e_content_img" property="e_content_img"/>	        
+	    <result column="e_content" property="e_content"/>	    	    	
+	    <result column="e_sysdate" property="e_sysdate"/>	
+	    <result column="co_num" property="co_num"/>	    
+	    <result column="e_win_day" property="e_win_day"/>		
+	    <result column="e_status" property="e_status"/>		    
+	    <result column="ad_num" property="ad_num"/>		    
 	</resultMap>
 	
 	<!--  1:1문의 전체 리스트 불러오기-->
@@ -128,5 +145,19 @@
 	<delete id="deleteNoticeBoard">
 		delete from notice_tb where no_num=#{no_num}
 	</delete>		
+	
+	<!-- 이벤트 전체 리스트 불러오기 -->
+	<select id="getAllEventBoards" resultMap="AllDto">
+		select rownum, e_num, e_title, e_start_day, e_end_day,e_thumb_img,e_content_img,e_content, e_sysdate,
+		co_num, e_win_day, ad.ad_num, ad.ad_id, ad.ad_grade
+		from event_tb ev, admin_tb ad 
+		where ev.ad_num=ad.ad_num order by e_num desc
+	</select>	
+	
+	<!-- 이벤트 새 글 1개 등록 -->
+	<insert id="insertEventBoard">
+ 		insert into event_tb values(e_seq.nextval, #{e_title}, #{e_start_day}, #{e_end_day}, #{e_thumb_img}, #{e_content_img},
+ 		#{e_content}, sysdate, #{co_num}, #{e_win_day}, '진행중', #{ad_num})
+	</insert>
 	
 </mapper>
