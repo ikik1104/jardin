@@ -10,6 +10,7 @@
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
 		<link rel="stylesheet" type="text/css" href="admin/css/admin_main.css">
+		<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 		<style type="text/css">
 			
 			#search_form table{
@@ -118,6 +119,29 @@
 			$(option).css("display", "inline-block");
 			$(option).attr("name", "p_step2")
 		}
+		
+		//페이지 로딩시
+		$(document).ready(function(){
+			var id;
+			if(${not empty map}){
+				//step2
+				$(".step2 option").each(function(){
+				    if($(this).val()=="${map.p_step2}"){
+				      $(this).attr("selected","selected"); // attr적용안될경우 prop으로 
+				      id = $(this).attr("id");
+				      $("#step1 option").each(function(){
+				    	  if($(this).val() == id){
+				    		  $(this).attr("selected","selected");
+				    		  }
+				    	});
+				    }
+				});
+				      
+				$("#p_name").attr("value", "${map.p_name}");      
+				$("#e_start_day").attr("value", "${map.e_start_day}"); 
+				$("#e_end_day").attr("value", "${map.e_end_day}"); 
+			}//if
+		});
 </script>
 	<style type="text/css">
 		.step2{
@@ -149,12 +173,12 @@
 				<h2>임시로 놔두기</h2>
 				<div class="list_count">임시로 놔두기(총 게시물 수 등등 표시?)</div>
 				<div id="search_form">
-					<form action="product_searchList" name="inputform" method="get" >
+					<form action="product_searchList" name="inputform" method="post" >
 					<table border="1">
 						<tr>
 							<td>상품명</td>
 							<td>
-							<input type="text"  name="p_name">
+							<input type="text" id="p_name"  name="p_name">
 							</td>
 						</tr>
 						<tr id="search_date">
@@ -163,7 +187,6 @@
 							<fmt:formatDate var="sys" value="${sysdate}" pattern="yyyy-MM-dd"/>
 							<select name="dateType" >
 								<option value="p_sysdate">등록일</option>
-								<option value="p_update">수정일</option>
 							</select>
 							<input type="date" name="e_start_day" id="e_start_day" onchange="date_chk2()"> ~ 
 							<input type="date" name="e_end_day" id="e_end_day" value="${sys}" onchange="date_chk2()">
@@ -178,7 +201,7 @@
 						<tr>
 							<td>분류</td>
 							<td>
-							<select name="step1" onchange="aa(this.value)">
+							<select name="step1" id="step1" onchange="aa(this.value)">
 								<option value="원두">원두</option>
 								<option value="원두커피백">원두커피백</option>
 								<option value="인스턴트">인스턴트</option>
@@ -274,8 +297,10 @@
 							<td>${pro.p_update}</td>
 							<td>${pro.p_delflag}</td>
 <!-- 							<td><button type="button" onclick="스크립트()">수정</button></td> -->
-							<td><button type="button" onclick="location.href='product_updateForm?p_num=${pro.p_num}'">수정</button></td>
-							<td><button type="button" onclick="delProduct(${pro.p_num})">삭제</button></td>
+							<td>
+							<button type="button" onclick="location.href='product_updateForm?p_num=${pro.p_num}'">수정</button>
+							<button type="button" onclick="delProduct(${pro.p_num})">삭제</button>
+							</td>
 						</tr>
 						</c:forEach>
 					</table>

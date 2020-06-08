@@ -63,4 +63,13 @@
 				</ul>
 			</div>
 		</div>
+		<div class="user">
+			<a>FAQ<span id="s_icon" class="icon_minus"></span></a>
+			<div class="tes_list">
+				<ul>
+					<li><a href="faq_insertForm"><img src="admin/images/icon_title_left.png">FAQ 등록</a></li>
+					<li><a href="faq_allList"><img src="admin/images/icon_title_left.png">FAQ 리스트</a></li>
+				</ul>
+			</div>
+		</div>
 	</nav>

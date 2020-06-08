@@ -7,5 +7,4 @@
 		select *from mvc_board
 	</select>
 
-
 </mapper>

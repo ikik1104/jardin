@@ -44,6 +44,7 @@ public class ProductController {
 	@RequestMapping("product_insert")
 	public String product_insert(Model model,ProductDto pdto) {
 		pService.insertProduct(pdto);
+		
 		return "redirect:product_list";
 	}
 	
@@ -100,6 +101,7 @@ public class ProductController {
 	public String product_searchList(@RequestParam HashMap<String, String> map , Model model) {
 		
 		model.addAttribute("list", pService.getSearchList(map));
+		model.addAttribute("map", map);
 		
 		return "admin/product/product_list";
 	}
@@ -122,8 +124,6 @@ public class ProductController {
 			//step2 step2의 리스트 가져옴
 			model.addAttribute("list", pService.getU_ProductList(p_step2));
 		}
-		
-		
 		
 		return "admin/product/product_list";
 	}
