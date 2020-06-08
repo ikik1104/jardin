@@ -41,12 +41,38 @@
 				$('input[name=chk]:checkbox').each(function(){
 					$(this).prop('checked', true);
 				});
+				
+				var sum = 0;
+		 		var count= $('input[name=chk]:checkbox').length;
+		 		for(var i=0; i<count; i++){
+		 			var p_price1 = $('.td1').eq(i).text()
+		 			var p_price2 = p_price1.substring(0,(p_price1.length-1));
+		 			sum += Number(p_price2);
+		 		}
+		 		$('#sum1').text(sum);
+				
+		 		if(sum>=30000){
+		 			$('#del_price').text("0");
+		 		}else{
+		 			$('#del_price').text("3000");
+		 		}
+		 		var deliv_price = Number($('#del_price').text());
+		 		var final_price = sum + deliv_price;
+		 		$('#sum2').text(final_price);
+		 		var total_point = sum * 0.01;
+		 		$('#total_m').text(total_point);
+				
 				// 전체 선택 체크박스 해제된 경우
 			}else{
 				// 해당 화면에 있는 모든 checkbox들 체크 해제
 				$('input[name=chk]:checkbox').each(function(){
 					$(this).prop('checked', false);
 				});
+				
+				$('#sum1').text("0");
+				$('#del_price').text("0");
+				$('#sum2').text("0");
+				$('#total_m').text("0");
 			}
 		});
 		
@@ -65,7 +91,7 @@
 		$("#selectbtn").click(function(){
 				// 해당 화면에 있는 모든 checkbox들 체크
 				$('#checkAll').prop('checked', true);
-				$('input[name=chk]:checkbox').each(function(){
+				$('input:checkbox[name="chk"]').each(function(){
 					$(this).prop('checked', true);
 				});
 		});
@@ -78,25 +104,41 @@
 		var id = document.getElementById("ipt_"+num);
 		$('#td1_'+num).text(price * id.value+"원");
 		var total_price = 0;
-		var productNum= $('input:checkbox[name="chk"]').length;
-		for(var i=0; i<productNum; i++){
-			var p_price1 = $('.td1').eq(i).text()
-			var p_price2 = p_price1.substring(0,(p_price1.length-1));
-			total_price += Number(p_price2);
-		}
-		$('#sum1').text(total_price);
 		
-		if(total_price>=30000){
+		itemSum();
+	}	
+	
+	// 체크한 상품 총 주문금액 & 적립 포인트
+	function itemSum(){
+		
+		var sum = 0;
+		var count = $('input[name=chk]:checkbox').length;
+		for(var i=0; i<count; i++ ){
+			if($('input[name=chk]:checkbox').eq(i).is(":checked")==true){
+				var p_price1 = $('.td1').eq(i).text();
+	 			var p_price2 = p_price1.substring(0,(p_price1.length-1));
+				sum += Number(p_price2);
+			}
+		}
+		
+		$('#sum1').text(sum);
+		if(sum>=30000){
 			$('#del_price').text("0");
 		}else{
 			$('#del_price').text("3000");
 		}
 		var deliv_price = Number($('#del_price').text());
-		var final_price = total_price + deliv_price;
+		var final_price = sum + deliv_price;
 		$('#sum2').text(final_price);
-		var total_point = total_price * 0.01;
+		var total_point = sum * 0.01;
 		$('#total_m').text(total_point);
-	}	
+		
+	}
+	
+	// 바로구매 
+	function buyNow(p_num, m_num){
+		
+	}
 	
 	// 선택한 제품 장바구니에서 삭제
     function cart_del(p_num, m_num) {
@@ -182,30 +224,35 @@
     
  // 선택상품 주문하기
     function orderSel(m_num){
+	 
+    	var count = $('input:checkbox[name="chk"]:checked').length;
+		if(count>0){
 
-    	$('input:checkbox[name=chk]:checked').each(function(){
-    		var chk_value =$(this).attr('id');  //id = chk_${p_num}
-    		var p_num = parseInt(chk_value.substring(4,chk_value.length));
-	    	var	p_amt = $('#ipt_'+p_num).val();
-			var arrData = [m_num, p_num, p_amt];
-			
-		$.ajax({
-	        	type:"POST",
-	        	url : "cartUpdate",
-	        	data: JSON.stringify(arrData),
-	         	contentType: "application/json",
-	            success : function(data){
-	                        if(data == 1){
-		    	       	}
-		        	  },
-			error:function(){
-					alert("서버통신실패");
-				  }
-		});
-	});
-    	window.location.href="payment?m_num="+m_num;
-   
-    }
+	    	$('input:checkbox[name=chk]:checked').each(function(){
+	    		var chk_value =$(this).attr('id');  //id = chk_${p_num}
+	    		var p_num = parseInt(chk_value.substring(4,chk_value.length));
+		    	var	p_amt = $('#ipt_'+p_num).val();
+				var arrData = [m_num, p_num, p_amt];
+				
+				$.ajax({
+			        	type:"POST",
+			        	url : "cartUpdate",
+			        	data: JSON.stringify(arrData),
+			         	contentType: "application/json",
+			            success : function(data){
+			                        if(data == 1){
+				    	       	}
+				        	  },
+					error:function(){
+							alert("서버통신실패");
+						  }
+				});
+			});
+	    	window.location.href="payment?m_num="+m_num;
+		}else {
+			alert("선택하신 상품이 없습니다. 주문하실 상품을 먼저 선택해주시기 바랍니다.");
+		}
+	}
     
 
     
@@ -356,7 +403,7 @@
 							<col width="14%" class="tnone" />
 							</colgroup>
 							<thead>
-								<th scope="col"><input type="checkbox" id="checkAll" /></th>
+								<th scope="col"><input type="checkbox" checked id="checkAll"/></th>
 								<th scope="col">상품명</th>
 								<th scope="col" class="tnone">가격/포인트</th>
 								<th scope="col">수량</th>
@@ -366,7 +413,7 @@
 							<tbody>
 								<c:forEach var="cartlist" items="${cartlist }">
 								<tr>
-									<td><input type="checkbox" class="chk" name="chk" id="chk_${cartlist.pDto.p_num }"/></td>
+									<td><input type="checkbox" checked class="chk" name="chk" id="chk_${cartlist.pDto.p_num }" onclick="itemSum()"/></td>
 									<td class="left">
 										<p class="img"><img src="user/images/img/sample_product.jpg" alt="상품" width="66" height="66" /></p>
 
@@ -381,7 +428,7 @@
 									<td class="td1" id="td1_${cartlist.pDto.p_num}">${cartlist.pDto.p_price * cartlist.ca_amount  }원</td>
 									<td class="tnone">
 										<ul class="order">	
-											<li><a href="#" class="obtnMini iw70">바로구매</a></li>
+											<li><a href="#" onclick="buyNow(${cartlist.pDto.p_num }, ${memDto.m_num })" class="obtnMini iw70">바로구매</a></li>
 											<li><a href="#" onclick="cart_del(${cartlist.pDto.p_num }, ${memDto.m_num })" class="nbtnMini iw70">상품삭제</a></li>
 										</ul>
 									</td>
