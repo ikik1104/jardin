@@ -12,8 +12,8 @@ public class OrderCheckServiceImp implements OrderCheckService {
 	OrderCheckDao orderCheckDao;
 
 	@Override
-	public int countOrder(int m_num) {
-		return orderCheckDao.countOrder(m_num);
+	public int countOrder(String m_id) {
+		return orderCheckDao.countOrder(m_id);
 	}
 	
 }

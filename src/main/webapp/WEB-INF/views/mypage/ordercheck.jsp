@@ -237,72 +237,7 @@ $(document).ready(function() {
 										</ul>										
 									</td>
 								</tr>
-
-								<tr>
-									<td>
-										<p class="day">2012-05-30</p>
-										<p class="orderNum">201205301204-8057</p>
-									</td>
-									<td class="left">
-										쟈뎅 오리지널 콜롬비아 페레이라 원두커피백 15p
-									</td>
-									<td class="tnone">999,999 원</td>
-									<td class="tnone">1000개</td>
-									<td>
-										<span class="lightgray">입금대기중</span>
-										<ul class="state">
-											<li><a href="#" class="nbtnMini iw83">취소</a></li>
-										</ul>										
-									</td>
-								</tr>
-
-								<tr>
-									<td>
-										<p class="day">2012-05-30</p>
-										<p class="orderNum">201205301204-8057</p>
-									</td>
-									<td class="left">
-										쟈뎅 오리지널 콜롬비아 페레이라 원두커피백 15p
-									</td>
-									<td class="tnone">999,999 원</td>
-									<td class="tnone">1000개</td>
-									<td>
-										<span class="lightgray">입금완료</span>
-										<ul class="state">
-											<li><a href="#" class="nbtnMini iw83">취소</a></li>
-										</ul>										
-									</td>
-								</tr>
-
-								<tr>
-									<td>
-										<p class="day">2012-05-30</p>
-										<p class="orderNum">201205301204-8057</p>
-									</td>
-									<td class="left">
-										쟈뎅 오리지널 콜롬비아 페레이라 원두커피백 15p
-									</td>
-									<td class="tnone">999,999 원</td>
-									<td class="tnone">1000개</td>
-									<td>
-										<span class="orange">배송중</span>									
-									</td>
-								</tr>
-
-								<tr>
-									<td>
-										<p class="day">2012-05-30</p>
-										<p class="orderNum">201205301204-8057</p>
-									</td>
-									<td class="left">
-										쟈뎅 오리지널 콜롬비아 페레이라 원두커피백 15p
-									</td>
-									<td class="tnone">999,999 원</td>
-									<td class="tnone">1000개</td>
-									<td>
-										<span class="orange">배송준비중</span>									
-									</td>
-								</tr>
+								
 							</tbody>
 						</table>
 
