@@ -67,4 +67,7 @@ public interface ADBService {
 	//특정 이벤트 댓글 가져오기
 	List<AllDto> getEventComments(EventDto eventDto);
 	
+	//이벤트글 1개 수정
+	int modifyEventBoard(UtilDto utilDto);
+	
 }

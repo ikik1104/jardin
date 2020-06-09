@@ -217,9 +217,39 @@ public class ADBController {
 	//이벤트&댓글 1개씩 불러오기
 	@RequestMapping("event_view")
 	public String event_view(EventDto eventDto, UtilDto utilDto, Model model) {
+		model.addAttribute("CouponDtos", admincouponservice.getAllCoupons());//쿠폰 목록 가져오기
 		model.addAttribute("AllDto", adbservice.getEventBoard(eventDto));//이벤트 정보 가져오기
 		model.addAttribute("ECDtos",adbservice.getEventComments(eventDto));//댓글 전체 가져오기
+		return "admin/board/event_view";
+	}
 	
+	//이벤트 글 1개 수정하기
+	@PostMapping("event_modify")
+	public String event_modify(
+			UtilDto utilDto, Model model,
+			@RequestParam("start") String start,
+			@RequestParam("end") String end,
+			@RequestParam("win") String win,
+			@RequestParam("coupon") int coupon
+			) {	
+		
+		//수정하지 않은 항목 있을 경우 기존값 넣어주기
+		if(utilDto.getE_start_day()==null||utilDto.getE_start_day().equals("")) 
+			utilDto.setE_start_day(start);
+		if(utilDto.getE_end_day()==null||utilDto.getE_end_day().equals("")) 
+			utilDto.setE_end_day(end);		
+		if(utilDto.getE_win_day()==null||utilDto.getE_win_day().equals("")) 
+			utilDto.setE_win_day(win);		
+		if(utilDto.getCo_num()==0) 
+			utilDto.setCo_num(coupon);
+		
+		int success = adbservice.modifyEventBoard(utilDto);
+		String alerttext="";
+		switch(success) {
+		case 0 : alerttext="alert('이벤트글을 수정하지 못했습니다. 다시 시도해 주세요.'); history.go(-1);"; break;
+		case 1 : alerttext="alert('이벤트글을 수정했습니다.'); location.href='event_list';"; break;
+		}//switch
+		model.addAttribute("alerttext", alerttext);			
 		return "admin/board/event_view";
 	}
 

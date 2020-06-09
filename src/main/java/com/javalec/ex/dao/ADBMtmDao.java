@@ -75,4 +75,7 @@ public interface ADBMtmDao {
 	
 	//특정 이벤트 댓글 모두 가져오기
 	List<AllDto> getEventComments(EventDto eventDto);
+	
+	//이벤트글 1개 수정
+	int modifyEventBoard(UtilDto utilDto);
 }

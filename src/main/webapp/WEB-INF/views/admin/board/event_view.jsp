@@ -134,7 +134,24 @@
 		
 		//이벤트글을 등록/수정하면 다시 이 페이지로 돌아와 alert을 띄움
 		window.onload=function(){
-			${alerttext}
+			${alerttext};
+		}
+		
+		//수정할 때 수정하지 않은 항목 있을 경우 기존 값 넣어주기
+		function modify_check(){
+			if(inputform.e_start_day.value=="" || inputform.e_start_day.value==null){
+				inputform.e_start_day.value=inputform.start.value;
+			}
+			if(inputform.e_end_day.value=="" || inputform.e_end_day.value==null){
+				inputform.e_end_day.value=inputform.end.value;
+			}				
+			if(inputform.e_win_day.value=="" || inputform.e_win_day.value==null){
+				inputform.e_win_day.value=inputform.win.value;
+			}
+			if(inputform.co_num.value=="" || inputform.co_num.value==null){
+				inputform.co_num.value=inputform.coupon.value;
+			}			
+			inputform.submit();
 		}
 		
 		</script>
@@ -161,8 +178,9 @@
 
 		<h1>공지사항 조회/수정</h1>
 		
-		<div>
-			<h1>게시글 정보</h1>
+	<form action="event_modify" name="inputform" method="post">		
+		<div  id="input_form">
+			<h1>게시글 조회/수정</h1>
 			<table border="1">
 				<tr>
 					<th>번호</th>
@@ -176,69 +194,88 @@
 				</tr>							
 				<tr>
 					<th>제목</th>
-					<td colspan="3">${AllDto.eventdto.e_title }</td>
+					<td colspan="3"><textarea name="e_title">${AllDto.eventdto.e_title }</textarea></td>
 				</tr>
 
 				<tr>
-					<th>시작일</th>
+					<th>기존 시작일</th>
 					<td>${AllDto.eventdto.e_start_day }</td>
-					<th>종료일</th>
-					<td>${AllDto.eventdto.e_end_day }</td>				
+					<th>시작일 변경</th>
+					<td><input type="date" name="e_start_day"></td>				
 				</tr>
-				
+				<tr>
+					<th>기존 종료일</th>
+					<td>${AllDto.eventdto.e_end_day }</td>
+					<th>종료일 변경</th>
+					<td><input type="date" name="e_end_day"></td>				
+				</tr>				
 				<tr>
 					<th>당첨자 발표일</th>
 					<td>${AllDto.eventdto.e_win_day }</td>
-					<th>진행 상태</th>
-					<td>${AllDto.eventdto.e_status }</td>				
+					<th>발표일 변경</th>
+					<td><input type="date" name="e_win_day"></td>				
 				</tr>				
-				
 				<tr>
-					<th>기존 썸네일 파일</th>
+					<th>진행 상태</th>
+					<td colspan="3">${AllDto.eventdto.e_status }</td>				
+				</tr>					
+				<tr>
+					<th>기존 썸네일</th>
 					<td>${AllDto.eventdto.e_thumb_img }</td>
-					<th>새 썸네일 파일</th>
+					<th>썸네일 변경</th>
 					<td>여기 코딩해야 함</td>				
 				</tr>				
 				
 				<tr>
-					<th>기존 첨부이미지 파일</th>
+					<th>기존 첨부이미지</th>
 					<td>${AllDto.eventdto.e_content_img }</td>
-					<th>새 첨부이미지 파일</th>
+					<th>첨부이미지 변경</th>
 					<td>여기도 코딩 해야 함</td>				
 				</tr>		
-				
+
 				<tr>
 					<th>쿠폰번호</th>
 					<td>${AllDto.eventdto.co_num }</td>
 					<th>쿠폰명</th>
 					<td>${AllDto.coupondto.co_name }</td>				
-				</tr>					
-			</table>
-		</div>		
-		
-			<form action="event_modify" name="inputform" method="post">
-				<div id="input_form">
-					<h1>게시글 조회/수정</h1>
-					<table border="1">
-						<tr>
-							<td>
-								<!-- 텍스트에디터로 변경?★★★★★★★★★ -->
-							 
-								<textarea wrap="hard" name="no_content" id="smartEditor" style="width:100%; height: 412px;">
+				</tr>		
+				<tr>
+					<th>쿠폰 변경</th><!-- 여기 쿠폰 가져오기 -->
+					<td colspan="3">
+							<select name="co_num"> <!-- model에 쿠폰 리스트 같이 보내서 ${coupon.name} , ${coupon.seq}사용 -->
+								<option>쿠폰없음</option>
+								<c:forEach var="coupondtos" items="${CouponDtos }">
+									<option value="${coupondtos.coupondto.co_num}">${coupondtos.coupondto.co_name}</option>
+								</c:forEach>
+							</select>			
+					</td>			
+				</tr>							
+							
+				<tr>
+					<td colspan="4">
+						<!-- 텍스트에디터로 변경?★★★★★★★★★ -->
+						<textarea wrap="hard" name="e_content" id="smartEditor" style="width:100%; height: 412px;">
 ${AllDto.eventdto.e_content }
-								</textarea>								
-							</td>
-						</tr>
-					</table>
-					<input type="hidden" value=${AllDto.eventdto.e_num } name="e_num">
+						</textarea>								
+					</td>
+				</tr>
+			</table>
+			<input type="hidden" value=${AllDto.eventdto.e_num } name="e_num">
 					
-					<div id="btn_div">
-						<button type="button" onclick="location.href='notice_list'">목록</button>
-						<button type="submit" >수정</button>
-						<button type="button" onclick="event_del_check(${AllDto.eventdto.e_num })" >삭제</button>						
-					</div>		
-				</div>
-			</form>
+			<div id="btn_div">
+				<button type="button" onclick="location.href='event_list'">목록</button>
+				<button type="submit" >수정</button>
+				<button type="button" onclick="event_del_check(${AllDto.eventdto.e_num })" >삭제</button>						
+			</div>		
+		</div>
+		
+		<!-- 수정하지 않은 항목에 넣어줄 값들 -->
+		<input type="hidden" name="start" value=${AllDto.eventdto.e_start_day }>
+		<input type="hidden" name="end" value=${AllDto.eventdto.e_end_day }>
+		<input type="hidden" name="win" value=${AllDto.eventdto.e_win_day }>		
+		<input type="hidden" name="coupon" value=${AllDto.eventdto.co_num }>				
+
+	</form>
 		
 		<div>
 			<h1>신청자 댓글</h1>	

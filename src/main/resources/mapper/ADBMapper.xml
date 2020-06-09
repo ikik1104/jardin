@@ -211,6 +211,7 @@
  		#{e_content}, sysdate, #{co_num}, #{e_win_day}, #{ad_num}, '페이지용')
 	</insert>
 	
+	<!-- 특정 이벤트글 1개 가져오기 -->
 	<select id="getEventBoard" resultMap="AllDto">
          <![CDATA[select ad.ad_id, ad.ad_grade, e_num, e_title, e_start_day, e_end_day,
 		e_thumb_img,e_content_img,e_content, e_sysdate, 
@@ -222,10 +223,18 @@
 		where ev.ad_num=ad.ad_num and ev.co_num = co.co_num and e_num=#{e_num}]]>		
 	</select>
 	
+	<!-- 특정 이벤트에 달린 댓글들 가져오기 -->
 	<select id="getEventComments" resultMap="AllDto">
 		select mem.m_id, ec_content, ec_pw, ec_sysdate
 		from member_tb mem, ecomment_tb ec
 		where ec.m_num=mem.m_num and ec.e_num=#{e_num} order by ec_num desc
 	</select>		
+	
+	<!-- 이벤트 1개 수정 -->
+	<update id="modifyEventBoard">
+		update event_tb set e_title=#{e_title}, e_start_day=#{e_start_day}, e_end_day=#{e_end_day},
+		e_win_day=#{e_win_day}, e_content=#{e_content}, co_num=#{co_num} where e_num=#{e_num}
+	
+	</update>
 	
 </mapper>

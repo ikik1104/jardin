@@ -137,6 +137,12 @@ public class ADBServiceImp implements ADBService {
 	public List<AllDto> getEventComments(EventDto eventDto) {
 		return adbmtmdao.getEventComments(eventDto);
 	}
+
+	//이벤트글 1개 수정
+	@Override
+	public int modifyEventBoard(UtilDto utilDto) {
+		return adbmtmdao.modifyEventBoard(utilDto);
+	}
 	
 
 	

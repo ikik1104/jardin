@@ -12,6 +12,7 @@ public class UtilDto {
 	
 	//이벤트 새로 등록할 때 사용(날짜를 String으로 받으려고..)
 	private int rownum;		//DB에서 가져오는 rownum
+	private String e_num;//이벤트 고유번호
 	private String e_title; //제목	
 	private String e_thumb_img; //썸네일 이미지
 	private String e_content_img; //내용 이미지
@@ -117,6 +118,12 @@ public class UtilDto {
 	}
 	public void setE_win_day(String e_win_day) {
 		this.e_win_day = e_win_day;
+	}
+	public String getE_num() {
+		return e_num;
+	}
+	public void setE_num(String e_num) {
+		this.e_num = e_num;
 	}
 
 	
