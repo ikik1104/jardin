@@ -22,6 +22,7 @@
 <script type="text/javascript" src="user/js/jquery.easing.1.3.js"></script>
 <script type="text/javascript" src="user/js/idangerous.swiper-2.1.min.js"></script>
 <script type="text/javascript" src="user/js/jquery.anchor.js"></script>
+
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
 
 
@@ -187,21 +188,8 @@ $(document).ready(function() {
 		</div>
 		
 		<div id="outbox">		
-			<div id="left">
-				<div id="title">MY PAGE<span>마이페이지</span></div>
-				<ul>	
-					<li><a href="#" id="leftNavi1">주문/배송 조회</a></li>
-					<li><a href="#" id="leftNavi2">반품/배송 현황</a></li>
-					<li><a href="#" id="leftNavi3">장바구니</a></li>
-					<li><a href="#" id="leftNavi4">위시리스트</a></li>
-					<li><a href="#" id="leftNavi5">나의 쿠폰</a></li>
-					<li><a href="#" id="leftNavi6">나의 포인트</a></li>
-					<li><a href="#" id="leftNavi7">1:1문의</a></li>
-					<li><a href="#" id="leftNavi8">회원정보 수정</a></li>
-					<li class="last"><a href="#" id="leftNavi9">회원 탈퇴</a></li>
-				</ul>			
-			</div><script type="text/javascript">initSubmenu(8,0);</script>
-
+            <jsp:include page="common/sub_navi.jsp" />
+            <script type="text/javascript">initSubmenu(8,0);</script>
 
 			<!-- contents -->
 			<div id="contents">
@@ -307,14 +295,15 @@ $(document).ready(function() {
 									<td>
 										<ul class="pta">
 											<li>
-												<input type="text" class="w134" name="m_zipcode" value="${ info_view.getM_zipcode() }"/>&nbsp;
+												<input type="text" class="w134" name="m_zipcode" id="m_zipcode" value="${ info_view.getM_zipcode() }"/>&nbsp;
 											</li>
-											<li><a href="zip_open" class="addressBtn"><span>우편번호 찾기</span></a></li>
-											<li class="pt5"><input type="text" class="addressType" name="m_address1" value="${ info_view.getM_address1() }" /></li>
-											<li class="pt5"><input type="text" class="addressType" name="m_address2" value="${ info_view.getM_address2() }" /></li>
-											<li>
+											<li><a onclick="execDaumPostcode()" class="addressBtn"><span>우편번호 찾기</span></a></li>
+											<li class="pt5"><input type="text" class="addressType" id="m_address1" name="m_address1" value="${ info_view.getM_address1() }" /></li>
+											<li class="pt5"><input type="text" class="addressType" id="m_address2" name="m_address2" value="${ info_view.getM_address2() }" /></li>
+                                            <li>
 												<span class="mvalign">※ 상품 배송 시 받으실 주소입니다. 주소를 정확히 적어 주세요.</span>
 											</li>
+                                            
 										</ul>
 									</td>
 								</tr>
@@ -384,6 +373,7 @@ $(document).ready(function() {
 													<option value="070">070</option>
 													<option value="010">010</option>
 												</select>
+
 											</li>
 											<li>&nbsp;<span class="valign">-</span>&nbsp;</li>
 											<li><input type="text" class="w74" maxlength="4" value="${tel2 }" name="tel2"/> <span class="valign">-</span>&nbsp;</li>
@@ -498,7 +488,7 @@ $(function(){
 		var layerCheck = 320;
 	}
 
-	$(".addressBtn, .nbtnMini").fancybox({
+	$(".nbtnMini").fancybox({
 		'autoDimensions'    : false,
 		'showCloseButton'	: false,
 		'width' : layerCheck,
@@ -510,6 +500,8 @@ $(function(){
 			});
 		}
 	});
+	
+	
 
 
 });
@@ -528,13 +520,22 @@ $(function(){
 	<!-- //container -->
 
 
-
-
 	<jsp:include page="../footer.jsp" />
 
 
+</div>
+</div>
 
-</div>
-</div>
+<!-- 다음 주소검색 api -->
+    <div id="layer"
+        style="display: none; position: fixed; overflow: hidden; z-index: 1; -webkit-overflow-scrolling: touch;">
+        <img src="//t1.daumcdn.net/postcode/resource/images/close.png"
+            id="btnCloseLayer"
+            style="cursor: pointer; position: absolute; right: -3px; top: -3px; z-index: 1"
+            onclick="closeDaumPostcode()" alt="닫기 버튼">
+    </div>
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script type="text/javascript" src="user/js/address.js"></script>
+
 </body>
 </html>

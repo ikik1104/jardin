@@ -52,17 +52,40 @@ public class My2Controller {
 	@RequestMapping("inquiry")
 	public String inquiry(PageDto pageDto, HttpServletRequest request, Model model, HttpSession session) {
 		if(session.getAttribute("userNum") == null) {return "home";}//세션체크
+		
 		int m_num = (Integer)session.getAttribute("userNum"); //회원 아이디 변수에 담기
+		
 		int total = mtmService.countInquiry(m_num);
 		int cntPerPage = 10;
 		String page = request.getParameter("page"); //열려야하는 페이지
 		if(page == null) { page = "1"; }
+		
 		pageDto = new PageDto(total, Integer.parseInt(page), cntPerPage);
 		
-//		String option = request.getParameter("option"); //검색 옵션
-//		String search = request.getParameter("search"); //검색어
 		model.addAttribute("paging", pageDto);
 		model.addAttribute("inquiry", mtmService.getAllInquiry(m_num, pageDto));
+		return "mypage/inquiry";
+	}
+	
+	//1:1문의 리스트 페이지 : 검색
+	@RequestMapping("inq_search")
+	public String inq_search(PageDto pageDto, HttpServletRequest request, Model model, HttpSession session) {
+		if(session.getAttribute("userNum") == null) {return "home";}//세션체크
+		
+		int m_num = (Integer)session.getAttribute("userNum"); //회원 아이디 변수에 담기
+		
+		String option = request.getParameter("search_category"); //검색옵션값 가져오기
+		String search = request.getParameter("search_input"); //검색어 가져오기
+		int total = mtmService.countSearchInquiry(m_num, option, search); //검색대상글개수
+		
+		int cntPerPage = 10; //페이지당 게시글 수
+		String page = request.getParameter("page"); //열려야하는 페이지
+		if(page == null) { page = "1"; } // 열려야하는 페이지 값이 없으면 1로 세팅
+		
+		pageDto = new PageDto(total, Integer.parseInt(page), cntPerPage); //페이지 객체가져오기
+		
+		model.addAttribute("paging", pageDto); //페이지 객체 담기
+		model.addAttribute("inquiry", mtmService.getSearchInquiry(m_num, pageDto, option, search)); //검색결과 list 담기
 		return "mypage/inquiry";
 	}
 	
@@ -70,9 +93,11 @@ public class My2Controller {
 	@RequestMapping("inquiry_view")
 	public String inquiry_view(HttpServletRequest request, Model model, HttpSession session) {
 		if(session.getAttribute("userNum") == null) {return "home";}//세션체크
+		
 		int m_num = Integer.parseInt(request.getParameter("m_num"));
 		int iu_num = Integer.parseInt(request.getParameter("iu_num"));
 		int rownum = Integer.parseInt(request.getParameter("rownum"));
+		
 		model.addAttribute("rownum", rownum);
 		model.addAttribute("inq_view", mtmService.getOneInquiry(iu_num)); //질문글 불러오기
 		model.addAttribute("ans_view", mtmService.getOneAnswer(iu_num)); //답변글 불러오기
@@ -100,7 +125,6 @@ public class My2Controller {
 	@RequestMapping("inquiry_modify")
 	public String inquiry_modify(HttpServletRequest request, Model model, HttpSession session) {
 		if(session.getAttribute("userNum") == null) { return "home";} //세션체크
-		int m_num = Integer.parseInt(request.getParameter("m_num"));
 		int iu_num = Integer.parseInt(request.getParameter("iu_num"));
 		int rownum = Integer.parseInt(request.getParameter("rownum"));
 		model.addAttribute("modi_view", mtmService.modifyView(iu_num));
@@ -163,11 +187,9 @@ public class My2Controller {
 			model.addAttribute("birth"+(i+1), birth[i]);
 			System.out.println(birth[i]);
 		}
-		
 		model.addAttribute("info_view", memberDto);
 		return "mypage/change_info";
 	}
-	
 	
 	//비밀번호변경 모달창 열기
 	@RequestMapping("password_change")
@@ -215,14 +237,6 @@ public class My2Controller {
 		int success = leaveService.memberLeave(memberDto);
 		return success;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn"%>
+<jsp:useBean id="now" class="java.util.Date" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -63,6 +64,16 @@ $(document).ready(function() {
 
      $(document).ready(function () {
          msiecheck();
+         
+         $(".nbtnMini").each(function(){
+             if($(this).text() == "답변대기"){
+            	 $(this).css('background-color', '#999999');
+             } else {
+            	 $(this).css('background-color', '#f7703c');
+             }
+         })
+         
+         
      });
 
      var msiecheck = function () {
@@ -86,6 +97,11 @@ $(document).ready(function() {
 		$("#ieUser").hide();
         clearTimeout(msietimer);
      }
+     
+     function search_submit(){
+    	inq_search.submit();	 
+     }
+     
 </script>
 
 <div id="allwrap">
@@ -134,22 +150,9 @@ $(document).ready(function() {
 			</ol>
 		</div>
 		
-		<div id="outbox">		
-			<div id="left">
-				<div id="title">MY PAGE<span>마이페이지</span></div>
-				<ul>	
-					<li><a href="#" id="leftNavi1">주문/배송 조회</a></li>
-					<li><a href="#" id="leftNavi2">반품/배송 현황</a></li>
-					<li><a href="#" id="leftNavi3">장바구니</a></li>
-					<li><a href="#" id="leftNavi4">위시리스트</a></li>
-					<li><a href="#" id="leftNavi5">나의 쿠폰</a></li>
-					<li><a href="#" id="leftNavi6">나의 포인트</a></li>
-					<li><a href="#" id="leftNavi7">1:1문의</a></li>
-					<li><a href="#" id="leftNavi8">회원정보 수정</a></li>
-					<li class="last"><a href="#" id="leftNavi9">회원 탈퇴</a></li>
-				</ul>			
-			</div><script type="text/javascript">initSubmenu(7,0);</script>
-
+		<div id="outbox">
+        		<jsp:include page="common/sub_navi.jsp" />
+                <script type="text/javascript">initSubmenu(7,0);</script>
 
 			<!-- contents -->
 			<div id="contents">
@@ -190,7 +193,19 @@ $(document).ready(function() {
                                         <td class="tnone">${ inq.getRownum() } </td>
                                         <td>${ inq.getIu_sort() }</td>
                                         <td class="left"><a href="inquiry_view?m_num=${ inq.getM_num() }&iu_num=${ inq.getIu_num() }&rownum=${ inq.getRownum() }">${ inq.getIu_title() }</a></td>
-                                        <td class="tnone">${ inq.getIu_date() }</td>
+                                        <fmt:formatDate value="${now}" pattern="yy.MM.dd" var="today" />
+                                        <fmt:formatDate value="${ inq.getIu_date() }" pattern="yy.MM.dd" var="date_type" />
+                                        <fmt:formatDate value="${ inq.getIu_date() }" pattern="hh:mm:ss" var="time_type"/>
+                                        <c:if test="${ date_type < today }">
+                                            <td class="tnone">
+                                                ${ date_type }
+                                            </td>
+                                        </c:if>
+                                        <c:if test="${ date_type >= today }">
+                                            <td class="tnone">
+                                                ${ time_type }
+                                            </td>
+                                        </c:if>
                                         <td>
                                             <ul class="state">
                                                 <li><div class="nbtnMini iw83">${ inq.getIu_status() }</div></li>
@@ -218,68 +233,55 @@ $(document).ready(function() {
 
 						<!-- 페이징이동1 -->
 						<div class="allPageMoving1">
-
-						<c:choose>
-							<c:when test="${ searchflag != null }">
-								<a href="#" class="n"><img src="user/images/btn/btn_pre2.gif" alt="처음으로"/></a>
-								<a href="#" class="pre"><img src="user/images/btn/btn_pre1.gif" alt="앞페이지로"/></a>
-								<strong>1</strong>
-								<a href="#">2</a>
-								<a href="#">3</a>
-								<a href="#">4</a>
-								<a href="#">5</a>
-								<a href="#" class="next"><img src="user/images/btn/btn_next1.gif" alt="뒤페이지로"/></a>
-								<a href="#" class="n"><img src="user/images/btn/btn_next2.gif" alt="마지막페이지로"/></a>
-							</c:when>
-							<c:otherwise>
-								<a href="inquiry?page=1" class="n"><img src="user/images/btn/btn_pre2.gif" alt="처음으로"/></a>
-								<c:if test="${ paging.getPage()<=1 }">
-									<img src="user/images/btn/btn_pre1.gif" alt="앞페이지로"/>
-								</c:if>
-								<c:if test="${ paging.getPage()>1 }">
-									<a href="inquiry?page=${ paging.getPage() - 1 }" class="pre"><img src="user/images/btn/btn_pre1.gif" alt="앞페이지로"/></a>
-								</c:if>
-								<c:forEach var="num" begin="${ paging.getStartPage() }" end="${ paging.getEndPage() }" step="1">
-									<c:choose>
-										<c:when test="${ num == paging.getPage() }">
-											<strong>${ num }</strong>
-										</c:when>
-										<c:when test="${ num != paging.getPage() }">
-											<a href="inquiry?page=${ num }"></a>
-										</c:when>
-									</c:choose>
-								</c:forEach>
-								
-								<c:if test="${ paging.getPage()>= paging.getLastPage() }">
-									<img src="user/images/btn/btn_next1.gif" alt="뒤페이지로"/>
-								</c:if>
-								<c:if test="${ paging.getPage() < paging.getLastPage() }">
-									<a href="inquiry?page=${ paging.getPage() + 1 }" class="next"><img src="user/images/btn/btn_next1.gif" alt="뒤페이지로"/></a>
-								</c:if>
-								<a href="inquiry?page=${ paging.getLastPage() }" class="n"><img src="user/images/btn/btn_next2.gif" alt="마지막페이지로"/></a>
-							</c:otherwise>
-						</c:choose>
-
+							<a href="inquiry?page=1" class="n"><img src="user/images/btn/btn_pre2.gif" alt="처음으로"/></a>
+							<c:if test="${ paging.getPage()<=1 }">
+								<img src="user/images/btn/btn_pre1.gif" alt="앞페이지로"/>
+							</c:if>
+							<c:if test="${ paging.getPage()>1 }">
+								<a href="inquiry?page=${ paging.getPage() - 1 }" class="pre"><img src="user/images/btn/btn_pre1.gif" alt="앞페이지로"/></a>
+							</c:if>
+							<c:forEach var="num" begin="${ paging.getStartPage() }" end="${ paging.getEndPage() }" step="1">
+								<c:choose>
+									<c:when test="${ num == paging.getPage() }">
+										<strong>${ num }</strong>
+									</c:when>
+									<c:when test="${ num != paging.getPage() }">
+										<a href="inquiry?page=${ num }">${ num }</a>
+									</c:when>
+								</c:choose>
+							</c:forEach>
+							
+							<c:if test="${ paging.getPage()>= paging.getLastPage() }">
+								<img src="user/images/btn/btn_next1.gif" alt="뒤페이지로"/>
+							</c:if>
+							<c:if test="${ paging.getPage() < paging.getLastPage() }">
+								<a href="inquiry?page=${ paging.getPage() + 1 }" class="next"><img src="user/images/btn/btn_next1.gif" alt="뒤페이지로"/></a>
+							</c:if>
+							<a href="inquiry?page=${ paging.getLastPage() }" class="n"><img src="user/images/btn/btn_next2.gif" alt="마지막페이지로"/></a>
 						</div>
 						<!-- //페이징이동1 -->
 						
 					</div>
-
-					<div class="searchWrap">
-						<div class="search">
-							<ul>
-								<li class="web"><img src="user/images/txt/txt_search.gif" alt="search" /></li>
-								<li class="se">
-									<select>
-										<option value="" />제목</option>
-									</select>
-								</li>
-								<li><input type="text" class="searchInput" /></li>
-								<li class="web"><a href="#"><img src="user/images/btn/btn_search.gif" alt="검색" /></a></li>
-								<li class="mobile"><a href="#"><img src="user/images/btn/btn_search_m.gif" alt="검색" /></a></li>
-							</ul>
-						</div>
-					</div>
+                    
+                    <form action="inq_search" method="get" name="inq_search">
+    					<div class="searchWrap">
+    						<div class="search">
+    							<ul>
+    								<li class="web"><img src="user/images/txt/txt_search.gif" alt="search" /></li>
+    								<li class="se">
+    									<select name="search_category">
+    										<option value="all" />전체</option>
+    										<option value="iu_title" />제목</option>
+    										<option value="iu_content" />내용</option>
+    									</select>
+    								</li>
+    								<li><input type="text" class="searchInput" name="search_input"/></li>
+    								<li class="web"><a href="#" onclick="search_submit()"><img src="user/images/btn/btn_search.gif" alt="검색" /></a></li>
+    								<li class="mobile"><a href="#" onclick="search_submit()"><img src="user/images/btn/btn_search_m.gif" alt="검색" /></a></li>
+    							</ul>
+    						</div>
+    					</div>
+                    </form>
 
 				</div>
 			</div>

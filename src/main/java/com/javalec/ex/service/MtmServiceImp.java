@@ -25,6 +25,16 @@ public class MtmServiceImp implements MtmService {
 	public List<MtmUserDto> getAllInquiry(int m_num, PageDto pageDto) {
 		return mtmDao.getAllInquiry(m_num, pageDto);
 	}
+	
+	@Override
+	public int countSearchInquiry(int m_num, String option, String search) {
+		return mtmDao.countSearchInquiry(m_num, option, search);
+	}
+	
+	@Override
+	public List<MtmUserDto> getSearchInquiry(int m_num, PageDto pageDto, String option, String search) {
+		return mtmDao.getSearchInquiry(m_num, pageDto, option, search);
+	}
 
 	@Override
 	public MtmUserDto getOneInquiry(int iu_num) {
@@ -66,6 +76,9 @@ public class MtmServiceImp implements MtmService {
 		return mtmDao.deleteInquiry(iu_num);
 	}
 
+	
+
+	
 	
 
 

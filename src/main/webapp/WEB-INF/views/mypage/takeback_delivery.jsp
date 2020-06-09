@@ -135,21 +135,8 @@ $(document).ready(function() {
 		</div>
 		
 		<div id="outbox">		
-			<div id="left">
-				<div id="title">MY PAGE<span>마이페이지</span></div>
-				<ul>	
-					<li><a href="#" id="leftNavi1">주문/배송 조회</a></li>
-					<li><a href="#" id="leftNavi2">반품/배송 현황</a></li>
-					<li><a href="#" id="leftNavi3">장바구니</a></li>
-					<li><a href="#" id="leftNavi4">위시리스트</a></li>
-					<li><a href="#" id="leftNavi5">나의 쿠폰</a></li>
-					<li><a href="#" id="leftNavi6">나의 포인트</a></li>
-					<li><a href="#" id="leftNavi7">1:1문의</a></li>
-					<li><a href="#" id="leftNavi8">회원정보 수정</a></li>
-					<li class="last"><a href="#" id="leftNavi9">회원 탈퇴</a></li>
-				</ul>			
-			</div><script type="text/javascript">initSubmenu(2,0);</script>
-
+            <jsp:include page="common/sub_navi.jsp" />
+            <script type="text/javascript">initSubmenu(1,0);</script>
 
 			<!-- contents -->
 			<div id="contents">

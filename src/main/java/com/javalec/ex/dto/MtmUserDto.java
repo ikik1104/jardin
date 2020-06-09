@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 public class MtmUserDto {
 
-	private int rownum;		//DB에서 가져오는 rownum
+	private int rnum;		//DB에서 가져오는 rownum
 	private int iu_num;     //1:1 문의 고유번호
 	private int m_num;     //회원 고유번호(작성자)
 	private String iu_title;     //제목
@@ -40,11 +40,11 @@ public class MtmUserDto {
 
 	
 	public int getRownum() {
-		return rownum;
+		return rnum;
 	}
 
-	public void setRownum(int rownum) {
-		this.rownum = rownum;
+	public void setRownum(int rnum) {
+		this.rnum = rnum;
 	}
 
 	public int getIu_num() {

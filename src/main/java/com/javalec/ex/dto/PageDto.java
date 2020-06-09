@@ -12,7 +12,7 @@ public class PageDto {
 		this.cntPerPage = cntPerPage; //한 페이지당 글 수
 		calcLastPage(total, cntPerPage);
 		calcStartEndPage(page, range);
-		calcRownum(page, cntPerPage);
+		calcRownum(page, cntPerPage, total);
 	}
 	
 	//마지막페이지 계산
@@ -28,9 +28,11 @@ public class PageDto {
 	}
 	
 	//페이지 내에서 rownum 첫번호 끝번호
-	public void calcRownum(int page, int cntPerPage) {
-		endRow = page * cntPerPage;
-		startRow = endRow - cntPerPage + 1;
+	public void calcRownum(int page, int cntPerPage, int total) {
+//		endRow = page * cntPerPage;
+//		startRow = endRow - cntPerPage + 1;
+		startRow = total - (page-1) * cntPerPage;
+		endRow = startRow - cntPerPage + 1;
 	}
 
 	public int getPage() {
