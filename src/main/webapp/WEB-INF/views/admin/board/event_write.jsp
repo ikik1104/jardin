@@ -25,6 +25,8 @@
 				}); 
 		
 		function date_chk1(){
+			
+			/*
 			var start = inputform.e_start_day.value;
 			var end = inputform.e_end_day.value;
 			
@@ -41,9 +43,14 @@
 				inputform.e_end_day.value ="";
 				return false;
 			}
+		*/
 		}
 		
 		function date_chk2(win){
+	
+			
+		/*
+	
 			var end = inputform.e_end_day.value;
 			
 			var end_date = new Date(end);
@@ -60,11 +67,15 @@
 				inputform.e_win_day.value ="";
 				return false;
 			}
+			
+		*/
 		}
 		
 		window.onload=function(){
 			${alerttext}
 		}
+		
+		
 		
 		</script>
 		<style type="text/css">
@@ -108,15 +119,20 @@
 							<td>이벤트 기간</td>
 							<fmt:formatDate var="sys" value="${sysdate}" pattern="yyyy-MM-dd"/>
 							<td>시작일 : <input type="date" name="e_start_day"  value="${sys}" onchange="date_chk1()"> ~ 
-							종료일 : <input type="date" name="e_end_day" onchange="date_chk1()"></td>
+							종료일 : <input type="date" name="e_end_day" onchange="date_chk1()">
+							</td>
 						</tr>
 						<tr>
 							<td>썸네일 이미지</td>
-							<td><input type="file" name="e_thumb_img"></td>
+							<td><!--  <input type="file" name="e_thumb_img">-->
+								<input type="text" name="e_thumb_img" value="testthumb.jpg">
+							</td>
 						</tr>
 						<tr>
 							<td>내용 이미지</td>
-							<td><input type="file" name="e_content_img"></td>
+							<td><!-- <input type="file" name="e_content_img"> -->
+								<input type="text" name="e_content_img" value="testcontent.jpg">												
+							</td>
 						</tr>
 						<tr>
 							<td>쿠폰</td>
@@ -127,11 +143,14 @@
 									<option value="${AllDtos.coupondto.co_num}">${AllDtos.coupondto.co_name}</option>
 								</c:forEach>
 							</select>
+							
 							</td>
 						</tr>
 						<tr>
 							<td>당첨자 발표일</td>
-							<td><input type="date" name="e_win_day" onchange="date_chk2(this.value)"></td>
+							<td>
+							<input type="date" name="e_win_day" onchange="date_chk2(this.value)" >
+							</td>
 						</tr>
 					</table>
 					<div id="btn_div">

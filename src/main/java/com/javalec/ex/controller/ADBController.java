@@ -1,6 +1,7 @@
 package com.javalec.ex.controller;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -8,6 +9,7 @@ import org.apache.ibatis.javassist.expr.Instanceof;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -197,8 +199,11 @@ public class ADBController {
 	
 	//이벤트 새글 1개 등록
 	@PostMapping("event_insert")
-	public String event_insert(EventDto eventDto, UtilDto utilDto, Model model) {
-		int success = adbservice.insertEventBoard(eventDto);
+	public String event_insert(UtilDto utilDto, Model model) {
+		
+		System.out.println(utilDto.getE_start_day());
+		
+		int success = adbservice.insertEventBoard(utilDto);
 		
 		String alerttext="";
 		switch(success) {
@@ -208,4 +213,14 @@ public class ADBController {
 		model.addAttribute("alerttext", alerttext);				
 		return "admin/board/event_write";
 	}
+	
+	//이벤트&댓글 1개씩 불러오기
+	@RequestMapping("event_view")
+	public String event_view(EventDto eventDto, UtilDto utilDto, Model model) {
+		model.addAttribute("AllDto", adbservice.getEventBoard(eventDto));//이벤트 정보 가져오기
+		model.addAttribute("ECDtos",adbservice.getEventComments(eventDto));//댓글 전체 가져오기
+	
+		return "admin/board/event_view";
+	}
+
 }

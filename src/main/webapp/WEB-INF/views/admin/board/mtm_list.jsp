@@ -190,25 +190,25 @@
 						<c:forEach var="mtm_list" items="${mtm_list }">
 						<tr>
 							<td><input type="checkbox"></td>
-							<td>${mtm_list.rownum }</td>
+							<td>${mtm_list.mtmuserdto.rownum }</td>
 							<td>
-								<a href="mtm_view?m_id=${mtm_list.memDto.m_id }&rownum=${mtm_list.rownum }&iu_num=${mtm_list.iu_num}
-								&iu_title=${mtm_list.iu_title}&iu_content=${mtm_list.iu_content}&iu_sort=${mtm_list.iu_sort}&iu_date=${mtm_list.iu_date}
-								&iu_status=${mtm_list.iu_status}&iu_img=${mtm_list.iu_img}"> 
-									${mtm_list.iu_title }
+								<a href="mtm_view?m_id=${mtm_list.memberdto.m_id }&rownum=${mtm_list.mtmuserdto.rownum }&iu_num=${mtm_list.mtmuserdto.iu_num}
+								&iu_title=${mtm_list.mtmuserdto.iu_title}&iu_content=${mtm_list.mtmuserdto.iu_content}&iu_sort=${mtm_list.mtmuserdto.iu_sort}&iu_date=${mtm_list.mtmuserdto.iu_date}
+								&iu_status=${mtm_list.mtmuserdto.iu_status}&iu_img=${mtm_list.mtmuserdto.iu_img}"> 
+									${mtm_list.mtmuserdto.iu_title }
 								</a>
 							</td>
-							<td>${mtm_list.iu_sort }</td>
-							<td>${mtm_list.memDto.m_id }</td>
-							<td>${mtm_list.iu_date }</td>
-							<td>${mtm_list.iu_status }</td>
+							<td>${mtm_list.mtmuserdto.iu_sort }</td>
+							<td>${mtm_list.memberdto.m_id }</td>
+							<td>${mtm_list.mtmuserdto.iu_date }</td>
+							<td>${mtm_list.mtmuserdto.iu_status }</td>
 							<td>
-								<button type="button" onclick="location.href='mtm_view?m_id=${mtm_list.memDto.m_id }&rownum=${mtm_list.rownum }&iu_num=${mtm_list.iu_num}
-									&iu_title=${mtm_list.iu_title}&iu_content=${mtm_list.iu_content}&iu_sort=${mtm_list.iu_sort}&iu_date=${mtm_list.iu_date}
-									&iu_status=${mtm_list.iu_status}&iu_img=${mtm_list.iu_img}'">
+								<button type="button" onclick="location.href='mtm_view?m_id=${mtm_list.memberdto.m_id }&rownum=${mtm_list.mtmuserdto.rownum }&iu_num=${mtm_list.mtmuserdto.iu_num}
+									&iu_title=${mtm_list.mtmuserdto.iu_title}&iu_content=${mtm_list.mtmuserdto.iu_content}&iu_sort=${mtm_list.mtmuserdto.iu_sort}&iu_date=${mtm_list.mtmuserdto.iu_date}
+									&iu_status=${mtm_list.mtmuserdto.iu_status}&iu_img=${mtm_list.mtmuserdto.iu_img}'">
 									답변
 								</button>
-								<button type="button" onclick="del_check(${mtm_list.iu_num})">삭제</button>
+								<button type="button" onclick="del_check(${mtm_list.mtmuserdto.iu_num})">삭제</button>
 							</td>
 						</tr>
 						</c:forEach>

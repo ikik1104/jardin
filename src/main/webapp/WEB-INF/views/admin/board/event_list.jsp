@@ -125,7 +125,7 @@
 						<tr id="search_date">
 							<td>기간검색</td>
 							<td>
-							<fmt:formatDate var="sys" value="${sysdate}" pattern="yyyy-MM-dd"/>
+						<!--  <fmt:formatDate var="sys" value="${sysdate}" pattern="yyyy-MM-dd"/>-->	
 							<select name="****미정****" >
 								<option>등록일</option>
 								<option>수정일</option>
@@ -191,17 +191,7 @@
 								<td>없음</td>
 							</c:if>								
 							<td>${AllDtos.eventdto.e_win_day }</td>
-								<!-- 이 부분 ㄱㄱ -->
-								<c:if test="${today>=openDate && today<=closeDate}">	
-									<td>진행중</td>
-								</c:if>			
-								<c:if test="${today<openDate}">	
-									<td>시작 전</td>
-								</c:if>
-								<c:if test="${today>closeDate}">
-									<td>종료</td>
-								</c:if>					
-							
+							<td>${ AllDtos.eventdto.e_status}</td>
 							<td>
 								<button type="button" onclick="location.href='event_view?e_num=${AllDtos.eventdto.e_num}'">
 									수정

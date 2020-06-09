@@ -7,11 +7,13 @@ import org.springframework.stereotype.Repository;
 
 import com.javalec.ex.dto.AllDto;
 import com.javalec.ex.dto.BDto;
+import com.javalec.ex.dto.E_CommentDto;
 import com.javalec.ex.dto.EventDto;
 import com.javalec.ex.dto.MemberDto;
 import com.javalec.ex.dto.MtmAnswerDto;
 import com.javalec.ex.dto.MtmUserDto;
 import com.javalec.ex.dto.NoticeDto;
+import com.javalec.ex.dto.UtilDto;
 
 @Repository
 public interface ADBMtmDao {
@@ -24,7 +26,7 @@ public interface ADBMtmDao {
 	*/
 	
 	//1:1문의 전체 리스트 불러오기
-	List<MtmUserDto> getAllBoards();
+	List<AllDto> getAllBoards();
 	
 	//1:1 문의 글 1개 삭제
 	int deleteUserBoard(int iu_num);
@@ -66,7 +68,11 @@ public interface ADBMtmDao {
 	List<AllDto> getAllEventBoards();
 	
 	//이벤트 새 글 1개 등록
-	int insertEventBoard(EventDto eventDto);
+	int insertEventBoard(UtilDto utilDto);
 	
+	//이벤트 글 1개 가져오기
+	AllDto getEventBoard(EventDto eventDto);
 	
+	//특정 이벤트 댓글 모두 가져오기
+	List<AllDto> getEventComments(EventDto eventDto);
 }

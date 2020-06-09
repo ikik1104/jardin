@@ -10,11 +10,13 @@ import com.javalec.ex.dao.ADBMtmDao;
 import com.javalec.ex.dao.BDao;
 import com.javalec.ex.dto.AllDto;
 import com.javalec.ex.dto.BDto;
+import com.javalec.ex.dto.E_CommentDto;
 import com.javalec.ex.dto.EventDto;
 import com.javalec.ex.dto.MemberDto;
 import com.javalec.ex.dto.MtmAnswerDto;
 import com.javalec.ex.dto.MtmUserDto;
 import com.javalec.ex.dto.NoticeDto;
+import com.javalec.ex.dto.UtilDto;
 
 @Service
 public class ADBServiceImp implements ADBService {
@@ -31,7 +33,7 @@ public class ADBServiceImp implements ADBService {
 
 	//1:1문의 전체 리스트 불러오기
 	@Override
-	public List<MtmUserDto> getAllBoards() {
+	public List<AllDto> getAllBoards() {
 		return adbmtmdao.getAllBoards();
 	}
 	
@@ -118,12 +120,22 @@ public class ADBServiceImp implements ADBService {
 		return adbmtmdao.getAllEventBoards();
 	}
 
-	
-	
 	//이벤트 새글 1개 등록
 	@Override
-	public int insertEventBoard(EventDto eventDto) {
-		return adbmtmdao.insertEventBoard(eventDto);
+	public int insertEventBoard(UtilDto utilDto) {
+		return adbmtmdao.insertEventBoard(utilDto);
+	}
+
+	//이벤트 글 1개 가져오기
+	@Override
+	public AllDto getEventBoard(EventDto eventDto) {
+		return adbmtmdao.getEventBoard(eventDto);
+	}
+
+	//특정 이벤트 댓글 가져오기
+	@Override
+	public List<AllDto> getEventComments(EventDto eventDto) {
+		return adbmtmdao.getEventComments(eventDto);
 	}
 	
 
