@@ -45,7 +45,7 @@
 				var sum = 0;
 		 		var count= $('input[name=chk]:checkbox').length;
 		 		for(var i=0; i<count; i++){
-		 			var p_price1 = $('.td1').eq(i).text()
+		 			var p_price1 = $('.td1').eq(i).text();
 		 			var p_price2 = p_price1.substring(0,(p_price1.length-1));
 		 			sum += Number(p_price2);
 		 		}
@@ -137,7 +137,24 @@
 	
 	// 바로구매 
 	function buyNow(p_num, m_num){
+		var	p_amt = $('#ipt_'+p_num).val();
+		var arrData = [m_num, p_num, p_amt];
 		
+		$.ajax({
+	        	type:"POST",
+	        	url : "cartUpdate",
+	        	data: JSON.stringify(arrData),
+	         	contentType: "application/json",
+	            success : function(data){
+	                        if(data == 1){
+		    	       	}
+		        	  },
+			error:function(){
+					alert("서버통신실패");
+				  }
+		});
+
+		window.location.href="payment?m_num="+m_num;
 	}
 	
 	// 선택한 제품 장바구니에서 삭제
