@@ -550,6 +550,7 @@
 .pta li.pt5{padding:5px 0 0 0; clear:both; float:none;}
 .pta li.cb{clear:both; padding-right:40px;}
 .pta li span.valign{line-height:20px;}
+.pta li span.pointAlert{line-height:20px; visibility:hidden; color:red;}
 .pta li span.mvalign{font-size:12px; font-weight:600; line-height:20px; color:#999;}
 .pta li span.black{color:#5a524c; font-weight:normal;}
 .pta li span.orange{color:#f7703c; font-weight:normal;}
@@ -675,6 +676,9 @@
 .nbtnbig:hover{color:#fff;}
 .nbtn{display:block; height:20px; line-height:19px; background:#999; color:#fff !important; font-size:12px; font-weight:600; text-align:center; padding:0 10px;}
 .nbtn:hover{color:#fff;}
+.nbtn1{display:block; height:20px; background:#999; color:#fff !important; font-size:12px; font-weight:600; text-align:center; padding:0 10px; border:0px;}
+.nbtn1:hover{color:#fff;}
+.nbtn1:focus{outline:none;}
 .gbtn{display:block; width:130px; height:40px; line-height:40px; background:#5b524d; color:#fff !important; font-size:14px; font-weight:600; text-align:center;}
 .gbtn:hover{color:#fff;}
 .nbtnMini{display:block; width:80px; height:20px; text-align:center; line-height:19px; background:#999; color:#fff !important; font-size:12px; font-weight:600;}

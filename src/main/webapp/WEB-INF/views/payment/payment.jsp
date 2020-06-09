@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> 
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn"%>
+<jsp:useBean id="sysdate" class="java.util.Date"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,12 +30,56 @@
 <![endif]-->
 <script type="text/javascript">
 	$(document).ready(function() {
+		// 처음 페이지 로딩 시, 새로고침 적용
 		if (self.name != 'reload') {
 	         self.name = 'reload';
 	         self.location.reload(true);
 	     }
 	     else self.name = '';
+		
+		// 사용할 포인트 값 입력 시 실행 (보유 포인트와 비교)
+
+		$("#point").change(function(){
+			var value=$(this).val();
+			var ownedPoint = $(".orange").text();
+			if(value>ownedPoint){
+				$(".pointAlert").css('visibility', 'visible');
+				$("#point").val('0');
+			}else {
+				$(".pointAlert").css('visibility', 'hidden');
+			}
+		});
 	});
+	
+	// 천 단위 마다 콤마(,) 추가
+// 	function addComma(num) {
+// 		  var regexp = /\B(?=(\d{3})+(?!\d))/g;
+// 		  return num.toString().replace(regexp, ',');
+	
+	function couponList(m_num){
+		window.open("coupon_list?m_num="+m_num, "couponlist", "width=700px, height=900px, resizable=no, scrollbars=yes");
+	}
+	
+	function changeitem(){
+		alert("aa");
+	
+		var ccoupSelect = document.getElementById("cartcoup");
+		var dcoupSelect = document.getElementById("deliverycoup");
+		var pcoup = $("#productcoup").val();
+		alert(pcoup);
+		
+		var ccoup = Number(ccoupSelect.options[ccoupSelect.selectedIndex].value);
+		alert(ccoup);
+		var dcoup = Number(dcoupSelect.options[dcoupSelect.selectedIndex].value);
+		var semiPrice = $("#semiPrice").text();
+		var semiPrice1 = Number(semiPrice.substring(0,(semiPrice.length-1)));
+		var delPrice = $("#delPrice").text();
+		var delPrice1 = Number(delPrice.substring(0,(delPrice.length-5)));	
+		var point = Number($("#point").value);
+		var final_price = semiPrice1+delPrice1-pcoup-ccoup-dcoup-point;
+		$("#finalPrice").text(final_price+"원");
+	}
+
 </script>
 
 	
@@ -192,7 +237,7 @@
 						<ul>	
 							<li>상품 합계금액 <strong>${sum }</strong> 원</li>
 							<li>+ 배송비 <strong>
-								<c:if test="${sum < 30000 }"><c:set var="del_price" value ="30000" />${del_price }</c:if>
+								<c:if test="${sum < 30000 }"><c:set var="del_price" value ="3000" />${del_price }</c:if>
 								<c:if test="${sum >= 30000 }"><c:set var="del_price" value ="0" />${del_price }</c:if>
 							</strong> 원</li>
 							<li>= 총 합계 <strong>${sum + del_price }</strong> 원</li>
@@ -433,39 +478,93 @@
 							<tbody>
 								<tr>
 									<th scope="row"><span>총 주문금액</span></th>
-									<td>${sum }원</td>
+									<td id="semiPrice">${sum }원</td>
 								</tr>
 								<tr>
 									<th scope="row"><span>배송비</span></th>
-									<td>${del_price }(선불)</td>
+									<td id="delPrice">${del_price }원(선불)</td>
 								</tr>
 								<tr>
-									<th scope="row"><span>쿠폰 할인</span></th>
+									<th scope="row"><span>제품 쿠폰 할인</span></th>
 									<td>
 										<ul class="pta">
 											<li class="r10">
-												<input type="text" class="w134" />&nbsp;&nbsp;
+												<input type="text" class="w134" id="productcoup" value="0" readonly onchange="changeitem()" />&nbsp;&nbsp;
 												<span class="valign"><strong>원</strong></span>
 											</li>
-											<li class="r10"><span class="valign">( 보유 쿠폰 내역 : 7장 )&nbsp;</span></li>
-											<li><a href="coupon_list.html" class="nbtn">쿠폰목록</a></li>
+											<li class="r10"><span class="valign">( 보유 쿠폰 내역 : ${p_couponCount }장 )&nbsp;</span></li>
+											<li><input type="button" class="nbtn1" onclick="couponList(${memDto.m_num })" value ="쿠폰목록"></li>
 										</ul>
 									</td>
 								</tr>
-
+								<tr>
+									<th scope="row"><span>장바구니 쿠폰 할인</span></th>
+									<td>
+										<ul class="pta">
+											<li class="r10">
+												<select id="cartcoup" onchange="changeitem()">
+													<option class="w134" value="0">쿠폰선택</option>
+													<c:forEach var="cartCoupon" items="${cartCoupon }">
+														<c:if test="${cartCoupon.ci_end_day > sysdate }">
+															<c:choose>
+																<c:when test="${cartCoupon.cDto.co_condition <= sum }">
+																	<option id="opt_${cartCoupon.ci_num }" value="${cartCoupon.cDto.co_discount }">${cartCoupon.cDto.co_name }</option>
+																</c:when>
+																<c:when test="${cartCoupon.cDto.co_condition > sum }">
+																	<option id="opt_${cartCoupon.ci_num }" value="${cartCoupon.cDto.co_discount }" disabled style="background-color: #ebebeb;">${cartCoupon.cDto.co_name }</option>
+																</c:when>
+															</c:choose>
+														</c:if>
+													</c:forEach>
+												</select>&nbsp;&nbsp;
+											</li>
+											<li class="r10"><span class="valign">( 보유 쿠폰 내역 : ${c_couponCount }장 )&nbsp;</span></li>
+										</ul>
+									</td>
+								</tr>
+								
+								<tr>
+									<th scope="row"><span>배송비 쿠폰 할인</span></th>
+									<td>
+										<ul class="pta">
+											<li class="r10">
+												<select id="deliverycoup" onchange="changeitem()">
+													<option class="w134" value="0">쿠폰선택</option>
+													<c:forEach var="deliveryCoupon" items="${deliveryCoupon }">
+														<c:if test="${deliveryCoupon.ci_end_day > sysdate }">
+															<c:choose>
+																<c:when test="${deliveryCoupon.cDto.co_condition <= sum && del_price>0}">
+																	<option id="opt_${deliveryCoupon.ci_num }" value="${deliveryCoupon.cDto.co_discount }">${deliveryCoupon.cDto.co_name }</option>
+																</c:when>
+																<c:when test="${deliveryCoupon.cDto.co_condition > sum }">
+																	<option id="opt_${deliveryCoupon.ci_num }" value="${deliveryCoupon.cDto.co_discount }" disabled style="background-color: #ebebeb;">${deliveryCoupon.cDto.co_name }</option>
+																</c:when>
+																<c:when test="${del_price==0 }">
+																	<option id="opt_${deliveryCoupon.ci_num }" value="${deliveryCoupon.cDto.co_discount }" disabled style="background-color: #ebebeb;">${deliveryCoupon.cDto.co_name }</option>
+																</c:when>
+															</c:choose>
+														</c:if>
+													</c:forEach>
+												</select>&nbsp;&nbsp;
+											</li>
+											<li class="r10"><span class="valign">( 보유 쿠폰 내역 : ${d_couponCount }장 )&nbsp;</span></li>
+										</ul>
+									</td>
+								</tr>
 								<!-- 회원 일시 -->
 								<tr>
 									<th scope="row"><span>포인트 사용</span></th>
 									<td>
 										<ul class="pta">
 											<li class="r10">
-												<input type="text" class="w134" />&nbsp;&nbsp;
+												<input type="text" class="w134" id="point" onchange="changeitem()"/>&nbsp;&nbsp;
 												<span class="valign"><strong>Point</strong></span>
 											</li>
 											<li>
 												<span class="valign">( 사용 가능 포인트 : </span>
 												<span class="orange">${memDto.m_point }</span>
-												<span class="valign"> Point)</span>
+												<span class="valign"> Point)</span> 
+												<span class="pointAlert">보유하신 포인트 이내로 입력해주세요.</span>
 											</li>
 										</ul>
 									</td>
@@ -476,7 +575,7 @@
 									<th scope="row"><span>총 결제금액</span></th>
 									<td>
 										<ul class="pta">
-											<li><span class="valign"><strong>1,133,810 원</strong> (총주문금액 1,132,310원 + 배송비 2500원 - 포인트 1,000 = 1,133,801원)</li>
+											<li><span class="valign"><strong id="finalPrice">0 원</strong></li>
 										</ul>
 									</td>
 								</tr>

@@ -10,6 +10,7 @@ public class Cou_IssueDto {
 	private int co_num; //사용 쿠폰(쿠폰 고유번호 )
 	private Timestamp ci_issue_day; //발급일
 	private Timestamp ci_end_day; //사용 종료일
+	private CouponDto cDto;
 
 	
 	public Cou_IssueDto() {
@@ -60,6 +61,12 @@ public class Cou_IssueDto {
 	}
 	public void setCi_end_day(Timestamp ci_end_day) {
 		this.ci_end_day = ci_end_day;
+	}
+	public CouponDto getcDto() {
+		return cDto;
+	}
+	public void setcDto(CouponDto cDto) {
+		this.cDto = cDto;
 	}
 	
 	

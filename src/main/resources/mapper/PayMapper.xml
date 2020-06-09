@@ -19,6 +19,25 @@
 	    <collection property="pDto" resultMap="ProductDto"/>
 	</resultMap>
 	
+	<resultMap type="com.javalec.ex.dto.CouponDto" id="CouponDto">
+		<result column="co_name" property="co_name"/>
+		<result column="co_start_day" property="co_start_day"/>
+		<result column="co_end_day" property="co_end_day"/>
+		<result column="co_expiry" property="co_expiry"/>
+		<result column="co_type" property="co_type"/>
+		<result column="co_discount" property="co_discount"/>
+		<result column="co_product" property="co_product"/>
+		<result column="co_condition" property="co_condition"/>
+	</resultMap>
+	
+	<resultMap type="com.javalec.ex.dto.Cou_IssueDto" id="Cou_IssueDto">
+		<result column="ci_num" property="ci_num"/>
+		<result column="co_num" property="co_num"/>
+		<result column="ci_issue_day" property="ci_issue_day"/>
+		<result column="ci_end_day" property="ci_end_day"/>
+		<collection property="cDto" resultMap="CouponDto"/>
+	</resultMap>
+	
 	<!-- 회원정보 불러오기 -->
 	<select id="getMemInfo1" parameterType="Integer" resultType="com.javalec.ex.dto.MemberDto">
 		select * from member_tb where m_num=#{param1}
@@ -26,8 +45,51 @@
 	
 	<!-- 주문 예정 list 불러오기  -->
 	<select id="getAllCart1" parameterType="Integer" resultMap="CartDto">
-		select p.p_num, p_thumb_img1, p_name, p_price, p_point, m_num, ca_amount from product_tb p , payment_cart_tb c where c.m_num = #{param1} and c.p_num = p.p_num
+		select p.p_num, p_thumb_img1, p_name, p_price, p_point, m_num, ca_amount from product_tb p , payment_cart_tb c where c.m_num = #{param1} and c.p_num = p.p_num order by c.ca_sysdate asc
 	</select>
 	
+	<!-- 보유 쿠폰 list 불러오기  -->
+	<select id="getAllCou" parameterType="Integer" resultMap="Cou_IssueDto">
+		select * from 
+		(select rownum, mcou.* from 
+		(select a.ci_num, a.m_num, a.co_num, a.ci_issue_day, a.ci_end_day, b.co_name, b.co_start_day, b.co_end_day, b.co_expiry, b.co_type, b.co_discount, b.co_product, b.co_condition from c_issue_tb a, coupon_tb b where a.m_num=#{param1} and a.co_num=b.co_num order by a.ci_num asc) mcou) 
+		order by rownum desc
+	</select>
 	
+	<!-- 보유한 장바구니 쿠폰 list 불러오기  -->
+	<select id="getCartCou" parameterType="Integer" resultMap="Cou_IssueDto">
+		select * from 
+		(select rownum, mcou.* from 
+		(select a.ci_num, a.m_num, a.co_num, a.ci_issue_day, a.ci_end_day, b.co_name, b.co_start_day, b.co_end_day, b.co_expiry, b.co_type, b.co_discount, b.co_product, b.co_condition from c_issue_tb a, coupon_tb b where a.m_num=#{param1} and a.co_num=b.co_num and b.co_type = 'cart' order by a.ci_num asc) mcou) 
+		order by rownum desc
+	</select>
+	
+	<!-- 보유한 배송비 쿠폰 list 불러오기  -->
+	<select id="getDeliveryCou" parameterType="Integer" resultMap="Cou_IssueDto">
+		select * from 
+		(select rownum, mcou.* from 
+		(select a.ci_num, a.m_num, a.co_num, a.ci_issue_day, a.ci_end_day, b.co_name, b.co_start_day, b.co_end_day, b.co_expiry, b.co_type, b.co_discount, b.co_product, b.co_condition from c_issue_tb a, coupon_tb b where a.m_num=#{param1} and a.co_num=b.co_num and b.co_type = 'delivery' order by a.ci_num asc) mcou) 
+		order by rownum desc
+	</select>
+	
+	<!-- 보유한 제품 쿠폰 수 카운트 -->
+	<select id="p_couponCount" resultType="Integer">
+		select count(*) from 
+		(select rownum, mcou.* from 
+		(select a.ci_num, a.m_num, a.co_num, a.ci_issue_day, a.ci_end_day, b.co_name, b.co_start_day, b.co_end_day, b.co_expiry, b.co_type, b.co_discount, b.co_product, b.co_condition from c_issue_tb a, coupon_tb b where a.m_num=#{param1} and a.co_num=b.co_num and b.co_type='product' and a.ci_end_day > sysdate order by a.ci_num asc) mcou)
+	</select>
+	
+	<!-- 보유한 장바구니 쿠폰 수 카운트  -->
+	<select id="c_couponCount" resultType="Integer">
+		select count(*) from 
+		(select rownum, mcou.* from 
+		(select a.ci_num, a.m_num, a.co_num, a.ci_issue_day, a.ci_end_day, b.co_name, b.co_start_day, b.co_end_day, b.co_expiry, b.co_type, b.co_discount, b.co_product, b.co_condition from c_issue_tb a, coupon_tb b where a.m_num=#{param1} and a.co_num=b.co_num and b.co_type='cart' and a.ci_end_day > sysdate order by a.ci_num asc) mcou)
+	</select>
+	
+	<!-- 보유한 배송비 무료 쿠폰 수 카운트  -->
+	<select id="d_couponCount" resultType="Integer">
+		select count(*) from 
+		(select rownum, mcou.* from 
+		(select a.ci_num, a.m_num, a.co_num, a.ci_issue_day, a.ci_end_day, b.co_name, b.co_start_day, b.co_end_day, b.co_expiry, b.co_type, b.co_discount, b.co_product, b.co_condition from c_issue_tb a, coupon_tb b where a.m_num=#{param1} and a.co_num=b.co_num and b.co_type='delivery' and a.ci_end_day > sysdate order by a.ci_num asc) mcou)
+	</select>
 </mapper>
