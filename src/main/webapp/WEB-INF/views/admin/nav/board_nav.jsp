@@ -47,9 +47,9 @@
 			<a>ENJOY COFFEE<span id="s_icon" class="icon_minus"></span></a>
 			<div class="tes_list">
 				<ul>
-					<li><a href="#"><img src="admin/images/icon_title_left.png">리스트</a></li>
-					<li><a href="#"><img src="admin/images/icon_title_left.png">글쓰기</a></li>
-					<li><a href="#"><img src="admin/images/icon_title_left.png">글수정</a></li>
+					<li><a href="enjoy_allList"><img src="admin/images/icon_title_left.png">리스트</a></li>
+					<li><a href="enjoy_insertForm"><img src="admin/images/icon_title_left.png">글쓰기</a></li>
+					<li><a href="enjoy_updateForm"><img src="admin/images/icon_title_left.png">글수정</a></li>
 				</ul>
 			</div>
 		</div>

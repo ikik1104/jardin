@@ -7,7 +7,7 @@
 		<title>Insert title here</title>
 		<link rel="stylesheet" type="text/css" href="admin/css/admin_main.css">
 		<!-- 페이지 상단 또는 하단에 라이브러르 추가 --> 
-		<script type="text/javascript" src="admin/se2/js/HuskyEZCreator.js" charset="utf-8"></script> 
+		<script type="text/javascript" src="se2/admin/js/HuskyEZCreator.js" charset="utf-8"></script> 
 		<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 		<!-- 페이지 로딩시 초기화 --> 
 		<script>
@@ -16,18 +16,14 @@
 					oAppRef: editor, 
 					elPlaceHolder: 'txtContent', 
 					sSkinURI: '/plugin/smarteditor2/SmartEditor2Skin.html', 
-					fCreator: 'smartEditor' 
+					fCreator: 'createSEditor2' 
 					}); 
-				
-				$("#f_step1 option").each(function(){ //select box의 옵션을 전부 들고와서 for문처럼 돌림
-				    if($(this).val()=="${faq.f_step}"){ //이 옵션의 값이 넘어온 값과 같다면
-				      $(this).attr("selected","selected"); // attr적용안될경우 prop으로 
-				    }
-				});
-				
-		}); 
+				}); 
 		
-		
+		function updateChk() {
+			
+			inputform.submit();
+		}
 		</script>
 		<style type="text/css">
 			#input_form{
@@ -37,9 +33,9 @@
 				margin:0 auto;
 				 min-width: 1000px;
 			}
-			table tr:NTH-LAST-OF-TYPE(1) textarea{
-				width:600px;
-				height: 300px;
+			table tr td:NTH-OF-TYPE(1) {
+				width: 100px;
+				height: 30px;
 			}
 			#btn_div{
 			 text-align: center;
@@ -50,33 +46,35 @@
 	<jsp:include page="../nav/admin_header.jsp"/>
 	<jsp:include page="../nav/board_nav.jsp"/>
 	<section>
-		<h1>FAQ 입력</h1>
-			<form action="faq_update" name="inputform" method="post">
+
+
+		<h1>enjoy Coffee 수정</h1>
+
+			<form action="enjoy_update" name="inputform" method="post">
 				<div id="input_form">
 					<table border="1">
 						<tr>
-							<td>카테고리</td>
-							<td>
-								<select name="f_step" id="f_step">
-									<option value="회원">회원</option>
-									<option value="상품">상품</option>
-									<option value="주문">주문</option>
-								</select>
-							</td>
+							<td>글 제목</td>
+							<td><input type="text" name="ej_title" value="${enjoy.ej_title}"></td>
 						</tr>
 						<tr>
-							<td>질문</td>
-							<td><input type="text" name="f_title" value="${faq.f_title}"></td>
+							<td>작성자</td>
+							<td><input type="text" name="ad_num" value="${enjoy.ad_num}"></td>
 						</tr>
 						<tr>
-							<td>답변</td>
-							<td><textarea name="f_content" id="smartEditor" maxlength="700">${faq.f_content}</textarea></td> <!-- 안커지게 고정하는거 추가해야함 -->
+							<td>글 내용</td>
+							<td><textarea name="ej_content" id="smartEditor" style="width:100%; height: 412px;">${enjoy.ej_content}</textarea></td>
+						</tr>
+						<tr>
+							<td>첨부 이미지</td>
+<!-- 							<td><input type="file" name="file"></td> -->
+							<td><input type="text" name="ej_img" value="${enjoy.ej_img}"></td>
 						</tr>
 					</table>
 					<div id="btn_div">
-						<input type="hidden" value="${faq.f_num}" name="f_num">
+						<input type="hidden" name="ej_num" value="${enjoy.ej_num}">
 						<button type="button" onclick="location.href="입력전페이지 이동">취소</button>
-						<button type="submit">등록</button>
+						<button type="button" onclick="updateChk()">등록</button>
 					</div>
 				</div>
 			</form>

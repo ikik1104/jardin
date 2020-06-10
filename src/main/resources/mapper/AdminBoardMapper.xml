@@ -41,11 +41,66 @@
 		select * from faq_tb where f_num = #{f_num}
 	</select>
 	
+	<!-- enjoy coffee   검색 -->
+	<select id="getSearchFaq" parameterType="hashmap"  resultType="com.javalec.ex.dto.FaqDto" >
+        select * from faq_tb where 
+ 		f_sysdate between to_date(#{e_start_day},'yy/MM/dd') and to_date(#{e_end_day},'yy/MM/dd')+1 and 
+        ${type} like '%' || #{keyword}|| '%' and
+        f_step = #{f_step}
+	</select>
+	
 	<!-- 유저 -->
 	<!-- faq 리스트 -->
 	<select id="getFaqList" resultType="com.javalec.ex.dto.FaqDto">
 		select rownum,f.* from faq_tb f where f_delflag='N' order by f_num desc
 	</select>
 			
+	<!-- faq 카테고리별 리스트 -->
+	<select id="getFaq_StepList" parameterType="String" resultType="com.javalec.ex.dto.FaqDto">
+		select * from faq_tb where f_delflag='N' and f_step = #{f_step} order by f_num desc
+	</select>		
+	
+	
+	<!-- enjoy coffee 리스트 -->
+	<select id="enjoy_List" resultType="com.javalec.ex.dto.EnjoyCoffeeDto">
+		select rownum,e.* from enjoy_coffee_tb e order by ej_num desc
+	</select>
+	
+	
 
+	<!-- ========================= enjoy coffee   ============================== -->
+	
+	<!-- enjoy coffee insert -->
+	<insert id="enjoy_insert" parameterType="com.javalec.ex.dto.EnjoyCoffeeDto">
+		insert into enjoy_coffee_tb values(ej_seq.nextval,#{ad_num},#{ej_title},#{ej_content},sysdate,#{ej_img},0)
+	</insert>
+	
+	<!-- enjoy coffee 한개의 정보 (상세보기, 수정에 쓰임) -->
+	<select id="enjoy_info" parameterType="Integer" resultType="com.javalec.ex.dto.EnjoyCoffeeDto">
+		select * from enjoy_coffee_tb where ej_num = #{ej_num}
+	</select>
+	
+	<!-- enjoy coffee update -->
+	<update id="enjoy_update" parameterType="com.javalec.ex.dto.EnjoyCoffeeDto" >
+		update enjoy_coffee_tb set ad_num=#{ad_num}, ej_title=#{ej_title} ,ej_content=#{ej_content},
+		ej_img=#{ej_img} where ej_num = #{ej_num}
+	</update>
+	
+	
+	<!-- enjoy coffee 완전 삭제 -->
+	<delete id="enjoy_delete" parameterType="Integer" >
+		delete from enjoy_coffee_tb where ej_num = #{ej_num}
+	</delete>
+	
+	<!-- enjoy coffee 전체 리스트(관리자) -->
+	<select id="enjoy_allList" resultType="com.javalec.ex.dto.EnjoyCoffeeDto">
+		select * from enjoy_coffee_tb order by ej_num desc
+	</select>
+
+	<!-- enjoy coffee   검색 -->
+	<select id="getSearchEnjoy" parameterType="hashmap"  resultType="com.javalec.ex.dto.EnjoyCoffeeDto" >
+        select * from enjoy_coffee_tb where 
+ 		ej_date between to_date(#{e_start_day},'yy/MM/dd') and to_date(#{e_end_day},'yy/MM/dd')+1 and 
+        ${type} like '%' || #{keyword}|| '%'
+	</select>
 </mapper>
