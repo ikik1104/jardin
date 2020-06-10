@@ -21,4 +21,7 @@ public interface AdminMemberInfoService {
 	//회원 1명 정보 수정
 	int modifyMember(MemberDto memberDto);
 	
+	//회원 1명 탈퇴 처리
+	int deleteMember(int m_num);
+	
 }

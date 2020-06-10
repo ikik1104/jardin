@@ -55,4 +55,15 @@
 		update member_tb set m_pw=#{m_pw}, m_level=#{m_level} where m_num=#{m_num}
 	</update>
 	
+	<!-- 회원 1명 탈퇴 처리 -->
+	<update id="deleteMember">
+		update member_tb set m_name='탈퇴', m_pw='탈퇴', m_email='탈퇴', 
+		m_email_ok='탈퇴', m_zipcode=-9999,
+		m_address1='탈퇴', m_address2='탈퇴', m_phone='탈퇴', m_sms_ok='탈퇴',
+		m_tel='탈퇴', m_birth='탈퇴', m_birth_sort='탈퇴', 
+		m_level='탈퇴', m_status='탈퇴', m_left_date=sysdate, 
+		m_left_reason='강제 탈퇴', m_point=0
+		 where m_num=#{m_num}
+	</update>
+	
 </mapper>

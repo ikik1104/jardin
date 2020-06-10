@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.javalec.ex.dto.MemberDto;
 import com.javalec.ex.service.ADBService;
@@ -53,7 +55,14 @@ public class AdminMemberInfoController {
 		}
 		model.addAttribute("alerttext", alerttext);		
 		return response_path+"member_view";
-		
+	}
+	
+	//회원 1명 탈퇴 처리
+	@ResponseBody
+	@RequestMapping("member_delete")
+	public int member_delete(@RequestBody int m_num) {
+		int success = infoservice.deleteMember(m_num);
+		return success;
 	}
 
 	

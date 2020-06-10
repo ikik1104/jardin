@@ -34,6 +34,11 @@ public class AdminMemberInfoServiceImp implements AdminMemberInfoService {
 	//회원 1명 정보 수정
 	public int modifyMember(MemberDto memberDto) {
 		return infodao.modifyMember(memberDto);
+	}
+
+	//회원 1명 탈퇴 처리
+	public int deleteMember(int m_num) {
+		return infodao.deleteMember(m_num);
 	}	
 	
 	
