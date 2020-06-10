@@ -34,5 +34,6 @@ public interface PayDao {
 	
 	// 보유한 배송무료 쿠폰 수 카운트
 	int d_couponCount(int m_num);
+	
 
 }

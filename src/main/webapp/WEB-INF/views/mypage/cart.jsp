@@ -99,7 +99,7 @@
 	});
 	
 	
-	// 수량 변경에 따른 해당 제품 총합계, 총 적립 마일리지 변경
+	// 수량 변경에 따른 해당 제품 총합계 변경
 	function ch1(price, num){
 		var id = document.getElementById("ipt_"+num);
 		$('#td1_'+num).text(price * id.value+"원");
