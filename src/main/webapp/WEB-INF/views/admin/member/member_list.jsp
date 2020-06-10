@@ -191,15 +191,23 @@
 						<tr>
 							<td><input type="checkbox"></td>
 							<td>${member_list.memberdto.rownum }</td>
-							<td>${member_list.memberdto.m_id }</td>
-							<td>${member_list.memberdto.m_name }</td>
+							<td>
+								<a href="member_view?m_num=${member_list.memberdto.m_num }">
+								${member_list.memberdto.m_id }
+								</a>
+							</td>
+							<td>
+								<a href="member_view?m_num=${member_list.memberdto.m_num }">
+								${member_list.memberdto.m_name }
+								</a>
+							</td>
 							<td>${member_list.memberdto.m_join_date }</td>
 							<td>${member_list.memberdto.m_level }</td>
 							<td>${member_list.memberdto.m_email_ok }</td>
 							<td>${member_list.memberdto.m_sms_ok }</td>		
 							<td>${member_list.memberdto.m_last_login }</td>					
 							<td>
-								<button type="button" onclick="">
+								<button type="button" onclick="location.href='member_view?m_num=${member_list.memberdto.m_num}'">
 									수정
 								</button>
 								<button type="button" onclick="del_check(${member_list.memberdto.m_num})">탈퇴</button>
