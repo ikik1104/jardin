@@ -24,4 +24,10 @@ public interface AdminMemberInfoService {
 	//회원 1명 탈퇴 처리
 	int deleteMember(int m_num);
 	
+	//휴면 회원 전체 불러오기(회원 일괄 휴면<->가입 전환)
+	List<AllDto> getAllSleepMembers();
+	
+	//휴면 회원 정보 1개 불러오기
+	AllDto getSleepMember(MemberDto memberDto);
+	
 }

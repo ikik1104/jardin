@@ -36,6 +36,7 @@ public class AdminMemberInfoController {
 	//회원 1명 정보 불러오기
 	@RequestMapping("member_view")
 	public String member_view(MemberDto memberDto, Model model) {
+		System.out.println(memberDto.getM_num());
 		model.addAttribute("member_info", infoservice.getMember(memberDto));
 		return response_path+"member_view";
 	}
@@ -65,5 +66,17 @@ public class AdminMemberInfoController {
 		return success;
 	}
 
+	//휴면 회원 전체 리스트 불러오기(회원 일괄 휴면<->가입 전환 포함)
+	@RequestMapping("member_sleep_list")
+	public String member_sleep_list(Model model) {
+		model.addAttribute("member_list", infoservice.getAllSleepMembers());
+		return response_path+"member_sleep_list";
+	}
+	//휴면 회원 정보 1개 보기
+	@RequestMapping("member_sleep_view")
+	public String member_sleep_view(MemberDto memberDto, Model model) {
+		model.addAttribute("member_info", infoservice.getSleepMember(memberDto));
+		return response_path+"member_sleep_view";
+	}
 	
 }

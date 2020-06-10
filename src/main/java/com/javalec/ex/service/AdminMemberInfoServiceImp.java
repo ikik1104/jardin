@@ -39,6 +39,18 @@ public class AdminMemberInfoServiceImp implements AdminMemberInfoService {
 	//회원 1명 탈퇴 처리
 	public int deleteMember(int m_num) {
 		return infodao.deleteMember(m_num);
+	}
+
+	//휴면 회원 전체 불러오기(회원 일괄 휴면<->가입 전환)
+	public List<AllDto> getAllSleepMembers() {
+		System.out.println("imp들어옴");
+		int success = infodao.turnMemberStatus();//회원 일괄 휴면<->가입 전환
+		return infodao.getAllSleepMembers();//휴면 회원 전체 리스트 불러오기
+	}
+
+	//휴면 회원 정보 1개 불러오기
+	public AllDto getSleepMember(MemberDto memberDto) {
+		return infodao.getSleepMember(memberDto);
 	}	
 	
 	

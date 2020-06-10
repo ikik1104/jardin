@@ -66,4 +66,25 @@
 		 where m_num=#{m_num}
 	</update>
 	
+	<!-- 회원 일괄 휴면<->가입 처리 -->
+	<update id="turnMemberStatus">
+		 <![CDATA[update member_tb set m_status=
+		case when sysdate-m_last_login <= 365 then '가입'
+		when sysdate-m_last_login > 365 then '휴면' end
+		where m_status!='탈퇴']]>
+	</update>
+	
+	<!-- 휴면 회원 전체 리스트 불러오기 -->
+	<select id="getAllSleepMembers" resultMap="AllDto">
+		select * from 
+		(select rownum, mems.* from
+		(select * from member_tb where m_status='휴면' order by m_num desc) mems)
+		order by rownum desc
+	</select>	
+	
+	<!-- 회원 1명 정보 불러오기 -->
+	<select id="getSleepMember" resultMap="AllDto">
+		select * from member_tb where m_status='휴면' and m_num=#{m_num}
+	</select>	
+	
 </mapper>
