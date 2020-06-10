@@ -34,6 +34,7 @@ $(document).ready(function() {
 
 });
 </script>
+
 </head>
 <body>
 
@@ -61,21 +62,26 @@ $(document).ready(function() {
      var settimediv = 200000; //지속시간(1000= 1초)
      var msietimer;
 
+     
+   
+     
      $(document).ready(function () {
          msiecheck();
-         
+
          //status
          var innerHtml = "";
  		 $(".heavygray").each(function(){
-             if($(this).text() == "입금완료"){
+             if($(this).text() == "입금대기중"){
              	var index = $(this).attr('id');
-             	innerHtml = '<li><a href="#" class="nbtnMini iw83">취소</a></li>';
+             	var ol_order_num = $('#on'+index).text();
+             	innerHtml = '<li><a href="#" class="nbtnMini iw83" onclick="wait_cancel('+ol_order_num+')">취소</a></li>';
              	$('#state'+index).html(innerHtml);
              } 
              if($(this).text() == "배송완료"){
              	var index = $(this).attr('id');
+             	var ol_order_num = $('#on'+index).text();
              	innerHtml = '<li class="r5"><a href="return.html" class="obtnMini iw40">교환</a></li>'
-             				+'<li><a href="return.html" class="nbtnMini iw40">반품</a></li>'
+             				+'<li><a href="takeback_deli?ol_order_num='+ol_order_num+'" class="nbtnMini iw40">반품</a></li>'
              				+'<li><a href="#" class="reviewbtn">리뷰작성</a></li>'
              				+'<li><a href="#" class="decidebtn">구매확정</a></li>';
              	$('#state'+index).html(innerHtml);
@@ -85,20 +91,46 @@ $(document).ready(function() {
              	innerHtml = '<li><a href="#" class="reviewbtn">리뷰작성</a></li>';
              	$('#state'+index).html(innerHtml);
              } 
-             if($(this).text() == "입금대기중"){
+             if($(this).text() == "입금완료"){
              	var index = $(this).attr('id');
-             	innerHtml = '<li><a href="#" class="nbtnMini iw83" onclick="wait_cancel(${ol.ONUM})">취소</a></li>';
+             	var ol_order_num = $('#on'+index).text();
+             	innerHtml = '<li><a href="#" class="nbtnMini iw83" onclick="refund_req('+ol_order_num+')">취소</a></li>';
              	$('#state'+index).html(innerHtml);
              } 
          });
-         
      });
-
-     //입금대기중 - 취소
-     var wait_cancel = function (ol_order_num){
-    	 
-    	 alert("order_num"+ol_order_num);
-    	 
+     
+    
+     
+     
+     
+//      //입금완료 - 취소
+//      function refund_req(index){
+//     	 var ol_order_num = $('#on'+index).text();
+//     	 if(confirm("결제를 취소하시겠습니까?")){
+//         	 $.ajax({
+//         		 type : "POST",
+//         		 url : "refund_req",
+//         		 data : JSON.stringify(ol_order_num),
+//         		 contentType : "application/json",
+//                  dataType : "json",
+//                  success : function(val){
+//                 	 if(val == 1){
+//                 		 alert("주문이 취소되었습니다.");
+//                 		 location.reload();
+//                 	 } else{
+//                 		 alert("주문을 취소할 수 없습니다. 관리자에게 문의하세요.");
+//                 	 }
+//                  },
+//                  error : function(){
+//                 	 alert("서버통신실패. 관리자에게 문의하세요.");
+//                  }
+//         	 });
+//     	 };//if confirm
+//      }
+     
+	 //입금대기중 - 취소
+     function wait_cancel(ol_order_num){
     	 if(confirm("주문을 취소하시겠습니까?")){
         	 $.ajax({
         		 type : "POST",
@@ -120,7 +152,8 @@ $(document).ready(function() {
         	 });
     	 };//if confirm
      }
-     
+	 
+	 
      
      var msiecheck = function () {
          var browser = navigator.userAgent.toLowerCase();
@@ -250,7 +283,7 @@ $(document).ready(function() {
     									<td>
                                             <fmt:formatDate value="${ ol.ODATE }" pattern="yyyy-MM-dd" var="dateType" />
     										<p class="day">${ dateType }</p>
-    										<p class="orderNum">${ ol.ONUM }</p>
+    										<p class="orderNum" id="on${ status.index }">${ ol.ONUM }</p>
     									</td>
     									<td class="left">
     										${ ol.P_NAME }
@@ -315,6 +348,7 @@ $(document).ready(function() {
 <link rel="stylesheet" type="text/css" href="user/css/jquery.fancybox-1.3.4.css" />
 <script type="text/javascript">
 $(function(){
+
 	function distance(){
 		var winWidth = $(window).width();
 		if(winWidth > 767){
@@ -326,7 +360,6 @@ $(function(){
 	distance();
 	$(window).resize(function(){distance();});
 
-
 	// layer popup
 	var winWidth = $(window).width();
 	if(winWidth > 767){
@@ -335,7 +368,10 @@ $(function(){
 		var layerCheck = 320;
 	}
 
+// 	$(".iw40").fancybox.center();
+	
 	$(".iw40").fancybox({
+		'centerOnScroll' : true,
 		'autoDimensions'    : false,
 		'showCloseButton'	: false,
 		'width' : layerCheck,

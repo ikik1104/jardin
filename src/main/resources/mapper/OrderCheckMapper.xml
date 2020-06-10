@@ -19,6 +19,45 @@
 		where <![CDATA[r.rnum>=#{pageDto.endRow}]]> and <![CDATA[r.rnum<=#{pageDto.startRow}]]> order by r.rnum desc
 	</select>
 	
+	<!-- 주문취소(입금대기 - 취소) -->
+	<delete id="deleteOrder">
+		delete from orderlist_tb where ol_order_num = #{param1}
+	</delete>
+
+	<!-- 주문단위 상품들 불러오기 -->
+	<select id="getOneSetOrder" resultType="HashMap">
+		select rownum rnum, ot.ol_num, pt.p_name, ot.ol_amt, ot.ol_final_price 
+		from (select ol_num, p_num, ol_amt, ol_final_price from orderlist_tb where ol_order_num = #{ ol_order_num }) ot, product_tb pt
+		where ot.p_num = pt.p_num
+		order by rnum asc
+	</select>
+	
+	<!-- 반품할 상품 한개 불러오기 -->
+	<resultMap type="HashMap" id="selectMap">
+	</resultMap>
+
+	<select id="getReturnPro" resultMap="selectMap">
+		select rownum rnum, ot.ol_num, pt.p_name, ot.ol_amt, ot.ol_final_price 
+		from (select ol_num, p_num, ol_amt, ol_final_price from orderlist_tb where ol_num = #{ ol_num }) ot, product_tb pt
+		where ot.p_num = pt.p_num
+		order by rnum asc
+	</select>
+
+
+
+
+	<!-- 결제취소(입금완료 - 취소) -->
+<!-- 	<delete id="requestRefund"> -->
+<!-- 		delete from orderlist_tb where ol_order_num = #{param1} -->
+<!-- 	</delete> -->
+	
+	
+	
+	
+	
+	
+	
+	
 	<!-- 특정 회원이 작성/검색한 문의글 수 -->
 <!-- 	<select id="countSearchInquiry" resultType="Integer"> -->
 <!-- 		select count(*) from mtm_inqury_user_tb where m_num = #{m_num}	 -->

@@ -1,5 +1,6 @@
 package com.javalec.ex.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +26,26 @@ public class OrderCheckServiceImp implements OrderCheckService {
 	public List<Map<String, String>> getAllOrder(String m_id, PageDto pageDto) {
 		return orderCheckDao.getAllOrder(m_id, pageDto);
 	}
+
+	@Override
+	public int deleteOrder(int ol_order_num) {
+		return orderCheckDao.deleteOrder(ol_order_num);
+	}
+
+	@Override
+	public List<Map<String, String>> getOneSetOrder(int ol_order_num) {
+		return orderCheckDao.getOneSetOrder(ol_order_num);
+	}
+
+	@Override
+	public HashMap<String, String> getReturnPro(int ol_num) {
+		return orderCheckDao.getReturnPro(ol_num);
+	}
+
+//	@Override
+//	public int requestRefund(int ol_order_num) {
+//		return orderCheckDao.requestRefund(ol_order_num);
+//	}
 
 
 	

@@ -20,8 +20,20 @@
 <script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 <script type="text/javascript">
 $(function() {
-	var spinner = $( "#spinner" ).spinner({ min: 1 });
+	
+	$(".spinner").each(function(){
+    	var maxNum = $(this).val();
+    	var spinner = $(this).spinner({ min: 1, max: maxNum });
+	});
+	
+	
 });
+
+function return_req(ol_num, index){
+	var ol_amt = $("#spin"+index).val();
+	location.href = 'takeback_reason?ol_num='+ol_num+'&ol_amt='+ol_amt;
+}
+
 </script>
 <style type="text/css">
 .ui-corner-all{border-bottom-right-radius:0 !important; border-bottom-left-radius:0 !important; border-top-left-radius:0 !important; border-top-right-radius:0 !important;}
@@ -42,44 +54,36 @@ $(function() {
 			<table summary="상품 게시판으로 주문하신 상품명, 수량, 판매가, 배송순으로 조회 하시고 쿠폰을 적용하실 수 있습니다." class="orderTable" border="1" cellspacing="0">
 				<caption>상품 게시판</caption>
 				<colgroup>
-				<col width="18%" class="pnone" />
 				<col width="*" />
 				<col width="8%" class="tw25" />
-				<col width="14%" class="pnone" />
-				<col width="10%" class="pnone" />
+				<col width="12%" class="pnone" />
+				<col width="13%" class="pnone" />
 				</colgroup>
 				<thead>
-					<th scope="col" class="pnone">주문일자/주문번호</th>
 					<th scope="col">상품명</th>
 					<th scope="col">수량</th>
 					<th scope="col" class="pnone">가격</th>
-					<th scope="col" class="pnone">주문상태</th>
+					<th scope="col" class="pnone">반품신청</th>
 				</thead>
 				<tbody>
+                    <c:forEach items="${ list }" var="list" varStatus="status">
 					<tr>
-						<td class="pnone">
-							<p class="day">2012-05-30</p>
-							<p class="orderNum">201205301204-8057</p>
-						</td>
 						<td class="left">
 							<p class="img"><img src="user/images/img/sample_product.jpg" alt="상품" width="66" height="66" /></p>
 
 							<ul class="goods">
 								<li>
-									<a href="#">쟈뎅 오리지널 콜롬비아 페레이라 원두커피백 15p</a>
+									<a href="#">${ list.P_NAME }</a>
 								</li>
 							</ul>
 						</td>
-						<td><input id="spinner" value="1" /></td>
-						<td class="pnone">999,000 원</td>
-						<td class="pnone">배송완료</td>
+						<td><input class="spinner" value="${ list.OL_AMT }" id="spin${ status.index }"/></td>
+						<td class="pnone">${ list.OL_FINAL_PRICE } 원</td>
+						<td class="pnone"><a href="#" id="${ status.index }" onclick="return_req(${ list.OL_NUM }, ${ status.index })">신청하기</a></td>
 					</tr>
+                    </c:forEach>
 				</tbody>
 			</table>
-		</div>
-
-		<div class="centerbrn pd10">
-			<a href="#">확인</a>
 		</div>
 
 	</div>

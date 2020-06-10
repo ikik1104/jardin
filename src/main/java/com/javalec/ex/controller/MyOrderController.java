@@ -1,5 +1,6 @@
 package com.javalec.ex.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -42,9 +44,62 @@ public class MyOrderController {
 	//입금대기중 - 취소
 	@ResponseBody
 	@RequestMapping("cancel_order")
-	public String cancel_order() {
-		
+	public int cancel_order(@RequestBody int ol_order_num) {
+		int success = ocService.deleteOrder(ol_order_num);
+		return success;
 	}
+	
+//	//입금완료 - 취소
+//	@ResponseBody
+//	@RequestMapping("refund_req")
+//	public int refund_req(@RequestBody int ol_order_num) {
+//		int success = ocService.requestRefund(ol_order_num);
+//		return success;
+//	}
+	
+	//반품
+	@RequestMapping("takeback_deli")
+	public String takeback_del(Model model, HttpSession session, HttpServletRequest request) {
+		int ol_order_num = Integer.parseInt(request.getParameter("ol_order_num"));
+		List<Map<String, String>> list = ocService.getOneSetOrder(ol_order_num);
+		model.addAttribute("list", list);
+		return "mypage/return";
+	}
+	
+	//반품사유
+	@RequestMapping("takeback_reason")
+	public String takeback_reaon(Model model, HttpServletRequest request) {
+		int ol_num = Integer.parseInt(request.getParameter("ol_num"));
+		int ol_amt = Integer.parseInt(request.getParameter("ol_amt"));
+		HashMap<String, String> map = ocService.getReturnPro(ol_num);
+		System.out.println("어케 찍힐까? "+ map);
+		model.addAttribute("map", map);
+		return "mypage/takeback_delivery";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
