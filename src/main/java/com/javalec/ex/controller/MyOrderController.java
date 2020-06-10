@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.javalec.ex.dto.PageDto;
 import com.javalec.ex.service.OrderCheckService;
@@ -20,6 +21,7 @@ public class MyOrderController {
 	@Autowired
 	private OrderCheckService ocService;
 	
+	//전체 주문리스트 불러오기
 	@RequestMapping("ordercheck")
 	public String ordercheck(PageDto pageDto, HttpSession session, HttpServletRequest request, Model model) {
 		if(session.getAttribute("userNum") == null) {return "home";}//세션체크
@@ -36,6 +38,15 @@ public class MyOrderController {
 		
 		return "mypage/ordercheck";
 	}
+	
+	//입금대기중 - 취소
+	@ResponseBody
+	@RequestMapping("cancel_order")
+	public String cancel_order() {
+		
+	}
+	
+	
 	
 	
 }
