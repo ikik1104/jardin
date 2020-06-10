@@ -4,38 +4,71 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
         
 <mapper namespace="com.javalec.ex.dao.MtmDao">
-
-<!-- 	<resultMap type="com.javalec.ex.dto.MtmUserDto" id="MtmUserDto"> -->
-<!-- 	    <result column="iu_title" property="iu_title"/> -->
-<!-- 	    <result column="iu_status" property="iu_status"/> -->
-<!-- 	</resultMap> -->
-
-	<select id="getAllInquiry" parameterType="Integer" resultType="com.javalec.ex.dto.MtmUserDto">
-		
-		select * from 
-		(select rownum, mtmu.* from 
-		(select * from mtm_inqury_user_tb where m_num = #{param1} order by iu_num asc) mtmu) 
-        order by rownum desc
-		
+	
+	<!-- 특정 회원이 작성한 전체 문의글 수 -->
+	<select id="countInquiry" parameterType="Integer" resultType="Integer">
+		select count(*) from mtm_inqury_user_tb where m_num = #{param1}	
 	</select>
 	
+	<!-- 특정 회원이 작성한 전체 문의글(페이징) -->
+	<select id="getAllInquiry" resultType="com.javalec.ex.dto.MtmUserDto">
+         select * from 
+         (select rownum rnum, mtmu.* from 
+         (select * from mtm_inqury_user_tb 
+         where m_num = #{m_num}
+         order by iu_num asc) mtmu) r
+         where <![CDATA[r.rnum>=#{pageDto.endRow}]]> and <![CDATA[r.rnum<=#{pageDto.startRow}]]> order by r.rnum desc
+	</select>
+	
+	<!-- 특정 회원이 작성/검색한 문의글 수 -->
+	<select id="countSearchInquiry" resultType="Integer">
+		select count(*) from mtm_inqury_user_tb where m_num = #{m_num}	
+		<include refid="search_part"/>
+	</select>
+	
+	<!-- 특정 회원이 작성한 문의글 : 검색(페이징) -->
+	<select id="getSearchInquiry" resultType="com.javalec.ex.dto.MtmUserDto">
+        select * from 
+        (select rownum rnum, mtmu.* from 
+        (select * from mtm_inqury_user_tb 
+        where m_num = #{m_num}
+        <include refid="search_part"/>
+        order by iu_num asc) mtmu) r
+        where <![CDATA[r.rnum>=#{pageDto.endRow}]]> and <![CDATA[r.rnum<=#{pageDto.startRow}]]> order by r.rnum desc
+	</select>
+	
+	<!-- 검색 쿼리부분 분리 -->
+	<sql id="search_part">
+		 <choose>
+			<when test="option == 'all'">
+				and (iu_title like '%'||#{search}||'%'
+				or iu_content like '%'||#{search}||'%')
+			</when>
+			<otherwise>
+				and ${option} like '%'||#{search}||'%'
+			</otherwise>         
+         </choose>
+	</sql>
+	
+	<!-- 질문글 하나 가져오기 -->
 	<select id="getOneInquiry" resultType="com.javalec.ex.dto.MtmUserDto">
 		select * from mtm_inqury_user_tb where iu_num = #{param1}
 	</select>
 	
+	<!-- 질문글에 대한 답변글 가져오기 -->
 	<select id="getOneAnswer" resultType="com.javalec.ex.dto.MtmAnswerDto">
 		select * from mtm_inqury_answer_tb where iu_num = #{param1}
 	</select>
 	
+	<!-- 이전글 제목 -->	
 	<select id="getPreTitle" parameterType="Integer" resultType="com.javalec.ex.dto.MtmUserDto">
-
 		select * from 
 		(select rownum rnum, mtmu.* from 
 		(select * from mtm_inqury_user_tb where m_num=#{param1} order by iu_num asc) mtmu) 
 		where rnum=#{param2}-1 
-		
 	</select>
 
+	<!-- 다음글 제목 -->
 	<select id="getNextTitle" parameterType="Integer" resultType="com.javalec.ex.dto.MtmUserDto">
 		select * from 
 		(select rownum rnum, mtmu.* from 

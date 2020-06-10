@@ -63,6 +63,9 @@ $(document).ready(function() {
 
      $(document).ready(function () {
          msiecheck();
+         step_on();
+         
+         
      });
 
      var msiecheck = function () {
@@ -86,40 +89,23 @@ $(document).ready(function() {
 		$("#ieUser").hide();
         clearTimeout(msietimer);
      }
+     
+     //선택한 카테고리 on
+     function step_on() { //이렇게까지 길게 할게 아닌데... 일단 db에 한글로 넣어놨으니 이렇게 하자
+    	if(${f_step == null}){
+    		$("#all a").attr("class","on");
+    	}else if(${f_step eq '회원'}){
+    		$("#user a").attr("class","on");
+    	}else if(${f_step eq '주문'}){
+    		$("#order a").attr("class","on");
+    	}else{
+    		$("#product a").attr("class","on");
+    	}
+	}
 </script>
 
 <div id="allwrap">
 <div id="wrap">
-
-	<div id="header">
-		
-		<div id="snbBox">
-			<h1><img src="user/images/txt/logo.gif" alt="JARDIN SHOP" /></h1>
-			<div id="quickmenu">
-				<div id="mnaviOpen"><img src="user/images/btn/btn_mnavi.gif" width="33" height="31" alt="메뉴열기" /></div>
-				<div id="mnaviClose"><img src="user/images/btn/btn_mnavi_close.gif" width="44" height="43" alt="메뉴닫기" /></div>
-				<ul>
-					<li><a href="#">EVENT</a></li>
-					<li><a href="#">CUSTOMER</a></li>
-					<li><a href="#">COMMUNITY</a></li>
-				</ul>
-			</div>
-			<div id="snb">
-				<ul>
-					<li><a href="#">LOGIN</a></li>
-					<li><a href="#">JOIN</a></li>
-					<li><a href="#">MY PAGE</a></li>
-					<li><a href="#">CART</a></li>
-				</ul>
-
-				<div id="search">
-					<input type="text" class="searchType" />
-					<input type="image" src="user/images/btn/btn_main_search.gif" width="23" height="20" alt="검색하기" />
-				</div>
-			</div>
-		</div>
-	</div>
-
 
 	<jsp:include page="../header.jsp" />
 
@@ -153,10 +139,10 @@ $(document).ready(function() {
 					
 					<div class="faqTab">
 						<ul>
-							<li><a href="#" class="on">전체</a></li>
-							<li class="dep"><a href="#">회원가입</a></li>
-							<li><a href="#">상품</a></li>
-							<li class="last"><a href="#">주문</a></li>
+							<li id="all"><a href="faq_List">전체</a></li>
+							<li id="user" class="dep"><a href="faq_List?f_step=회원">회원</a></li>
+							<li id="product"><a href="faq_List?f_step=상품">상품</a></li>
+							<li id="order" class="last"><a href="faq_List?f_step=주문">주문</a></li>
 						</ul>						
 					</div>	
 					
@@ -164,12 +150,13 @@ $(document).ready(function() {
 					<div class="faqList">
 						<ul>
 							<!-- list -->
+							<c:forEach var="list" items="${list}">
 							<li>
 								<a href="javascript:;" class="faqbtn">
 									<div class="question">
 										<div class="blet">Q</div>
-										<div class="category">상품</div>
-										<div class="title">주문 상품의 수량을 변경하고 싶어요.</div>
+										<div class="category">${list.f_step}</div>
+										<div class="title">${list.f_title}</div>
 									</div>
 								</a>
 
@@ -177,145 +164,12 @@ $(document).ready(function() {
 									<div class="faqbox">
 										<div class="blet">A</div>
 										<div class="text">
-											<strong><u>소비자상담실(02-546-3881)</u></strong>로 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 
+											${list.f_content}
 										</div>
 									</div>
 								</div>
 							</li>
-							<!-- //list -->
-
-							<li>
-								<a href="javascript:;" class="faqbtn">
-									<div class="question">
-										<div class="blet">Q</div>
-										<div class="category">상품</div>
-										<div class="title">주문 상품의 수량을 변경하고 싶어요.</div>
-									</div>
-								</a>
-
-								<div class="faqanswer">
-									<div class="faqbox">
-										<div class="blet">A</div>
-										<div class="text">
-											<strong><u>소비자상담실(02-546-3881)</u></strong>로 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 
-										</div>
-									</div>
-								</div>
-							</li>
-
-							<li>
-								<a href="javascript:;" class="faqbtn">
-									<div class="question">
-										<div class="blet">Q</div>
-										<div class="category">회원가입</div>
-										<div class="title">회원가입을 하면 어떤 혜택이 있나요?</div>
-									</div>
-								</a>
-
-								<div class="faqanswer">
-									<div class="faqbox">
-										<div class="blet">A</div>
-										<div class="text">
-											<strong><u>소비자상담실(02-546-3881)</u></strong>로 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 
-										</div>
-									</div>
-								</div>
-							</li>
-
-							<li>
-								<a href="javascript:;" class="faqbtn">
-									<div class="question">
-										<div class="blet">Q</div>
-										<div class="category">회원가입</div>
-										<div class="title">회원 탈퇴를 하고 싶습니다</div>
-									</div>
-								</a>
-
-								<div class="faqanswer">
-									<div class="faqbox">
-										<div class="blet">A</div>
-										<div class="text">
-											<strong><u>소비자상담실(02-546-3881)</u></strong>로 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 
-										</div>
-									</div>
-								</div>
-							</li>
-
-							<li>
-								<a href="javascript:;" class="faqbtn">
-									<div class="question">
-										<div class="blet">Q</div>
-										<div class="category">회원가입</div>
-										<div class="title">비밀번호를 잊어버렸습니다.</div>
-									</div>
-								</a>
-
-								<div class="faqanswer">
-									<div class="faqbox">
-										<div class="blet">A</div>
-										<div class="text">
-											<strong><u>소비자상담실(02-546-3881)</u></strong>로 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 
-										</div>
-									</div>
-								</div>
-							</li>
-
-							<li>
-								<a href="javascript:;" class="faqbtn">
-									<div class="question">
-										<div class="blet">Q</div>
-										<div class="category">주문</div>
-										<div class="title">주문 상품의 수량을 변경하고 싶어요.</div>
-									</div>
-								</a>
-
-								<div class="faqanswer">
-									<div class="faqbox">
-										<div class="blet">A</div>
-										<div class="text">
-											<strong><u>소비자상담실(02-546-3881)</u></strong>로 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 
-										</div>
-									</div>
-								</div>
-							</li>
-
-							<li>
-								<a href="javascript:;" class="faqbtn">
-									<div class="question">
-										<div class="blet">Q</div>
-										<div class="category">주문</div>
-										<div class="title">배송조회가 되지 않습니다.</div>
-									</div>
-								</a>
-
-								<div class="faqanswer">
-									<div class="faqbox">
-										<div class="blet">A</div>
-										<div class="text">
-											<strong><u>소비자상담실(02-546-3881)</u></strong>로 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 
-										</div>
-									</div>
-								</div>
-							</li>
-
-							<li>
-								<a href="javascript:;" class="faqbtn">
-									<div class="question">
-										<div class="blet">Q</div>
-										<div class="category">주문</div>
-										<div class="title">배송은 평균 얼마나 걸리나요?</div>
-									</div>
-								</a>
-
-								<div class="faqanswer">
-									<div class="faqbox">
-										<div class="blet">A</div>
-										<div class="text">
-											<strong><u>소비자상담실(02-546-3881)</u></strong>로 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 연락 주시면 가능 여부에 관하여 답변드리고 있습니다. 
-										</div>
-									</div>
-								</div>
-							</li>
+							</c:forEach>
 						</ul>
 					</div>
 					<!-- //FAQ -->

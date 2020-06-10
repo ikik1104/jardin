@@ -22,16 +22,8 @@
 <script type="text/javascript" src="user/js/jquery.easing.1.3.js"></script>
 <script type="text/javascript" src="user/js/idangerous.swiper-2.1.min.js"></script>
 <script type="text/javascript" src="user/js/jquery.anchor.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<!-- 부트스트랩 -->
-<!-- 합쳐지고 최소화된 최신 CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 
-<!-- 부가적인 테마 -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-
-<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
 
 
 <!--[if lt IE 9]>
@@ -111,39 +103,46 @@ $(document).ready(function() {
 		$("#ieUser").hide();
         clearTimeout(msietimer);
      }
+     
+     //이메일, 연락처, 주소 폼 맞추기
+     function info_submit(){
+    	 $.ajax({
+             type : "POST",
+             url : "submit_change_info",
+             data: {
+          	   m_id : "${ info_view.getM_id() }",
+          	   m_email : $("input[name=email_id]").val() + "@" + $("input[name=email_domain]").val(),
+          	   m_email_ok : $('input[name="m_email_ok"]:checked').val(),
+          	   m_zipcode : $("input[name=m_zipcode]").val(),
+          	   m_address1 : $("input[name=m_address1]").val(),
+          	   m_address2 : $("input[name=m_address2]").val(),
+          	   m_phone : $("#phone1").val()+"-"+$("input[name=phone2]").val()+"-"+$("input[name=phone3]").val(),
+          	   m_sms_ok : $('input[name="m_sms_ok"]:checked').val(),
+          	   m_tel : $("#tel1").val()+"-"+$("input[name=tel2]").val()+"-"+$("input[name=tel3]").val(),
+          	   m_birth : $("#birth1").val()+"/"+$("#birth2").val()+"/"+$("#birth3").val(),
+          	   m_birth_sort : $('input[name="m_birth_sort"]:checked').val()
+             }, 
+             success : function(val){
+                if(val == 1){ //리턴값이 1이면 (=성공)
+                   alert("회원정보 수정이 완료되었습니다.");
+                   location.reload();
+                }else{ // 0이면 실패
+                   alert("회원정보 수정사항이 반영되지 않았습니다. 다시 확인해주세요.");
+                }
+             },
+             error : function(){
+                alert("서버통신실패");
+             }
+  		});
+
+     }
+     
+     
+     
 </script>
 
 <div id="allwrap">
 <div id="wrap">
-
-	<div id="header">
-		
-		<div id="snbBox">
-			<h1><img src="user/images/txt/logo.gif" alt="JARDIN SHOP" /></h1>
-			<div id="quickmenu">
-				<div id="mnaviOpen"><img src="user/images/btn/btn_mnavi.gif" width="33" height="31" alt="메뉴열기" /></div>
-				<div id="mnaviClose"><img src="user/images/btn/btn_mnavi_close.gif" width="44" height="43" alt="메뉴닫기" /></div>
-				<ul>
-					<li><a href="#">EVENT</a></li>
-					<li><a href="#">CUSTOMER</a></li>
-					<li><a href="#">COMMUNITY</a></li>
-				</ul>
-			</div>
-			<div id="snb">
-				<ul>
-					<li><a href="#">LOGIN</a></li>
-					<li><a href="#">JOIN</a></li>
-					<li><a href="#">MY PAGE</a></li>
-					<li><a href="#">CART</a></li>
-				</ul>
-
-				<div id="search">
-					<input type="text" class="searchType" />
-					<input type="image" src="user/images/btn/btn_main_search.gif" width="23" height="20" alt="검색하기" />
-				</div>
-			</div>
-		</div>
-	</div>
 
 
 	<jsp:include page="../header.jsp" />
@@ -160,21 +159,8 @@ $(document).ready(function() {
 		</div>
 		
 		<div id="outbox">		
-			<div id="left">
-				<div id="title">MY PAGE<span>마이페이지</span></div>
-				<ul>	
-					<li><a href="#" id="leftNavi1">주문/배송 조회</a></li>
-					<li><a href="#" id="leftNavi2">반품/배송 현황</a></li>
-					<li><a href="#" id="leftNavi3">장바구니</a></li>
-					<li><a href="#" id="leftNavi4">위시리스트</a></li>
-					<li><a href="#" id="leftNavi5">나의 쿠폰</a></li>
-					<li><a href="#" id="leftNavi6">나의 포인트</a></li>
-					<li><a href="#" id="leftNavi7">1:1문의</a></li>
-					<li><a href="#" id="leftNavi8">회원정보 수정</a></li>
-					<li class="last"><a href="#" id="leftNavi9">회원 탈퇴</a></li>
-				</ul>			
-			</div><script type="text/javascript">initSubmenu(8,0);</script>
-
+            <jsp:include page="common/sub_navi.jsp" />
+            <script type="text/javascript">initSubmenu(8,0);</script>
 
 			<!-- contents -->
 			<div id="contents">
@@ -197,7 +183,7 @@ $(document).ready(function() {
 						</ul>
 					</div>
 
-                    <form action="change_info" method="post" name="ch_info">
+                    <form action="submit_change_info" method="post" name="ch_info">
 					<div class="memberbd">
 						<table summary="이름, 아이디, 비밀번호, 비밀번호 확인, 이메일, 이메일수신여부, 주소, 휴대폰, 유선전화, 생년월일 순으로 회원가입 정보를 수정할수 있습니다." class="memberWrite" border="1" cellspacing="0">
 							<caption>회원가입 수정</caption>
@@ -213,40 +199,21 @@ $(document).ready(function() {
 								<tr>
 									<th scope="row"><span>아이디 *</span></th>
 									<td>${ info_view.getM_id() }</td>
+                                    <input type="hidden" name="m_id" value="${ info_view.getM_id() }">
 								</tr>
 								<tr>
 									<th scope="row"><span>비밀번호 변경 *</span></th>
-									<td><a href="password_change?m_pw=${ info_view.getM_pw() }" data-toggle="modal" data-target="#myModal" class="nbtnMini iw86">비밀번호 변경</a></td>
-                                   
-<!--                                     비밀번호 모달 -->
-<!--                                     Modal -->
-<!--                                     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"> -->
-<!--                                       <div class="modal-dialog" role="document"> -->
-<!--                                         <div class="modal-content"> -->
-<!--                                           <div class="modal-header"> -->
-<!--                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
-<!--                                             <h4 class="modal-title" id="myModalLabel">Modal 제목</h4> -->
-<!--                                           </div> -->
-<!--                                           <div class="modal-body"> -->
-<!--                                             내용 -->
-<!--                                           </div> -->
-<!--                                           <div class="modal-footer"> -->
-<!--                                             <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button> -->
-<!--                                           </div> -->
-<!--                                         </div> -->
-<!--                                       </div> -->
-<!--                                     </div> -->
-<!--                                     //비밀번호 모달 -->
-                                    
+									<td><a href="password_change?m_id=${ info_view.getM_id() }" data-toggle="modal" data-target="#myModal" class="nbtnMini iw86">비밀번호 변경</a></td>
 								</tr>
 								<tr>
 									<th scope="row"><span>이메일</span></th>
 									<td>
 										<ul class="pta">
-											<li><input type="text" class="w134" name="eamil_id" value="${ email_id }"/></li>
+											<li><input type="text" class="w134" name="email_id" value="${ email_id }"/></li>
 											<li><span class="valign">&nbsp;@&nbsp;</span></li>
 											<li class="r10"><input type="text" class="w134" name="email_domain" value="${ email_domain }"/></li>
-											<li>
+											<input type="hidden" name="m_email" value=""/>
+                                            <li>
 												<select id="emailList">
 													<option value="#" selected="selected">직접입력</option>
 													<option value="naver.com">naver.com</option>
@@ -276,18 +243,18 @@ $(document).ready(function() {
 										<ul class="question">
                                             <c:if test="${ info_view.getM_email_ok() eq '예' }">
     											<li>
-    												<input type="radio" name="receive" id="receive_yes" class="radio_t" checked="checked"/><label for="receive_yes">예</label>
+    												<input type="radio" name="m_email_ok" value="예" id="receive_yes" class="radio_t" checked="checked"/><label for="receive_yes">예</label>
     											</li>
     											<li>
-    												<input type="radio" name="receive" id="receive_no" class="radio_t"/><label for="receive_no">아니오</label>
+    												<input type="radio" name="m_email_ok" value="아니오" id="receive_no" class="radio_t"/><label for="receive_no">아니오</label>
     											</li>
 										    </c:if>
                                             <c:if test="${ info_view.getM_email_ok() eq '아니오' }">
     											<li>
-    												<input type="radio" name="receive" id="receive_yes" class="radio_t"/><label for="receive_yes">예</label>
+    												<input type="radio" name="m_email_ok" value="예" id="receive_yes" class="radio_t"/><label for="receive_yes">예</label>
     											</li>
     											<li>
-    												<input type="radio" name="receive" id="receive_no" class="radio_t" checked="checked"/><label for="receive_no">아니오</label>
+    												<input type="radio" name="m_email_ok" value="아니오" id="receive_no" class="radio_t" checked="checked"/><label for="receive_no">아니오</label>
     											</li>
 										    </c:if>
                                         </ul>
@@ -299,13 +266,15 @@ $(document).ready(function() {
 									<td>
 										<ul class="pta">
 											<li>
-												<input type="text" class="w134" value="${ info_view.getM_zipcode() }"/>&nbsp;
+												<input type="text" class="w134" name="m_zipcode" id="m_zipcode" value="${ info_view.getM_zipcode() }"/>&nbsp;
 											</li>
-											<li><a href="member/zip.html" class="addressBtn"><span>우편번호 찾기</span></a></li>
-											<li class="pt5"><input type="text" class="addressType" value="${ info_view.getM_address1() } ${ info_view.getM_address2() }" /></li>
-											<li>
+											<li><a onclick="execDaumPostcode()" class="addressBtn"><span>우편번호 찾기</span></a></li>
+											<li class="pt5"><input type="text" class="addressType" id="m_address1" name="m_address1" value="${ info_view.getM_address1() }" /></li>
+											<li class="pt5"><input type="text" class="addressType" id="m_address2" name="m_address2" value="${ info_view.getM_address2() }" /></li>
+                                            <li>
 												<span class="mvalign">※ 상품 배송 시 받으실 주소입니다. 주소를 정확히 적어 주세요.</span>
 											</li>
+                                            
 										</ul>
 									</td>
 								</tr>
@@ -331,18 +300,18 @@ $(document).ready(function() {
 												<ul class="baseQues">
                                                     <c:if test="${ info_view.getM_sms_ok() eq '예' }">
     													<li>
-    														<input type="radio" name="sms" id="sms_yes" class="radio_t" checked="checked"/><label for="sms_yes">예</label>
+    														<input type="radio" name="m_sms_ok" value="예" id="sms_yes" class="radio_t" checked="checked"/><label for="sms_yes">예</label>
     													</li>
     													<li>
-    														<input type="radio" name="sms" id="sms_no" class="radio_t"/><label for="sms_no">아니오</label>
+    														<input type="radio" name="m_sms_ok" value="아니오" id="sms_no" class="radio_t"/><label for="sms_no">아니오</label>
     													</li>
                                                     </c:if>
                                                     <c:if test="${ info_view.getM_sms_ok() eq '아니오' }">
     													<li>
-    														<input type="radio" name="sms" id="sms_yes" class="radio_t"/><label for="sms_yes">예</label>
+    														<input type="radio" name="m_sms_ok" value="예" id="sms_yes" class="radio_t"/><label for="sms_yes">예</label>
     													</li>
     													<li>
-    														<input type="radio" name="sms" id="sms_no" class="radio_t" checked="checked"/><label for="sms_no">아니오</label>
+    														<input type="radio" name="m_sms_ok" value="아니오" id="sms_no" class="radio_t" checked="checked"/><label for="sms_no">아니오</label>
     													</li>
                                                     </c:if>
 												</ul>
@@ -373,7 +342,9 @@ $(document).ready(function() {
 													<option value="063">063</option>
 													<option value="064">064</option>
 													<option value="070">070</option>
+													<option value="010">010</option>
 												</select>
+
 											</li>
 											<li>&nbsp;<span class="valign">-</span>&nbsp;</li>
 											<li><input type="text" class="w74" maxlength="4" value="${tel2 }" name="tel2"/> <span class="valign">-</span>&nbsp;</li>
@@ -433,23 +404,22 @@ $(document).ready(function() {
 											</li>
 											<li class="r20">&nbsp;<span class="valign">일</span></li>
                                             
-                                            
 											<li class="pt5">
 												<ul class="baseQues">
                                                     <c:if test="${ info_view.getM_birth_sort() eq '양력' }">
     													<li>
-    														<input type="radio" name="birth" id="solar" class="radio_t" checked="checked"/><label for="solar">양력</label>
+    														<input type="radio" name="m_birth_sort" value="양력" id="solar" class="radio_t" checked="checked"/><label for="solar">양력</label>
     													</li>
     													<li>
-    														<input type="radio" name="birth" id="lunar" class="radio_t"/><label for="lunar">음력</label>
+    														<input type="radio" name="m_birth_sort" value="음력" id="lunar" class="radio_t"/><label for="lunar">음력</label>
     													</li>
 											 	    </c:if>
                                                     <c:if test="${ info_view.getM_birth_sort() eq '음력' }">
     													<li>
-    														<input type="radio" name="birth" id="solar" class="radio_t"/><label for="solar">양력</label>
+    														<input type="radio" name="m_birth_sort" value="양력" id="solar" class="radio_t"/><label for="solar">양력</label>
     													</li>
     													<li>
-    														<input type="radio" name="birth" id="lunar" class="radio_t" checked="checked"/><label for="lunar">음력</label>
+    														<input type="radio" name="m_birth_sort" value="음력" id="lunar" class="radio_t" checked="checked"/><label for="lunar">음력</label>
     													</li>
 											 	    </c:if>
                                                 </ul>
@@ -469,8 +439,8 @@ $(document).ready(function() {
 					<div class="btnArea">
 						<div class="bCenter">
 							<ul>
-								<li><a href="#" class="nbtnbig">취소하기</a></li>
-								<li><a href="#" class="sbtnMini">수정하기</a></li>
+								<li><a href="change_info" class="nbtnbig">취소하기</a></li>
+								<li><a href="#" class="sbtnMini" onclick="info_submit()">수정하기</a></li>
 							</ul>
 						</div>
 					</div>
@@ -489,7 +459,7 @@ $(function(){
 		var layerCheck = 320;
 	}
 
-	$(".addressBtn, .nbtnMini").fancybox({
+	$(".nbtnMini").fancybox({
 		'autoDimensions'    : false,
 		'showCloseButton'	: false,
 		'width' : layerCheck,
@@ -501,6 +471,8 @@ $(function(){
 			});
 		}
 	});
+	
+	
 
 
 });
@@ -519,13 +491,22 @@ $(function(){
 	<!-- //container -->
 
 
-
-
 	<jsp:include page="../footer.jsp" />
 
 
+</div>
+</div>
 
-</div>
-</div>
+<!-- 다음 주소검색 api -->
+    <div id="layer"
+        style="display: none; position: fixed; overflow: hidden; z-index: 1; -webkit-overflow-scrolling: touch;">
+        <img src="//t1.daumcdn.net/postcode/resource/images/close.png"
+            id="btnCloseLayer"
+            style="cursor: pointer; position: absolute; right: -3px; top: -3px; z-index: 1"
+            onclick="closeDaumPostcode()" alt="닫기 버튼">
+    </div>
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script type="text/javascript" src="user/js/address.js"></script>
+
 </body>
 </html>

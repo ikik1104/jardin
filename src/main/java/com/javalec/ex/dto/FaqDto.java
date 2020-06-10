@@ -10,7 +10,7 @@ public class FaqDto {
 	private String f_title; //질문
 	private String f_content; //답변
 	private Timestamp f_sysdate; //작성일
-	private String f_delflag; //삭제유무
+	private String f_delflag; //삭제유무? 노출여부 (N이 노출하는건데.. 이건 더 컬럼의 정확한 명칭을 생각하고 다시 정해야할듯)
 
 	public FaqDto() {
 		super();

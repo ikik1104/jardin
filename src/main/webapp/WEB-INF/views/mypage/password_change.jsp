@@ -17,6 +17,39 @@
 <script type="text/javascript" src="user/js/jquery.min.js"></script>
 </head>
 <body>
+
+<script>
+function pw_ch(){
+
+	//비번 변경
+	$.ajax({
+           type : "POST",
+           url : "pw_check",
+           data: {
+        	   m_id : "${m_id}",
+        	   pw_ori : $("#pw_ori").val(),
+        	   pw_new : $("#pw_new").val()
+           }, 
+           success : function(val){
+              if(val == 1){ //리턴값이 1이면 (=성공)
+                 alert("비밀번호 변경이 완료되었습니다.");
+             	 parent.$.fancybox.close();;
+              }else{ // 0이면 실패
+                 $('#pw_check').text('비밀번호가 일치하지 않습니다.');
+              }
+           },
+           error : function(){
+              alert("서버통신실패");
+           }
+	});
+}
+
+
+
+
+
+</script>
+
 <div id="layerWrap">
 
 <div class="inputWrap">
@@ -36,11 +69,14 @@
 				<tbody>
 					<tr>
 						<th scope="row"><span>현재 비밀번호</span></th>
-						<td><input type="password" class="w215" /></td>
+						<td>
+							<input type="password" class="w215" id="pw_ori"/>
+							<p id="pw_check"></p>
+						</td>
 					</tr>
 					<tr>
 						<th scope="row"><span>새로운 비밀번호</span></th>
-						<td><input type="password" class="w215" /></td>
+						<td><input type="password" class="w215" id="pw_new"/></td>
 					</tr>
 					<tr>
 						<th scope="row"><span>새로운 비밀번호 <u>재입력</u></span></th>
@@ -52,7 +88,7 @@
 
 
 		<div class="centerbrn pd10">
-			<a href="#">확인</a>
+			<a onclick="pw_ch()">확인</a>
 		</div>
 
 	</div>

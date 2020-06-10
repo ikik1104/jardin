@@ -55,8 +55,9 @@
 	            	<li><a href="#">공지사항</a></li>
 	            	<li><a href="#">상품문의</a></li>
 	            	<li><a href="#">상품후기</a></li>
-	            	<li><a href="#">ENJOY COFFEE</a></li>
+	            	<li><a href="enjoy_allList">ENJOY COFFEE</a></li>
 	            	<li><a href="#">이벤트</a></li>
+	            	<li><a href="faq_allList">FAQ</a></li>
 	           		 </ul>
 	            </li>
 	            <li id="ca_user"><a href="user.jsp"><span></span>회원</a>

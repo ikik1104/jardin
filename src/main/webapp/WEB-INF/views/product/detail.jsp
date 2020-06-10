@@ -91,36 +91,6 @@ $(document).ready(function() {
 <div id="allwrap">
 <div id="wrap">
 
-	<div id="header">
-		
-		<div id="snbBox">
-			<h1><img src="user/images/txt/logo.gif" alt="JARDIN SHOP" /></h1>
-			<div id="quickmenu">
-				<div id="mnaviOpen"><img src="user/images/btn/btn_mnavi.gif" width="33" height="31" alt="메뉴열기" /></div>
-				<div id="mnaviClose"><img src="user/images/btn/btn_mnavi_close.gif" width="44" height="43" alt="메뉴닫기" /></div>
-				<ul>
-					<li><a href="#">EVENT</a></li>
-					<li><a href="#">CUSTOMER</a></li>
-					<li><a href="#">COMMUNITY</a></li>
-				</ul>
-			</div>
-			<div id="snb">
-				<ul>
-					<li><a href="#">LOGIN</a></li>
-					<li><a href="#">JOIN</a></li>
-					<li><a href="#">MY PAGE</a></li>
-					<li><a href="#">CART</a></li>
-				</ul>
-
-				<div id="search">
-					<input type="text" class="searchType" />
-					<input type="image" src="user/images/btn/btn_main_search.gif" width="23" height="20" alt="검색하기" />
-				</div>
-			</div>
-		</div>
-	</div>
-
-
 	<jsp:include page="../header.jsp" />
 
 	<!-- container -->
@@ -129,8 +99,8 @@ $(document).ready(function() {
 		<div id="location">
 			<ol>
 				<li><a href="#">HOME</a></li>
-				<li>원두커피</li>
-				<li class="last">원두</li>
+				<li>${pdto.p_step1}</li>
+				<li class="last">${pdto.p_step2}</li>
 			</ol>
 		</div>
 					
@@ -167,22 +137,24 @@ $(document).ready(function() {
 				<div class="info">
 					<p class="title">
 						<span>[오리지널]</span>
-						쟈뎅 오리지널 콜롬비아 페레이라 원두커피백 15p
+						${pdto.p_name}
 					</p>
 
 					<div class="priceInfo">
 						<ul>
 							<li>
-								<div class="stit">판매가</div> <div class="heavygray"><strong>4,330원</strong></div>
+								<div class="stit">판매가</div> <div class="heavygray">
+								<strong><fmt:formatNumber value="${pdto.p_price}" type="number"/>원</strong>
+								</div>
 							</li>
 							<li>
-								<div class="stit">포인트</div> <div class="orange"><strong>216 Point</strong></div>
+								<div class="stit">포인트</div> <div class="orange"><strong>${pdto.p_point} Point</strong></div>
 							</li>
 							<li>
-								<div class="stit">칼로리</div> <div>45kcal</div>
+								<div class="stit">식품유형</div> <div>${pdto.p_type}</div>
 							</li>
 							<li>
-								<div class="stit">용량</div> <div>3.8kg+15p</div>
+								<div class="stit">용량</div> <div>${pdto.p_capacity}</div>
 							</li>
 							<li>
 								<div class="stit">수량</div> <div class="num"><input id="spinner" value="1" /></div>
@@ -259,45 +231,45 @@ $(document).ready(function() {
 							<tbody>
 								<tr>
 									<th scope="row" class="info"><span>제조명</span></th>
-									<td>원두커피백</td>
+									<td>${pdto.p_name}</td>
 									<th scope="row" class="info"><span>내용량</u></span></th>
-									<td>일회용 원두커피 티백</td>
+									<td>${pdto.p_capacity}</td>
 								</tr>
 
 								<tr>
 									<th scope="row" class="info"><span>제조원</span></th>
-									<td>JARDIN</td>
-									<th scope="row" class="info"><span>포장재질</span></th>
-									<td>폴리에틸렌(내면)</td>
+									<td>${pdto.p_producer}</td>
+									<th scope="row" class="info"><span>식품유형</span></th>
+									<td>${pdto.p_type}</td>
 								</tr>
 
 								<tr>
 									<th scope="row" class="info"><span>유통기한</span></th>
-									<td>제조일로부터 OO개월</td>
+									<td>${pdto.p_expiry}</td>
 									<th scope="row" class="info"><span>고객<u>상담실</u></span></th>
 									<td>02-546-3881</td>
 								</tr>
 
 								<tr>
-									<th scope="row" class="info"><span>식품의 <u>유형</u></span></th>
-									<td>인스턴트 커피</td>
-									<th scope="row" class="info"><span>유통전문<u>판매원</u></span></th>
-									<td></td>
+									<th scope="row" class="info"><span>유전자 재조합 유무</span></th>
+									<td >${pdto.p_gene}</td>
+									<th scope="row" class="info"><span>수입식품 유무</span></th>
+									<td>${pdto.p_import}</td>
 								</tr>
 
 								<tr>
-									<th scope="row" class="info"><span>영양성분</span></th>
-									<td colspan="3">인스턴트 커피, 합성 헤이즐넛향</td>
+									<th scope="row" class="info"><span>식품의 <u>유형</u></span></th>
+									<td>${pdto.p_step2}</td>
 								</tr>
 
 								<tr>
 									<th scope="row" class="info"><span>원재료명 <u>및 함량</u></span></th>
-									<td colspan="3">열량 95kcal, 탄수화물 16g, 당류 11g, 단백질 1g, 지방 2.9g, 포화지방 2.8, 트랜스지방 0g, 콜레스테롤 0mg</td>
+									<td colspan="3">${pdto.p_detail}</td>
 								</tr>
 
 								<tr>
 									<th scope="row" class="info"><span>업소명 <u>및 소재지</u></span></th>
-									<td colspan="3">서울시 강남구 논현동 4-21번지 영 빌딩 (주)쟈뎅</td>
+									<td colspan="3">${pdto.p_location}</td>
 								</tr>
 							</tbody>
 						</table>

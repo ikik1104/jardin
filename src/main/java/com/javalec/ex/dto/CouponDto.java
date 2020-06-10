@@ -22,17 +22,18 @@ public class CouponDto {
 		// TODO Auto-generated constructor stub
 	}
 	public CouponDto(int co_num, String co_name, Timestamp co_start_day, Timestamp co_end_day, int co_expiry,
-			int co_discount, String co_type, Timestamp co_sysdate, int co_product) {
+			String co_type, int co_discount, Timestamp co_sysdate, int co_product, int co_condition) {
 		super();
 		this.co_num = co_num;
 		this.co_name = co_name;
 		this.co_start_day = co_start_day;
 		this.co_end_day = co_end_day;
 		this.co_expiry = co_expiry;
-		this.co_discount = co_discount;
 		this.co_type = co_type;
+		this.co_discount = co_discount;
 		this.co_sysdate = co_sysdate;
 		this.co_product = co_product;
+		this.co_condition = co_condition;
 	}
 	public int getRownum() {
 		return rownum;
@@ -71,6 +72,18 @@ public class CouponDto {
 	public void setCo_expiry(int co_expiry) {
 		this.co_expiry = co_expiry;
 	}
+	public String getCo_type() {
+		return co_type;
+	}
+	public void setCo_type(String co_type) {
+		this.co_type = co_type;
+	}
+	public int getCo_discount() {
+		return co_discount;
+	}
+	public void setCo_discount(int co_discount) {
+		this.co_discount = co_discount;
+	}
 	public Timestamp getCo_sysdate() {
 		return co_sysdate;
 	}
@@ -83,20 +96,11 @@ public class CouponDto {
 	public void setCo_product(int co_product) {
 		this.co_product = co_product;
 	}
-	public String getCo_type() {
-		return co_type;
-	}
-	public void setCo_type(String co_type) {
-		this.co_type = co_type;
-	}
 	public int getCo_condition() {
 		return co_condition;
 	}
 	public void setCo_condition(int co_condition) {
 		this.co_condition = co_condition;
-	}
-	public void setCo_discount(int co_discount) {
-		this.co_discount = co_discount;
 	}
 	
 	

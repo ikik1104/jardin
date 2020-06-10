@@ -11,7 +11,7 @@
 	<!-- 제품 insert -->
 	<insert id="insertProduct" parameterType="com.javalec.ex.dto.ProductDto">
 		insert into product_tb values(p_seq.nextval,#{p_step1},#{p_step2},#{p_name},#{p_price},#{p_point},#{p_producer},#{p_expiry},
-		#{p_type},#{p_capacity},#{p_detail},#{p_location},#{p_gene},#{p_import},#{p_stock},#{p_thumb_img1},#{p_thumb_img2},#{p_thumb_img3},#{p_content_img},sysdate,sysdate,'n')
+		#{p_type},#{p_capacity},#{p_detail},#{p_location},#{p_gene},#{p_import},#{p_stock},#{p_thumb_img1},#{p_thumb_img2},#{p_thumb_img3},#{p_content_img},sysdate,sysdate,'N')
 	</insert>
 	
 	<!-- 제품 하나의 정보  -->
@@ -43,21 +43,26 @@
 	
 	<!-- 제품 리스트 검색 -->
 	<select id="getSearchList" parameterType="hashmap"  resultType="com.javalec.ex.dto.ProductDto" >
-        select * 
-		from product_tb 
-		where 
+        select * from product_tb where
 		p_delflag = #{p_delflag} and
-		#{dateType}  between to_date(#{e_start_day},'yyyy/MM/dd') and to_date(#{e_end_day},'yyyy/MM/dd') and 
+ 		p_sysdate between to_date(#{e_start_day},'yy/MM/dd') and to_date(#{e_end_day},'yy/MM/dd')+1
+		and 
         p_name like '%' ||#{p_name} || '%' and
         p_step2 = #{p_step2}
-        
 	</select>
 	
 	<!-- ================================= 유저 ================================== -->
 	
-	<!-- 제품 전체 리스트  -->
+	<!-- 제품 전체 리스트  step1 -->
+	<select id="getU_ProductAllList" parameterType="String" resultType="com.javalec.ex.dto.ProductDto">
+		select * from product_tb  where p_delflag = 'N' and 
+		p_step1= #{p_step1} order by p_num desc
+	</select>
+	
+	<!-- 제품 전체 리스트  step2 -->
 	<select id="getU_ProductList" parameterType="String" resultType="com.javalec.ex.dto.ProductDto">
-		select * from product_tb  where p_delflag = 'N' and p_step2= #{p_step2} order by p_num desc
+		select * from product_tb  where p_delflag = 'N' and 
+		p_step2= #{p_step2} order by p_num desc
 	</select>
 	
 </mapper>

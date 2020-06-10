@@ -10,6 +10,7 @@
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
 		<link rel="stylesheet" type="text/css" href="admin/css/admin_main.css">
+		<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 		<style type="text/css">
 			
 			#search_form table{
@@ -118,6 +119,29 @@
 			$(option).css("display", "inline-block");
 			$(option).attr("name", "p_step2")
 		}
+		
+		//페이지 로딩시
+		$(document).ready(function(){
+			var id;
+			if(${not empty map}){
+				//step2
+				$(".step2 option").each(function(){
+				    if($(this).val()=="${map.p_step2}"){
+				      $(this).attr("selected","selected"); // attr적용안될경우 prop으로 
+				      id = $(this).attr("id");
+				      $("#step1 option").each(function(){
+				    	  if($(this).val() == id){
+				    		  $(this).attr("selected","selected");
+				    		  }
+				    	});
+				    }
+				});
+				      
+				$("#p_name").attr("value", "${map.p_name}");      
+				$("#e_start_day").attr("value", "${map.e_start_day}"); 
+				$("#e_end_day").attr("value", "${map.e_end_day}"); 
+			}//if
+		});
 </script>
 	<style type="text/css">
 		.step2{
@@ -149,12 +173,12 @@
 				<h2>임시로 놔두기</h2>
 				<div class="list_count">임시로 놔두기(총 게시물 수 등등 표시?)</div>
 				<div id="search_form">
-					<form action="product_searchList" name="inputform" method="get" >
+					<form action="product_searchList" name="inputform" method="post" >
 					<table border="1">
 						<tr>
 							<td>상품명</td>
 							<td>
-							<input type="text"  name="p_name">
+							<input type="text" id="p_name"  name="p_name">
 							</td>
 						</tr>
 						<tr id="search_date">
@@ -163,9 +187,8 @@
 							<fmt:formatDate var="sys" value="${sysdate}" pattern="yyyy-MM-dd"/>
 							<select name="dateType" >
 								<option value="p_sysdate">등록일</option>
-								<option value="p_update">수정일</option>
 							</select>
-							<input type="date" name="e_start_day" id="e_start_day" onchange="date_chk2()"> ~ 
+							<input type="date" name="e_start_day" value="${sys}" id="e_start_day" onchange="date_chk2()"> ~ 
 							<input type="date" name="e_end_day" id="e_end_day" value="${sys}" onchange="date_chk2()">
 							<button type="button" onclick="search_date('today')">오늘</button>
 							<button type="button" onclick="search_date('7day')">7일</button>
@@ -178,46 +201,46 @@
 						<tr>
 							<td>분류</td>
 							<td>
-							<select name="step1" onchange="aa(this.value)">
+							<select name="step1" id="step1" onchange="aa(this.value)">
 								<option value="원두">원두</option>
-								<option value="원두커피백">원두커피백</option>
-								<option value="인스턴트">인스턴트</option>
-								<option value="커피용품">커피용품</option>
+								<option value="인스턴트 커피">인스턴트 커피</option>
+								<option value="차">차</option>
+								<option value="음료/커피/티">음료/커피/티</option>
 								<option value="선물세트">선물세트</option>
-								<option value="대량구매">대량구매</option>
+								<option value="브랜드관">브랜드관</option>
+								<option value="용품">용품</option>
 							</select>
 							
 							<select  id="원두" name="p_step2" class="step2" style="display: inline;">
 								<option value="클래스">클래스</option>
-								<option value="로스터리샵">로스터리샵</option>	
-								<option value="커피휘엘">커피휘엘</option>	
-								<option value="산지별">산지별 생두</option>	
+								<option value="바리스타">바리스타</option>	
+								<option value="미스터즈">미스터즈</option>	
+								<option value="쟈뎅">쟈뎅</option>		
 							</select>
-							<select  id="원두커피백" class="step2">
-								<option value="드립커피">드립커피 로스트</option>
-								<option value="오리지널">오리지널 커피백</option>	
-								<option value="마일드">마일드 커피백</option>	
+							<select  id="인스턴트 커피" class="step2">
+								<option value="카페모리">오리지널 카페모리</option>	
+								<option value="에스프레소 스틱">에스프레소 스틱 커피백</option>	
 							</select>
-							<select  id="인스턴트" class="step2">
-								<option value="카페모리">카페모리</option>
-								<option value="홈스타일카페모리">홈스타일카페모리</option>	
-								<option value="포타제">포타제</option>	
+							<select  id="차" class="step2">
+								<option value="아워티(티백)">아워티(티백)</option>	
 							</select>
-							<select  id="음료" class="step2">
-								<option value="카페리얼">카페리얼</option>
-								<option value="워터커피">워터커피</option>	
-								<option value="모히또">모히또</option>	
-							</select>
-							<select  id="커피용품" class="step2">
-								<option value="종이컵">카페리얼</option>
-								<option value="커피 필터 등">워터커피</option>	
-								<option value="기타">모히또</option>	
+							<select  id="음료/커피/티" class="step2">
+								<option value="시그니처">시그니처</option>
+								<option value="카페리얼">카페리얼</option>	
+								<option value="아워티(음료)">아워티(음료)</option>	
 							</select>
 							<select  id="선물세트" class="step2">
-								<option value="선물세트">"선물세트"</option>
+								<option value="선물세트">선물세트</option>
+								<option value="DIY 선물세트">DIY 선물세트</option>	
 							</select>
-							<select  id="대량구매" class="step2">
-								<option value="대량구매">대량구매</option>
+							<select  id="브랜드관" class="step2">
+								<option value="GS">"GS"</option>
+								<option value="투썸">"투썸"</option>
+								<option value="드롭탑">"드롭탑"</option>
+								<option value="요거프레소">"요거프레소"</option>
+							</select>
+							<select  id="용품" class="step2">
+								<option value="커피용품">커피용품</option>
 							</select>
 							</td>
 						</tr>
@@ -274,8 +297,10 @@
 							<td>${pro.p_update}</td>
 							<td>${pro.p_delflag}</td>
 <!-- 							<td><button type="button" onclick="스크립트()">수정</button></td> -->
-							<td><button type="button" onclick="location.href='product_updateForm?p_num=${pro.p_num}'">수정</button></td>
-							<td><button type="button" onclick="delProduct(${pro.p_num})">삭제</button></td>
+							<td>
+							<button type="button" onclick="location.href='product_updateForm?p_num=${pro.p_num}'">수정</button>
+							<button type="button" onclick="delProduct(${pro.p_num})">삭제</button>
+							</td>
 						</tr>
 						</c:forEach>
 					</table>

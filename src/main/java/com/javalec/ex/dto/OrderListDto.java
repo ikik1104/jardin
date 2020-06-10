@@ -3,7 +3,7 @@ package com.javalec.ex.dto;
 import java.sql.Timestamp;
 
 public class OrderListDto {
-	private int rownum;		//DB에서 가져오는 rownum
+	private int rnum;		//DB에서 가져오는 rownum
 	private int ol_num;     //주문고유번호
 	private int ol_order_num;     //주문번호
 	private String ol_orderer_id;     //주문자id
@@ -35,11 +35,11 @@ public class OrderListDto {
 	}
 
 	public int getRownum() {
-		return rownum;
+		return rnum;
 	}
 
-	public void setRownum(int rownum) {
-		this.rownum = rownum;
+	public void setRownum(int rnum) {
+		this.rnum = rnum;
 	}	
 	public int getOl_num() {
 		return ol_num;
