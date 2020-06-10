@@ -4,25 +4,54 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.javalec.ex.dao.ADBMtmDao">
 
-	<!-- 1:1문의, 공지사항 -->
+	<!-- [관리자] 1:1문의, 공지사항, 이벤트 -->
 
 	<!-- Dto 객체 선언 -->
+	
+	<resultMap type="com.javalec.ex.dto.AllDto" id="AllDto">
+		<collection property="admindto" resultMap="AdminDto"/>	
+	    <collection property="mtmuserdto" resultMap="MtmUserDto"/>			     
+	    <collection property="mtmanswerdto" resultMap="MtmAnswerDto"/>	  
+	    <collection property="noticedto" resultMap="NoticeDto"/>	    
+	    <collection property="eventdto" resultMap="EventDto"/>
+	    <collection property="coupondto" resultMap="CouponDto"/>	 
+	    <collection property="e_commentdto" resultMap="E_CommentDto"/>	
+	    <collection property="memberdto" resultMap="MemberDto"/>	           	    	    	     
+	</resultMap>	
+	
 	<resultMap type="com.javalec.ex.dto.MtmUserDto" id="MtmUserDto">
 	    <result column="rownum" property="rownum"/>	
 	    <result column="iu_title" property="iu_title"/>
 	    <result column="iu_date" property="iu_date"/>
 	    <result column="iu_status" property="iu_status"/>
 	    <result column="iu_num" property="iu_num"/>	    
-	    
 	    <result column="iu_sort" property="iu_sort"/>	    
 	    <result column="iu_content" property="iu_content"/>	
 	    <result column="iu_img" property="iu_img"/>	      	    
-	    
-	    <collection property="memDto" resultMap="MemberDto"/>	    
 	</resultMap>
 	
 	<resultMap type="com.javalec.ex.dto.MemberDto" id="MemberDto">
-	    <result column="m_id" property="m_id"/>
+	    <result column="m_num" property="m_num"/>
+	    <result column="m_name" property="m_name"/>
+	    <result column="m_id" property="m_id"/>	    
+	    <result column="m_pw" property="m_pw"/>	    
+	    <result column="m_email" property="m_email"/>	    
+	    <result column="m_email_ok" property="m_email_ok"/>	    
+	    <result column="m_zipcode" property="m_zipcode"/>	    
+	    <result column="m_address1" property="m_address1"/>	    
+	    <result column="m_address2" property="m_address2"/>	 
+	    <result column="m_phone" property="m_phone"/>	 	       
+	    <result column="m_sms_ok" property="m_sms_ok"/>	 	    
+	    <result column="m_tel" property="m_tel"/>	 	    	    
+	    <result column="m_birth" property="m_birth"/>	 
+	    <result column="m_birth_sort" property="m_birth_sort"/>	 	    
+	    <result column="m_level" property="m_level"/>	 	    	    	    
+	    <result column="m_last_login" property="m_last_login"/>	 	
+	    <result column="m_status" property="m_status"/>	 	    
+	    <result column="m_left_date" property="m_left_date"/>	 	
+	    <result column="m_left_reason" property="m_left_reason"/>		    
+	    <result column="m_join_date" property="m_join_date"/>		 
+	    <result column="m_point" property="m_point"/>		               	    
 	</resultMap>
 	
 		<resultMap type="com.javalec.ex.dto.AdminDto" id="AdminDto">
@@ -39,11 +68,7 @@
 	    <result column="ia_date" property="ia_date"/>    
 	</resultMap>
 	
-	<resultMap type="com.javalec.ex.dto.AllDto" id="AllDto">
-		<collection property="admindto" resultMap="AdminDto"/>	     
-	    <collection property="mtmanswerdto" resultMap="MtmAnswerDto"/>	  
-	    <collection property="noticedto" resultMap="NoticeDto"/>	    	     
-	</resultMap>	
+
 		
 	<resultMap type="com.javalec.ex.dto.NoticeDto" id="NoticeDto">
 	    <result column="rownum" property="rownum"/>		
@@ -55,8 +80,47 @@
 	    <result column="no_hit" property="no_hit"/>		
 	</resultMap>
 	
+	<resultMap type="com.javalec.ex.dto.EventDto" id="EventDto">
+	    <result column="rownum" property="rownum"/>		
+	    <result column="e_num" property="e_num"/>	     
+	    <result column="e_title" property="e_title"/>	
+	    <result column="e_start_day" property="e_start_day"/>
+	    <result column="e_end_day" property="e_end_day"/>
+	    <result column="e_thumb_img" property="e_thumb_img"/>	
+	    <result column="e_content_img" property="e_content_img"/>	        
+	    <result column="e_content" property="e_content"/>	    	    	
+	    <result column="e_sysdate" property="e_sysdate"/>	
+	    <result column="co_num" property="co_num"/>	    
+	    <result column="e_win_day" property="e_win_day"/>		
+	    <result column="e_status" property="e_status"/>		    
+	    <result column="ad_num" property="ad_num"/>	
+	</resultMap>
+	
+	<resultMap type="com.javalec.ex.dto.CouponDto" id="CouponDto">
+	    <result column="co_num" property="co_num"/>
+	    <result column="co_name" property="co_name"/>	 
+	    <result column="co_start_day" property="co_start_day"/>
+	    <result column="co_end_day" property="co_end_day"/>
+	    <result column="co_expiry" property="co_expiry"/>	    
+	    <result column="co_type" property="co_type"/>	    
+	    <result column="co_discount" property="co_discount"/>	 	    
+	    <result column="co_sysdate" property="co_sysdate"/>	 	
+	    <result column="co_product" property="co_product"/>
+	    <result column="co_condition" property="co_condition"/>	 	       
+	</resultMap>	
+	
+	<resultMap type="com.javalec.ex.dto.E_CommentDto" id="E_CommentDto">
+	    <result column="ec_num" property="ec_num"/>
+	    <result column="m_num" property="m_num"/>	 
+	    <result column="e_num" property="e_num"/>
+	    <result column="ec_content" property="ec_content"/>
+	    <result column="ec_pw" property="ec_pw"/>	    
+	    <result column="ec_sysdate" property="ec_sysdate"/>	    
+	    <result column="ec_status" property="ec_status"/>	  	         
+	</resultMap>		
+	
 	<!--  1:1문의 전체 리스트 불러오기-->
-	<select id="getAllBoards" resultMap="MtmUserDto">
+	<select id="getAllBoards" resultMap="AllDto">
 		select rownum, mem.m_id, iu_title, iu_date, iu_status, iu_num, iu_sort, iu_content, iu_img
 		from mtm_inqury_user_tb mtm, member_tb mem 
 		where mem.m_num=mtm.m_num order by iu_num desc
@@ -128,5 +192,81 @@
 	<delete id="deleteNoticeBoard">
 		delete from notice_tb where no_num=#{no_num}
 	</delete>		
+	
+	<!-- 이벤트 전체 리스트 불러오기 -->
+	<select id="getAllEventBoards" resultMap="AllDto">
+         <![CDATA[select rownum, ad.ad_num,
+        ad.ad_id, ad.ad_grade, e_num, e_title, e_start_day, e_end_day,
+		e_thumb_img,e_content_img,e_content, e_sysdate,
+		co_num, e_win_day,
+        case when e_start_day <=sysdate and e_end_day>=sysdate then '진행중'
+        when e_start_day>sysdate then '시작전'
+        when e_end_day < sysdate then '종료' end e_status
+		from event_tb ev, admin_tb ad 
+		where ev.ad_num=ad.ad_num order by e_num desc]]>
+	</select>	
+	
+	<!-- 이벤트 새 글 1개 등록 -->
+	<insert id="insertEventBoard">
+ 		insert into event_tb values(e_seq.nextval, #{e_title}, #{e_start_day}, #{e_end_day}, #{e_thumb_img}, #{e_content_img},
+ 		#{e_content}, sysdate, #{co_num}, #{e_win_day}, #{ad_num}, '페이지용')
+	</insert>
+	
+	<!-- 특정 이벤트글 1개 가져오기 -->
+	<select id="getEventBoard" resultMap="AllDto">
+         <![CDATA[select ad.ad_id, ad.ad_grade, e_num, e_title, e_start_day, e_end_day,
+		e_thumb_img,e_content_img,e_content, e_sysdate, 
+		ev.co_num, e_win_day, co_name,
+        case when e_start_day <=sysdate and e_end_day>=sysdate then '진행중'
+        when e_start_day>sysdate then '시작전'
+        when e_end_day < sysdate then '종료' end e_status
+		from event_tb ev, admin_tb ad , coupon_tb co
+		where ev.ad_num=ad.ad_num and ev.co_num = co.co_num and e_num=#{e_num}]]>		
+	</select>
+	
+	<!-- 특정 이벤트에 달린 댓글들 가져오기 -->
+	<select id="getEventComments" resultMap="AllDto">
+		select mem.m_id, ec_content, ec_pw, ec_sysdate
+		from member_tb mem, ecomment_tb ec
+		where ec.m_num=mem.m_num and ec.e_num=#{e_num} order by ec_num desc
+	</select>		
+	
+	<!-- 이벤트 1개 수정 -->
+	<update id="modifyEventBoard">
+		update event_tb set e_title=#{e_title}, e_start_day=#{e_start_day}, e_end_day=#{e_end_day},
+		e_win_day=#{e_win_day}, e_content=#{e_content}, co_num=#{co_num} where e_num=#{e_num}
+	
+	</update>
+	
+	<!-- 이벤트글 1개 삭제 -->
+	<delete id="deleteEventBoard">
+		delete from event_tb where e_num=#{e_num}
+	</delete>
+	
+	<!-- 이벤트 신청자 리스트 불러오기 -->
+	<select id="getApplicants" resultMap="AllDto">
+        <![CDATA[select * from
+        (select rownum, applicants.* from 
+		(select e_title, ev.e_num,
+		case when e_start_day <=sysdate and e_end_day>=sysdate then '진행중'
+        when e_start_day>sysdate then '시작전'
+        when e_end_day < sysdate then '종료' end e_status, 
+		ec_sysdate, ec_status, ec_num,
+		m_id, m_name
+		from event_tb ev, ecomment_tb ec, member_tb mem
+		where ev.e_num = ec.e_num and ec.m_num=mem.m_num
+		order by ec_num desc) applicants )
+		order by rownum desc]]>
+	</select>
+	
+	<!-- 신청자 당첨 처리 -->
+	<update id="winApplicant">
+		update ecomment_tb set ec_status='당첨' where ec_num=#{ec_num}
+	</update>
+	
+	<!-- 신청자 미당첨으로 되돌리기 -->
+	<update id="backApplicant">
+		update ecomment_tb set ec_status='미당첨' where ec_num=#{ec_num}
+	</update>	
 	
 </mapper>

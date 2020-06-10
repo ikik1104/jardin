@@ -119,23 +119,67 @@
 	               });
 	         }
 		}
+		
+		//당첨 취소 체크
+		function back_check(ec_num){
+	            $.ajax({
+	                  url : "applicant_back",
+	                  method : "POST",
+	                  data: JSON.stringify(ec_num),
+	                  dataType : "json",
+	                  contentType: "application/json",
+	                  success : function(val){
+	                     if(val == 1){ //리턴값이 1이면 (=성공)
+	                        alert("당첨취소로 처리 되었습니다.");
+	                        location.reload(); //페이지 새로고침
+	                     }else{ // 0이면 실패
+	                        alert("당첨취소 처리 실패.");
+	                     }
+	                  },
+	                  error : function(){
+	                     alert("서버통신실패");
+	                  }
+	               });	
+		}
+		
+		//당첨 체크
+		function win_check(ec_num){
+            $.ajax({
+                url : "applicant_win",
+                method : "POST",
+                data: JSON.stringify(ec_num),
+                dataType : "json",
+                contentType: "application/json",
+                success : function(val){
+                   if(val == 1){ //리턴값이 1이면 (=성공)
+                      alert("당첨 처리 되었습니다.");
+                      location.reload(); //페이지 새로고침
+                   }else{ // 0이면 실패
+                      alert("당첨 처리 실패.");
+                   }
+                },
+                error : function(){
+                   alert("서버통신실패");
+                }
+             });				
+		}
 </script>
 	</head>
 	<body>
 	<jsp:include page="../nav/admin_header.jsp"/>
 	<jsp:include page="../nav/board_nav.jsp"/>
 	<section>
-		<h1>1:1문의 관리</h1>
+		<h1>이벤트 신청자 관리</h1>
 		<div id="main_list">
 			<div id="main_user_list">
-				<h2>게시글 검색</h2>
+				<h2>이벤스 신청자 리스트</h2>
 				<div class="list_count">임시로 놔두기(총 게시물 수 등등 표시?)</div>
 				<div id="search_form">
 					<form name="inputform" method="get" onsubmit="return false;">
 					<table border="1">
 						<tr id="search_date">
-							<td>등록일</td>
-							<td>
+							<td>신청일</td>
+							<td colspan="3">
 							<fmt:formatDate var="sys" value="${sysdate}" pattern="yyyy-MM-dd"/>
 							<input type="date" name="e_start_day" id="e_start_day" onchange="date_chk2()"> ~ 
 							<input type="date" name="e_end_day" id="e_end_day" value="${sys}" onchange="date_chk2()">
@@ -148,30 +192,39 @@
 							</td>
 						</tr>
 						<tr>
-							<td>검색어</td>
+							<td>이벤트 상태</td>
 							<td><select name="keysort">
-								<option>아이디</option>
-								<option>글제목</option>
-								<option>글내용</option>
+								<option>전체</option>							
+								<option>진행중</option>
+								<option>시작전</option>
+								<option>종료</option>
 							</select>
 							<input type="text" name="keyword">
 							</td>
+							<td>이벤트명</td>
+							<td>
+								<select name="keysort">
+									<option>전체</option>
+									<!-- 이벤트 명 넣어주기 -->
+								</select>
+								<input type="text" name="keyword">
+							</td>							
 						</tr>
 						
 						<tr>
-							<td>답변상태</td>
-							<td><select name="status">
-								<option>전체</option>
-								<option>답변대기</option>
-								<option>답변완료</option>
+							<td>신청자</td>
+							<td colspan="3"><select name="status">
+								<option>선택안함</option>
+								<option>아이디</option>
+								<option>이름</option>
 							</select>
 							</td>
 						</tr>
 						<tr>
-							<td colspan="2"><button onclick="search()">검색</button></td>
+							<td colspan="4"><button onclick="search()">검색</button></td>
 						</tr>
 					</table>
-					</form>
+				</form>
 					
 				</div>
 				<div>
@@ -179,45 +232,46 @@
 						<tr>
 							<th><input type="checkbox" ></th>
 							<th>번호</th>
-							<th>제목</th>
-							<th>분류</th>
-							<th>작성자</th>
-							<th>등록일</th>
-							<th>답변상태</th>
+							<th>아이디</th>
+							<th>신청일</th>
+							<th>이벤트명</th>
+							<th>이벤트 상태</th>
+							<th>당첨/삭제</th>
 							
-							<th>답변/삭제</th>
 						</tr>
-						<c:forEach var="mtm_list" items="${mtm_list }">
+						<c:forEach var="apply_list" items="${apply_list }">
 						<tr>
 							<td><input type="checkbox"></td>
-							<td>${mtm_list.mtmuserdto.rownum }</td>
 							<td>
-								<a href="mtm_view?m_id=${mtm_list.memberdto.m_id }&rownum=${mtm_list.mtmuserdto.rownum }&iu_num=${mtm_list.mtmuserdto.iu_num}
-								&iu_title=${mtm_list.mtmuserdto.iu_title}&iu_content=${mtm_list.mtmuserdto.iu_content}&iu_sort=${mtm_list.mtmuserdto.iu_sort}&iu_date=${mtm_list.mtmuserdto.iu_date}
-								&iu_status=${mtm_list.mtmuserdto.iu_status}&iu_img=${mtm_list.mtmuserdto.iu_img}"> 
-									${mtm_list.mtmuserdto.iu_title }
+								${apply_list.eventdto.rownum }
+							</td>
+							<td>${apply_list.memberdto.m_id }</td>
+							<td>${apply_list.e_commentdto.ec_sysdate }</td>
+							<td>
+								<a href="event_view?e_num=${apply_list.eventdto.e_num }">
+									${apply_list.eventdto.e_title }
 								</a>
 							</td>
-							<td>${mtm_list.mtmuserdto.iu_sort }</td>
-							<td>${mtm_list.memberdto.m_id }</td>
-							<td>${mtm_list.mtmuserdto.iu_date }</td>
-							<td>${mtm_list.mtmuserdto.iu_status }</td>
+							<td>${apply_list.eventdto.e_status }</td>
 							<td>
-								<button type="button" onclick="location.href='mtm_view?m_id=${mtm_list.memberdto.m_id }&rownum=${mtm_list.mtmuserdto.rownum }&iu_num=${mtm_list.mtmuserdto.iu_num}
-									&iu_title=${mtm_list.mtmuserdto.iu_title}&iu_content=${mtm_list.mtmuserdto.iu_content}&iu_sort=${mtm_list.mtmuserdto.iu_sort}&iu_date=${mtm_list.mtmuserdto.iu_date}
-									&iu_status=${mtm_list.mtmuserdto.iu_status}&iu_img=${mtm_list.mtmuserdto.iu_img}'">
-									답변
-								</button>
-								<button type="button" onclick="del_check(${mtm_list.mtmuserdto.iu_num})">삭제</button>
+								<c:if test="${ apply_list.e_commentdto.ec_status=='당첨'}">
+									<button type="button" onclick="back_check(${apply_list.e_commentdto.ec_num})">당첨취소</button>
+								</c:if>
+								<c:if test="${ apply_list.e_commentdto.ec_status=='미당첨'}">
+									<button type="button" onclick="win_check(${apply_list.e_commentdto.ec_num})">당첨</button>
+								</c:if>									
+								<button type="button" onclick="del_check(${apply_list.e_commentdto.ec_num})">삭제</button>
 							</td>
 						</tr>
-						</c:forEach>
-						
-						
-					</table>
-					<div class="detail_btn">
-						<a href="#">임시버튼</a>
-					</div>
+					</c:forEach>
+				</table>
+				
+				<div>
+					<!-- 당첨/당첨취소가 섞여 있으면 alert -->
+					<button>선택 당첨/당첨취소</button>
+					<button>선택 삭제</button>
+				</div>
+
 				</div>
 			</div>
 				</div>

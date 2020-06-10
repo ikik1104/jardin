@@ -5,20 +5,25 @@ import java.util.Map;
 
 import com.javalec.ex.dto.AllDto;
 import com.javalec.ex.dto.BDto;
+import com.javalec.ex.dto.E_CommentDto;
+import com.javalec.ex.dto.EventDto;
 import com.javalec.ex.dto.MemberDto;
 import com.javalec.ex.dto.MtmAnswerDto;
 import com.javalec.ex.dto.MtmUserDto;
 import com.javalec.ex.dto.NoticeDto;
+import com.javalec.ex.dto.UtilDto;
 
 public interface ADBService {
 	
 	/*
+ 	[관리자]
 	1:1문의
 	공지사항 
+	이벤트
 	*/
 	
 	//1:1문의 전체 리스트 불러오기
-	List<MtmUserDto> getAllBoards();
+	List<AllDto> getAllBoards();
 	
 	//1:1문의 글 1개 삭제
 	int deleteUserBoard(int iu_num);
@@ -50,4 +55,31 @@ public interface ADBService {
 	//공지글 1개 삭제
 	int deleteNoticeBoard(int no_num);
 	
+	//이벤트 전체 리스트 불러오기
+	List<AllDto> getAllEventBoards();
+	
+	//이벤트 새 글 1개 등록
+	int insertEventBoard(UtilDto utilDto);
+	
+	//이벤트 글 1개 가져오기
+	AllDto getEventBoard(EventDto eventDto);
+	
+	//특정 이벤트 댓글 가져오기
+	List<AllDto> getEventComments(EventDto eventDto);
+	
+	//이벤트글 1개 수정
+	int modifyEventBoard(UtilDto utilDto);
+	
+	//이벤트글 1개 삭제
+	int deleteEventBoard(int e_num);
+	
+	//이벤트 신청자 전체 리스트 불러오기(회원 정보, 이벤트 정보 포함)
+	List<AllDto> getApplicants();
+	
+	//이벤트 신청자 당첨 처리
+	int winApplicant(int ec_num);
+	
+	//이벤트 신청자 미당첨 처리
+	int backApplicant(int ec_num);
 }
+

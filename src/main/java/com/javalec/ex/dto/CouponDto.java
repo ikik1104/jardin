@@ -15,7 +15,7 @@ public class CouponDto {
 	private int co_discount; //할인금액
 	private Timestamp co_sysdate; //쿠폰 등록일
 	private int co_product; //상품쿠폰 적용 제품 고유번호
-	private int co_condition; //사용 조건
+	private int co_condition;//쿠폰 사용 조건 금액
 	
 	public CouponDto() {
 		super();
@@ -72,16 +72,16 @@ public class CouponDto {
 	public void setCo_expiry(int co_expiry) {
 		this.co_expiry = co_expiry;
 	}
-	public String getco_type() {
+	public String getCo_type() {
 		return co_type;
 	}
-	public void setco_type(String co_type) {
+	public void setCo_type(String co_type) {
 		this.co_type = co_type;
 	}
-	public int getco_discount() {
+	public int getCo_discount() {
 		return co_discount;
 	}
-	public void setco_discount(int co_discount) {
+	public void setCo_discount(int co_discount) {
 		this.co_discount = co_discount;
 	}
 	public Timestamp getCo_sysdate() {

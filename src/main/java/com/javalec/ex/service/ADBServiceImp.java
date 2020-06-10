@@ -10,17 +10,22 @@ import com.javalec.ex.dao.ADBMtmDao;
 import com.javalec.ex.dao.BDao;
 import com.javalec.ex.dto.AllDto;
 import com.javalec.ex.dto.BDto;
+import com.javalec.ex.dto.E_CommentDto;
+import com.javalec.ex.dto.EventDto;
 import com.javalec.ex.dto.MemberDto;
 import com.javalec.ex.dto.MtmAnswerDto;
 import com.javalec.ex.dto.MtmUserDto;
 import com.javalec.ex.dto.NoticeDto;
+import com.javalec.ex.dto.UtilDto;
 
 @Service
 public class ADBServiceImp implements ADBService {
 	
 	/*
+	[관리자]
 	1:1문의
 	공지사항 
+	이벤트
 	*/
 	
 	@Autowired
@@ -28,7 +33,7 @@ public class ADBServiceImp implements ADBService {
 
 	//1:1문의 전체 리스트 불러오기
 	@Override
-	public List<MtmUserDto> getAllBoards() {
+	public List<AllDto> getAllBoards() {
 		return adbmtmdao.getAllBoards();
 	}
 	
@@ -108,6 +113,62 @@ public class ADBServiceImp implements ADBService {
 	public int deleteNoticeBoard(int no_num) {
 		return adbmtmdao.deleteNoticeBoard(no_num);
 	}
+
+	//공지글 전체 리스트 불러오기
+	@Override
+	public List<AllDto> getAllEventBoards() {
+		return adbmtmdao.getAllEventBoards();
+	}
+
+	//이벤트 새글 1개 등록
+	@Override
+	public int insertEventBoard(UtilDto utilDto) {
+		return adbmtmdao.insertEventBoard(utilDto);
+	}
+
+	//이벤트 글 1개 가져오기
+	@Override
+	public AllDto getEventBoard(EventDto eventDto) {
+		return adbmtmdao.getEventBoard(eventDto);
+	}
+
+	//특정 이벤트 댓글 가져오기
+	@Override
+	public List<AllDto> getEventComments(EventDto eventDto) {
+		return adbmtmdao.getEventComments(eventDto);
+	}
+
+	//이벤트글 1개 수정
+	@Override
+	public int modifyEventBoard(UtilDto utilDto) {
+		return adbmtmdao.modifyEventBoard(utilDto);
+	}
+
+	//이벤트글 1개 삭제
+	@Override
+	public int deleteEventBoard(int e_num) {
+		return adbmtmdao.deleteEventBoard(e_num);
+	}
+
+	//이벤트 신청자 전체 리스트 불러오기(회원정보, 이벤트 정보 포함)
+	@Override
+	public List<AllDto> getApplicants() {
+		return adbmtmdao.getApplicants();
+	}
+
+	//이벤트 신청자 당첨 처리
+	@Override
+	public int winApplicant(int ec_num) {
+		return adbmtmdao.winApplicant(ec_num);
+	}
+
+	//이벤트 신청자 미당첨 처리
+	@Override
+	public int backApplicant(int ec_num) {
+		return adbmtmdao.backApplicant(ec_num);
+	}
+	
+	
 	
 
 	

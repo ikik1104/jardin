@@ -8,7 +8,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Insert title here</title>
+		<title>회원 관리</title>
 		<link rel="stylesheet" type="text/css" href="admin/css/admin_main.css">
 		<script type="text/javascript" src="admin/js/jquery-3.4.1.min.js"></script>
         <script type="text/javascript" src="admin/js/jquery-ui.min.js"></script>
@@ -35,7 +35,6 @@
 		</style>
 		<script type="text/javascript">
 
-		
 		function date_chk2(){
 			var start = inputform.e_start_day.value;
 			var end = inputform.e_end_day.value;
@@ -57,7 +56,6 @@
 		
 		function search() {
 			//ajax 구현 해서 바로 검색결과 띄워주기
-			
 		}
 		
 		//구현 끝~! ㅋㅋ
@@ -96,40 +94,48 @@
 			
 			
 		}
-		
-		
+	
+		//회원 탈퇴 체크 
+		function del_check(m_num){
+			if(confirm("해당 회원을 탈퇴처리 하시겠습니까? \n(탈퇴하면 회원 정보가 삭제되며, 삭제한 데이터는 복구할 수 없습니다.)")){
+	            $.ajax({
+	                  url : "member_delete",
+	                  method : "POST",
+	                  data: JSON.stringify(m_num),
+	                  dataType : "json",
+	                  contentType: "application/json",
+	                  success : function(val){
+	                     if(val == 1){ //리턴값이 1이면 (=성공)
+	                        alert("탈퇴처리 완료되었습니다.");
+	                        location.reload(); //페이지 새로고침
+	                     }else{ // 0이면 실패
+	                        alert("탈퇴처리 실패.");
+	                     }
+	                  },
+	                  error : function(){
+	                     alert("서버통신실패");
+	                  }
+	               });
+	         }
+		}
 </script>
 	</head>
 	<body>
 	<jsp:include page="../nav/admin_header.jsp"/>
 	<jsp:include page="../nav/board_nav.jsp"/>
 	<section>
-		<h1>상품 리스트</h1>
+		<h1>회원 관리</h1>
 		<div id="main_list">
 			<div id="main_user_list">
-				<h2>임시로 놔두기</h2>
+				<h2>회원 검색</h2>
 				<div class="list_count">임시로 놔두기(총 게시물 수 등등 표시?)</div>
 				<div id="search_form">
 					<form name="inputform" method="get" onsubmit="return false;">
 					<table border="1">
-						<tr>
-							<td>검색어</td>
-							<td><select name="">
-								<option>아이디</option>
-								<option>글제목</option>
-								<option>글내용</option>
-							</select>
-							<input type="text" name="검색키워드">
-							</td>
-						</tr>
 						<tr id="search_date">
-							<td>기간검색</td>
+							<td>가입일</td>
 							<td>
-						<!--  <fmt:formatDate var="sys" value="${sysdate}" pattern="yyyy-MM-dd"/>-->	
-							<select name="****미정****" >
-								<option>등록일</option>
-								<option>수정일</option>
-							</select>
+							<fmt:formatDate var="sys" value="${sysdate}" pattern="yyyy-MM-dd"/>
 							<input type="date" name="e_start_day" id="e_start_day" onchange="date_chk2()"> ~ 
 							<input type="date" name="e_end_day" id="e_end_day" value="${sys}" onchange="date_chk2()">
 							<button type="button" onclick="search_date('today')">오늘</button>
@@ -141,69 +147,82 @@
 							</td>
 						</tr>
 						<tr>
+							<td>등급</td>
+							<td><select name="keysort">
+								<option>전체</option>
+								<option>일반</option>
+								<option>우수</option>
+							</select>
+							<input type="text" name="keyword">
+							</td>
+						</tr>
+						<tr>
+							<td>검색어</td>
+							<td><select name="keysort">
+								<option>선택안함</option>
+								<option>아이디</option>
+								<option>이름</option>
+							</select>
+							<input type="text" name="keyword">
+							</td>
+						</tr>
+						<tr>
 							<td colspan="2"><button onclick="search()">검색</button></td>
-							<td></td>
 						</tr>
 					</table>
-					</form>
-					
-				</div>
-				<div>
-					<button type="button" onclick="location.href='event_applicants'">
-						신청자 리스트
-					</button>
-					<button type="button" onclick="location.href='event_write'">
-						새 글 등록
-					</button>					
-				</div>				
+				</form>
+			</div>
+			
 				<div>
 					<table border="1" id="event_list">
 						<tr>
-							<th><input type="checkbox" ></th>						
+							<th><input type="checkbox" ></th>
 							<th>번호</th>
-							<th>제목</th>
-							<th>작성자</th>
-							<th>등록일</th>
-							<th>시작일</th>
-							<th>종료일</th>
-							<th>쿠폰</th>
-							<th>당첨자 발표일</th>
-							<th>이벤트 상태</th>
-							<th>수정/삭제</th>							
+							<th>아이디</th>
+							<th>이름</th>
+							<th>가입일</th>
+							<th>등급</th>
+							<th>이메일 수신</th>
+							<th>SMS 수신</th>							
+							<th>최종로그인</th>		
+							<th>수정/탈퇴처리</th>
 						</tr>
-						<c:forEach var="AllDtos" items="${AllDtos }">
+						<c:forEach var="member_list" items="${member_list }">
 						<tr>
 							<td><input type="checkbox"></td>
-							<td>${AllDtos.eventdto.rownum }</td>
+							<td>${member_list.memberdto.rownum }</td>
 							<td>
-								<a href="event_view?e_num=${AllDtos.eventdto.e_num}"> 
-									${AllDtos.eventdto.e_title }
+								<a href="member_view?m_num=${member_list.memberdto.m_num }">
+								${member_list.memberdto.m_id }
 								</a>
 							</td>
-							<td>${AllDtos.admindto.ad_grade }(${AllDtos.admindto.ad_id })</td>
-							<td>${AllDtos.eventdto.e_sysdate }</td>
-							<td>${AllDtos.eventdto.e_start_day }</td>
-							<td>${AllDtos.eventdto.e_end_day }</td>		
-							<c:if test="${AllDtos.eventdto.co_num!=null }">
-								<td>있음</td>
-							</c:if>			
-							<c:if test="${AllDtos.eventdto.co_num==null }">
-								<td>없음</td>
-							</c:if>								
-							<td>${AllDtos.eventdto.e_win_day }</td>
-							<td>${ AllDtos.eventdto.e_status}</td>
 							<td>
-								<button type="button" onclick="location.href='event_view?e_num=${AllDtos.eventdto.e_num}'">
+								<a href="member_view?m_num=${member_list.memberdto.m_num }">
+								${member_list.memberdto.m_name }
+								</a>
+							</td>
+							<td>${member_list.memberdto.m_join_date }</td>
+							<td>${member_list.memberdto.m_level }</td>
+							<td>${member_list.memberdto.m_email_ok }</td>
+							<td>${member_list.memberdto.m_sms_ok }</td>		
+							<td>${member_list.memberdto.m_last_login }</td>					
+							<td>
+								<button type="button" onclick="location.href='member_view?m_num=${member_list.memberdto.m_num}'">
 									수정
 								</button>
-								<button type="button" onclick="del_check(${AllDtos.eventdto.e_num})">삭제</button>
+								<button type="button" onclick="del_check(${member_list.memberdto.m_num})">탈퇴</button>
 							</td>
 						</tr>
-						</c:forEach>						
+						</c:forEach>
+						
+						
 					</table>
-					<div class="detail_btn">
-						<a href="#">임시버튼</a>
+					
+					<div>				
+						<button>선택 탈퇴처리</button>
 					</div>
+
+
 				</div>
 			</div>
 				</div>

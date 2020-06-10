@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javalec.ex.dao.AdminCouponDao">
+
+	<!-- [관리자] 쿠폰 -->
+
+	<!-- Dto 객체 선언 -->
+	
+	<resultMap type="com.javalec.ex.dto.AllDto" id="AllDto">
+	    <collection property="coupondto" resultMap="CouponDto"/>	  	     	     
+	</resultMap>		
+	
+	<resultMap type="com.javalec.ex.dto.CouponDto" id="CouponDto">
+	    <result column="co_num" property="co_num"/>
+	    <result column="co_name" property="co_name"/>	 
+	    <result column="co_start_day" property="co_start_day"/>
+	    <result column="co_end_day" property="co_end_day"/>
+	    <result column="co_expiry" property="co_expiry"/>	    
+	    <result column="co_type" property="co_type"/>	    
+	    <result column="co_discount" property="co_discount"/>	 	    
+	    <result column="co_sysdate" property="co_sysdate"/>	 	
+	    <result column="co_product" property="co_product"/>
+	    <result column="co_condition" property="co_condition"/>	 	       
+	</resultMap>
+	
+	<!-- 쿠폰 전체 리스트 불러오기 -->
+	<select id="getAllCoupons" resultMap="AllDto">
+			select * from 
+			(select rownum, cp.* from 
+			(select * from coupon_tb order by co_num desc) cp) 
+			order by rownum desc	
+	</select>
+	
+</mapper>		
