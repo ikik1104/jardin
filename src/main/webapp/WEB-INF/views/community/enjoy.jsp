@@ -91,36 +91,6 @@ $(document).ready(function() {
 <div id="allwrap">
 <div id="wrap">
 
-	<div id="header">
-		
-		<div id="snbBox">
-			<h1><img src="user/images/txt/logo.gif" alt="JARDIN SHOP" /></h1>
-			<div id="quickmenu">
-				<div id="mnaviOpen"><img src="user/images/btn/btn_mnavi.gif" width="33" height="31" alt="메뉴열기" /></div>
-				<div id="mnaviClose"><img src="user/images/btn/btn_mnavi_close.gif" width="44" height="43" alt="메뉴닫기" /></div>
-				<ul>
-					<li><a href="#">EVENT</a></li>
-					<li><a href="#">CUSTOMER</a></li>
-					<li><a href="#">COMMUNITY</a></li>
-				</ul>
-			</div>
-			<div id="snb">
-				<ul>
-					<li><a href="#">LOGIN</a></li>
-					<li><a href="#">JOIN</a></li>
-					<li><a href="#">MY PAGE</a></li>
-					<li><a href="#">CART</a></li>
-				</ul>
-
-				<div id="search">
-					<input type="text" class="searchType" />
-					<input type="image" src="user/images/btn/btn_main_search.gif" width="23" height="20" alt="검색하기" />
-				</div>
-			</div>
-		</div>
-	</div>
-
-
 	<jsp:include page="../header.jsp" />
 	<!-- container -->
 	<div id="container">
@@ -139,7 +109,7 @@ $(document).ready(function() {
 				<ul>	
 					<li><a href="#" id="leftNavi1">체험단</a></li>
 					<li><a href="#" id="leftNavi2">사용 후기</a></li>
-					<li class="last"><a href="#" id="leftNavi3">ENJOY COFFEE</a></li>
+					<li class="last"><a href="enjoy_list" id="leftNavi3">ENJOY COFFEE</a></li>
 				</ul>			
 			</div><script type="text/javascript">initSubmenu(3,0);</script>
 
@@ -151,73 +121,24 @@ $(document).ready(function() {
 					
 					<div class="imgListType">
 						<ul>
-
+							<c:forEach items="list" var="list">
 							<!-- List -->
 							<li>
 								<div class="img"><img src="user/images/img/sample_epil.jpg" width="155" height="160" alt="" /></div>
 								<div class="txt">
 									<div class="subject">
-										<a href="#">쟈뎅,테이크아웃 ‘카페모리 즐기기</a>
+										<a href="#" >${list.ej_title}</a>
 									</div>
 									<div class="conf">
-										27년 만의 기록적인 한파가 연일 지속되면서, 따뜻하고 달콤하게 즐길 수 있는 ‘핫초코’가 인기를 끌며 보다 맛있게 카페모리를 즐기는 법을 소개해 드리겠습니다.
+										${list.ej_content}
 									</div>
 									<div class="data">
-										<p>등록일 <span>2014-03-24</span></p>
-										<p>조회수 <span>325</span></p>
+										<p>등록일 <span><fmt:formatDate value="${list.ej_date}" pattern="yyyy-MM-dd"/></span></p>
+										<p>조회수 <span>${list.ej_hit}</span></p>
 									</div>
 								</div>
 							</li>
-							<!-- //List -->
-
-							<li>
-								<div class="img"><img src="user/images/img/sample_epil.jpg" width="155" height="160" alt="" /></div>
-								<div class="txt">
-									<div class="subject">
-										<a href="#">쟈뎅,테이크아웃 ‘카페모리 즐기기</a>
-									</div>
-									<div class="conf">
-										27년 만의 기록적인 한파가 연일 지속되면서, 따뜻하고 달콤하게 즐길 수 있는 ‘핫초코’가 인기를 끌며 보다 맛있게 카페모리를 즐기는 법을 소개해 드리겠습니다.
-									</div>
-									<div class="data">
-										<p>등록일 <span>2014-03-24</span></p>
-										<p>조회수 <span>325</span></p>
-									</div>
-								</div>
-							</li>
-
-							<li>
-								<div class="img"><img src="user/images/img/sample_epil.jpg" width="155" height="160" alt="" /></div>
-								<div class="txt">
-									<div class="subject">
-										<a href="#">쟈뎅,테이크아웃 ‘카페모리 즐기기</a>
-									</div>
-									<div class="conf">
-										27년 만의 기록적인 한파가 연일 지속되면서, 따뜻하고 달콤하게 즐길 수 있는 ‘핫초코’가 인기를 끌며 보다 맛있게 카페모리를 즐기는 법을 소개해 드리겠습니다.
-									</div>
-									<div class="data">
-										<p>등록일 <span>2014-03-24</span></p>
-										<p>조회수 <span>325</span></p>
-									</div>
-								</div>
-							</li>
-
-							<li>
-								<div class="img"><img src="user/images/img/sample_epil.jpg" width="155" height="160" alt="" /></div>
-								<div class="txt">
-									<div class="subject">
-										<a href="#">쟈뎅,테이크아웃 ‘카페모리 즐기기</a>
-									</div>
-									<div class="conf">
-										27년 만의 기록적인 한파가 연일 지속되면서, 따뜻하고 달콤하게 즐길 수 있는 ‘핫초코’가 인기를 끌며 보다 맛있게 카페모리를 즐기는 법을 소개해 드리겠습니다.
-									</div>
-									<div class="data">
-										<p>등록일 <span>2014-03-24</span></p>
-										<p>조회수 <span>325</span></p>
-									</div>
-								</div>
-							</li>
-
+							</c:forEach>
 						</ul>
 					</div>
 

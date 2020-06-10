@@ -55,9 +55,9 @@
 							<td>카테고리</td>
 							<td>
 								<select name="f_step">
-									<option value="user">회원</option>
-									<option value="product">상품</option>
-									<option value="order">주문</option>
+									<option value="회원">회원</option>
+									<option value="상품">상품</option>
+									<option value="주문">주문</option>
 								</select>
 							</td>
 						</tr>

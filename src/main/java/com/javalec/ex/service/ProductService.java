@@ -36,5 +36,9 @@ public interface ProductService {
 	//----------------------------------------------------유저
 	
 	//쟈뎅 홈페이지에 리스트 뿌리기
+	//step1 전체
+	List<ProductDto> getU_ProductAllList(String p_step1);
+	//step2
 	List<ProductDto> getU_ProductList(String p_step2);
+	
 }

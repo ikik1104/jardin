@@ -78,11 +78,12 @@
 							<td>
 							<select name="p_step1" onchange="aa(this.value)">
 								<option value="원두">원두</option>
-								<option value="원두커피백">원두커피백</option>
-								<option value="인스턴트">인스턴트</option>
-								<option value="커피용품">커피용품</option>
+								<option value="인스턴트 커피">인스턴트 커피</option>
+								<option value="차">차</option>
+								<option value="음료/커피/티">음료/커피/티</option>
 								<option value="선물세트">선물세트</option>
-								<option value="대량구매">대량구매</option>
+								<option value="브랜드관">브랜드관</option>
+								<option value="용품">용품</option>
 							</select>
 							</td>
 						</tr>
@@ -91,35 +92,34 @@
 							<td>
 							<select id="원두" class="step2" name="p_step2" style="display: inline;">
 								<option value="클래스">클래스</option>
-								<option value="로스터리샵">로스터리샵</option>	
-								<option value="커피휘엘">커피휘엘</option>	
-								<option value="산지별생두">산지별 생두</option>	
+								<option value="바리스타">바리스타</option>	
+								<option value="미스터즈">미스터즈</option>	
+								<option value="쟈뎅">쟈뎅</option>	
 							</select>
-							<select  id="원두커피백" class="step2">
-								<option value="드립커피로스트">드립커피 로스트</option>
-								<option value="오리지널커피백">오리지널 커피백</option>	
-								<option value="마일드커피백">마일드 커피백</option>	
+							<select  id="인스턴트 커피" class="step2">
+								<option value="카페모리">오리지널 카페모리</option>	
+								<option value="에스프레소 스틱">에스프레소 스틱 커피백</option>	
 							</select>
-							<select  id="인스턴트" class="step2">
-								<option value="카페모리">카페모리</option>
-								<option value="홈스타일카페모리">홈스타일카페모리</option>	
-								<option value="포타제">포타제</option>	
+							<select  id="차" class="step2">
+								<option value="아워티(티백)">아워티(티백)</option>	
 							</select>
-							<select  id="음료" class="step2">
-								<option value="카페리얼">카페리얼</option>
-								<option value="워터커피">워터커피</option>	
-								<option value="모히또">모히또</option>	
-							</select>
-							<select  id="커피용품" class="step2">
-								<option value="종이컵">종이컵</option>
-								<option value="커피필터">커피필터</option>	
-								<option value="기타">종이 등</option>	
+							<select  id="음료/커피/티" class="step2">
+								<option value="시그니처">시그니처</option>
+								<option value="카페리얼">카페리얼</option>	
+								<option value="아워티(음료)">아워티(음료)</option>	
 							</select>
 							<select  id="선물세트" class="step2">
-								<option value="선물세트">"선물세트"</option>
+								<option value="선물세트">선물세트</option>
+								<option value="DIY 선물세트">DIY 선물세트</option>	
 							</select>
-							<select  id="대량구매" class="step2">
-								<option value="대량구매">대량구매</option>
+							<select  id="브랜드관" class="step2">
+								<option value="GS">"GS"</option>
+								<option value="투썸">"투썸"</option>
+								<option value="드롭탑">"드롭탑"</option>
+								<option value="요거프레소">"요거프레소"</option>
+							</select>
+							<select  id="용품" class="step2">
+								<option value="커피용품">커피용품</option>
 							</select>
 							</td>
 						</tr>
@@ -133,7 +133,7 @@
 						</tr>
 						<tr>
 							<td>포인트</td>
-							<td><input type="text" name="p_point" id="point" readonly>제품 가격의 10%</td>
+							<td><input type="text" name="p_point" id="point" readonly>제품 가격의 1%</td>
 						</tr>
 						<tr>
 							<td>제조원</td>

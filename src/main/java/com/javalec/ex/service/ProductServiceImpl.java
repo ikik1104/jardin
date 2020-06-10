@@ -84,10 +84,24 @@ public class ProductServiceImpl implements ProductService {
 		return pDao.getSearchList(map);
 	}
 
+	
+	//유저---------------------------------------------------
+	
+	//제품 출력하기
+	//ste1
+	@Override
+	public List<ProductDto> getU_ProductAllList(String p_step1) {
+		// TODO Auto-generated method stub
+		return pDao.getU_ProductAllList(p_step1);
+	}
+	
+	//step2
 	@Override
 	public List<ProductDto> getU_ProductList(String p_step2) {
 		return pDao.getU_ProductList(p_step2);
 	}
+
+	
 
 	
 	

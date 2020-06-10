@@ -1,6 +1,7 @@
 package com.javalec.ex.service;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import com.javalec.ex.dao.AdminBoardDao;
 import com.javalec.ex.dao.BDao;
 import com.javalec.ex.dao.ChangeInfoDao;
 import com.javalec.ex.dto.BDto;
+import com.javalec.ex.dto.EnjoyCoffeeDto;
 import com.javalec.ex.dto.FaqDto;
 import com.javalec.ex.dto.MemberDto;
 import com.javalec.ex.dto.MtmUserDto;
@@ -62,6 +64,12 @@ public class AdminBoardServiceImp implements AdminBoardService {
 		return abDao.faqInfo(f_num);
 	}
 	
+	//검색
+	@Override
+	public List<FaqDto> getSearchFaq(HashMap<String, Object> map){
+		return abDao.getSearchFaq(map);
+	}
+	
 	//유저-------------------------
 	
 	//faq 리스트
@@ -70,6 +78,69 @@ public class AdminBoardServiceImp implements AdminBoardService {
 		return abDao.getFaqList();
 		
 	}
+
+	//faq 카테고리별 리스트
+	@Override
+	public List<FaqDto> getFaq_StepList(String f_step) {
+		return abDao.getFaq_StepList(f_step);
+	}
+
+	//enjoy coffee 리스트
+	@Override
+	public List<EnjoyCoffeeDto> enjoy_List() {
+		return abDao.enjoy_List();
+	}
+
+	
+	
+	//enjoy coffee----------------------------------------
+
+	//enjoy coffee insert
+	@Override
+	public void enjoy_insert(EnjoyCoffeeDto ecDto) {
+		abDao.enjoy_insert(ecDto);
+	}
+
+	//enjoy coffee 한개의 정보 (상세보기, 수정에 쓰임)
+	@Override
+	public EnjoyCoffeeDto enjoy_info(int ej_num) {
+		return abDao.enjoy_info(ej_num);
+	}
+
+	//enjoy coffee update
+	@Override
+	public int enjoy_update(EnjoyCoffeeDto ecDto) {
+		return abDao.enjoy_update(ecDto);
+	}
+
+	//enjoy coffee 완전 삭제
+	@Override
+	public int enjoy_delete(int ej_num) {
+		return abDao.enjoy_delete(ej_num);
+	}
+
+	//enjoy coffee 전체 리스트(관리자)
+	@Override
+	public List<EnjoyCoffeeDto> enjoy_allList() {
+		return abDao.enjoy_allList();
+	}
+
+	//검색
+	@Override
+	public List<EnjoyCoffeeDto> getSearchEnjoy(HashMap<String, Object> map) {
+		Iterator<String> mapIter = map.keySet().iterator();
+		
+		 while(mapIter.hasNext()){
+			 
+	            String key = mapIter.next();
+	            String value = (String) map.get( key );
+	 
+	            System.out.println(key+":"+value);
+	 
+	        }
+		return abDao.getSearchEnjoy(map);
+	}
+
 
 
 

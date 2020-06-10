@@ -111,21 +111,28 @@ public class ProductController {
 	//쟈뎅 제품뿌리기
 	@RequestMapping("u_product_list")
 	public String user_product_list(HttpServletRequest request ,  Model model) {
-		String p_step1;
+		String p_step1 = request.getParameter("p_step1");
 		String p_step2;
 		
 		if(request.getParameter("p_step2")==null) {
-			p_step1 = request.getParameter("p_ste1");
-			// step1 들어옴 
-			// step1 전체 리스트 가져오기
-			model.addAttribute("list", pService.getAllPList());
+			model.addAttribute("product", pService.getU_ProductAllList(p_step1));
 		}else {
-			p_step2 = request.getParameter("p_ste1");
-			//step2 step2의 리스트 가져옴
-			model.addAttribute("list", pService.getU_ProductList(p_step2));
+			p_step2 = request.getParameter("p_step2");
+			model.addAttribute("product", pService.getU_ProductList(p_step2));
 		}
 		
-		return "admin/product/product_list";
+		model.addAttribute("p_step1", p_step1);
+		
+		return "product/list";
+	}
+	
+	//제품 하나 상세보기
+	@RequestMapping("product_detail")
+	public String product_detail(int p_num,  Model model) {
+
+		model.addAttribute("pdto", pService.getProductInfo(p_num));
+		
+		return "product/detail";
 	}
 	
 	

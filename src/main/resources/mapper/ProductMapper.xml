@@ -49,14 +49,20 @@
 		and 
         p_name like '%' ||#{p_name} || '%' and
         p_step2 = #{p_step2}
-        
 	</select>
 	
 	<!-- ================================= 유저 ================================== -->
 	
-	<!-- 제품 전체 리스트  -->
+	<!-- 제품 전체 리스트  step1 -->
+	<select id="getU_ProductAllList" parameterType="String" resultType="com.javalec.ex.dto.ProductDto">
+		select * from product_tb  where p_delflag = 'N' and 
+		p_step1= #{p_step1} order by p_num desc
+	</select>
+	
+	<!-- 제품 전체 리스트  step2 -->
 	<select id="getU_ProductList" parameterType="String" resultType="com.javalec.ex.dto.ProductDto">
-		select * from product_tb  where p_delflag = 'N' and p_step2= #{p_step2} order by p_num desc
+		select * from product_tb  where p_delflag = 'N' and 
+		p_step2= #{p_step2} order by p_num desc
 	</select>
 	
 </mapper>
