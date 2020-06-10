@@ -7,19 +7,16 @@
 	
 	<!-- 특정 회원의 전체 구매건 -->
 	<select id="countOrder" parameterType="String" resultType="Integer">
-		select count(*) from b where m_id = #{param1}	
+		select count(*) from orderlist_tb where ol_orderer_id = #{param1}	
 	</select>
 	
 	<!-- 특정 회원이 작성한 전체 문의글(페이징) -->
-	<select id="getAllOrder" resultType="com.javalec.ex.dto.MtmUserDto">
-		select distinct ol_order_num from orderlist_tb where m_num = #{m_num} order by 
-	
-         select * from 
-         (select rownum rnum, mtmu.* from 
-         (select * from mtm_inqury_user_tb 
-         where m_num = #{m_num}
-         order by iu_num asc) mtmu) r
-         where <![CDATA[r.rnum>=#{pageDto.endRow}]]> and <![CDATA[r.rnum<=#{pageDto.startRow}]]> order by r.rnum desc
+	<select id="getAllOrder" resultType="HashMap">
+		select * from
+		(select rownum rnum, ot.onum, ot.osum, pt.p_name, ot.odate, ot.ostatus
+		from (select ol_order_num onum, sum(ol_final_price) osum, max(p_num) oname, max(ol_date) odate, max(ol_status) ostatus from orderlist_tb where ol_orderer_id = #{m_id} group by ol_order_num) ot, product_tb pt
+		where ot.oname = pt.p_num) r
+		where <![CDATA[r.rnum>=#{pageDto.endRow}]]> and <![CDATA[r.rnum<=#{pageDto.startRow}]]> order by r.rnum desc
 	</select>
 	
 	<!-- 특정 회원이 작성/검색한 문의글 수 -->
@@ -56,10 +53,6 @@
 <!-- 	<select id="getOneInquiry" resultType="com.javalec.ex.dto.MtmUserDto"> -->
 <!-- 		select * from mtm_inqury_user_tb where iu_num = #{param1} -->
 <!-- 	</select> -->
-	
-
-
-
 	
 	
 </mapper>

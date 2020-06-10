@@ -91,11 +91,11 @@ $(document).ready(function() {
                      alert("삭제가 완료되었습니다.");
                  	 location.href="inquiry";
                   }else{ // 0이면 실패
-                     alert("삭제처리 실패.");
+                     alert("삭제할 수 없습니다. 관리자에게 문의하세요.");
                   }
                },
                error : function(){
-                  alert("서버통신실패");
+                  alert("서버통신실패. 관리자에게 문의하세요.");
                }
             });
       	}

@@ -63,8 +63,65 @@ $(document).ready(function() {
 
      $(document).ready(function () {
          msiecheck();
+         
+         //status
+         var innerHtml = "";
+ 		 $(".heavygray").each(function(){
+             if($(this).text() == "입금완료"){
+             	var index = $(this).attr('id');
+             	innerHtml = '<li><a href="#" class="nbtnMini iw83">취소</a></li>';
+             	$('#state'+index).html(innerHtml);
+             } 
+             if($(this).text() == "배송완료"){
+             	var index = $(this).attr('id');
+             	innerHtml = '<li class="r5"><a href="return.html" class="obtnMini iw40">교환</a></li>'
+             				+'<li><a href="return.html" class="nbtnMini iw40">반품</a></li>'
+             				+'<li><a href="#" class="reviewbtn">리뷰작성</a></li>'
+             				+'<li><a href="#" class="decidebtn">구매확정</a></li>';
+             	$('#state'+index).html(innerHtml);
+             } 
+             if($(this).text() == "구매확정"){
+             	var index = $(this).attr('id');
+             	innerHtml = '<li><a href="#" class="reviewbtn">리뷰작성</a></li>';
+             	$('#state'+index).html(innerHtml);
+             } 
+             if($(this).text() == "입금대기중"){
+             	var index = $(this).attr('id');
+             	innerHtml = '<li><a href="#" class="nbtnMini iw83" onclick="wait_cancel(${ol.ONUM})">취소</a></li>';
+             	$('#state'+index).html(innerHtml);
+             } 
+         });
+         
      });
 
+     //입금대기중 - 취소
+     var wait_cancel = function (ol_order_num){
+    	 
+    	 alert("order_num"+ol_order_num);
+    	 
+    	 if(confirm("주문을 취소하시겠습니까?")){
+        	 $.ajax({
+        		 type : "POST",
+        		 url : "cancel_order",
+        		 data : JSON.stringify(ol_order_num),
+        		 contentType : "application/json",
+                 dataType : "json",
+                 success : function(val){
+                	 if(val == 1){
+                		 alert("주문이 취소되었습니다.");
+                		 location.reload();
+                	 } else{
+                		 alert("주문을 취소할 수 없습니다. 관리자에게 문의하세요.");
+                	 }
+                 },
+                 error : function(){
+                	 alert("서버통신실패. 관리자에게 문의하세요.");
+                 }
+        	 });
+    	 };//if confirm
+     }
+     
+     
      var msiecheck = function () {
          var browser = navigator.userAgent.toLowerCase();
          if (browser.indexOf('msie 6') != -1 ||
@@ -200,188 +257,88 @@ $(document).ready(function() {
 
 
 					<div class="orderDiv">
+                    
+                    <c:if test="${ not empty orderlist }">
 						<table summary="주문일자/주문번호, 상품명, 가격, 수량, 주문상태 순으로 조회를 하실수 있습니다." class="orderTable" border="1" cellspacing="0">
 							<caption>주문게시판</caption>
 							<colgroup>
 							<col width="25%" class="tw28" />
 							<col width="*" />
 							<col width="15%" class="tnone" />
-							<col width="8%" class="tnone" />
 							<col width="18%" class="tw30" />
 							</colgroup>
 							<thead>
 								<th scope="col">주문일자 <span>/ 주문번호</span></th>
 								<th scope="col">상품명</th>
 								<th scope="col" class="tnone">가격</th>
-								<th scope="col" class="tnone">수량</th>
 								<th scope="col">주문상태</th>
 							</thead>
 							<tbody>
-								<tr>
-									<td>
-										<p class="day">2012-05-30</p>
-										<p class="orderNum">201205301204-8057</p>
-									</td>
-									<td class="left">
-										쟈뎅 오리지널 콜롬비아 페레이라 원두커피백 15p
-									</td>
-									<td class="tnone">999,999 원</td>
-									<td class="tnone">1000개</td>
-									<td>
-										<span class="heavygray">배송완료</span>
-										<ul class="state">	
-											<li class="r5"><a href="return.html" class="obtnMini iw40">교환</a></li>
-											<li><a href="return.html" class="nbtnMini iw40">반품</a></li>
-											<li><a href="#" class="reviewbtn">리뷰작성</a></li>
-											<li><a href="#" class="decidebtn">구매확정</a></li>
-										</ul>										
-									</td>
-								</tr>
-								
+                            
+                                <c:forEach var="ol" items="${ orderlist }" varStatus="status">
+    								<tr>
+    									<td>
+                                            <fmt:formatDate value="${ ol.ODATE }" pattern="yyyy-MM-dd" var="dateType" />
+    										<p class="day">${ dateType }</p>
+    										<p class="orderNum">${ ol.ONUM }</p>
+    									</td>
+    									<td class="left">
+    										${ ol.P_NAME }
+    									</td>
+    									<td class="tnone">${ ol.OSUM } 원</td>
+    									<td>
+    										<span class="heavygray" id="${ status.index }">${ ol.OSTATUS }</span>
+    										<ul class="state" id="state${ status.index }"></ul>										
+    									</td>
+    								</tr>
+								</c:forEach>
+                                
+                              
+                                
 							</tbody>
 						</table>
-
+                    </c:if>
+                    <c:if test="${ empty orderlist }">    
 						<div class="noData">
 							등록된 상품이 없습니다.
 						</div>
+                    </c:if>
 					</div>
 					
 
 					<div class="btnAreaList">
 						<!-- 페이징이동1 -->
 						<div class="allPageMoving1">
-
-						<a href="#" class="n"><img src="user/images/btn/btn_pre2.gif" alt="처음으로"/></a><a href="#" class="pre"><img src="user/images/btn/btn_pre1.gif" alt="앞페이지로"/></a>
-						<strong>1</strong>
-						<a href="#">2</a>
-						<a href="#">3</a>
-						<a href="#">4</a>
-						<a href="#">5</a>
-						<a href="#" class="next"><img src="user/images/btn/btn_next1.gif" alt="뒤페이지로"/></a><a href="#" class="n"><img src="user/images/btn/btn_next2.gif" alt="마지막페이지로"/></a>
-
+							<a href="ordercheck?page=1" class="n"><img src="user/images/btn/btn_pre2.gif" alt="처음으로"/></a>
+							<c:if test="${ paging.getPage()<=1 }">
+								<img src="user/images/btn/btn_pre1.gif" alt="앞페이지로"/>
+							</c:if>
+							<c:if test="${ paging.getPage()>1 }">
+								<a href="ordercheck?page=${ paging.getPage() - 1 }" class="pre"><img src="user/images/btn/btn_pre1.gif" alt="앞페이지로"/></a>
+							</c:if>
+							<c:forEach var="num" begin="${ paging.getStartPage() }" end="${ paging.getEndPage() }" step="1">
+								<c:choose>
+									<c:when test="${ num == paging.getPage() }">
+										<strong>${ num }</strong>
+									</c:when>
+									<c:when test="${ num != paging.getPage() }">
+										<a href="ordercheck?page=${ num }">${ num }</a>
+									</c:when>
+								</c:choose>
+							</c:forEach>
+							
+							<c:if test="${ paging.getPage()>= paging.getLastPage() }">
+								<img src="user/images/btn/btn_next1.gif" alt="뒤페이지로"/>
+							</c:if>
+							<c:if test="${ paging.getPage() < paging.getLastPage() }">
+								<a href="ordercheck?page=${ paging.getPage() + 1 }" class="next"><img src="user/images/btn/btn_next1.gif" alt="뒤페이지로"/></a>
+							</c:if>
+							<a href="ordercheck?page=${ paging.getLastPage() }" class="n"><img src="user/images/btn/btn_next2.gif" alt="마지막페이지로"/></a>
 						</div>
 						<!-- //페이징이동1 -->
 					</div>
 
 
-					<div class="productTab">
-						<ul>
-							<li><a href="javascript:;" onclick="return false;" id="tab_today">오늘 본 상품 <span>(4)</span></a></li>
-							<li class="last"><a href="javascript:;" onclick="return false;" id="tab_basket">장바구니 <span>(0)</span></a></li>
-						</ul>						
-					</div><script type="text/javascript">$(function(){$(".productTab ul li a:eq(0)").click();});</script>	
-
-
-					<!-- Today Product -->
-					<div class="tab_today disnone">
-						
-						<div class="productList">
-							<ul>
-								<!-- Product Yes -->
-								<li>
-									<span class="chk"><input type="checkbox" /></span>
-									<span class="img"><img src="user/images/img/sample_product.jpg" alt="상품" /></span>
-									<span class="name"><a href="#">쟈뎅 오리지널 블루마운틴 블렌드 원두커피백 15P</a></span>
-									<span class="price">4,330원</span>
-								</li>
-
-								<li>
-									<span class="chk"><input type="checkbox" /></span>
-									<span class="img"><img src="user/images/img/sample_product.jpg" alt="상품" /></span>
-									<span class="name"><a href="#">쟈뎅 오리지널 블루마운틴 블렌드 원두커피백 15P</a></span>
-									<span class="price">4,330원</span>
-								</li>
-
-								<li>
-									<span class="chk"><input type="checkbox" /></span>
-									<span class="img"><img src="user/images/img/sample_product.jpg" alt="상품" /></span>
-									<span class="name"><a href="#">쟈뎅 오리지널 블루마운틴 블렌드 원두커피백 15P</a></span>
-									<span class="price">4,330원</span>
-								</li>
-
-								<li>
-									<span class="chk"><input type="checkbox" /></span>
-									<span class="img"><img src="user/images/img/sample_product.jpg" alt="상품" /></span>
-									<span class="name"><a href="#">쟈뎅 오리지널 블루마운틴 블렌드 원두커피백 15P</a></span>
-									<span class="price">4,330원</span>
-								</li>
-								<!-- //Product Yes -->
-
-								<!-- Product No 
-								<li class="noProduct">
-									상품이 없습니다.
-								</li>
-								 -->
-							</ul>
-						</div>
-
-						<div class="btnArea">
-							<div class="bRight">
-								<ul>
-									<li><a href="#" class="nbtnbig">선택상품 삭제</a></li>
-									<li><a href="#" class="sbtnMini">장바구니 추가</a></li>
-								</ul>
-							</div>
-						</div>
-
-					</div>
-					<!-- //Today Product -->
-
-
-					<!-- Shopping Basket -->
-					<div class="tab_basket disnone">
-						
-						<div class="productList">
-							<ul>
-								<!-- Product Yes -->
-								<li>
-									<span class="chk"><input type="checkbox" /></span>
-									<span class="img"><img src="user/images/img/sample_product.jpg" alt="상품" /></span>
-									<span class="name"><a href="#">쟈뎅 장바구니 블루마운틴 블렌드 원두커피백 15P</a></span>
-									<span class="price">4,330원</span>
-								</li>
-
-								<li>
-									<span class="chk"><input type="checkbox" /></span>
-									<span class="img"><img src="user/images/img/sample_product.jpg" alt="상품" /></span>
-									<span class="name"><a href="#">쟈뎅 장바구니 블루마운틴 블렌드 원두커피백 15P</a></span>
-									<span class="price">4,330원</span>
-								</li>
-
-								<li>
-									<span class="chk"><input type="checkbox" /></span>
-									<span class="img"><img src="user/images/img/sample_product.jpg" alt="상품" /></span>
-									<span class="name"><a href="#">쟈뎅 장바구니 블루마운틴 블렌드 원두커피백 15P</a></span>
-									<span class="price">4,330원</span>
-								</li>
-
-								<li>
-									<span class="chk"><input type="checkbox" /></span>
-									<span class="img"><img src="user/images/img/sample_product.jpg" alt="상품" /></span>
-									<span class="name"><a href="#">쟈뎅 장바구니 블루마운틴 블렌드 원두커피백 15P</a></span>
-									<span class="price">4,330원</span>
-								</li>
-								<!-- //Product Yes -->
-
-								<!-- Product No 
-								<li class="noProduct">
-									상품이 없습니다.
-								</li>
-								 -->
-							</ul>
-						</div>
-
-						<div class="btnArea">
-							<div class="bRight">
-								<ul>
-									<li><a href="#" class="nbtnbig">선택상품 삭제</a></li>
-									<li><a href="#" class="sbtnMini">선택상품 주문</a></li>
-								</ul>
-							</div>
-						</div>
-
-					</div>
-					<!-- //Shopping Basket -->
 
 
 <script type="text/javascript" src="user/js/jquery.fancybox-1.3.4.pack.js"></script>
