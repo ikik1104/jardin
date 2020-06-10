@@ -143,6 +143,32 @@ public class ADBServiceImp implements ADBService {
 	public int modifyEventBoard(UtilDto utilDto) {
 		return adbmtmdao.modifyEventBoard(utilDto);
 	}
+
+	//이벤트글 1개 삭제
+	@Override
+	public int deleteEventBoard(int e_num) {
+		return adbmtmdao.deleteEventBoard(e_num);
+	}
+
+	//이벤트 신청자 전체 리스트 불러오기(회원정보, 이벤트 정보 포함)
+	@Override
+	public List<AllDto> getApplicants() {
+		return adbmtmdao.getApplicants();
+	}
+
+	//이벤트 신청자 당첨 처리
+	@Override
+	public int winApplicant(int ec_num) {
+		return adbmtmdao.winApplicant(ec_num);
+	}
+
+	//이벤트 신청자 미당첨 처리
+	@Override
+	public int backApplicant(int ec_num) {
+		return adbmtmdao.backApplicant(ec_num);
+	}
+	
+	
 	
 
 	

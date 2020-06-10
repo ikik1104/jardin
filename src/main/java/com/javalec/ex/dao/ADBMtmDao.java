@@ -78,4 +78,17 @@ public interface ADBMtmDao {
 	
 	//이벤트글 1개 수정
 	int modifyEventBoard(UtilDto utilDto);
+	
+	//이벤트글 1개 삭제
+	int deleteEventBoard(int e_num);
+	
+	//이벤트 신청자 전체 리스트 불러오기(회원, 이벤트 정보도 포함)
+	List<AllDto> getApplicants();
+	
+	//이벤트 신청자 당첨 처리
+	int winApplicant(int ec_num);
+	
+	//이벤트 신청자 미당첨 처리
+	int backApplicant(int ec_num);	
+	
 }

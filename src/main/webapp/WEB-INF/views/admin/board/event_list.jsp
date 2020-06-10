@@ -149,7 +149,7 @@
 					
 				</div>
 				<div>
-					<button type="button" onclick="location.href='event_apply_list'">
+					<button type="button" onclick="location.href='event_applicants'">
 						신청자 리스트
 					</button>
 					<button type="button" onclick="location.href='event_write'">

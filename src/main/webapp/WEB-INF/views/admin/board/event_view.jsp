@@ -280,26 +280,33 @@ ${AllDto.eventdto.e_content }
 		<div>
 			<h1>신청자 댓글</h1>	
 				<div>
-					<button type="button" >전체 신청자 목록</button>
+					<button type="button" onclick="location.href='event_applicants'" >전체 신청자 목록</button>
 				</div>
 		
 				<table border="1">
-						<c:forEach var="ecdtos" items="${ECDtos }">
-						<tr>
-							<td> ${ecdtos.memberdto.m_id }  [등록일 : ${ ecdtos.e_commentdto.ec_sysdate}/ IP : 아이피 출력해야 함]</td>						
-						</tr>			
-						<tr>
-							<td >${ecdtos.e_commentdto.ec_content }</td>		
-						</tr>	
-						<tr>
-							<td >비밀번호 : ${ecdtos.e_commentdto.ec_pw }</td>											
-						</tr>
-						<tr>
-							<td >
-								<button type="button" onclick="comment_del_check(${ecdtos.e_commentdto.ec_num})">삭제</button>							
-							</td>																		
-						</tr>
-					</c:forEach>
+						<c:if test="${ECDtos.size() == 0 }">
+							<tr>
+								<td>신청자 댓글이 없습니다.</td>
+							</tr>
+						</c:if>
+						<c:if test="${ECDtos.size() != 0 }">
+							<c:forEach var="ecdtos" items="${ECDtos }">
+								<tr>
+									<td> ${ecdtos.memberdto.m_id }  [등록일 : ${ ecdtos.e_commentdto.ec_sysdate}/ IP : 아이피 출력해야 함]</td>						
+								</tr>			
+								<tr>
+									<td >${ecdtos.e_commentdto.ec_content }</td>		
+								</tr>	
+								<tr>
+									<td >비밀번호 : ${ecdtos.e_commentdto.ec_pw }</td>											
+								</tr>
+								<tr>
+									<td >
+										<button type="button" onclick="comment_del_check(${ecdtos.e_commentdto.ec_num})">삭제</button>							
+									</td>																		
+								</tr>
+							</c:forEach>
+						</c:if>					
 				</table>	
 		</div>			
 			

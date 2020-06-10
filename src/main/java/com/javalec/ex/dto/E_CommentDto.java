@@ -11,6 +11,7 @@ public class E_CommentDto {
 	private String ec_content; //글내용
 	private String ec_pw; //비밀번호
 	private Timestamp ec_sysdate; //등록일
+	private String ec_status;//당첨 여부
 
 	public E_CommentDto() {
 		super();
@@ -68,6 +69,12 @@ public class E_CommentDto {
 	}
 	public void setEc_sysdate(Timestamp ec_sysdate) {
 		this.ec_sysdate = ec_sysdate;
+	}
+	public String getEc_status() {
+		return ec_status;
+	}
+	public void setEc_status(String ec_status) {
+		this.ec_status = ec_status;
 	}
 	
 	

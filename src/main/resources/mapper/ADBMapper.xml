@@ -115,7 +115,8 @@
 	    <result column="e_num" property="e_num"/>
 	    <result column="ec_content" property="ec_content"/>
 	    <result column="ec_pw" property="ec_pw"/>	    
-	    <result column="ec_sysdate" property="ec_sysdate"/>	         
+	    <result column="ec_sysdate" property="ec_sysdate"/>	    
+	    <result column="ec_status" property="ec_status"/>	  	         
 	</resultMap>		
 	
 	<!--  1:1문의 전체 리스트 불러오기-->
@@ -236,5 +237,36 @@
 		e_win_day=#{e_win_day}, e_content=#{e_content}, co_num=#{co_num} where e_num=#{e_num}
 	
 	</update>
+	
+	<!-- 이벤트글 1개 삭제 -->
+	<delete id="deleteEventBoard">
+		delete from event_tb where e_num=#{e_num}
+	</delete>
+	
+	<!-- 이벤트 신청자 리스트 불러오기 -->
+	<select id="getApplicants" resultMap="AllDto">
+        <![CDATA[select * from
+        (select rownum, applicants.* from 
+		(select e_title, ev.e_num,
+		case when e_start_day <=sysdate and e_end_day>=sysdate then '진행중'
+        when e_start_day>sysdate then '시작전'
+        when e_end_day < sysdate then '종료' end e_status, 
+		ec_sysdate, ec_status, ec_num,
+		m_id, m_name
+		from event_tb ev, ecomment_tb ec, member_tb mem
+		where ev.e_num = ec.e_num and ec.m_num=mem.m_num
+		order by ec_num desc) applicants )
+		order by rownum desc]]>
+	</select>
+	
+	<!-- 신청자 당첨 처리 -->
+	<update id="winApplicant">
+		update ecomment_tb set ec_status='당첨' where ec_num=#{ec_num}
+	</update>
+	
+	<!-- 신청자 미당첨으로 되돌리기 -->
+	<update id="backApplicant">
+		update ecomment_tb set ec_status='미당첨' where ec_num=#{ec_num}
+	</update>	
 	
 </mapper>
