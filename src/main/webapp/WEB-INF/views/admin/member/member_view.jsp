@@ -113,7 +113,9 @@
 			${alerttext}
 		}
 		
-		
+		$( document ).ready(function() {
+			$("#level_select").val("${member_info.memberdto.m_level }").attr("selected", "selected");
+		});
 		
 		</script>
 		<style type="text/css">
@@ -196,9 +198,9 @@ ${member_info.memberdto.m_pw }
 				<tr>
 					<th>등급</th>
 					<td>	
-						<select name="m_level">
-							<option value="일반"></option>
-							<option value="우수"></option>							
+						<select name="m_level" id="level_select">
+							<option value="일반">일반</option>
+							<option value="우수">우수</option>							
 						</select>
 					</td>
 					<th>최종 로그인</th>
