@@ -30,4 +30,12 @@ public interface AdminMemberInfoService {
 	//휴면 회원 정보 1개 불러오기
 	AllDto getSleepMember(MemberDto memberDto);
 	
+	//탈퇴 회원 전체 리스트 불러오기
+	List<AllDto> getLeftMembers();
+	
+	//탈퇴 회원 정보 1개 불러오기
+	AllDto getLeftMember(MemberDto memberDto);
+	
+	//탈퇴 회원 1명 영구삭제
+	int deleteForeverMember(int m_num);
 }

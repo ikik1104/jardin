@@ -51,6 +51,21 @@ public class AdminMemberInfoServiceImp implements AdminMemberInfoService {
 	//휴면 회원 정보 1개 불러오기
 	public AllDto getSleepMember(MemberDto memberDto) {
 		return infodao.getSleepMember(memberDto);
+	}
+
+	//탈퇴 회원 전체 리스트 불러오기
+	public List<AllDto> getLeftMembers() {
+		return infodao.getLeftMembers();
+	}
+
+	//탈퇴 회원정보 1개 불러오기
+	public AllDto getLeftMember(MemberDto memberDto) {
+		return infodao.getLeftMember(memberDto);
+	}
+
+	//탈퇴 회원 1명 영구 삭제
+	public int deleteForeverMember(int m_num) {
+		return infodao.deleteForeverMember(m_num);
 	}	
 	
 	

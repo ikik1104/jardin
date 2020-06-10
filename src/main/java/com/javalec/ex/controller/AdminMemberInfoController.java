@@ -79,4 +79,26 @@ public class AdminMemberInfoController {
 		return response_path+"member_sleep_view";
 	}
 	
+	//탈퇴 회원 전체 리스트 불러오기
+	@RequestMapping("member_left_list")
+	public String member_left_list(Model model) {
+		model.addAttribute("member_list", infoservice.getLeftMembers());
+		return response_path+"member_left_list";
+	}
+	
+	//탈퇴 회원 정보 1개 불러오기
+	@RequestMapping("member_left_view")
+	public String member_left_view(MemberDto memberDto ,Model model) {
+		model.addAttribute("member_info", infoservice.getLeftMember(memberDto));
+		return response_path+"member_left_view";
+	}
+	
+	//탈퇴 회원 1명 영구 삭제
+	@ResponseBody
+	@RequestMapping("member_forever_delete")
+	public int member_forever_delete(@RequestBody int m_num) {
+		int success=infoservice.deleteForeverMember(m_num);
+		return success;
+	}
+	
 }
