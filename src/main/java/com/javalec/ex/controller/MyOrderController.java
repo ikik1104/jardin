@@ -1,7 +1,10 @@
 package com.javalec.ex.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -66,20 +69,29 @@ public class MyOrderController {
 		return "mypage/return";
 	}
 	
-	//반품사유
+	//개별반품 - 반품사유
 	@RequestMapping("takeback_reason")
 	public String takeback_reaon(Model model, HttpServletRequest request) {
 		int ol_num = Integer.parseInt(request.getParameter("ol_num"));
 		int ol_amt = Integer.parseInt(request.getParameter("ol_amt"));
+		int ol_price = Integer.parseInt(request.getParameter("ol_price"));
 		HashMap<String, String> map = ocService.getReturnPro(ol_num);
-		System.out.println("어케 찍힐까? "+ map);
+		model.addAttribute("ol_amt", ol_amt);
+		model.addAttribute("ol_price", ol_price);
 		model.addAttribute("map", map);
 		return "mypage/takeback_delivery";
 	}
 	
-	
-	
-	
+	@RequestMapping("takeback_reason2")
+	public String takeback_reason2(HttpServletRequest request) {
+		String[] array = request.getParameterValues("array");
+		for(int i=0; i<array.length; i++) {
+			System.out.println(array[i]);
+		}
+		
+		return "mypage/takeback_delivery";
+	}
+
 	
 	
 	

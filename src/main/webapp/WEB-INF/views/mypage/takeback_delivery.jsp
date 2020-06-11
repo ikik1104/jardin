@@ -30,6 +30,12 @@
 <script type="text/javascript">
 $(document).ready(function() {
    
+	
+	
+	
+	
+	
+	
 
 
 });
@@ -77,8 +83,8 @@ background : white;
                                 </li>
                             </ul>
                         </td>
-                        <td>${ map.OL_AMT } 개</td>
-                        <td class="pnone">${ map.OL_FINAL_PRICE } 원</td>
+                        <td>${ ol_amt } 개</td>
+                        <td class="pnone">${ ol_price } 원</td>
                     </tr>
                 </tbody>
             </table>
@@ -96,13 +102,16 @@ background : white;
                 <tbody>
                     <tr>
                         <th scope="row"><span>분류</span></th>
-                        <td><select>
+                        <td><select name="rt_reason1">
                                 <option value="">선택해주세요.</option>
+                                <option value="">불량/파손</option>
+                                <option value="">단순변심</option>
+                                <option value="">기타</option>
                         </select></td>
                     </tr>
                     <tr>
                         <th scope="row"><span>자세한 이유</span></th>
-                        <td><textarea class="tta"></textarea>
+                        <td><textarea class="tta" name="rt_reason2"></textarea>
                         </td>
                     </tr>
                 </tbody>
