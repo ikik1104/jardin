@@ -75,22 +75,28 @@ public class MyOrderController {
 		int ol_num = Integer.parseInt(request.getParameter("ol_num"));
 		int ol_amt = Integer.parseInt(request.getParameter("ol_amt"));
 		int ol_price = Integer.parseInt(request.getParameter("ol_price"));
-		HashMap<String, String> map = ocService.getReturnPro(ol_num);
+		String p_name = request.getParameter("p_name");
+		model.addAttribute("ol_num", ol_num);
 		model.addAttribute("ol_amt", ol_amt);
 		model.addAttribute("ol_price", ol_price);
-		model.addAttribute("map", map);
+		model.addAttribute("p_name", p_name);
 		return "mypage/takeback_delivery";
 	}
 	
-	@RequestMapping("takeback_reason2")
-	public String takeback_reason2(HttpServletRequest request) {
-		String[] array = request.getParameterValues("array");
-		for(int i=0; i<array.length; i++) {
-			System.out.println(array[i]);
+	@ResponseBody
+	@RequestMapping("return_request")
+	public int return_reqeust(@RequestBody String[] returnInfo) {
+		//주문리스트 수량 업데이트
+		//반품리스트 인서트
+		
+		for(int i=0; i<returnInfo.length; i++) {
+			System.out.println(returnInfo[i]);
 		}
 		
-		return "mypage/takeback_delivery";
+		int success = 1;
+		return success;
 	}
+
 
 	
 	

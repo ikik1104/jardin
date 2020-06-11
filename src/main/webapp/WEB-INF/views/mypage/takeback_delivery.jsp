@@ -29,15 +29,37 @@
 <![endif]-->
 <script type="text/javascript">
 $(document).ready(function() {
-   
-	
-	
-	
-	
-	
-	
-
-
+   	//반품버튼 클릭
+	$("#return_submit").click(function(){
+		alert($("#rt_reason1 option:selected").val());
+		var rt_reason = $("#rt_reason1 option:selected").val() + $("#rt_reason2").val();
+		alert("reason"+rt_reason);
+		var ol_num = '${ ol_num }';
+		var ol_amt = '${ ol_amt }';
+		var ol_price = '${ ol_price }';
+		var arrData = [ol_num, ol_amt, ol_price, rt_reason];
+		
+		$.ajax({
+       		 type : "POST",
+       		 url : "return_request",
+       		 data : JSON.stringify(arrData),
+       		 contentType : "application/json",
+                dataType : "json",
+                success : function(val){
+               	 if(val == 1){
+               		 alert("반품접수가 완료되었습니다.");
+               		 parent.location.reload(true);
+               		 parent.$.fancybox.close();
+               	 } else{
+               		 alert("반품 접수가 완료되지 않았습니다. 관리자에게 문의하세요.");
+               	 }
+                },
+                error : function(){
+               	 alert("서버통신실패. 관리자에게 문의하세요.");
+                }
+   	 	});
+		
+	});
 });
 </script>
 <style type="text/css">
@@ -79,7 +101,7 @@ background : white;
 
                             <ul class="goods">
                                 <li>
-                                    <a href="#">${ map.P_NAME }</a>
+                                    <a href="#">${ p_name }</a>
                                 </li>
                             </ul>
                         </td>
@@ -102,16 +124,16 @@ background : white;
                 <tbody>
                     <tr>
                         <th scope="row"><span>분류</span></th>
-                        <td><select name="rt_reason1">
+                        <td><select name="rt_reason1" id="rt_reason1">
                                 <option value="">선택해주세요.</option>
-                                <option value="">불량/파손</option>
-                                <option value="">단순변심</option>
-                                <option value="">기타</option>
+                                <option value="불량">불량/파손</option>
+                                <option value="변심">단순변심</option>
+                                <option value="기타">기타</option>
                         </select></td>
                     </tr>
                     <tr>
                         <th scope="row"><span>자세한 이유</span></th>
-                        <td><textarea class="tta" name="rt_reason2"></textarea>
+                        <td><textarea class="tta" id="rt_reason2"></textarea>
                         </td>
                     </tr>
                 </tbody>
@@ -122,7 +144,7 @@ background : white;
         <div class="btnArea">
             <div class="bCenter">
                 <ul>
-                    <li><a href="#" class="sbtnMini">반품/교환신청</a></li>
+                    <li><a href="#" class="sbtnMini" id="return_submit">반품/교환신청</a></li>
                     <li><a href="#" class="nbtnbig">취소</a></li>
                 </ul>
             </div>

@@ -53,28 +53,13 @@ $(function() {
 	
 });
 
-//선택상품 반품
-function returnSubmit(){
-    var array = [];   
-	var count = $("input:checkbox[name='chk']:checked").length;
-	if(count>0){
-		$("input:checkbox[name='chk']:checked").each(function(){
-            var index = $(this).closest(".parents").attr('id');         
-            var data = [$(".num"+index).val(), $("#spin"+index).val(), $("#price"+index).text(),$(".name"+index).text() ];
-                //ol_num, ol_amt, ol_price, p_name
-            array.push(data);
-		});
-		location.href = 'takeback_reason2?array='+array;
-    } else {
-    	alert("선택하신 상품이 없습니다. 반품할 상품을 먼저 선택해주세요.");
-    }
-}
 		
 //개별 반품
 function return_req(ol_num, index){
 	var ol_amt = $("#spin"+index).val();
 	var ol_price = $("#price"+index).text();
-	location.href = 'takeback_reason?ol_num='+ol_num+'&ol_amt='+ol_amt+'&ol_price='+ol_price;
+	var p_name = $(".name"+index).text();
+	location.href = 'takeback_reason?ol_num='+ol_num+'&ol_amt='+ol_amt+'&ol_price='+ol_price+'&p_name='+p_name;
 }
 
 </script>
@@ -82,8 +67,6 @@ function return_req(ol_num, index){
 .ui-corner-all{border-bottom-right-radius:0 !important; border-bottom-left-radius:0 !important; border-top-left-radius:0 !important; border-top-right-radius:0 !important;}
 .ui-widget-content{border:0;}
 .ui-spinner-input{width:50px; margin:0; border:1px #ddd solid; padding:2px 0 2px 5px; font-family:'Nanum Gothic' !important; font-size:12px !important;}
-.returnBtn{width : 147px;}
-.bCenter{width : 317px;}
 </style>
 </head>
 <body>
@@ -99,16 +82,12 @@ function return_req(ol_num, index){
 			<table summary="상품 게시판으로 주문하신 상품명, 수량, 판매가, 배송순으로 조회 하시고 쿠폰을 적용하실 수 있습니다." class="orderTable" border="1" cellspacing="0">
 				<caption>상품 게시판</caption>
 				<colgroup>
-				<col width="8%" class="checkbox"/>
 				<col width="*" />
 				<col width="8%" class="tw25" />
 				<col width="12%" class="pnone" />
 				<col width="13%" class="pnone" />
 				</colgroup>
 				<thead>
-					<th scope="col" class="checkbox">
-                        <input type="checkbox" class="check" id="checkAll"/>
-                    </th>
 					<th scope="col">상품명</th>
 					<th scope="col">수량</th>
 					<th scope="col" class="pnone">가격</th>
@@ -117,9 +96,6 @@ function return_req(ol_num, index){
 				<tbody>
                     <c:forEach items="${ list }" var="list" varStatus="status">
 					<tr id="${ status.index }" class="parents">
-						<td>
-                            <input type="checkbox" name="chk" class="checkbox" id="check${ status.index }"/>
-                        </td>
                         <td>
 							<p class="img"><img src="user/images/img/sample_product.jpg" alt="상품" width="66" height="66" /></p>
 
@@ -143,17 +119,6 @@ function return_req(ol_num, index){
 			</table>
 		</div>
         
-        <!-- Btn Area -->
-        <div class="btnArea">
-            <div class="bCenter">
-                <ul>
-                    <li><a href="#" class="sbtnMini returnBtn" onclick="returnSubmit()">선택상품 반품 신청</a></li>
-                    <li><a href="#" class="nbtnbig returnBtn">취소</a></li>
-                </ul>
-            </div>
-        </div>
-        <!-- //Btn Area -->
-
 	</div>
 
 </div>

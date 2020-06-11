@@ -370,6 +370,15 @@ $(function(){
 
 // 	$(".iw40").fancybox.center();
 	
+	
+	$('.iw40').fancybox({
+      	onClose: function() {
+      		 parent.location.reload(true);
+      	}
+    });
+	
+	
+	
 	$(".iw40").fancybox({
 		'centerOnScroll' : true,
 		'autoDimensions'    : false,

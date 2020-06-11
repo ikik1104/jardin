@@ -37,10 +37,7 @@ public class OrderCheckServiceImp implements OrderCheckService {
 		return orderCheckDao.getOneSetOrder(ol_order_num);
 	}
 
-	@Override
-	public HashMap<String, String> getReturnPro(int ol_num) {
-		return orderCheckDao.getReturnPro(ol_num);
-	}
+	
 
 //	@Override
 //	public int requestRefund(int ol_order_num) {

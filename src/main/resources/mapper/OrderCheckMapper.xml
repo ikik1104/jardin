@@ -32,16 +32,22 @@
 		order by rnum asc
 	</select>
 	
-	<!-- 반품할 상품 한개 불러오기 -->
-	<resultMap type="HashMap" id="selectMap">
-	</resultMap>
+	
+	
+	
+	
+	
+	
+	<!-- 반품할 상품 한개 불러오기 --> 
+<!-- 	<resultMap type="HashMap" id="selectMap"> -->
+<!-- 	</resultMap> -->
 
-	<select id="getReturnPro" resultMap="selectMap">
-		select rownum rnum, ot.ol_num, pt.p_name, ot.ol_amt, ot.ol_final_price 
-		from (select ol_num, p_num, ol_amt, ol_final_price from orderlist_tb where ol_num = #{ ol_num }) ot, product_tb pt
-		where ot.p_num = pt.p_num
-		order by rnum asc
-	</select>
+<!-- 	<select id="getReturnPro" resultMap="selectMap"> -->
+<!-- 		select rownum rnum, ot.ol_num, pt.p_name, ot.ol_amt, ot.ol_final_price  -->
+<!-- 		from (select ol_num, p_num, ol_amt, ol_final_price from orderlist_tb where ol_num = #{ ol_num }) ot, product_tb pt -->
+<!-- 		where ot.p_num = pt.p_num -->
+<!-- 		order by rnum asc -->
+<!-- 	</select> -->
 
 
 
