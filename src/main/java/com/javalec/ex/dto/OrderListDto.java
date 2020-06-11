@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 public class OrderListDto {
 	private int rnum;		//DB에서 가져오는 rownum
 	private int ol_num;     //주문고유번호
-	private int ol_order_num;     //주문번호
+	private String ol_order_num;     //주문번호
 	private String ol_orderer_id;     //주문자id
 	private int p_num;     //제품고유번호
 	private int ol_amt;     //수량
@@ -18,7 +18,7 @@ public class OrderListDto {
 	
 	public OrderListDto( ) {}
 
-	public OrderListDto(int ol_num, int ol_order_num, String ol_orderer_id, int p_num, int ol_amt, int co_num,
+	public OrderListDto(int ol_num, String ol_order_num, String ol_orderer_id, int p_num, int ol_amt, int co_num,
 			int ol_final_price, String ol_payment, Timestamp ol_date, Timestamp ol_d_end_date, String ol_status) {
 		super();
 		this.ol_num = ol_num;
@@ -49,11 +49,11 @@ public class OrderListDto {
 		this.ol_num = ol_num;
 	}
 
-	public int getOl_order_num() {
+	public String getOl_order_num() {
 		return ol_order_num;
 	}
 
-	public void setOl_order_num(int ol_order_num) {
+	public void setOl_order_num(String ol_order_num) {
 		this.ol_order_num = ol_order_num;
 	}
 

@@ -28,4 +28,5 @@ public class ChangeInfoServiceImp implements ChangeInfoService {
 		return changeInfoDao.infoChange(memberDto);
 	}
 
+
 }
