@@ -10,6 +10,8 @@ public class AllDto {
 	private EventDto eventdto;
 	private CouponDto coupondto;
 	private E_CommentDto e_commentdto;
+	private OrderListDto orderlistdto;
+	private UtilDto utildto;
 	
 	public MtmAnswerDto getMtmanswerdto() {
 		return mtmanswerdto;
@@ -60,6 +62,19 @@ public class AllDto {
 	public void setMtmuserdto(MtmUserDto mtmuserdto) {
 		this.mtmuserdto = mtmuserdto;
 	}
+	public UtilDto getUtildto() {
+		return utildto;
+	}
+	public void setUtildto(UtilDto utildto) {
+		this.utildto = utildto;
+	}
+	public OrderListDto getOrderlistdto() {
+		return orderlistdto;
+	}
+	public void setOrderlistdto(OrderListDto orderlistdto) {
+		this.orderlistdto = orderlistdto;
+	}
+
 	
 	
 	

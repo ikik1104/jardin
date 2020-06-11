@@ -23,6 +23,9 @@ public class UtilDto {
 	private String e_end_day;	
 	private String e_win_day;		
 	
+	//임시 변수 담는 변수
+	private int temp_int;
+	
 	public int getPage() {
 		return page;
 	}
@@ -124,6 +127,12 @@ public class UtilDto {
 	}
 	public void setE_num(String e_num) {
 		this.e_num = e_num;
+	}
+	public int getTemp_int() {
+		return temp_int;
+	}
+	public void setTemp_int(int temp_int) {
+		this.temp_int = temp_int;
 	}
 
 	
