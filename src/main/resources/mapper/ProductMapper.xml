@@ -11,7 +11,7 @@
 	<!-- 제품 insert -->
 	<insert id="insertProduct" parameterType="com.javalec.ex.dto.ProductDto">
 		insert into product_tb values(p_seq.nextval,#{p_step1},#{p_step2},#{p_name},#{p_price},#{p_point},#{p_producer},#{p_expiry},
-		#{p_type},#{p_capacity},#{p_detail},#{p_location},#{p_gene},#{p_import},#{p_stock},#{p_thumb_img1},#{p_thumb_img2},#{p_thumb_img3},#{p_content_img},sysdate,sysdate,'N')
+		#{p_type},#{p_capacity},#{p_detail},#{p_location},#{p_gene},#{p_import},#{p_stock},#{p_thumb_img1},#{p_thumb_img2},#{p_thumb_img3},#{p_content_img},sysdate,sysdate,'N',0)
 	</insert>
 	
 	<!-- 제품 하나의 정보  -->
@@ -64,5 +64,34 @@
 		select * from product_tb  where p_delflag = 'N' and 
 		p_step2= #{p_step2} order by p_num desc
 	</select>
+	
+	<!-- 리뷰 등록 -->
+	<insert id="review_insert" parameterType="com.javalec.ex.dto.ReviewUserDto">
+		insert into review_user_tb values(ru_seq.nextval,#{p_num},#{m_num},#{ru_title},#{ru_content},#{ru_score},sysdate,0,'답변대기','노출',#{ru_img},#{ru_type})
+	</insert>
+	
+	<!-- 리뷰 등록시 제품에 별점반영 -->
+	<update id="update_score" parameterType="Integer">
+		update product_tb set p_score = (select round(sum(ru_score)/count(*)) from review_user_tb where p_num = #{p_num}) where p_num = #{p_num}
+	</update>
+	
+	<!-- 제품 리뷰 가져오기 (타입별 답글까지 가져와야함)-->
+	<select id="getUserReview"  resultType="hashmap" parameterType="hashmap"> 
+		select ru.*,rpad(substr(m.m_id,1,4),length(m.m_id),'*') as m_id, ra.*, a.ad_grade 
+		from review_user_tb ru 
+		left join member_tb m on m.m_num = ru.m_num 
+		left join review_answer_tb ra on ra.ru_num = ru.ru_num  
+		left join admin_tb a on ra.ad_num = a.ad_num
+        where ru.ru_type= #{ru_type}
+ 		and ru.p_num = #{p_num}
+        and ru.Ru_visility = '노출'
+	</select>
+	
+	<!-- 제품별 count (리뷰 가져올때 가져오면 되는데...group by로 바꿔야 가능할것같다... 그냥..안할래)-->
+	<select id="review_count" parameterType="Integer" resultType="Integer">
+		select count(*) from review_user_tb where p_num = #{p_num}
+	</select>
+	
+	
 	
 </mapper>

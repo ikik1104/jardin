@@ -70,28 +70,6 @@ public class AdminBoardServiceImp implements AdminBoardService {
 		return abDao.getSearchFaq(map);
 	}
 	
-	//유저-------------------------
-	
-	//faq 리스트
-	@Override
-	public List<FaqDto> getFaqList() {
-		return abDao.getFaqList();
-		
-	}
-
-	//faq 카테고리별 리스트
-	@Override
-	public List<FaqDto> getFaq_StepList(String f_step) {
-		return abDao.getFaq_StepList(f_step);
-	}
-
-	//enjoy coffee 리스트
-	@Override
-	public List<EnjoyCoffeeDto> enjoy_List() {
-		return abDao.enjoy_List();
-	}
-
-	
 	
 	//enjoy coffee----------------------------------------
 
@@ -128,18 +106,35 @@ public class AdminBoardServiceImp implements AdminBoardService {
 	//검색
 	@Override
 	public List<EnjoyCoffeeDto> getSearchEnjoy(HashMap<String, Object> map) {
-		Iterator<String> mapIter = map.keySet().iterator();
 		
-		 while(mapIter.hasNext()){
-			 
-	            String key = mapIter.next();
-	            String value = (String) map.get( key );
-	 
-	            System.out.println(key+":"+value);
-	 
-	        }
 		return abDao.getSearchEnjoy(map);
 	}
+
+
+	//상품 후기----------------------------------------------------------
+	
+	//포토후기 가져오기
+	@Override
+	public List<EnjoyCoffeeDto> getPhotoReveiw() {
+		return abDao.getPhotoReveiw();
+	}
+	
+	//일반후기 가져오기
+	@Override
+	public List<EnjoyCoffeeDto> getAllReveiw(String ru_type) {
+		return abDao.getAllReveiw(ru_type);
+	}
+
+
+	//노출 상태 변경하기
+	@Override
+	public void updateStatus(int ru_num) {
+		abDao.updateStatus(ru_num);
+		
+	}
+
+
+	
 
 
 

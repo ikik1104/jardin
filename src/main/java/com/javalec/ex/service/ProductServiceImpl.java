@@ -12,6 +12,7 @@ import com.javalec.ex.dao.BDao;
 import com.javalec.ex.dao.ProductDao;
 import com.javalec.ex.dto.BDto;
 import com.javalec.ex.dto.ProductDto;
+import com.javalec.ex.dto.ReviewUserDto;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -101,8 +102,37 @@ public class ProductServiceImpl implements ProductService {
 		return pDao.getU_ProductList(p_step2);
 	}
 
-	
 
+	
+	//리뷰---------------------------------------------------
+	//리뷰작성
+	@Override
+	public int review_insert(ReviewUserDto ruDto) {
+		return pDao.review_insert(ruDto);
+	}
+
+	//리뷰 가져오기
+	@Override
+	public List<ReviewUserDto> getUserReview(Map<String, Object> map) {
+		
+		return pDao.getUserReview(map);
+	}
+
+	//리뷰작성지 제품 별점 update
+	@Override
+	public void update_score(int p_num) {
+		
+		pDao.update_score(p_num);
+	}
+
+	//리뷰 개수 가져오기
+	@Override
+	public Integer review_count(int p_num) {
+		return pDao.review_count(p_num);
+	}
+
+	
+	
 	
 	
 

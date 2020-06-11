@@ -27,17 +27,19 @@ public class ProductDto {
 	private Timestamp p_sysdate; //제품 등록일
 	private Timestamp p_update; //제품 수정일
 	private String p_delflag; //제품삭제유무
+	private int p_score; //제품의 평점
 	
 	public ProductDto() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public ProductDto(int p_num, String p_step1, String p_step2, String p_name, int p_price, int p_point,
+	public ProductDto(int rownum, int p_num, String p_step1, String p_step2, String p_name, int p_price, int p_point,
 			String p_producer, String p_expiry, String p_type, String p_capacity, String p_detail, String p_location,
 			String p_gene, String p_import, int p_stock, String p_thumb_img1, String p_thumb_img2, String p_thumb_img3,
-			String p_content_img, Timestamp p_sysdate, Timestamp p_update, String p_delflag) {
+			String p_content_img, Timestamp p_sysdate, Timestamp p_update, String p_delflag, int p_score) {
 		super();
+		this.rownum = rownum;
 		this.p_num = p_num;
 		this.p_step1 = p_step1;
 		this.p_step2 = p_step2;
@@ -60,6 +62,7 @@ public class ProductDto {
 		this.p_sysdate = p_sysdate;
 		this.p_update = p_update;
 		this.p_delflag = p_delflag;
+		this.p_score = p_score;
 	}
 
 	public int getRownum() {
@@ -68,7 +71,8 @@ public class ProductDto {
 
 	public void setRownum(int rownum) {
 		this.rownum = rownum;
-	}	
+	}
+
 	public int getP_num() {
 		return p_num;
 	}
@@ -243,6 +247,14 @@ public class ProductDto {
 
 	public void setP_delflag(String p_delflag) {
 		this.p_delflag = p_delflag;
+	}
+
+	public int getP_score() {
+		return p_score;
+	}
+
+	public void setP_score(int p_score) {
+		this.p_score = p_score;
 	}
 
 	

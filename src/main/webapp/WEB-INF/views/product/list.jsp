@@ -63,6 +63,22 @@ $(document).ready(function() {
 
      $(document).ready(function () {
          msiecheck();
+         
+         
+         $(".brandTab ul li").each(function() {
+        	 var p_step2 = '${p_step2}';
+	         	if((p_step2 != null ||p_step2 != "")&& p_step2 == $(this).text()){
+         		$(this).children("a").attr("class", "hover");
+         	}
+         	
+         	if((p_step2 == null ||p_step2 == "") && $(this).text()=='전체'){
+         		$(this).children("a").attr("class", "hover");
+         	}
+        	 
+        	 
+         });
+         
+         
      });
 
      var msiecheck = function () {
@@ -113,42 +129,42 @@ $(document).ready(function() {
 			<div class="brandTab">
 				<ul>
 				<c:if test="${p_step1 eq '원두'}">
-					<li><a href="u_product_list?p_step1=원두" class="hover">전체</a></li>
+					<li><a href="u_product_list?p_step1=원두">전체</a></li>
 						<li><a href="u_product_list?p_step1=원두&p_step2=클래스">클래스</a></li>
 						<li><a href="u_product_list?p_step1=원두&p_step2=바리스타">바리스타</a></li>
 						<li><a href="u_product_list?p_step1=원두&p_step2=마스터즈">마스터즈</a></li>
 						<li><a href="u_product_list?p_step1=원두&p_step2=쟈뎅">쟈뎅</a></li>
 				</c:if>
 				<c:if test="${p_step1  eq '인스턴트 커피'}">
-					<li><a href="u_product_list?p_step1=인스턴트 커피" class="hover">전체</a></li>
+					<li><a href="u_product_list?p_step1=인스턴트 커피">전체</a></li>
 					<li><a href="u_product_list?p_step1=인스턴트 커피&p_step2=카페모리">카페모리</a></li>
 					<li><a href="u_product_list?p_step1=인스턴트 커피&p_step2=에스프레소 스틱">에스프레소 스틱</a></li>
 				</c:if>
 				<c:if test="${p_step1  eq '차'}">
-					<li><a href="u_product_list?p_step1=차" class="hover">전체</a></li>
+					<li><a href="u_product_list?p_step1=차">전체</a></li>
 					<li><a href="u_product_list?p_step1=차&p_step2=아워티(티백)">아워티(티백)</a></li>
 				</c:if>
 				<c:if test="${p_step1 eq '음료/커피/티'}">
-					<li><a href="u_product_list?p_step1=음료/커피/티" class="hover">전체</a></li>
+					<li><a href="u_product_list?p_step1=음료/커피/티">전체</a></li>
 					<li><a href="u_product_list?p_step1=음료/커피/티&p_step2=시그니처">시그니처</a></li>
 					<li><a href="u_product_list?p_step1=음료/커피/티&p_step2=카페리얼">카페리얼</a></li>
 					<li><a href="u_product_list?p_step1=음료/커피/티&p_step2=아워티(음료)">아워티(음료)</a></li>
 				</c:if>
 				<c:if test="${p_step1  eq '선물세트'}">
-					<li><a href="#" class="hover">선물세트</a></li>
+					<li><a href="u_product_list?p_step1=선물세트" >전체</a></li>
 					<li><a href="u_product_list?p_step1=선물세트&p_step2=선물세트">선물세트</a></li>
 					<li><a href="u_product_list?p_step1=선물세트&p_step2=DIY선물세트">DIY선물세트</a></li>
 				</c:if>
 				<c:if test="${p_step1  eq '브랜드관'}">
-					<li><a href="u_product_list?p_step1=브랜드관" class="hover">전체</a></li>
+					<li><a href="u_product_list?p_step1=브랜드관">전체</a></li>
 					<li><a href="u_product_list?p_step1=브랜드관&p_step2=GS">GS</a></li>
 						<li><a href="u_product_list?p_step1=브랜드관&p_step2=투썸">투썸</a></li>
 						<li><a href="u_product_list?p_step1=브랜드관&p_step2=드롭탑">드롭탑</a></li>
 						<li><a href="u_product_list?p_step1=브랜드관&p_step2=요거프레소">요거프레소</a></li>
 				</c:if>
 				<c:if test="${p_step1 eq '용품'}">
-					<li><a href="u_product_list?p_step1=용품" class="hover">전체</a></li>
-						<li><a href="u_product_list?p_step2=대량구매&p_step2=커피용품">커피용품</a></li>
+					<li><a href="u_product_list?p_step1=용품">전체</a></li>
+						<li><a href="u_product_list?p_step2=용품&p_step2=커피용품">커피용품</a></li>
 				</c:if>
 				</ul>
 				

@@ -15,12 +15,14 @@ public class ReviewUserDto {
 	private String ru_status;     //답변 상태
 	private String ru_visility;     //노출 여부
 	private String ru_img;     //첨부 이미지
+	private String ru_type; // 리뷰타입 - 이미지, 일반
 	
 	public ReviewUserDto() {}
 
-	public ReviewUserDto(int ru_num, int p_num, int m_num, String ru_title, String ru_content, int ru_score,
-			Timestamp ru_date, int ru_hit, String ru_status, String ru_visility, String ru_img) {
+	public ReviewUserDto(int rownum, int ru_num, int p_num, int m_num, String ru_title, String ru_content, int ru_score,
+			Timestamp ru_date, int ru_hit, String ru_status, String ru_visility, String ru_img, String ru_type) {
 		super();
+		this.rownum = rownum;
 		this.ru_num = ru_num;
 		this.p_num = p_num;
 		this.m_num = m_num;
@@ -32,15 +34,19 @@ public class ReviewUserDto {
 		this.ru_status = ru_status;
 		this.ru_visility = ru_visility;
 		this.ru_img = ru_img;
+		this.ru_type = ru_type;
 	}
 
+	
+	
 	public int getRownum() {
 		return rownum;
 	}
 
 	public void setRownum(int rownum) {
 		this.rownum = rownum;
-	}	
+	}
+
 	public int getRu_num() {
 		return ru_num;
 	}
@@ -128,8 +134,16 @@ public class ReviewUserDto {
 	public void setRu_img(String ru_img) {
 		this.ru_img = ru_img;
 	}
-	
-	
+
+	public String getRu_type() {
+		return ru_type;
+	}
+
+	public void setRu_type(String ru_type) {
+		this.ru_type = ru_type;
+	}
+
+
 	
 	
 }
