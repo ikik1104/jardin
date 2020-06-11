@@ -92,4 +92,20 @@
 		(select rownum, mcou.* from 
 		(select a.ci_num, a.m_num, a.co_num, a.ci_issue_day, a.ci_end_day, b.co_name, b.co_start_day, b.co_end_day, b.co_expiry, b.co_type, b.co_discount, b.co_product, b.co_condition from c_issue_tb a, coupon_tb b where a.m_num=#{param1} and a.co_num=b.co_num and b.co_type='delivery' and a.ci_end_day > sysdate order by a.ci_num asc) mcou)
 	</select>
+	
+	<!-- 주문하기에서 회원정보 업데이트 -->
+	<update id="changeInfo">
+		update member_tb set m_email=#{m_email}, m_zipcode=#{m_zipcode}, m_address1=#{m_address1}, m_address2=#{m_address2}, m_phone=#{m_phone}, m_tel=#{m_tel} where m_num=#{m_num}
+	</update>
+	
+	<!-- 주문리스트 등록  -->
+	<insert id="insertOrderList" parameterType="com.javalec.ex.dto.OrderListDto">
+		insert into orderlist_tb values(ol_seq.nextval, #{ol_order_num}, #{ol_orderer_id}, #{p_num}, #{ol_amt}, #{co_num}, ((select p_price from product_tb where p_num=#{p_num})-(select co_discount from coupon_tb where co_num=#{co_num})), #{ol_payment}, sysdate, null, default)
+	</insert>
+	
+	<!-- 주문자, 수취자 정보 등록 -->	
+<!-- 	<insert id="insertOrReInfo" parameterType="com.javalec.ex.dto.ReceiverDto"> -->
+<!-- 		insert into orderer_receiver_tb values(#{ol_order_num}, #{m_name}, #{m_zip}, #{m_address1}, #{m_address1}, #{m_address2}, #{m_email}, #{m_phone}, #{m_tel}, #{re_name}, #{re_zipcode}, #{re_address1}, #{re_address2}, #{re_tel}, #{re_phone}, #{m_msg}) -->
+<!-- 	</insert> -->
+	
 </mapper>

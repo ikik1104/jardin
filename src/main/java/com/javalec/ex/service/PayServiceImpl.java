@@ -9,6 +9,8 @@ import com.javalec.ex.dao.PayDao;
 import com.javalec.ex.dto.CartDto;
 import com.javalec.ex.dto.Cou_IssueDto;
 import com.javalec.ex.dto.MemberDto;
+import com.javalec.ex.dto.OrderListDto;
+import com.javalec.ex.dto.ReceiverDto;
 
 @Service
 public class PayServiceImpl implements PayService {
@@ -62,6 +64,24 @@ public class PayServiceImpl implements PayService {
 	@Override
 	public int d_couponCount(int m_num) {
 		return payDao.d_couponCount(m_num);
+	}
+	
+	// 주문하기에서 회원정보 업데이트
+	@Override
+	public int changeInfo(MemberDto memberDto) {
+		return payDao.changeInfo(memberDto);
+	}
+	
+	// 주문리스트(Orderlist) 등록
+	@Override
+	public int insertOrderList(OrderListDto olDto) {
+		return payDao.insertOrderList(olDto);
+	}
+	
+	// 주무자/수취자 정보 등록
+	@Override
+	public int insertOrReInfo(ReceiverDto reDto) {
+		return payDao.insertOrReInfo(reDto);
 	}
 
 

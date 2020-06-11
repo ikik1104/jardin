@@ -5,6 +5,8 @@ import java.util.List;
 import com.javalec.ex.dto.CartDto;
 import com.javalec.ex.dto.Cou_IssueDto;
 import com.javalec.ex.dto.MemberDto;
+import com.javalec.ex.dto.OrderListDto;
+import com.javalec.ex.dto.ReceiverDto;
 
 public interface PayService {
 
@@ -31,4 +33,14 @@ public interface PayService {
 	
 	// 보유한 배송무료 쿠폰 수 카운트
 	int d_couponCount(int m_num);
+	
+	// 주문하기에서 회원정보 업데이트
+	int changeInfo(MemberDto memberDto); 
+
+	// 주문리스트(Orderlist) 등록
+	int insertOrderList(OrderListDto olDto);
+	
+	// 주무자/수취자 정보 등록
+	int insertOrReInfo(ReceiverDto reDto);
+
 }
