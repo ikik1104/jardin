@@ -11,6 +11,7 @@ public class AllDto {
 	private CouponDto coupondto;
 	private E_CommentDto e_commentdto;
 	private OrderListDto orderlistdto;
+	private WinBoardDto winboarddto;
 	private UtilDto utildto;
 	
 	public MtmAnswerDto getMtmanswerdto() {
@@ -73,6 +74,12 @@ public class AllDto {
 	}
 	public void setOrderlistdto(OrderListDto orderlistdto) {
 		this.orderlistdto = orderlistdto;
+	}
+	public WinBoardDto getWinboarddto() {
+		return winboarddto;
+	}
+	public void setWinboarddto(WinBoardDto winboarddto) {
+		this.winboarddto = winboarddto;
 	}
 
 	

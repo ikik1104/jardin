@@ -17,6 +17,7 @@ import com.javalec.ex.dto.MtmAnswerDto;
 import com.javalec.ex.dto.MtmUserDto;
 import com.javalec.ex.dto.NoticeDto;
 import com.javalec.ex.dto.UtilDto;
+import com.javalec.ex.dto.WinBoardDto;
 
 @Service
 public class ADBServiceImp implements ADBService {
@@ -25,7 +26,7 @@ public class ADBServiceImp implements ADBService {
 	[관리자]
 	1:1문의
 	공지사항 
-	이벤트
+	이벤트(당첨자 게시글 포함)
 	*/
 	
 	@Autowired
@@ -166,6 +167,31 @@ public class ADBServiceImp implements ADBService {
 	@Override
 	public int backApplicant(int ec_num) {
 		return adbmtmdao.backApplicant(ec_num);
+	}
+
+	//당첨자 게시글 전체 리스트 불러오기
+	public List<AllDto> getAllWinBoards() {
+		return adbmtmdao.getAllWinBoards();
+	}
+
+	//당첨자 게시글 1개 불러오기
+	public AllDto getWinBoard(WinBoardDto winBoardDto) {
+		return adbmtmdao.getWinBoard(winBoardDto);
+	}
+
+	//당첨자 게시글 1개 수정
+	public int modifyWinBoard(WinBoardDto winBoardDto) {
+		return adbmtmdao.modifyWinBoard(winBoardDto);
+	}
+
+	//당첨자 게시글 1개 삭제
+	public int deleteWinBoard(int wb_num) {
+		return adbmtmdao.deleteWinBoard(wb_num);
+	}
+
+	//당첨자 게시글 1개 등록
+	public int insertWinBoard(WinBoardDto winBoardDto) {
+		return adbmtmdao.insertWinBoard(winBoardDto);
 	}
 	
 	

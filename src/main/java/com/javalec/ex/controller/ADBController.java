@@ -24,6 +24,7 @@ import com.javalec.ex.dto.MtmAnswerDto;
 import com.javalec.ex.dto.MtmUserDto;
 import com.javalec.ex.dto.NoticeDto;
 import com.javalec.ex.dto.UtilDto;
+import com.javalec.ex.dto.WinBoardDto;
 import com.javalec.ex.service.ADBService;
 import com.javalec.ex.service.AdminCouponService;
 import com.javalec.ex.service.BService;
@@ -35,7 +36,7 @@ public class ADBController {
  	[관리자]
 	1:1문의
 	공지사항 
-	이벤트
+	이벤트(당첨자 게시글 포함)
 	*/
 	
 	String response_path = "admin/board/";//보내는 경로
@@ -288,4 +289,66 @@ public class ADBController {
 		int success = adbservice.backApplicant(ec_num);
 		return success;
 	}	
+	
+	//당첨자 게시글 전체 리스트 불러오기
+	@RequestMapping("win_list")
+	public String win_list(Model model) {
+		model.addAttribute("win_board_list", adbservice.getAllWinBoards());
+		return response_path+"win_list";
+	}
+	
+	//당첨자 게시글 1개 불러오기
+	@RequestMapping("win_board_view")
+	public String win_board_view(WinBoardDto winBoardDto, Model model) {
+		System.out.println("들어오니?");
+		model.addAttribute("win_board_list", adbservice.getWinBoard(winBoardDto));
+		model.addAttribute("event_list", adbservice.getAllEventBoards());//조회 페이지에 이벤트 목록 불러오기
+		return response_path+"win_board_view";
+	}
+	//당첨자 게시글 1개 수정
+	@RequestMapping("win_board_modify")
+	public String win_board_modify(WinBoardDto winBoardDto, @RequestParam("eNum") int eNum, Model model) {
+		//수정 안 한 항목 체크
+		if(winBoardDto.getE_num()==0) winBoardDto.setE_num(eNum);
+		
+		int success = adbservice.modifyWinBoard(winBoardDto);
+		String alerttext="";
+		switch(success) {
+		case 0 : alerttext="alert('게시글을 수정하지 못했습니다. 다시 시도해 주세요.'); history.go(-1);"; break;
+		case 1 : alerttext="alert('게시글을 수정했습니다.'); location.href='win_board_view?wb_num="+winBoardDto.getWb_num()+"';"; break;
+		}//switch
+		model.addAttribute("alerttext", alerttext);
+		return response_path+"win_board_view";		
+	}	
+	
+	//당첨자 게시글 1개 삭제
+	@ResponseBody
+	@RequestMapping("win_board_delete")
+	public int win_board_delete(@RequestBody int wb_num) {
+		int success=adbservice.deleteWinBoard(wb_num);
+		return success;
+	}
+	
+	//당첨자 게시글 작성 페이지 접속
+	@RequestMapping("win_board_write")
+	public String win_board_write(Model model) {
+		model.addAttribute("event_list", adbservice.getAllEventBoards());//조회 페이지에 이벤트 목록 불러오기		
+		return response_path+"win_board_write";
+	}
+	
+	@RequestMapping("win_board_insert")
+	public String win_board_insert(WinBoardDto winBoardDto, Model model) {
+		int success=adbservice.insertWinBoard(winBoardDto);
+		String alerttext="";
+		switch(success) {
+		case 0 : alerttext="alert('게시글을 등록하지 못했습니다. 다시 시도해 주세요.'); history.go(-1);"; break;
+		case 1 : alerttext="alert('게시글을 등록했습니다.'); location.href='win_list';"; break;
+		}//switch
+		System.out.println("success : "+success);
+		System.out.println("alerttext : "+alerttext);		
+		model.addAttribute("alerttext", alerttext);		
+		return response_path+"win_board_write";
+	}
+	
+
 }
