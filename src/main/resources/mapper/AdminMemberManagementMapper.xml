@@ -11,7 +11,8 @@
 	<resultMap type="com.javalec.ex.dto.AllDto" id="AllDto">
 	    <collection property="memberdto" resultMap="MemberDto"/>	 
 	    <collection property="orderlistdto" resultMap="OrderListDto"/>	 
-	    <collection property="utildto" resultMap="UtilDto"/>		       	    	     
+	    <collection property="utildto" resultMap="UtilDto"/>		     
+	    <collection property="leveldto" resultMap="LevelDto"/>		 	    	     
 	</resultMap>	
 	
 	<resultMap type="com.javalec.ex.dto.MemberDto" id="MemberDto">
@@ -58,7 +59,18 @@
 	    <result column="temp_int" property="temp_int"/>	
 	</resultMap>		
 	
-	<!-- 회원등급 전체 리스트 가져오기(주문금액 계산 때문에 길어짐) -->
+	<resultMap type="com.javalec.ex.dto.LevelDto" id="LevelDto">
+	    <result column="rownum" property="rownum"/>	
+	    <result column="lv_num" property="lv_num"/>
+	    <result column="lv_name" property="lv_name"/>
+	    <result column="lv_sort_money" property="lv_sort_money"/>	    
+	    <result column="lv_date" property="lv_date"/>	    
+	    <result column="lv_des" property="lv_des"/>	    
+	    <result column="lv_benefit" property="lv_benefit"/>	    
+	    <result column="lv_order" property="lv_order"/>	  	    
+	</resultMap>		
+	
+	<!-- 회원별 등급 전체 리스트 가져오기(주문금액 계산 때문에 길어짐) -->
 	<select id="getAllLevels" resultMap="AllDto">
 		select * from
         (select rownum, finaltb.* from
@@ -86,4 +98,42 @@
 		and m_status!='탈퇴'
 	</update>
 	
+	<!-- 등급 전체 리스트 가져오기 -->
+	<select id="getallLevelSorts" resultMap="AllDto">
+		select * from
+		(select lv_num, lv_name, lv_sort_money, lv_date, lv_order, lv_des, lv_benefit, sum(temp_int) temp_int from
+		(select lv.*, case when mcnt.m_level=lv.lv_name  then mcnt.temp_int  else 0 end temp_int from
+		(select m_level, count(m_level) temp_int
+		from 
+		(select m_id, m_level from member_tb where m_status!='탈퇴') 
+		group by m_level) mcnt,
+		level_tb lv) finaltb
+		group by lv_num, lv_name, lv_sort_money, lv_date, lv_order, lv_des, lv_benefit)
+		order by lv_order asc
+	</select>
+	
+	<!-- 등급 새로 1개 추가 -->
+	<insert id="insertLevel">
+		insert into level_tb values(
+		lv_seq.nextval, 
+		#{lv_name}, #{lv_sort_money}, sysdate,
+		#{lv_order}, #{lv_des}, 
+		#{lv_benefit})
+	</insert>
+	
+	<!-- 등급 1개 조회 -->
+	<select id="getLevelInfo" resultMap="AllDto">
+		select * from level_tb where lv_num=#{lv_num}
+	</select>
+	
+	<!-- 등급 1개 삭제 -->
+	<delete id="deleteLevel">
+		delete from level_tb where lv_num=#{lv_num}
+	</delete>
+		
+	<update id="modifyLevel">
+		update level_tb set lv_order=#{lv_order}, lv_name=#{lv_name}, lv_sort_money=#{lv_sort_money},
+		lv_benefit=#{lv_benefit}, lv_des=#{lv_des} where lv_num=#{lv_num}
+	</update>	
+		
 </mapper>

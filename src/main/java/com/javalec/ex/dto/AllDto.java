@@ -12,6 +12,7 @@ public class AllDto {
 	private E_CommentDto e_commentdto;
 	private OrderListDto orderlistdto;
 	private WinBoardDto winboarddto;
+	private LevelDto leveldto;
 	private UtilDto utildto;
 	
 	public MtmAnswerDto getMtmanswerdto() {
@@ -80,6 +81,12 @@ public class AllDto {
 	}
 	public void setWinboarddto(WinBoardDto winboarddto) {
 		this.winboarddto = winboarddto;
+	}
+	public LevelDto getLeveldto() {
+		return leveldto;
+	}
+	public void setLeveldto(LevelDto leveldto) {
+		this.leveldto = leveldto;
 	}
 
 	
