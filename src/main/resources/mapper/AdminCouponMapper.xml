@@ -9,10 +9,13 @@
 	<!-- Dto 객체 선언 -->
 	
 	<resultMap type="com.javalec.ex.dto.AllDto" id="AllDto">
-	    <collection property="coupondto" resultMap="CouponDto"/>	  	     	     
+	    <collection property="coupondto" resultMap="CouponDto"/>	  
+	    <collection property="productdto" resultMap="ProductDto"/>		  
+	    <collection property="utildto" resultMap="UtilDto"/>			      	     	     
 	</resultMap>		
 	
 	<resultMap type="com.javalec.ex.dto.CouponDto" id="CouponDto">
+	    <result column="rownum" property="rownum"/>	
 	    <result column="co_num" property="co_num"/>
 	    <result column="co_name" property="co_name"/>	 
 	    <result column="co_start_day" property="co_start_day"/>
@@ -25,12 +28,53 @@
 	    <result column="co_condition" property="co_condition"/>	 	       
 	</resultMap>
 	
+	<resultMap type="com.javalec.ex.dto.ProductDto" id="ProductDto">
+	    <result column="rownum" property="rownum"/>
+	    <result column="p_num" property="p_num"/>	 
+	    <result column="p_step1" property="p_step1"/>
+	    <result column="p_step2" property="p_step2"/>
+	    <result column="p_name" property="p_name"/>	    
+	    <result column="p_price" property="p_price"/>	    
+	    <result column="p_point" property="p_point"/>	 	    
+	    <result column="p_producer" property="p_producer"/>	 	
+	    <result column="p_expiry" property="p_expiry"/>
+	    <result column="p_type" property="p_type"/>	 
+	    <result column="p_capacity" property="p_capacity"/>	    
+	    <result column="p_detail" property="p_detail"/>	 	    
+	    <result column="p_location" property="p_location"/>	 	
+	    <result column="p_gene" property="p_gene"/>
+	    <result column="p_import" property="p_import"/>	 	   
+	    <result column="p_stock" property="p_stock"/>	    
+	    <result column="p_thumb_img1" property="p_thumb_img1"/>	 	    
+	    <result column="p_thumb_img2" property="p_thumb_img2"/>	 	
+	    <result column="p_thumb_img3" property="p_thumb_img3"/>
+	    <result column="p_content_img" property="p_content_img"/>	 	    
+	    <result column="p_sysdate" property="p_sysdate"/>	    
+	    <result column="p_update" property="p_update"/>	 	    
+	    <result column="p_delflag" property="co_sysdate"/>	 	
+	</resultMap>	
+	
+	<resultMap type="com.javalec.ex.dto.UtilDto" id="UtilDto">
+	    <result column="co_start_day_str" property="co_start_day_str"/>	
+	    <result column="co_end_day_str" property="co_end_day_str"/>  
+	</resultMap>
+	
 	<!-- 쿠폰 전체 리스트 불러오기 -->
 	<select id="getAllCoupons" resultMap="AllDto">
-			select * from 
-			(select rownum, cp.* from 
-			(select * from coupon_tb order by co_num desc) cp) 
-			order by rownum desc	
+	 select rownum, co_num, co_name,co_type, co_discount, co_sysdate,  co_condition, p_name, co_end_day, co_start_day,
+          case when co_expiry is null then -1 end co_expiry, 
+         case when co_product is null then -1 else realfinal.co_product end co_product,
+         case when co_start_day is null then '없음' else to_char(realfinal.co_start_day, 'yy/MM/dd') end co_start_day_str,
+         case when co_end_day is null then '없음' else to_char(realfinal.co_end_day, 'yy/MM/dd') end co_end_day_str
+         from
+            (select rownum, finaltb.* from
+            (select * from
+            (select distinct * from 
+           (select co.* , case when co_product is null then '없음' when co_product=pro.p_num then pro.p_name end p_name 
+           from 
+          coupon_tb co,
+          product_tb pro)
+          where p_name is not null) order by co_num desc) finaltb) realfinal
 	</select>
 	
 </mapper>		

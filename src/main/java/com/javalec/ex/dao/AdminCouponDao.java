@@ -14,6 +14,7 @@ public interface AdminCouponDao {
 	 * 쿠폰
 	 * */
 	
+	//쿠폰 전체 리스트 가져오기
 	List<AllDto> getAllCoupons();
 	
 }

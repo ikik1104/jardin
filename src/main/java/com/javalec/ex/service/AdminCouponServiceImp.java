@@ -16,7 +16,6 @@ public class AdminCouponServiceImp implements AdminCouponService {
 	AdminCouponDao admincoupondao;
 
 	//쿠폰 전체 리스트 가져오기
-	@Override
 	public List<AllDto> getAllCoupons() {
 		return admincoupondao.getAllCoupons();
 	}

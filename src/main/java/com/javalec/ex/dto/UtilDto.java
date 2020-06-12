@@ -26,6 +26,10 @@ public class UtilDto {
 	//임시 변수 담는 변수
 	private int temp_int;
 	
+	//쿠폰 시작일, 종료일 받는 변수
+	private String co_start_day_str;
+	private String co_end_day_str;
+	
 	public int getPage() {
 		return page;
 	}
@@ -133,6 +137,18 @@ public class UtilDto {
 	}
 	public void setTemp_int(int temp_int) {
 		this.temp_int = temp_int;
+	}
+	public String getCo_start_day_str() {
+		return co_start_day_str;
+	}
+	public void setCo_start_day_str(String co_start_day_str) {
+		this.co_start_day_str = co_start_day_str;
+	}
+	public String getCo_end_day_str() {
+		return co_end_day_str;
+	}
+	public void setCo_end_day_str(String co_end_day_str) {
+		this.co_end_day_str = co_end_day_str;
 	}
 
 	

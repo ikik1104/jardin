@@ -132,6 +132,8 @@
 	</resultMap>		
 	
 	
+	
+	
 	<!--  1:1문의 전체 리스트 불러오기-->
 	<select id="getAllBoards" resultMap="AllDto">
 		select rownum, mem.m_id, iu_title, iu_date, iu_status, iu_num, iu_sort, iu_content, iu_img
