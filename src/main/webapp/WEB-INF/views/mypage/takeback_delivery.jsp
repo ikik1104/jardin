@@ -28,16 +28,20 @@
 <script type="text/javascript" src="user/js/respond.min.js"></script>
 <![endif]-->
 <script type="text/javascript">
+
+
+
+
 $(document).ready(function() {
    	//반품버튼 클릭
 	$("#return_submit").click(function(){
-		alert($("#rt_reason1 option:selected").val());
-		var rt_reason = $("#rt_reason1 option:selected").val() + $("#rt_reason2").val();
-		alert("reason"+rt_reason);
+		var rt_reason = '[' + $("#rt_reason1 option:selected").val() + ']' + $("#rt_reason2").val();
 		var ol_num = '${ ol_num }';
-		var ol_amt = '${ ol_amt }';
+		var rt_amt = '${ rt_amt }';
+		var origin_amt = '${ origin_amt }';
 		var ol_price = '${ ol_price }';
-		var arrData = [ol_num, ol_amt, ol_price, rt_reason];
+		var origin_price = '${ origin_price }';
+		var arrData = [ol_num, rt_amt, rt_reason, origin_amt, ol_price, origin_price];
 		
 		$.ajax({
        		 type : "POST",
@@ -48,7 +52,7 @@ $(document).ready(function() {
                 success : function(val){
                	 if(val == 1){
                		 alert("반품접수가 완료되었습니다.");
-               		 parent.location.reload(true);
+               		 parent.location.href="ordercheck";
                		 parent.$.fancybox.close();
                	 } else{
                		 alert("반품 접수가 완료되지 않았습니다. 관리자에게 문의하세요.");
@@ -105,7 +109,7 @@ background : white;
                                 </li>
                             </ul>
                         </td>
-                        <td>${ ol_amt } 개</td>
+                        <td>${ rt_amt } 개</td>
                         <td class="pnone">${ ol_price } 원</td>
                     </tr>
                 </tbody>

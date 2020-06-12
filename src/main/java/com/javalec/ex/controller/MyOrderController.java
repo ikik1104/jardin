@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.javalec.ex.dto.PageDto;
@@ -63,38 +64,52 @@ public class MyOrderController {
 	//반품
 	@RequestMapping("takeback_deli")
 	public String takeback_del(Model model, HttpSession session, HttpServletRequest request) {
+		if(session.getAttribute("userNum") == null) {return "home";}//세션체크
 		int ol_order_num = Integer.parseInt(request.getParameter("ol_order_num"));
 		List<Map<String, String>> list = ocService.getOneSetOrder(ol_order_num);
 		model.addAttribute("list", list);
 		return "mypage/return";
 	}
 	
-	//개별반품 - 반품사유
+	//개별반품 - 반품사유 페이지 열기
 	@RequestMapping("takeback_reason")
-	public String takeback_reaon(Model model, HttpServletRequest request) {
-		int ol_num = Integer.parseInt(request.getParameter("ol_num"));
-		int ol_amt = Integer.parseInt(request.getParameter("ol_amt"));
-		int ol_price = Integer.parseInt(request.getParameter("ol_price"));
-		String p_name = request.getParameter("p_name");
-		model.addAttribute("ol_num", ol_num);
-		model.addAttribute("ol_amt", ol_amt);
-		model.addAttribute("ol_price", ol_price);
-		model.addAttribute("p_name", p_name);
+	public String takeback_reaon(@RequestParam String array, Model model, HttpServletRequest request) {
+		String[] info = array.split(",");
+		System.out.println(info.length);
+		model.addAttribute("ol_num", info[0]);
+		model.addAttribute("rt_amt", info[1]);
+		model.addAttribute("origin_amt", info[2]);
+		model.addAttribute("ol_price", info[3]);
+		model.addAttribute("p_name", info[4]);
+		model.addAttribute("origin_price", info[5]);
 		return "mypage/takeback_delivery";
 	}
 	
+	//반품 접수
 	@ResponseBody
 	@RequestMapping("return_request")
-	public int return_reqeust(@RequestBody String[] returnInfo) {
-		//주문리스트 수량 업데이트
+	public int return_reqeust(@RequestBody String[] rtinfo) {
 		//반품리스트 인서트
-		
-		for(int i=0; i<returnInfo.length; i++) {
-			System.out.println(returnInfo[i]);
+		int success = ocService.returnRq(rtinfo[0], rtinfo[1], rtinfo[2]);
+		//주문리스트 수량, 제품최종결제금액(ol_final_price) 업데이트
+		int ol_amt = Integer.parseInt(rtinfo[3]) - Integer.parseInt(rtinfo[1]);
+		int ol_price = Integer.parseInt(rtinfo[5]) - Integer.parseInt(rtinfo[4]);
+		System.out.println(ol_amt);
+		if(ol_amt == 0) {
+			ocService.deleteOrderOne(rtinfo[0]);
+		} else {
+			ocService.updateOrderAmount(rtinfo[0], ol_amt, ol_price);
 		}
-		
-		int success = 1;
 		return success;
+	}
+	
+	@RequestMapping("my_review_list")
+	public String review_list(HttpServletRequest request, HttpSession session, Model model) {
+		if(session.getAttribute("userNum") == null) {return "home";}//세션체크
+		int ol_order_num = Integer.parseInt(request.getParameter("ol_order_num"));
+		List<Map<String, String>> list = ocService.reviewReadyList(ol_order_num);
+		model.addAttribute("list", list);
+		return "mypage/review_list";
 	}
 
 

@@ -32,6 +32,34 @@
 		order by rnum asc
 	</select>
 	
+	<!-- 반품신청 -->
+	<insert id="returnRq">
+		insert into return_tb values 
+		(rt_seq.nextval, #{param1}, '반품', #{param2}, default, #{param3}, sysdate, null)
+	</insert>
+	
+	<!-- 수량 전체 반품 시 주문상품 삭제(주문 아니라 주문 건 안에서의 상품 하나) -->
+	<delete id="deleteOrderOne">
+		delete from orderlist_tb where ol_num=#{param1}
+	</delete>
+	
+	<!-- 수량 일부 반품시 주문상품 수량 변경 -->
+	<update id="updateOrderAmount">
+		update orderlist_tb set ol_amt=#{param2}, ol_final_price=#{param3} where ol_num=#{param1}
+	</update>
+	
+	<select id="reviewReadyList" resultType="HashMap">
+		select *
+		from (select rownum rnum, ot.ol_num o_num, ot.p_num, pt.p_name, ot.ol_amt, ot.ol_final_price 
+		from (select ol_num, p_num, ol_amt, ol_final_price from orderlist_tb where ol_order_num = #{ol_order_num}) ot, product_tb pt
+		where ot.p_num = pt.p_num) od
+		where od.o_num not in (select rv.ol_num from review_user_tb rv)
+		order by od.rnum
+	</select>
+	
+	
+
+	
 	
 	
 	

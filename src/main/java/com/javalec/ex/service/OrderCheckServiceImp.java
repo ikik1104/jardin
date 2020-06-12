@@ -37,6 +37,26 @@ public class OrderCheckServiceImp implements OrderCheckService {
 		return orderCheckDao.getOneSetOrder(ol_order_num);
 	}
 
+	@Override
+	public int returnRq(String ol_num, String rt_amt, String rt_reason) {
+		return orderCheckDao.returnRq(ol_num, rt_amt, rt_reason);
+	}
+
+	@Override
+	public int deleteOrderOne(String ol_num) {
+		return orderCheckDao.deleteOrderOne(ol_num);
+	}
+
+	@Override
+	public int updateOrderAmount(String ol_num, int ol_amt, int ol_price) {
+		return orderCheckDao.updateOrderAmount(ol_num, ol_amt, ol_price);
+	}
+
+	@Override
+	public List<Map<String, String>> reviewReadyList(int ol_order_num) {
+		return orderCheckDao.reviewReadyList(ol_order_num);
+	}
+
 	
 
 //	@Override

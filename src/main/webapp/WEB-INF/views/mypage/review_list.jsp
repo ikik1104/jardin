@@ -21,36 +21,15 @@
 <script type="text/javascript">
 $(function() {
 	
-	//반품 수량 최소, 최대값 설정	
-	$(".spinner").each(function(){
-    	var maxNum = $(this).val();
-    	var spinner = $(this).spinner({ min: 1, max: maxNum });
-	});
-	
-	//수량 선택에 따라 가격 변동
-	$('.ui-spinner').click(function() {
-	    var index = $(this).closest(".parents").attr('id');
-	    var total_price = $(".tp"+index).val(); //원래 총 가격
-	    var total_amt = $(".amt"+index).val(); //원래 총 수량
-	    var one_price = total_price / total_amt;
-	    var modi_amt = $(this).children('.spinner').val(); //변경된 수량을 가져옴	    
-	    var modi_price = one_price * modi_amt;
-	    $("#price"+index).text(modi_price);
-	});
+
 	
 });
 
+//리뷰작성 버튼
+// function review_write(ol_num, index){
+// }
+
 		
-//개별 반품
-function return_req(ol_num, index){
-	var ol_amt = $("#spin"+index).val();
-	var origin_amt = $(".amt"+index).val();
-	var ol_price = $("#price"+index).text();
-	var origin_price = $(".tp"+index).val();
-	var p_name = $(".name"+index).text();
-	var array = [ol_num, ol_amt, origin_amt, ol_price, p_name, origin_price];
-	location.href = 'takeback_reason?array='+array;
-}
 
 </script> 
 <style type="text/css">
@@ -65,7 +44,7 @@ function return_req(ol_num, index){
 <div class="inputWrap">
 		
 	<div class="inputBody">
-		<div class="title">반품/교환 상품정보</div>
+		<div class="title">작성 가능한 리뷰 목록</div>
 		<p class="close"><a onclick="parent.$.fancybox.close();" href="javascript:;"><img src="user/images/btn/btn_input_close.gif" alt="닫기" /></a></p>
 
 		<div class="orderDivNm">
@@ -73,15 +52,11 @@ function return_req(ol_num, index){
 				<caption>상품 게시판</caption>
 				<colgroup>
 				<col width="*" />
-				<col width="8%" class="tw25" />
-				<col width="12%" class="pnone" />
-				<col width="13%" class="pnone" />
+				<col width="30%" class="pnone" />
 				</colgroup>
 				<thead>
 					<th scope="col">상품명</th>
-					<th scope="col">수량</th>
-					<th scope="col" class="pnone">가격</th>
-					<th scope="col" class="pnone">반품신청</th>
+					<th scope="col" class="pnone">리뷰작성</th>
 				</thead>
 				<tbody>
                     <c:forEach items="${ list }" var="list" varStatus="status">
@@ -95,14 +70,7 @@ function return_req(ol_num, index){
 								</li>
 							</ul>
 						</td>
-						<td>
-                            <input class="spinner" value="${ list.OL_AMT }" id="spin${ status.index }"/>
-                            <input type="hidden" class="amt${ status.index }" value="${ list.OL_AMT }"/>
-                            <input type="hidden" class="tp${ status.index }" value="${ list.OL_FINAL_PRICE }"/>
-                            <input type="hidden" class="num${ status.index }" value="${ list.OL_NUM }"/>
-                        </td>
-						<td class="pnone" id="price${ status.index }">${ list.OL_FINAL_PRICE }</td>
-						<td class="pnone"><a href="#" id="btn${ status.index }" onclick="return_req(${ list.OL_NUM }, ${ status.index })">신청하기</a></td>
+						<td class="pnone"><a href="#" id="btn${ status.index }" onclick="review_write(${ list.OL_NUM }, ${ status.index })">신청하기</a></td>
 					</tr>
                     </c:forEach>
 				</tbody>

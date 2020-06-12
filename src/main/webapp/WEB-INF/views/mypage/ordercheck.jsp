@@ -82,7 +82,7 @@ $(document).ready(function() {
              	var ol_order_num = $('#on'+index).text();
              	innerHtml = '<li class="r5"><a href="return.html" class="obtnMini iw40">교환</a></li>'
              				+'<li><a href="takeback_deli?ol_order_num='+ol_order_num+'" class="nbtnMini iw40">반품</a></li>'
-             				+'<li><a href="#" class="reviewbtn">리뷰작성</a></li>'
+             				+'<li><a href="my_review_list?ol_order_num='+ol_order_num+'" class="reviewbtn" >리뷰작성</a></li>'
              				+'<li><a href="#" class="decidebtn">구매확정</a></li>';
              	$('#state'+index).html(innerHtml);
              } 
@@ -371,15 +371,22 @@ $(function(){
 // 	$(".iw40").fancybox.center();
 	
 	
-	$('.iw40').fancybox({
-      	onClose: function() {
-      		 parent.location.reload(true);
-      	}
-    });
-	
-	
 	
 	$(".iw40").fancybox({
+		'centerOnScroll' : true,
+		'autoDimensions'    : false,
+		'showCloseButton'	: false,
+		'width' : layerCheck,
+		'padding' : 0,
+		'type'			: 'iframe',
+		'onComplete' : function() {
+			$('#fancybox-frame').load(function() { // wait for frame to load and then gets it's height
+			$('#fancybox-content').height($(this).contents().find('body').height());
+			});
+		}
+	});
+
+	$(".reviewbtn").fancybox({
 		'centerOnScroll' : true,
 		'autoDimensions'    : false,
 		'showCloseButton'	: false,
