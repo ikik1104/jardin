@@ -46,9 +46,9 @@
 			
 			if(confirm("해당 게시글의 노출 여부를 '"+change+"' 상태로 변경하시겠습니까?")){
 				$.ajax({
-				      url : "faq_delUpdate",
+				      url : "updateStatus",
 				      method : "POST",
-				      data: JSON.stringify(f_num),
+				      data: JSON.stringify(ru_num),
 				      dataType : "json",
 				      contentType: "application/json",
 				      success : function(val){
