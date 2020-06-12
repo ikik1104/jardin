@@ -18,6 +18,7 @@ public interface OrderCheckService {
 	int deleteOrderOne(String ol_num); //수량 전체 반품 시 주문상품 삭제(주문 아니라 주문 건 안에서의 상품 하나)
 	int updateOrderAmount(String ol_num, int ol_amt, int ol_price); //수량 일부 반품시 기존 주문리스트에서 수량 변경
 	List<Map<String, String>> reviewReadyList(int ol_order_num); // 틀정주문번호의 리뷰 작성 가능 목록 불러오기
-
+	int updateStatus(int ol_order_num, String order_status); //구매상태 변경
+	
 	//	int requestRefund(int ol_order_num); //결제취소(입금완료 - 취소)
 }

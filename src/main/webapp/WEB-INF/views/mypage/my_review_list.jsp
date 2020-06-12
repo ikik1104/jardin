@@ -21,7 +21,7 @@
 <script type="text/javascript">
 $(function() {
 	
-
+    $(".submit_color").css('color', '#f7703c');
 	
 });
 
@@ -47,7 +47,7 @@ $(function() {
 		<div class="title">작성 가능한 리뷰 목록</div>
 		<p class="close"><a onclick="parent.$.fancybox.close();" href="javascript:;"><img src="user/images/btn/btn_input_close.gif" alt="닫기" /></a></p>
 
-		<div class="orderDivNm">
+		<div class="orderDivNm">  
 			<table summary="상품 게시판으로 주문하신 상품명, 수량, 판매가, 배송순으로 조회 하시고 쿠폰을 적용하실 수 있습니다." class="orderTable" border="1" cellspacing="0">
 				<caption>상품 게시판</caption>
 				<colgroup>
@@ -70,7 +70,7 @@ $(function() {
 								</li>
 							</ul>
 						</td>
-						<td class="pnone"><a href="#" id="btn${ status.index }" onclick="review_write(${ list.OL_NUM }, ${ status.index })">신청하기</a></td>
+						<td class="pnone"><a href="#" class="submit_color" id="btn${ status.index }" onclick="review_write(${ list.OL_NUM }, ${ status.index })">신청하기</a></td>
 					</tr>
                     </c:forEach>
 				</tbody>

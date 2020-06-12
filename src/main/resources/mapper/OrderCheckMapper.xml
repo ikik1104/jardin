@@ -48,6 +48,7 @@
 		update orderlist_tb set ol_amt=#{param2}, ol_final_price=#{param3} where ol_num=#{param1}
 	</update>
 	
+	<!-- 해당 주문건의 리뷰 작성 가능 상품 목록 불러오기 -->
 	<select id="reviewReadyList" resultType="HashMap">
 		select *
 		from (select rownum rnum, ot.ol_num o_num, ot.p_num, pt.p_name, ot.ol_amt, ot.ol_final_price 
@@ -56,6 +57,11 @@
 		where od.o_num not in (select rv.ol_num from review_user_tb rv)
 		order by od.rnum
 	</select>
+	
+	<!-- 주문상태 변경 -->
+	<update id="updateStatus">
+		update orderlist_tb set ol_status=#{param2} where ol_order_num=#{param1} 
+	</update>
 	
 	
 

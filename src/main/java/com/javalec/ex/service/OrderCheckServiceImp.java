@@ -57,6 +57,11 @@ public class OrderCheckServiceImp implements OrderCheckService {
 		return orderCheckDao.reviewReadyList(ol_order_num);
 	}
 
+	@Override
+	public int updateStatus(int ol_order_num, String order_status) {
+		return orderCheckDao.updateStatus(ol_order_num, order_status);
+	}
+
 	
 
 //	@Override

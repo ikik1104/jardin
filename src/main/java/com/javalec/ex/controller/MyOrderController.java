@@ -103,13 +103,26 @@ public class MyOrderController {
 		return success;
 	}
 	
-	@RequestMapping("my_review_list")
-	public String review_list(HttpServletRequest request, HttpSession session, Model model) {
+	//배송완료 상태에서 리뷰작성 버튼 클릭 시 - 구매확정 유도
+	@RequestMapping("my_review_alert")
+	public String my_review_alert(HttpServletRequest request, HttpSession session, Model model) {
 		if(session.getAttribute("userNum") == null) {return "home";}//세션체크
 		int ol_order_num = Integer.parseInt(request.getParameter("ol_order_num"));
+		model.addAttribute("ol_order_num", ol_order_num);
+		return "mypage/my_review_alert";
+	}
+	
+	@RequestMapping("my_review_list")
+	public String my_review_list(HttpServletRequest request, HttpSession session, Model model) {
+		if(session.getAttribute("userNum") == null) {return "home";}//세션체크
+		int ol_order_num = Integer.parseInt(request.getParameter("ol_order_num"));
+		String order_status = "구매확정";
+		//주문리스트에서 해당 주문 ol_status 구매확정으로 변경
+		ocService.updateStatus(ol_order_num, order_status);
+		//리뷰 작성 가능 상품들 가져오기
 		List<Map<String, String>> list = ocService.reviewReadyList(ol_order_num);
 		model.addAttribute("list", list);
-		return "mypage/review_list";
+		return "mypage/my_review_list";
 	}
 
 

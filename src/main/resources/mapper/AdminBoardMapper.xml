@@ -107,8 +107,8 @@
 	</update>
 	
 	<!-- 답글 지우면 답변대기로 변경????? -->
-	<update id="updateStatus" parameterType="Integer">
-		update review_user_tb set ru_status = '답변대기' where ru_num = #{ru_num}
-	</update>
+<!-- 	<update id="updateStatus" parameterType="Integer"> -->
+<!-- 		update review_user_tb set ru_status = '답변대기' where ru_num = #{ru_num} -->
+<!-- 	</update> -->
 	
 </mapper>
