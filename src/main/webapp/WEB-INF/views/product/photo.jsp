@@ -19,7 +19,19 @@
 <script type="text/javascript">
 $(function() {
 
+
+	
 });
+
+
+function type_chk(val) {
+	if(val=='포토후기'){
+		$("#review_image").css("display", "contents");
+	}else{
+		$("#review_image").css("display", "none");
+	}
+} 
+
 </script>
 </head>
 <body>
@@ -28,10 +40,13 @@ $(function() {
 <div class="inputWrap">
 		
 	<div class="inputBody">
-		<div class="title">포토리뷰 작성하기</div>
+		<div class="title">리뷰 작성하기</div>
+		
 		<p class="close"><a onclick="parent.$.fancybox.close();" href="javascript:;"><img src="user/images/btn/btn_input_close.gif" alt="닫기" /></a></p>
 			
 		<div class="checkDivMt">
+			
+		<form action="review_insert" method="post" name="inputForm">
 			<table summary="분류, 구매여부, 작은이미지, 평가, 제목, 상세 내용 순으로 포토 리뷰를 작성 하실수 있습니다." class="checkTable" border="1" cellspacing="0">
 				<caption>포토 리뷰 작성</caption>
 				<colgroup>
@@ -40,39 +55,32 @@ $(function() {
 				</colgroup>
 				<tbody>
 					<tr>
+						<th>후기 유형</th>
+						<td><input type="radio" name="ru_type" value="일반후기" onchange="type_chk(this.value)" checked>일반 리뷰&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" value="포토후기" name="ru_type" onchange="type_chk(this.value)" >포토리뷰</td>
+					</tr>
+					<tr>
 						<th scope="row"><span>분류</span></th>
 						<td>
 							<ul class="pta">
 								<li>
 									<select>
-										<option value="">카테고리</option>
+										<option value="">${pdto.p_step1}</option>
 									</select>
 								</li>
 								<li class="pt5">
 									<select>
-										<option value="">카테고리</option>
-									</select>
-								</li>
-								<li class="pt5">
-									<select>
-										<option value="">카테고리</option>
+										<option value="">${pdto.p_step2}</option>
 									</select>
 								</li>
 							</ul>
 						</td>
 					</tr>					
-					<tr>
-						<th scope="row"><span>구매여부</span></th>
-						<td>
-							<select>
-								<option value="">구매했어요.</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
+					<tr id="review_image" style="display: none;">
 						<th scope="row"><span>작은이미지</span></th>
 						<td>
-							<input type="file" class="fileType" />
+<!-- 							<input type="file" name="ru_img" class="fileType" /> -->
+							<input type="text" name="ru_img" class="fileType" /> 
+							<!-- 임시로 텍스트로 넣어둠 -->
 						</td>
 					</tr>
 					<tr>
@@ -80,7 +88,7 @@ $(function() {
 						<td>
 							<ul class="pta">
 								<li>
-									<input type="radio" name="appraisal" id="starFive" checked="checked"/>
+									<input type="radio" name="ru_score" id="starFive" checked="checked" value="5"/>
 									<label for="starFive" class="star">
 										<img src="user/images/ico/ico_star.gif" alt="별점" />
 										<img src="user/images/ico/ico_star.gif" alt="별점" />
@@ -91,7 +99,7 @@ $(function() {
 								</li>
 
 								<li>
-									<input type="radio" name="appraisal" id="starFour" />
+									<input type="radio" name="ru_score" id="starFour"  value="4"/>
 									<label for="starFour" class="star">
 										<img src="user/images/ico/ico_star.gif" alt="별점" />
 										<img src="user/images/ico/ico_star.gif" alt="별점" />
@@ -101,7 +109,7 @@ $(function() {
 								</li>
 
 								<li>
-									<input type="radio" name="appraisal" id="starThree" />
+									<input type="radio" name="ru_score" id="starThree" value="3"/>
 									<label for="starThree" class="star">
 										<img src="user/images/ico/ico_star.gif" alt="별점" />
 										<img src="user/images/ico/ico_star.gif" alt="별점" />
@@ -110,7 +118,7 @@ $(function() {
 								</li>
 
 								<li>
-									<input type="radio" name="appraisal" id="startwo" />
+									<input type="radio" name="ru_score" id="startwo" value="2" />
 									<label for="startwo" class="star">
 										<img src="user/images/ico/ico_star.gif" alt="별점" />
 										<img src="user/images/ico/ico_star.gif" alt="별점" />
@@ -118,7 +126,7 @@ $(function() {
 								</li>
 
 								<li>
-									<input type="radio" name="appraisal" id="starOne" />
+									<input type="radio" name="ru_score" id="starOne"  value="1"/>
 									<label for="starOne" class="star">
 										<img src="user/images/ico/ico_star.gif" alt="별점" />
 									</label>
@@ -129,24 +137,29 @@ $(function() {
 					<tr>
 						<th scope="row"><span>제목</span></th>
 						<td>
-							<input type="text" class="wlong" />
+							<input type="text" name="ru_title" class="wlong" />
 						</td>
 					</tr>
 					<tr>
 						<th scope="row"><span>내용</span></th>
 						<td>
-							<textarea class="tta"></textarea>
+							<textarea class="tta" name="ru_content"></textarea>
 						</td>
-					</tr>								
+						
+					</tr>		
 				</tbody>
 			</table>
+			<input type="hidden" name="ru_score" id="star_point" value="5">
+			<input type="hidden" name="m_num"  value="${m_num}">
+			<input type="hidden" name="p_num"  value="${pdto.p_num}">
+			</form>			
 		</div>
 			
 		<!-- Btn Area -->
 		<div class="btnArea">
 			<div class="bCenter">
 				<ul>								
-					<li><a href="#" class="sbtnMini">확인</a></li>
+					<li><a href="javascript:inputForm.submit();" class="sbtnMini">확인</a></li>
 					<li><a onclick="parent.$.fancybox.close();" href="javascript:;" class="nbtnbig">취소</a></li>
 				</ul>
 			</div>

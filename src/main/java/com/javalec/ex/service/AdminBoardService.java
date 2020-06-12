@@ -35,16 +35,6 @@ public interface AdminBoardService {
 		List<FaqDto> getSearchFaq(HashMap<String, Object> map);
 
 		
-		//유저-------------------------
-		//faq 리스트
-		List<FaqDto> getFaqList();
-		//카테고리별
-		List<FaqDto> getFaq_StepList(String f_step);
-		
-		
-		//enjoy coffee 리스트
-		List<EnjoyCoffeeDto> enjoy_List();
-		
 		//enjoy coffee----------------------------------------
 		
 		//enjoy coffee insert
@@ -64,6 +54,19 @@ public interface AdminBoardService {
 
 		//검색
 		List<EnjoyCoffeeDto> getSearchEnjoy(HashMap<String, Object> map);
+
+		
+		
+		
+		//상품 후기----------------------------------------------------------
+		//포토후기 가져오기
+		List<EnjoyCoffeeDto> getPhotoReveiw();
+		
+		//일반후기 가져오기
+		public List<EnjoyCoffeeDto> getAllReveiw(String ru_type);
+
+		//후기 노출여부 변경
+		void updateStatus(int ru_num);
 
 	
 

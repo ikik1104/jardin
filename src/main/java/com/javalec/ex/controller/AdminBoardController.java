@@ -178,47 +178,34 @@ public class AdminBoardController {
 	}
 	
 	
-	//유저----------------------------------------
-	//faq 화면 노출 Y 리스트
-	@RequestMapping("faq_List")
-	public String faq_List(HttpServletRequest request, Model model) {
+	//포토 상품 후기
+	@RequestMapping("getPhotoReveiw")
+	public String getPhotoReveiw(Model model) {
+		
+		model.addAttribute("list",abService.getAllReveiw("포토후기")) ;
+		
+		return "admin/board/review_photo_list";
+	}
+	
+	//일반 상품 후기
+	@RequestMapping("getReveiw")
+	public String getReveiw(Model model) {
 			
-		//전체 검색일 때
-		if(request.getParameter("f_step")==null) {
-			model.addAttribute("list", abService.getFaqList()); 
-		}else {// 카테고리별 검색 일 때
-			model.addAttribute("list", abService.getFaq_StepList(request.getParameter("f_step"))); 
-			model.addAttribute("f_step", request.getParameter("f_step")); 
-		}
-		
-		return "customer/faq";
-	}
-	
-	
-	//main에서 	customer 클릭시 (공지사항으로)
-	@RequestMapping("notice_Ulist")
-	public String notice_Ulist(Model model) {
-		
-		return "customer/notice";
-	}
-	
-	//main에서  community 클릭시 (후기로)
-	@RequestMapping("review_list")
-	public String review_list(Model model) {
-		//임시~~
-		return "community/comment";
+		model.addAttribute("list",abService.getAllReveiw("일반후기")) ;
+			
+		return "admin/board/review_list";
 	}
 	
 
-	//community enjoycoffee list
-	@RequestMapping("enjoy_list")
-	public String enjoy_list(Model model) {
-		
-		model.addAttribute("list", abService.enjoy_List()); 
-		
-		return "community/enjoy";
+	//리뷰 노출 여부 변경
+	@ResponseBody
+	@RequestMapping("updateStatus")
+	public String updateStatus(@RequestBody int ru_num, Model model) {
+			
+		abService.updateStatus(ru_num);
+			
+		return "admin/board/review_list";
 	}
-	
 	
 	
 }

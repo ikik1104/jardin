@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.javalec.ex.dto.BDto;
 import com.javalec.ex.dto.ProductDto;
+import com.javalec.ex.dto.ReviewUserDto;
 
 @Repository
 public interface ProductDao { //상품
@@ -42,4 +43,17 @@ public interface ProductDao { //상품
 	List<ProductDto> getU_ProductAllList(String p_step1);
 	//step2
 	List<ProductDto> getU_ProductList(String p_step2);
+
+	//리뷰---------------------------------------------------
+	//리뷰작성
+	int review_insert(ReviewUserDto ruDto);
+	
+	//리뷰 가져오기
+	List<ReviewUserDto> getUserReview(Map<String, Object> map);
+	
+	//제품의 별점 update
+	void update_score(int p_num);
+	
+	//제품의 리뷰 개수 가져오기
+	Integer review_count(int p_num);
 }

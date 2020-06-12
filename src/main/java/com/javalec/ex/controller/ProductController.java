@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.deser.impl.CreatorCandidate.Param;
 import com.javalec.ex.dto.ProductDto;
+import com.javalec.ex.dto.ReviewUserDto;
 import com.javalec.ex.service.BService;
 import com.javalec.ex.service.ProductService;
 
@@ -112,7 +113,7 @@ public class ProductController {
 	@RequestMapping("u_product_list")
 	public String user_product_list(HttpServletRequest request ,  Model model) {
 		String p_step1 = request.getParameter("p_step1");
-		String p_step2;
+		String p_step2 = null;
 		
 		if(request.getParameter("p_step2")==null) {
 			model.addAttribute("product", pService.getU_ProductAllList(p_step1));
@@ -122,6 +123,7 @@ public class ProductController {
 		}
 		
 		model.addAttribute("p_step1", p_step1);
+		model.addAttribute("p_step2", p_step2);
 		
 		return "product/list";
 	}
@@ -129,13 +131,59 @@ public class ProductController {
 	//제품 하나 상세보기
 	@RequestMapping("product_detail")
 	public String product_detail(int p_num,  Model model) {
-
 		model.addAttribute("pdto", pService.getProductInfo(p_num));
+		//일단은 포토랑 일반 나눠서? 따로페이징을 해야하니까!!..?
+		
+		//일반후기
+		Map<String, Object> basic = new HashMap<>();
+		basic.put("ru_type", "일반후기");
+		basic.put("p_num", p_num);
+		model.addAttribute("review", pService.getUserReview(basic));
+		
+		//포토후기
+		Map<String, Object> photo = new HashMap<>();
+		photo.put("ru_type", "포토후기");
+		photo.put("p_num", p_num);
+		model.addAttribute("photo", pService.getUserReview(photo));
+		
+		//리뷰 카운트 가져오기
+		model.addAttribute("count", pService.review_count(p_num));
 		
 		return "product/detail";
 	}
 	
 	
+	//리뷰--------------------------------------------
 	
+	//☆★☆★☆★☆★☆★☆★☆★☆★ 리뷰 입력폼으로 20/06/10 임시 ☆★☆★☆★☆★☆★☆★☆★☆★
+	@RequestMapping("review_insertForm")
+	public String review_insertForm(int p_num, int m_num ,Model model) {
+		
+		//유저의 정보는 세션에서 가져오고..
+		//해당 제품의 정보는 가져와여한다.
+		model.addAttribute("pdto", pService.getProductInfo(p_num));
+		model.addAttribute("m_num", m_num);
+		
+		return "product/photo";
+	}
+	
+	//☆★☆★☆★☆★☆★☆★☆★☆★ 리뷰 입력폼으로 20/06/10 임시 ☆★☆★☆★☆★☆★☆★☆★☆★
+	@RequestMapping("review_insert")
+	public String review_insert(ReviewUserDto ruDto,Model model) {
+		
+		int chk = pService.review_insert(ruDto);
+		//제품의 스코어 업데이트
+		pService.update_score(ruDto.getP_num());
+		
+		return "product/photo";
+	}
+
+	//문의 test
+	@RequestMapping("inquiry_form")
+	public String inquiry_form(Model model) {
+		
+		
+		return "product/inquiry";
+	}
 	
 }

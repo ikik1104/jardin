@@ -48,25 +48,6 @@
         ${type} like '%' || #{keyword}|| '%' and
         f_step = #{f_step}
 	</select>
-	
-	<!-- 유저 -->
-	<!-- faq 리스트 -->
-	<select id="getFaqList" resultType="com.javalec.ex.dto.FaqDto">
-		select rownum,f.* from faq_tb f where f_delflag='N' order by f_num desc
-	</select>
-			
-	<!-- faq 카테고리별 리스트 -->
-	<select id="getFaq_StepList" parameterType="String" resultType="com.javalec.ex.dto.FaqDto">
-		select * from faq_tb where f_delflag='N' and f_step = #{f_step} order by f_num desc
-	</select>		
-	
-	
-	<!-- enjoy coffee 리스트 -->
-	<select id="enjoy_List" resultType="com.javalec.ex.dto.EnjoyCoffeeDto">
-		select rownum,e.* from enjoy_coffee_tb e order by ej_num desc
-	</select>
-	
-	
 
 	<!-- ========================= enjoy coffee   ============================== -->
 	
@@ -103,4 +84,31 @@
  		ej_date between to_date(#{e_start_day},'yy/MM/dd') and to_date(#{e_end_day},'yy/MM/dd')+1 and 
         ${type} like '%' || #{keyword}|| '%'
 	</select>
+	
+	<!-- ================================== 후기 ====================================== -->
+	<!-- 후기 전체리스트 -->
+	<select id="getAllReveiw" resultType="map" parameterType="String">
+		select rownum,ru.*,p.p_name from review_user_tb ru left join product_tb p on p.p_num = ru.p_num where ru_type = #{ru_type}
+	</select>
+	
+	<!-- 후기 상태 변경 -->
+	<update id="updateVisility" parameterType="Integer">
+		update review_user_tb set 
+		ru_visility = case 
+		when ru_visility = '노출' then '숨김' 
+		when ru_visility = '숨김' then '노출'
+		end
+		where ru_num = #{ru_num}
+	</update>
+	
+	<!-- 답글 달리면 답변완료로 변경 -->
+	<update id="updateStatus" parameterType="Integer">
+		update review_user_tb set ru_status = '답변완료' where ru_num = #{ru_num}
+	</update>
+	
+	<!-- 답글 지우면 답변대기로 변경????? -->
+	<update id="updateStatus" parameterType="Integer">
+		update review_user_tb set ru_status = '답변대기' where ru_num = #{ru_num}
+	</update>
+	
 </mapper>

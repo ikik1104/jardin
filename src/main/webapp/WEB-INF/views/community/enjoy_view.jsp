@@ -114,7 +114,7 @@ $(document).ready(function() {
 				<ul>	
 					<li><a href="#" id="leftNavi1">체험단</a></li>
 					<li><a href="#" id="leftNavi2">사용 후기</a></li>
-					<li class="last"><a href="#" id="leftNavi3">ENJOY COFFEE</a></li>
+					<li class="last"><a href="enjoy_list" id="leftNavi3">ENJOY COFFEE</a></li>
 				</ul>			
 			</div><script type="text/javascript">initSubmenu(3,0);</script>
 
@@ -128,19 +128,19 @@ $(document).ready(function() {
 						<div class="viewHead">
 							<div class="subject">
 								<ul>
-									<li>쟈뎅,테이크아웃 ‘카페모리 즐기기</li>
+									<li>${enjoy.ej_title}</li>
 								</ul>
 							</div>
 							<div class="data">
 								<ul>
-									<li class="tnone">등록일<span>2014-03-24</span></li>
-									<li class="tnone">조회수<span>2146</span></li>
+									<li class="tnone">등록일<span><fmt:formatDate value="${enjoy.ej_date}" pattern="yyyy-MM-dd"/> </span></li>
+									<li class="tnone">조회수<span>${enjoy.ej_hit}</span></li>
 								</ul>
 							</div>
 						</div>
 
 						<div class="viewContents">
-							27년 만의 기록적인 한파가 연일 지속되면서, 따뜻하고 달콤하게 즐길 수 있는 ‘핫초코’가 인기를 끌며<br/>보다 맛있게 카페모리를 즐기는 법을 소개해 드리겠습니다.
+							${enjoy.ej_content}
 						</div>
 					</div>
 

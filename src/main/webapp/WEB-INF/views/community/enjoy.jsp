@@ -121,13 +121,13 @@ $(document).ready(function() {
 					
 					<div class="imgListType">
 						<ul>
-							<c:forEach items="list" var="list">
+							<c:forEach items="${list}" var="list">
 							<!-- List -->
 							<li>
 								<div class="img"><img src="user/images/img/sample_epil.jpg" width="155" height="160" alt="" /></div>
 								<div class="txt">
 									<div class="subject">
-										<a href="#" >${list.ej_title}</a>
+										<a href="enjoy_view?ej_num=${list.ej_num}&rownum=${list.rownum}" >${list.ej_title}</a>
 									</div>
 									<div class="conf">
 										${list.ej_content}
