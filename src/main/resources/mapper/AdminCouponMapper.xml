@@ -51,30 +51,91 @@
 	    <result column="p_content_img" property="p_content_img"/>	 	    
 	    <result column="p_sysdate" property="p_sysdate"/>	    
 	    <result column="p_update" property="p_update"/>	 	    
-	    <result column="p_delflag" property="co_sysdate"/>	 	
 	</resultMap>	
 	
 	<resultMap type="com.javalec.ex.dto.UtilDto" id="UtilDto">
-	    <result column="co_start_day_str" property="co_start_day_str"/>	
-	    <result column="co_end_day_str" property="co_end_day_str"/>  
+	    <result column="str1" property="str1"/>	
+	    <result column="str2" property="str2"/>  
+	    <result column="str3" property="str3"/>  	    
 	</resultMap>
 	
 	<!-- 쿠폰 전체 리스트 불러오기 -->
 	<select id="getAllCoupons" resultMap="AllDto">
-	 select rownum, co_num, co_name,co_type, co_discount, co_sysdate,  co_condition, p_name, co_end_day, co_start_day,
-          case when co_expiry is null then -1 end co_expiry, 
-         case when co_product is null then -1 else realfinal.co_product end co_product,
-         case when co_start_day is null then '없음' else to_char(realfinal.co_start_day, 'yy/MM/dd') end co_start_day_str,
-         case when co_end_day is null then '없음' else to_char(realfinal.co_end_day, 'yy/MM/dd') end co_end_day_str
-         from
-            (select rownum, finaltb.* from
-            (select * from
-            (select distinct * from 
-           (select co.* , case when co_product is null then '없음' when co_product=pro.p_num then pro.p_name end p_name 
-           from 
-          coupon_tb co,
-          product_tb pro)
-          where p_name is not null) order by co_num desc) finaltb) realfinal
+		select rownum, finaltb.*  from 
+        (select co_num, co_name, co_type, co_discount, co_sysdate, co_condition,
+        case when co_start_day is null then '-' else to_char(co_start_day, 'yy-MM-dd') end str1,
+        case when co_end_day is null then '-' else to_char(co_end_day, 'yy-MM-dd') end str2,
+        case when co_expiry is null then '-' else to_char(co_expiry) end str3,
+        case when p_name is null then '-' else to_char(p_name) end p_name 
+        from
+        (select * from 
+        (select distinct cp.*, 
+        case when co_product is null then null else p_name end p_name 
+        from coupon_tb cp, product_tb pro
+        where cp.co_product=p_num or co_product is null)
+        order by co_num desc) cou) finaltb
 	</select>
+	
+	<!-- 쿠폰 등록 페이지에 상품 전체 목록 불러오기 -->
+	<select id="getAllProducts" resultMap="AllDto">
+		select * from product_tb where p_delflag='N' order by p_num asc
+	</select>
+	
+	<!-- 유효기간만 설정된 상품 쿠폰 등록 -->
+	<insert id="insertExpiryProCoupon">
+		insert into coupon_tb values(
+		cou_seq.nextval,
+		#{co_name},
+		'','',
+		#{co_expiry},
+		#{co_type},
+		#{co_discount},
+		sysdate,
+		#{co_product},
+		#{co_condition})		
+	</insert>
+	
+	<!-- 유효기간만 설정된 미상품 쿠폰 등록 -->
+	<insert id="insertExpiryCoupon">
+		insert into coupon_tb  (co_num, co_name, co_expiry, co_type, co_discount, co_sysdate, co_condition)
+		 values(
+		cou_seq.nextval,
+		#{co_name},
+		#{co_expiry},
+		#{co_type},
+		#{co_discount},
+		sysdate,
+		#{co_condition})		
+	</insert>	
+	
+	<!-- 사용 시작일, 종료일 설정된 상품 쿠폰 등록-->
+	<insert id="insertDateProCoupon">
+		insert into coupon_tb 
+        (co_num, co_name, co_start_day, co_end_day, co_type, co_discount, co_sysdate, co_product, co_condition)
+        values(
+		cou_seq.nextval,
+		#{couponDto.co_name},
+		#{utilDto.str1},#{utilDto.str2},
+		#{couponDto.co_type},
+		#{couponDto.co_discount},
+		sysdate,
+		#{couponDto.co_product},
+		#{couponDto.co_condition})
+	</insert>
+	
+	<!-- 사용 시작일, 종료일 설정된 미상품 쿠폰 등록-->
+	<insert id="insertDateCoupon">
+		insert into coupon_tb  (co_num, co_name, co_start_day, co_end_day, co_type, co_discount, co_sysdate, co_condition)
+		values(
+		cou_seq.nextval,
+		#{couponDto.co_name},
+		#{utilDto.str1},#{utilDto.str2},
+		#{couponDto.co_type},
+		#{couponDto.co_discount},
+		sysdate,
+		#{couponDto.co_condition})		
+	</insert>	
+	
+	
 	
 </mapper>		

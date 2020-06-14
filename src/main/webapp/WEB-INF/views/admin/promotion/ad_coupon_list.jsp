@@ -118,24 +118,9 @@
 							<td>${coupon_list.coupondto.co_discount }</td>
 							<td>${coupon_list.productdto.p_name }</td>
 							<td>${coupon_list.coupondto.co_condition }</td>				
-							<c:if test="${coupon_list.utildto.co_start_day_str=='없음' }">
-								<td>-</td>
-							</c:if>
-							<c:if test="${coupon_list.utildto.co_start_day_str!='없음' }">
-								<td>${coupon_list.utildto.co_start_day_str }</td>		
-							</c:if>										
-							<c:if test="${coupon_list.utildto.co_end_day_str=='없음' }">
-								<td>-</td>
-							</c:if>
-							<c:if test="${coupon_list.utildto.co_end_day_str!='없음' }">
-								<td>${coupon_list.utildto.co_end_day_str }</td>		
-							</c:if>									
-							<c:if test="${coupon_list.coupondto.co_expiry==-1}">
-								<td>-</td>									
-							</c:if>
-							<c:if test="${coupon_list.coupondto.co_expiry!=-1}">
-								<td>${coupon_list.coupondto.co_expiry}</td>									
-							</c:if>							
+							<td>${coupon_list.utildto.str1 }</td>											
+							<td>${coupon_list.utildto.str2 }</td>
+							<td>${coupon_list.utildto.str3}</td>				
 							<td>
 								<button type="button" onclick="location.href='coupon_view?co_num=${coupon_list.coupondto.co_num}'">
 									수정

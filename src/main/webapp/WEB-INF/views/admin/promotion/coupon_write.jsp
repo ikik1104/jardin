@@ -15,6 +15,7 @@
 		<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 		<!-- 페이지 로딩시 초기화 --> 
 		<script>
+		/*
 		$(document).ready(function(){
 				nhn.husky.EZCreator.createInIFrame({ 
 					oAppRef: editor, 
@@ -23,7 +24,7 @@
 					fCreator: 'createSEditor2' 
 					}); 
 				}); 
-		
+		*/
 
 		function date_chk1(){
 			var start = inputform.co_start_day.value;
@@ -44,14 +45,40 @@
 			}
 		}
 		
+		//쿠폰 기간 설정
 		function radio(val){
-			if(val=="expiry_o"){
+			if(val=="expiry_1"){//유효기간 설정 쿠폰일 경우
+				/*
 				$("#expiry_none").css("display", "none");
 				$("#expiry_tr").css("display", "block");
-			}else if(val=="expiry_x"){
+				*/
+				$("#date_set").css("display", "none");
+				$("#expiry_set").css("display", "block");				
+			}else if(val=="expiry_0"){//사용기간 설정 쿠폰일 경우
+				/*
 				$("#expiry_tr").css("display", "none");
 				$("#expiry_none").css("display", "block");
+				*/
+				$("#expiry_set").css("display", "none");
+				$("#date_set").css("display", "block");	
 			}
+		}
+		
+		//쿠폰 타입 설정
+		function pro_chk(val){
+			if(val=="product"){//상품 쿠폰일 경우 상품 선택창 출력
+				$("#product_1").css("display", "block");		
+				$("#product_0").css("display", "none");		
+				$( 'input#is_product').val('1');					
+			}else if(val!="product"){//배송비, 장바구니 쿠폰일 경우
+				$("#product_1").css("display", "none");		
+				$("#product_0").css("display", "block");
+				$( 'input#is_product').val('0');			
+			}
+		}		
+		
+		window.onload=function(){
+			${alerttext}
 		}
 		
 		</script>
@@ -66,9 +93,19 @@
 			#btn_div{
 			 text-align: center;
 			}
+			/*
 			#expiry_tr{
 				display: none;
+			}*/
+			#date_set{
+				display:none;
 			}
+			#expiry_set{
+				display:block;
+			}		
+			#product_1{
+				display:none;
+			}	
 		</style>
 	</head>
 	<body>
@@ -76,7 +113,7 @@
 	<jsp:include page="../nav/board_nav.jsp"/>
 	<section>
 		<h1>쿠폰 입력</h1>
-			<form action="inputform" name="" method="get">
+			<form action="coupon_insert" name="inputform" method="post">
 				<div id="input_form">
 					<table border="1">
 						<tr>
@@ -84,41 +121,55 @@
 							<td><input type="text" name="co_name"></td>
 						</tr>
 						<tr>
-							<td>쿠폰 다운로드 기간</td>
-							<fmt:formatDate var="sys" value="${sysdate}" pattern="yyyy-MM-dd"/>
-							<td>시작일 : <input type="date" name="co_start_day"  value="${sys}" onchange="date_chk1()"> ~ 
-							종료일 : <input type="date" name="co_end_day" onchange="date_chk1()"></td>
-						</tr>
-						<tr>
-							<td>쿠폰 사용기간</td>
+							<td>쿠폰 사용기간 선택</td>
 							<td>
-								<input type="radio" name="co_select" value="expiry_o" onchange="radio(this.value)"> 쿠폰을 다운로드 한 날짜부터의 유효기간을 지정합니다.<br>
-								<input type="radio" name="co_select" value="expiry_x" onchange="radio(this.value)" checked> 쿠폰 사용 종요일을 최종 사용일로 지정합니다.(사용 기간 쿠폰종료일 까지)
+								<input type="radio" name="co_select" value="expiry_1" onchange="radio(this.value)" checked> 쿠폰을 다운로드 한 날짜부터의 유효기간을 지정합니다.<br>
+								<input type="radio" name="co_select" value="expiry_0" onchange="radio(this.value)" > 쿠폰 사용 종요일을 최종 사용일로 지정합니다.(사용 기간 쿠폰종료일 까지)
 							</td>
 						</tr>
-						<tr >
-							<td>쿠폰 유효기간</td>
-							<td  id="expiry_tr">다운로드 일부터 <input type="text" maxlength="3">일 까지</td>
-							<td  id="expiry_none">지정안함</td>
+						<tr>
+							<td>쿠폰 사용 기간</td>
+							<fmt:formatDate var="sys" value="${sysdate}" pattern="yyyy-MM-dd"/>
+							<td id="date_set">시작일 : <input type="date" name="str1"  value="${sys}" onchange="date_chk1()"> ~ 
+							종료일 : <input type="date" name="str2" onchange="date_chk1()" ></td>
+							<td  id="expiry_set">다운로드 일부터 <textarea maxlength="3" name="co_expiry" >0</textarea>일 까지</td>
 						</tr>
 						<tr >
 							<td>쿠폰 타입</td>
 							<td>
-								<select name="co_discount">
+								<select name="co_type" onchange="pro_chk(this.value)">
+									<option value="">선택 안 함</option>
 									<option value="delivery">배송비</option>
 									<option value="product">제품</option>
 									<option value="cart">장바구니</option>
 								</select>
 							</td>
 						</tr>
+						<tr>
+							<td  id="product_select">상품 선택</td>
+							<td id="product_0">지정 안 함</td>
+							<td  id="product_1">
+								<select name="co_product">
+									<option value="0">선택 안 함</option>
+									<c:forEach var="product_list" items="${product_list }">
+										<option value=${product_list.productdto.p_num }>[${product_list.productdto.p_num}]${product_list.productdto.p_name }</option>
+									</c:forEach>
+								</select>
+							</td>
+						</tr>						
 						<tr >
 							<td>할인금액</td>
-							<td><input type="text" maxlength="5">원 할인</td>
+							<td><input type="text" maxlength="5" name="co_discount">원 할인</td>
 						</tr>
+						<tr >
+							<td>사용 가능 주문금액</td>
+							<td>주문금액 최소 <input type="text" maxlength="5" name="co_condition">원 이상</td>
+						</tr>						
 					</table>
+							<input type="hidden" name="is_product" id="is_product"><!-- 상품 유무 전송값 -->					
 					<div id="btn_div">
-						<button type="button" onclick="location.href="입력전페이지 이동">취소</button>
-						<button type="button" onclick="location.href="유효성 검사">등록</button>
+						<button type="button" onclick="location.href='ad_coupon_list'">취소</button>
+						<button type="submit">등록</button>
 					</div>
 				</div>
 			</form>
