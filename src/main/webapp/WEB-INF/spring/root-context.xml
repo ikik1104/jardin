@@ -21,7 +21,14 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="mapperLocations" value="classpath:mapper/*xml"/>
    	 </bean>
-   	  <!-- base-package 에 정의된 package 내 클래스 및 xml을 SQL 처리를 위한 mapper로 인식-->
-    <mybatis-spring:scan base-package="com.javalec.ex.dao. " />
+   	 
+   	 <!-- MultipartResolver 설정 -->
+	 <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	   <property name="maxUploadSize" value="100000000" />
+	   <property name="maxInMemorySize" value="100000000" />
+	 </bean>
+   	 
+   	 <!-- base-package 에 정의된 package 내 클래스 및 xml을 SQL 처리를 위한 mapper로 인식-->
+     <mybatis-spring:scan base-package="com.javalec.ex.dao. " />
    	
 </beans>

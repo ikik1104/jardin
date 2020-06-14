@@ -25,11 +25,6 @@ $(function() {
 	
 });
 
-//리뷰작성 버튼
-// function review_write(ol_num, index){
-// }
-
-		
 
 </script> 
 <style type="text/css">
@@ -59,20 +54,30 @@ $(function() {
 					<th scope="col" class="pnone">리뷰작성</th>
 				</thead>
 				<tbody>
-                    <c:forEach items="${ list }" var="list" varStatus="status">
-					<tr id="${ status.index }" class="parents">
-                        <td>
-							<p class="img"><img src="user/images/img/sample_product.jpg" alt="상품" width="66" height="66" /></p>
-
-							<ul class="goods">
-								<li>
-									<a href="#" class="name${ status.index }">${ list.P_NAME }</a>
-								</li>
-							</ul>
-						</td>
-						<td class="pnone"><a href="#" class="submit_color" id="btn${ status.index }" onclick="review_write(${ list.OL_NUM }, ${ status.index })">신청하기</a></td>
-					</tr>
-                    </c:forEach>
+					<!-- 작성가능한 리뷰 있음 -->
+					<c:if test="${ not empty list }">
+	                    <c:forEach items="${ list }" var="list" varStatus="status">
+						<tr id="${ status.index }" class="parents">
+	                        <td>
+								<p class="img"><img src="user/images/img/sample_product.jpg" alt="상품" width="66" height="66" /></p>
+	
+								<ul class="goods">
+									<li>
+										<a href="#" class="name${ status.index }">${ list.P_NAME }</a>
+									</li>
+								</ul>
+							</td>
+							
+							<td class="pnone">
+								<a href="my_review_write?p_num=${ list.P_NUM }&p_name=${ list.P_NAME }&ol_num=${ list.O_NUM }&ol_order_num=${ list.OL_ORDER_NUM }" class="submit_color" id="btn${ status.index }"> 작성하기 </a>
+							</td>
+						</tr>
+	                    </c:forEach>
+	                </c:if>
+	                <!-- 작성가능한 리뷰 없음 -->
+	                <c:if test="${ empty list }">
+	                	<div>작성 가능한 리뷰가 없습니다.</div>
+	                </c:if>
 				</tbody>
 			</table>
 		</div>

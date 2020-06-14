@@ -1,10 +1,8 @@
 package com.javalec.ex.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,19 +11,25 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.javalec.ex.dto.PageDto;
+import com.javalec.ex.dto.ReviewUserDto;
 import com.javalec.ex.service.OrderCheckService;
+import com.javalec.ex.service.ProductService;
 
 @Controller
 public class MyOrderController {
 
 	@Autowired
 	private OrderCheckService ocService;
+	@Autowired
+	private ProductService pService;
 	
 	//전체 주문리스트 불러오기
 	@RequestMapping("ordercheck")
@@ -115,7 +119,7 @@ public class MyOrderController {
 	@RequestMapping("my_review_list")
 	public String my_review_list(HttpServletRequest request, HttpSession session, Model model) {
 		if(session.getAttribute("userNum") == null) {return "home";}//세션체크
-		int ol_order_num = Integer.parseInt(request.getParameter("ol_order_num"));
+		String ol_order_num = request.getParameter("ol_order_num");
 		String order_status = "구매확정";
 		//주문리스트에서 해당 주문 ol_status 구매확정으로 변경
 		ocService.updateStatus(ol_order_num, order_status);
@@ -123,6 +127,30 @@ public class MyOrderController {
 		List<Map<String, String>> list = ocService.reviewReadyList(ol_order_num);
 		model.addAttribute("list", list);
 		return "mypage/my_review_list";
+	}
+	
+	@RequestMapping("my_review_write")
+	public String my_review_write(HttpSession session, @RequestParam("p_num") String p_num, @RequestParam("p_name") String p_name, @RequestParam("ol_num") String ol_num, @RequestParam("ol_order_num") String ol_order_num, Model model) {
+		model.addAttribute("m_num", session.getAttribute("userNum"));
+		model.addAttribute("p_num", p_num);
+		model.addAttribute("p_name", p_name);
+		model.addAttribute("ol_num", ol_num);
+		model.addAttribute("ol_order_num", ol_order_num);
+		return "mypage/my_review_write";
+	}
+	
+	@RequestMapping("my_review_insert")
+	public String my_review_insert(ReviewUserDto reviewUserDto, @RequestParam("ol_order_num") String ol_order_num, @RequestParam String ol_num, MultipartFile ru_img_file, HttpSession session, Model model) throws Exception {
+		reviewUserDto.setM_num((Integer)session.getAttribute("userNum"));
+		reviewUserDto.setOl_num(Integer.parseInt(ol_num));
+		//리뷰 등록
+		ocService.review_insert(ru_img_file, reviewUserDto);
+		//제품의 스코어 업데이트
+		pService.update_score(reviewUserDto.getP_num());
+		
+		//파일업로드 해야되고, 리스트로 리다이렉트 시키기
+		
+		return "redirect:my_review_list?ol_order_num="+ol_order_num;
 	}
 
 

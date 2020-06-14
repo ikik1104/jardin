@@ -51,8 +51,8 @@
 	<!-- 해당 주문건의 리뷰 작성 가능 상품 목록 불러오기 -->
 	<select id="reviewReadyList" resultType="HashMap">
 		select *
-		from (select rownum rnum, ot.ol_num o_num, ot.p_num, pt.p_name, ot.ol_amt, ot.ol_final_price 
-		from (select ol_num, p_num, ol_amt, ol_final_price from orderlist_tb where ol_order_num = #{ol_order_num}) ot, product_tb pt
+		from (select rownum rnum, ot.ol_order_num, ot.ol_num o_num, ot.p_num, pt.p_name, ot.ol_amt, ot.ol_final_price 
+		from (select ol_order_num, ol_num, p_num, ol_amt, ol_final_price from orderlist_tb where ol_order_num = #{ol_order_num}) ot, product_tb pt
 		where ot.p_num = pt.p_num) od
 		where od.o_num not in (select rv.ol_num from review_user_tb rv)
 		order by od.rnum
@@ -62,6 +62,11 @@
 	<update id="updateStatus">
 		update orderlist_tb set ol_status=#{param2} where ol_order_num=#{param1} 
 	</update>
+	
+	<!-- 리뷰 등록 -->
+	<insert id="review_insert" parameterType="com.javalec.ex.dto.ReviewUserDto">
+		insert into review_user_tb values(ru_seq.nextval,#{p_num},#{m_num},#{ru_title},#{ru_content},#{ru_score},sysdate,0,'답변대기','노출',#{ru_img},#{ru_type},#{ol_num})
+	</insert>
 	
 	
 

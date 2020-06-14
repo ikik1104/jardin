@@ -31,6 +31,10 @@
 $(document).ready(function() {
 	
 });
+
+var submit = function () {
+	 modi_inq.submit();
+}
 </script>
 </head>
 <body>
@@ -64,12 +68,6 @@ $(document).ready(function() {
          
      });
      
-     
-     var submit = function () {
-    	 modi_inq.submit();
-     }
-     
-
      var msiecheck = function () {
          var browser = navigator.userAgent.toLowerCase();
          if (browser.indexOf('msie 6') != -1 ||

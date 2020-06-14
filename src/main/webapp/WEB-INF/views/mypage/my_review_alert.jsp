@@ -33,7 +33,7 @@
 
 
 $(document).ready(function() {
-   	//반품버튼 클릭
+   	//확인 클릭
 	$("#confirm_submit").click(function(){
 		var ol_order_num = '${ol_order_num}';
 		location.href = "my_review_list?ol_order_num="+ol_order_num;

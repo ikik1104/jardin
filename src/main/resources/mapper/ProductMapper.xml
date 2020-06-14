@@ -67,7 +67,7 @@
 	
 	<!-- 리뷰 등록 -->
 	<insert id="review_insert" parameterType="com.javalec.ex.dto.ReviewUserDto">
-		insert into review_user_tb values(ru_seq.nextval,#{p_num},#{m_num},#{ru_title},#{ru_content},#{ru_score},sysdate,0,'답변대기','노출',#{ru_img},#{ru_type})
+		insert into review_user_tb values(ru_seq.nextval,#{p_num},#{m_num},#{ru_title},#{ru_content},#{ru_score},sysdate,0,'답변대기','노출',#{ru_img},#{ru_type},#{ol_num})
 	</insert>
 	
 	<!-- 리뷰 등록시 제품에 별점반영 -->
