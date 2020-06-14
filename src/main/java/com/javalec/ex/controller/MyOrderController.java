@@ -79,7 +79,7 @@ public class MyOrderController {
 	@RequestMapping("takeback_reason")
 	public String takeback_reaon(@RequestParam String array, Model model, HttpServletRequest request) {
 		String[] info = array.split(",");
-		System.out.println(info.length);
+		// json&ajax로 배열을 넘기면 알아서 배열로 받아지지만 그냥 파라미터로 배열 넘기면 스트링으로 배열값들이 합쳐진다. 때문에 ','를 기준으로 split해서 배열로 쪼개줘야함
 		model.addAttribute("ol_num", info[0]);
 		model.addAttribute("rt_amt", info[1]);
 		model.addAttribute("origin_amt", info[2]);
@@ -100,35 +100,36 @@ public class MyOrderController {
 		int ol_price = Integer.parseInt(rtinfo[5]) - Integer.parseInt(rtinfo[4]);
 		System.out.println(ol_amt);
 		if(ol_amt == 0) {
-			ocService.deleteOrderOne(rtinfo[0]);
+			ocService.deleteOrderOne(rtinfo[0]);//전체 수량 반품이면 해당 상품을 삭제 시킨다(delete)
 		} else {
-			ocService.updateOrderAmount(rtinfo[0], ol_amt, ol_price);
+			ocService.updateOrderAmount(rtinfo[0], ol_amt, ol_price); //일부 수량 반품이면 기존 orderlist_tb에서 수량을 차감시킨다(update)
 		}
 		return success;
 	}
 	
-	//배송완료 상태에서 리뷰작성 버튼 클릭 시 - 구매확정 유도
+	//배송완료 상태에서 리뷰작성 버튼 클릭 시 - 구매확정 유도(구매확정 후 리뷰작성 가능)
 	@RequestMapping("my_review_alert")
 	public String my_review_alert(HttpServletRequest request, HttpSession session, Model model) {
 		if(session.getAttribute("userNum") == null) {return "home";}//세션체크
 		int ol_order_num = Integer.parseInt(request.getParameter("ol_order_num"));
-		model.addAttribute("ol_order_num", ol_order_num);
+		model.addAttribute("ol_order_num", ol_order_num);//해당 주문건을 구매 확정시킴
 		return "mypage/my_review_alert";
 	}
 	
+	//해당 주문건의 리뷰 가능 리스트
 	@RequestMapping("my_review_list")
 	public String my_review_list(HttpServletRequest request, HttpSession session, Model model) {
 		if(session.getAttribute("userNum") == null) {return "home";}//세션체크
 		String ol_order_num = request.getParameter("ol_order_num");
 		String order_status = "구매확정";
-		//주문리스트에서 해당 주문 ol_status 구매확정으로 변경
-		ocService.updateStatus(ol_order_num, order_status);
-		//리뷰 작성 가능 상품들 가져오기
-		List<Map<String, String>> list = ocService.reviewReadyList(ol_order_num);
+		ocService.updateStatus(ol_order_num, order_status); //주문리스트에서 해당 주문 ol_status 구매확정으로 변경
+		//리뷰 작성 가능 상품들 가져오기(해당 주문건(ol_order_num)에 속한 주문상품(ol_num)이 review_user_tb에 있는지 확인해서 없는 경우만 가져옴 - 리뷰 유저테이블에 ol_num이 있으면 그 ol_num에 대해서는 이미 리뷰를 작성했다는 뜻이므로)
+		List<Map<String, String>> list = ocService.reviewReadyList(ol_order_num); 
 		model.addAttribute("list", list);
 		return "mypage/my_review_list";
 	}
 	
+	//리뷰가능 리스티에서 '작성하기' 버튼 클릭시 작성폼으로 이동시키는 메서드
 	@RequestMapping("my_review_write")
 	public String my_review_write(HttpSession session, @RequestParam("p_num") String p_num, @RequestParam("p_name") String p_name, @RequestParam("ol_num") String ol_num, @RequestParam("ol_order_num") String ol_order_num, Model model) {
 		model.addAttribute("m_num", session.getAttribute("userNum"));
@@ -139,18 +140,14 @@ public class MyOrderController {
 		return "mypage/my_review_write";
 	}
 	
+	//리뷰등록하기 **리뷰 등록시 주문 고유번호도 같이 등록시켜야함
 	@RequestMapping("my_review_insert")
 	public String my_review_insert(ReviewUserDto reviewUserDto, @RequestParam("ol_order_num") String ol_order_num, @RequestParam String ol_num, MultipartFile ru_img_file, HttpSession session, Model model) throws Exception {
-		reviewUserDto.setM_num((Integer)session.getAttribute("userNum"));
-		reviewUserDto.setOl_num(Integer.parseInt(ol_num));
-		//리뷰 등록
-		ocService.review_insert(ru_img_file, reviewUserDto);
-		//제품의 스코어 업데이트
-		pService.update_score(reviewUserDto.getP_num());
-		
-		//파일업로드 해야되고, 리스트로 리다이렉트 시키기
-		
-		return "redirect:my_review_list?ol_order_num="+ol_order_num;
+		reviewUserDto.setM_num((Integer)session.getAttribute("userNum")); //dto에 회원고유번호 넣기
+		reviewUserDto.setOl_num(Integer.parseInt(ol_num)); //dto에 ol_num 값 넣기
+		ocService.review_insert(ru_img_file, reviewUserDto); //리뷰 등록 메소드(파일첨부는 서비스에 넘겨서 구현)
+		pService.update_score(reviewUserDto.getP_num()); //제품의 스코어 업데이트(홍익구현 pservice 가져다)
+		return "redirect:my_review_list?ol_order_num="+ol_order_num; //리뷰가능리스트로 리다이렉트시키기
 	}
 
 
