@@ -114,7 +114,9 @@
 									${coupon_list.coupondto.co_name }
 								</a>
 							</td>
-							<td>${coupon_list.coupondto.co_type }</td>
+							<c:if test="${coupon_list.coupondto.co_type=='delivery' }"><td>배송</td></c:if>
+							<c:if test="${coupon_list.coupondto.co_type=='cart' }"><td>장바구니</td></c:if>							
+							<c:if test="${coupon_list.coupondto.co_type=='product' }"><td>상품</td></c:if>	
 							<td>${coupon_list.coupondto.co_discount }</td>
 							<td>${coupon_list.productdto.p_name }</td>
 							<td>${coupon_list.coupondto.co_condition }</td>				

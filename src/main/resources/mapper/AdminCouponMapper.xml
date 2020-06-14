@@ -56,7 +56,8 @@
 	<resultMap type="com.javalec.ex.dto.UtilDto" id="UtilDto">
 	    <result column="str1" property="str1"/>	
 	    <result column="str2" property="str2"/>  
-	    <result column="str3" property="str3"/>  	    
+	    <result column="str3" property="str3"/>  	
+	    <result column="str4" property="str4"/> 	        
 	</resultMap>
 	
 	<!-- 쿠폰 전체 리스트 불러오기 -->
@@ -136,6 +137,59 @@
 		#{couponDto.co_condition})		
 	</insert>	
 	
+	<!-- 쿠폰 1개 정보 불러오기 -->
+	<select id="getCouponInfo" resultMap="AllDto">
+		select distinct co_num, co_name, co_type, co_discount, co_sysdate, co_condition, 
+		case when co_product is null then '-' else p_name end p_name,
+		case when co_start_day is null then '-' else to_char(co_start_day, 'yy-MM-dd') end str1,
+		case when co_end_day is null then '-' else to_char(co_end_day, 'yy-MM-dd') end str2,
+		case when co_expiry is null then '-' else to_char(co_expiry) end str3,
+		case when co_product is null then '-' else to_char(co_product) end str4
+		from
+		(select * from coupon_tb where co_num=#{co_num}) cp,
+		product_tb pro
+		where cp.co_product=pro.p_num or co_product is null
+	</select>
 	
+	<!-- 유효기간만 설정된 상품 쿠폰 수정 -->
+	<insert id="modifyExpiryProCoupon">
+		update coupon_tb set 
+		co_name=#{co_name}, co_start_day=null, co_end_day=null,
+		co_expiry=#{co_expiry}, co_type=#{co_type}, 
+		co_discount=#{co_discount}, co_product=#{co_product},
+		co_condition=#{co_condition} where co_num=#{co_num}
+	</insert>
+	
+	<!-- 유효기간만 설정된 미상품 쿠폰 수정 -->
+	<insert id="modifyExpiryCoupon">
+		update coupon_tb set 
+		co_name=#{co_name}, co_start_day=null, co_end_day=null,
+		co_expiry=#{co_expiry}, co_type=#{co_type}, 
+		co_discount=#{co_discount}, co_product=null,
+		co_condition=#{co_condition} where co_num=#{co_num}
+	</insert>	
+	
+	<!-- 사용 시작일, 종료일 설정된 상품 쿠폰 수정-->
+	<insert id="modifyDateProCoupon">
+		update coupon_tb set 
+		co_name=#{couponDto.co_name}, co_start_day=#{utilDto.str1}, co_end_day=#{utilDto.str2},
+		co_expiry=null, co_type=#{couponDto.co_type}, 
+		co_discount=#{couponDto.co_discount}, co_product=#{couponDto.co_product},
+		co_condition=#{couponDto.co_condition} where co_num=#{couponDto.co_num}	
+	</insert>
+	
+	<!-- 사용 시작일, 종료일 설정된 미상품 쿠폰 수정-->
+	<insert id="modifyDateCoupon">
+		update coupon_tb set 
+		co_name=#{couponDto.co_name}, co_start_day=#{utilDto.str1}, co_end_day=#{utilDto.str2},
+		co_expiry=null, co_type=#{couponDto.co_type}, 
+		co_discount=#{couponDto.co_discount}, co_product=null,
+		co_condition=#{couponDto.co_condition} where co_num=#{couponDto.co_num}	
+	</insert>		
+	
+	<!-- 쿠폰 1개 삭제 -->
+	<delete id="deleteCoupon">
+		delete from coupon_tb where co_num=#{co_num}
+	</delete>
 	
 </mapper>		
