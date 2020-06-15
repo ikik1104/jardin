@@ -15,11 +15,12 @@ public class OrderListDto {
 	private Timestamp ol_date;     //주문날짜
 	private Timestamp ol_d_end_date;     //배송완료날짜
 	private String ol_status;     //주문상태
+	private ProductDto pDto;
 	
 	public OrderListDto( ) {}
 
 	public OrderListDto(int ol_num, String ol_order_num, String ol_orderer_id, int p_num, int ol_amt, int co_num,
-			int ol_final_price, String ol_payment, Timestamp ol_date, Timestamp ol_d_end_date, String ol_status) {
+			int ol_final_price, String ol_payment, Timestamp ol_date, Timestamp ol_d_end_date, String ol_status, ProductDto pDto) {
 		super();
 		this.ol_num = ol_num;
 		this.ol_order_num = ol_order_num;
@@ -32,6 +33,7 @@ public class OrderListDto {
 		this.ol_date = ol_date;
 		this.ol_d_end_date = ol_d_end_date;
 		this.ol_status = ol_status;
+		this.pDto = pDto;
 	}
 
 	public int getRownum() {
@@ -129,6 +131,13 @@ public class OrderListDto {
 		this.ol_status = ol_status;
 	}
 	
-	
+	public ProductDto getpDto() {
+		return pDto;
+	}
+
+	public void setpDto(ProductDto pDto) {
+		this.pDto = pDto;
+	}
+
 	
 }

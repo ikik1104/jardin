@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.javalec.ex.dao.MP1Dao;
 import com.javalec.ex.dto.CartDto;
+import com.javalec.ex.dto.Cou_IssueDto;
 import com.javalec.ex.dto.MemberDto;
+import com.javalec.ex.dto.PointDto;
 
 @Service
 public class MP1ServiceImpl implements MP1Service {
@@ -64,5 +66,43 @@ public class MP1ServiceImpl implements MP1Service {
 	public int delPaymentCart(int m_num) {
 		return mp1Dao.delPaymentCart(m_num);
 	}
+
+	// 사용 가능  쿠폰 list 불러오기
+	@Override
+	public List<Cou_IssueDto> getAllCou(int m_num) {
+		return mp1Dao.getAllCou(m_num);
+	}
+	
+	// 쿠폰 사용 내역 list 불러오기 
+	@Override
+	public List<Cou_IssueDto> getUsedCou(int m_num) {
+		return mp1Dao.getUsedCou(m_num);
+	}
+	
+	// 적립 포인트 총 합
+	@Override
+	public int totalSavePoint(int m_num) {
+		return mp1Dao.totalSavePoint(m_num);
+	}
+	
+	// 포인트 적립 내역 list 가져오기
+	@Override
+	public List<PointDto> getSavePoint(int m_num) {
+		return mp1Dao.getSavePoint(m_num);
+	}
+
+	// 사용 포인트 총 합
+	@Override
+	public int totalUsedPoint(int m_num) {
+		return mp1Dao.totalUsedPoint(m_num);
+	}
+	
+	// 포인트 사용 내역 list 가져오기
+	@Override
+	public List<PointDto> getUsedPoint(int m_num) {
+		return mp1Dao.getUsedPoint(m_num);
+	}
+
+
 	
 }

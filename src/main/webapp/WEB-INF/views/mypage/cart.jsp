@@ -45,9 +45,9 @@
 				var sum = 0;
 		 		var count= $('input[name=chk]:checkbox').length;
 		 		for(var i=0; i<count; i++){
-		 			var p_price1 = $('.td1').eq(i).text();
-		 			var p_price2 = p_price1.substring(0,(p_price1.length-1));
-		 			sum += Number(p_price2);
+						var p_price1 = $('.td1').eq(i).text();
+			 			var p_price2 = p_price1.substring(0,(p_price1.length-1));
+						sum += Number(p_price2);
 		 		}
 		 		$('#sum1').text(sum);
 				
@@ -97,7 +97,6 @@
 		});
 	
 	});
-	
 	
 	// 수량 변경에 따른 해당 제품 총합계 변경
 	function ch1(price, num){
@@ -184,26 +183,31 @@
 	
     // 체크한 제품 한 번에 삭제
     function chk_del(m_num){
-		if(confirm("선택하신 제품을 장바구니에서 삭제하시겠습니까?")){
-			$("input[name=chk]:checked").each(function(){
-		  		var chk_value =$(this).attr('id');  //id = chk_${p_num}
-		    	var p_num = parseInt(chk_value.substring(4,chk_value.length));
-		    	var arrData = [p_num, m_num]
-		    	$.ajax({
-		        	type:"POST",
-		        	url : "cart_del",
-		        	data: JSON.stringify(arrData),
-		         	contentType: "application/json",
-		            success : function(data){
-		                        if(data == 1){
-		                           location.reload();
-		                        }
-		                      },
-		            error:function(){
-		                   alert("서버통신실패");
-		            }
-		        });
-			});
+    	var count = $('input:checkbox[name="chk"]:checked').length;
+		if(count>0){
+			if(confirm("선택하신 상품을 장바구니에서 삭제하시겠습니까?")){
+				$("input[name=chk]:checked").each(function(){
+			  		var chk_value =$(this).attr('id');  //id = chk_${p_num}
+			    	var p_num = parseInt(chk_value.substring(4,chk_value.length));
+			    	var arrData = [p_num, m_num]
+			    	$.ajax({
+			        	type:"POST",
+			        	url : "cart_del",
+			        	data: JSON.stringify(arrData),
+			         	contentType: "application/json",
+			            success : function(data){
+			                        if(data == 1){
+			                           location.reload();
+			                        }
+			                      },
+			            error:function(){
+			                   alert("서버통신실패");
+			            }
+			        });
+				});
+			}
+		}else {
+			alert("선택하신 상품이 없습니다. 삭제하실 상품을 먼저 선택해주시기 바랍니다.");
 		}
 	}
     
@@ -350,16 +354,15 @@
 				<ul>	
 					<li><a href="#" id="leftNavi1">주문/배송 조회</a></li>
 					<li><a href="#" id="leftNavi2">반품/배송 현황</a></li>
-					<li><a href="cart?m_num=3" id="leftNavi3">장바구니</a></li>
+					<li><a href="cart?m_num=${memDto.m_num }" id="leftNavi3">장바구니</a></li>
 					<li><a href="#" id="leftNavi4">위시리스트</a></li>
-					<li><a href="#" id="leftNavi5">나의 쿠폰</a></li>
-					<li><a href="#" id="leftNavi6">나의 포인트</a></li>
+					<li><a href="mycoupon?m_num=${memDto.m_num }" id="leftNavi5">나의 쿠폰</a></li>
+					<li><a href="mypoint?m_num=${memDto.m_num }" id="leftNavi6">나의 포인트</a></li>
 					<li><a href="#" id="leftNavi7">1:1문의</a></li>
 					<li><a href="#" id="leftNavi8">회원정보 수정</a></li>
 					<li class="last"><a href="#" id="leftNavi9">회원 탈퇴</a></li>
 				</ul>			
 			</div><script type="text/javascript">initSubmenu(3,0);</script>
-
 
 			<!-- contents -->
 			<div id="contents">
@@ -420,7 +423,7 @@
 										</ul>
 									</td>
 								</tr>
-								<c:set var="sum" value="${sum + cartlist.pDto.p_price * cartlist.ca_amount }"/>
+								<c:set var="sum" value="${sum + cartlist.pDto.p_price * cartlist.ca_amount }" />
 								<c:set var="sumpoint" value="${sumpoint + cartlist.pDto.p_point * cartlist.ca_amount}"/>
 								</c:forEach>
 							</tbody>
@@ -449,7 +452,7 @@
 							</li>
 							<li>
 								<span class="title">배송비</span>
-								<span id="del_price" class="won"><strong>
+								<span class="won"><strong id="del_price">
 									<c:if test="${sum < 30000 }">
 										<c:out value="3000"/>
 									</c:if>

@@ -565,6 +565,7 @@
 .baseQues li label, .baseQues li input{display:inline-block; vertical-align:middle;}
 .baseQues li label{padding:0 20px 0 2px;}
 .noData{width:100%; text-align:center; color:#888; font-size:13px; border-bottom:1px #d9d9d9 solid; padding:50px 0; font-weight:600;}
+.noData1{width:100%; text-align:center; color:#888; font-size:13px; border-bottom:1px #d9d9d9 solid; font-weight:600;}
 .businessTy{margin:10px 0 0 0;}
 .businessTy div{width:500px; padding:4px 0;}
 .businessTy div label{padding:3px 20px 0 0;}
