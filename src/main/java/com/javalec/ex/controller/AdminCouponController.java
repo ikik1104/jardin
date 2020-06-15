@@ -73,12 +73,15 @@ public class AdminCouponController {
 		return response_path+"coupon_write";
 	}
 	
+	//쿠폰 1개 정보 불러오기
 	@RequestMapping("coupon_view")
 	public String coupon_view(CouponDto couponDto, Model model) {
 		model.addAttribute("coupon_info", cpservice. getCouponInfo(couponDto));
 		model.addAttribute("product_list", cpservice.getAllProducts());
 		return response_path+"coupon_view";
 	}
+	
+	//쿠폰 1개 수정
 	@RequestMapping("coupon_modify")
 	public String coupon_modify(CouponDto couponDto, UtilDto utilDto,
 			@RequestParam("co_select") String co_select, @RequestParam("is_product") int is_product,
@@ -113,6 +116,7 @@ public class AdminCouponController {
 		return response_path+"coupon_view";		
 	}
 	
+	//쿠폰 1개 삭제
 	@ResponseBody
 	@RequestMapping("coupon_delete")
 	public int coupon_delete(@RequestBody int co_num) {
