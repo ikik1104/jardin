@@ -49,6 +49,12 @@ public class UserMemberServiceImp implements UserMemberService {
 		 return dto_forReturn;
 	}
 
+
+	//회원가입
+	public int memberJoin(MemberDto memberDto) {
+		return mdao.memberJoin(memberDto);
+	}
+
 	
 
 

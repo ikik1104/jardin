@@ -31,7 +31,10 @@ public interface UserMemberDao {
    ReceiverDto checkName(ReceiverDto receiverDto);
 
    //비회원 주문번호 비교
-	ReceiverDto checkNum(ReceiverDto receiverDto);	
+	ReceiverDto checkNum(ReceiverDto receiverDto);
+
+	//회원가입
+	int memberJoin(MemberDto memberDto);	
 	
 	
 

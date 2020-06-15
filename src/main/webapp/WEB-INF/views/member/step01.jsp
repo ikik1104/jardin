@@ -93,6 +93,7 @@ $(document).ready(function() {
 
 	<jsp:include page="../header.jsp" />
 	<!-- GNB -->
+	<!-- 
 	<div id="gnb">
 		
 		<div id="top">
@@ -152,10 +153,10 @@ $(document).ready(function() {
 				<li class="t1"><a href="#" id="topNavi7">선물세트</a></li>
 				<li class="t2"><a href="#" id="topNavi8">대량구매</a></li>
 			</ul>
-		</div>
+		</div> 
 
 		<script type="text/javascript">initTopMenu();</script>
-	</div>
+	</div>-->
 	<!-- //GNB -->
 
 	<!-- container -->
@@ -224,7 +225,7 @@ $(document).ready(function() {
 
 					<!-- Btn Area -->
 					<div class="btnAreaCenter">
-						<a href="#" class="gbtn">휴대폰인증</a></li>
+						<a href="step02" class="gbtn">휴대폰인증</a></li>
 					</div>
 					<!-- //Btn Area -->
 

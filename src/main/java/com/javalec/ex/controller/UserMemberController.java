@@ -109,5 +109,40 @@ public class UserMemberController {
 		
 		return temp_login(model);
 	}
+	
+	//회원가입 실명확인 페이지 접속
+	@RequestMapping("step01")
+	public String step01() {
+		return response_path+"step01";
+	}
+	
+	//회원가입 약관동의 페이지 접속
+	@RequestMapping("step02")
+	public String step02() {
+		return response_path+"step02";
+	}	
+	
+	//회원가입 양식 페이지 접속
+	@RequestMapping("step03")
+	public String step03() {
+		return response_path+"step03";
+	}		
+	
+	//회원가입
+	@PostMapping("member_join")
+	public String member_join(MemberDto memberDto, Model model) {
+		int success = mservice.memberJoin(memberDto);
+		String alerttext="";
+		if(success==0) alerttext="alert('회원가입에 실패했습니다. 다시 시도해 주세요.'); history.go(-1);"; 
+		if(success>=1) alerttext="alert('회원가입 되었습니다.'); location.href='step04';"; 		
+		model.addAttribute("alerttext", alerttext);	
+		return response_path+"step03";
+	}
+	
+	//회원가입 완료 페이지 접속
+	@RequestMapping("step04")
+	public String step04() {
+		return response_path+"step04";
+	}
 
 }
