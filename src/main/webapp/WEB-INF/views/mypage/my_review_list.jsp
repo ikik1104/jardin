@@ -31,6 +31,8 @@ $(function() {
 .ui-corner-all{border-bottom-right-radius:0 !important; border-bottom-left-radius:0 !important; border-top-left-radius:0 !important; border-top-right-radius:0 !important;}
 .ui-widget-content{border:0;}
 .ui-spinner-input{width:50px; margin:0; border:1px #ddd solid; padding:2px 0 2px 5px; font-family:'Nanum Gothic' !important; font-size:12px !important;}
+.noreview{text-align: center; font-size: 16px; line-height: 100px;}
+.orderDivNm{margin-bottom: 30px;}
 </style>
 </head>
 <body>
@@ -78,9 +80,55 @@ $(function() {
             </c:if>
             <!-- 작성가능한 리뷰 없음 -->
             <c:if test="${ empty list }">
-            	<div>작성 가능한 리뷰가 없습니다.</div>
+            	<div class="noreview">작성 가능한 리뷰가 없습니다.</div>
             </c:if>
 		</div>
+        
+        <!-- 작성 완료 목록 -->
+               
+        <div class="title">작성한 리뷰 목록</div>
+            <div class="orderDivNm">  
+            <c:if test="${ not empty listEnd }">
+                <table summary="상품 게시판으로 주문하신 상품명, 수량, 판매가, 배송순으로 조회 하시고 쿠폰을 적용하실 수 있습니다." class="orderTable" border="1" cellspacing="0">
+                    <caption>상품 게시판</caption>
+                    <colgroup>
+                    <col width="*" />
+                    <col width="30%" class="pnone" />
+                    </colgroup>
+                    <thead>
+                        <th scope="col">상품명</th>
+                        <th scope="col" class="pnone">작성글보기</th>
+                    </thead>
+                    <tbody>
+                            <c:forEach items="${ listEnd }" var="listEnd" varStatus="status2">
+                            <tr id="${ status2.index }" class="parents">
+                                <td>
+                                    <p class="img"><img src="user/images/img/sample_product.jpg" alt="상품" width="66" height="66" /></p>
+        
+                                    <ul class="goods">
+                                        <li>
+                                            <a href="#" class="name${ status2.index }">${ listEnd.P_NAME }</a>
+                                        </li>
+                                    </ul>
+                                </td>
+                                
+                                <td class="pnone">
+                                    <a href="#" class="submit_color" id="btn2${ status2.index }"> 작성글보기 </a>
+                                </td>
+                            </tr>
+                            </c:forEach>
+                    </tbody>
+                </table>
+            </c:if>
+            <!-- 작성가능한 리뷰 없음 -->
+            <c:if test="${ empty listEnd }">
+                <div class="noreview">작성 완료한 리뷰가 없습니다.</div>
+            </c:if>
+        </div> 
+        
+        
+        
+        <!-- //작성 완료 목록 -->
         
 	</div>
 

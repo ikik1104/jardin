@@ -7,7 +7,7 @@ public class RefundDto {
 	private int rownum;		//DB에서 가져오는 rownum
 	private int rf_num; //환불 고유번호
 	private int rf_receipt_num; //환불 접수번호
-	private int ol_id; //주문 고유번호
+	private int ol_num; //주문 고유번호
 	private int rf_price; //환불 금액
 	private String rf_status; //환불 상태
 	private String rf_method; //환불 수단
@@ -18,12 +18,12 @@ public class RefundDto {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public RefundDto(int rf_num, int rf_receipt_num, int ol_id, int rf_price, String rf_status, String rf_method,
+	public RefundDto(int rf_num, int rf_receipt_num, int ol_num, int rf_price, String rf_status, String rf_method,
 			Timestamp rt_reciept_date, Timestamp rt_end_date) {
 		super();
 		this.rf_num = rf_num;
 		this.rf_receipt_num = rf_receipt_num;
-		this.ol_id = ol_id;
+		this.ol_num = ol_num;
 		this.rf_price = rf_price;
 		this.rf_status = rf_status;
 		this.rf_method = rf_method;
@@ -50,11 +50,11 @@ public class RefundDto {
 	public void setRf_receipt_num(int rf_receipt_num) {
 		this.rf_receipt_num = rf_receipt_num;
 	}
-	public int getOl_id() {
-		return ol_id;
+	public int getOl_num() {
+		return ol_num;
 	}
-	public void setOl_id(int ol_id) {
-		this.ol_id = ol_id;
+	public void setOl_num(int ol_num) {
+		this.ol_num = ol_num;
 	}
 	public int getRf_price() {
 		return rf_price;

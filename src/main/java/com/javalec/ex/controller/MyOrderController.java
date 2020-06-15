@@ -1,8 +1,11 @@
 package com.javalec.ex.controller;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +22,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.javalec.ex.dto.PageDto;
+import com.javalec.ex.dto.RefundDto;
+import com.javalec.ex.dto.RefundSetDto;
 import com.javalec.ex.dto.ReviewUserDto;
 import com.javalec.ex.service.OrderCheckService;
 import com.javalec.ex.service.ProductService;
@@ -52,24 +57,49 @@ public class MyOrderController {
 	//입금대기중 - 취소
 	@ResponseBody
 	@RequestMapping("cancel_order")
-	public int cancel_order(@RequestBody int ol_order_num) {
+	public int cancel_order(@RequestBody String ol_order_num) {
 		int success = ocService.deleteOrder(ol_order_num);
 		return success;
 	}
 	
-//	//입금완료 - 취소
-//	@ResponseBody
-//	@RequestMapping("refund_req")
-//	public int refund_req(@RequestBody int ol_order_num) {
-//		int success = ocService.requestRefund(ol_order_num);
-//		return success;
-//	}
+	//입금완료 - 결제취소
+	@RequestMapping("list_for_refund")
+	public String list_for_refund(Model model, HttpSession session, @RequestParam("ol_order_num") String ol_order_num) {
+		if(session.getAttribute("userNum") == null) {return "home";}//세션체크
+		List<Map<String, String>> list = ocService.getOneSetOrder(ol_order_num);
+		model.addAttribute("list", list);
+		return "mypage/list_for_refund";
+	}
+	
+	//환불고유번호 생성 변수1
+	static int i=1;
+	//환불, 결제취소 접수
+	@RequestMapping("refund_request")
+	public String refund_request(RefundSetDto refundSetDto) {
+		// 환불고유번호 생성 변수2 (RF_RECEIPT_NUM)
+		SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat ( "yyyyMMdd", Locale.KOREA );
+		Date currentTime = new Date ();
+		String time1 = mSimpleDateFormat.format(currentTime);
+		String rf_receipt_num = time1+"_"+i;
+		System.out.println(rf_receipt_num+"//환불고유번호");
+//		List<RefundDto> refundDto = refundSetDto.getRefundDto();
+		System.out.println(refundSetDto.getRefundDto().size());
+		for(int i=0; i<refundSetDto.getRefundDto().size(); i++) {
+			int ol_num = refundSetDto.getRefundDto().get(i).getOl_num();
+			System.out.println(ol_num+"//주문고유번호");
+			int rf_price = refundSetDto.getRefundDto().get(i).getRf_price();
+			System.out.println(rf_price+"//환불가");
+			ocService.refundRequest(rf_receipt_num, ol_num, rf_price);
+		}
+		return "mypage/refund_request_success";
+		//결제취소 접수했으면 주문리스트에서 삭제시켜야함
+		
+	}
 	
 	//반품
 	@RequestMapping("takeback_deli")
-	public String takeback_del(Model model, HttpSession session, HttpServletRequest request) {
+	public String takeback_del(Model model, HttpSession session, HttpServletRequest request, @RequestParam("ol_order_num") String ol_order_num) {
 		if(session.getAttribute("userNum") == null) {return "home";}//세션체크
-		int ol_order_num = Integer.parseInt(request.getParameter("ol_order_num"));
 		List<Map<String, String>> list = ocService.getOneSetOrder(ol_order_num);
 		model.addAttribute("list", list);
 		return "mypage/return";
@@ -111,8 +141,8 @@ public class MyOrderController {
 	@RequestMapping("my_review_alert")
 	public String my_review_alert(HttpServletRequest request, HttpSession session, Model model) {
 		if(session.getAttribute("userNum") == null) {return "home";}//세션체크
-		int ol_order_num = Integer.parseInt(request.getParameter("ol_order_num"));
-		model.addAttribute("ol_order_num", ol_order_num);//해당 주문건을 구매 확정시킴
+		String ol_order_num = request.getParameter("ol_order_num");
+		model.addAttribute("ol_order_num", ol_order_num);
 		return "mypage/my_review_alert";
 	}
 	
@@ -121,12 +151,21 @@ public class MyOrderController {
 	public String my_review_list(HttpServletRequest request, HttpSession session, Model model) {
 		if(session.getAttribute("userNum") == null) {return "home";}//세션체크
 		String ol_order_num = request.getParameter("ol_order_num");
-		String order_status = "구매확정";
-		ocService.updateStatus(ol_order_num, order_status); //주문리스트에서 해당 주문 ol_status 구매확정으로 변경
+		ocService.updateStatus(ol_order_num, "구매확정"); //주문리스트에서 해당 주문 ol_status 구매확정으로 변경
 		//리뷰 작성 가능 상품들 가져오기(해당 주문건(ol_order_num)에 속한 주문상품(ol_num)이 review_user_tb에 있는지 확인해서 없는 경우만 가져옴 - 리뷰 유저테이블에 ol_num이 있으면 그 ol_num에 대해서는 이미 리뷰를 작성했다는 뜻이므로)
 		List<Map<String, String>> list = ocService.reviewReadyList(ol_order_num); 
+		//리뷰 작성 완료 상품들 가져오기(해당 주문건(ol_order_num)에 속한 주문상품(ol_num)이 review_user_tb에 있는지 확인해서 있는 경우만 가져옴)
+		List<Map<String, String>> list2 = ocService.reviewEndList(ol_order_num); 
 		model.addAttribute("list", list);
+		model.addAttribute("listEnd", list2);
 		return "mypage/my_review_list";
+	}
+	
+	//구매확정
+	@RequestMapping("decide_buying")
+	public String decide_buying(@RequestParam("ol_order_num") String ol_order_num) {
+		ocService.updateStatus(ol_order_num, "구매확정"); //주문리스트에서 해당 주문 ol_status 구매확정으로 변경
+		return "redirect:ordercheck";
 	}
 	
 	//리뷰가능 리스티에서 '작성하기' 버튼 클릭시 작성폼으로 이동시키는 메서드
@@ -146,11 +185,12 @@ public class MyOrderController {
 		reviewUserDto.setM_num((Integer)session.getAttribute("userNum")); //dto에 회원고유번호 넣기
 		reviewUserDto.setOl_num(Integer.parseInt(ol_num)); //dto에 ol_num 값 넣기
 		ocService.review_insert(ru_img_file, reviewUserDto); //리뷰 등록 메소드(파일첨부는 서비스에 넘겨서 구현)
-		pService.update_score(reviewUserDto.getP_num()); //제품의 스코어 업데이트(홍익구현 pservice 가져다)
+		pService.update_score(reviewUserDto.getP_num()); //제품의 스코어 업데이트(홍익구현 pservice 가져다씀)
 		return "redirect:my_review_list?ol_order_num="+ol_order_num; //리뷰가능리스트로 리다이렉트시키기
 	}
 
-
+	
+	
 	
 	
 	

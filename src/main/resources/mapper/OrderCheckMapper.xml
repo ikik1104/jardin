@@ -16,7 +16,7 @@
 		(select rownum rnum, ot.onum, ot.osum, pt.p_name, ot.odate, ot.ostatus
 		from (select ol_order_num onum, sum(ol_final_price) osum, max(p_num) oname, max(ol_date) odate, max(ol_status) ostatus from orderlist_tb where ol_orderer_id = #{m_id} group by ol_order_num) ot, product_tb pt
 		where ot.oname = pt.p_num) r
-		where <![CDATA[r.rnum>=#{pageDto.endRow}]]> and <![CDATA[r.rnum<=#{pageDto.startRow}]]> order by r.rnum desc
+		where <![CDATA[r.rnum>=#{pageDto.endRow}]]> and <![CDATA[r.rnum<=#{pageDto.startRow}]]> order by r.odate desc
 	</select>
 	
 	<!-- 주문취소(입금대기 - 취소) -->
@@ -57,6 +57,16 @@
 		where od.o_num not in (select rv.ol_num from review_user_tb rv)
 		order by od.rnum
 	</select>
+
+	<!-- 해당 주문건의 리뷰 작성 완료한 상품 목록 불러오기 -->
+	<select id="reviewEndList" resultType="HashMap">
+		select *
+		from (select rownum rnum, ot.ol_order_num, ot.ol_num o_num, ot.p_num, pt.p_name, ot.ol_amt, ot.ol_final_price 
+		from (select ol_order_num, ol_num, p_num, ol_amt, ol_final_price from orderlist_tb where ol_order_num = #{ol_order_num}) ot, product_tb pt
+		where ot.p_num = pt.p_num) od
+		where od.o_num in (select rv.ol_num from review_user_tb rv)
+		order by od.rnum
+	</select>
 	
 	<!-- 주문상태 변경 -->
 	<update id="updateStatus">
@@ -68,7 +78,12 @@
 		insert into review_user_tb values(ru_seq.nextval,#{p_num},#{m_num},#{ru_title},#{ru_content},#{ru_score},sysdate,0,'답변대기','노출',#{ru_img},#{ru_type},#{ol_num})
 	</insert>
 	
-	
+	<!-- 환불 insert -->
+	<insert id="refundRequest">
+		insert into refund_tb values
+		(rf_seq.nextval, #{rf_receipt_num}, #{ol_num}, #{rf_price}, '환불접수', 
+		(select ol_payment from orderlist_tb where ol_num=#{ol_num}), sysdate, null)
+	</insert>
 
 	
 	
