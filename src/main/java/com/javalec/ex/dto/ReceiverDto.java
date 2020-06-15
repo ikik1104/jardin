@@ -19,7 +19,24 @@ public class ReceiverDto {
 	
 	public ReceiverDto() {}
 
-
+	public ReceiverDto(String ol_order_num, String m_name, int m_zipcode, String m_address1, String m_address2, String m_email,
+	 String m_phone, String m_tel, String re_name, int re_zipcode,String re_address1,String re_address2, String re_phone,String re_tel,String m_msg) {
+		this.ol_order_num=ol_order_num;
+		this.m_name=m_name;
+		this.m_zipcode=m_zipcode;
+		this.m_address1=m_address1;
+		this.m_address2=m_address2;
+		this.m_email=m_email;
+		this.m_phone=m_phone;
+		this.m_tel=m_tel;
+		this.re_name=re_name;
+		this.re_zipcode=re_zipcode;
+		this.re_address1=re_address1;
+		this.re_address2=re_address2;
+		this.re_phone=re_phone;
+		this.re_tel=re_tel;
+		this.m_msg=m_msg;
+	}
 
 	public String getOl_order_num() {
 		return ol_order_num;

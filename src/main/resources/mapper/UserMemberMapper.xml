@@ -2,7 +2,11 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+     
 <mapper namespace="com.javalec.ex.dao.UserMemberDao">
+
+
 
 	<!-- [사용자] 회원 -->
 
@@ -55,6 +59,7 @@
 	    <result column="m_msg" property="m_msg"/>	 	    	
 	</resultMap>		
 	
+	
 	<!-- 아이디 비교 -->
 	<select id="checkID" resultMap="AllDto">
 	    select * from
@@ -77,12 +82,12 @@
 	    select '-' as m_pw from dual)
 	    where m_pw!='-' or rownum =1
 	</select>
-	
+
 	<!-- 비회원 주문자명 비교 -->
-	<select id="checkOrderName" resultType="com.javalec.ex.dto.ReceiverDto">
+	<select id="checkName" resultType="com.javalec.ex.dto.ReceiverDto">
 	
 	   	select * from
-	    (select m_name from orderer_receiver_tb  where ol_order_num=to_char('${ol_order_num}') and m_name=to_char('${m_name}')
+	    (select m_name from orderer_receiver_tb   where ol_order_num=#{ol_order_num} and m_name=#{m_name}
 	    
 	    union all
 	    
@@ -92,16 +97,15 @@
 	</select>
 	
 	<!-- 비회원 주문번호 비교 -->
-	<select id="checkOrderNum" resultType="com.javalec.ex.dto.ReceiverDto">
+	<select id="checkNum" resultType="com.javalec.ex.dto.ReceiverDto">
 	    select * from
-	    (select ol_order_num from orderer_receiver_tb where ol_order_num=to_char('${ol_order_num}') and m_name=to_char('${m_name}')
+	    (select ol_order_num from orderer_receiver_tb  where ol_order_num=#{ol_order_num}
 	    
 	    union all
 	    
 	    select '-' as ol_order_num from dual)
 	    where ol_order_num!='-' or rownum=1
 	</select>	
-	
 	
 	
 </mapper>		

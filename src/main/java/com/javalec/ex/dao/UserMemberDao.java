@@ -1,5 +1,6 @@
 package com.javalec.ex.dao;
 
+import java.sql.JDBCType;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -24,12 +25,16 @@ public interface UserMemberDao {
 	AllDto checkID(MemberDto memberDto);
 	
 	//비밀번호 체크
-	AllDto checkPW(MemberDto memberDto);	
+	AllDto checkPW(MemberDto memberDto);
 
-	//주문자명 체크
-	ReceiverDto checkOrderName(@Param("m_name") String m_name, @Param("ol_order_num") String ol_order_num);
+	//비회원 주문자명 비교
+   ReceiverDto checkName(ReceiverDto receiverDto);
+
+   //비회원 주문번호 비교
+	ReceiverDto checkNum(ReceiverDto receiverDto);	
 	
-	//주문번호 체크
-	ReceiverDto checkOrderNum(@Param("m_name") String m_name, @Param("ol_order_num") String ol_order_num);
+	
+
+
 	
 }

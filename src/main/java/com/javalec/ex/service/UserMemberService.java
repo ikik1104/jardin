@@ -1,5 +1,6 @@
 package com.javalec.ex.service;
 
+import java.sql.JDBCType;
 import java.util.List;
 
 import com.javalec.ex.dto.AllDto;
@@ -19,7 +20,8 @@ public interface UserMemberService {
 	//회원 로그인
 	AllDto memberLogin(MemberDto memberDto);
 
-	//비회원 주문조회 로그인
 	ReceiverDto nonmemberLogin(ReceiverDto receiverDto);
+
+
 
 }
