@@ -14,6 +14,7 @@ public class AllDto {
 	private WinBoardDto winboarddto;
 	private LevelDto leveldto;
 	private ProductDto productdto;
+	private ReceiverDto receiverdto;
 	private UtilDto utildto;
 	
 	public MtmAnswerDto getMtmanswerdto() {
@@ -94,6 +95,12 @@ public class AllDto {
 	}
 	public void setProductdto(ProductDto productdto) {
 		this.productdto = productdto;
+	}
+	public ReceiverDto getReceiverdto() {
+		return receiverdto;
+	}
+	public void setReceiverdto(ReceiverDto receiverdto) {
+		this.receiverdto = receiverdto;
 	}
 
 	

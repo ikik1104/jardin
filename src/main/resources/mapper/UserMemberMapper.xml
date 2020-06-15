@@ -9,7 +9,8 @@
 	<!-- Dto 객체 선언 -->
 	
 	<resultMap type="com.javalec.ex.dto.AllDto" id="AllDto">
-	    <collection property="memberdto" resultMap="MemberDto"/>	        
+	    <collection property="memberdto" resultMap="MemberDto"/>	     
+	    <collection property="receiverdto" resultMap="ReceiverDto"/>	   	       
 	</resultMap>		
 	
 	<resultMap type="com.javalec.ex.dto.MemberDto" id="MemberDto">
@@ -37,8 +38,69 @@
 	    <result column="m_point" property="m_point"/>		               	    
 	</resultMap>	
 	
+	<resultMap type="com.javalec.ex.dto.ReceiverDto" id="ReceiverDto">
+	    <result column="rownum" property="rownum"/>	
+	    <result column="ol_order_num" property="ol_order_num"/>
+	    <result column="or_name" property="or_name"/>
+	    <result column="or_zipcode" property="or_zipcode"/>	    
+	    <result column="or_address1" property="or_address1"/>	    
+	    <result column="or_address2" property="or_address2"/>	    
+	    <result column="or_email" property="or_email"/>	    
+	    <result column="or_cphone" property="or_cphone"/>	    
+	    <result column="or_phone" property="or_phone"/>	    
+	    <result column="re_name" property="re_name"/>	 
+	    <result column="re_zip" property="re_zip"/>	 	       
+	    <result column="re_address1" property="re_address1"/>	 	    
+	    <result column="re_address2" property="re_address2"/>	 	    	    
+	    <result column="re_cphone" property="re_cphone"/>	 
+	    <result column="re_phone" property="re_phone"/>	 	    
+	    <result column="or_msg" property="or_msg"/>	 	    	
+	</resultMap>		
 	
+	<!-- 아이디 비교 -->
+	<select id="checkID" resultMap="AllDto">
+	    select * from
+	    (select m_id, m_num from member_tb where m_id=#{m_id}
+	    
+	    union all
+	    
+	    select '-' as m_id,-1 as m_num from dual)
+	    where m_id!='-' and m_num!=-1 or rownum =1
+	</select>
 	
-
+	<!-- 비밀번호 비교 -->
+	<select id="checkPW" resultMap="AllDto">
+	    select * from
+	    (select m_pw from member_tb where m_id=#{m_id}
+	    and m_pw=#{m_pw}
+	    
+	    union all
+	    
+	    select '-' as m_pw from dual)
+	    where m_pw!='-' or rownum =1
+	</select>
+	
+	<!-- 비회원 주문번호 비교 -->
+	<select id="checkOrderNum" resultMap="AllDto">
+	    select * from
+	    (select ol_order_num from orderer_receiver_tb where ol_order_num=#{receiverDto.ol_order_num} and  m_name=#{memberDto.m_name}
+	    
+	    union all
+	    
+	    select '-' as ol_order_num from dual)
+	    where ol_order_num!='-' or rownum =1	
+	</select>	
+	
+	<!-- 비회원 주문자명 비교 -->
+	<select id="checkOrderName" resultMap="AllDto">
+	   	select * from
+	    (select m_name from orderer_receiver_tb  where ol_order_num=#{receiverDto.ol_order_num} and  m_name=#{memberDto.m_name}
+	    
+	    union all
+	    
+	    select '-' as m_name from dual)
+	    where m_name!='-' or rownum =1
+	</select>
+	
 	
 </mapper>		
