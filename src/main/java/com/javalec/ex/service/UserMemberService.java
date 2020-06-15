@@ -20,6 +20,6 @@ public interface UserMemberService {
 	AllDto memberLogin(MemberDto memberDto);
 
 	//비회원 주문조회 로그인
-	AllDto nonmemberLogin(ReceiverDto receiverDto, MemberDto memberDto);
+	ReceiverDto nonmemberLogin(ReceiverDto receiverDto);
 
 }

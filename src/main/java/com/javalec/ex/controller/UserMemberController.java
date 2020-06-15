@@ -75,16 +75,40 @@ public class UserMemberController {
 	//비회원 주문조회 로그인
 	
 	@RequestMapping("nonmember_login")
-	public String nonmember_login(ReceiverDto receiverDto, MemberDto memberDto,Model model) {
-		int success = -99;
-		AllDto info_fromDB = mservice.nonmemberLogin(receiverDto, memberDto);
-		if(!(info_fromDB.getMemberdto().getM_name().equals("-"))) {
+	public String nonmember_login(ReceiverDto receiverDto, HttpSession session,Model model) {
+		
+		int success = -99; String alerttext="";
+		ReceiverDto info_fromDB = mservice.nonmemberLogin(receiverDto);
+		
+		if(!(info_fromDB.getM_name().equals("-"))) {
 			//주문자명 일치할 경우
-			if(info_fromDB.getReceiverdto().getOl_order_num().equals("-")) {
-				
+			if(!(info_fromDB.getOl_order_num().equals("-"))) {
+				//주문자명, 주문번호 모두 일치
+				success=1;
+			} else {
+				//주문자명 일치, 주문번호 불일치
+				success=-1;
 			}
 		}
+		switch(success) {
+		case -99 : alerttext="alert('주문자명이 일치하지 않습니다.'); history.go(-1)"; break;
+		case -1 : alerttext="alert('주문번호가 일치하지 않습니다.'); history.go(-1);"; break;
+		case 1 : 
+			System.out.println("주문자명, 주문번호 둘다 일치"); 
+			alerttext="location.href='nonmember_ordercheck';";//비회원 주문조회 페이지로 이동
+			session.setAttribute("nonmemberID", info_fromDB.getM_name()); 
+			session.setAttribute("nonmemberNum", info_fromDB.getOl_order_num()); 			
+			break;
+		}
+		model.addAttribute("alerttext", alerttext);		
+		return temp_login(model);
+		
 	}
 	
+	//(임시)비회원 주문조회 페이지 링크
+	@RequestMapping("nonmember_ordercheck")
+	public String nonmember_ordercheck() {
+		return "nonmember/ordercheck";
+	}
 
 }

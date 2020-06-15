@@ -33,14 +33,19 @@ public class UserMemberServiceImp implements UserMemberService {
 	}
 
 	//비회원 주문조회 로그인
-	public AllDto nonmemberLogin(ReceiverDto receiverDto, MemberDto memberDto) {
-		AllDto name_fromDB = mdao.checkOrderName(receiverDto, memberDto);
-		if(name_fromDB.getMemberdto().getM_name().equals("-")) {
+	public ReceiverDto nonmemberLogin(ReceiverDto receiverDto) {
+		String m_name =receiverDto.getM_name();System.out.println(m_name);
+		String ol_order_num = receiverDto.getOl_order_num();		System.out.println(ol_order_num);
+		
+		ReceiverDto name_fromDB = mdao.checkOrderName(m_name, ol_order_num);
+		System.out.println(name_fromDB.getM_name());		
+		if(name_fromDB.getM_name().equals("-")) {
 			//주문자명 불일치
 			return name_fromDB;
 		}
-		AllDto num_fromDB = mdao.checkOrderNum(receiverDto, memberDto);
-		name_fromDB.getReceiverdto().setOl_order_num(num_fromDB.getReceiverdto().getOl_order_num());
+		System.out.println("주문자명 일치");
+		ReceiverDto num_fromDB = mdao.checkOrderNum(m_name, ol_order_num);
+		name_fromDB.setOl_order_num(num_fromDB.getOl_order_num());
 		return name_fromDB;
 		
 	}

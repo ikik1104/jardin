@@ -27,9 +27,9 @@ public interface UserMemberDao {
 	AllDto checkPW(MemberDto memberDto);	
 
 	//주문자명 체크
-	AllDto checkOrderName(@Param("receiverDto") ReceiverDto receiverDto, @Param("memberDto") MemberDto memberDto);
+	ReceiverDto checkOrderName(@Param("m_name") String m_name, @Param("ol_order_num") String ol_order_num);
 	
 	//주문번호 체크
-	AllDto checkOrderNum(@Param("receiverDto") ReceiverDto receiverDto, @Param("memberDto") MemberDto memberDto);
+	ReceiverDto checkOrderNum(@Param("m_name") String m_name, @Param("ol_order_num") String ol_order_num);
 	
 }
