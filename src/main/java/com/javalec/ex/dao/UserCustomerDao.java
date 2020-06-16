@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.javalec.ex.dto.AllDto;
 import com.javalec.ex.dto.CouponDto;
+import com.javalec.ex.dto.FaqDto;
 import com.javalec.ex.dto.MemberDto;
 import com.javalec.ex.dto.MtmUserDto;
 import com.javalec.ex.dto.NoticeDto;
@@ -34,6 +35,9 @@ public interface UserCustomerDao {
 	
 	//사용자 1:1문의 작성
 	int insertUserInquiry(MtmUserDto mtmUserDto);
+
+	//Faq 전체 리스트 불러오기
+	List<FaqDto> getAllFaqs();
 
 
 	

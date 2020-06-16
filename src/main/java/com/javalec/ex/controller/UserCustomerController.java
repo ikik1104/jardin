@@ -93,19 +93,12 @@ public class UserCustomerController {
 		}
 		return realpath;
 	}
-	/*
-	//사용자 1:1문의 작성
-	@PostMapping("insert_inquiry")
-	public String insert_inquiry(MtmUserDto mtmUserDto, HttpSession session) {
-		String userNum = (String)session.getAttribute("userNum");		
-		mtmUserDto.setM_num(Integer.parseInt(userNum));
-		int success = cservice.insertUserInquiry(mtmUserDto);
-		String alerttext="";
-		if(success==0) {
-			alerttext="alert('문의글을 등록하지 못했습니다. 다시 시도해 주세요.'); history.go(-1);";
-		} else {
-			alerttext="alert(‘1:1문의글이 등록되었습니다. 답변은 MyPage - 1:1 문의에서 확인하실 수 있습니다.’); location.href='main';";
-		}
-		return response_path+"inquiryform";
-	}*/
+	//faq 전체 리스트 불러오기
+	@RequestMapping("faq_all")
+	public String faq_all(Model model) {
+		model.addAttribute("faq_list", 	cservice.getAllFaqs());
+		return response_path+"faq_all";
+	}
+	
+	
 }

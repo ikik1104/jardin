@@ -11,6 +11,7 @@ import com.javalec.ex.dao.UserCustomerDao;
 import com.javalec.ex.dao.UserMemberDao;
 import com.javalec.ex.dto.AllDto;
 import com.javalec.ex.dto.CouponDto;
+import com.javalec.ex.dto.FaqDto;
 import com.javalec.ex.dto.MemberDto;
 import com.javalec.ex.dto.MtmUserDto;
 import com.javalec.ex.dto.NoticeDto;
@@ -47,6 +48,16 @@ public class UserCustomerServiceImp implements UserCustomerService {
 	//사용자 1:1문의 작성
 	public int insertUserInquiry(MtmUserDto mtmUserDto) {
 		return cdao.insertUserInquiry(mtmUserDto);
+	}
+
+	//faq전체 리스트 불러오기
+	public List<FaqDto> getAllFaqs() {
+		return cdao.getAllFaqs();
+	}
+
+	//ajax로 faq 전체 리스트 불러오기
+	public List<FaqDto> getAllFaqsAjax() {
+		return cdao.getAllFaqs();
 	}
 
 	

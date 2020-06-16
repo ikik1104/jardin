@@ -15,6 +15,7 @@ public class AllDto {
 	private LevelDto leveldto;
 	private ProductDto productdto;
 	private ReceiverDto receiverdto;
+	private FaqDto fapdto;
 	private UtilDto utildto;
 	
 	public MtmAnswerDto getMtmanswerdto() {
@@ -101,6 +102,12 @@ public class AllDto {
 	}
 	public void setReceiverdto(ReceiverDto receiverdto) {
 		this.receiverdto = receiverdto;
+	}
+	public FaqDto getFapdto() {
+		return fapdto;
+	}
+	public void setFapdto(FaqDto fapdto) {
+		this.fapdto = fapdto;
 	}
 
 	

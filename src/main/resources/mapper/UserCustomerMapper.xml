@@ -22,7 +22,8 @@
 	    <collection property="e_commentdto" resultMap="E_CommentDto"/>	
 	    <collection property="memberdto" resultMap="MemberDto"/>	
 	    <collection property="winboarddto" resultMap="WinBoardDto"/>
-	    <collection property="utildto" resultMap="UtilDto"/>	    		               	    	    	     
+	    <collection property="utildto" resultMap="UtilDto"/>	    		       
+	    <collection property="faqdto" resultMap="FaqDto"/>	    	            	    	    	     
 	</resultMap>	
 	
 	<resultMap type="com.javalec.ex.dto.UtilDto" id="UtilDto">
@@ -144,6 +145,16 @@
 	    <result column="wb_date" property="wb_date"/>	  		     
 	</resultMap>		
 	
+	<resultMap type="com.javalec.ex.dto.FaqDto" id="FaqDto">
+	    <result column="rownum" property="rownum"/>
+	    <result column="f_num" property="f_num"/>	 
+	    <result column="f_step" property="f_step"/>
+	    <result column="f_title" property="f_title"/>
+	    <result column="f_content" property="f_content"/>	    
+	    <result column="f_sysdate" property="f_sysdate"/>	    
+	    <result column="f_delflag" property="f_delflag"/>	   		     
+	</resultMap>		
+	
 	<!-- 공지사항 전체 리스트 불러오기 -->
 	<select id="getAllNoticeBoards" resultMap="AllDto">
         select ntb.*, ad_grade,ad_id, ad_name
@@ -189,4 +200,9 @@
         ''
         )
 	</insert>
+	
+	<!-- faq 전체 리스트 불러오기 -->
+	<select id="getAllFaqs" resultMap="FaqDto">
+		 select * from faq_tb order by f_num desc
+	</select>
 </mapper>		
