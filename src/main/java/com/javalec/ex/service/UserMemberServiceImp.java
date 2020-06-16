@@ -55,6 +55,16 @@ public class UserMemberServiceImp implements UserMemberService {
 		return mdao.memberJoin(memberDto);
 	}
 
+	//아이디 찾기
+	public MemberDto searchID(MemberDto memberDto) {
+		return mdao.searchID(memberDto);
+	}
+
+	//비밀번호 찾기
+	public MemberDto searchPW(MemberDto memberDto) {
+		return mdao.searchPW(memberDto);
+	}
+
 	
 
 

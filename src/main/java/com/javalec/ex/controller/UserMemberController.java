@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.method.annotation.ModelMethodProcessor;
 
 import com.javalec.ex.dto.AllDto;
 import com.javalec.ex.dto.CouponDto;
@@ -143,6 +144,62 @@ public class UserMemberController {
 	@RequestMapping("step04")
 	public String step04() {
 		return response_path+"step04";
+	}
+	
+	//아이디/비밀번호 찾기 페이지 접속
+	@RequestMapping("idsearch")
+	public String idsearch() {
+		return response_path+"idsearch";
+	}
+	
+	//아이디 찾기
+	@PostMapping("search_id")
+	public String search_id(MemberDto memberDto, Model model) {
+		String alerttext=""; String realpath="";
+		MemberDto meminfo = mservice.searchID(memberDto);
+		if(meminfo.getM_id().equals("-")) {
+			//일치하는 아이디 없는 경우
+			alerttext="alert('일치하는 아이디가 없습니다. 다시 시도해 주세요.'); history.go(-1);";
+			realpath=response_path+"idsearch";
+		} else {
+			//일치하는 아이디 찾았을 경우
+			realpath="redirect:idsearch_success";
+		}
+		model.addAttribute("alerttext", alerttext);
+		model.addAttribute("m_id", meminfo.getM_id());
+		return realpath;
+	}
+	
+	//비밀번호 찾기
+	@PostMapping("search_pw")
+	public String search_pw(MemberDto memberDto, Model model) {
+		String alerttext=""; String realpath="";
+		MemberDto meminfo = mservice.searchPW(memberDto);
+		if(meminfo.getM_pw().equals("-")) {
+			//일치하는 비밀번호 없는 경우
+			alerttext="alert('정보와 일치하는 비밀번호가 없습니다. 다시 시도해 주세요.'); history.go(-1);";
+			realpath=response_path+"idsearch";
+		} else {
+			//일치하는 비밀번호 찾았을 경우
+			realpath="redirect:pwsearch_success";
+		}
+		model.addAttribute("alerttext", alerttext);
+		model.addAttribute("m_pw", meminfo.getM_pw());
+		return realpath;
+	}	
+	
+	//아이디 찾기 성공 페이지 접속
+	@RequestMapping("idsearch_success")
+	public String idsearch_success(HttpServletRequest request, Model model) {
+		model.addAttribute("m_id", request.getParameter("m_id"));
+		return response_path+"idsearch_success";
+	}
+	
+	//비밀번호 찾기 성공 페이지 접속
+	@RequestMapping("pwsearch_success")
+	public String pwsearch_success(HttpServletRequest request, Model model) {
+		model.addAttribute("m_pw", request.getParameter("m_pw"));
+		return response_path+"pwsearch_success";
 	}
 
 }

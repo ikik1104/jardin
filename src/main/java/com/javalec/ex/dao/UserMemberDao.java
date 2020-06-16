@@ -34,7 +34,13 @@ public interface UserMemberDao {
 	ReceiverDto checkNum(ReceiverDto receiverDto);
 
 	//회원가입
-	int memberJoin(MemberDto memberDto);	
+	int memberJoin(MemberDto memberDto);
+
+	//아이디 찾기
+	MemberDto searchID(MemberDto memberDto);
+
+	//비밀번호 찾기
+	MemberDto searchPW(MemberDto memberDto);	
 	
 	
 

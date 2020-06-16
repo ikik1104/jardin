@@ -133,4 +133,24 @@
 		0
 		)
 	</insert>
+	
+	<select id="searchID" resultMap="MemberDto">
+	    select * from
+	    (select m_id from member_tb where m_name=#{m_name} and m_email=#{m_email}
+	    
+	    union all
+	    
+	    select '-' as m_id from dual)
+	    where m_id!='-' or rownum=1	
+	</select>
+	
+	<select id="searchPW" resultMap="MemberDto">
+	    select * from
+	    (select m_pw from member_tb where m_id=#{m_id} and m_email=#{m_email}
+	    
+	    union all
+	    
+	    select '-' as m_pw from dual)
+	    where m_pw!='-' or rownum=1		
+	</select>
 </mapper>		
