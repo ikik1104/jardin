@@ -14,6 +14,14 @@ public class PageDto {
 		calcStartEndPage(page, range);
 		calcRownum(page, cntPerPage, total);
 	}
+	public PageDto(int total, int page, int cntPerPage, int i) {
+		this.total = total; //전체 게시글 수
+		this.page = page; //오픈할 페이지
+		this.cntPerPage = cntPerPage; //한 페이지당 글 수
+		calcLastPage(total, cntPerPage);
+		calcStartEndPage(page, range);
+		calcRownum2(page, cntPerPage, total);
+	}
 	
 	//마지막페이지 계산
 	public void calcLastPage(int total, int cntPerPage) {
@@ -29,10 +37,13 @@ public class PageDto {
 	
 	//페이지 내에서 rownum 첫번호 끝번호
 	public void calcRownum(int page, int cntPerPage, int total) {
-//		endRow = page * cntPerPage;
-//		startRow = endRow - cntPerPage + 1;
 		startRow = total - (page-1) * cntPerPage;
 		endRow = startRow - cntPerPage + 1;
+	}
+
+	public void calcRownum2(int page, int cntPerPage, int total) {
+		endRow = page * cntPerPage;
+		startRow = endRow - cntPerPage + 1;
 	}
 
 	public int getPage() {

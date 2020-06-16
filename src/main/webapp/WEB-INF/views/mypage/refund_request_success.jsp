@@ -49,13 +49,8 @@ $(document).ready(function() {
 
 </script>
 <style type="text/css">
-body{
-background : white;
-}
-h1{
-font-size : 20px;
-line-height: 1.3;
-}
+body{background : white;}
+h1{font-size : 20px; line-height: 1.3;}
 </style>
 </head>
 <body>

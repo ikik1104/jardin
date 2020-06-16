@@ -39,7 +39,7 @@ $(document).ready(function() {
 		var ol_num = '${ ol_num }';
 		var rt_amt = '${ rt_amt }';
 		var origin_amt = '${ origin_amt }';
-		var ol_price = '${ ol_price }';
+		var ol_price = '${ ol_price }'; //반품할 수량만큼의 가격
 		var origin_price = '${ origin_price }';
 		var arrData = [ol_num, rt_amt, rt_reason, origin_amt, ol_price, origin_price];
 		

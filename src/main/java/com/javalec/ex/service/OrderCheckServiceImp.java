@@ -42,12 +42,12 @@ public class OrderCheckServiceImp implements OrderCheckService {
 	}
 
 	@Override
-	public int returnRq(String ol_num, String rt_amt, String rt_reason) {
-		return orderCheckDao.returnRq(ol_num, rt_amt, rt_reason);
+	public int returnRq(int ol_num, String rt_amt, String rt_reason, int rt_price) {
+		return orderCheckDao.returnRq(ol_num, rt_amt, rt_reason, rt_price);
 	}
 
 	@Override
-	public int deleteOrderOne(String ol_num) {
+	public int deleteOrderOne(int ol_num) {
 		return orderCheckDao.deleteOrderOne(ol_num);
 	}
 
@@ -105,6 +105,16 @@ public class OrderCheckServiceImp implements OrderCheckService {
 		System.out.println("서비스 임프");
 		System.out.println("rf receipt" + rf_receipt_num);
 		return orderCheckDao.refundRequest(rf_receipt_num, ol_num, rf_price);
+	}
+
+	@Override
+	public int countReturnRefund(String m_id) {
+		return orderCheckDao.countReturnRefund(m_id);
+	}
+
+	@Override
+	public List<Map<String, String>> getAllRtrf(String m_id, PageDto pageDto) {
+		return orderCheckDao.getAllRtrf(m_id, pageDto);
 	}
 
 	

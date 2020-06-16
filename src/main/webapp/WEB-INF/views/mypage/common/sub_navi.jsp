@@ -14,7 +14,7 @@
         </div>
         <ul>
             <li><a href="ordercheck" id="leftNavi1">주문/배송 조회</a></li>
-            <li><a href="#" id="leftNavi2">반품/배송 현황</a></li>
+            <li><a href="takeback_state" id="leftNavi2">반품/배송 현황</a></li>
             <li><a href="#" id="leftNavi3">장바구니</a></li>
             <li><a href="#" id="leftNavi4">위시리스트</a></li>
             <li><a href="#" id="leftNavi5">나의 쿠폰</a></li>
