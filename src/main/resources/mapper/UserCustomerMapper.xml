@@ -33,7 +33,8 @@
 	</resultMap>
 	
 	<resultMap type="com.javalec.ex.dto.MtmUserDto" id="MtmUserDto">
-	    <result column="rownum" property="rownum"/>	
+	    <result column="rnum" property="rnum"/>	
+	    <result column="m_num" property="m_num"/>	    
 	    <result column="iu_title" property="iu_title"/>
 	    <result column="iu_date" property="iu_date"/>
 	    <result column="iu_status" property="iu_status"/>
@@ -170,8 +171,22 @@
         where noti.ad_num=ad.ad_num	
 	</select>	
 	
+	<!-- 공지글 조회수 1 증가 -->
 	<update id="addNoHit">
 		update notice_tb set no_hit=no_hit+1 where no_num=#{no_num}
 	</update>
 	
+	<!-- 사용자 1:1 문의 작성 -->
+	<insert id="insertUserInquiry">
+        insert into mtm_inqury_user_tb values(
+        iu_seq.nextval,
+        #{m_num},
+        #{iu_title},
+        #{iu_content},
+        #{iu_sort},
+        sysdate,
+        '답변대기',
+        ''
+        )
+	</insert>
 </mapper>		

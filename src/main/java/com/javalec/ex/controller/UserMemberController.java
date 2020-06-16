@@ -38,8 +38,8 @@ public class UserMemberController {
 	UserMemberService mservice;
 	
 	//로그인 페이지 접속
-	@RequestMapping("temp_login")
-	public String temp_login(Model model) {
+	@RequestMapping("login")
+	public String login(Model model) {
 		return response_path+"login";
 	}
 	
@@ -66,12 +66,13 @@ public class UserMemberController {
 			System.out.println("id, pw 둘다 일치"); 
 			alerttext="location.href='main';";
 			session.setAttribute("userID", alldto_fromDB.getMemberdto().getM_id()); 
-			session.setAttribute("userNum", alldto_fromDB.getMemberdto().getM_num()); 			
+			session.setAttribute("userNum", alldto_fromDB.getMemberdto().getM_num()); 
+			//session에서 userNum 불러올 때 int형이면 형변환해줘야 되기 때문에 그냥 String으로 저장
 			break;
 		}
 		model.addAttribute("alerttext", alerttext);
 	
-		return temp_login(model);
+		return login(model);
 	}
 	
 	//(임시)비회원 주문조회 페이지 링크
@@ -108,7 +109,7 @@ public class UserMemberController {
 		}
 		model.addAttribute("alerttext", alerttext);
 		
-		return temp_login(model);
+		return login(model);
 	}
 	
 	//회원가입 실명확인 페이지 접속

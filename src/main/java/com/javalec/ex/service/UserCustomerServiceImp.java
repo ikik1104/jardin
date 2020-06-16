@@ -12,6 +12,7 @@ import com.javalec.ex.dao.UserMemberDao;
 import com.javalec.ex.dto.AllDto;
 import com.javalec.ex.dto.CouponDto;
 import com.javalec.ex.dto.MemberDto;
+import com.javalec.ex.dto.MtmUserDto;
 import com.javalec.ex.dto.NoticeDto;
 import com.javalec.ex.dto.ReceiverDto;
 import com.javalec.ex.dto.UtilDto;
@@ -41,6 +42,11 @@ public class UserCustomerServiceImp implements UserCustomerService {
 			returndto.getNoticedto().setNo_hit(-1);
 		}
 		return returndto;
+	}
+
+	//사용자 1:1문의 작성
+	public int insertUserInquiry(MtmUserDto mtmUserDto) {
+		return cdao.insertUserInquiry(mtmUserDto);
 	}
 
 	

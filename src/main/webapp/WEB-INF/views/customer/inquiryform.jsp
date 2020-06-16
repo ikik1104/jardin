@@ -33,6 +33,10 @@ $(document).ready(function() {
 
 
 });
+
+window.onload=function(){
+	${alerttext}
+}
 </script>
 </head>
 <body>
@@ -86,6 +90,24 @@ $(document).ready(function() {
 		$("#ieUser").hide();
         clearTimeout(msietimer);
      }
+     
+     //폼 리셋
+     function resetForm(){
+    	 if(confirm('1:1문의 작성을 취소하시겠습니까?')){
+	    	 input_inq.reset();
+    	 } else {
+    		 
+    	 }
+     }
+     
+     //폼 제출
+     function submitForm(){
+    	 input_inq.submit();
+     }    
+     
+     window.onload=function(){
+    	 ${alerttext}
+     }
 </script>
 
 <div id="allwrap">
@@ -115,7 +137,7 @@ $(document).ready(function() {
 				</ul>			
 			</div><script type="text/javascript">initSubmenu(2,0);</script>
 
-
+			<form action="inquiry_write_regi" method="post" name="input_inq">
 			<!-- contents -->
 			<div id="contents">
 				<div id="customer">
@@ -132,27 +154,34 @@ $(document).ready(function() {
 								<tr>
 									<th scope="row"><span>분류</span></th>
 									<td>
-										<select>
-											<option value="">선택해주세요.</option>
-										</select>
+    										<select name="iu_sort">
+    											<option value="">선택해주세요.</option>
+    											<option value="상품">상품문의</option>
+    											<option value="배송">배송문의</option>
+    											<option value="교환/반품/취소">교환/반품/취소</option>
+    											<option value="주문/입금확인">주문/입금확인</option>
+    											<option value="기타">기타</option>
+    										</select>
 									</td>
 								</tr>
 								<tr>
 									<th scope="row"><span>제목</span></th>
 									<td>
-										<input type="text" class="wlong" />
+    										<input type="text" class="wlong" name="iu_title" />
 									</td>
 								</tr>
 								<tr>
 									<th scope="row"><span>상세 내용</span></th>
 									<td>
-										<textarea class="tta"></textarea>
+    										<textarea class="tta" name="iu_content"></textarea>
 									</td>
 								</tr>
 								<tr>
 									<th scope="row"><span>첨부파일</span></th>
 									<td>
-										<input type="file" class="fileType" />
+    										<input type="file" class="fileType" name="iu_img"/>
+                                        <!-- 회원고유번호 hidden -->
+                                        <input type="hidden" name="m_num" value="${ userNum }">										
 									</td>
 								</tr>
 							</tbody>
@@ -163,8 +192,8 @@ $(document).ready(function() {
 					<div class="btnArea">
 						<div class="bCenter">
 							<ul>																
-								<li><a href="#" class="nbtnbig">취소</a></li>
-								<li><a href="#" class="sbtnMini">확인</a></li>
+								<li onclick="resetForm()" ><a class="nbtnbig">취소</a></li>
+								<li onclick="submitForm()" ><a class="sbtnMini">확인</a></li>
 							</ul>
 						</div>
 					</div>
@@ -173,7 +202,7 @@ $(document).ready(function() {
 				</div>
 			</div>
 			<!-- //contents -->
-
+			</form>
 
 		</div>
 	</div>
