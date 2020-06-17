@@ -29,7 +29,7 @@
 <![endif]-->
 <script type="text/javascript">
 $(document).ready(function() {
-    $("#all a").attr("class","on");
+    $("#order a").attr("class","on");
 
 
 });
@@ -146,7 +146,7 @@ $(document).ready(function() {
 							<li id="all"><a href="faq_all" >전체</a></li>
 							<li id="user" class="dep"><a href="faq_user">회원</a></li>
 							<li id="product"><a href="faq_product">상품</a></li>
-							<li id="order" class="last"><a class="on">주문</a></li>
+							<li id="order" class="last"><a >주문</a></li>
 						</ul>						
 					</div>	
 					
@@ -154,26 +154,35 @@ $(document).ready(function() {
 					<div class="faqList">
 						<ul>
 							<!-- list -->
-							<c:forEach var="faq_list" items="${faq_list}">
-							<li>
-								<a href="javascript:;" class="faqbtn">
-									<div class="question">
-										<div class="blet">Q</div>
-										<div class="category">${faq_list.f_step}</div>
-										<div class="title">${faq_list.f_title}</div>
-									</div>
-								</a>
-
-								<div class="faqanswer">
-									<div class="faqbox">
-										<div class="blet">A</div>
-										<div class="text">
-											${faq_list.f_content}
-										</div>
-									</div>
-								</div>
-							</li>
-							</c:forEach>
+								<c:if test="${faq_list.size()==0 }"><!-- 등록된 faq가 없을 때 -->
+									<li>
+											<div class="question">
+												<div class="blet">등록된 FAQ가 없습니다.</div>
+											</div>
+									</li>								
+								</c:if>
+								<c:if test="${faq_list.size()!=0 }"><!-- 등록된 faq가 있을 때 -->
+									<c:forEach var="faq_list" items="${faq_list}">
+										<li>
+											<a href="javascript:;" class="faqbtn">
+												<div class="question">
+													<div class="blet">Q</div>
+													<div class="category">${faq_list.f_step}</div>
+													<div class="title">${faq_list.f_title}</div>
+												</div>
+											</a>
+			
+											<div class="faqanswer">
+												<div class="faqbox">
+													<div class="blet">A</div>
+													<div class="text">
+														${faq_list.f_content}
+													</div>
+												</div>
+											</div>
+										</li>					
+									</c:forEach>
+								</c:if>
 						</ul>
 					</div>
 					<!-- //FAQ -->

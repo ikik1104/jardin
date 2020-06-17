@@ -100,5 +100,27 @@ public class UserCustomerController {
 		return response_path+"faq_all";
 	}
 	
+	//faq 주문 리스트 불러오기
+	@RequestMapping("faq_order")
+	public String faq_order(Model model) {
+		model.addAttribute("faq_list", 	cservice.getOrderFaqs());
+		return response_path+"faq_order";
+	}
+	
+	//faq 상품 리스트 불러오기
+	@RequestMapping("faq_product")
+	public String faq_product(Model model) {
+		model.addAttribute("faq_list", 	cservice.getProductFaqs());
+		return response_path+"faq_product";
+	}	
+	
+	//faq 회원 리스트 불러오기
+	@RequestMapping("faq_user")
+	public String faq_user(Model model) {
+		model.addAttribute("faq_list", 	cservice.getUserFaqs());
+		return response_path+"faq_user";
+	}	
+	
+	
 	
 }

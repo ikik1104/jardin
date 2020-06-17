@@ -32,7 +32,13 @@ public interface UserCustomerService {
 	//faq 전체 리스트 불러오기
 	List<FaqDto> getAllFaqs();
 
-	//ajax로 faq 전체 리스트 불러오기
-	List<FaqDto> getAllFaqsAjax();
+	//faq 주문 리스트 불러오기
+	List<FaqDto> getOrderFaqs();
+
+	//faq 상품 리스트 불러오기
+	List<FaqDto> getProductFaqs();
+
+	//faq 회원 리스트 불러오기
+	List<FaqDto> getUserFaqs();
 
 }

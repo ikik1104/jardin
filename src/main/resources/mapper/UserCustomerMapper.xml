@@ -203,6 +203,24 @@
 	
 	<!-- faq 전체 리스트 불러오기 -->
 	<select id="getAllFaqs" resultMap="FaqDto">
-		 select * from faq_tb order by f_num desc
+		 select * from faq_tb where f_delflag='N' order by f_num desc
 	</select>
+	
+	<!-- faq 주문 리스트 불러오기 -->
+	<select id="getOrderFaqs" resultMap="FaqDto">
+		 select * from faq_tb where f_step='주문' and f_delflag='N' order by f_num desc
+	</select>
+	
+		<!-- faq 상품 리스트 불러오기 -->
+	<select id="getProductFaqs" resultMap="FaqDto">
+		 select * from faq_tb where f_step='상품' and f_delflag='N' order by f_num desc
+	</select>
+	
+		<!-- faq 회원 리스트 불러오기 -->
+	<select id="getUserFaqs" resultMap="FaqDto">
+		 select * from faq_tb where f_step='회원' and f_delflag='N' order by f_num desc
+	</select>	
+	
+	
+	
 </mapper>		

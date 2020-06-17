@@ -38,6 +38,15 @@ public interface UserCustomerDao {
 
 	//Faq 전체 리스트 불러오기
 	List<FaqDto> getAllFaqs();
+	
+	//faq 주문 리스트 불러오기
+	List<FaqDto> getOrderFaqs();
+	
+	//faq 상품 리스트 불러오기
+	List<FaqDto> getProductFaqs();
+	
+	//faq 회원 리스트 불러오기
+	List<FaqDto> getUserFaqs();
 
 
 	

@@ -55,9 +55,19 @@ public class UserCustomerServiceImp implements UserCustomerService {
 		return cdao.getAllFaqs();
 	}
 
-	//ajax로 faq 전체 리스트 불러오기
-	public List<FaqDto> getAllFaqsAjax() {
-		return cdao.getAllFaqs();
+	//faq 주문 리스트 불러오기
+	public List<FaqDto> getOrderFaqs() {
+		return cdao.getOrderFaqs();
+	}
+
+	//faq 상품 리스트 불러오기
+	public List<FaqDto> getProductFaqs() {
+		return cdao.getProductFaqs();
+	}
+
+	//faq 회원 리스트 불러오기
+	public List<FaqDto> getUserFaqs() {
+		return cdao.getUserFaqs();
 	}
 
 	
