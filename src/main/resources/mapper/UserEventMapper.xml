@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+     
+<mapper namespace="com.javalec.ex.dao.UserEventDao">
+
+
+
+	<!-- [사용자] 이벤트 -->
+
+	<!-- Dto 객체 선언 -->
+	
+	<resultMap type="com.javalec.ex.dto.AllDto" id="AllDto">
+		<collection property="admindto" resultMap="AdminDto"/>	
+	    <collection property="eventdto" resultMap="EventDto"/>
+	    <collection property="coupondto" resultMap="CouponDto"/>	 
+	    <collection property="e_commentdto" resultMap="E_CommentDto"/>	
+	    <collection property="memberdto" resultMap="MemberDto"/>	
+	    <collection property="winboarddto" resultMap="WinBoardDto"/>
+	    <collection property="utildto" resultMap="UtilDto"/>	    			    	    	     
+	</resultMap>	
+	
+	<resultMap type="com.javalec.ex.dto.UtilDto" id="UtilDto">
+	    <result column="str1" property="str1"/>	
+	    <result column="str2" property="str2"/>  
+	    <result column="str3" property="str3"/>  	
+	    <result column="str4" property="str4"/> 	        
+	</resultMap>
+	
+	
+	<resultMap type="com.javalec.ex.dto.MemberDto" id="MemberDto">
+	    <result column="m_num" property="m_num"/>
+	    <result column="m_name" property="m_name"/>
+	    <result column="m_id" property="m_id"/>	    
+	    <result column="m_pw" property="m_pw"/>	    
+	    <result column="m_email" property="m_email"/>	    
+	    <result column="m_email_ok" property="m_email_ok"/>	    
+	    <result column="m_zipcode" property="m_zipcode"/>	    
+	    <result column="m_address1" property="m_address1"/>	    
+	    <result column="m_address2" property="m_address2"/>	 
+	    <result column="m_phone" property="m_phone"/>	 	       
+	    <result column="m_sms_ok" property="m_sms_ok"/>	 	    
+	    <result column="m_tel" property="m_tel"/>	 	    	    
+	    <result column="m_birth" property="m_birth"/>	 
+	    <result column="m_birth_sort" property="m_birth_sort"/>	 	    
+	    <result column="m_level" property="m_level"/>	 	    	    	    
+	    <result column="m_last_login" property="m_last_login"/>	 	
+	    <result column="m_status" property="m_status"/>	 	    
+	    <result column="m_left_date" property="m_left_date"/>	 	
+	    <result column="m_left_reason" property="m_left_reason"/>		    
+	    <result column="m_join_date" property="m_join_date"/>		 
+	    <result column="m_point" property="m_point"/>		               	    
+	</resultMap>
+	
+		<resultMap type="com.javalec.ex.dto.AdminDto" id="AdminDto">
+	    <result column="ad_num" property="ad_num"/>
+	    <result column="ad_id" property="ad_id"/>	 
+	    <result column="ad_pw" property="ad_pw"/>
+	    <result column="ad_name" property="ad_name"/> 	     	      
+	    <result column="ad_grade" property="ad_grade"/>  		      
+	</resultMap>
+	
+		
+	
+	<resultMap type="com.javalec.ex.dto.EventDto" id="EventDto">
+	    <result column="rownum" property="rownum"/>		
+	    <result column="e_num" property="e_num"/>	     
+	    <result column="e_title" property="e_title"/>	
+	    <result column="e_start_day" property="e_start_day"/>
+	    <result column="e_end_day" property="e_end_day"/>
+	    <result column="e_thumb_img" property="e_thumb_img"/>	
+	    <result column="e_content_img" property="e_content_img"/>	        
+	    <result column="e_content" property="e_content"/>	    	    	
+	    <result column="e_sysdate" property="e_sysdate"/>	
+	    <result column="co_num" property="co_num"/>	    
+	    <result column="e_win_day" property="e_win_day"/>		
+	    <result column="e_status" property="e_status"/>		    
+	    <result column="ad_num" property="ad_num"/>	
+	</resultMap>
+	
+	<resultMap type="com.javalec.ex.dto.CouponDto" id="CouponDto">
+	    <result column="co_num" property="co_num"/>
+	    <result column="co_name" property="co_name"/>	 
+	    <result column="co_start_day" property="co_start_day"/>
+	    <result column="co_end_day" property="co_end_day"/>
+	    <result column="co_expiry" property="co_expiry"/>	    
+	    <result column="co_type" property="co_type"/>	    
+	    <result column="co_discount" property="co_discount"/>	 	    
+	    <result column="co_sysdate" property="co_sysdate"/>	 	
+	    <result column="co_product" property="co_product"/>
+	    <result column="co_condition" property="co_condition"/>	 	       
+	</resultMap>	
+	
+	<resultMap type="com.javalec.ex.dto.E_CommentDto" id="E_CommentDto">
+	    <result column="ec_num" property="ec_num"/>
+	    <result column="m_num" property="m_num"/>	 
+	    <result column="e_num" property="e_num"/>
+	    <result column="ec_content" property="ec_content"/>
+	    <result column="ec_pw" property="ec_pw"/>	    
+	    <result column="ec_sysdate" property="ec_sysdate"/>	    
+	    <result column="ec_status" property="ec_status"/>	  	         
+	</resultMap>		
+	
+	<resultMap type="com.javalec.ex.dto.WinBoardDto" id="WinBoardDto">
+	    <result column="rownum" property="rownum"/>
+	    <result column="wb_num" property="wb_num"/>	 
+	    <result column="ad_num" property="ad_num"/>
+	    <result column="e_num" property="e_num"/>
+	    <result column="wb_title" property="wb_title"/>	    
+	    <result column="wb_hit" property="wb_hit"/>	    
+	    <result column="wb_content" property="wb_content"/>	  	        
+	    <result column="wb_date" property="wb_date"/>	  		     
+	</resultMap>		
+	
+	<!-- 이벤트 전체 리스트 가져오기 -->
+	<select id="getAllEvents" resultMap="AllDto">
+         <![CDATA[select rownum, fintb.* from
+     	 (select * from
+         (select etb.*, to_char(e_start_day, 'yyyy-MM-dd') str1, to_char(e_start_day, 'yyyy-MM-dd')str2, 
+         case when e_end_day<sysdate then '종료'
+         when e_start_day>sysdate then '시작전'
+         when e_start_day<=sysdate and e_end_day>=sysdate then '진행중' end str3
+         from
+         (select * from event_tb order by e_num desc) etb)
+         where str3='진행중') fintb]]> 
+	</select>
+	
+	<!-- 이벤트 1개 불러오기 -->
+	<select id="getEventBoard" resultMap="AllDto">
+          <![CDATA[ select eventtb.*, total str4 from
+         (select etb.*, to_char(e_start_day, 'yyyy-MM-dd') str1, to_char(e_start_day, 'yyyy-MM-dd')str2,
+        case when e_end_day<sysdate then '종료'
+         when e_start_day>sysdate then '시작전'
+         when e_start_day<=sysdate and e_end_day>=sysdate then '진행중' end str3 from        
+         (select * from event_tb where e_num=#{e_num}) etb) eventtb,
+         ( select count(*) total from ecomment_tb where e_num=#{e_num}) cnt	]]> 	
+	</select>
+	
+	<!-- 해당 이벤트 댓글 전체 리스트 불러오기 -->
+	<select id="getTheEComments" resultMap="AllDto">
+         select etb.*, m_id from
+         (select ectb.*, to_char(ec_sysdate, 'yyyy-MM-dd') str1, to_char(ec_sysdate, 'hh24:mm:ss') str2 from
+         (select * from ecomment_tb where e_num=#{e_num} order by ec_num desc) ectb) etb,
+         member_tb mtb
+         where mtb.m_num=etb.m_num	
+	</select>
+	
+	<!-- 댓글 pw 체크 -->
+	<select id="checkECommentPW" resultMap="E_CommentDto">
+        select * from
+        (select ec_pw from ecomment_tb where ec_pw=#{ec_pw} and m_num=#{m_num}
+		union all
+		select '-' ec_pw from dual)
+        where ec_pw!='-' or rownum =1
+	</select>
+	
+	
+</mapper>		

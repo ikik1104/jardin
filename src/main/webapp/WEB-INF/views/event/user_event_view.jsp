@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn"%>
 <!DOCTYPE html>
-<html>
+<html >
 <head>
 <title> JARDIN SHOP </title>
 <meta charset="UTF-8" />
@@ -30,13 +30,80 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	
+//비밀번호 체크하고 돌아왔을 때
+if(${checkflag==1}){
+	$('#modifyReply').show();
+	$('#originalReply').hide();	
+	$('#pwReply').hide();	
+} else {
+	$('#modifyReply').hide();
+	$('#originalReply').hide();	
+}
 
-
+$('#backbody').click(function(){
+	$('#layerWrap').css('display','none');	
+	$('#backbody').css('display','none');		
 });
+});
+
+//댓글 수정창 나타내기
+function showModify(){
+	$('#modifyReply').show();	
+	$('#originalReply').hide();		
+}
+</script>
+<!-- 비밀번호 모달창 스타일 -->
+<style>
+   /* The Modal (background) */
+        #layerWrap {/*.modal*/
+        	margin:auto auto;
+            display: none; /* Hidden by default */
+            position: fixed; 
+            z-index: 2; /* Sit on top */
+            left: 780px;
+            top: 250px;
+            width: auto; /* Full width 100%*/
+            height: auto; /* Full height 100%*/
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+		#backbody{
+			display:none;
+			width:100%; height:100%;
+			position:fixed;
+            z-index: 1; /* Sit on top */		
+             background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */           
+		}
+
+</style>
+<!-- 비밀번호 모달창 스크립트 -->
+<script type="text/javascript">
+                            
+function openPW(m_num){
+	$('#layerWrap').css('display','block');
+	$('#backbody').css('display','block');	
+	document.getElementById('hiddenNum').value=m_num;
+}
+function closePW(){
+	$('#layerWrap').css('display','none');	
+	$('#backbody').css('display','none');	
+}
+window.onload=function(){
+	${alerttext}
+}
+//비밀번호 불일치 시 실행
+function backpage(ec_pw){
+	$('#layerWrap').css('display','block');
+	$('#backbody').css('display','block');		
+	$( 'input#ec_pw' ).val( ec_pw );
+}
+
 </script>
 </head>
 <body>
-
+<div  id="backbody"></div>
 
 
 <!--익스레이어팝업-->
@@ -86,15 +153,53 @@ $(document).ready(function() {
 		$("#ieUser").hide();
         clearTimeout(msietimer);
      }
+ 
+		//비밀번호 체크
+		
+		function submitCheck(){
+			ec_pw_check.submit();
+		
+		}     
+     
 </script>
+
+
 
 <div id="allwrap">
 <div id="wrap">
+<!-- 비밀번호 모달창 -->
+<div id="layerWrap">
+
+	<div class="inputWrap">
+		<form action="ec_pw_check" name="ec_pw_check" method="post">
+		<div class="inputBody">
+			<div class="title">비밀번호 확인</div>
+			<p class="close" style="cursor:pointer;"><a onclick="closePW()" ><img src="user/images/btn/btn_input_close.gif" alt="닫기" /></a></p>
+			<!-- <p class="close"><a onclick="parent.$.fancybox.close();" href="javascript:;"><img src="user/images/btn/btn_input_close.gif" alt="닫기" /></a></p> -->
+			<p class="popalert">비밀번호를 입력해주세요.</p>
+			<input type="hidden" id="hiddenNum" name="m_num">
+			<div class="inputBox">					
+				<ul>
+					<li><label for="">비밀번호</label><input type="password" class="w348" name="ec_pw" id="ec_pw"/></li>
+				</ul>
+			</div>
+			<div class="centerbrn">
+				<a href="#" onclick="submitCheck()">확인</a>
+			</div>
+		</div>
+		<input type="hidden" value="${event_info.eventdto.e_num } " name="e_num">
+		</form>	
+	</div>
+
+
+</div>	
+<!-- 비밀번호 모달창 -->    
 
 	<jsp:include page="../header.jsp" />
 
 	<!-- container -->
 	<div id="container">
+
 
 		<div id="location">
 			<ol>
@@ -110,7 +215,7 @@ $(document).ready(function() {
 				<ul>	
 					<li><a href="#" id="leftNavi1">진행중 이벤트</a></li>
 					<li><a href="#" id="leftNavi2">종료된 이벤트</a></li>
-					<li class="last"><a href="#" id="leftNavi3">당첨자 발표</span></a></li>
+					<li class="last"><a href="#" id="leftNavi3"><span>당첨자 발표</span></a></li>
 				</ul>			
 			</div><script type="text/javascript">initSubmenu(1,0);</script>
 
@@ -124,16 +229,16 @@ $(document).ready(function() {
 						<div class="viewHead">
 							<div class="subject">
 								<ul>
-									<li>까페모리 봄바람 커피한잔 30% 할인 이벤트!!</li>
+									<li>${event_info.eventdto.e_title }</li>
 								</ul>
 							</div>
 							<div class="day">
-								<p class="txt">이벤트 기간<span>2014-04-01 ~ 2014-04-29</span></p>
+								<p class="txt">이벤트 기간<span>${event_info.utildto.str1 } ~ ${event_info.utildto.str2 }</span></p>
 							</div>
 						</div>
 
 						<div class="viewContents">
-							<img src="user/images/img/sample_event_view.jpg" alt="" />
+							<img src="tempUpload/${event_info.eventdto.e_content_img }" alt="" />
 						</div>
 					</div>
 
@@ -166,43 +271,80 @@ $(document).ready(function() {
 
 
 					<!-- 댓글-->
+					<form action="ecomment_insert" method="post" name="ecomment_insert" >
 					<div class="replyWrite">
 						<ul>
 							<li class="in">
-								<p class="txt">총 <span class="orange">3</span> 개의 댓글이 달려있습니다.</p>
-								<p class="password">비밀번호&nbsp;&nbsp;<input type="password" class="replynum" /></p>
-								<textarea class="replyType"></textarea>
+								<p class="txt">총 <span class="orange">${event_info.utildto.str4 }</span> 개의 댓글이 달려있습니다.</p>
+								<p class="password">비밀번호&nbsp;&nbsp;<input type="password" class="replynum" name="ec_pw"/></p>
+								<textarea class="replyType" name="ec_content"></textarea>
 							</li>
-							<li class="btn"><a href="#" class="replyBtn">등록</a></li>
+							<li class="btn"><a class="replyBtn" onclick="submitWrite()">등록</a></li>
 						</ul>
 						<p class="ntic">※ 비밀번호를 입력하시면 댓글이 비밀글로 등록 됩니다.</p>
 					</div>
-
+					</form>
+					
 					<div class="replyBox">
-						<ul>
-							<li class="name">jjabcde <span>[2014-03-04&nbsp;&nbsp;15:01:59]</span></li>
-							<li class="txt"><textarea class="replyType"></textarea></li>
-							<li class="btn">
-								<a href="#" class="rebtn">수정</a>
-								<a href="#" class="rebtn">삭제</a>
-							</li>
-						</ul>
+							<c:if test="${ecomment_list.size()==0 }"><!-- 등록된 댓글 없을 경우 -->
+									<ul>
+										<li class="name">등록된 댓글이 없습니다.</li>
+									</ul>									
+							</c:if>
+							<c:if test="${ecomment_list.size()!=0 }"><!-- 등록된 댓글 있을 경우 -->
+								
+							
+							
+								<!-- 사용자 댓글 맨 위에 출력 -->
+								<c:forEach var="ecomment_list" items="${ecomment_list }">		
+									<c:if test="${ecomment_list.memberdto.m_id==userID }">
+									
+									
+										<ul id="originalReply">
+											<li class="name">${ecomment_list.memberdto.m_id }(나의 댓글) <span>[${ecomment_list.utildto.str1 }&nbsp;&nbsp;${ecomment_list.utildto.str2 }]</span></li>
+											<li class="txt">${ecomment_list.e_commentdto.ec_content }</li>
+											<li class="btn">
+												<a class="rebtn" onclick="showModify()">수정</a>
+												<a href="#" class="rebtn">삭제</a>
+											</li>
+										</ul>		
+	
+										<ul id="pwReply">
+											<li class="name">${ecomment_list.memberdto.m_id }(나의 댓글) <span>[${ecomment_list.utildto.str1 }&nbsp;&nbsp;${ecomment_list.utildto.str2 }]</span></li>
+											<li class="txt">※비밀 댓글입니다.</li>
+											<li class="btn">
+												<a class="rebtn" onclick="openPW(${ecomment_list.e_commentdto.m_num })">수정</a>
+												<a href="#" class="rebtn">삭제</a>
+											</li>
+										</ul>		
+										
+										<ul id="modifyReply">
+											<li class="name">${ecomment_list.memberdto.m_id } <span>[${ecomment_list.utildto.str1 }&nbsp;&nbsp;${ecomment_list.utildto.str2 }]</span></li>
+											<li class="txt"><textarea class="replyType">${ecomment_list.e_commentdto.ec_content }</textarea></li>
+											<li><p class="password">비밀번호&nbsp;&nbsp;<input type="password" name="ec_pw_modify"/></p></li>
+											<li class="btn">
+												<a href="#" class="rebtn">수정</a>
+												<a href="#" class="rebtn">삭제</a>
+											</li>
+										</ul>									
+									</c:if>
+								</c:forEach>
+		
+								<!-- 사용자 댓글 아닌 거 출력 -->
+								<c:forEach var="ecomment_list" items="${ecomment_list }">		
+									<c:if test="${ecomment_list.memberdto.m_id!=userID }">
+										<ul>
+											<li class="name">${ecomment_list.memberdto.m_id } <span>[${ecomment_list.utildto.str1 }&nbsp;&nbsp;${ecomment_list.utildto.str2 }]</span></li>
+											<li class="txt">${ecomment_list.e_commentdto.ec_content }</li>
+										</ul>									
+									</c:if>							
+								</c:forEach>		
+		
+														
+							</c:if>
+					
 
-						<ul>
-							<li class="name">jjabcde <span>[2014-03-04&nbsp;&nbsp;15:01:59]</span></li>
-							<li class="txt">대박!!! 이거 저한테 완전 필요한 이벤트였어요!!</li>
-							<li class="btn">
-								<a href="#" class="rebtn">수정</a>
-								<a href="#" class="rebtn">삭제</a>
-							</li>
-						</ul>
-
-						<ul>
-							<li class="name">jjabcde <span>[2014-03-04&nbsp;&nbsp;15:01:59]</span></li>
-							<li class="txt">
-								<a href="password.html" class="passwordBtn"><span class="orange">※ 비밀글입니다.</span></a>
-							</li>
-						</ul>
+																	
 					</div>
 					<!-- //댓글 -->
 
@@ -220,6 +362,9 @@ $(document).ready(function() {
 				</div>
 			</div>
 			<!-- //contents -->
+			
+
+			    
 
 
 <script type="text/javascript" src="user/js/jquery.fancybox-1.3.4.pack.js"></script>

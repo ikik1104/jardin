@@ -124,47 +124,19 @@ $(document).ready(function() {
 					<!-- list -->
 					<div class="eventList">
 						<ul>
-							<!-- 반복 -->
+							<c:forEach var="event_list" items="${event_list }">
 							<li>
 								<div class="img">
-									<a href="#"><img src="user/images/img/sample_event.jpg" alt="진행중 이벤트" /></a>
+									<a href="user_event_view?e_num=${event_list.eventdto.e_num }"><img src="tempUpload/${event_list.eventdto.e_thumb_img }" alt="진행중 이벤트" /></a>
 								</div>
 								<div class="txt">
-									<div class="subject">까페모리 봄바람 커피한잔 30% 할인 이벤트!!까페모리 봄바람 커피한잔 30% 할인 이벤트!!</div>
-									<div class="day">이벤트 기간 : 2014-04-01 ~ 2014-04-29</div>
+									<div class="subject">${event_list.eventdto.e_title }</div>
+									<div class="day">이벤트 기간 : ${event_list.utildto.str1 } ~ ${event_list.utildto.str2 }</div>
 								</div>
-							</li>
-							<!-- //반복 -->
-
-							<li>
-								<div class="img">
-									<a href="#"><img src="user/images/img/sample_event.jpg" alt="진행중 이벤트" /></a>
-								</div>
-								<div class="txt">
-									<div class="subject">까페모리 봄바람 커피한잔 30% 할인 이벤트!!</div>
-									<div class="day">이벤트 기간 : 2014-04-01 ~ 2014-04-29</div>
-								</div>
-							</li>
-
-							<li>
-								<div class="img">
-									<a href="#"><img src="user/images/img/sample_event.jpg" alt="진행중 이벤트" /></a>
-								</div>
-								<div class="txt">
-									<div class="subject">까페모리 봄바람 커피한잔 30% 할인 이벤트!!</div>
-									<div class="day">이벤트 기간 : 2014-04-01 ~ 2014-04-29</div>
-								</div>
-							</li>
-
-							<li>
-								<div class="img">
-									<a href="#"><img src="user/images/img/sample_event.jpg" alt="진행중 이벤트" /></a>
-								</div>
-								<div class="txt">
-									<div class="subject">까페모리 봄바람 커피한잔 30% 할인 이벤트!!</div>
-									<div class="day">이벤트 기간 : 2014-04-01 ~ 2014-04-29</div>
-								</div>
-							</li>
+							</li>							
+							
+							</c:forEach>
+						
 						</ul>
 					</div>
 					<!-- //list -->
