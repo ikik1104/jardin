@@ -31,11 +31,15 @@
 $(document).ready(function() {
 	
 //비밀번호 체크하고 돌아왔을 때
-if(${checkflag==1}){
+if(${checkflag==1} && ${checkMode=='update'}){//나의 댓글 수정할 때
 	$('#modifyReply').show();
 	$('#originalReply').hide();	
 	$('#pwReply').hide();	
-} else {
+} else if(${checkflag==1} && ${checkMode=='select'}){//나의 댓글 조회할 때
+	$('#modifyReply').hide();
+	$('#originalReply').show();	
+	$('#pwReply').hide();	
+}else {
 	$('#modifyReply').hide();
 	$('#originalReply').hide();	
 }
@@ -81,10 +85,11 @@ function showModify(){
 <!-- 비밀번호 모달창 스크립트 -->
 <script type="text/javascript">
                             
-function openPW(m_num){
+function openPW(m_num, mode){
 	$('#layerWrap').css('display','block');
 	$('#backbody').css('display','block');	
 	document.getElementById('hiddenNum').value=m_num;
+	document.getElementById('checkMode').value=mode;	
 }
 function closePW(){
 	$('#layerWrap').css('display','none');	
@@ -188,6 +193,7 @@ function backpage(ec_pw){
 			</div>
 		</div>
 		<input type="hidden" value="${event_info.eventdto.e_num } " name="e_num">
+		<input type="hidden" id="checkMode" name="checkMode">
 		</form>	
 	</div>
 
@@ -311,9 +317,9 @@ function backpage(ec_pw){
 	
 										<ul id="pwReply">
 											<li class="name">${ecomment_list.memberdto.m_id }(나의 댓글) <span>[${ecomment_list.utildto.str1 }&nbsp;&nbsp;${ecomment_list.utildto.str2 }]</span></li>
-											<li class="txt">※비밀 댓글입니다.</li>
+											<li class="txt" onclick="openPW(${ecomment_list.e_commentdto.m_num }, select)">※비밀 댓글입니다.</li>
 											<li class="btn">
-												<a class="rebtn" onclick="openPW(${ecomment_list.e_commentdto.m_num })">수정</a>
+												<a class="rebtn" onclick="openPW(${ecomment_list.e_commentdto.m_num }, update)">수정</a>
 												<a href="#" class="rebtn">삭제</a>
 											</li>
 										</ul>		
