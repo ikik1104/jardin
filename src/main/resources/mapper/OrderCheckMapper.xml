@@ -44,7 +44,7 @@
 	<!-- 반품신청 -->
 	<insert id="returnRq">
 		insert into return_tb values 
-		(rt_seq.nextval, #{param1}, '반품', #{param2}, default, #{param3}, sysdate, null, #{param4})
+		(rt_seq.nextval, #{param1}, '반품', #{param2}, default, #{param3}, sysdate, null, #{param4}, #{param5)
 	</insert>
 	
 	<!-- 수량 전체 반품 시 주문상품 삭제(주문 아니라 주문 건 안에서의 상품 하나) -->

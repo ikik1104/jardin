@@ -42,8 +42,8 @@ public class OrderCheckServiceImp implements OrderCheckService {
 	}
 
 	@Override
-	public int returnRq(int ol_num, String rt_amt, String rt_reason, int rt_price) {
-		return orderCheckDao.returnRq(ol_num, rt_amt, rt_reason, rt_price);
+	public int returnRq(int ol_num, String rt_amt, String rt_reason, int rt_price, String rt_receipt_num) {
+		return orderCheckDao.returnRq(ol_num, rt_amt, rt_reason, rt_price, rt_receipt_num);
 	}
 
 	@Override

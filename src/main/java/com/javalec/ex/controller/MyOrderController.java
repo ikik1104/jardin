@@ -80,7 +80,7 @@ public class MyOrderController {
 		SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat ( "yyyyMMdd", Locale.KOREA );
 		Date currentTime = new Date ();
 		String time1 = mSimpleDateFormat.format(currentTime);
-		String rf_receipt_num = time1+"_"+i;
+		String rf_receipt_num = "rf"+time1+"_"+i;
 		//중첩 커맨드 객체에 담아서 데이터 가져오기
 		for(int i=0; i<refundSetDto.getRefundDto().size(); i++) {
 			int ol_num = refundSetDto.getRefundDto().get(i).getOl_num();
@@ -114,12 +114,18 @@ public class MyOrderController {
 		return "mypage/takeback_delivery";
 	}
 	
+	//반품고유번호 생성 변수1
+	static int j=1;
 	//반품 접수
 	@ResponseBody
 	@RequestMapping("return_request")
 	public int return_reqeust(@RequestBody String[] rtinfo) {
+		SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat ( "yyyyMMdd", Locale.KOREA );
+		Date currentTime = new Date ();
+		String time1 = mSimpleDateFormat.format(currentTime);
+		String rt_receipt_num = "rt"+time1+"_"+j;
 		//반품리스트 인서트
-		int success = ocService.returnRq(Integer.parseInt(rtinfo[0]), rtinfo[1], rtinfo[2], Integer.parseInt(rtinfo[4]));
+		int success = ocService.returnRq(Integer.parseInt(rtinfo[0]), rtinfo[1], rtinfo[2], Integer.parseInt(rtinfo[4]), rt_receipt_num);
 		//주문리스트 수량, 제품최종결제금액(ol_final_price) 업데이트
 		int ol_amt = Integer.parseInt(rtinfo[3]) - Integer.parseInt(rtinfo[1]);
 		System.out.println(Integer.parseInt(rtinfo[3]));

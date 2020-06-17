@@ -16,7 +16,7 @@ public interface OrderCheckService {
 	List<Map<String, String>> getAllOrder(String m_id, PageDto pageDto); //특정 회원의 전체 주문목록
 	int deleteOrder(String ol_order_num); //주문취소(입금대기중 - 취소)
 	List<Map<String, String>> getOneSetOrder(String ol_order_num); // 특정 주문번호의 전체 상품목록
-	int returnRq(int ol_num, String rt_amt, String rt_reason, int rt_price); //반품신청
+	int returnRq(int ol_num, String rt_amt, String rt_reason, int rt_price, String rt_receipt_num); //반품신청
 	int updateOrderStatus(int ol_num); //수량 전체 반품 시 주문상품 상태 변경
 	int updateOrderAmount(String ol_num, int ol_amt, int ol_price); //수량 일부 반품시 기존 주문리스트에서 수량 변경
 	List<Map<String, String>> reviewReadyList(String ol_order_num); // 틀정주문번호의 리뷰 작성 가능 목록 불러오기
