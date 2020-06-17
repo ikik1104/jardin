@@ -24,7 +24,12 @@ $(function() {
 	//반품 수량 최소, 최대값 설정	
 	$(".spinner").each(function(){
     	var maxNum = $(this).val();
-    	var spinner = $(this).spinner({ min: 1, max: maxNum });
+    	var spinner = $(this).spinner({ min: 0, max: maxNum });
+	    var index = $(this).closest(".parents").attr('id');
+    	if(maxNum == 0){
+    		$("#price"+index).text(0);
+    		$("#btn"+index).text('신청완료');
+    	}
 	});
 	
 	//수량 선택에 따라 가격 변동
@@ -33,7 +38,8 @@ $(function() {
 	    var total_price = $(".tp"+index).val(); //원래 총 가격
 	    var total_amt = $(".amt"+index).val(); //원래 총 수량
 	    var one_price = total_price / total_amt;
-	    var modi_amt = $(this).children('.spinner').val(); //변경된 수량을 가져옴	    
+	    var modi_amt = $(this).children('.spinner').val(); //변경된 수량을 가져옴	   
+	    alert(modi_amt);
 	    var modi_price = one_price * modi_amt;
 	    $("#price"+index).text(modi_price);
 	});

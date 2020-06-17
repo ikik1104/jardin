@@ -106,7 +106,7 @@ $(document).ready(function() {
 		
 		<div id="outbox">		
 			<jsp:include page="common/sub_navi.jsp" />
-                <script type="text/javascript">initSubmenu(1,0);</script>
+                <script type="text/javascript">initSubmenu(2,0);</script>
 
 
 
@@ -194,7 +194,7 @@ $(document).ready(function() {
         								<tr>
         									<td>
         										<p class="day">${ rtrf.RTF_DATE }</p>
-        										<p class="orderNum">${ rtrf.ONUM }</p>
+        										<p class="orderNum">${ rtrf.OL_ORDER_NUM }</p>
         									</td>
         									<td class="tnone"><span class="heavygray">${ rtrf.RTF_SORT }</span></td>
         									<td class="left">

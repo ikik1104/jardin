@@ -30,6 +30,17 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	
+	$(".hiddenstatus").each(function(){
+		var status = $(this).val();
+     	substring = "배송완료";
+     	if(status.indexOf(substring) !== -1){
+     		var index = $(this).next(".heavygray").attr('id');
+     		$("#"+index).text("배송완료");	
+     	} else {
+     		$("#"+index).text(status);	
+     	}
+	});
+	
 	//status
     var innerHtml = "";
 	 $(".heavygray").each(function(){
@@ -265,17 +276,18 @@ function wait_cancel(ol_order_num){
 							<tbody>
                             
                                 <c:forEach var="ol" items="${ orderlist }" varStatus="status">
-    								<tr>
+    								<tr class="parents">
     									<td>
                                             <fmt:formatDate value="${ ol.ODATE }" pattern="yyyy-MM-dd" var="dateType" />
     										<p class="day">${ dateType }</p>
-    										<p class="orderNum" id="on${ status.index }">${ ol.ONUM }</p>
+    										<a href="my_order_statement?ol_order_num=${ ol.ONUM }"><p class="orderNum" id="on${ status.index }">${ ol.ONUM }</p></a>
     									</td>
     									<td class="left">
     										${ ol.P_NAME }
     									</td>
     									<td class="tnone">${ ol.OSUM } 원</td>
     									<td>
+                                            <input type="hidden" class="hiddenstatus" id="status${ status.index }" value=${ ol.OSTATUS }/>
     										<span class="heavygray" id="${ status.index }">${ ol.OSTATUS }</span>
     										<ul class="state" id="state${ status.index }"></ul>										
     									</td>
@@ -357,6 +369,19 @@ $(function(){
 // 	$(".iw40").fancybox.center();
 
 	$(".layerpopup").fancybox({
+		'centerOnScroll' : true,
+		'autoDimensions'    : false,
+		'showCloseButton'	: false,
+		'width' : layerCheck,
+		'padding' : 0,
+		'type'			: 'iframe',
+		'onComplete' : function() {
+			$('#fancybox-frame').load(function() { // wait for frame to load and then gets it's height
+			$('#fancybox-content').height($(this).contents().find('body').height());
+			});
+		}
+	});
+	$(".layerpopup2").fancybox({
 		'centerOnScroll' : true,
 		'autoDimensions'    : false,
 		'showCloseButton'	: false,

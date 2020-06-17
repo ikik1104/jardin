@@ -10,13 +10,22 @@
 		select count(*) from orderlist_tb where ol_orderer_id = #{param1}	
 	</select>
 	
-	<!-- 특정 회원이 작성한 전체 문의글(페이징) -->
+	<!-- 특정 회원이 작성한 전체 주문(페이징) -->
 	<select id="getAllOrder" resultType="HashMap">
 		select * from
-		(select rownum rnum, ot.onum, ot.osum, pt.p_name, ot.odate, ot.ostatus
-		from (select ol_order_num onum, sum(ol_final_price) osum, max(p_num) oname, max(ol_date) odate, max(ol_status) ostatus from orderlist_tb where ol_orderer_id = #{m_id} group by ol_order_num) ot, product_tb pt
-		where ot.oname = pt.p_num) r
+		(select rownum rnum, k.* from
+		(select ot.ol_order_num onum, sum(ol_final_price) osum, wm_concat(pt.p_name) p_name, max(ol_date) odate, wm_concat(distinct ol_status) ostatus
+		from orderlist_tb ot
+		left join product_tb pt on ot.p_num=pt.p_num
+		where ol_orderer_id=#{m_id}
+		group by ot.ol_order_num) k) r
 		where <![CDATA[r.rnum>=#{pageDto.startRow}]]> and <![CDATA[r.rnum<=#{pageDto.endRow}]]> order by r.odate desc
+
+<!-- 		select * from -->
+<!-- 		(select rownum rnum, ot.onum, ot.osum, pt.p_name, ot.odate, ot.ostatus -->
+<!-- 		from (select ol_order_num onum, sum(ol_final_price) osum, max(p_num) oname, max(ol_date) odate, max(ol_status) ostatus from orderlist_tb where ol_orderer_id = #{m_id} group by ol_order_num) ot, product_tb pt -->
+<!-- 		where ot.oname = pt.p_num) r -->
+<!-- 		where <![CDATA[r.rnum>=#{pageDto.startRow}]]> and <![CDATA[r.rnum<=#{pageDto.endRow}]]> order by r.odate desc -->
 	</select>
 	
 	<!-- 주문취소(입금대기 - 취소) -->
@@ -26,8 +35,8 @@
 
 	<!-- 주문단위 상품들 불러오기 -->
 	<select id="getOneSetOrder" resultType="HashMap">
-		select rownum rnum, ot.ol_num, pt.p_name, ot.ol_amt, ot.ol_final_price 
-		from (select ol_num, p_num, ol_amt, ol_final_price from orderlist_tb where ol_order_num = #{ ol_order_num }) ot, product_tb pt
+		select rownum rnum, ot.ol_num, pt.p_name, ot.ol_amt, ot.ol_final_price, ot.ol_status 
+		from (select ol_num, p_num, ol_amt, ol_final_price, ol_status from orderlist_tb where ol_order_num = #{ ol_order_num } and ol_status not in ('반품/취소')) ot, product_tb pt
 		where ot.p_num = pt.p_num
 		order by rnum asc
 	</select>
@@ -39,8 +48,8 @@
 	</insert>
 	
 	<!-- 수량 전체 반품 시 주문상품 삭제(주문 아니라 주문 건 안에서의 상품 하나) -->
-	<delete id="deleteOrderOne">
-		delete from orderlist_tb where ol_num=#{param1}
+	<delete id="updateOrderStatus">
+		update orderlist_tb set ol_amt=0, ol_status='반품/취소' where ol_num=#{param1}
 	</delete>
 	
 	<!-- 수량 일부 반품시 주문상품 수량 변경 -->
@@ -103,86 +112,59 @@
 		group by r.onum)
 	</select>
 	
+	<!-- 반품, 결제취소 항목 가져오기(환불테이블 아님 주의!!!!!) -->
 	<select id="getAllRtrf" resultType="HashMap">
-		select * from 
-		(select rownum rnum, s.* from
-		(select r.onum, wm_concat(distinct r.rt_receipt_date) rtf_date, wm_concat(distinct r.rt_sort) rtf_sort, wm_concat(r.p_name) rtf_p_name, wm_concat(distinct r.rt_price) rtf_price, wm_concat(distinct r.rt_status) rtf_status
-		from (select ol.onum, rt.rt_receipt_date, rt_sort, ol.p_name, rt.rt_price, rt.rt_status  
-		from (select ot.onum, ot.ol_num, pt.p_name, ot.ol_date
-		from (select ol_order_num onum, ol_num, p_num, ol_date from orderlist_tb where ol_orderer_id = '${m_id}') ot, product_tb pt
-		where ot.p_num = pt.p_num) ol, return_tb rt 
-		where ol.ol_num = rt.ol_num
+		select * from
+		(select rownum rnum, k.* from
+		(select r.ol_order_num, wm_concat(distinct r.rf_receipt_date) rtf_date, wm_concat(distinct r.rf_sort) rtf_sort, wm_concat(r.p_name) rtf_p_name, wm_concat(distinct r.rf_price) rtf_price, wm_concat(distinct r.rf_status) rtf_status from
+		(select rtf.*, ol.ol_order_num, ol.ol_orderer_id, pd.p_name from
+		(select ol_num, rt_receipt_date rf_receipt_date, rt_sort rf_sort, rt_price rf_price, rt_status rf_status from return_tb 
 		union
-		select ol2.onum, rf.rf_receipt_date, rf_sort, ol2.p_name, rf.rf_price, rf.rf_status
-		from (select ot2.onum, ot2.ol_num, pt2.p_name, ot2.ol_date
-		from (select ol_order_num onum, ol_num, p_num, ol_date from orderlist_tb where ol_orderer_id = '${m_id}') ot2, product_tb pt2
-		where ot2.p_num = pt2.p_num) ol2, refund_tb rf 
-		where ol2.ol_num = rf.ol_num) r
-		group by r.onum) s) k
-		where <![CDATA[k.rnum>='${pageDto.startRow}']]> and <![CDATA[k.rnum<='${pageDto.endRow}']]> order by k.rtf_date
+		select ol_num, rf_receipt_date, rf_sort, rf_price, rf_status from refund_tb where rf_sort='취소') rtf
+		left join orderlist_tb ol on rtf.ol_num=ol.ol_num
+		left join product_tb pd on ol.p_num=pd.p_num
+		where ol_orderer_id='Hong1') r
+		group by r.ol_order_num) k)s
+		where <![CDATA[s.rnum>='${pageDto.startRow}']]> and <![CDATA[s.rnum<='${pageDto.endRow}']]>
+		order by s.rtf_date
 	</select>
 	
+	<!-- 주문 상세페이지 주문상품 가져오기 -->
+	<select id="proInOneOrder" resultType="HashMap">
+		select p_name, ol_amt, p_price, oc_semi_sum, oc_deliv_fee, oc_final_sum from
+		(select * from orderlist_tb ol
+		left join product_tb pd on ol.p_num=pd.p_num
+		left join orderlist_cou_tb oc on ol.ol_order_num=oc.ol_order_num
+		where ol.ol_order_num=#{ol_order_num})
+	</select>
 	
-	<!-- 반품할 상품 한개 불러오기 --> 
-<!-- 	<resultMap type="HashMap" id="selectMap"> -->
-<!-- 	</resultMap> -->
+	<!-- 주문 상세페이지 결제정보 및 배송지정보 가져오기 -->
+	<select id="orderInfoDetail" resultType="HashMap">
+		select * from
+		(select ol_order_num, wm_concat(distinct ol_payment) ol_payment, wm_concat(distinct ol_date) ol_date from orderlist_tb
+		group by ol_order_num) ol
+		left join (select ol_order_num, m_name, re_name, re_zipcode, re_address1, re_address2, re_phone, re_tel, m_msg from orderer_receiver_tb) ort on ort.ol_order_num=ol.ol_order_num
+		where ol.ol_order_num=#{ol_order_num}
+	</select>
+	
+	<!-- 결제 취소 상품 정보 -->
+	<select id="cancelInfoDetail" resultType="HashMap">
+		select a.p_name, a.rf_price, a.rf_status from
+		(select * from refund_tb rf
+		left join orderlist_tb ol on rf.ol_num=ol.ol_num
+		left join product_tb pd on pd.p_num=ol.p_num
+		where ol.ol_order_num=#{ol_order_num})a
+	</select>
+	
+	<!-- 반품 상품 정보 -->
+	
+	
+	
+	
+	
+	
+	
+	
 
-<!-- 	<select id="getReturnPro" resultMap="selectMap"> -->
-<!-- 		select rownum rnum, ot.ol_num, pt.p_name, ot.ol_amt, ot.ol_final_price  -->
-<!-- 		from (select ol_num, p_num, ol_amt, ol_final_price from orderlist_tb where ol_num = #{ ol_num }) ot, product_tb pt -->
-<!-- 		where ot.p_num = pt.p_num -->
-<!-- 		order by rnum asc -->
-<!-- 	</select> -->
-
-
-
-
-	<!-- 결제취소(입금완료 - 취소) -->
-<!-- 	<delete id="requestRefund"> -->
-<!-- 		delete from orderlist_tb where ol_order_num = #{param1} -->
-<!-- 	</delete> -->
-	
-	
-	
-	
-	
-	
-	
-	
-	<!-- 특정 회원이 작성/검색한 문의글 수 -->
-<!-- 	<select id="countSearchInquiry" resultType="Integer"> -->
-<!-- 		select count(*) from mtm_inqury_user_tb where m_num = #{m_num}	 -->
-<!-- 		<include refid="search_part"/> -->
-<!-- 	</select> -->
-	
-	<!-- 특정 회원이 작성한 문의글 : 검색(페이징) -->
-<!-- 	<select id="getSearchInquiry" resultType="com.javalec.ex.dto.MtmUserDto"> -->
-<!--         select * from  -->
-<!--         (select rownum rnum, mtmu.* from  -->
-<!--         (select * from mtm_inqury_user_tb  -->
-<!--         where m_num = #{m_num} -->
-<!--         <include refid="search_part"/> -->
-<!--         order by iu_num asc) mtmu) r -->
-<!--         where <![CDATA[r.rnum>=#{pageDto.endRow}]]> and <![CDATA[r.rnum<=#{pageDto.startRow}]]> order by r.rnum desc -->
-<!-- 	</select> -->
-	
-	<!-- 검색 쿼리부분 분리 -->
-<!-- 	<sql id="search_part"> -->
-<!-- 		 <choose> -->
-<!-- 			<when test="option == 'all'"> -->
-<!-- 				and (iu_title like '%'||#{search}||'%' -->
-<!-- 				or iu_content like '%'||#{search}||'%') -->
-<!-- 			</when> -->
-<!-- 			<otherwise> -->
-<!-- 				and ${option} like '%'||#{search}||'%' -->
-<!-- 			</otherwise>          -->
-<!--          </choose> -->
-<!-- 	</sql> -->
-	
-	<!-- 질문글 하나 가져오기 -->
-<!-- 	<select id="getOneInquiry" resultType="com.javalec.ex.dto.MtmUserDto"> -->
-<!-- 		select * from mtm_inqury_user_tb where iu_num = #{param1} -->
-<!-- 	</select> -->
-	
 	
 </mapper>

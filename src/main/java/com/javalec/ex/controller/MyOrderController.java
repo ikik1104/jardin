@@ -47,7 +47,6 @@ public class MyOrderController {
 		String page = request.getParameter("page"); //현재페이지..(목적 페이지)
 		if(page == null) { page = "1"; } //page 가 null이면 무조건 1페이지로 세팅
 		pageDto = new PageDto(total, Integer.parseInt(page), cntPerPage, 1); // 페이징 처리
-		System.out.println(pageDto.getEndRow());
 		List<Map<String, String>> orderlist = ocService.getAllOrder(m_id, pageDto);
 		model.addAttribute("paging", pageDto); //페이지 담기
 		model.addAttribute("orderlist", orderlist); //주문리스트 담기
@@ -87,7 +86,7 @@ public class MyOrderController {
 			int ol_num = refundSetDto.getRefundDto().get(i).getOl_num();
 			int rf_price = refundSetDto.getRefundDto().get(i).getRf_price();
 			ocService.refundRequest(rf_receipt_num, ol_num, rf_price); //환불 테이블에 insert
-			ocService.deleteOrderOne(ol_num); // 주문리스트에서 삭제
+			ocService.updateOrderStatus(ol_num); // 주문리스트에서 상태 반품/취소으로 변경
 		}
 		return "mypage/refund_request_success";
 	}
@@ -123,13 +122,15 @@ public class MyOrderController {
 		int success = ocService.returnRq(Integer.parseInt(rtinfo[0]), rtinfo[1], rtinfo[2], Integer.parseInt(rtinfo[4]));
 		//주문리스트 수량, 제품최종결제금액(ol_final_price) 업데이트
 		int ol_amt = Integer.parseInt(rtinfo[3]) - Integer.parseInt(rtinfo[1]);
+		System.out.println(Integer.parseInt(rtinfo[3]));
+		System.out.println(Integer.parseInt(rtinfo[1]));
 		int ol_price = Integer.parseInt(rtinfo[5]) - Integer.parseInt(rtinfo[4]);
-		System.out.println(ol_amt);
 		if(ol_amt == 0) {
-			ocService.deleteOrderOne(Integer.parseInt(rtinfo[0]));//전체 수량 반품이면 해당 상품을 삭제 시킨다(delete)
+			ocService.updateOrderStatus(Integer.parseInt(rtinfo[0]));//전체 수량 반품이면 상태를 반품접수 로 바꿈
 		} else {
 			ocService.updateOrderAmount(rtinfo[0], ol_amt, ol_price); //일부 수량 반품이면 기존 orderlist_tb에서 수량을 차감시킨다(update)
 		}
+		// 그리고 상태를 일부반품 으로 바꾸자...
 		return success;
 	}
 	
@@ -192,13 +193,10 @@ public class MyOrderController {
 		
 		String m_id = (String) session.getAttribute("userID");//페이징, 주문리스트 가져오기에 m_id를 넘겨줘야 하므로 세션에서 가져옴 
 		int total = ocService.countReturnRefund(m_id);//m_id 회원의 주문 개수 &&
-		System.out.println(total);
 		int cntPerPage = 10; // 한 페이지당 최대 노출 주문개수
 		String page = request.getParameter("page"); //현재페이지..(목적 페이지)
 		if(page == null) { page = "1"; } //page 가 null이면 무조건 1페이지로 세팅
 		pageDto = new PageDto(total, Integer.parseInt(page), cntPerPage, 1); // 페이징 처리
-		System.out.println(pageDto.getEndRow());
-		System.out.println(pageDto.getStartRow());
 		List<Map<String, String>> rtrflist = ocService.getAllRtrf(m_id, pageDto);
 		model.addAttribute("paging", pageDto); //페이지 담기
 		model.addAttribute("rtrflist", rtrflist); //주문리스트 담기
@@ -206,7 +204,15 @@ public class MyOrderController {
 		return "mypage/takeback_state";
 	}
 	
-	
+	//주문상세조회 레이어팝업 열기
+	@RequestMapping("my_order_statement")
+	public String my_order_statement(@RequestParam("ol_order_num") String ol_order_num, Model model) {
+		List<Map<String, String>> plist = ocService.proInOneOrder(ol_order_num); //주문 상품 가져오기
+		List<Map<String, String>> rlist = ocService.orderInfoDetail(ol_order_num); //반품, 취소 상품 가져오기
+		List<Map<String, String>> ilist = ocService.orderInfoDetail(ol_order_num); //결제, 배송지 정보 가져오기
+		model.addAttribute("plist", plist);
+		return "mypage/my_order_statement";
+	}
 	
 	
 	

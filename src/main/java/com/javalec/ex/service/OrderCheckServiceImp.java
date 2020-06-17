@@ -47,8 +47,8 @@ public class OrderCheckServiceImp implements OrderCheckService {
 	}
 
 	@Override
-	public int deleteOrderOne(int ol_num) {
-		return orderCheckDao.deleteOrderOne(ol_num);
+	public int updateOrderStatus(int ol_num) {
+		return orderCheckDao.updateOrderStatus(ol_num);
 	}
 
 	@Override
@@ -115,6 +115,21 @@ public class OrderCheckServiceImp implements OrderCheckService {
 	@Override
 	public List<Map<String, String>> getAllRtrf(String m_id, PageDto pageDto) {
 		return orderCheckDao.getAllRtrf(m_id, pageDto);
+	}
+
+	@Override
+	public List<Map<String, String>> proInOneOrder(String ol_order_num) {
+		return orderCheckDao.proInOneOrder(ol_order_num);
+	}
+
+	@Override
+	public List<Map<String, String>> orderInfoDetail(String ol_order_num) {
+		return orderCheckDao.orderInfoDetail(ol_order_num);
+	}
+
+	@Override
+	public List<Map<String, String>> cancelInfoDetail(String ol_order_num) {
+		return null;
 	}
 
 	
