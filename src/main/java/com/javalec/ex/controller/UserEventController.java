@@ -87,8 +87,10 @@ public class UserEventController {
 	@ResponseBody
 	@PostMapping("ecomment_insert")
 	public int ecomment_insert(E_CommentDto e_CommentDto) {
-	
+	System.out.println("들어옴");
 		int success = eservice.insertEComment(e_CommentDto);
+		System.out.println("나감");
+		System.out.println(success);
 		return success;
 	}
 	

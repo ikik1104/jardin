@@ -43,6 +43,21 @@ public class UserMemberController {
 		return response_path+"login";
 	}
 	
+	//로그아웃
+	@ResponseBody
+	@RequestMapping("logout")
+	public int login(HttpSession session ) {
+		session.removeAttribute("userNum");
+		session.removeAttribute("userID");
+		int success = 0;
+		if(session.getAttribute("userNum")==null ) {
+			if(session.getAttribute("userID")==null ) {
+				success=1;
+			}
+		}
+		return success;
+	}
+	
 	//회원 로그인
 	@PostMapping("member_login")
 	public String member_login(MemberDto memberDto, HttpSession session, Model model) {

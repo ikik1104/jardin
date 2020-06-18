@@ -54,6 +54,12 @@ function showModify(){
 	$('#originalReply').hide();	
 	$('#pwReply').hide();
 }
+function showOriginal(){
+	$('#modifyReply').hide();	
+	$('#originalReply').show();	
+	$('#pwReply').hide();
+}
+
 function banSign(){
 	$( 'input#banSign' ).val( 'ban' );		
 }
@@ -180,9 +186,11 @@ function backpage(ec_pw){
 			              contentType : "application/x-www-form-urlencoded; charset=UTF-8",
 			              success : function(val){
 			                 if(val ==1 ){//1이면 성공
-			                	 closePW();
-			                	 showModify();
-			                	 location.href='#modifyReply';
+			                	 location.reload();
+			                	 $('#modifyReply').hide();
+			                	 $('#pwReply').hide();   			                	 
+			                	 $('#originalReply').show();   
+			                	 location.href='#originalReply';
 			                 }else{ // 0이면 실패
 			                    alert("비밀번호가 일치하지 않습니다. 다시 시도해 주세요.");
 			                 }
@@ -193,16 +201,21 @@ function backpage(ec_pw){
 			           });			
 		}     
      //새 댓글 등록
-       $('.replyBtn').on('click', function(){
-        $.ajax({
-            url: "serialize",
+     function submitComment(){
+    	 alert('작동');
+    	
+    	 $.ajax({
+            url: "ecomment_insert",
             type: "POST",
             data:  $("#insertform").serialize(),
             success : function(val){
                 if(val ==1 ){//1이면 성공
-               	 closePW();
-               	 showModify();
-               	 location.href='#modifyReply';
+                alert('성공');
+           	 location.reload();                
+           	 $('#modifyReply').hide();
+        	 $('#originalReply').show();    	 
+        	 $('#pwReply').hide();   			                	 
+        	 location.href='#originalReply';        
                 }else{ // 0이면 실패
                    alert("비밀번호가 일치하지 않습니다. 다시 시도해 주세요.");
                 }
@@ -210,15 +223,18 @@ function backpage(ec_pw){
              error : function(){
                 alert("서버통신실패");
              }
-        });
-    });
+
+    	  });		
+    	
+    }
 
 
      
      //자기 댓글 수정란에서 '확인' 클릭
   	function showOriginal(){
     	 $('#modifyReply').hide();
-    	 $('#originalReply').show();    	 
+    	 $('#originalReply').show();   
+    	 location.href='#originalReply';
      }
      
      //로그인 안 했는데 댓글 달려고 하는지 체크
@@ -344,7 +360,8 @@ function backpage(ec_pw){
 					<!-- 댓글-->
 					<form action="ecomment_insert" method="post" name="ecomment_insert" id="insertform">
 					<input type="hidden" value="${event_info.eventdto.e_num } " name="e_num" id="e_num">
-					<input type="hidden" value="${userNum } " name="userNum" id="userNum">	
+					<input type="hidden" value="${userNum } " name="m_num" id="userNum">	
+					
 					<div class="replyWrite">
 						<ul>
 							<li class="in">
@@ -352,7 +369,7 @@ function backpage(ec_pw){
 								<p class="password">비밀번호&nbsp;&nbsp;<input type="password" class="replynum" name="ec_pw" id="ec_pw_check" onclick="checkComment()"/></p>
 								<textarea class="replyType" name="ec_content" id="ec_content" onclick="checkComment()"></textarea>
 							</li>
-							<li class="btn"><a class="replyBtn" onclick="submitWrite()">등록</a></li>
+							<li class="btn"  ><a class="replyBtn" onclick="submitComment()" style="cursor:pointer;">등록</a></li>
 						</ul>
 						<p class="ntic">※ 댓글을 등록하시면 자동으로 이벤트 신청이 완료됩니다.</p>
 					</div>

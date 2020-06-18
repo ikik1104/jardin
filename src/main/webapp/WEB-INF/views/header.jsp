@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>    
+<script type="text/javascript" src="user/js/common.js"></script>
   <!-- 헤더 -->  
     <div id="header">
 		
@@ -16,7 +18,12 @@
 			</div>
 			<div id="snb">
 				<ul>
-					<li><a href="#">LOGIN</a></li>
+					<c:if test="${userID==null  }"><!-- 로그인 안 되어 있을 때 -->
+						<li><a href="login"  style="cursor:pointer;">LOGIN</a></li>
+					</c:if>
+					<c:if test="${userID!=null }">
+						<li><a onclick="user_logout()" style="cursor:pointer;">LOGOUT</a></li>						
+					</c:if>
 					<li><a href="#">JOIN</a></li>
 					<li><a href="#">MY PAGE</a></li>
 					<li><a href="#">CART</a></li>
