@@ -13,7 +13,7 @@
    
    function json_test(){
       $.ajax({
-         type : 'get',
+         type : 'POST',
          url : 'datadata',
          data : {},
          contentType : "application/json;charset=utf-8",
