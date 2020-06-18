@@ -214,15 +214,26 @@ public class MyOrderController {
 	@RequestMapping("my_order_statement")
 	public String my_order_statement(@RequestParam("ol_order_num") String ol_order_num, Model model) {
 		List<Map<String, String>> plist = ocService.proInOneOrder(ol_order_num); //주문 상품 가져오기
-		List<Map<String, String>> rlist = ocService.orderInfoDetail(ol_order_num); //반품, 취소 상품 가져오기
-		List<Map<String, String>> ilist = ocService.orderInfoDetail(ol_order_num); //결제, 배송지 정보 가져오기
+		Map<String, String> ilist = ocService.orderInfoDetail(ol_order_num); //결제, 배송지 정보 가져오기
+		List<Map<String, String>> clist = ocService.cancelInfoDetail(ol_order_num); //취소 상품 가져오기
+		List<Map<String, String>> tflist = ocService.rtrfInfoDetail(ol_order_num); //반품 상품 가져오기
 		model.addAttribute("plist", plist);
+		model.addAttribute("ilist", ilist);
+		model.addAttribute("clist", clist);
+		model.addAttribute("tflist", tflist);
 		return "mypage/my_order_statement";
 	}
 	
 	
-	
-	
+	@ResponseBody
+	@RequestMapping("shortInfo")
+	public Map<String, Object> shortInfo(HttpSession session, Model model) {
+		String m_id = (String)session.getAttribute("userID");
+		Map<String, Object> infolist = ocService.getShortInfo(m_id); 
+		infolist.get("COUCOUNT");
+		model.addAttribute("infolist", infolist);
+		return infolist;
+	}
 	
 	
 	

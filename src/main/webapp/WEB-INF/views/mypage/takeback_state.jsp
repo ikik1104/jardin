@@ -115,14 +115,7 @@ $(document).ready(function() {
 				<div id="mypage">
 					<h2><strong>반품/교환 현황</strong><span>회원님이 구매하신 상품의 반품/교환 신청 및 내역을 확인하실 수 있습니다.</span></h2>
 					
-					<div class="myInfo">
-						<ul>
-							<li class="info"><strong>가나다</strong> 님의 정보를 한눈에 확인하세요.</li>
-							<li>보유 쿠폰<br/><span class="num">199</span> <span class="unit">장</span></li>
-							<li class="point">내 포인트<br/><span class="num">100,000</span> <span class="unit">P</span></li>
-							<li class="last">진행중인 주문<br/><span class="num">199</span> <span class="unit">건</span></li>
-						</ul>
-					</div>
+					<jsp:include page="common/shortInfo.jsp" />
 
 					<h3>반품/교환 현황</h3>
 					<div class="checkDiv">
@@ -198,7 +191,7 @@ $(document).ready(function() {
         									</td>
         									<td class="tnone"><span class="heavygray">${ rtrf.RTF_SORT }</span></td>
         									<td class="left">
-        										${ rtrf.RTF_P_NAME }
+        										${ rtrf.P_NAME }
         									</td>
         									<td class="tnone">${ rtrf.RTF_PRICE } 원</td>
         									<td><span class="orange">${ rtrf.RTF_STATUS }</span></td>

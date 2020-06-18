@@ -132,14 +132,7 @@ $(document).ready(function() {
                 <div id="mypage">
                 <h2><strong>주문/배송 조회</strong><span>회원님이 구매하신 주문내역 및 배송정보를 확인하실 수 있습니다.</span></h2>
                     
-                    <div class="myInfo">
-                        <ul>
-                            <li class="info"><strong>가나다</strong> 님의 정보를 한눈에 확인하세요.</li>
-                            <li>보유 쿠폰<br/><span class="num">199</span> <span class="unit">장</span></li>
-                            <li class="point">내 포인트<br/><span class="num">100,000</span> <span class="unit">P</span></li>
-                            <li class="last">진행중인 주문<br/><span class="num">199</span> <span class="unit">건</span></li>
-                        </ul>
-                    </div>
+                <jsp:include page="common/shortInfo.jsp" />
 
 
                 <div class="inputBody">
@@ -148,6 +141,7 @@ $(document).ready(function() {
                     <div id="member">
                         <h3 class="dep subt">주문 상품 정보</h3>
                         <div class="orderDivNm">
+                            <c:if test="${ not empty plist }">  
                             <table summary="주문 상품 정보 게시판으로 주문하신 상품명, 수량, 판매가, 배송순으로 조회 하시고 쿠폰을 적용하실 수 있습니다." class="orderTable" border="1" cellspacing="0">
                                 <caption>주문 상품 정보</caption>
                                 <colgroup>
@@ -157,6 +151,7 @@ $(document).ready(function() {
                                 <col width="12%" class="pnone" />
                                 <col width="12%" class="pnone" />
                                 <col width="12%" class="ptw30"/>
+                                <col width="12%" class="pnone" />
                                 </colgroup>
                                 <thead>
                                     <th scope="col">상품명</th>
@@ -165,6 +160,7 @@ $(document).ready(function() {
                                     <th scope="col" class="pnone">할인가</th>
                                     <th scope="col" class="pnone">배송비</th>
                                     <th scope="col">합계</th>
+                                    <th scope="col" class="pnone">상태</th>
                                 </thead>
                                 <tbody>
                                     <c:forEach var="plist" items="${ plist }">
@@ -177,16 +173,24 @@ $(document).ready(function() {
                                             <td class="pnone">${ plist.OC_SEMI_SUM } 원</td>
                                             <td class="pnone">${ plist.OC_DELIV_FEE } 원</td>
                                             <td>${ plist.OC_FINAL_SUM } 원</td>
+                                            <td class="pnone">${ plist.OL_STATUS }</td>
                                         </tr>
                                     </c:forEach>
                                 </tbody>
                             </table>
+                            </c:if>
+                            <c:if test="${ empty plist }">    
+                                <div class="noData">
+                                                                            등록된 상품이 없습니다.
+                                </div>
+                            </c:if>
                         </div>
                         
                         <h3 class="dep">취소 상품 정보</h3>
                         <div class="orderDivNm">
+                            <c:if test="${ not empty clist }">  
                             <table summary="주문 상품 정보 게시판으로 주문하신 상품명, 수량, 판매가, 배송순으로 조회 하시고 쿠폰을 적용하실 수 있습니다." class="orderTable" border="1" cellspacing="0">
-                                <caption>반품 및 취소 상품 정보</caption>
+                                <caption> 취소 상품 정보</caption>
                                 <colgroup>
                                 <col width="*" />
                                 <col width="12%" class="pnone" />
@@ -198,24 +202,32 @@ $(document).ready(function() {
                                     <th scope="col">상태</th>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="left">
-                                            쟈뎅 오리지널 콜롬비아 페레이라 원두커피백 15p
-                                        </td>
-                                        <td class="pnone">0 원</td>
-                                        <td>250,000 원</td>
-                                    </tr>
+                                    <c:forEach var="clist" items="${ clist }">
+                                        <tr>
+                                            <td class="left">
+                                                ${ clist.P_NAME }
+                                            </td>
+                                            <td class="pnone">${ clist.RF_PRICE } 원</td>
+                                            <td>${ clist.RF_STATUS }</td>
+                                        </tr>
+                                    </c:forEach>
                                 </tbody>
                             </table>
+                            </c:if>
+                            <c:if test="${ empty clist }">    
+                                <div class="noData">
+                                                                            등록된 상품이 없습니다.
+                                </div>
+                            </c:if>
                         </div>
 
                         <h3 class="dep">반품/환불 상품 정보</h3>
                         <div class="orderDivNm">
+                            <c:if test="${ not empty tflist }">  
                             <table summary="주문 상품 정보 게시판으로 주문하신 상품명, 수량, 판매가, 배송순으로 조회 하시고 쿠폰을 적용하실 수 있습니다." class="orderTable" border="1" cellspacing="0">
                                 <caption>반품 및 환불 상품 정보</caption>
                                 <colgroup>
                                 <col width="*" />
-                                <col width="12%" class="pnone" />
                                 <col width="12%" class="pnone" />
                                 <col width="12%" class="pnone" />
                                 <col width="12%" class="ptw30"/>
@@ -224,21 +236,27 @@ $(document).ready(function() {
                                     <th scope="col">상품명</th>
                                     <th scope="col" class="pnone">수량</th>
                                     <th scope="col" class="pnone">판매가</th>
-                                    <th scope="col" class="pnone">배송비</th>
-                                    <th scope="col">합계</th>
+                                    <th scope="col">상태</th>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="left">
-                                            쟈뎅 오리지널 콜롬비아 페레이라 원두커피백 15p
-                                        </td>
-                                        <td class="pnone">1개</td>
-                                        <td class="pnone">14,400 원</td>
-                                        <td class="pnone">0 원</td>
-                                        <td>250,000 원</td>
-                                    </tr>
+                                    <c:forEach var="tflist" items="${ tflist }">
+                                        <tr>
+                                            <td class="left">
+                                               	${tflist.P_NAME }
+                                            </td>
+                                            <td class="pnone">${ tflist.RT_AMOUNT } 개</td>
+                                            <td class="pnone">${ tflist.RT_PRICE } 원</td>
+                                            <td>${ tflist.RT_STATUS }</td>
+                                        </tr>
+                                    </c:forEach>
                                 </tbody>
                             </table>
+                            </c:if>
+                            <c:if test="${ empty tflist }">    
+                                <div class="noData">
+                                                                            등록된 상품이 없습니다.
+                                </div>
+                            </c:if>
                         </div>
             
             
@@ -254,19 +272,19 @@ $(document).ready(function() {
                                 <tbody>
                                     <tr>
                                         <th scope="row" class="align_center"><span>주문일</span></th>
-                                        <td>2014-04-30</td>
+                                        <td>${ ilist.OL_DATE }</td>
                                     </tr>
                                     <tr>
                                         <th scope="row" class="align_center"><span>결제총액</span></th>
-                                        <td>27,250 원</td>
+                                        <td>원</td>
                                     </tr>
                                     <tr>
                                         <th scope="row" class="align_center"><span>결제수단</span></th>
-                                        <td>무통장 입금 (신한은행 123456-785-459324 (주)쟈뎅)</td>
+                                        <td>${ ilist.OL_PAYMENT }</td>
                                     </tr>
                                     <tr>
                                         <th scope="row" class="align_center"><span>입금자 명</span></th>
-                                        <td>홍길동</td>
+                                        <td>-</td>
                                     </tr>
             
                                 </tbody>

@@ -33,10 +33,13 @@ $(document).ready(function() {
 	$(".hiddenstatus").each(function(){
 		var status = $(this).val();
      	substring = "배송완료";
+     	substring2 = "구매확정";
+ 		var index = $(this).next(".heavygray").attr('id');
      	if(status.indexOf(substring) !== -1){
-     		var index = $(this).next(".heavygray").attr('id');
      		$("#"+index).text("배송완료");	
-     	} else {
+     	} else if(status.indexOf(substring2) !== -1) {
+     		$("#"+index).text("구매확정");	
+		} else {
      		$("#"+index).text(status);	
      	}
 	});
@@ -201,14 +204,7 @@ function wait_cancel(ol_order_num){
 				<div id="mypage">
 					<h2><strong>주문/배송 조회</strong><span>회원님이 구매하신 주문내역 및 배송정보를 확인하실 수 있습니다.</span></h2>
 					
-					<div class="myInfo">
-						<ul>
-							<li class="info"><strong>가나다</strong> 님의 정보를 한눈에 확인하세요.</li>
-							<li>보유 쿠폰<br/><span class="num">199</span> <span class="unit">장</span></li>
-							<li class="point">내 포인트<br/><span class="num">100,000</span> <span class="unit">P</span></li>
-							<li class="last">진행중인 주문<br/><span class="num">199</span> <span class="unit">건</span></li>
-						</ul>
-					</div>
+					<jsp:include page="common/shortInfo.jsp" />
 
 					<h3>주문/배송 조회</h3>
 					<div class="checkDiv">

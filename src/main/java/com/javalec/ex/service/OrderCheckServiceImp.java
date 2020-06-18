@@ -123,21 +123,24 @@ public class OrderCheckServiceImp implements OrderCheckService {
 	}
 
 	@Override
-	public List<Map<String, String>> orderInfoDetail(String ol_order_num) {
+	public Map<String, String> orderInfoDetail(String ol_order_num) {
 		return orderCheckDao.orderInfoDetail(ol_order_num);
 	}
 
 	@Override
 	public List<Map<String, String>> cancelInfoDetail(String ol_order_num) {
-		return null;
+		return orderCheckDao.cancelInfoDetail(ol_order_num);
 	}
 
-	
+	@Override
+	public List<Map<String, String>> rtrfInfoDetail(String ol_order_num) {
+		return orderCheckDao.rtrfInfoDetail(ol_order_num);
+	}
 
-//	@Override
-//	public int requestRefund(int ol_order_num) {
-//		return orderCheckDao.requestRefund(ol_order_num);
-//	}
+	@Override
+	public Map<String, Object> getShortInfo(String m_id) {
+		return orderCheckDao.getShortInfo(m_id);
+	}
 
 
 	
