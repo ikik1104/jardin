@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.javalec.ex.dto.MemberDto;
 import com.javalec.ex.service.ADBService;
@@ -34,6 +36,7 @@ public class AdminMemberInfoController {
 	//회원 1명 정보 불러오기
 	@RequestMapping("member_view")
 	public String member_view(MemberDto memberDto, Model model) {
+		System.out.println(memberDto.getM_num());
 		model.addAttribute("member_info", infoservice.getMember(memberDto));
 		return response_path+"member_view";
 	}
@@ -53,8 +56,49 @@ public class AdminMemberInfoController {
 		}
 		model.addAttribute("alerttext", alerttext);		
 		return response_path+"member_view";
-		
+	}
+	
+	//회원 1명 탈퇴 처리
+	@ResponseBody
+	@RequestMapping("member_delete")
+	public int member_delete(@RequestBody int m_num) {
+		int success = infoservice.deleteMember(m_num);
+		return success;
 	}
 
+	//휴면 회원 전체 리스트 불러오기(회원 일괄 휴면<->가입 전환 포함)
+	@RequestMapping("member_sleep_list")
+	public String member_sleep_list(Model model) {
+		model.addAttribute("member_list", infoservice.getAllSleepMembers());
+		return response_path+"member_sleep_list";
+	}
+	//휴면 회원 정보 1개 보기
+	@RequestMapping("member_sleep_view")
+	public String member_sleep_view(MemberDto memberDto, Model model) {
+		model.addAttribute("member_info", infoservice.getSleepMember(memberDto));
+		return response_path+"member_sleep_view";
+	}
+	
+	//탈퇴 회원 전체 리스트 불러오기
+	@RequestMapping("member_left_list")
+	public String member_left_list(Model model) {
+		model.addAttribute("member_list", infoservice.getLeftMembers());
+		return response_path+"member_left_list";
+	}
+	
+	//탈퇴 회원 정보 1개 불러오기
+	@RequestMapping("member_left_view")
+	public String member_left_view(MemberDto memberDto ,Model model) {
+		model.addAttribute("member_info", infoservice.getLeftMember(memberDto));
+		return response_path+"member_left_view";
+	}
+	
+	//탈퇴 회원 1명 영구 삭제
+	@ResponseBody
+	@RequestMapping("member_forever_delete")
+	public int member_forever_delete(@RequestBody int m_num) {
+		int success=infoservice.deleteForeverMember(m_num);
+		return success;
+	}
 	
 }

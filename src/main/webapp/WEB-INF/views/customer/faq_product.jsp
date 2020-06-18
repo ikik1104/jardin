@@ -29,7 +29,7 @@
 <![endif]-->
 <script type="text/javascript">
 $(document).ready(function() {
-	
+    $("#product a").attr("class","on");
 
 
 });
@@ -63,6 +63,9 @@ $(document).ready(function() {
 
      $(document).ready(function () {
          msiecheck();
+         step_on();
+         
+         
      });
 
      var msiecheck = function () {
@@ -86,6 +89,23 @@ $(document).ready(function() {
 		$("#ieUser").hide();
         clearTimeout(msietimer);
      }
+     
+     /*
+     선택한 카테고리 on
+     function step_on() { 이렇게까지 길게 할게 아닌데... 일단 db에 한글로 넣어놨으니 이렇게 하자
+    	if(${f_step == null}){
+    		$("#all a").attr("class","on");
+    	}else if(${f_step eq '회원'}){
+    		$("#user a").attr("class","on");
+    	}else if(${f_step eq '주문'}){
+    		$("#order a").attr("class","on");
+    	}else{
+    		$("#product a").attr("class","on");
+    	}
+	}
+     */
+     
+    
 </script>
 
 <div id="allwrap">
@@ -99,157 +119,110 @@ $(document).ready(function() {
 		<div id="location">
 			<ol>
 				<li><a href="#">HOME</a></li>
-				<li><a href="#">EVENT</a></li>
-				<li class="last">진행중 이벤트</li>
+				<li><a href="#">CUSTOMER</a></li>
+				<li class="last">FAQ</li>
 			</ol>
 		</div>
 		
 		<div id="outbox">		
 			<div id="left">
-				<div id="title2">EVENT<span>이벤트</span></div>
+				<div id="title2">CUSTOMER<span>고객센터</span></div>
 				<ul>	
-					<li><a href="#" id="leftNavi1">진행중 이벤트</a></li>
-					<li><a href="#" id="leftNavi2">종료된 이벤트</a></li>
-					<li class="last"><a href="#" id="leftNavi3">당첨자 발표</span></a></li>
+					<li><a href="#" id="leftNavi1">NOTICE</a></li>
+					<li><a href="#" id="leftNavi2">1:1문의</a></li>
+					<li><a href="#" id="leftNavi3">FAQ</span></a></li>
+					<li class="last"><a href="#" id="leftNavi4">이용안내</a></li>
 				</ul>			
-			</div><script type="text/javascript">initSubmenu(1,0);</script>
+			</div><script type="text/javascript">initSubmenu(3,0);</script>
 
 
 			<!-- contents -->
 			<div id="contents">
-				<div id="mypage">
-					<h2><strong>진행중 이벤트</strong><span>쟈뎅샵의 특별한 혜택이 가득한 이벤트에 참여해 보세요.</span></h2>
+				<div id="customer">
+					<h2><strong>FAQ</strong><span>회원님들께서 자주 묻는 질문들을 모아 놓았습니다.</span></h2>
 					
-					<div class="viewDivMt">
-						<div class="viewHead">
-							<div class="subject">
-								<ul>
-									<li>까페모리 봄바람 커피한잔 30% 할인 이벤트!!</li>
-								</ul>
-							</div>
-							<div class="day">
-								<p class="txt">이벤트 기간<span>2014-04-01 ~ 2014-04-29</span></p>
-							</div>
+					<div class="faqTab">
+						<ul>
+							<li id="all"><a href="faq_all" >전체</a></li>
+							<li id="user" class="dep"><a href="faq_user">회원</a></li>
+							<li id="product"><a >상품</a></li>
+							<li id="order" class="last"><a href="faq_order">주문</a></li>
+						</ul>						
+					</div>	
+					
+					<!-- FAQ -->
+					<div class="faqList">
+						<ul>
+							<!-- list -->
+								<c:if test="${faq_list.size()==0 }"><!-- 등록된 faq가 없을 때 -->
+									<li>
+											<div class="question">
+												<div class="blet">등록된 FAQ가 없습니다.</div>
+											</div>
+									</li>								
+								</c:if>
+								<c:if test="${faq_list.size()!=0 }"><!-- 등록된 faq가 있을 때 -->
+									<c:forEach var="faq_list" items="${faq_list}">
+										<li>
+											<a href="javascript:;" class="faqbtn">
+												<div class="question">
+													<div class="blet">Q</div>
+													<div class="category">${faq_list.f_step}</div>
+													<div class="title">${faq_list.f_title}</div>
+												</div>
+											</a>
+			
+											<div class="faqanswer">
+												<div class="faqbox">
+													<div class="blet">A</div>
+													<div class="text">
+														${faq_list.f_content}
+													</div>
+												</div>
+											</div>
+										</li>					
+									</c:forEach>
+								</c:if>
+						</ul>
+					</div>
+					<!-- //FAQ -->
+
+
+					<div class="btnAreaList">
+						<!-- 페이징이동1 -->
+						<div class="allPageMoving1">
+
+						<a href="#" class="n"><img src="user/images/btn/btn_pre2.gif" alt="처음으로"/></a><a href="#" class="pre"><img src="user/images/btn/btn_pre1.gif" alt="앞페이지로"/></a>
+						<strong>1</strong>
+						<a href="#">2</a>
+						<a href="#">3</a>
+						<a href="#">4</a>
+						<a href="#">5</a>
+						<a href="#" class="next"><img src="user/images/btn/btn_next1.gif" alt="뒤페이지로"/></a><a href="#" class="n"><img src="user/images/btn/btn_next2.gif" alt="마지막페이지로"/></a>
+
 						</div>
-
-						<div class="viewContents">
-							<img src="user/images/img/sample_event_view.jpg" alt="" />
-						</div>
+						<!-- //페이징이동1 -->
 					</div>
 
-
-					<!-- 이전다음글 -->
-					<div class="pnDiv web">
-						<table summary="이전다음글을 선택하여 보실 수 있습니다." class="preNext" border="1" cellspacing="0">
-							<caption>이전다음글</caption>
-							<colgroup>
-							<col width="100px" />
-							<col width="*" />
-							<col width="100px" />
-							</colgroup>
-							<tbody>
-								<tr>
-									<th class="pre">PREV</th>
-									<td><a href="#">상품 재입고는 언제 되나요?</a></td>
-									<td>&nbsp;</td>
-								</tr>
-
-								<tr>
-									<th class="next">NEXT</th>
-									<td>다음 글이 없습니다.</td>
-									<td>&nbsp;</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<!-- //이전다음글 -->
-
-
-					<!-- 댓글-->
-					<div class="replyWrite">
-						<ul>
-							<li class="in">
-								<p class="txt">총 <span class="orange">3</span> 개의 댓글이 달려있습니다.</p>
-								<p class="password">비밀번호&nbsp;&nbsp;<input type="password" class="replynum" /></p>
-								<textarea class="replyType"></textarea>
-							</li>
-							<li class="btn"><a href="#" class="replyBtn">등록</a></li>
-						</ul>
-						<p class="ntic">※ 비밀번호를 입력하시면 댓글이 비밀글로 등록 됩니다.</p>
-					</div>
-
-					<div class="replyBox">
-						<ul>
-							<li class="name">jjabcde <span>[2014-03-04&nbsp;&nbsp;15:01:59]</span></li>
-							<li class="txt"><textarea class="replyType"></textarea></li>
-							<li class="btn">
-								<a href="#" class="rebtn">수정</a>
-								<a href="#" class="rebtn">삭제</a>
-							</li>
-						</ul>
-
-						<ul>
-							<li class="name">jjabcde <span>[2014-03-04&nbsp;&nbsp;15:01:59]</span></li>
-							<li class="txt">대박!!! 이거 저한테 완전 필요한 이벤트였어요!!</li>
-							<li class="btn">
-								<a href="#" class="rebtn">수정</a>
-								<a href="#" class="rebtn">삭제</a>
-							</li>
-						</ul>
-
-						<ul>
-							<li class="name">jjabcde <span>[2014-03-04&nbsp;&nbsp;15:01:59]</span></li>
-							<li class="txt">
-								<a href="password.html" class="passwordBtn"><span class="orange">※ 비밀글입니다.</span></a>
-							</li>
-						</ul>
-					</div>
-					<!-- //댓글 -->
-
-
-					<!-- Btn Area -->
-					<div class="btnArea">
-						<div class="bRight">
+					<div class="searchWrap">
+						<div class="search">
 							<ul>
-								<li><a href="#" class="sbtnMini mw">목록</a></li>
+								<li class="web"><img src="user/images/txt/txt_search.gif" alt="search" /></li>
+								<li class="se">
+									<select>
+										<option value="" />제목</option>
+									</select>
+								</li>
+								<li><input type="text" class="searchInput" /></li>
+								<li class="web"><a href="#"><img src="user/images/btn/btn_search.gif" alt="검색" /></a></li>
+								<li class="mobile"><a href="#"><img src="user/images/btn/btn_search_m.gif" alt="검색" /></a></li>
 							</ul>
 						</div>
 					</div>
-					<!-- //Btn Area -->
-					
+
 				</div>
 			</div>
 			<!-- //contents -->
-
-
-<script type="text/javascript" src="user/js/jquery.fancybox-1.3.4.pack.js"></script>
-<link rel="stylesheet" type="text/css" href="user/css/jquery.fancybox-1.3.4.css" />
-<script type="text/javascript">
-$(function(){
-	
-	var winWidth = $(window).width();
-	if(winWidth > 767){
-		var layerCheck = 540;
-	}else{
-		var layerCheck = 320;
-	}
-
-	$(".passwordBtn").fancybox({
-		'autoDimensions'    : false,
-		'showCloseButton'	: false,
-		'width' : layerCheck,
-		'padding' : 0,
-		'type'			: 'iframe',
-		'onComplete' : function() {
-			$('#fancybox-frame').load(function() { // wait for frame to load and then gets it's height
-			$('#fancybox-content').height($(this).contents().find('body').height());
-			});
-		}
-	});
-
-
-});
-</script>
 
 		</div>
 	</div>

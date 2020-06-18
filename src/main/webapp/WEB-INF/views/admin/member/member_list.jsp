@@ -97,7 +97,7 @@
 	
 		//회원 탈퇴 체크 
 		function del_check(m_num){
-			if(confirm("해당 회원을 탈퇴처리 하시겠습니까? \n(탈퇴하면 회원 정보가 삭제되며, 삭제한 데이터는 복구할 수 없습니다.)")){
+			if(confirm("해당 회원을 탈퇴처리 하시겠습니까? \n(탈퇴처리하면 회원 정보가 삭제되며, 삭제한 데이터는 복구할 수 없습니다.)")){
 	            $.ajax({
 	                  url : "member_delete",
 	                  method : "POST",
@@ -210,7 +210,7 @@
 								<button type="button" onclick="location.href='member_view?m_num=${member_list.memberdto.m_num}'">
 									수정
 								</button>
-								<button type="button" onclick="del_check(${member_list.memberdto.m_num})">탈퇴</button>
+								<button type="button" onclick="del_check(${member_list.memberdto.m_num})">탈퇴처리</button>
 							</td>
 						</tr>
 						</c:forEach>

@@ -10,6 +10,13 @@ public class AllDto {
 	private EventDto eventdto;
 	private CouponDto coupondto;
 	private E_CommentDto e_commentdto;
+	private OrderListDto orderlistdto;
+	private WinBoardDto winboarddto;
+	private LevelDto leveldto;
+	private ProductDto productdto;
+	private ReceiverDto receiverdto;
+	private FaqDto fapdto;
+	private UtilDto utildto;
 	
 	public MtmAnswerDto getMtmanswerdto() {
 		return mtmanswerdto;
@@ -60,6 +67,49 @@ public class AllDto {
 	public void setMtmuserdto(MtmUserDto mtmuserdto) {
 		this.mtmuserdto = mtmuserdto;
 	}
+	public UtilDto getUtildto() {
+		return utildto;
+	}
+	public void setUtildto(UtilDto utildto) {
+		this.utildto = utildto;
+	}
+	public OrderListDto getOrderlistdto() {
+		return orderlistdto;
+	}
+	public void setOrderlistdto(OrderListDto orderlistdto) {
+		this.orderlistdto = orderlistdto;
+	}
+	public WinBoardDto getWinboarddto() {
+		return winboarddto;
+	}
+	public void setWinboarddto(WinBoardDto winboarddto) {
+		this.winboarddto = winboarddto;
+	}
+	public LevelDto getLeveldto() {
+		return leveldto;
+	}
+	public void setLeveldto(LevelDto leveldto) {
+		this.leveldto = leveldto;
+	}
+	public ProductDto getProductdto() {
+		return productdto;
+	}
+	public void setProductdto(ProductDto productdto) {
+		this.productdto = productdto;
+	}
+	public ReceiverDto getReceiverdto() {
+		return receiverdto;
+	}
+	public void setReceiverdto(ReceiverDto receiverdto) {
+		this.receiverdto = receiverdto;
+	}
+	public FaqDto getFapdto() {
+		return fapdto;
+	}
+	public void setFapdto(FaqDto fapdto) {
+		this.fapdto = fapdto;
+	}
+
 	
 	
 	

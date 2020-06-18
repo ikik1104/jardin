@@ -12,6 +12,7 @@ import com.javalec.ex.dto.MtmAnswerDto;
 import com.javalec.ex.dto.MtmUserDto;
 import com.javalec.ex.dto.NoticeDto;
 import com.javalec.ex.dto.UtilDto;
+import com.javalec.ex.dto.WinBoardDto;
 
 public interface ADBService {
 	
@@ -19,7 +20,7 @@ public interface ADBService {
  	[관리자]
 	1:1문의
 	공지사항 
-	이벤트
+	이벤트(당첨자 게시글 포함)
 	*/
 	
 	//1:1문의 전체 리스트 불러오기
@@ -81,5 +82,20 @@ public interface ADBService {
 	
 	//이벤트 신청자 미당첨 처리
 	int backApplicant(int ec_num);
+
+	//당첨자 게시글 전체 리스트 불러오기
+	List<AllDto> getAllWinBoards();
+
+	//당첨자 게시글 1개 불러오기
+	AllDto getWinBoard(WinBoardDto winBoardDto);
+
+	//당첨자 게시글 1개 수정
+	int modifyWinBoard(WinBoardDto winBoardDto);
+
+	//당첨자 게시글 1개 삭제
+	int deleteWinBoard(int wb_num);
+	
+	//당첨자 게시글 1개 등록
+	int insertWinBoard(WinBoardDto winBoardDto);
 }
 

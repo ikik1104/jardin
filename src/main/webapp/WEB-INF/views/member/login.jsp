@@ -76,6 +76,7 @@ $(document).ready(function() {
              msiehide();
          }
      }
+     
 
      var msieshow = function () {
         $("#ieUser").show();
@@ -86,6 +87,19 @@ $(document).ready(function() {
 		$("#ieUser").hide();
         clearTimeout(msietimer);
      }
+     
+     window.onload=function(){
+    	${alerttext}
+     }
+     //회원 로그인 폼 제출
+		function submitMember(){
+			m_login.submit();
+		}
+     
+	 //비회원 로그인 폼 제출     
+		function submitNonMember(){
+			nm_login.submit();
+		}    
 </script>
 
 <div id="allwrap">
@@ -109,7 +123,7 @@ $(document).ready(function() {
 				<div id="title2">MEMBERSHIP<span>멤버쉽</span></div>
 				<ul>	
 					<li><a href="#" id="leftNavi1">로그인</a></li>
-					<li><a href="#" id="leftNavi2">회원가입</a></li>
+					<li><a href="step01" id="leftNavi2">회원가입</a></li>
 					<li><a href="#" id="leftNavi3">아이디/<span>비밀번호 찾기</span></a></li>
 					<li><a href="#" id="leftNavi4">회원약관</a></li>
 					<li><a href="#" id="leftNavi5">개인정보<span>취급방침</span></a></li>
@@ -123,41 +137,43 @@ $(document).ready(function() {
 				<div id="member">
 					<h2><strong>로그인</strong><span>로그인 후 주문하시면 다양한 혜택을 받으실 수 있습니다.</span></h2>
 					<h3>회원 로그인</h3>
-					<div class="informbox">
-						<div class="inform">
-							<ul>
-								<li><input type="text" class="loginType" onfocus="this.className='mfocus'" onblur="if (this.value.length==0) {this.className='loginType'}else {this.className='mfocusnot'}" style="ime-mode:inactive;" /></li>
-								<li><input type="password" class="passType" onfocus="this.className='mfocus'" onblur="if (this.value.length==0) {this.className='passType'}else {this.className='mfocusnot'}" style="ime-mode:inactive;" /></li>
-							</ul>
-
-							<div class="btn"><a href="#" class="sbtn">로그인</a></div>
-							<div class="chk"><input type="checkbox" id="idsave"/><label for="idsave">아이디 저장</label></div>							
-
-							<div class="point">
-								<p>아이디와 비밀번호를 잊으셨나요?</p>
-								<a href="#" class="nbtn">아이디/비밀번호 찾기</a>
+					<form action="member_login" name="m_login" method="post">
+						<div class="informbox">
+							<div class="inform">
+								<ul>
+									<li><input type="text" name="m_id" class="loginType" onfocus="this.className='mfocus'" onblur="if (this.value.length==0) {this.className='loginType'}else {this.className='mfocusnot'}" style="ime-mode:inactive;" /></li>
+									<li><input type="password" name="m_pw" class="passType" onfocus="this.className='mfocus'" onblur="if (this.value.length==0) {this.className='passType'}else {this.className='mfocusnot'}" style="ime-mode:inactive;" /></li>
+								</ul>
+								
+								<div class="btn" style="cursor:pointer" onclick="submitMember()"><a class="sbtn" >로그인</a></div>
+								<div class="chk"><input type="checkbox" id="idsave"/><label for="idsave">아이디 저장</label></div>							
+	
+								<div class="point">
+									<p>아이디와 비밀번호를 잊으셨나요?</p>
+									<a href="#" class="nbtn">아이디/비밀번호 찾기</a>
+								</div>
 							</div>
 						</div>
-					</div>
+					</form>
 
-
-
+					<form action="nonmember_login" name="nm_login" method="post">
 					<h3>비회원 주문 조회</h3>
 					<div class="informbox">
 						<div class="inform">
 							<ul>
-								<li><input type="text" class="ordererType" onfocus="this.className='mfocus'" onblur="if (this.value.length==0) {this.className='ordererType'}else {this.className='mfocusnot'}" /></li>
-								<li><input type="text" class="ordernumType" onfocus="this.className='mfocus'" onblur="if (this.value.length==0) {this.className='ordernumType'}else {this.className='mfocusnot'}" /></li>
+								<li><input type="text" name="m_name" class="ordererType" onfocus="this.className='mfocus'" onblur="if (this.value.length==0) {this.className='ordererType'}else {this.className='mfocusnot'}" /></li>
+								<li><input type="text" name="ol_order_num" class="ordernumType" onfocus="this.className='mfocus'" onblur="if (this.value.length==0) {this.className='ordernumType'}else {this.className='mfocusnot'}" /></li>
 							</ul>
 
-							<div class="btn"><a href="#" class="gbtn">조회하기</a></div>
+							<div class="btn" style="cursor:pointer" onclick="submitNonMember()"><a class="gbtn">조회하기</a></div>
 							<div class="point">
 								<p>아직 JARDIN 회원이 아니신가요? <span>회원가입하시고 다양한 혜택을 받으세요.</span></p>
-								<a href="#" class="nbtn">회원가입</a>
+								<a href="step01" class="nbtn">회원가입</a>
 							</div>
 						</div>
 					</div>
-
+					</form>
+					
 				</div>
 			</div>
 			<!-- //contents -->

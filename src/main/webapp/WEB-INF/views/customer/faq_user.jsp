@@ -29,7 +29,7 @@
 <![endif]-->
 <script type="text/javascript">
 $(document).ready(function() {
-	
+    $("#user a").attr("class","on");
 
 
 });
@@ -90,8 +90,9 @@ $(document).ready(function() {
         clearTimeout(msietimer);
      }
      
-     //선택한 카테고리 on
-     function step_on() { //이렇게까지 길게 할게 아닌데... 일단 db에 한글로 넣어놨으니 이렇게 하자
+     /*
+     선택한 카테고리 on
+     function step_on() { 이렇게까지 길게 할게 아닌데... 일단 db에 한글로 넣어놨으니 이렇게 하자
     	if(${f_step == null}){
     		$("#all a").attr("class","on");
     	}else if(${f_step eq '회원'}){
@@ -102,6 +103,9 @@ $(document).ready(function() {
     		$("#product a").attr("class","on");
     	}
 	}
+     */
+     
+    
 </script>
 
 <div id="allwrap">
@@ -139,10 +143,10 @@ $(document).ready(function() {
 					
 					<div class="faqTab">
 						<ul>
-							<li id="all"><a href="faq_List">전체</a></li>
-							<li id="user" class="dep"><a href="faq_List?f_step=회원">회원</a></li>
-							<li id="product"><a href="faq_List?f_step=상품">상품</a></li>
-							<li id="order" class="last"><a href="faq_List?f_step=주문">주문</a></li>
+							<li id="all"><a href="faq_all"  >전체</a></li>
+							<li id="user" class="dep"><a >회원</a></li>
+							<li id="product"><a href="faq_product">상품</a></li>
+							<li id="order" class="last"><a href="faq_order">주문</a></li>
 						</ul>						
 					</div>	
 					
@@ -150,26 +154,36 @@ $(document).ready(function() {
 					<div class="faqList">
 						<ul>
 							<!-- list -->
-							<c:forEach var="list" items="${list}">
-							<li>
-								<a href="javascript:;" class="faqbtn">
-									<div class="question">
-										<div class="blet">Q</div>
-										<div class="category">${list.f_step}</div>
-										<div class="title">${list.f_title}</div>
-									</div>
-								</a>
-
-								<div class="faqanswer">
-									<div class="faqbox">
-										<div class="blet">A</div>
-										<div class="text">
-											${list.f_content}
-										</div>
-									</div>
-								</div>
-							</li>
-							</c:forEach>
+								<c:if test="${faq_list.size()==0 }"><!-- 등록된 faq가 없을 때 -->
+									<li>
+											<div class="question" >
+													<div class="blet">등록된 FAQ가 없습니다.</div>
+											</div>
+											
+									</li>								
+								</c:if>
+								<c:if test="${faq_list.size()!=0 }"><!-- 등록된 faq가 있을 때 -->
+									<c:forEach var="faq_list" items="${faq_list}">
+										<li>
+											<a href="javascript:;" class="faqbtn">
+												<div class="question">
+													<div class="blet">Q</div>
+													<div class="category">${faq_list.f_step}</div>
+													<div class="title">${faq_list.f_title}</div>
+												</div>
+											</a>
+			
+											<div class="faqanswer">
+												<div class="faqbox">
+													<div class="blet">A</div>
+													<div class="text">
+														${faq_list.f_content}
+													</div>
+												</div>
+											</div>
+										</li>					
+									</c:forEach>
+								</c:if>
 						</ul>
 					</div>
 					<!-- //FAQ -->

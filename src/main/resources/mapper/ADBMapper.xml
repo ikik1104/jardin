@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.javalec.ex.dao.ADBMtmDao">
 
-	<!-- [관리자] 1:1문의, 공지사항, 이벤트 -->
+	<!-- [관리자] 1:1문의, 공지사항, 이벤트(당첨자 게시판 포함) -->
 
 	<!-- Dto 객체 선언 -->
 	
@@ -16,7 +16,8 @@
 	    <collection property="eventdto" resultMap="EventDto"/>
 	    <collection property="coupondto" resultMap="CouponDto"/>	 
 	    <collection property="e_commentdto" resultMap="E_CommentDto"/>	
-	    <collection property="memberdto" resultMap="MemberDto"/>	           	    	    	     
+	    <collection property="memberdto" resultMap="MemberDto"/>	
+	    <collection property="winboarddto" resultMap="WinBoardDto"/>		               	    	    	     
 	</resultMap>	
 	
 	<resultMap type="com.javalec.ex.dto.MtmUserDto" id="MtmUserDto">
@@ -118,6 +119,20 @@
 	    <result column="ec_sysdate" property="ec_sysdate"/>	    
 	    <result column="ec_status" property="ec_status"/>	  	         
 	</resultMap>		
+	
+	<resultMap type="com.javalec.ex.dto.WinBoardDto" id="WinBoardDto">
+	    <result column="rownum" property="rownum"/>
+	    <result column="wb_num" property="wb_num"/>	 
+	    <result column="ad_num" property="ad_num"/>
+	    <result column="e_num" property="e_num"/>
+	    <result column="wb_title" property="wb_title"/>	    
+	    <result column="wb_hit" property="wb_hit"/>	    
+	    <result column="wb_content" property="wb_content"/>	  	        
+	    <result column="wb_date" property="wb_date"/>	  		     
+	</resultMap>		
+	
+	
+	
 	
 	<!--  1:1문의 전체 리스트 불러오기-->
 	<select id="getAllBoards" resultMap="AllDto">
@@ -268,5 +283,37 @@
 	<update id="backApplicant">
 		update ecomment_tb set ec_status='미당첨' where ec_num=#{ec_num}
 	</update>	
+	
+	<!-- 당첨자 게시글 전체 리스트 불러오기 -->
+	<select id="getAllWinBoards" resultMap="AllDto">
+		select rownum, finaltb.* from
+		(select ewtb.* , ad.ad_id, ad.ad_grade, ad.ad_name from 
+		(select wtb.*, etb.e_title from win_board_tb wtb, event_tb etb
+		where wtb.e_num=etb.e_num order by wb_num desc) ewtb,
+		admin_tb ad
+		where ad.ad_num=ewtb.ad_num) finaltb
+	</select>
+	
+	<!-- 당첨자 게시글 1개 불러오기 -->
+	<select id="getWinBoard" resultMap="AllDto">
+		select ewtb.*, ad.ad_id, ad.ad_grade, ad.ad_name from
+		(select wtb.*, etb.e_title from win_board_tb wtb, event_tb etb
+		where wb_num=#{wb_num} and wtb.e_num=etb.e_num) ewtb, admin_tb ad
+		where ad.ad_num=ewtb.ad_num		
+	</select>
+	
+	<update id="modifyWinBoard">
+		update win_board_tb set e_num=#{e_num}, wb_title=#{wb_title}, wb_content=#{wb_content} where wb_num=#{wb_num}
+	</update>
+	
+	<delete id="deleteWinBoard">
+		delete from win_board_tb where wb_num=#{wb_num}
+	</delete>
+	
+	<insert id="insertWinBoard">
+		insert into win_board_tb values(
+		wb_seq.nextval, #{ad_num}, #{e_num},
+		#{wb_title}, 0, #{wb_content}, sysdate)
+	</insert>
 	
 </mapper>

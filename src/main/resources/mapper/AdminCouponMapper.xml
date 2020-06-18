@@ -9,10 +9,13 @@
 	<!-- Dto 객체 선언 -->
 	
 	<resultMap type="com.javalec.ex.dto.AllDto" id="AllDto">
-	    <collection property="coupondto" resultMap="CouponDto"/>	  	     	     
+	    <collection property="coupondto" resultMap="CouponDto"/>	  
+	    <collection property="productdto" resultMap="ProductDto"/>		  
+	    <collection property="utildto" resultMap="UtilDto"/>			      	     	     
 	</resultMap>		
 	
 	<resultMap type="com.javalec.ex.dto.CouponDto" id="CouponDto">
+	    <result column="rownum" property="rownum"/>	
 	    <result column="co_num" property="co_num"/>
 	    <result column="co_name" property="co_name"/>	 
 	    <result column="co_start_day" property="co_start_day"/>
@@ -25,12 +28,168 @@
 	    <result column="co_condition" property="co_condition"/>	 	       
 	</resultMap>
 	
+	<resultMap type="com.javalec.ex.dto.ProductDto" id="ProductDto">
+	    <result column="rownum" property="rownum"/>
+	    <result column="p_num" property="p_num"/>	 
+	    <result column="p_step1" property="p_step1"/>
+	    <result column="p_step2" property="p_step2"/>
+	    <result column="p_name" property="p_name"/>	    
+	    <result column="p_price" property="p_price"/>	    
+	    <result column="p_point" property="p_point"/>	 	    
+	    <result column="p_producer" property="p_producer"/>	 	
+	    <result column="p_expiry" property="p_expiry"/>
+	    <result column="p_type" property="p_type"/>	 
+	    <result column="p_capacity" property="p_capacity"/>	    
+	    <result column="p_detail" property="p_detail"/>	 	    
+	    <result column="p_location" property="p_location"/>	 	
+	    <result column="p_gene" property="p_gene"/>
+	    <result column="p_import" property="p_import"/>	 	   
+	    <result column="p_stock" property="p_stock"/>	    
+	    <result column="p_thumb_img1" property="p_thumb_img1"/>	 	    
+	    <result column="p_thumb_img2" property="p_thumb_img2"/>	 	
+	    <result column="p_thumb_img3" property="p_thumb_img3"/>
+	    <result column="p_content_img" property="p_content_img"/>	 	    
+	    <result column="p_sysdate" property="p_sysdate"/>	    
+	    <result column="p_update" property="p_update"/>	 	    
+	</resultMap>	
+	
+	<resultMap type="com.javalec.ex.dto.UtilDto" id="UtilDto">
+	    <result column="str1" property="str1"/>	
+	    <result column="str2" property="str2"/>  
+	    <result column="str3" property="str3"/>  	
+	    <result column="str4" property="str4"/> 	        
+	</resultMap>
+	
 	<!-- 쿠폰 전체 리스트 불러오기 -->
 	<select id="getAllCoupons" resultMap="AllDto">
-			select * from 
-			(select rownum, cp.* from 
-			(select * from coupon_tb order by co_num desc) cp) 
-			order by rownum desc	
+		select rownum, finaltb.*  from 
+        (select co_num, co_name, co_type, co_discount, co_sysdate, co_condition,
+        case when co_start_day is null then '-' else to_char(co_start_day, 'yy-MM-dd') end str1,
+        case when co_end_day is null then '-' else to_char(co_end_day, 'yy-MM-dd') end str2,
+        case when co_expiry is null then '-' else to_char(co_expiry) end str3,
+        case when p_name is null then '-' else to_char(p_name) end p_name 
+        from
+        (select * from 
+        (select distinct cp.*, 
+        case when co_product is null then null else p_name end p_name 
+        from coupon_tb cp, product_tb pro
+        where cp.co_product=p_num or co_product is null)
+        order by co_num desc) cou) finaltb
 	</select>
+	
+	<!-- 쿠폰 등록 페이지에 상품 전체 목록 불러오기 -->
+	<select id="getAllProducts" resultMap="AllDto">
+		select * from product_tb where p_delflag='N' order by p_num asc
+	</select>
+	
+	<!-- 유효기간만 설정된 상품 쿠폰 등록 -->
+	<insert id="insertExpiryProCoupon">
+		insert into coupon_tb values(
+		cou_seq.nextval,
+		#{co_name},
+		'','',
+		#{co_expiry},
+		#{co_type},
+		#{co_discount},
+		sysdate,
+		#{co_product},
+		#{co_condition})		
+	</insert>
+	
+	<!-- 유효기간만 설정된 미상품 쿠폰 등록 -->
+	<insert id="insertExpiryCoupon">
+		insert into coupon_tb  (co_num, co_name, co_expiry, co_type, co_discount, co_sysdate, co_condition)
+		 values(
+		cou_seq.nextval,
+		#{co_name},
+		#{co_expiry},
+		#{co_type},
+		#{co_discount},
+		sysdate,
+		#{co_condition})		
+	</insert>	
+	
+	<!-- 사용 시작일, 종료일 설정된 상품 쿠폰 등록-->
+	<insert id="insertDateProCoupon">
+		insert into coupon_tb 
+        (co_num, co_name, co_start_day, co_end_day, co_type, co_discount, co_sysdate, co_product, co_condition)
+        values(
+		cou_seq.nextval,
+		#{couponDto.co_name},
+		#{utilDto.str1},#{utilDto.str2},
+		#{couponDto.co_type},
+		#{couponDto.co_discount},
+		sysdate,
+		#{couponDto.co_product},
+		#{couponDto.co_condition})
+	</insert>
+	
+	<!-- 사용 시작일, 종료일 설정된 미상품 쿠폰 등록-->
+	<insert id="insertDateCoupon">
+		insert into coupon_tb  (co_num, co_name, co_start_day, co_end_day, co_type, co_discount, co_sysdate, co_condition)
+		values(
+		cou_seq.nextval,
+		#{couponDto.co_name},
+		#{utilDto.str1},#{utilDto.str2},
+		#{couponDto.co_type},
+		#{couponDto.co_discount},
+		sysdate,
+		#{couponDto.co_condition})		
+	</insert>	
+	
+	<!-- 쿠폰 1개 정보 불러오기 -->
+	<select id="getCouponInfo" resultMap="AllDto">
+		select distinct co_num, co_name, co_type, co_discount, co_sysdate, co_condition, 
+		case when co_product is null then '-' else p_name end p_name,
+		case when co_start_day is null then '-' else to_char(co_start_day, 'yy-MM-dd') end str1,
+		case when co_end_day is null then '-' else to_char(co_end_day, 'yy-MM-dd') end str2,
+		case when co_expiry is null then '-' else to_char(co_expiry) end str3,
+		case when co_product is null then '-' else to_char(co_product) end str4
+		from
+		(select * from coupon_tb where co_num=#{co_num}) cp,
+		product_tb pro
+		where cp.co_product=pro.p_num or co_product is null
+	</select>
+	
+	<!-- 유효기간만 설정된 상품 쿠폰 수정 -->
+	<insert id="modifyExpiryProCoupon">
+		update coupon_tb set 
+		co_name=#{co_name}, co_start_day=null, co_end_day=null,
+		co_expiry=#{co_expiry}, co_type=#{co_type}, 
+		co_discount=#{co_discount}, co_product=#{co_product},
+		co_condition=#{co_condition} where co_num=#{co_num}
+	</insert>
+	
+	<!-- 유효기간만 설정된 미상품 쿠폰 수정 -->
+	<insert id="modifyExpiryCoupon">
+		update coupon_tb set 
+		co_name=#{co_name}, co_start_day=null, co_end_day=null,
+		co_expiry=#{co_expiry}, co_type=#{co_type}, 
+		co_discount=#{co_discount}, co_product=null,
+		co_condition=#{co_condition} where co_num=#{co_num}
+	</insert>	
+	
+	<!-- 사용 시작일, 종료일 설정된 상품 쿠폰 수정-->
+	<insert id="modifyDateProCoupon">
+		update coupon_tb set 
+		co_name=#{couponDto.co_name}, co_start_day=#{utilDto.str1}, co_end_day=#{utilDto.str2},
+		co_expiry=null, co_type=#{couponDto.co_type}, 
+		co_discount=#{couponDto.co_discount}, co_product=#{couponDto.co_product},
+		co_condition=#{couponDto.co_condition} where co_num=#{couponDto.co_num}	
+	</insert>
+	
+	<!-- 사용 시작일, 종료일 설정된 미상품 쿠폰 수정-->
+	<insert id="modifyDateCoupon">
+		update coupon_tb set 
+		co_name=#{couponDto.co_name}, co_start_day=#{utilDto.str1}, co_end_day=#{utilDto.str2},
+		co_expiry=null, co_type=#{couponDto.co_type}, 
+		co_discount=#{couponDto.co_discount}, co_product=null,
+		co_condition=#{couponDto.co_condition} where co_num=#{couponDto.co_num}	
+	</insert>		
+	
+	<!-- 쿠폰 1개 삭제 -->
+	<delete id="deleteCoupon">
+		delete from coupon_tb where co_num=#{co_num}
+	</delete>
 	
 </mapper>		

@@ -21,4 +21,21 @@ public interface AdminMemberInfoService {
 	//회원 1명 정보 수정
 	int modifyMember(MemberDto memberDto);
 	
+	//회원 1명 탈퇴 처리
+	int deleteMember(int m_num);
+	
+	//휴면 회원 전체 불러오기(회원 일괄 휴면<->가입 전환)
+	List<AllDto> getAllSleepMembers();
+	
+	//휴면 회원 정보 1개 불러오기
+	AllDto getSleepMember(MemberDto memberDto);
+	
+	//탈퇴 회원 전체 리스트 불러오기
+	List<AllDto> getLeftMembers();
+	
+	//탈퇴 회원 정보 1개 불러오기
+	AllDto getLeftMember(MemberDto memberDto);
+	
+	//탈퇴 회원 1명 영구삭제
+	int deleteForeverMember(int m_num);
 }

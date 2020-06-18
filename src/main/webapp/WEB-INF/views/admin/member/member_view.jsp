@@ -85,7 +85,7 @@
 		*/		
 		//회원 탈퇴 체크 
 		function del_check(m_num){
-			if(confirm("해당 회원을 탈퇴처리 하시겠습니까? \n(탈퇴하면 회원 정보가 삭제되며, 삭제한 데이터는 복구할 수 없습니다.)")){
+			if(confirm("해당 회원을 탈퇴처리 하시겠습니까? \n(탈퇴처리하면 회원 정보가 삭제되며, 삭제한 데이터는 복구할 수 없습니다.)")){
 	            $.ajax({
 	                  url : "member_delete",
 	                  method : "POST",
@@ -95,7 +95,7 @@
 	                  success : function(val){
 	                     if(val == 1){ //리턴값이 1이면 (=성공)
 	                        alert("탈퇴처리 완료되었습니다.");
-	                        location.reload(); //페이지 새로고침
+	                        location.href='member_list'; //페이지 새로고침
 	                     }else{ // 0이면 실패
 	                        alert("탈퇴처리 실패.");
 	                     }
@@ -113,7 +113,9 @@
 			${alerttext}
 		}
 		
-		
+		$( document ).ready(function() {
+			$("#level_select").val("${member_info.memberdto.m_level }").attr("selected", "selected");
+		});
 		
 		</script>
 		<style type="text/css">
@@ -196,9 +198,9 @@ ${member_info.memberdto.m_pw }
 				<tr>
 					<th>등급</th>
 					<td>	
-						<select name="m_level">
-							<option value="일반"></option>
-							<option value="우수"></option>							
+						<select name="m_level" id="level_select">
+							<option value="일반">일반</option>
+							<option value="우수">우수</option>							
 						</select>
 					</td>
 					<th>최종 로그인</th>

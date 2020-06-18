@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+     
+<mapper namespace="com.javalec.ex.dao.UserMemberDao">
+
+
+
+	<!-- [사용자] 회원 -->
+
+	<!-- Dto 객체 선언 -->
+	
+	<resultMap type="com.javalec.ex.dto.AllDto" id="AllDto">
+	    <collection property="memberdto" resultMap="MemberDto"/>	     
+	    <collection property="receiverdto" resultMap="ReceiverDto"/>	   	       
+	</resultMap>		
+	
+	<resultMap type="com.javalec.ex.dto.MemberDto" id="MemberDto">
+	    <result column="rownum" property="rownum"/>	
+	    <result column="m_num" property="m_num"/>
+	    <result column="m_id" property="m_id"/>	    
+	    <result column="m_pw" property="m_pw"/>	    
+	    <result column="m_email" property="m_email"/>	    
+	    <result column="m_email_ok" property="m_email_ok"/>	    
+	    <result column="m_zipcode" property="m_zipcode"/>	    
+	    <result column="m_address1" property="m_address1"/>	    
+	    <result column="m_address2" property="m_address2"/>	 
+	    <result column="m_phone" property="m_phone"/>	 	       
+	    <result column="m_sms_ok" property="m_sms_ok"/>	 	    
+	    <result column="m_tel" property="m_tel"/>	 	    	    
+	    <result column="m_birth" property="m_birth"/>	 
+	    <result column="m_birth_sort" property="m_birth_sort"/>	 	    
+	    <result column="m_level" property="m_level"/>	 	    	    	    
+	    <result column="m_last_login" property="m_last_login"/>	 	
+	    <result column="m_status" property="m_status"/>	 	    
+	    <result column="m_left_date" property="m_left_date"/>	 	
+	    <result column="m_left_reason" property="m_left_reason"/>		    
+	    <result column="m_join_date" property="m_join_date"/>		 
+	    <result column="m_point" property="m_point"/>		               	    
+	</resultMap>	
+	
+	<resultMap type="com.javalec.ex.dto.ReceiverDto" id="ReceiverDto">
+	    <result column="ol_order_num" property="ol_order_num"/>
+	    <result column="m_name" property="m_name"/>
+	    <result column="m_zipcode" property="m_zipcode"/>	    
+	    <result column="m_address1" property="m_address1"/>	    
+	    <result column="m_address2" property="m_address2"/>	    
+	    <result column="m_email" property="m_email"/>	    
+	    <result column="m_phone" property="m_phone"/>	    
+	    <result column="m_tel" property="m_tel"/>	    
+	    <result column="re_name" property="re_name"/>	 
+	    <result column="re_zipcode" property="re_zipcode"/>	 	       
+	    <result column="re_address1" property="re_address1"/>	 	    
+	    <result column="re_address2" property="re_address2"/>	 	    	    
+	    <result column="re_phone" property="re_phone"/>	 
+	    <result column="re_tel" property="re_tel"/>	 	    
+	    <result column="m_msg" property="m_msg"/>	 	    	
+	</resultMap>		
+	
+	
+	<!-- 아이디 비교 -->
+	<select id="checkID" resultMap="AllDto">
+	    select * from
+	    (select m_id, m_num from member_tb where m_id=#{m_id}
+	    
+	    union all
+	    
+	    select '-' as m_id,-1 as m_num from dual)
+	    where m_id!='-' and m_num!=-1 or rownum =1
+	</select>
+	
+	<!-- 비밀번호 비교 -->
+	<select id="checkPW" resultMap="AllDto">
+	    select * from
+	    (select m_pw from member_tb where m_id=#{m_id}
+	    and m_pw=#{m_pw}
+	    
+	    union all
+	    
+	    select '-' as m_pw from dual)
+	    where m_pw!='-' or rownum =1
+	</select>
+
+	<!-- 비회원 주문자명 비교 -->
+	<select id="checkName" resultType="com.javalec.ex.dto.ReceiverDto">
+	
+	   	select * from
+	    (select m_name from orderer_receiver_tb   where ol_order_num=#{ol_order_num} and m_name=#{m_name}
+	    
+	    union all
+	    
+	    select '-' as m_name from dual)
+	    where m_name!='-'   or rownum=1
+	    
+	</select>
+	
+	<!-- 비회원 주문번호 비교 -->
+	<select id="checkNum" resultType="com.javalec.ex.dto.ReceiverDto">
+	    select * from
+	    (select ol_order_num from orderer_receiver_tb  where ol_order_num=#{ol_order_num}
+	    
+	    union all
+	    
+	    select '-' as ol_order_num from dual)
+	    where ol_order_num!='-' or rownum=1
+	</select>	
+	
+	<!-- 회원가입 -->
+	<insert id="memberJoin">
+		insert into member_tb values(
+		m_seq.nextval,
+		#{m_name},
+		#{m_id},
+		#{m_pw},
+		#{m_email},
+		#{m_email_ok},
+		#{m_zipcode},
+		#{m_address1},
+		#{m_address2},
+		#{m_phone},
+		#{m_sms_ok},
+		#{m_tel},
+		#{m_birth},
+		#{m_birth_sort},
+		'일반',
+		'',
+		'가입',
+		'',
+		'아직 탈퇴 안 함',
+		sysdate,
+		0
+		)
+	</insert>
+	
+	<select id="searchID" resultMap="MemberDto">
+	    select * from
+	    (select m_id from member_tb where m_name=#{m_name} and m_email=#{m_email}
+	    
+	    union all
+	    
+	    select '-' as m_id from dual)
+	    where m_id!='-' or rownum=1	
+	</select>
+	
+	<select id="searchPW" resultMap="MemberDto">
+	    select * from
+	    (select m_pw from member_tb where m_id=#{m_id} and m_email=#{m_email}
+	    
+	    union all
+	    
+	    select '-' as m_pw from dual)
+	    where m_pw!='-' or rownum=1		
+	</select>
+</mapper>		

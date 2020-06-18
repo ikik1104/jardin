@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+     
+<mapper namespace="com.javalec.ex.dao.UserCustomerDao">
+
+
+
+	<!-- [사용자] 고객센터 -->
+
+	<!-- Dto 객체 선언 -->
+	
+	<resultMap type="com.javalec.ex.dto.AllDto" id="AllDto">
+		<collection property="admindto" resultMap="AdminDto"/>	
+	    <collection property="mtmuserdto" resultMap="MtmUserDto"/>			     
+	    <collection property="mtmanswerdto" resultMap="MtmAnswerDto"/>	  
+	    <collection property="noticedto" resultMap="NoticeDto"/>	    
+	    <collection property="eventdto" resultMap="EventDto"/>
+	    <collection property="coupondto" resultMap="CouponDto"/>	 
+	    <collection property="e_commentdto" resultMap="E_CommentDto"/>	
+	    <collection property="memberdto" resultMap="MemberDto"/>	
+	    <collection property="winboarddto" resultMap="WinBoardDto"/>
+	    <collection property="utildto" resultMap="UtilDto"/>	    		       
+	    <collection property="faqdto" resultMap="FaqDto"/>	    	            	    	    	     
+	</resultMap>	
+	
+	<resultMap type="com.javalec.ex.dto.UtilDto" id="UtilDto">
+	    <result column="str1" property="str1"/>	
+	    <result column="str2" property="str2"/>  
+	    <result column="str3" property="str3"/>  	
+	    <result column="str4" property="str4"/> 	        
+	</resultMap>
+	
+	<resultMap type="com.javalec.ex.dto.MtmUserDto" id="MtmUserDto">
+	    <result column="rnum" property="rnum"/>	
+	    <result column="m_num" property="m_num"/>	    
+	    <result column="iu_title" property="iu_title"/>
+	    <result column="iu_date" property="iu_date"/>
+	    <result column="iu_status" property="iu_status"/>
+	    <result column="iu_num" property="iu_num"/>	    
+	    <result column="iu_sort" property="iu_sort"/>	    
+	    <result column="iu_content" property="iu_content"/>	
+	    <result column="iu_img" property="iu_img"/>	      	    
+	</resultMap>
+	
+	<resultMap type="com.javalec.ex.dto.MemberDto" id="MemberDto">
+	    <result column="m_num" property="m_num"/>
+	    <result column="m_name" property="m_name"/>
+	    <result column="m_id" property="m_id"/>	    
+	    <result column="m_pw" property="m_pw"/>	    
+	    <result column="m_email" property="m_email"/>	    
+	    <result column="m_email_ok" property="m_email_ok"/>	    
+	    <result column="m_zipcode" property="m_zipcode"/>	    
+	    <result column="m_address1" property="m_address1"/>	    
+	    <result column="m_address2" property="m_address2"/>	 
+	    <result column="m_phone" property="m_phone"/>	 	       
+	    <result column="m_sms_ok" property="m_sms_ok"/>	 	    
+	    <result column="m_tel" property="m_tel"/>	 	    	    
+	    <result column="m_birth" property="m_birth"/>	 
+	    <result column="m_birth_sort" property="m_birth_sort"/>	 	    
+	    <result column="m_level" property="m_level"/>	 	    	    	    
+	    <result column="m_last_login" property="m_last_login"/>	 	
+	    <result column="m_status" property="m_status"/>	 	    
+	    <result column="m_left_date" property="m_left_date"/>	 	
+	    <result column="m_left_reason" property="m_left_reason"/>		    
+	    <result column="m_join_date" property="m_join_date"/>		 
+	    <result column="m_point" property="m_point"/>		               	    
+	</resultMap>
+	
+		<resultMap type="com.javalec.ex.dto.AdminDto" id="AdminDto">
+	    <result column="ad_num" property="ad_num"/>
+	    <result column="ad_id" property="ad_id"/>	 
+	    <result column="ad_pw" property="ad_pw"/>
+	    <result column="ad_name" property="ad_name"/> 	     	      
+	    <result column="ad_grade" property="ad_grade"/>  		      
+	</resultMap>
+	
+	<resultMap type="com.javalec.ex.dto.MtmAnswerDto" id="MtmAnswerDto">
+	    <result column="ia_num" property="ia_num"/>
+	    <result column="ia_content" property="ia_content"/>
+	    <result column="ia_date" property="ia_date"/>    
+	</resultMap>
+	
+
+		
+	<resultMap type="com.javalec.ex.dto.NoticeDto" id="NoticeDto">
+	    <result column="rownum" property="rownum"/>		
+	    <result column="no_num" property="no_num"/>	      	    
+	    <result column="ad_num" property="ad_num"/>	
+	    <result column="no_title" property="no_title"/>	
+	    <result column="no_content" property="no_content"/>	
+	    <result column="no_date" property="no_date"/>	
+	    <result column="no_hit" property="no_hit"/>		
+	</resultMap>
+	
+	<resultMap type="com.javalec.ex.dto.EventDto" id="EventDto">
+	    <result column="rownum" property="rownum"/>		
+	    <result column="e_num" property="e_num"/>	     
+	    <result column="e_title" property="e_title"/>	
+	    <result column="e_start_day" property="e_start_day"/>
+	    <result column="e_end_day" property="e_end_day"/>
+	    <result column="e_thumb_img" property="e_thumb_img"/>	
+	    <result column="e_content_img" property="e_content_img"/>	        
+	    <result column="e_content" property="e_content"/>	    	    	
+	    <result column="e_sysdate" property="e_sysdate"/>	
+	    <result column="co_num" property="co_num"/>	    
+	    <result column="e_win_day" property="e_win_day"/>		
+	    <result column="e_status" property="e_status"/>		    
+	    <result column="ad_num" property="ad_num"/>	
+	</resultMap>
+	
+	<resultMap type="com.javalec.ex.dto.CouponDto" id="CouponDto">
+	    <result column="co_num" property="co_num"/>
+	    <result column="co_name" property="co_name"/>	 
+	    <result column="co_start_day" property="co_start_day"/>
+	    <result column="co_end_day" property="co_end_day"/>
+	    <result column="co_expiry" property="co_expiry"/>	    
+	    <result column="co_type" property="co_type"/>	    
+	    <result column="co_discount" property="co_discount"/>	 	    
+	    <result column="co_sysdate" property="co_sysdate"/>	 	
+	    <result column="co_product" property="co_product"/>
+	    <result column="co_condition" property="co_condition"/>	 	       
+	</resultMap>	
+	
+	<resultMap type="com.javalec.ex.dto.E_CommentDto" id="E_CommentDto">
+	    <result column="ec_num" property="ec_num"/>
+	    <result column="m_num" property="m_num"/>	 
+	    <result column="e_num" property="e_num"/>
+	    <result column="ec_content" property="ec_content"/>
+	    <result column="ec_pw" property="ec_pw"/>	    
+	    <result column="ec_sysdate" property="ec_sysdate"/>	    
+	    <result column="ec_status" property="ec_status"/>	  	         
+	</resultMap>		
+	
+	<resultMap type="com.javalec.ex.dto.WinBoardDto" id="WinBoardDto">
+	    <result column="rownum" property="rownum"/>
+	    <result column="wb_num" property="wb_num"/>	 
+	    <result column="ad_num" property="ad_num"/>
+	    <result column="e_num" property="e_num"/>
+	    <result column="wb_title" property="wb_title"/>	    
+	    <result column="wb_hit" property="wb_hit"/>	    
+	    <result column="wb_content" property="wb_content"/>	  	        
+	    <result column="wb_date" property="wb_date"/>	  		     
+	</resultMap>		
+	
+	<resultMap type="com.javalec.ex.dto.FaqDto" id="FaqDto">
+	    <result column="rownum" property="rownum"/>
+	    <result column="f_num" property="f_num"/>	 
+	    <result column="f_step" property="f_step"/>
+	    <result column="f_title" property="f_title"/>
+	    <result column="f_content" property="f_content"/>	    
+	    <result column="f_sysdate" property="f_sysdate"/>	    
+	    <result column="f_delflag" property="f_delflag"/>	   		     
+	</resultMap>		
+	
+	<!-- 공지사항 전체 리스트 불러오기 -->
+	<select id="getAllNoticeBoards" resultMap="AllDto">
+        select ntb.*, ad_grade,ad_id, ad_name
+        from
+        (select rownum, no.* from
+        (select * from
+        (select * from
+        (select no_num, ad_num, no_title, no_content, to_char(no_date, 'yy-MM-dd') str1, no_hit from notice_tb
+        
+        union all
+        
+        select -1 as no_num, -1 as ad_num, '-' as no_title, '-' as no_content, '-' as str1, -1 as no_hit from dual)
+        where no_num!=-1 and ad_num!=-1 and no_title!='-' and no_content!='-' and str1!='-' and no_hit!=-1)
+        order by no_num desc) no) ntb, 
+        admin_tb ad
+        where ntb.ad_num=ad.ad_num
+	</select>	
+	
+	<!-- 공지글 1개 불러오기 -->
+	<select id="getNoticeBoard" resultMap="AllDto">
+        select noti.*, ad_grade,ad_id, ad_name from
+        (select no_num, ad_num, no_title, no_content, to_char(no_date, 'yy.MM.dd') str1, no_hit from notice_tb
+        where no_num=#{no_num}) noti,
+        admin_tb ad
+        where noti.ad_num=ad.ad_num	
+	</select>	
+	
+	<!-- 공지글 조회수 1 증가 -->
+	<update id="addNoHit">
+		update notice_tb set no_hit=no_hit+1 where no_num=#{no_num}
+	</update>
+	
+	<!-- 사용자 1:1 문의 작성 -->
+	<insert id="insertUserInquiry">
+        insert into mtm_inqury_user_tb values(
+        iu_seq.nextval,
+        #{m_num},
+        #{iu_title},
+        #{iu_content},
+        #{iu_sort},
+        sysdate,
+        '답변대기',
+        ''
+        )
+	</insert>
+	
+	<!-- faq 전체 리스트 불러오기 -->
+	<select id="getAllFaqs" resultMap="FaqDto">
+		 select * from faq_tb where f_delflag='N' order by f_num desc
+	</select>
+	
+	<!-- faq 주문 리스트 불러오기 -->
+	<select id="getOrderFaqs" resultMap="FaqDto">
+		 select * from faq_tb where f_step='주문' and f_delflag='N' order by f_num desc
+	</select>
+	
+		<!-- faq 상품 리스트 불러오기 -->
+	<select id="getProductFaqs" resultMap="FaqDto">
+		 select * from faq_tb where f_step='상품' and f_delflag='N' order by f_num desc
+	</select>
+	
+		<!-- faq 회원 리스트 불러오기 -->
+	<select id="getUserFaqs" resultMap="FaqDto">
+		 select * from faq_tb where f_step='회원' and f_delflag='N' order by f_num desc
+	</select>	
+	
+	
+	
+</mapper>		

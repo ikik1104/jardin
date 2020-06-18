@@ -15,5 +15,8 @@ session.setAttribute("adminGrade", "문의담당자");%>
 ${adNum }<br>
 ${adminId }<br>
 ${adminGrade }<br>
+
+<%-- session.setAttribute("userNum", 6); 
+session.setAttribute("userID", "kiwi");--%>
 </body>
 </html>

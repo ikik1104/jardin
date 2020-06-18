@@ -86,6 +86,20 @@ $(document).ready(function() {
 		$("#ieUser").hide();
         clearTimeout(msietimer);
      }
+     
+     window.onload=function(){
+    	 ${alerttext}
+     }
+     
+	//아이디 찾기 폼 제출
+	function searchID(){
+		search_id.submit();
+	}
+	
+	//비번 찾기 폼 제출
+	function searchPw(){
+		search_pw.submit();
+	}
 </script>
 
 <div id="allwrap">
@@ -117,37 +131,39 @@ $(document).ready(function() {
 				</ul>			
 			</div><script type="text/javascript">initSubmenu(3,0);</script>
 
-
 			<!-- contents -->
 			<div id="contents">
 				<div id="member">
 					<h2><strong>아이디/비밀번호 찾기</strong><span>회원님께서 가입하신 아이디와 비밀번호를 찾아드립니다.</span></h2>
 					<h3>아이디 찾기</h3>
+					<form action="search_id" method="post" name="search_id">
 					<div class="informbox">
 						<div class="inform">
 							<ul>
-								<li><input type="text" class="nameType" onfocus="this.className='mfocus'" onblur="if (this.value.length==0) {this.className='nameType'}else {this.className='mfocusnot'}" style="ime-mode:inactive;" /></li>
-								<li><input type="password" class="emailType" onfocus="this.className='mfocus'" onblur="if (this.value.length==0) {this.className='emailType'}else {this.className='mfocusnot'}" style="ime-mode:inactive;" /></li>
+								<li><input type="text" name="m_name" class="nameType" onfocus="this.className='mfocus'" onblur="if (this.value.length==0) {this.className='nameType'}else {this.className='mfocusnot'}" style="ime-mode:inactive;" /></li>
+								<li><input type="text" name="m_email" class="emailType" onfocus="this.className='mfocus'" onblur="if (this.value.length==0) {this.className='emailType'}else {this.className='mfocusnot'}" style="ime-mode:inactive;" /></li>
 							</ul>
 
-							<div class="btn"><a href="#" class="gbtn">아이디 찾기</a></div>
+							<div class="btn"  onclick="searchID()"  style="cursor:pointer" ><a class="gbtn">아이디 찾기</a></div>
 						</div>
 					</div>
-
-
+					</form>
+					
 
 					<h3>비밀번호 찾기</h3>
+					<form action="search_pw" method="post" name="search_pw">					
 					<div class="informbox">
 						<div class="inform">
 							<ul>
-								<li><input type="text" class="loginType" onfocus="this.className='mfocus'" onblur="if (this.value.length==0) {this.className='loginType'}else {this.className='mfocusnot'}" /></li>
-								<li><input type="text" class="emailType" onfocus="this.className='mfocus'" onblur="if (this.value.length==0) {this.className='emailType'}else {this.className='mfocusnot'}" /></li>
+								<li><input type="text" name="m_id" class="loginType" onfocus="this.className='mfocus'" onblur="if (this.value.length==0) {this.className='loginType'}else {this.className='mfocusnot'}" /></li>
+								<li><input type="text" name="m_email" class="emailType" onfocus="this.className='mfocus'" onblur="if (this.value.length==0) {this.className='emailType'}else {this.className='mfocusnot'}" /></li>
 							</ul>
 
-							<div class="btn"><a href="#" class="gbtn">비밀번호 찾기</a></div>
+							<div class="btn"  onclick="searchPw()"  style="cursor:pointer"><a class="gbtn">비밀번호 찾기</a></div>
 						</div>
 					</div>
-
+					</form>
+					
 
 					<p class="alert">쟈뎅 온라인 쇼핑몰에서는 2012년 8월 18일로 시행되는 정보통신망 이용 촉진 및 정보 보호 등에 관한 법률 “주민등록번호의 <span>사용 제한”과 관련하여 주민등록번호를 수집하지 않습니다.</span></p>
 

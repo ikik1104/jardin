@@ -32,21 +32,8 @@ public class My2Controller {
 	@Autowired
 	private LeaveService leaveService;
 	
-	//로그인 세션용 임시 - 추후 삭제 요망
-	@RequestMapping("login")
-	public String inquiry_test(HttpSession session) {
-		session.setAttribute("userID","Hong1");
-		String m_id = (String)session.getAttribute("userID");
-		session.setAttribute("userNum", sessionService.getMnum(m_id));
-		return "mypage/inquiry_test";
-	}
+
 	
-	//로그아웃용 임시 - 추후 삭제 요망
-	@RequestMapping("logout")
-	public String inquiry_test2(HttpSession session) {
-		session.invalidate();
-		return "home";
-	}
 	
 	//1:1문의 리스트 페이지
 	@RequestMapping("inquiry")

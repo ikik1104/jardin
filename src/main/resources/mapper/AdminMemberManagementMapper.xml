@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javalec.ex.dao.AdminMemberManagementDao">
+
+	<!-- [관리자] 회원 등급, 메일링 -->
+
+	<!-- Dto 객체 선언 -->
+	
+	<resultMap type="com.javalec.ex.dto.AllDto" id="AllDto">
+	    <collection property="memberdto" resultMap="MemberDto"/>	 
+	    <collection property="orderlistdto" resultMap="OrderListDto"/>	 
+	    <collection property="utildto" resultMap="UtilDto"/>		     
+	    <collection property="leveldto" resultMap="LevelDto"/>		 	    	     
+	</resultMap>	
+	
+	<resultMap type="com.javalec.ex.dto.MemberDto" id="MemberDto">
+	    <result column="rownum" property="rownum"/>	
+	    <result column="m_num" property="m_num"/>
+	    <result column="m_name" property="m_name"/>
+	    <result column="m_id" property="m_id"/>	    
+	    <result column="m_pw" property="m_pw"/>	    
+	    <result column="m_email" property="m_email"/>	    
+	    <result column="m_email_ok" property="m_email_ok"/>	    
+	    <result column="m_zipcode" property="m_zipcode"/>	    
+	    <result column="m_address1" property="m_address1"/>	    
+	    <result column="m_address2" property="m_address2"/>	 
+	    <result column="m_phone" property="m_phone"/>	 	       
+	    <result column="m_sms_ok" property="m_sms_ok"/>	 	    
+	    <result column="m_tel" property="m_tel"/>	 	    	    
+	    <result column="m_birth" property="m_birth"/>	 
+	    <result column="m_birth_sort" property="m_birth_sort"/>	 	    
+	    <result column="m_level" property="m_level"/>	 	    	    	    
+	    <result column="m_last_login" property="m_last_login"/>	 	
+	    <result column="m_status" property="m_status"/>	 	    
+	    <result column="m_left_date" property="m_left_date"/>	 	
+	    <result column="m_left_reason" property="m_left_reason"/>		    
+	    <result column="m_join_date" property="m_join_date"/>		 
+	    <result column="m_point" property="m_point"/>		               	    
+	</resultMap>
+	
+	<resultMap type="com.javalec.ex.dto.OrderListDto" id="OrderListDto">
+	    <result column="rnum" property="rnum"/>	
+	    <result column="ol_num" property="ol_num"/>
+	    <result column="ol_order_num" property="ol_order_num"/>
+	    <result column="ol_order_id" property="ol_order_id"/>	    
+	    <result column="p_num" property="p_num"/>	    
+	    <result column="ol_amt" property="ol_amt"/>	    
+	    <result column="co_num" property="co_num"/>	    
+	    <result column="ol_final_price" property="ol_final_price"/>	    
+	    <result column="ol_payment" property="ol_payment"/>	    
+	    <result column="ol_date" property="ol_date"/>	 
+	    <result column="ol_d_end_date" property="ol_d_end_date"/>	 	       
+	    <result column="ol_status" property="ol_status"/>	 	       	    
+	</resultMap>	
+	
+	<resultMap type="com.javalec.ex.dto.UtilDto" id="UtilDto">
+	    <result column="temp_int" property="temp_int"/>	
+	</resultMap>		
+	
+	<resultMap type="com.javalec.ex.dto.LevelDto" id="LevelDto">
+	    <result column="rownum" property="rownum"/>	
+	    <result column="lv_num" property="lv_num"/>
+	    <result column="lv_name" property="lv_name"/>
+	    <result column="lv_sort_money" property="lv_sort_money"/>	    
+	    <result column="lv_date" property="lv_date"/>	    
+	    <result column="lv_des" property="lv_des"/>	    
+	    <result column="lv_benefit" property="lv_benefit"/>	    
+	    <result column="lv_order" property="lv_order"/>	  	    
+	</resultMap>		
+	
+	<!-- 회원별 등급 전체 리스트 가져오기(주문금액 계산 때문에 길어짐) -->
+	<select id="getAllLevels" resultMap="AllDto">
+		select * from
+        (select rownum, finaltb.* from
+        (select m_id,m_level,m_point,m_last_login,  m_join_date, sum(temp_int) temp_int from
+        ((select
+        m_id,m_level,m_point,m_last_login,  m_join_date,
+        (case when odl1.ol_orderer_id=mem1.m_id then odl1.temp_int else 0 end) temp_int
+        from
+        (select m_id, m_level, m_point, m_last_login, m_join_date, 0 temp_zero from
+        (select * from member_tb where m_status!='탈퇴')) mem1,
+        (select ol.* from
+        (select ol_orderer_id, sum(ol_final_price) temp_int from orderlist_tb group by ol_orderer_id) ol,
+        (select * from member_tb where m_status!='탈퇴') mmm
+        where m_id=ol_orderer_id) odl1) order by m_id asc) most
+        group by  m_id,m_level,m_point,m_last_login,  m_join_date) finaltb) 
+        order by rownum desc
+	</select>
+	
+	<!-- 선택한 회원등급 일괄 변경 -->
+	<update id="modifyLevels" parameterType="HashMap">
+		update member_tb set m_level=#{select_level} where m_id in
+		<foreach collection="idmap" item="item" open="(" close=")" separator=",">
+ 			#{item}
+		</foreach>
+		and m_status!='탈퇴'
+	</update>
+	
+	<!-- 등급 전체 리스트 가져오기 -->
+	<select id="getallLevelSorts" resultMap="AllDto">
+		select * from
+		(select lv_num, lv_name, lv_sort_money, lv_date, lv_order, lv_des, lv_benefit, sum(temp_int) temp_int from
+		(select lv.*, case when mcnt.m_level=lv.lv_name  then mcnt.temp_int  else 0 end temp_int from
+		(select m_level, count(m_level) temp_int
+		from 
+		(select m_id, m_level from member_tb where m_status!='탈퇴') 
+		group by m_level) mcnt,
+		level_tb lv) finaltb
+		group by lv_num, lv_name, lv_sort_money, lv_date, lv_order, lv_des, lv_benefit)
+		order by lv_order asc
+	</select>
+	
+	<!-- 등급 새로 1개 추가 -->
+	<insert id="insertLevel">
+		insert into level_tb values(
+		lv_seq.nextval, 
+		#{lv_name}, #{lv_sort_money}, sysdate,
+		#{lv_order}, #{lv_des}, 
+		#{lv_benefit})
+	</insert>
+	
+	<!-- 등급 1개 조회 -->
+	<select id="getLevelInfo" resultMap="AllDto">
+		select * from level_tb where lv_num=#{lv_num}
+	</select>
+	
+	<!-- 등급 1개 삭제 -->
+	<delete id="deleteLevel">
+		delete from level_tb where lv_num=#{lv_num}
+	</delete>
+		
+	<update id="modifyLevel">
+		update level_tb set lv_order=#{lv_order}, lv_name=#{lv_name}, lv_sort_money=#{lv_sort_money},
+		lv_benefit=#{lv_benefit}, lv_des=#{lv_des} where lv_num=#{lv_num}
+	</update>	
+		
+</mapper>
