@@ -193,11 +193,27 @@ function backpage(ec_pw){
 			           });			
 		}     
      //새 댓글 등록
-	function submitWrite(){
-    	 
-		ecomment_insert.submit();
-    	 
-     }
+       $('.replyBtn').on('click', function(){
+        $.ajax({
+            url: "serialize",
+            type: "POST",
+            data:  $("#insertform").serialize(),
+            success : function(val){
+                if(val ==1 ){//1이면 성공
+               	 closePW();
+               	 showModify();
+               	 location.href='#modifyReply';
+                }else{ // 0이면 실패
+                   alert("비밀번호가 일치하지 않습니다. 다시 시도해 주세요.");
+                }
+             },
+             error : function(){
+                alert("서버통신실패");
+             }
+        });
+    });
+
+
      
      //자기 댓글 수정란에서 '확인' 클릭
   	function showOriginal(){
@@ -326,7 +342,7 @@ function backpage(ec_pw){
 
 
 					<!-- 댓글-->
-					<form action="ecomment_insert" method="post" name="ecomment_insert" id="anchor">
+					<form action="ecomment_insert" method="post" name="ecomment_insert" id="insertform">
 					<input type="hidden" value="${event_info.eventdto.e_num } " name="e_num" id="e_num">
 					<input type="hidden" value="${userNum } " name="userNum" id="userNum">	
 					<div class="replyWrite">

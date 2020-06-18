@@ -82,7 +82,9 @@ public class UserEventController {
 		return success;
 	}
 	
+	
 	//댓글 1개 새로 등록
+	@ResponseBody
 	@PostMapping("ecomment_insert")
 	public int ecomment_insert(E_CommentDto e_CommentDto) {
 	

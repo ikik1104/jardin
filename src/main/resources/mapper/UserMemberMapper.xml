@@ -62,8 +62,8 @@
 	
 	<!-- 아이디 비교 -->
 	<select id="checkID" resultMap="AllDto">
-	    select * from
-	    (select m_id, m_num from member_tb where m_id=#{m_id}
+        select * from
+	    (select m_id, m_num from member_tb where m_id=replace(#{m_id}, ' ', '')
 	    
 	    union all
 	    
@@ -74,8 +74,8 @@
 	<!-- 비밀번호 비교 -->
 	<select id="checkPW" resultMap="AllDto">
 	    select * from
-	    (select m_pw from member_tb where m_id=#{m_id}
-	    and m_pw=#{m_pw}
+	    (select m_pw from member_tb where m_id=replace(#{m_id}, ' ', '')
+	    and m_pw=replace(#{m_pw}, ' ', '')
 	    
 	    union all
 	    
