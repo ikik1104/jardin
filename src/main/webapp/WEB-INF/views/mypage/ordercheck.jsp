@@ -283,7 +283,7 @@ function wait_cancel(ol_order_num){
     									</td>
     									<td class="tnone">${ ol.OSUM } 원</td>
     									<td>
-                                            <input type="hidden" class="hiddenstatus" id="status${ status.index }" value=${ ol.OSTATUS }/>
+                                            <input type="hidden" class="hiddenstatus" id="status${ status.index }" value="${ ol.OSTATUS }"/>
     										<span class="heavygray" id="${ status.index }">${ ol.OSTATUS }</span>
     										<ul class="state" id="state${ status.index }"></ul>										
     									</td>

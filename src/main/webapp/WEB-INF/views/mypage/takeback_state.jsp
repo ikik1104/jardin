@@ -187,7 +187,7 @@ $(document).ready(function() {
         								<tr>
         									<td>
         										<p class="day">${ rtrf.RTF_DATE }</p>
-        										<p class="orderNum">${ rtrf.OL_ORDER_NUM }</p>
+        										<a href="my_order_statement?ol_order_num=${ rtrf.OL_ORDER_NUM }"><p class="orderNum">${ rtrf.OL_ORDER_NUM }</p></a>
         									</td>
         									<td class="tnone"><span class="heavygray">${ rtrf.RTF_SORT }</span></td>
         									<td class="left">

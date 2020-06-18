@@ -30,7 +30,7 @@ public class DataController {
 		return map;
 	}
 	
-	@RequestMapping("/datadata")
+	@RequestMapping("datadata")
 	@ResponseBody
 	public Map<String, Object> datadata() throws Exception{
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -70,6 +70,7 @@ public class DataController {
         JSONObject json2 = (JSONObject) json1.get("body");
         JSONObject json3 = (JSONObject) json2.get("items");
         JSONArray array = (JSONArray) json3.get("item");
+        map.put("array", array);
         
         for(int i=0; i<array.size(); i++) {
         	//배열에 담긴 item 1개의 데이터 값을 추출
@@ -146,7 +147,7 @@ public class DataController {
 	// 공공데이터 출력 jsp
 	@RequestMapping("/dataPage")
 	public String dataPage() {
-		return null;
+		return "dataPage";
 	}
 	
 	

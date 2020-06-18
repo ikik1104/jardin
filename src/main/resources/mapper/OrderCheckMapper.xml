@@ -17,7 +17,7 @@
 		(select ot.ol_order_num onum, sum(ol_final_price) osum, wm_concat(pt.p_name) p_name, max(ol_date) odate, wm_concat(distinct ol_status) ostatus
 		from orderlist_tb ot
 		left join product_tb pt on ot.p_num=pt.p_num
-		where ol_orderer_id=#{m_id}
+		where ol_orderer_id=#{m_id} and ol_status not in('반품/취소')
 		group by ot.ol_order_num) k) r
 		where r.ostatus not in('반품/취소') and (<![CDATA[r.rnum>=#{pageDto.startRow}]]> and <![CDATA[r.rnum<=#{pageDto.endRow}]]>) order by r.odate desc
 
@@ -49,12 +49,12 @@
 	
 	<!-- 수량 전체 반품 시 주문상품 ...(주문 아니라 주문 건 안에서의 상품 하나) -->
 	<delete id="updateOrderStatus">
-		update orderlist_tb set ol_status='반품/취소' where ol_num=#{param1}
+		update orderlist_tb set ol_amt=#{param2}, ol_final_price=0, ol_status='반품/취소' where ol_num=#{param1}
 	</delete>
 	
 	<!-- 수량 일부 반품시 주문상품 수량 변경 -->
 	<update id="updateOrderAmount">
-		update orderlist_tb set ol_final_price=#{param3} where ol_num=#{param1}
+		update orderlist_tb set ol_amt=#{param2}, ol_final_price=#{param3} where ol_num=#{param1}
 	</update>
 	
 	<!-- 해당 주문건의 리뷰 작성 가능 상품 목록 불러오기 -->
@@ -131,7 +131,7 @@
 	
 	<!-- 주문 상세페이지 주문상품 가져오기 -->
 	<select id="proInOneOrder" resultType="HashMap">
-		select p_name, ol_amt, p_price, ol_status, oc_semi_sum, oc_deliv_fee, oc_final_sum from
+		select p_name, ol_amt, p_price, ol_final_price, ol_status, oc_semi_sum, oc_deliv_fee, oc_final_sum from
 		(select * from orderlist_tb ol
 		left join product_tb pd on ol.p_num=pd.p_num
 		left join orderlist_cou_tb oc on ol.ol_order_num=oc.ol_order_num
@@ -144,6 +144,7 @@
 		(select ol_order_num, wm_concat(distinct ol_payment) ol_payment, wm_concat(distinct ol_date) ol_date from orderlist_tb
 		group by ol_order_num) ol
 		left join (select ol_order_num, m_name, re_name, re_zipcode, re_address1, re_address2, re_phone, re_tel, m_msg from orderer_receiver_tb) ort on ort.ol_order_num=ol.ol_order_num
+		left join (select ol_order_num, oc_final_sum from orderlist_cou_tb) oct on oct.ol_order_num=ol.ol_order_num
 		where ol.ol_order_num=#{ol_order_num}
 	</select>
 	
@@ -165,11 +166,13 @@
 		where rt.rt_sort='반품' and ol.ol_order_num='${ol_order_num}')a
 	</select>
 	
-	
+	<select id="finalSum" resultType="Integer">
+		select nvl(oc_final_sum,0) from orderlist_cou_tb where ol_order_num=#{param1}
+	</select>
 	
 	<!-- 요약정보 공통 -->
 	<select id="getShortInfo" resultType="HashMap">
-		select mm.m_num, m_name, m_id, m_point, ordercount, nvl(coucount,0) coucount from member_tb mm
+		select mm.m_num, m_name, m_id, m_point, nvl(ordercount,0) ordercount, nvl(coucount,0) coucount from member_tb mm
 		left join (select ol_orderer_id, count(distinct ol_order_num) ordercount from orderlist_tb group by ol_orderer_id) ol
 		on ol.ol_orderer_id=mm.m_id
 		left join (select m_num, count(ci_num) coucount from c_issue_tb group by m_num) ci

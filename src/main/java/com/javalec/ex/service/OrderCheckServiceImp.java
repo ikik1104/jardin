@@ -47,8 +47,8 @@ public class OrderCheckServiceImp implements OrderCheckService {
 	}
 
 	@Override
-	public int updateOrderStatus(int ol_num) {
-		return orderCheckDao.updateOrderStatus(ol_num);
+	public int updateOrderStatus(int ol_num, int ol_amt) {
+		return orderCheckDao.updateOrderStatus(ol_num, ol_amt);
 	}
 
 	@Override
@@ -141,6 +141,7 @@ public class OrderCheckServiceImp implements OrderCheckService {
 	public Map<String, Object> getShortInfo(String m_id) {
 		return orderCheckDao.getShortInfo(m_id);
 	}
+
 
 
 	
