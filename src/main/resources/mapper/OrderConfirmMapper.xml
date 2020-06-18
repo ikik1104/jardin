@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javalec.ex.dao.OrderConfirmDao">
+
+	<resultMap type="com.javalec.ex.dto.ProductDto" id="ProductDto">
+	    <result column="p_num" property="p_num"/>
+	    <result column="p_thumb_img1" property="p_thumb_img1"/>
+	    <result column="p_name" property="p_name"/>
+	    <result column="p_price" property="p_price"/>
+	    <result column="p_point" property="p_point"/>
+	</resultMap>
+
+	<resultMap type="com.javalec.ex.dto.OrderListDto" id="OrderListDto">
+	    <result column="ol_num" property="ol_num"/>
+	    <result column="ol_order_num" property="ol_order_num"/>
+	    <result column="ol_orderer_id" property="ol_orderer_id"/>
+	    <result column="p_num" property="p_num"/>
+	    <result column="ol_amt" property="ol_amt"/>
+	    <result column="co_num" property="co_num"/>
+	    <result column="ol_final_price" property="ol_final_price"/>
+	    <result column="ol_payment" property="ol_payment"/>
+	    <collection property="pDto" resultMap="ProductDto"/>
+	</resultMap>
+
+
+	<!-- 주문 상품 list 가져오기 -->
+	<select id="getOderList" resultMap="OrderListDto">
+		select ol_num, ol_order_num, ol_orderer_id, a.p_num, ol_amt, a.co_num, ol_final_price, ol_payment, p_thumb_img1, p_name, p_price, p_point from orderlist_tb a, product_tb b where ol_order_num = #{param1} and a.p_num = b.p_num order by ol_num asc 
+	</select>
+	
+	<!-- 주문자, 수취자 정보 가져오기 -->
+	<select id="getOrReInfo" resultType="com.javalec.ex.dto.ReceiverDto">
+		select * from orderer_receiver_tb where ol_order_num = #{param1}
+	</select>
+	
+	<!-- 쿠폰 할인 금액, 포인트 사용 금액 가져오기 -->
+	<select id="getOrderlistCou" resultType="com.javalec.ex.dto.OrderlistCouDto">
+		select * from orderlist_cou_tb where ol_order_num = #{param1}
+	</select>
+	
+</mapper>

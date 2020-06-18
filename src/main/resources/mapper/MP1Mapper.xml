@@ -15,13 +15,42 @@
 	<resultMap type="com.javalec.ex.dto.CartDto" id="CartDto">
 	    <result column="ca_num" property="ca_num"/>
 	    <result column="m_num" property="m_num"/>
+	    <result column="p_num" property="p_num"/>
 	    <result column="ca_amount" property="ca_amount"/>
+	    <collection property="pDto" resultMap="ProductDto"/>
+	</resultMap>
+	
+		<resultMap type="com.javalec.ex.dto.CouponDto" id="CouponDto">
+		<result column="co_name" property="co_name"/>
+		<result column="co_start_day" property="co_start_day"/>
+		<result column="co_end_day" property="co_end_day"/>
+		<result column="co_expiry" property="co_expiry"/>
+		<result column="co_type" property="co_type"/>
+		<result column="co_discount" property="co_discount"/>
+		<result column="co_product" property="co_product"/>
+		<result column="co_condition" property="co_condition"/>
+	</resultMap>
+	
+	<resultMap type="com.javalec.ex.dto.Cou_IssueDto" id="Cou_IssueDto">
+		<result column="ci_num" property="ci_num"/>
+		<result column="co_num" property="co_num"/>
+		<result column="ci_issue_day" property="ci_issue_day"/>
+		<result column="ci_end_day" property="ci_end_day"/>
+		<result column="ci_use_day" property="ci_use_day"/>
+		<collection property="cDto" resultMap="CouponDto"/>
+	</resultMap>
+	
+	<resultMap type="com.javalec.ex.dto.WishListDto" id="WishListDto">
+	    <result column="w_num" property="w_num"/>
+	    <result column="m_num" property="m_num"/>
+	    <result column="p_num" property="p_num"/>
+	    <result column="w_sysdate" property="w_sysdate"/>
 	    <collection property="pDto" resultMap="ProductDto"/>
 	</resultMap>
 
 	<!-- 회원 보유 쿠폰 수 카운트 -->
 	<select id="getCouponCount" parameterType="Integer" resultType="Integer">
-		select count(*) from c_issue_tb where m_num=#{param1}  
+		select count(*) from c_issue_tb where m_num=#{param1} and ci_use_day is null
 	</select>
 
 	<!-- 회원 보유 포인트 불러오기 -->
@@ -39,7 +68,7 @@
 		select p.p_num, p_thumb_img1, p_name, p_price, p_point, ca_num, m_num, ca_amount from product_tb p ,cart_tb c where c.m_num = #{param1} and c.p_num = p.p_num order by c.ca_sysdate asc
 	</select>
 
-	<!-- 회원 장바구니 제품 1개 삭제   -->
+	<!-- 회원 장바구니 제품 삭제   -->
 	<delete id="cart_del">
 		delete from cart_tb where p_num=#{param1} and m_num=#{param2}
 	</delete>
@@ -58,5 +87,56 @@
 	<delete id="delPaymentCart">
 		delete from payment_cart_tb where m_num=#{param1}
 	</delete>
+	
+	<!-- 사용 가능  쿠폰 list 가져오기  -->
+	<select id="getAllCou" parameterType="Integer" resultMap="Cou_IssueDto">
+		select * from 
+		(select rownum, mcou.* from 
+		(select a.ci_num, a.m_num, a.co_num, a.ci_issue_day, a.ci_end_day, b.co_name, b.co_start_day, b.co_end_day, b.co_expiry, b.co_type, b.co_discount, b.co_product, b.co_condition from c_issue_tb a, coupon_tb b where a.m_num=#{param1} and a.co_num=b.co_num and a.ci_end_day>sysdate and a.ci_use_day is null order by a.ci_num asc) mcou) 
+		order by rownum asc
+	</select>
+	
+	<!-- 쿠폰 사용 내역 list 가져오기  -->
+	<select id="getUsedCou" parameterType="Integer" resultMap="Cou_IssueDto">
+		select * from 
+		(select rownum, mcou.* from 
+		(select a.ci_num, a.m_num, a.co_num, a.ci_issue_day, a.ci_end_day, a.ci_use_day, b.co_name, b.co_start_day, b.co_end_day, b.co_expiry, b.co_type, b.co_discount, b.co_product, b.co_condition from c_issue_tb a, coupon_tb b where a.m_num=#{param1} and a.co_num=b.co_num order by a.ci_num asc) mcou) 
+		where <![CDATA[ci_end_day<sysdate]]> or ci_use_day is not null order by rownum asc
+	</select>
+	
+	<!-- 적립 포인트 총 합 -->
+	<select id="totalSavePoint" resultType="Integer">
+		select sum(po_point) from point_tb where m_num=#{param1} and po_type='적립'
+	</select>
+	
+	<!-- 포인트 적립 내역 list 가져오기 -->
+	<select id="getSavePoint" resultType="com.javalec.ex.dto.PointDto">
+		select * from point_tb where m_num=#{param1} and po_type='적립' order by po_num asc
+	</select>
+	
+	<!-- 사용 포인트 총 합 -->
+	<select id="totalUsedPoint" resultType="Integer">
+		select sum(po_point) from point_tb where m_num=#{param1} and po_type='사용'
+	</select>
+	
+	<!-- 포인트 사용 내역 list 가져오기 -->
+	<select id="getUsedPoint" resultType="com.javalec.ex.dto.PointDto">
+		select * from point_tb where m_num=#{param1} and po_type='사용' order by po_num asc
+	</select>
+	
+	<!-- 위시리스트에 저장된 상품 list 가져오기 -->
+	<select id="getAllWish" resultMap="WishListDto">
+		select w_num, a.p_num, b.p_thumb_img1, b.p_name, b.p_price, b.p_point, w_sysdate from wishlist_tb a, product_tb b where m_num=#{param1} and a.p_num=b.p_num order by w_sysdate asc 
+	</select>
+	
+	<!-- 위시리스트에서 상품 삭제 -->
+	<delete id="del_wl">
+		delete from wishlist_tb where p_num=#{param1} and m_num=#{param2}
+	</delete>
+	
+	<!-- 위시리스트에서 선택한 상품 장바구니로 이동  -->
+	<insert id="add_cart">
+		insert into cart_tb values(cart_seq.nextval, #{param1}, #{param2}, 1, sysdate)
+	</insert>
 
 </mapper>

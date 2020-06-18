@@ -71,7 +71,7 @@
          msiecheck();
  		
  		// 사용할 포인트 값 입력 시 실행 (보유 포인트와 비교)
- 		$("#point").change(function(){
+ 		$("#point").live("propertychange change keyup paste", function(){
  			var value=Number($(this).val());
  			var ownedPoint = Number($(".orange").text());
  			// 보유 포인트보다 입력 값이 클 때
@@ -79,9 +79,9 @@
  				$(".pointAlert").css('visibility', 'visible');
  				$("#point").val('0');
  			// 보유 포인트보다 입력 값이 작거나 같을 때
- 			}else {
+ 			}else if() {
  				$(".pointAlert").css('visibility', 'hidden');
- 				$("#pointDisc").text(commas(-(Number(value))));
+ 				$("#pointDisc").text(- (commas((Number(value)))));
  				
  			}
  		 });
@@ -89,27 +89,41 @@
  		$("input[name=infosame]:checkbox").click(function(){
  			if($(this).is(":checked")== true){
  				$("input[name=re_name]").val($("input[name=m_name]").val());
+ 				$("input[name=re_name]").prop("readonly", true);
  				$("input[name=re_zipcode]").val(Number($("input[name=m_zipcode]").val()));
+ 				$("input[name=re_zipcode]").prop("readonly", true);
  				$("input[name=re_address1]").val($("input[name=m_address1]").val());
+ 				$("input[name=re_address1]").prop("readonly", true);
  				$("input[name=re_address2]").val($("input[name=m_address2]").val());
+ 				$("input[name=re_address2]").prop("readonly", true);
  				$("#re_phone1").val($("#phone1").val());
  				$("input[name=re_phone2]").val($("input[name=phone2]").val());
+ 				$("input[name=re_phone2]").prop("readonly", true);
  				$("input[name=re_phone3]").val($("input[name=phone3]").val());
+ 				$("input[name=re_phone3]").prop("readonly", true);
  				$("#re_tel1").val($("#tel1").val());
  				$("input[name=re_tel2]").val($("input[name=tel2]").val());
+ 				$("input[name=re_tel2]").prop("readonly", true);
  				$("input[name=re_tel3]").val($("input[name=tel3]").val());
- 
+ 				$("input[name=re_tel3]").prop("readonly", true);
  			}else {
  				$("input[name=re_name]").val('');
+ 				$("input[name=re_name]").prop("readonly", false);
  				$("input[name=re_zipcode]").val('');
  				$("input[name=re_address1]").val('');
+ 				$("input[name=re_address1]").prop("readonly", false);
  				$("input[name=re_address2]").val('');
+ 				$("input[name=re_address2]").prop("readonly", false);
  				$("#re_phone1").val('');
  				$("input[name=re_phone2]").val('');
+ 				$("input[name=re_phone2]").prop("readonly", false);
  				$("input[name=re_phone3]").val('');
+ 				$("input[name=re_phone3]").prop("readonly", false);
  				$("#re_tel1").val('');
  				$("input[name=re_tel2]").val('');
+ 				$("input[name=re_tel2]").prop("readonly", false);
  				$("input[name=re_tel3]").val('');
+ 				$("input[name=re_tel3]").prop("readonly", false);
  			}
  		});
          
@@ -286,7 +300,7 @@
 							<tbody>
 								<tr>
 									<th scope="row"><span>이름</span></th>
-									<td><input type="text" class="w134" name="m_name" value="${memDto.m_name }" readonly /></td>
+									<td><input type="text" class="w134" name="m_name" value="${memDto.m_name }" /></td>
 								</tr>
 
 								<tr>
@@ -427,7 +441,7 @@
 									<td>
 										<ul class="pta">
 											<li>
-												<select id="re_phone1" name="re_phon1">
+												<select id="re_phone1" name="re_phone1">
 													<option value="010" selected="selected">010</option>
 													<option value="011">011</option>
 													<option value="016">016</option>
@@ -551,13 +565,13 @@
 														<c:if test="${deliveryCoupon.ci_end_day > sysdate }">
 															<c:choose>
 																<c:when test="${deliveryCoupon.cDto.co_condition <= sum && del_price>0}">
-																	<option id="opt_${deliveryCoupon.ci_num }" value="3000">${deliveryCoupon.cDto.co_name }/${deliveryCoupon.ci_num }</option>
+																	<option id="opt_${deliveryCoupon.ci_num }" value="3000">${deliveryCoupon.cDto.co_name }-${deliveryCoupon.ci_num }</option>
 																</c:when>
 																<c:when test="${deliveryCoupon.cDto.co_condition > sum }">
-																	<option id="opt_${deliveryCoupon.ci_num }" value="3000" disabled style="background-color: #ebebeb;">${deliveryCoupon.cDto.co_name }/${deliveryCoupon.ci_num }</option>
+																	<option id="opt_${deliveryCoupon.ci_num }" value="3000" disabled style="background-color: #ebebeb;">${deliveryCoupon.cDto.co_name }-${deliveryCoupon.ci_num }</option>
 																</c:when>
 																<c:when test="${del_price==0 }">
-																	<option id="opt_${deliveryCoupon.ci_num }" value="3000" disabled style="background-color: #ebebeb;">${deliveryCoupon.cDto.co_name }/${deliveryCoupon.ci_num }</option>
+																	<option id="opt_${deliveryCoupon.ci_num }" value="3000" disabled style="background-color: #ebebeb;">${deliveryCoupon.cDto.co_name }-${deliveryCoupon.ci_num }</option>
 																</c:when>
 															</c:choose>
 														</c:if>
@@ -627,7 +641,7 @@
 								<span class="won"><strong id="pointDisc">0</strong> P</span>
 							</li>
 							<li>
-								<span class="title">쿠폰 할인</span>
+								<span class="title">쿠폰 할인(제품쿠폰+장바구니쿠폰)</span>
 								<span class="won"><strong id="coupDisc">0</strong> 원</span>
 							</li>
 							<li>
@@ -670,8 +684,8 @@
 				}
 				$("#finalPrice").text(commas(final_price)+"원");
 				$("#finalPrice1").text(commas(final_price));
-				$("#coupDisc").text(commas(-coupsum));
-				$("#delDisc").text(commas(-dcoup));
+				$("#coupDisc").text(commas(- coupsum));
+				$("#delDisc").text(commas(- dcoup));
 				
 				// hidden으로 넘겨주는 값
 				$("input[name=oc_semi_sum]").val(semiPrice-pcoup);  //주문금액-제품할인금액
@@ -711,10 +725,10 @@
 									<td>
 										<ul class="pta">
 											<li>
-												<input type="radio" id="method01" name="ol_payment" checked="checked" /><label for="method01">신용카드 결제</label>
+												<input type="radio" id="method01" name="ol_payment" checked="checked" value="신용카드 결제"/><label for="method01">신용카드 결제</label>
 											</li>
 											<li>
-												<input type="radio" id="method02" name="ol_payment" /><label for="method02">실시간 계좌이체</label>
+												<input type="radio" id="method02" name="ol_payment" value="실시간 계좌이체"/><label for="method02">실시간 계좌이체</label>
 											</li>
 											<li>
 												<input type="radio" id="method03" name="ol_payment" /><label for="method03">가상계좌</label>
@@ -723,7 +737,7 @@
 												<input type="radio" id="method04" name="ol_payment" /><label for="method04">가상계좌(에스크로)</label>
 											</li>
 											<li>
-												<input type="radio" id="method05" name="ol_payment" /><label for="method05">무통장 입금</label>
+												<input type="radio" id="method05" name="ol_payment" value="무통장 입금" /><label for="method05">무통장 입금</label>
 											</li>
 										</ul>
 									</td>
@@ -854,18 +868,20 @@
 					</div>
 
 					<!-- 주문리스트에 필요한 정보 -->
-					<c:forEach var="cartlist" items="${cartlist }" >
+					<c:forEach var="cartlist" items="${cartlist }" varStatus="status">
 						<input type="hidden" name="productNum" value="${cartlist.pDto.p_num }"/>
 						<input type="hidden" name="productAmt" value="${cartlist.ca_amount }"/>
+						<input type="hidden" id="productCou_${status.index }" name="productCou" value="0"/>
 					</c:forEach>
+					
 					
 					<input type="hidden" name="oc_cart_c" value="0"/>
 					<input type="hidden" name="oc_deliv_c" value="0"/>
-<!-- 					<input type="hidden" name="oc_semi_sum" value=""/> -->
+					<input type="hidden" name="oc_semi_sum" value="${sum }"/>
 					<input type="hidden" name="oc_deliv_fee" value="${del_price }"/>
-<!-- 					<input type="hidden" name="oc_final_sum" value=""/> -->
+					<input type="hidden" name="oc_final_sum" value="${sum+del_prirce }"/>
 					<input type="hidden" name=ol_orderer_id value="${ memDto.m_num}"/>
-					
+					<input type="hidden" name="m_num" value="${ memDto.m_num}"/>
 
 					<!-- Btn Area -->
 					<div class="btnArea">

@@ -15,6 +15,9 @@
         <script type="text/javascript" src="admin/js/prefixfree.dynamic-dom.min.js"></script>
 		<style type="text/css">
 			
+			a {text-decoration: none; color:black;}
+			a:visited {text-decoration: none;}
+			
 			#search_form table{
 				text-align: left;
 				margin-bottom: 40px;
@@ -30,7 +33,67 @@
 			}
 		</style>
 		<script type="text/javascript">
+		
+		window.onload = function(){
+			// 동적 rowspan
+			$(".gr").each(function () {
+	              var rows = $(".gr:contains('"+$(this).text()+"')");
+	              var id_row = rows.siblings(".td_id");
+	              var dc_row = rows.siblings(".td_dc");
+	              var df_row = rows.siblings(".td_df");
+	              var cc_row = rows.siblings(".td_cc");
+	              var fs_row = rows.siblings(".td_fs");
+	              var pm_row = rows.siblings(".td_pm");
+	              var st_row = rows.siblings(".td_st");
 
+	              if (rows.length > 1) {
+	                  rows.eq(0).attr("rowspan", rows.length);
+	                  id_row.eq(0).attr("rowspan", rows.length);
+	                  dc_row.eq(0).attr("rowspan", rows.length);
+	                  df_row.eq(0).attr("rowspan", rows.length);
+	                  cc_row.eq(0).attr("rowspan", rows.length);
+	                  fs_row.eq(0).attr("rowspan", rows.length);
+	                  pm_row.eq(0).attr("rowspan", rows.length);
+	                  st_row.eq(0).attr("rowspan", rows.length);
+	                  
+	                  rows.not(":eq(0)").remove(); 
+	                  id_row.not(":eq(0)").remove(); 
+	                  dc_row.not(":eq(0)").remove(); 
+	                  df_row.not(":eq(0)").remove(); 
+	                  cc_row.not(":eq(0)").remove(); 
+	                  fs_row.not(":eq(0)").remove(); 
+	                  pm_row.not(":eq(0)").remove(); 
+	                  st_row.not(":eq(0)").remove(); 
+	              } 
+	          });
+			
+			var selectedOpt = "${selectedOpt}";
+			var option = $('select[name=sort]').val();
+			if(selectedOpt!=""){
+				$('#sort').val(selectedOpt).prop("selected", true);
+			}else{
+				$('#sort').val(option).prop("selected", true);
+			}
+			
+			var keywordOpt = "${keywordOpt}";
+			var keyword = "${keyword}";
+			var e_start_day = "${e_start_day}";
+			var e_end_day = "${e_end_day}";
+			var status = "${status}";
+			if(keyword!=""){
+				$('#keywordOpt').val(keywordOpt).prop("selected", true);
+				$('#keyword').val(keyword);
+			}
+			if(e_start_day!=""){
+				$('#e_start_day').val(e_start_day);
+				$('#e_end_day').val(e_end_day);
+			}
+			if(status!=""){
+				$('#status').val(status).prop("selected", true);
+			}
+		}
+
+		
 		function date_chk2(){
 			var start = inputform.e_start_day.value;
 			var end = inputform.e_end_day.value;
@@ -38,12 +101,13 @@
 			var date1 = new Date();
 			var start_date = new Date(start);
 			var end_date = new Date(end);
-			if(end_date.getTime()<date1.getTime()){
-				alert("종료일은 오늘 날짜 이후 or 시작일 이후의 날짜를 선택해주세요.");
-				inputform.e_end_day.value ="";
+			if(end_date.getDate()>date1.getDate() || start_date.getDate()>date1.getDate()){
+				alert("시작일과 종료일은 오늘 날짜 이내로 선택해주세요.");
+				inputform.e_end_day.value = "";
+				inputform.e_start_day.value ="";
 				return false;
 			}
-			if(end_date.getTime()<start_date.getTime()){
+			if(end_date.getDate()<start_date.getDate()){
 				alert("시작일 이후의 날짜를 선택해주세요.");
 				inputform.e_end_day.value ="";
 				return false;
@@ -96,6 +160,29 @@
 			$(".step2").css("display", "none");
 			$("#"+val).css("display", "inline-block");
 		}
+		
+		// 정렬
+		function sortList(){
+			var option = $('select[name=sort]').val();
+			var opt_text =$("#sort option:selected").text();
+			alert(option);
+			
+			var keywordOpt = $('select[name=keywordOpt]').val();
+			var keyword = "${keyword}";
+			var e_start_day = "${e_start_day}";
+			var e_end_day = "${e_end_day}";
+			var status = "${status}";
+			
+			if(keyword=="" && (e_start_day.equas=="" || e_end_day=="") && status==""){
+				location.href="order_list?option="+option+"&&opt_text="+opt_text;
+			}else if(keyword!="" || (e_start_day !="" && e_end_day!="") || status!="") {
+				location.href="getSearchOrder?option="+option+"&&opt_text="+opt_text
+							+"&&keywordOpt="+keywordOpt+"&&keyword="+keyword+"&&e_start_day="+e_start_day
+							+"&&e_end_day="+e_end_day+"&&status="+status;
+			}
+
+		}
+		
 </script>
 	<style type="text/css">
 		.step2{
@@ -103,6 +190,7 @@
 			}
 		#list_div{
 			height: 500px;
+			margin-top: 15px;
 			overflow: scroll;
 		}
 		.top_cnt{
@@ -119,37 +207,50 @@
 			margin: 10px;
 			border-top: 1px solid black;
 		}
+		
+		#search_tb td {padding-left: 10px;}
+		
+		#searchbtn {width: 50px; height: 25px;}
+		
+		select {height: 20px;}
+		
 	</style>
 	</head>
 	<body>
 	<jsp:include page="../nav/admin_header.jsp"/>
 	<jsp:include page="../nav/board_nav.jsp"/>
 	<section>
-		<h1>제품 리스트</h1>
+		<h1>주문통합리스트</h1>
 		<div id="main_list">
 			<div id="main_user_list">
-				<h2>임시로 놔두기</h2>
-				<div class="list_count">임시로 놔두기(총 게시물 수 등등 표시?)</div>
+				<h2>주문 검색 결과</h2>
+				<div class="list_count">
+				<c:if test="${countSearch eq null || countOrder == countSearch}">
+					검색 <span class="top_cnt">${countOrder}</span>개 / 전체 <span class="top_cnt">${countOrder}</span>개 
+				</c:if>
+				<c:if test="${countSearch ne null && countOrder != countSearch }">
+					검색 <span class="top_cnt">${countSearch}</span>개 / 전체 <span class="top_cnt">${countOrder}</span>개 
+				</c:if>
+				</div>
 				<div id="search_form">
-					<form name="inputform" method="get" onsubmit="return false;">
-					<table border="1">
+					<form name="inputform" method="post" action="getSearchOrder">
+					<table border="1"  id="search_tb">
 						<tr>
 							<td>검색어</td>
-							<td><select name="">
-								<option>주문번호</option>
-								<option>상품코드</option>
-								<option>상품명</option>
-								<option>주문자</option>
-								<option>처리상태</option>
+							<td><select id="keywordOpt" name="keywordOpt">
+								<option value="주문번호">주문번호</option>
+								<option value="상품코드">상품코드</option>
+								<option value="상품명">상품명</option>
+								<option value="주문자">주문자</option>
 							</select>
-							<input type="text" name="검색키워드">
+							<input type="text" name="keyword" id="keyword"> 
 							</td>
 						</tr>
 						<tr id="search_date">
 							<td>기간검색</td>
 							<td>
 							<fmt:formatDate var="sys" value="${sysdate}" pattern="yyyy-MM-dd"/>
-							<select name="****미정****" >
+							<select name="dateType" >
 								<option>주문일</option>
 							</select>
 							<input type="date" name="e_start_day" id="e_start_day" onchange="date_chk2()"> ~ 
@@ -163,64 +264,36 @@
 							</td>
 						</tr>
 						<tr>
-							<td>분류</td>
-							<td>
-							<select name="step1" onchange="aa(this.value)">
-								<option value="원두">원두</option>
-								<option value="원두커피백">원두커피백</option>
-								<option value="인스턴트">인스턴트</option>
-								<option value="커피용품">커피용품</option>
-								<option value="선물세트">선물세트</option>
-								<option value="대량구매">대량구매</option>
-							</select>
-							
-							<select name="step2" id="원두" class="step2" style="display: inline;">
-								<option value="">클래스</option>
-								<option value="">로스터리샵</option>	
-								<option value="">커피휘엘</option>	
-								<option value="">산지별 생두</option>	
-							</select>
-							<select name="step2" id="원두커피백" class="step2">
-								<option value="">드립커피 로스트</option>
-								<option value="">오리지널 커피백</option>	
-								<option value="">마일드 커피백</option>	
-							</select>
-							<select name="step2" id="인스턴트" class="step2">
-								<option value="">카페모리</option>
-								<option value="">홈스타일카페모리</option>	
-								<option value="">포타제</option>	
-							</select>
-							<select name="step2" id="음료" class="step2">
-								<option value="">카페리얼</option>
-								<option value="">워터커피</option>	
-								<option value="">모히또</option>	
-							</select>
-							<select name="step2" id="커피용품" class="step2">
-								<option value="">카페리얼</option>
-								<option value="">워터커피</option>	
-								<option value="">모히또</option>	
+							<td>처리상태</td>
+							<td><select id="status" name="status">
+								<option value="전체">전체</option>		
+								<option value="입금대기">입금대기</option>
+								<option value="입금완료">입금완료</option>
+								<option value="배송준비중">배송준비중</option>
+								<option value="배송중">배송중</option>
+								<option value="배송완료">배송완료</option>
+								<option value="구매확정">구매확정</option>
 							</select>
 							</td>
 						</tr>
 						<tr>
-							<td colspan="2"><button onclick="search()">검색</button></td>
-							<td></td>
+							<td colspan="2"><button  id="searchbtn" onclick="search()">검색</button></td>
 						</tr>
 					</table>
 					</form>
 				</div>
 				<div id="search2">
-					<p>검색 <span class="top_cnt">22</span>개 / 전체<span class="top_cnt">22</span>개 | 검색된 주문 총 결제금액 <span class="top_cnt">123,123</span>원</p>
-					<select name="sort" onchange="에이작스스크립트()">
-								<option value="">주문번호 ↑</option>
-								<option value="">주문번호 ↓</option>	
-								<option value="">주문자 ↑</option>
-								<option value="">주문자 ↓</option>	
-								<option value="">주문상태 ↑</option>
-								<option value="">주문상태 ↓</option>	
+					<p></p>
+					<select id="sort" name="sort" onchange="sortList()">
+								<option value="ol.ol_order_num asc" selected="selected">주문번호 ↑</option>
+								<option value="ol.ol_order_num desc">주문번호 ↓</option>	
+								<option value="ol.ol_orderer_id asc">주문자 ↑</option>
+								<option value="ol.ol_orderer_id desc">주문자 ↓</option>	
+								<option value="ol.ol_status asc">주문상태 ↑</option>
+								<option value="ol.ol_status desc">주문상태 ↓</option>	
 							</select>
 				</div>
-				<div id="state">
+<!-- 				<div id="state">
 					선택한 주문을
 					<select>
 						<option>입금대기중</option>
@@ -232,11 +305,10 @@
 					</select>
 					<button type="button" onclick="아작스()">일괄처리</button>
 				</div>
+ -->
 				<div id="list_div">
 					<table border="1" id="event_list">
 						<tr>
-							<th><input type="checkbox"></th>
-							<th>번호</th>
 							<th>주문번호</th>
 							<th>주문일시</th>
 							<th>주문자</th>
@@ -247,33 +319,34 @@
 							<th>상품금액</th>
 							<th>상품쿠폰</th>
 							<th>총 상품금액</th>
-							<th>배송쿠폰</th>
 							<th>배송비</th>
+							<th>배송비 쿠폰</th>
 							<th>장바구니 쿠폰</th>
 							<th>총주문금액</th>
 							<th>결제방법</th>
 							<th>처리상태</th>
 						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>번호</td>
-							<td>주문번호</td>
-							<td>주문일시</td>
-							<td>주문자</td>
-							<td>주문고유번호</td>
-							<td>상품코드</td>
-							<td>주문상품</td>
-							<td>수량</td>
-							<td>상품금액</td>
-							<td>상품쿠폰</td>
-							<td>총 상품금액</td>
-							<td>배송쿠폰</td>
-							<td>배송비</td>
-							<td>장바구니 쿠폰</td>
-							<td>총주문금액</td>
-							<td>결제방법</td>
-							<td>처리상태</td>
-						</tr>
+						<c:forEach var="list" items="${allOrderlist}">
+							<tr>
+								<td class="gr"><a href="order_detail?ol_order_num=${list.OL_ORDER_NUM }">${list.OL_ORDER_NUM }</a></td>
+								<td><fmt:formatDate var="o_date" value="${list.OL_DATE }" pattern="yy-MM-dd"/>${o_date }</td>
+								<td class="td_id">${list.OL_ORDERER_ID }</td>
+								<td>${list.OL_NUM }</td>
+								<td>${list.P_NUM }</td>
+								<td>${list.P_NAME }</td>
+								<td>${list.OL_AMT }</td>
+								<td>${list.P_PRICE }</td>
+								<td>${list.PROD_DISC }</td>
+								<td>${list.OL_FINAL_PRICE }</td>
+								<td class="td_df">${list.OC_DELIV_FEE }</td>
+								<td class="td_dc">${list.DELIV_DISC }</td>
+								<td class="td_cc">${list.CART_DISC }</td>
+								<td class="td_fs">${list.OC_FINAL_SUM }</td>
+								<td class="td_pm">${list.OL_PAYMENT }</td>
+								<td class="td_st">${list.OL_STATUS }</td>
+							</tr>
+						
+						</c:forEach>
 					</table>
 					<div class="detail_btn">
 						<a href="#">임시버튼</a>

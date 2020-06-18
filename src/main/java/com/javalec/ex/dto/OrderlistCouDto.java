@@ -9,11 +9,12 @@ public class OrderlistCouDto {
 	private int oc_deliv_fee;     //배송비
 	private int oc_final_sum;     //최종결제금액2
 	private int m_num;
+	private int point;
 	
 	public OrderlistCouDto() {}
 
 	public OrderlistCouDto(String ol_order_num, int oc_cart_c, int oc_deliv_c, int oc_semi_sum, int oc_deliv_fee,
-			int oc_final_sum, int m_num) {
+			int oc_final_sum, int m_num, int point) {
 		super();
 		this.ol_order_num = ol_order_num;
 		this.oc_cart_c = oc_cart_c;
@@ -22,6 +23,7 @@ public class OrderlistCouDto {
 		this.oc_deliv_fee = oc_deliv_fee;
 		this.oc_final_sum = oc_final_sum;
 		this.m_num = m_num;
+		this.point = point;
 	}
 
 	public int getRownum() {
@@ -86,6 +88,15 @@ public class OrderlistCouDto {
 	public void setM_num(int m_num) {
 		this.m_num = m_num;
 	}
+
+	public int getPoint() {
+		return point;
+	}
+
+	public void setPoint(int point) {
+		this.point = point;
+	}
+	
 	
 	
 	

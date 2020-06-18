@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> 
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn"%>
+<jsp:useBean id="sysdate" class="java.util.Date"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -128,55 +129,44 @@ $(document).ready(function() {
 								<th scope="col">합계</th>
 							</thead>
 							<tbody>
+							<c:forEach var="orderlist" items="${orderlist }">
 								<tr>
 									<td class="left">
 										<p class="img"><img src="user/images/img/sample_product.jpg" alt="상품" width="66" height="66" /></p>
 
 										<ul class="goods">
 											<li>
-												<a href="#">쟈뎅 오리지널 콜롬비아 페레이라 원두커피백 15p</a>
+												<a href="detail?p_num=${orderlist.pDto.p_num }">${orderlist.pDto.p_name}</a>
 											</li>
 										</ul>
 									</td>
 									<td class="tnone">
-										123,400 원
+										<fmt:formatNumber var="p_price" value="${orderlist.pDto.p_price }" type="number"/>
+										${p_price } 원
 
 										<!-- 회원일 시 -->
-										<br/><span class="pointscore">1,234 Point</span>
+										<fmt:formatNumber var="p_point" value="${orderlist.pDto.p_point }" type="number"/>
+										<br/><span class="pointscore">${p_point } Point</span>
 										<!-- //회원일 시 -->
 									</td>
-									<td>1 개</td>
-									<td>123,400 원</td>
+									<td>${orderlist.ol_amt } 개</td>
+									<td>
+									<fmt:formatNumber var="productPriceSum" value="${orderlist.pDto.p_price * orderlist.ol_amt }" type="number"/>
+									${productPriceSum } 원</td>
 								</tr>
-								
-								<tr>
-									<td class="left">
-										<p class="img"><img src="user/images/img/sample_product.jpg" alt="상품" width="66" height="66" /></p>
-
-										<ul class="goods">
-											<li>
-												<a href="#">가나다라마바사아자차카타파하 가나다라마바사아자차카타파하 가나다라마바사아자차카타파하</a>
-											</li>
-										</ul>
-									</td>
-									<td class="tnone">
-										123,400 원
-
-										<!-- 회원일 시 -->
-										<br/><span class="pointscore">1,234 Point</span>
-										<!-- //회원일 시 -->
-									</td>
-									<td>1 개</td>
-									<td>123,400 원</td>
-								</tr>
+								<c:set var="allProductsSum" value="${allProductsSum + orderlist.pDto.p_price * orderlist.ol_amt }"/>
+							</c:forEach>
 							</tbody>
 						</table>
 					</div>
 					<div class="poroductTotal">
 						<ul>	
-							<li>상품 합계금액 <strong>1,132,310</strong> 원</li>
-							<li>+ 배송비 <strong>2,500</strong> 원</li>
-							<li>= 총 합계 <strong>1,134,810</strong> 원</li>
+							<fmt:formatNumber var="allProductsSum1" value="${allProductsSum }" type="number"/>
+							<li>상품 합계금액 <strong>${allProductsSum1 }</strong> 원</li>
+							<fmt:formatNumber var="deliv_fee" value="${coupon_point.oc_deliv_fee }" type="number"/>
+							<li>+ 배송비 <strong>${deliv_fee }</strong> 원</li>
+							<fmt:formatNumber var="finalP" value="${allProductsSum+coupon_point.oc_deliv_fee }" type="number"/>
+							<li>= 총 합계 <strong>${finalP }</strong> 원</li>
 						</ul>
 					</div>
 					<!-- //주문 상품 -->
@@ -193,32 +183,58 @@ $(document).ready(function() {
 						<ul class="info">
 							<li>
 								<span class="title">상품 합계금액</span>
-								<span class="won"><strong>1,132,310</strong> 원</span>
+								<span class="won"><strong>${allProductsSum1 }</strong> 원</span>
 							</li>
 							<li>
 								<span class="title">배송비</span>
-								<span class="won"><strong>2,500</strong> 원</span>
+								<span class="won"><strong>${deliv_fee }</strong> 원</span>
 							</li>
 
 							<!-- 회원 일때만 -->
 							<li>
 								<span class="title">포인트 할인</span>
-								<span class="won"><strong>- 1,000</strong> P</span>
+								<fmt:formatNumber var="point" value="${coupon_point.point }" type="number"/>
+								<span class="won"><strong>- ${point }</strong> P</span>
 							</li>
 							<li>
-								<span class="title">쿠폰 할인</span>
-								<span class="won"><strong>- 1,000</strong> 원</span>
+								<span class="title">쿠폰 할인(제품쿠폰+장바구니쿠폰)</span>
+								<c:set var="couDiscount" value="${allProductsSum+coupon_point.oc_deliv_fee-coupon_point.oc_final_sum-coupon_point.point }"/>
+								<c:if test="${coupon_point.oc_deliv_c>0 }">
+								<fmt:formatNumber var="couDiscount1" value="${couDiscount-3000}" type="number"/>
+								<span class="won"><strong>
+								<c:if test="${couDiscount1>0 }">- ${couDiscount1}</c:if>
+								<c:if test="${couDiscount1==0 }"> ${couDiscount1}</c:if>
+								</strong> 원</span>
+								</c:if>
+								<c:if test="${coupon_point.oc_deliv_c==0 }">
+								<fmt:formatNumber var="couDiscount1" value="${couDiscount}" type="number"/>
+								<span class="won"><strong>
+								<c:if test="${couDiscount1>0 }">- ${couDiscount1}</c:if>
+								<c:if test="${couDiscount1==0 }"> ${couDiscount1}</c:if>
+								</strong> 원</span>
+								</c:if>
+							</li>
+							<li>
+								<span class="title">배송비 할인</span>
+								<c:if test="${coupon_point.oc_deliv_c>0 }">
+									<span class="won"><strong>- 3,000</strong> 원</span>
+								</c:if>
+								<c:if test="${coupon_point.oc_deliv_c==0 }">
+									<span class="won"><strong>0</strong> 원</span>
+								</c:if>
 							</li>
 							<!-- //회원 일떄만 -->
 						</ul>
 
 						<ul class="total">
 							<!-- 회원 일때만 -->
-							<li class="mileage">(적립 포인트 <strong>11,324</strong> Point) </li>
+							<fmt:formatNumber var="pointSum" value="${allProductsSum*0.01 }" type="number"/>
+							<li class="mileage">(적립 포인트 <strong>${pointSum }</strong> Point) </li>
 							<!-- //회원 일때만 -->
 
 							<li class="txt"><strong>결제 예정 금액</strong></li>
-							<li class="money"><span>1,134,810</span> 원</li>
+							<fmt:formatNumber var="finalPrice" value="${coupon_point.oc_final_sum }" type="number"/>
+							<li class="money"><span>${finalPrice }</span> 원</li>
 						</ul>
 					</div>
 			<!-- //총 주문금액 -->
@@ -238,21 +254,21 @@ $(document).ready(function() {
 							<tbody>
 								<tr>
 									<th scope="row"><span>이름</span></th>
-									<td>홍길동</td>
+									<td>${orderInfo.m_name }</td>
 									<th scope="row"><span>이메일</span></th>
-									<td>sldkfje@naver.com</td>
+									<td>${orderInfo.m_email }</td>
 								</tr>
 
 								<tr>
 									<th scope="row" rowspan="2"><span>주소</span></th>
-									<td rowspan="2">220 - 920<br/>강원도 원주시 원동<br/>123-456</td>
+									<td rowspan="2">${orderInfo.m_zipcode }<br/>${orderInfo.m_address1 }<br/>${orderInfo.m_address2 }</td>
 									<th scope="row"><span>휴대폰 <u>번호</u></span></th>
-									<td>010-2456-7894</td>
+									<td>${orderInfo.m_phone }</td>
 								</tr>
 
 								<tr>
 									<th scope="row"><span>전화<u>번호</u></span></th>
-									<td>02-6534-8652</td>
+									<td>${orderInfo.m_tel }</td>
 								</tr>
 							</tbody>
 						</table>
@@ -274,66 +290,34 @@ $(document).ready(function() {
 							<tbody>
 								<tr>
 									<th scope="row"><span>이름</span></th>
-									<td colspan="3">홍길동</td>
+									<td colspan="3">${orderInfo.re_name }</td>
 								</tr>
 
 								<tr>
 									<th scope="row" rowspan="2"><span>주소</span></th>
-									<td rowspan="2">220 - 920<br/>강원도 원주시 원동<br/>123-456</td>
+									<td rowspan="2">${orderInfo.re_zipcode }<br/>${orderInfo.re_address1 }<br/>${orderInfo.re_address2 }</td>
 									<th scope="row"><span>휴대폰 <u>번호</u></span></th>
-									<td>010-2456-7894</td>
+									<td>${orderInfo.re_phone }</td>
 								</tr>
 
 								<tr>
 									<th scope="row"><span>전화<u>번호</u></span></th>
-									<td>02-6534-8652</td>
+									<td>${orderInfo.re_tel }</td>
 								</tr>
 
 								<tr>
 									<th scope="row"><span>배송시 <u>요구사항</u></span></th>
-									<td colspan="3">부재시 경비실에 맡겨주세요.</td>
+									<c:if test="${orderInfo.m_msg=='없음' }">
+										<td colspan="3"></td>
+									</c:if>
+									<c:if test="${orderInfo.m_msg!='없음' }">
+										<td colspan="3">${orderInfo.m_msg}</td>
+									</c:if>
 								</tr>
 							</tbody>
 						</table>
 					</div>
 			<!-- //주문자 정보확인 -->
-
-
-			<!-- 결제금액 확인 -->
-					<h3 class="dep">결제금액</h3>
-					<div class="checkDiv">
-						<table summary="결제되는 금액를 총 주문금액, 쿠폰할인, 배송비, 포인트사용, 총 결제금액 순으로 확인 하실수 있습니다." class="checkTable" border="1" cellspacing="0">
-							<caption>결제금액확인</caption>
-							<colgroup>
-							<col width="17%" class="tw20" />
-							<col width="*" />
-							<col width="17%" class="tw20" />
-							<col width="*" class="tw25" />
-							</colgroup>
-							<tbody>
-								<tr>
-									<th scope="row"><span>총 주문<u>금액</u></span></th>
-									<td>1,132,132원</td>
-									<th scope="row"><span>쿠폰 <u>할인</u></span></th>
-									<td>132,132원</td>
-								</tr>
-
-								<tr>
-									<th scope="row"><span>배송비</span></th>
-									<td>2,500 원 (선불)</td>
-									<th scope="row"><span>포인트 <u>사용</u></span></th>
-									<td>1,000 Point</td>
-								</tr>
-
-								<tr>
-									<th scope="row"><span>총 결제<u>금액</u></span></th>
-									<td colspan="3"><strong>22,820 원</strong></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-			<!-- //결제금액 확인 -->
-
 
 			<!-- 주문 정보 확인 -->
 					<h3 class="dep">주문 정보</h3>
@@ -349,21 +333,29 @@ $(document).ready(function() {
 							<tbody>
 								<tr>
 									<th scope="row"><span>주문번호</span></th>
-									<td>201404253254-1354</td>
+									<td>${coupon_point.ol_order_num}</td>
 									<th scope="row"><span>결제수단</span></th>
-									<td>무통장 입금</td>
+									<c:forEach var="order" items="${orderlist }" begin="0" end="0">
+									<td>${order.ol_payment }</td>
+									</c:forEach>
 								</tr>
 
 								<tr>
 									<th scope="row"><span>주문일</span></th>
-									<td>2014-04-20</td>
+									<fmt:formatDate value="${sysdate}" pattern="yyyy-MM-dd" var="orderDate" />
+									<td>${orderDate}</td>
 									<th scope="row"><span>입금은행</span></th>
 									<td>신한은행 1234-45-786135 (주)쟈뎅</td>
 								</tr>
 
 								<tr>
 									<th scope="row"><span>요구사항</span></th>
-									<td>부재시 경비실에 맡겨주세요.</td>
+									<c:if test="${orderInfo.m_msg=='없음' }">
+										<td></td>
+									</c:if>
+									<c:if test="${orderInfo.m_msg!='없음' }">
+										<td>${orderInfo.m_msg}</td>
+									</c:if>
 									<th scope="row"><span>입금자 <u>명</u></span></th>
 									<td>홍길동</td>
 								</tr>
@@ -375,7 +367,7 @@ $(document).ready(function() {
 
 					<!-- Btn Area -->
 					<div class="btnArea2">
-						<a href="#" class="nbtnbig iw0140">확인</a>
+						<a href="main?m_num=${coupon_point.m_num }" class="nbtnbig iw0140">확인</a>
 					</div>
 					<!-- //Btn Area -->
 

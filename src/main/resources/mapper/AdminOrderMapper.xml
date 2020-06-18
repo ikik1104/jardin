@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javalec.ex.dao.AdminOrderDao">
+
+	<!-- 주문리스트 전체 -->
+	<select id="getAllOrderlist" resultType="hashmap">
+		select ol.*, p_name, p_price, oc.*, c.co_discount as prod_disc, nn.cart_disc, mm.deliv_disc
+		from orderlist_tb ol
+		left join product_tb p on p.p_num=ol.p_num
+		left join orderlist_cou_tb oc on oc.ol_order_num=ol.ol_order_num
+		left join coupon_tb c on ol.co_num = c.co_num
+		left join 
+		(select d.ol_order_num, a.oc_cart_c, b.co_discount as cart_disc
+		from orderlist_cou_tb a, coupon_tb b, orderlist_tb d 
+		where a.oc_cart_c=b.co_num and a.ol_order_num = d.ol_order_num) nn on nn.ol_order_num = ol.ol_order_num
+		left join 
+		(select d.ol_order_num, a.oc_deliv_c, b.co_discount as deliv_disc
+		from orderlist_cou_tb a, coupon_tb b, orderlist_tb d 
+		where a.oc_deliv_c=b.co_num and a.ol_order_num = d.ol_order_num) mm on mm.ol_order_num = ol.ol_order_num
+		order by ${option}
+	</select>
+	
+	<!-- 주문리스트 정렬 변경
+	<select id="sortlist" resultType="hashmap">
+		select ol.*, p_name, p_price, oc.*, c.co_discount as prod_disc, nn.cart_disc, mm.deliv_disc
+		from orderlist_tb ol
+		left join product_tb p on p.p_num=ol.p_num
+		left join orderlist_cou_tb oc on oc.ol_order_num=ol.ol_order_num
+		left join coupon_tb c on ol.co_num = c.co_num
+		left join 
+		(select d.ol_order_num, a.oc_cart_c, b.co_discount as cart_disc
+		from orderlist_cou_tb a, coupon_tb b, orderlist_tb d 
+		where a.oc_cart_c=b.co_num and a.ol_order_num = d.ol_order_num) nn on nn.ol_order_num = ol.ol_order_num
+		left join 
+		(select d.ol_order_num, a.oc_deliv_c, b.co_discount as deliv_disc
+		from orderlist_cou_tb a, coupon_tb b, orderlist_tb d 
+		where a.oc_deliv_c=b.co_num and a.ol_order_num = d.ol_order_num) mm on mm.ol_order_num = ol.ol_order_num
+		order by ${option}, ol.ol_order_num asc
+	</select>
+	-->
+	<!-- 총 주문건수 카운트 -->
+	<select id="countOrder" resultType="Integer">
+		select count(DISTINCT ol_order_num) from orderlist_tb
+	</select>
+	
+	<!-- 검색  주문건수 -->
+	<select id="countSearch" resultType="Integer">
+		select count(DISTINCT orderNum) from(
+		select ol.*,ol.ol_order_num as orderNum, p_name, p_price, oc.*, c.co_discount as prod_disc, nn.cart_disc, mm.deliv_disc
+		from orderlist_tb ol
+		left join product_tb p on p.p_num=ol.p_num
+		left join orderlist_cou_tb oc on oc.ol_order_num=ol.ol_order_num
+		left join coupon_tb c on ol.co_num = c.co_num
+		left join 
+		(select d.ol_order_num, a.oc_cart_c, b.co_discount as cart_disc
+		from orderlist_cou_tb a, coupon_tb b, orderlist_tb d 
+		where a.oc_cart_c=b.co_num and a.ol_order_num = d.ol_order_num) nn on nn.ol_order_num = ol.ol_order_num
+		left join 
+		(select d.ol_order_num, a.oc_deliv_c, b.co_discount as deliv_disc
+		from orderlist_cou_tb a, coupon_tb b, orderlist_tb d 
+		where a.oc_deliv_c=b.co_num and a.ol_order_num = d.ol_order_num) mm on mm.ol_order_num = ol.ol_order_num
+		where 1=1 ${whereQuery})
+	</select>
+	
+	<!-- 검색1 -->
+	<select id="search_1" parameterType="hashmap" resultType="hashmap">
+		select ol.*, p_name, p_price, oc.*, c.co_discount as prod_disc, nn.cart_disc, mm.deliv_disc
+		from orderlist_tb ol
+		left join product_tb p on p.p_num=ol.p_num
+		left join orderlist_cou_tb oc on oc.ol_order_num=ol.ol_order_num
+		left join coupon_tb c on ol.co_num = c.co_num
+		left join 
+		(select d.ol_order_num, a.oc_cart_c, b.co_discount as cart_disc
+		from orderlist_cou_tb a, coupon_tb b, orderlist_tb d 
+		where a.oc_cart_c=b.co_num and a.ol_order_num = d.ol_order_num) nn on nn.ol_order_num = ol.ol_order_num
+		left join 
+		(select d.ol_order_num, a.oc_deliv_c, b.co_discount as deliv_disc
+		from orderlist_cou_tb a, coupon_tb b, orderlist_tb d 
+		where a.oc_deliv_c=b.co_num and a.ol_order_num = d.ol_order_num) mm on mm.ol_order_num = ol.ol_order_num
+		where 1=1 ${whereQuery}
+		order by ${option}
+	</select>
+
+	
+</mapper>

@@ -10,7 +10,6 @@ public class AdminDto {
 	private String ad_name; //이름
 	private String ad_grade; //관리자등급
 
-
 	public AdminDto() {
 		super();
 		// TODO Auto-generated constructor stub

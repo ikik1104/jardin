@@ -26,6 +26,13 @@
 	function couponSelect(p_num){
 		var optSelect = document.getElementById("cou_opt_"+p_num);
 		var optValue = optSelect.options[optSelect.selectedIndex].value;
+		var optText = optSelect.options[optSelect.selectedIndex].text;
+		
+		if(optValue>0){
+			var pcoupNum = optText.split('-');
+			document.getElementById("pcou_"+p_num).value = pcoupNum[1];
+		}
+	
 		$('#discount_'+p_num).text(optValue);
 		
 		var count = $('.discount1').length;
@@ -38,10 +45,19 @@
 
 	// 쿠폰 할인 금액 합계 값 부모창으로 보내기 & 자식창 닫기 
 	function confirm(){	
-		var discountSum = $('#discount_sum').text();
+
+		var count = $('.coup_opt').length;
 		
+		for(i=0; i<count; i++){
+			opener.document.getElementById("productCou_"+i).value = document.getElementById("pcou_"+i).value;
+			
+		}
+		
+		var discountSum = $('#discount_sum').text();
 		opener.document.getElementById("productcoup").value = discountSum;
 		opener.document.getElementById("productcoup").onchange();
+		
+		
 		
 		window.close();
 	}
@@ -64,7 +80,7 @@
 
 		<div id="member">
 			<h3 class="dep">쿠폰 적용</h3>
-			<c:forEach var="cartlist" items="${cartlist }">
+			<c:forEach var="cartlist" items="${cartlist }" varStatus="status">
 				<div class="orderDivNm">
 					<table summary="상품 게시판으로 주문하신 상품명, 수량, 판매가, 배송순으로 조회 하시고 쿠폰을 적용하실 수 있습니다." class="orderTable" border="1" cellspacing="0">
 						<caption>상품 게시판</caption>
@@ -102,20 +118,21 @@
 				<div class="popGraybox">
 					<div class="choose">
 						쿠폰선택&nbsp;&nbsp;
-						<select class="coup_opt" id="cou_opt_${cartlist.pDto.p_num }" onchange="couponSelect(${cartlist.pDto.p_num })">
+						<select class="coup_opt" id="cou_opt_${status.index }" onchange="couponSelect(${status.index })">
 							<option value="0">쿠폰선택</option>
 							<c:forEach var="couponlist" items="${couponlist }">
 								<c:if test="${couponlist.cDto.co_type == 'product' && couponlist.ci_end_day > sysdate && couponlist.cDto.co_product == cartlist.pDto.p_num }">
-									<option id="opt_${couponlist.ci_num }" value="${couponlist.cDto.co_discount }" >${couponlist.cDto.co_name }/${couponlist.ci_num }</option>
+									<option id="opt_${couponlist.ci_num }" value="${couponlist.cDto.co_discount }" >${couponlist.cDto.co_name }-${couponlist.ci_num }</option>
 								</c:if>
 							</c:forEach>
 						</select>
+						<input type="hidden" id="pcou_${status.index }" value="0"/>
 					</div>
 	
 					<div class="result">
 						<div class="point">* 옵션가와 배송비는 제외</div>
 						<div class="discount">
-							쿠폰 할인 금액 : <span class="discount1" id="discount_${cartlist.pDto.p_num }">0</span> 원
+							쿠폰 할인 금액 : <span class="discount1" id="discount_${status.index }">0</span> 원
 						</div>
 					</div>
 				</div>

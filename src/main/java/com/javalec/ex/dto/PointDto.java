@@ -10,18 +10,20 @@ public class PointDto {
 	private String  po_type; //포인트 타입
 	private int po_point; //포인트
 	private Timestamp po_sysdate; //등록일
+	private String po_name; // 적립, 사용 시 주문건명
 
 	public PointDto() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public PointDto(int po_num, int m_num, String po_type, int po_point, Timestamp po_sysdate) {
+	public PointDto(int po_num, int m_num, String po_type, int po_point, Timestamp po_sysdate, String po_name) {
 		super();
 		this.po_num = po_num;
 		this.m_num = m_num;
 		this.po_type = po_type;
 		this.po_point = po_point;
 		this.po_sysdate = po_sysdate;
+		this.po_name = po_name;
 	}
 
 	public int getRownum() {
@@ -61,6 +63,13 @@ public class PointDto {
 	public void setPo_sysdate(Timestamp po_sysdate) {
 		this.po_sysdate = po_sysdate;
 	}
+	public String getPo_name() {
+		return po_name;
+	}
+	public void setPo_name(String po_name) {
+		this.po_name = po_name;
+	}
+	
 	
 	
 }

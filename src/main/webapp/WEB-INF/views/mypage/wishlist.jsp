@@ -63,6 +63,40 @@ $(document).ready(function() {
 
      $(document).ready(function () {
          msiecheck();
+         
+         var listcount = $('input:checkbox[name=chk]').length;
+         if(listcount==0){
+        	 $("#hidden").css("display", "");
+         }else {
+        	 $("#hidden").css("display", "none");
+         }
+         
+      // 체크박스 
+ 		$("#checkAll").click(function(){
+ 		// 전체 선택 체크박스가 체크된 상태일 경우
+			if($('#checkAll').prop('checked')){
+				// 해당 화면에 있는 모든 checkbox들 체크
+				$('input[name=chk]:checkbox').each(function(){
+					$(this).prop('checked', true);
+				});
+			}else {
+				// 해당 화면에 있는 모든 checkbox들 체크 해제
+				$('input[name=chk]:checkbox').each(function(){
+					$(this).prop('checked', false);
+				});
+			}
+ 		});
+ 		
+		$(".chk").click(function(){
+			var checkboxLength = $('input:checkbox[name="chk"]').length;
+			var checkedLength = $('input:checkbox[name="chk"]:checked').length;
+			if(checkboxLength == checkedLength){
+				$('#checkAll').prop('checked', true);
+			}else {
+				$('#checkAll').prop('checked', false);
+			}
+		});
+         
      });
 
      var msiecheck = function () {
@@ -86,6 +120,90 @@ $(document).ready(function() {
 		$("#ieUser").hide();
         clearTimeout(msietimer);
      }
+     
+  // 선택 상품 위시리스트에서 삭제
+     function del_wl(p_num, m_num) {
+
+     	var arrData = [p_num, m_num]; 
+     	
+         if(confirm("해당 상품을 위시리스트에서 삭제하시겠습니까?")){
+            
+         	$.ajax({
+                 url : "del_wishlist",
+                 method : "POST",
+                 data: JSON.stringify(arrData),
+                 dataType : "json",
+                 contentType: "application/json",
+                 success : function(val){
+                    if(val == 1){
+                       location.reload();
+                    }
+                 },
+                 error : function(){
+                    alert("서버통신실패");
+                 }
+              });
+         }
+      }
+  
+  // 체크한 상품 한 번에 삭제
+     function del_chk(m_num){
+     	var count = $('input:checkbox[name="chk"]:checked').length;
+ 		if(count>0){
+ 			if(confirm("선택하신 상품을 위시리스트에서 삭제하시겠습니까?")){
+ 				$("input[name=chk]:checked").each(function(){
+ 			  		var p_num =$(this).val();  
+ 			    	var arrData = [p_num, m_num]
+ 			    	$.ajax({
+ 			        	type:"POST",
+ 			        	url : "del_wishlist",
+ 			        	data: JSON.stringify(arrData),
+ 			         	contentType: "application/json",
+ 			            success : function(data){
+ 			                        if(data == 1){
+ 			                           location.reload();
+ 			                        }
+ 			                      },
+ 			            error:function(){
+ 			                   alert("서버통신실패");
+ 			            }
+ 			        });
+ 				});
+ 			}
+ 		}else {
+ 			alert("선택하신 상품이 없습니다. 삭제하실 상품을 먼저 선택해주시기 바랍니다.");
+ 		}
+ 	}
+  
+  
+     // 체크한 상품 장바구니로 이동
+     function go_cart(m_num){
+     	var count = $('input:checkbox[name="chk"]:checked').length;
+ 		if(count>0){
+ 				$("input[name=chk]:checked").each(function(){
+ 			  		var p_num =$(this).val();  
+ 			  		alert(p_num);
+ 			    	var arrData = [m_num, p_num]
+ 			    	$.ajax({
+ 			        	type:"POST",
+ 			        	url : "go_cart",
+ 			        	data: JSON.stringify(arrData),
+ 			         	contentType: "application/json",
+ 			            success : function(data){
+ 			                        if(data == 1){
+ 			                        }
+ 			                      },
+ 			            error:function(){
+ 			                   alert("서버통신실패");
+ 			            }
+ 			        });
+ 				});
+ 				window.location.href="cart?m_num="+m_num;
+ 		}else {
+ 			alert("선택하신 상품이 없습니다. 상품을 먼저 선택해주시기 바랍니다.");
+ 		}
+ 	}
+  
 </script>
 
 <div id="allwrap">
@@ -110,10 +228,10 @@ $(document).ready(function() {
 				<ul>	
 					<li><a href="#" id="leftNavi1">주문/배송 조회</a></li>
 					<li><a href="#" id="leftNavi2">반품/배송 현황</a></li>
-					<li><a href="#" id="leftNavi3">장바구니</a></li>
-					<li><a href="#" id="leftNavi4">위시리스트</a></li>
-					<li><a href="#" id="leftNavi5">나의 쿠폰</a></li>
-					<li><a href="#" id="leftNavi6">나의 포인트</a></li>
+					<li><a href="cart?m_num=${memDto.m_num }" id="leftNavi3">장바구니</a></li>
+					<li><a href="wishlist?m_num=${memDto.m_num }" id="leftNavi4">위시리스트</a></li>
+					<li><a href="mycoupon?m_num=${memDto.m_num }" id="leftNavi5">나의 쿠폰</a></li>
+					<li><a href="mypoint?m_num=${memDto.m_num }" id="leftNavi6">나의 포인트</a></li>
 					<li><a href="#" id="leftNavi7">1:1문의</a></li>
 					<li><a href="#" id="leftNavi8">회원정보 수정</a></li>
 					<li class="last"><a href="#" id="leftNavi9">회원 탈퇴</a></li>
@@ -128,10 +246,10 @@ $(document).ready(function() {
 					
 					<div class="myInfo">
 						<ul>
-							<li class="info"><strong>가나다</strong> 님의 정보를 한눈에 확인하세요.</li>
-							<li>보유 쿠폰<br/><span class="num">199</span> <span class="unit">장</span></li>
-							<li class="point">내 포인트<br/><span class="num">100,000</span> <span class="unit">P</span></li>
-							<li class="last">진행중인 주문<br/><span class="num">199</span> <span class="unit">건</span></li>
+							<li class="info"><strong>${memDto.m_id }</strong> 님의 정보를 한눈에 확인하세요.</li>
+							<li>보유 쿠폰<br/><span class="num">${coupon }</span> <span class="unit">장</span></li>
+							<li class="point">내 포인트<br/><span class="num">${memDto.m_point }</span> <span class="unit">P</span></li>
+							<li class="last">진행중인 주문<br/><span class="num">${order }</span> <span class="unit">건</span></li>
 						</ul>
 					</div>
 
@@ -145,62 +263,41 @@ $(document).ready(function() {
 							<col width="7%"/>
 							<col width="*" />
 							<col width="14%" class="tnone" />
-							<col width="10%" class="tw14"/>
-							<col width="14%" class="tw28"/>
 							<col width="14%" class="tnone" />
 							</colgroup>
 							<thead>
-								<th scope="col"><input type="checkbox" /></th>
+								<th scope="col"><input type="checkbox" id="checkAll" name="checkAll"/></th>
 								<th scope="col">상품명</th>
 								<th scope="col" class="tnone">가격/포인트</th>
-								<th scope="col">수량</th>
-								<th scope="col">합계</th>
-								<th scope="col" class="tnone">주문</th>
+								<th scope="col" class="tnone">삭제</th>
 							</thead>
 							<tbody>
+								<tr id="hidden" style="display: none; text-align: center">
+									<td colspan="4">등록한 위시리스트가 없습니다.</td>
+								</tr>
+							<c:forEach var="allWishlist" items="${allWishlist }">
 								<tr>
-									<td><input type="checkbox" /></td>
+									<td><input type="checkbox" class="chk" name="chk" value="${allWishlist.p_num }"/></td>
 									<td class="left">
 										<p class="img"><img src="user/images/img/sample_product.jpg" alt="상품" width="66" height="66" /></p>
 
 										<ul class="goods">
 											<li>
-												<a href="#">쟈뎅 오리지널 콜롬비아 페레이라 원두커피백 15p</a>
+												<a href="product_detail?p_num=${allWishlist.p_num }">${allWishlist.pDto.p_name}</a>
 											</li>
 										</ul>
 									</td>
-									<td class="tnone">1,123,400 원<br/><span class="pointscore">11,234 Point</span></td>
-									<td><input class="spinner" value="1" maxlength="3" /></td>
-									<td>1,123,400 원</td>
+									<fmt:formatNumber var="p_price" value="${allWishlist.pDto.p_price }" type="number" />
+									<fmt:formatNumber var="p_point" value="${allWishlist.pDto.p_point }" type="number" />
+									<td class="tnone">${p_price} 원<br/><span class="pointscore">${p_point } Point</span></td>
 									<td class="tnone">
 										<ul class="order">	
-											<li><a href="#" class="obtnMini iw70">바로구매</a></li>
-											<li><a href="#" class="nbtnMini iw70">상품삭제</a></li>
+											<li><a href="#" class="nbtnMini iw70" onclick="del_wl(${allWishlist.p_num }, ${memDto.m_num })">상품삭제</a></li>
 										</ul>
 									</td>
 								</tr>
+							</c:forEach>
 								
-								<tr>
-									<td><input type="checkbox" /></td>
-									<td class="left">
-										<p class="img"><img src="user/images/img/sample_product.jpg" alt="상품" width="66" height="66" /></p>
-
-										<ul class="goods">
-											<li>
-												<a href="#">쟈뎅 오리지널 콜롬비아 페레이라 원두커피백 15p</a>
-											</li>
-										</ul>
-									</td>
-									<td class="tnone">1,123,400 원<br/><span class="pointscore">11,234 Point</span></td>
-									<td><input class="spinner" value="1" maxlength="3" /></td>
-									<td>1,123,400 원</td>
-									<td class="tnone">
-										<ul class="order">	
-											<li><a href="#" class="obtnMini iw70">바로구매</a></li>
-											<li><a href="#" class="nbtnMini iw70">상품삭제</a></li>
-										</ul>
-									</td>
-								</tr>
 							</tbody>
 						</table>
 					</div>
@@ -208,9 +305,8 @@ $(document).ready(function() {
 					<div class="btnArea">
 						<div class="bRight">
 							<ul>
-								<li><a href="#" class="selectbtn">전체선택</a></li>
-								<li><a href="#" class="selectbtn2">선택수정</a></li>
-								<li><a href="#" class="selectbtn2">선택삭제</a></li>
+								<li><a href="#" class="selectbtn_1" onclick="go_cart(${memDto.m_num })">선택상품 장바구니로 이동</a></li>
+								<li><a href="#" class="selectbtn2" onclick="del_chk(${memDto.m_num })">선택삭제</a></li>
 							</ul>
 						</div>
 					</div>
@@ -218,33 +314,18 @@ $(document).ready(function() {
 					
 
 					<!-- 총 금액 -->
-					<div class="amount">
-						<h4>총 금액</h4>
-						<ul class="info">
-							<li>
-								<span class="title">상품 합계금액</span>
-								<span class="won"><strong>1,132,310</strong> 원</span>
+					<div class="amount" style="border:2px #999 solid;">
+						<h4 style="font-size:15px; padding:0px 0px 10px 0px; margin: 15px 15px;">안내</h4>
+						<ul>
+							<li style="padding-left:15px; margin-bottom: 15px;">
+								<span>- 위시리스트에서 장바구니로 이동시킨 상품은 위시리스트에서 삭제됩니다.</span>
 							</li>
-							<li>
-								<span class="title">배송비</span>
-								<span class="won"><strong>2,500</strong> 원</span>
+							<li style="padding-left:15px; margin-bottom: 15px;">
+								<span>- 상품의 수량은 장바구니로 이동한 후 변경이 가능합니다.</span>
 							</li>
-						</ul>
-						<ul class="total">
-							<li class="mileage">(적립 마일리지 <strong>11,324</strong> Point) </li>
-							<li class="txt"><strong>결제 예정 금액</strong></li>
-							<li class="money"><span>1,134,810</span> 원</li>
 						</ul>
 					</div>
 					<!-- //총 주문금액 -->
-
-					<div class="cartarea">
-						<ul>
-							<li><a href="#" class="ty1">선택상품 <span>주문하기</span></a></li>
-							<li><a href="#" class="ty2">전체상품 <span>주문하기</span></a></li>
-							<li class="last"><a href="#" class="ty3">쇼핑 <span>계속하기</span></a></li>
-						</ul>
-					</div>
 
 				<!-- //장바구니에 상품이 있을경우 -->
 
