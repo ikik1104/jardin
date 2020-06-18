@@ -23,49 +23,12 @@
 <script type="text/javascript" src="user/js/jquery.easing.1.3.js"></script>
 <script type="text/javascript" src="user/js/idangerous.swiper-2.1.min.js"></script>
 <script type="text/javascript" src="user/js/jquery.anchor.js"></script>
+<script type="text/javascript" src="user/js/user_event.js"></script>
 <!--[if lt IE 9]>
 <script type="text/javascript" src="user/js/html5.js"></script>
 <script type="text/javascript" src="user/js/respond.min.js"></script>
 <![endif]-->
-<script type="text/javascript">
-$(document).ready(function() {
-	
-	$('#modifyReply').hide();
-	$('#originalReply').hide();	
-	$('.originalReplyOther').hide();
-	
-	if(document.getElementById('banSign').value=='ban'){
-		$('.replyWrite').hide();
-		$('.replyBan').show();		
-	} else {
-		$('.replyBan').hide();			
-	}
-	
 
-$('#backbody').click(function(){
-	$('#layerWrap').css('display','none');	
-	$('#backbody').css('display','none');		
-});
-});
-
-//댓글 수정창 나타내기
-function showModify(){
-	$('#modifyReply').show();	
-	$('#originalReply').hide();	
-	$('#pwReply').hide();
-}
-function showOriginal(){
-	$('#modifyReply').hide();	
-	$('#originalReply').show();	
-	$('#pwReply').hide();
-}
-
-function banSign(){
-	$( 'input#banSign' ).val( 'ban' );		
-}
-
-
-</script>
 <!-- 비밀번호 모달창 스타일 -->
 <style>
    /* The Modal (background) */
@@ -92,27 +55,6 @@ function banSign(){
 		}
 
 </style>
-<!-- 비밀번호 모달창 스크립트 -->
-<script type="text/javascript">
-                            
-function openPW(m_num){
-	$('#layerWrap').css('display','block');
-	$('#backbody').css('display','block');	
-	document.getElementById('hiddenNum').value=m_num;
-}
-function closePW(){
-	$('#layerWrap').css('display','none');	
-	$('#backbody').css('display','none');	
-}
-
-//비밀번호 불일치 시 실행
-function backpage(ec_pw){
-	$('#layerWrap').css('display','block');
-	$('#backbody').css('display','block');		
-	$( 'input#ec_pw' ).val( ec_pw );
-}
-
-</script>
 </head>
 <body>
 <div  id="backbody"></div>
@@ -165,134 +107,58 @@ function backpage(ec_pw){
 		$("#ieUser").hide();
         clearTimeout(msietimer);
      }
- 
-		//비밀번호 체크
-		function submitCheck(){
-			var m_num = document.getElementById('hiddenNum').value;
-			var pw = document.getElementById('ec_pw').value;
-			var pw_mnum = pw+'pleasegogo'+m_num;
-			
-			        $.ajax({
-			        	/*
-			              url : "ec_pw_check",
-			              method : "POST",
-			              data: JSON.stringify(pw_mnum),
-			              dataType : "json",
-			              contentType: "application/json",
-			              */
-			              type : "POST",
-			              url : "ec_pw_check",
-			              data : pw_mnum,
-			              contentType : "application/x-www-form-urlencoded; charset=UTF-8",
-			              success : function(val){
-			                 if(val ==1 ){//1이면 성공
-			                	 location.reload();
-			                	 $('#modifyReply').hide();
-			                	 $('#pwReply').hide();   			                	 
-			                	 $('#originalReply').show();   
-			                	 location.href='#originalReply';
-			                 }else{ // 0이면 실패
-			                    alert("비밀번호가 일치하지 않습니다. 다시 시도해 주세요.");
-			                 }
-			              },
-			              error : function(){
-			                 alert("서버통신실패");
-			              }
-			           });			
-		}     
-     //새 댓글 등록
-     function submitComment(){
-    	 alert('작동');
-    	
-    	 $.ajax({
-            url: "ecomment_insert",
-            type: "POST",
-            data:  $("#insertform").serialize(),
-            success : function(val){
-                if(val ==1 ){//1이면 성공
-                alert('성공');
-           	 location.reload();                
-           	 $('#modifyReply').hide();
-        	 $('#originalReply').show();    	 
-        	 $('#pwReply').hide();   			                	 
-        	 location.href='#originalReply';        
-                }else{ // 0이면 실패
-                   alert("비밀번호가 일치하지 않습니다. 다시 시도해 주세요.");
-                }
-             },
-             error : function(){
-                alert("서버통신실패");
-             }
-
-    	  });		
-    	
-    }
-
-
-     
-     //자기 댓글 수정란에서 '확인' 클릭
-  	function showOriginal(){
-    	 $('#modifyReply').hide();
-    	 $('#originalReply').show();   
-    	 location.href='#originalReply';
-     }
-     
-     //로그인 안 했는데 댓글 달려고 하는지 체크
-     function checkComment(){
-    	 if(${userID==null}|| ${userID==""}){
-    		 if(confirm('로그인이 필요합니다. 로그인 페이지로 이동할까요?')){
-    			 location.href='login';
-    		 } else {
-    			 //댓글 등록창 막아 버리기
-    				$( 'input#ec_pw' ).css('readonly','readonly');
-    				$( '#ec_content' ).css('readonly','readonly');
-    		 }
-    	 }
-     }
 </script>
 
 
 
 <div id="allwrap">
 <div id="wrap">
+
+<!-- 로그인 시 session에서 사용자 아이디, 회원 번호 저장 -->
+	<input type="hidden" value="${userNum }" id="userNum" name="m_num"> 
+	<input type="hidden" value="${userID }"  id="userID" name="m_id"> 
+
+
 <!-- 비밀번호 모달창 -->
 <div id="layerWrap">
-
-	<div class="inputWrap">
-		<div class="inputBody">
-			<div class="title">비밀번호 확인</div>
-			<p class="close" style="cursor:pointer;"><a onclick="closePW()" ><img src="user/images/btn/btn_input_close.gif" alt="닫기" /></a></p>
-			<!-- <p class="close"><a onclick="parent.$.fancybox.close();" href="javascript:;"><img src="user/images/btn/btn_input_close.gif" alt="닫기" /></a></p> -->
-			<p class="popalert">비밀번호를 입력해주세요.</p>
-			<input type="hidden" id="hiddenNum" name="m_num">
-			<div class="inputBox">					
-				<ul>
-					<li><label for="">비밀번호</label><input type="password" class="w348" name="ec_pw" id="ec_pw"/></li>
-				</ul>
+	<form action="ec_pw_check" name="pwInputForm" id="pwInputForm" method="post">
+		<!-- 함께 보내줄 데이터-->
+		<input type="hidden"  name="m_num" id="pwMnum">	
+		<input type="hidden" name="mode" id="pwMode">
+		<input type="hidden" name="e_num" >	
+		
+		<div class="inputWrap">
+			<div class="inputBody">
+				<div class="title">비밀번호 확인</div>
+				<p class="close" style="cursor:pointer;"><a onclick="closePW()" ><img src="user/images/btn/btn_input_close.gif" alt="닫기" /></a></p>
+				<!-- <p class="close"><a onclick="parent.$.fancybox.close();" href="javascript:;"><img src="user/images/btn/btn_input_close.gif" alt="닫기" /></a></p> -->
+				<p class="popalert">비밀번호를 입력해주세요.</p>
+				<div class="inputBox">					
+					<ul>
+						<li><label for="">비밀번호</label><input type="password" class="w348" name="ec_pw" id="ec_pw"/></li>
+					</ul>
+				</div>
+				<div class="centerbrn">
+					<a  onclick="submitCheck()" style="cursor:pointer;">확인</a>
+				</div>
 			</div>
-			<div class="centerbrn">
-				<a href="#" onclick="submitCheck()">확인</a>
-			</div>
+			<!-- 같이 태워 보낼 데이터 -->
 		</div>
-		<input type="hidden" value="${event_info.eventdto.e_num } " name="e_num" id="e_num">
-		<input type="hidden" value="${userNum } " name="userNum" id="userNum">		
-	</div>
-
-
+	</form>	
 </div>	
 <!-- 비밀번호 모달창 -->    
 
-	<jsp:include page="../header.jsp" />
+<!-- header -->
+<jsp:include page="../header.jsp" />
 
 	<!-- container -->
 	<div id="container">
-
 
 		<div id="location">
 			<ol>
 				<li><a href="#">HOME</a></li>
 				<li><a href="#">EVENT</a></li>
-				<li class="last">진행중 이벤트</li>
+				<li class="last" >진행중 이벤트</li>
 			</ol>
 		</div>
 		
@@ -300,7 +166,7 @@ function backpage(ec_pw){
 			<div id="left">
 				<div id="title2">EVENT<span>이벤트</span></div>
 				<ul>	
-					<li><a href="#" id="leftNavi1">진행중 이벤트</a></li>
+					<li style="cursor:default;"><a id="leftNavi1"  style="cursor:default;">진행중 이벤트</a></li>
 					<li><a href="#" id="leftNavi2">종료된 이벤트</a></li>
 					<li class="last"><a href="#" id="leftNavi3"><span>당첨자 발표</span></a></li>
 				</ul>			
@@ -357,24 +223,27 @@ function backpage(ec_pw){
 					<!-- //이전다음글 -->
 
 
-					<!-- 댓글-->
+					<!-- 댓글 입력창-->
 					<form action="ecomment_insert" method="post" name="ecomment_insert" id="insertform">
-					<input type="hidden" value="${event_info.eventdto.e_num } " name="e_num" id="e_num">
-					<input type="hidden" value="${userNum } " name="m_num" id="userNum">	
-					
-					<div class="replyWrite">
-						<ul>
-							<li class="in">
-								<p class="txt">총 <span class="orange">${event_info.utildto.str4 }</span> 개의 댓글이 달려있습니다.</p>
-								<p class="password">비밀번호&nbsp;&nbsp;<input type="password" class="replynum" name="ec_pw" id="ec_pw_check" onclick="checkComment()"/></p>
-								<textarea class="replyType" name="ec_content" id="ec_content" onclick="checkComment()"></textarea>
-							</li>
-							<li class="btn"  ><a class="replyBtn" onclick="submitComment()" style="cursor:pointer;">등록</a></li>
-						</ul>
-						<p class="ntic">※ 댓글을 등록하시면 자동으로 이벤트 신청이 완료됩니다.</p>
-					</div>
+						<!-- 같이 태워보내는 데이터 -->
+						<input type="hidden" value="${event_info.eventdto.e_num } " name="e_num" id="e_num">
+						<input type="hidden" value="${userNum } " name="m_num" id="userNum">	
+						<!--댓글 입력 부분 -->
+						<div class="replyWrite">
+							<ul>
+								<li class="in">
+									<p class="txt">총 <span class="orange">${event_info.utildto.str4 }</span> 개의 댓글이 달려있습니다.</p>
+									<p class="password">비밀번호&nbsp;&nbsp;<input type="password" class="replynum" name="ec_pw" id="ec_pw_check" onclick="checkComment()"/></p>
+									<textarea class="replyType" name="ec_content" id="ec_content" onclick="checkComment()"></textarea>
+								</li>
+								<li class="btn"  ><a class="replyBtn" onclick="submitComment()" style="cursor:pointer;">등록</a></li>
+							</ul>
+							<p class="ntic">※ 댓글을 등록하시면 자동으로 이벤트 신청이 완료됩니다.</p>
+						</div>
+						<!--댓글 입력 부분 -->
 					</form>
 					
+					<!-- 댓글 입력 막으면 노출 -->
 					<div class="replyBan" >
 						<ul>
 							<li class="in">
@@ -382,28 +251,32 @@ function backpage(ec_pw){
 							</li>
 						</ul>
 					</div>
-			
+					<!-- 댓글 입력 막으면 노출 -->
 					
 					
-					
+					<!-- 댓글 전체 리스트 출력 -->
 					<div class="replyBox"><a href='anchor'></a>
-							<c:if test="${ecomment_list.size()==0 }"><!-- 등록된 댓글 없을 경우 -->
+							<!-- 로그인 사용자가 이미 댓글을 달았으면 댓글 입력창 막으라는 신호 보내는 input -->
+							<input type="hidden" id="banSign">
+							
+							<!-- 등록된 댓글 없을 경우 -->
+							<c:if test="${ecomment_list.size()==0 }">
 									<ul>
 										<li class="name">등록된 댓글이 없습니다.</li>
 									</ul>									
 							</c:if>
-							<c:if test="${ecomment_list.size()!=0 }"><!-- 등록된 댓글 있을 경우 -->
-								
-							<input type="hidden" id="banSign"><!-- 댓글 등록 막으라는 신호 보내는 input -->
 							
-								<!-- 사용자 댓글 맨 위에 출력 -->
+							<!-- 등록된 댓글 있을 경우 -->
+							<c:if test="${ecomment_list.size()!=0 }">
+							
+								<!--로그인  사용자 댓글 맨 위에 출력 -->
 								<c:forEach var="ecomment_list" items="${ecomment_list }">		
 									<c:if test="${ecomment_list.memberdto.m_id==userID }">
 										<script>
-											//자기 댓글 있으면 새로 댓글 등록 못하게 막기
+											//자기 댓글 있으면 새로 댓글 입력창 막기
 											banSign();
 										</script>
-									
+										<!-- 로그인 사용자 자기 댓글 확인창 -->
 										<ul id="originalReply">
 											<li class="name">${ecomment_list.memberdto.m_id }(나의 댓글) <span>[${ecomment_list.utildto.str1 }&nbsp;&nbsp;${ecomment_list.utildto.str2 }]</span></li>
 											<li class="txt">${ecomment_list.e_commentdto.ec_content }</li>
@@ -412,16 +285,16 @@ function backpage(ec_pw){
 												<a href="#" class="rebtn">삭제</a>
 											</li>
 										</ul>		
-	
+										<!-- 로그인 사용자 비밀댓글창 -->
 										<ul id="pwReply">
 											<li class="name">${ecomment_list.memberdto.m_id }(나의 댓글) <span>[${ecomment_list.utildto.str1 }&nbsp;&nbsp;${ecomment_list.utildto.str2 }]</span></li>
-											<li class="txt" onclick="openPW(${ecomment_list.e_commentdto.m_num }, select)">※비밀 댓글입니다.</li>
+											<li class="txt" onclick="openPW(${ecomment_list.e_commentdto.m_num }, 'myOriginal')" style="cursor:pointer;">※비밀 댓글입니다.(조회하려면 클릭하세요)</li>
 											<li class="btn">
-												<a class="rebtn" onclick="openPW(${ecomment_list.e_commentdto.m_num })">수정</a>
+												<a class="rebtn" onclick="openPW(${ecomment_list.e_commentdto.m_num }, 'myModify')">수정</a>
 												<a href="#" class="rebtn">삭제</a>
 											</li>
 										</ul>		
-										
+										<!-- 로그인 사용자 댓글 수정창 -->
 										<ul id="modifyReply">
 											<li class="name">${ecomment_list.memberdto.m_id } <span>[${ecomment_list.utildto.str1 }&nbsp;&nbsp;${ecomment_list.utildto.str2 }]</span></li>
 											<li class="txt"><textarea class="replyType">${ecomment_list.e_commentdto.ec_content }</textarea></li>
@@ -431,29 +304,29 @@ function backpage(ec_pw){
 												<a href="#" class="rebtn">수정</a>
 												<a href="#" class="rebtn">삭제</a>
 											</li>
-										</ul>									
-										
+										</ul>							
 									</c:if>
 								</c:forEach>
+								<!-- //사용자 댓글 맨 위에 출력 -->
 		
-								<!-- 사용자 댓글 아닌 거 출력 -->
+								<!-- 다른사람 댓글 출력 -->
 								<c:forEach var="ecomment_list" items="${ecomment_list }">		
 									<c:if test="${ecomment_list.memberdto.m_id!=userID }">
-										<ul id="pwReplyOther">
+										<!-- 다른사람 비밀댓글 출력 -->
+										<ul id="pwReplyOther" class="pwReplyOther${ecomment_list.e_commentdto.m_num }">
 											<li class="name">${ecomment_list.memberdto.m_id } <span>[${ecomment_list.utildto.str1 }&nbsp;&nbsp;${ecomment_list.utildto.str2 }]</span></li>
-											<li class="txt">※비밀 댓글입니다.</li>
+											<li class="txt" onclick="openPW(${ecomment_list.e_commentdto.m_num }, 'otherOriginal')" style="cursor:pointer;">※비밀 댓글입니다.(조회하려면 클릭하세요)</li>
 										</ul>									
-										
-										<ul class="originalReplyOther">
+										<!-- 다른사람 댓글 확인창 출력 -->
+										<ul class="originalReplyOther" id="originalReplyOther${ecomment_list.e_commentdto.m_num }">
 											<li class="name">${ecomment_list.memberdto.m_id } <span>[${ecomment_list.utildto.str1 }&nbsp;&nbsp;${ecomment_list.utildto.str2 }]</span></li>
 											<li class="txt">${ecomment_list.e_commentdto.ec_content }</li>
-										</ul>					
-														
+										</ul>			
 									</c:if>					
 								</c:forEach>									
 							</c:if>					
 					</div>
-					<!-- //댓글 -->
+					<!-- //댓글 전체 리스트 -->
 
 
 					<!-- Btn Area -->
@@ -509,7 +382,7 @@ $(function(){
 
 
 
-
+	<!-- footer -->
 	<jsp:include page="../footer.jsp" />
 
 

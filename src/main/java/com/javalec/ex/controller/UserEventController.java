@@ -66,19 +66,24 @@ public class UserEventController {
 	}
 	//댓글 비밀번호 확인하기
 	@ResponseBody
-	@RequestMapping("ec_pw_check")
-	public int ec_pw_check(@RequestBody String pw_mnum, Model model) {
-		String new_pw_num = pw_mnum.substring(0, pw_mnum.length()-1);
-		System.out.println("pw_num : "+new_pw_num);
-		String[] strs = new_pw_num.split("pleasegogo");
-		System.out.println(strs[0]); System.out.println(strs[1]);
-		String pw = strs[0];
-		int m_num = Integer.parseInt(strs[1]);
-		E_CommentDto e_CommentDto = new E_CommentDto();
-		e_CommentDto.setEc_pw(pw);
-		e_CommentDto.setM_num(m_num);
+	@PostMapping("ec_pw_check")
+	public int ec_pw_check(E_CommentDto e_CommentDto, @RequestBody String mode, Model model) {
+		String[] trims = mode.split("mode=");//m_num=2&mode=otherOriginal&e_num=24+&ec_pw=1234
+		String[] trims2 = trims[1].split("&");//otherOriginal&e_num=24+&ec_pw=1234
+		String return_mode = trims2[0];//otherOriginal
 		
 		int success = eservice.checkECommentPW(e_CommentDto);
+		
+		if(success==1) {
+			switch(return_mode) {
+			case "otherOriginal" : success=-1; break;
+			case "myOriginal" : success=-2; break;
+			case "myModify" : success=-3; break;		
+			}
+		} else {
+			
+		}
+		System.out.println(success);
 		return success;
 	}
 	

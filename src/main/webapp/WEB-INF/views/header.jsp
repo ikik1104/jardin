@@ -11,7 +11,7 @@
 				<div id="mnaviOpen"><img src="user/images/btn/btn_mnavi.gif" width="33" height="31" alt="메뉴열기" /></div>
 				<div id="mnaviClose"><img src="user/images/btn/btn_mnavi_close.gif" width="44" height="43" alt="메뉴닫기" /></div>
 				<ul>
-					<li><a href="#">EVENT</a></li>
+					<li><a href="event">EVENT</a></li>
 					<li><a href="notice_Ulist">CUSTOMER</a></li>
 					<li><a href="review_list">COMMUNITY</a></li>
 				</ul>
