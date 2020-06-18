@@ -1,7 +1,6 @@
 
 //[[페이지 load되자마자 작동]]------------------------------------------------------------------------------
 $(function(){
-	alert('로드함');
 	//로그인 사용자가 이미 댓글을 달았으면 댓글창 숨김
 	if(document.getElementById('banSign').value=='ban'){
 		$('.replyWrite').hide();
@@ -31,7 +30,6 @@ $(function(){
 		   	 $('.pwReplyOther'+m_num).hide();   			        		   
 		   	 $('#originalReplyOther'+m_num).show();    	
 		   	 location.href='#originalReplyOther'+m_num;	
-		   	 alert('showOtherOriginal');
 	 }
 	
 	//비밀번호창 띄우기
@@ -85,42 +83,7 @@ $(function(){
 		        error : function(){
 		           alert("서버통신실패");
 		        }
-
 			  });			
-		
-		/*
-		var m_num = document.getElementById('pwMnum').value;//조회하려는 
-		var pw = document.getElementById('ec_pw').value;
-		var pw_mnum_blank =  pw+'pleasegogo'+m_num;
-		var pw_mnum =pw_mnum_blank.replace(' ', '');//공백제거
-		
-		        $.ajax({
-		        	/*
-		              url : "ec_pw_check",
-		              method : "POST",
-		              data: JSON.stringify(pw_mnum),
-		              dataType : "json",
-		              contentType: "application/json",
-		              type : "POST",
-		              url : "ec_pw_check",
-		              data : pw_mnum,
-		              contentType : "application/x-www-form-urlencoded; charset=UTF-8",
-		              success : function(val){
-		                 if(val ==1 ){//1이면 성공
-		                	 location.reload();
-		                	 $('#modifyReply').hide();
-		                	 $('#pwReply').hide();   			                	 
-		                	 $('#originalReply').show();   
-		                	 location.href='#originalReply';
-		                 }else{ // 0이면 실패
-		                    alert("비밀번호가 일치하지 않습니다. 다시 시도해 주세요.");
-		                 }
-		              },
-		              error : function(){
-		                 alert("서버통신실패");
-		              }
-		           });			
-		 */
 	}     
 
 
@@ -154,12 +117,8 @@ function submitComment(){
        data:  $("#insertform").serialize(),
        success : function(val){
            if(val ==1 ){//1이면 성공
-           alert('성공');
-      	 location.reload();                
-      	 $('#modifyReply').hide();
-   	 $('#originalReply').show();    	 
-   	 $('#pwReply').hide();   			                	 
-   	 location.href='#originalReply';        
+           alert('성공');                      	    
+           location.reload();
            }else{ // 0이면 실패
               alert("비밀번호가 일치하지 않습니다. 다시 시도해 주세요.");
            }
@@ -178,9 +137,10 @@ function submitComment(){
     //로그인 안 했는데 댓글 등록창 누르면 로그인하라고 얘기
     function checkComment(){
 	    var userID = document.getElementById('userID').value;
+	  
 	   	 if(userID==null || userID==""){
 	   		 if(confirm('로그인이 필요합니다. 로그인 페이지로 이동할까요?')){
-	   			 location.href='login';
+	   			 location.href='login?backpathSlash=none&backpath=user_event_view?e_num='+ecomment_insert.e_num.value;
 	   		 } else {
 	   			 //댓글 등록창 막아 버리기
 	   				$( 'input#ec_pw' ).css('readonly','readonly');

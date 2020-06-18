@@ -53,13 +53,7 @@ public class UserEventController {
 	//이벤트 1개 불러오기
 	@RequestMapping("user_event_view")
 	public String user_event_view(EventDto eventDto, Model model, HttpServletRequest request) {
-		String e_num = request.getParameter("e_numCheck");
-		String checkMode = request.getParameter("checkMode");
-		if(!(e_num=="" || e_num==null)) {//비밀번호 조회하고 돌아올 경우
-			eventDto.setE_num(Integer.parseInt(e_num));
-			model.addAttribute("checkflag", 1);
-			model.addAttribute("checkMode", checkMode);
-		}
+		
 		model.addAttribute("event_info", eservice.getEventBoard(eventDto));
 		model.addAttribute("ecomment_list", eservice.getTheEComments(eventDto));		
 		return response_path+"user_event_view";
