@@ -29,10 +29,32 @@
 <![endif]-->
 <script type="text/javascript">
 $(document).ready(function() {
-	
-
 
 });
+
+//장바구니에 담기
+function cart_insert() {
+	var val = [$("#p_num").val(),$("#ca_amount").val()];
+	
+	$.ajax({
+        type : "POST",
+        url : "cart_insert",
+        data: JSON.stringify(val), 
+        contentType: "application/json",
+        success : function(val){
+           if(val == 1){ //리턴값이 1이면 (=성공)
+              alert("해당제품을 장바구니에 담았습니다.");
+           }else{ // 0이면 실패
+        	   alert("장바구니에 담기 실패");
+           }
+        },
+        error : function(){
+           alert("서버통신실패");
+        }
+	});
+	
+}
+
 </script>
 </head>
 <body>
@@ -63,12 +85,8 @@ $(document).ready(function() {
 
      $(document).ready(function () {
          msiecheck();
-         
          //리뷰 길이 자르기
          textLengthOverCut();
-         //
-         textLengthOverCut();
-         
      });
 
      var msiecheck = function () {
@@ -106,6 +124,9 @@ $(document).ready(function() {
          }
          return txt;
      }
+     
+     
+     
      
 </script>
 
@@ -162,6 +183,7 @@ $(document).ready(function() {
 					</p>
 
 					<div class="priceInfo">
+						<form action="cart_insert" method="post" name="inputForm">
 						<ul>
 							<li>
 								<div class="stit">판매가</div> <div class="heavygray">
@@ -178,7 +200,8 @@ $(document).ready(function() {
 								<div class="stit">용량</div> <div>${pdto.p_capacity}</div>
 							</li>
 							<li>
-								<div class="stit">수량</div> <div class="num"><input id="spinner" value="1" /></div>
+								<div class="stit">수량</div> <div class="num"><input id="ca_amount" value="1" name="ca_amount"/></div>
+								<input type="text"  name="p_num" id="p_num" value="${pdto.p_num}">
 							</li>
 							<li>
 								<div class="stit">평점</div> 
@@ -192,13 +215,14 @@ $(document).ready(function() {
 								</div>
 							</li>
 						</ul>
+						</form>
 					</div>
 
 					<!-- 판매중 -->
 					<div class="infobtn">
 						<ul>
 							<li><a href="#" class="ty1">바로 <span>구매하기</span></a></li>
-							<li><a href="#" class="ty2">장바구니 <span>담기</span></a></li>
+							<li onclick="cart_insert()"><a class="ty2">장바구니 <span>담기</span></a></li>
 							<li class="last"><a href="#" class="ty3">위시 <span>리스트</span></a></li>
 						</ul>
 					</div>
@@ -503,118 +527,60 @@ $(document).ready(function() {
 					<div class="goodsQna disnone">
 						<div class="headTitle depth">
 							<strong>질문과 답변&nbsp;</strong>상품과 관련된 문의와 답변을 하는 공간입니다.
-							<p class="btn"><a href="inquiry_form" class="popBtn">문의하기</a></p>
+							<p class="btn"><a href="inquiry_form?p_num=${pdto.p_num}" class="popBtn">문의하기</a></p>
 						</div>
 
 						<!-- 질문과 답변 -->
 						<div class="accordion">
 							<ul>
-								<li>
-									<div class="headArea">
-										<div class="subject">
-											<a href="javascript:;" class="accbtn">배송기간은 얼마나 걸리나요?</a>
-										</div>
-										<div class="writer">[ezlin****]</div>
-										<div class="day">
-											<p>2014-03-24</p>
-											<p><span class="nbtnMini iw70">답변대기</span></p>
-										</div>
-									</div>
-
-									<div class="hideArea">
-										<div class="bodyArea">
-											배송일은 얼마나 걸리나요?<br/>빨리 받아보고 싶습니다.
-										</div>
-
-										<div class="modify">
-											<a href="#">수정</a>
-											<a href="#">삭제</a>
-										</div>
-									</div>
-									
-								</li>
-
-								<li>
-									<div class="headArea">
-										<div class="subject">
-											<a href="javascript:;" class="accbtn">배송기간은 얼마나 걸리나요?</a>
-										</div>
-										<div class="writer">[ezlin****]</div>
-										<div class="day">
-											<p>2014-03-24</p>
-											<p><span class="obtnMini iw70">답변완료</span></p> 
-										</div>
-									</div>
-
-									<div class="hideArea">
-										<div class="bodyArea">
-											배송일은 얼마나 걸리나요?<br/>빨리 받아보고 싶습니다.
-										</div>
-
-										<!-- 답변 -->
-										<div class="answer">
-											<div class="inbox">
-												<div class="aname">
-													<p>담당자</p>
+								<c:choose>
+									<c:when test="${not empty qna}">
+										<c:forEach var="qna" items="${qna}">
+											<li>
+												<div class="headArea">
+													<div class="subject">
+														<a href="javascript:;" class="accbtn">${qna.QU_TITLE}</a>
+													</div>
+													<div class="writer">[${qna.M_ID}]</div>
+													<div class="day">
+														<p><fmt:formatDate value="${qna.QU_DATE}" pattern="yyyy-MM-dd"/></p>
+														<p><span class="obtnMini iw70">${qna.QU_STATUS}</span></p> 
+													</div>
 												</div>
-
-												<div class="atxt">
-													쟈뎅 커피를 사랑해주셔서 감사합니다.<br/>배송은 결제 후 평군 2~3일 정도 소요됩니다. (공휴일 및 휴일 제외) 산간 도서지방은 배송기간이 더 소요될 수 있으므로 미리 양해 부탁드립니다. 
+			
+												<div class="hideArea">
+													<div class="bodyArea">
+														${qna.QU_CONTENT}
+													</div>
+			
+													<!-- 답변 -->
+													<c:if test="${not empty qna.QA_NUM}">
+														<div class="answer">
+															<div class="inbox">
+																<div class="aname">
+																	<p>담당자</p>
+																</div>
+				
+																<div class="atxt">
+																	${qna.QA_CONTENT}
+																</div>
+															</div>
+														</div>
+													</c:if>
+													<!-- //답변 -->
+			
+													<div class="modify">
+														<a href="#">수정</a>
+														<a href="#">삭제</a>
+													</div>
 												</div>
-											</div>
-										</div>
-										<!-- //답변 -->
-
-										<div class="modify">
-											<a href="#">수정</a>
-											<a href="#">삭제</a>
-										</div>
-
-									</div>
-								</li>
-
-								<li>
-									<div class="headArea">
-										<div class="subject">
-											<a href="event/password.html" class="passbtn">
-												배송기간은 얼마나 걸리나요?
-												<img src="user/images/ico/ico_lock.gif" alt="비밀글" />
-											</a>
-										</div>
-										<div class="writer">[ezlin****]</div>
-										<div class="day">
-											<p>2014-03-24</p>
-											<p><span class="obtnMini iw70">답변완료</span></p> 
-										</div>
-									</div>
-
-									<div class="hideArea">
-										<div class="bodyArea">
-											배송일은 얼마나 걸리나요?<br/>빨리 받아보고 싶습니다.
-										</div>
-
-										<!-- 답변 -->
-										<div class="answer">
-											<div class="inbox">
-												<div class="aname">
-													<p>담당자</p>
-												</div>
-
-												<div class="atxt">
-													쟈뎅 커피를 사랑해주셔서 감사합니다.<br/>배송은 결제 후 평군 2~3일 정도 소요됩니다. (공휴일 및 휴일 제외) 산간 도서지방은 배송기간이 더 소요될 수 있으므로 미리 양해 부탁드립니다. 
-												</div>
-											</div>
-										</div>
-										<!-- //답변 -->
-
-										<div class="modify">
-											<a href="#">수정</a>
-											<a href="#">삭제</a>
-										</div>
-									</div>
-								</li>
-
-
+											</li>
+										</c:forEach>
+									</c:when>
+									<c:otherwise>
+										<li><div>등록된 질문이 없습니다.</div></li>
+									</c:otherwise>
+								</c:choose>
 							</ul>
 						</div>
 						<!-- //질문과 답변 -->

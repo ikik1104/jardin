@@ -1,12 +1,15 @@
 package com.javalec.ex.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
 import com.javalec.ex.dto.BDto;
+import com.javalec.ex.dto.CartDto;
 import com.javalec.ex.dto.ProductDto;
+import com.javalec.ex.dto.QnrUserDto;
 import com.javalec.ex.dto.ReviewUserDto;
 
 @Repository
@@ -41,9 +44,22 @@ public interface ProductDao { //상품
 	//쟈뎅 홈페이지에 리스트 뿌리기
 	//step1 전체
 	List<ProductDto> getU_ProductAllList(String p_step1);
+	
 	//step2
 	List<ProductDto> getU_ProductList(String p_step2);
-
+	
+	//메인에서 제품 검색
+	List<ProductDto> searchProduct(String keyword);
+	
+	//제품 검색 정렬
+	
+	//최신순
+	List<ProductDto> search_sort_new(HashMap<String, Object> map);
+	//가격높은순
+	List<ProductDto> search_sort_high(HashMap<String, Object> map);
+	//가격낮은순
+	List<ProductDto> search_sort_low(HashMap<String, Object> map);
+	
 	//리뷰---------------------------------------------------
 	//리뷰작성
 	int review_insert(ReviewUserDto ruDto);
@@ -56,4 +72,14 @@ public interface ProductDao { //상품
 	
 	//제품의 리뷰 개수 가져오기
 	Integer review_count(int p_num);
+
+	//문의 insert
+	void inquiry_insert(QnrUserDto quDto);
+	
+	//문의 가져오기..
+	List<QnrUserDto> qunOne(int p_num);
+	
+	//장바구니에 담기
+	int cart_insert (CartDto cdto);
+	
 }

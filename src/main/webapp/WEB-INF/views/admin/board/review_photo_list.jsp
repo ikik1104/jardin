@@ -35,19 +35,69 @@
 		</style>
 		<script type="text/javascript">
 
+		function visility_update(status,num) {
+			var change;
+			
+			if(status == "숨김"){
+				change = "노출";
+			}else{
+				change = "숨김";
+			}
+			
+			if(confirm("해당 리뷰의 노출 여부를 '"+change+"' 상태로 변경하시겠습니까?")){
+				$.ajax({
+				      url : "updateStatus",
+				      method : "POST",
+				      data: JSON.stringify(num),
+				      dataType : "json",
+				      contentType: "application/json",
+				      success : function(val){
+				    	  if(val == 1){ //리턴값이 1이면 (=성공)
+					         alert(change+"처리로 변경 되었습니다.");
+					         location.reload(); //페이지 새로고침
+				    	  }else{ // 0이면 실패
+				    		  alert("삭제처리 실패.");
+				    	  }
+				      },
+				      error : function(){
+				         alert("서버통신실패");
+				      }
+				   });
+			}
+		}
+		
+		function faq_delete(val) {
+			
+			if(confirm("해당 faq를 삭제하시겠습니까?")){
+				$.ajax({
+				      url : "faq_delete",
+				      method : "POST",
+				      data: JSON.stringify(val),
+				      dataType : "json",
+				      contentType: "application/json",
+				      success : function(val){
+				    	  if(val == 1){ //리턴값이 1이면 (=성공)
+					         alert("faq가 삭제되었습니다.");
+					         location.reload(); //페이지 새로고침
+				    	  }else{ // 0이면 실패
+				    		  alert("삭제처리 실패.");
+				    	  }
+				      },
+				      error : function(){
+				         alert("서버통신실패");
+				      }
+				   });
+			}
+			
+		}
 		
 		function date_chk2(){
 			var start = inputform.e_start_day.value;
 			var end = inputform.e_end_day.value;
 			
-			var date1 = new Date();
 			var start_date = new Date(start);
 			var end_date = new Date(end);
-			if(end_date.getTime()<date1.getTime()){
-				alert("종료일은 오늘 날짜 이후 or 시작일 이후의 날짜를 선택해주세요.");
-				inputform.e_end_day.value ="";
-				return false;
-			}
+
 			if(end_date.getTime()<start_date.getTime()){
 				alert("시작일 이후의 날짜를 선택해주세요.");
 				inputform.e_end_day.value ="";
@@ -93,10 +143,25 @@
 				start.valueAsDate = date;
 				end.valueAsDate = today;
 			}
-			
-			
 		}
 		
+		
+		//페이지 로딩시
+		$(document).ready(function(){
+			var id;
+			if(${not empty map}){
+				//step2
+				$(".type option").each(function(){
+				    if($(this).val()=="${map.type}"){
+				      $(this).attr("selected","selected"); // attr적용안될경우 prop으로 
+				    }
+				});
+				
+				$("#keyword").attr("value", "${map.keyword}");      
+				$("#e_start_day").attr("value", "${map.e_start_day}"); 
+				$("#e_end_day").attr("value", "${map.e_end_day}"); 
+			}//if
+		});
 		
 </script>
 	</head>
@@ -104,33 +169,32 @@
 	<jsp:include page="../nav/admin_header.jsp"/>
 	<jsp:include page="../nav/board_nav.jsp"/>
 	<section>
-		<h1>상품 리스트</h1>
+		<h1>FAQ 리스트</h1>
 		<div id="main_list">
 			<div id="main_user_list">
 				<h2>임시로 놔두기</h2>
 				<div class="list_count">임시로 놔두기(총 게시물 수 등등 표시?)</div>
 				<div id="search_form">
-					<form name="inputform" method="get" onsubmit="return false;">
+					<form name="inputform" method="post" action="getSearchReview">
 					<table border="1">
 						<tr>
 							<td>검색어</td>
-							<td><select name="">
-								<option>아이디</option>
-								<option>글제목</option>
-								<option>글내용</option>
+							<td><select name="type" class="type">
+								<option value="ru.ru_title">글제목</option>
+								<option value="ru.ru_content">글내용</option>
+								<option value="p.p_name">제품명</option>
 							</select>
-							<input type="text" name="검색키워드">
+							<input type="text" name="keyword" id="keyword" >
 							</td>
 						</tr>
 						<tr id="search_date">
 							<td>기간검색</td>
 							<td>
-						<!--  <fmt:formatDate var="sys" value="${sysdate}" pattern="yyyy-MM-dd"/>-->	
-							<select name="****미정****" >
-								<option>등록일</option>
-								<option>수정일</option>
+							<fmt:formatDate var="sys" value="${sysdate}" pattern="yyyy-MM-dd"/>
+							<select name="dateType" >
+								<option value="p_sysdate">등록일</option>
 							</select>
-							<input type="date" name="e_start_day" id="e_start_day" onchange="date_chk2()"> ~ 
+							<input type="date" name="e_start_day" value="${sys}" id="e_start_day" onchange="date_chk2()"> ~ 
 							<input type="date" name="e_end_day" id="e_end_day" value="${sys}" onchange="date_chk2()">
 							<button type="button" onclick="search_date('today')">오늘</button>
 							<button type="button" onclick="search_date('7day')">7일</button>
@@ -141,7 +205,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td colspan="2"><button onclick="search()">검색</button></td>
+							<td colspan="2"><button type="submit">검색</button></td>
 							<td></td>
 						</tr>
 					</table>
@@ -149,60 +213,42 @@
 					
 				</div>
 				<div>
-					<button type="button" onclick="location.href='event_applicants'">
-						신청자 리스트
-					</button>
-					<button type="button" onclick="location.href='event_write'">
-						새 글 등록
-					</button>					
-				</div>				
-				<div>
 					<table border="1" id="event_list">
 						<tr>
-							<th><input type="checkbox" ></th>						
 							<th>번호</th>
+							<th>리뷰 고유번호</th>
+							<th>첨부이미지</th>
+							<th>제품명</th>
 							<th>제목</th>
-							<th>작성자</th>
+							<th>내용</th>
+							<th>평점</th>
 							<th>등록일</th>
-							<th>시작일</th>
-							<th>종료일</th>
-							<th>쿠폰</th>
-							<th>당첨자 발표일</th>
-							<th>이벤트 상태</th>
-							<th>수정/삭제</th>							
+							<th>조회수</th>
+							<th>답변상태</th>
+							<th>노출여부</th>
+							<th></th>
+							<th></th>
 						</tr>
-						<c:forEach var="AllDtos" items="${AllDtos }">
+						<c:forEach items="${list}" var="list">
 						<tr>
-							<td><input type="checkbox"></td>
-							<td>${AllDtos.eventdto.rownum }</td>
-							<td>
-								<a href="event_view?e_num=${AllDtos.eventdto.e_num}"> 
-									${AllDtos.eventdto.e_title }
-								</a>
-							</td>
-							<td>${AllDtos.admindto.ad_grade }(${AllDtos.admindto.ad_id })</td>
-							<td>${AllDtos.eventdto.e_sysdate }</td>
-							<td>${AllDtos.eventdto.e_start_day }</td>
-							<td>${AllDtos.eventdto.e_end_day }</td>		
-							<c:if test="${AllDtos.eventdto.co_num!=null }">
-								<td>있음</td>
-							</c:if>			
-							<c:if test="${AllDtos.eventdto.co_num==null }">
-								<td>없음</td>
-							</c:if>								
-							<td>${AllDtos.eventdto.e_win_day }</td>
-							<td>${ AllDtos.eventdto.e_status}</td>
-							<td>
-								<button type="button" onclick="location.href='event_view?e_num=${AllDtos.eventdto.e_num}'">
-									수정
-								</button>
-								<button type="button" onclick="del_check(${AllDtos.eventdto.e_num})">삭제</button>
-							</td>
+							<td>${list.ROWNUM}</td>
+							<td>${list.RU_NUM}</td>
+							<td>${list.P_IMG}</td>
+							<td>${list.P_NAME}</td>
+							<td style="cursor: pointer;" onclick="location.href='getReviewDetail?ru_num=${list.RU_NUM}'">${list.RU_TITLE}</td>
+							<td>${list.RU_CONTENT}</td>
+							<td>${list.RU_SCORE}</td>
+							<td>${list.RU_DATE}</td>
+							<td>${list.RU_HIT}</td>
+							<td>${list.RU_STATUS}</td>
+							<td>${list.RU_VISILITY}</td>
+							<td><button type="button" onclick="visility_update('${list.RU_VISILITY}','${list.RU_NUM}')">노출상태 변경</button></td>
+							<td><button type="button" onclick="location.href='list_updateForm?f_num=${list.RU_NUM}'">삭제</button></td>
 						</tr>
-						</c:forEach>						
+						</c:forEach>
 					</table>
 					<div class="detail_btn">
-						<a href="#">임시버튼</a>
+						<a href="faq_insertForm">faq작성하기</a>
 					</div>
 				</div>
 			</div>

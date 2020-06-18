@@ -46,7 +46,7 @@
 .sContents p{width:100%; font-size:16px; font-weight:600; color:#888; line-height:1.4; text-align:center; overflow:hidden; word-break:keep-all;}
 .sContents p strong{display:inline-block; font-size:20px; font-weight:600; color:#444; line-height:1.2; margin:0 0 6px 0;}
 .sContents .searchForm{position:relative; margin:30px 200px 0;}
-.sContents .searchForm .reSearchType{width:478px; height:38px; line-height:38px; font-size:20px; font-weight:600; border:6px #f7703c solid; color:#444; padding:0 0 0 10px; background:url('../images/bg/bg_searchform.gif') left top no-repeat;}
+.sContents .searchForm .reSearchType{width:478px; height:38px; line-height:38px; font-size:20px; font-weight:600; border:6px #f7703c solid; color:#444; padding:0 0 0 10px;}
 .sContents .searchForm .reSearchfocus{width:478px; height:38px; line-height:38px; font-size:20px; font-weight:600; border:6px #f7703c solid; color:#444; padding:0 0 0 10px;}
 .sContents .searchForm .reSearchfocusnot{width:478px; height:38px; line-height:38px; font-size:20px; font-weight:600; border:6px #f7703c solid; color:#444; padding:0 0 0 10px;}
 .sContents .searchForm .btn{position:absolute; right:6px; top:6px;}

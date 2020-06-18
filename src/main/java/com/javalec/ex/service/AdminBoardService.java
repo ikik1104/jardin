@@ -9,6 +9,10 @@ import com.javalec.ex.dto.EnjoyCoffeeDto;
 import com.javalec.ex.dto.FaqDto;
 import com.javalec.ex.dto.MemberDto;
 import com.javalec.ex.dto.MtmUserDto;
+import com.javalec.ex.dto.ProductDto;
+import com.javalec.ex.dto.QnrAnswerDto;
+import com.javalec.ex.dto.QnrUserDto;
+import com.javalec.ex.dto.ReviewUserDto;
 
 public interface AdminBoardService {
 	
@@ -55,19 +59,46 @@ public interface AdminBoardService {
 		//검색
 		List<EnjoyCoffeeDto> getSearchEnjoy(HashMap<String, Object> map);
 
-		
+		//메인에서 제품 검색
 		
 		
 		//상품 후기----------------------------------------------------------
 		//포토후기 가져오기
-		List<EnjoyCoffeeDto> getPhotoReveiw();
+		List<ReviewUserDto> getPhotoReveiw();
 		
 		//일반후기 가져오기
-		public List<EnjoyCoffeeDto> getAllReveiw(String ru_type);
+		public List<ReviewUserDto> getAllReveiw(String ru_type);
 
 		//후기 노출여부 변경
-		void updateStatus(int ru_num);
+		int updateVisility(int ru_num);
 
+		//상품후기 검색
+		List<ReviewUserDto> getSearchReview(HashMap<String, Object> map);
+
+		//후기 상세보기
+		HashMap<String, Object> getReviewDetail(int ru_num);
+
+		//QnA-------------------------------------------------------------
+		//qna 전체 리스트
+		List<QnrUserDto> getQnaList();
+		
+		//qna 하나의 정보
+		QnrUserDto qnaInfo(int qu_num);
+
+		//qna 답변 insert
+		int qna_answer_insert(QnrAnswerDto qaDto);
+
+		//qna 답변 update
+		int qna_answer_update(QnrAnswerDto qaDto);
+
+		//답변가져오기 (수정시 사용)
+		HashMap<String, Object> qna_answer_info(int qu_num);
+
+		//답변 삭제하기
+		int qna_answer_delete(int qu_num);
+
+		//답변 검색
+		List<Object> getSearchQna(HashMap<String, Object> map);
 	
 
 		

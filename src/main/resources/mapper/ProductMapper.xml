@@ -77,21 +77,59 @@
 	
 	<!-- 제품 리뷰 가져오기 (타입별 답글까지 가져와야함)-->
 	<select id="getUserReview"  resultType="hashmap" parameterType="hashmap"> 
-		select ru.*,rpad(substr(m.m_id,1,4),length(m.m_id),'*') as m_id, ra.*, a.ad_grade 
+		select ru.*,rpad(substr(m.m_id,1,3),length(m.m_id),'*') as m_id, ra.*, a.ad_grade 
 		from review_user_tb ru 
 		left join member_tb m on m.m_num = ru.m_num 
 		left join review_answer_tb ra on ra.ru_num = ru.ru_num  
 		left join admin_tb a on ra.ad_num = a.ad_num
         where ru.ru_type= #{ru_type}
  		and ru.p_num = #{p_num}
-        and ru.Ru_visility = '노출'
+        and ru.ru_visility = '노출'
 	</select>
 	
-	<!-- 제품별 count (리뷰 가져올때 가져오면 되는데...group by로 바꿔야 가능할것같다... 그냥..안할래)-->
+	<!-- 제품별 리뷰count (리뷰 가져올때 가져오면 되는데...group by로 바꿔야 가능할것같다... 그냥..안할래)-->
 	<select id="review_count" parameterType="Integer" resultType="Integer">
-		select count(*) from review_user_tb where p_num = #{p_num}
+		select count(*) from review_user_tb where p_num = #{p_num} and ru_visility='노출'
 	</select>
 	
 	
+	<!-- 메인에서 제품 검색 -->
+	<select id="searchProduct" parameterType="String"  resultType="com.javalec.ex.dto.ProductDto" >
+        select * from product_tb where p_name like '%' ||#{keyword} || '%'
+	</select>
+	
+	<!-- 신상품순 정렬 -->
+	<select id="search_sort_new" parameterType="hashmap"  resultType="com.javalec.ex.dto.ProductDto" >
+        select * from product_tb where  p_name like '%' ||#{keyword} || '%' order by p_sysdate desc
+	</select>
+	
+	<!-- 낮은가격순 정렬 -->
+	<select id="search_sort_low" parameterType="hashmap"  resultType="com.javalec.ex.dto.ProductDto" >
+        select * from product_tb where  p_name like '%' ||#{keyword} || '%' order by p_price asc
+	</select>
+	
+	<!-- 가격높은 순 정렬 -->
+	<select id="search_sort_high" parameterType="hashmap"  resultType="com.javalec.ex.dto.ProductDto" >
+        select * from product_tb where  p_name like '%' ||#{keyword} || '%' order by p_price desc
+	</select>
+	
+	
+	<!-- ================================ 질문과 답변 ============================== -->
+	<!-- 질문 insert -->
+	<insert id="inquiry_insert" parameterType="com.javalec.ex.dto.QnrUserDto">
+		insert into qna_user_tb values(qu_seq.nextval,1,#{p_num},#{qu_title},#{qu_content},sysdate,'답변대기',#{qu_pw})
+	</insert>
+	
+	<!-- 제품의 qna 가져오기 -->
+	<select id="qunOne" parameterType="Integer" resultType="hashmap">
+		select qu.*,rpad(substr(m.m_id,1,3),length(m.m_id),'*') as m_id,qa.* from qna_user_tb qu 
+		left join qna_answer_tb qa on qu.qu_num = qa.qa_num
+		left join member_tb m on m.m_num = qu.m_num where p_num = #{p_num}
+	</select>
+	
+	<!-- 장바구니 insert -->
+	<insert id="cart_insert" parameterType="com.javalec.ex.dto.CartDto">
+		insert into cart_tb values(cart_seq.nextval,#{m_num},#{p_num},#{ca_amount},sysdate)
+	</insert>
 	
 </mapper>

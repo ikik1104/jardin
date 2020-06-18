@@ -17,6 +17,9 @@ import com.javalec.ex.dto.EnjoyCoffeeDto;
 import com.javalec.ex.dto.FaqDto;
 import com.javalec.ex.dto.MemberDto;
 import com.javalec.ex.dto.MtmUserDto;
+import com.javalec.ex.dto.QnrAnswerDto;
+import com.javalec.ex.dto.QnrUserDto;
+import com.javalec.ex.dto.ReviewUserDto;
 
 @Service
 public class AdminBoardServiceImp implements AdminBoardService {
@@ -115,28 +118,100 @@ public class AdminBoardServiceImp implements AdminBoardService {
 	
 	//포토후기 가져오기
 	@Override
-	public List<EnjoyCoffeeDto> getPhotoReveiw() {
+	public List<ReviewUserDto> getPhotoReveiw() {
 		return abDao.getPhotoReveiw();
 	}
 	
 	//일반후기 가져오기
 	@Override
-	public List<EnjoyCoffeeDto> getAllReveiw(String ru_type) {
+	public List<ReviewUserDto> getAllReveiw(String ru_type) {
 		return abDao.getAllReveiw(ru_type);
 	}
 
 
 	//노출 상태 변경하기
 	@Override
-	public void updateStatus(int ru_num) {
-		abDao.updateStatus(ru_num);
+	public int updateVisility(int ru_num) {
+		return abDao.updateVisility(ru_num);
 		
 	}
 
 
+	//상품후기 검색
+	@Override
+	public List<ReviewUserDto> getSearchReview(HashMap<String, Object> map){
+		return abDao.getSearchReview(map);
+	}
+
 	
+	//후기 상세보기
+	@Override
+	public HashMap<String, Object> getReviewDetail(int ru_num) {
+		return abDao.getReviewDetail(ru_num);
+	}
 
 
+	//QnA-------------------------------------------------------------
+	//qna 전체 리스트
+	@Override
+	public List<QnrUserDto> getQnaList() {
+		return abDao.getQnaList();
+	}
+
+	//qna 하나의 정보
+	@Override
+	public QnrUserDto qnaInfo(int qu_num) {
+		return abDao.qnaInfo(qu_num);
+	}
+
+	//qna insert
+	@Override
+	public int qna_answer_insert(QnrAnswerDto qaDto) {
+		
+		//답변 등록
+		int chk = abDao.qna_answer_insert(qaDto);
+		if(chk==1) {
+			//상태 답변완료로 수정
+			abDao.qna_status_update(qaDto.getQu_num());
+		}
+		
+		return chk;
+		
+	}
+
+	//qna insert
+	@Override
+	public int qna_answer_update(QnrAnswerDto qaDto) {
+			
+		return abDao.qna_answer_update(qaDto);
+			
+	}
+
+	//답변가져오기 (수정시 사용)
+	@Override
+	public HashMap<String, Object> qna_answer_info(int qu_num) {
+		
+		return abDao.qna_answer_info(qu_num);
+	}
+
+	//답변 수정
+	@Override
+	public int qna_answer_delete(int qu_num) {
+		//답변 등록
+		int chk = abDao.qna_answer_delete(qu_num);
+		if(chk==1) {
+			//상태 답변대기로 수정
+			abDao.qna_status_update(qu_num);
+		}
+		
+		return chk;
+	}
+
+	//답변 검색
+	@Override
+	public List<Object> getSearchQna(HashMap<String, Object> map) {
+		return abDao.getSearchQna(map);
+	}
 
 
 

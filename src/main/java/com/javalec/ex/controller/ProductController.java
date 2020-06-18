@@ -16,10 +16,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.deser.impl.CreatorCandidate.Param;
+import com.javalec.ex.dto.CartDto;
 import com.javalec.ex.dto.ProductDto;
+import com.javalec.ex.dto.QnrUserDto;
 import com.javalec.ex.dto.ReviewUserDto;
 import com.javalec.ex.service.BService;
 import com.javalec.ex.service.ProductService;
+
+import oracle.net.aso.k;
 
 @Controller
 public class ProductController {
@@ -136,22 +140,51 @@ public class ProductController {
 		
 		//일반후기
 		Map<String, Object> basic = new HashMap<>();
-		basic.put("ru_type", "일반후기");
+		basic.put("ru_type", "일반");
 		basic.put("p_num", p_num);
 		model.addAttribute("review", pService.getUserReview(basic));
+		System.out.println(pService.getUserReview(basic));
 		
 		//포토후기
 		Map<String, Object> photo = new HashMap<>();
-		photo.put("ru_type", "포토후기");
+		photo.put("ru_type", "포토");
 		photo.put("p_num", p_num);
 		model.addAttribute("photo", pService.getUserReview(photo));
+		System.out.println(pService.getUserReview(photo));
 		
 		//리뷰 카운트 가져오기
 		model.addAttribute("count", pService.review_count(p_num));
+
+		//질문과 답변
+		model.addAttribute("qna",pService.qunOne(p_num));
+		System.out.println(pService.qunOne(p_num));
 		
 		return "product/detail";
 	}
 	
+//	메인에서 제품 검색
+	@RequestMapping("main_search")
+	public String main_search(String keyword,  Model model) {
+		
+		model.addAttribute("list", pService.searchProduct(keyword));
+		model.addAttribute("keyword", keyword);
+		
+		return "product/search";
+	}
+	
+	//메인에서 제품 검색 정렬
+	@RequestMapping("search_sort")
+	public String search_sort(String keyword, String sort,  Model model) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("keyword", keyword);
+		map.put("sort", sort);
+		
+		model.addAttribute("list", pService.search_sort(map));
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("sort", sort);
+		
+		return "product/search";
+	}
 	
 	//리뷰--------------------------------------------
 	
@@ -178,12 +211,38 @@ public class ProductController {
 		return "product/photo";
 	}
 
-	//문의 test
+	
+	//문의하기 form으로 이동
 	@RequestMapping("inquiry_form")
-	public String inquiry_form(Model model) {
+	public String inquiry_form(int p_num, Model model) {
 		
+		//m_num 세션으로 받을지....
+//		model.addAttribute("m_num", m_num);
+		model.addAttribute("p_num", p_num);
 		
 		return "product/inquiry";
 	}
+	
+	//문의하기 insert
+	@RequestMapping("inquiry_insert")
+	public String inquiry_form(QnrUserDto quDto, Model model) {
+		
+		//m_num 세션으로 받을지....
+		pService.inquiry_insert(quDto);
+		
+		return "product/inquiry";
+	}
+	
+	//장바구니로 이동~~~!~!!~
+	@ResponseBody
+	@RequestMapping("cart_insert")
+	public int cart_insert(@RequestBody int[] val, Model model) {
+		CartDto cdto = new CartDto();
+		cdto.setCa_amount(val[0]);
+		cdto.setP_num(val[1]);
+		
+		return pService.cart_insert(cdto);
+	}
+	
 	
 }

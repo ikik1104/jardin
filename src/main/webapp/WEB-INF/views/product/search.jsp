@@ -63,6 +63,20 @@ $(document).ready(function() {
 
      $(document).ready(function () {
          msiecheck();
+         
+         var keyword = '${keyword}';
+         if(keyword != null || keyword != ""){
+        	 $("#search_input").val(keyword);
+         }
+         
+         var sort = '${sort}';
+//          alert(sort);
+         if(sort != null && sort != ""){
+        	 $("#hot").removeAttr("class");
+        	 $("#"+sort).attr("class", "on")
+         }
+         
+         
      });
 
      var msiecheck = function () {
@@ -108,24 +122,24 @@ $(document).ready(function() {
 		<div id="maxcontents">
 			
 			<div class="sContents">
-				<p><strong><span class="orange">‘원두커피백’</span>에 대한 검색 결과입니다.</strong></p>
+				<p><strong><span class="orange">‘${keyword}’</span>에 대한 검색 결과입니다.</strong></p>
 				<p>다른 상품을 검색하시려면 다시 한번 검색어를 입력하신 후 검색 버튼을 클릭하세요.</p>
 
 				<div class="searchForm">
-					<input type="text" class="reSearchType" onfocus="this.className='reSearchfocus'" onblur="if (this.value.length==0) {this.className='reSearchType'}else {this.className='reSearchfocusnot'}" />
+					<input type="text" class="reSearchType" id="search_input" onfocus="this.className='reSearchfocus'" onblur="if (this.value.length==0) {this.className='reSearchType'}else {this.className='reSearchfocusnot'}" />
 					<div class="btn"><a href="#"><img src="user/images/btn/btn_result_search.gif" alt="검색" /></a></div>
 					<p class="rechk"><input type="checkbox" /><label for="">결과 내 재검색</label></p>
 				</div>
 			</div>
 
 			<div class="tabCategory">
-				<div class="cateLeft"><span class="orange">‘원두커피백’</span> 검색 결과 <span class="orange">15</span>건 </div>
+				<div class="cateLeft"><span class="orange">‘${keyword}’</span> 검색 결과 <span class="orange">${fn:length(list)}</span>건 </div>
 				<div class="cateRight">
 					<ul>
-						<li class="first"><a href="#" class="on">인기도순</a></li>
-						<li><a href="#">신상품순</a></li>
-						<li><a href="#">높은 가격순</a></li>
-						<li class="last"><a href="#">낮은 가격순</a></li>
+						<li class="first"><a href="search_sort?keyword=${keyword}&sort='hot'" class="on" id="hot">인기도순</a></li>
+						<li><a href="search_sort?keyword=${keyword}&sort=new" id="new">신상품순</a></li>
+						<li><a href="search_sort?keyword=${keyword}&sort=higt" id="higt">높은 가격순</a></li>
+						<li class="last"><a href="search_sort?keyword=${keyword}&sort=low" id="low">낮은 가격순</a></li>
 					</ul>
 				</div>
 			</div>
@@ -133,126 +147,15 @@ $(document).ready(function() {
 			<div class="brandList">
 				<ul>
 					<!-- 반복 -->
+					<c:forEach var="list" items="${list}">
 					<li>
 						<a href="#">
 							<div class="img"><img src="user/images/img/sample_brand.jpg" alt="제품이미지" /></div>
-							<div class="name">쟈뎅 바리스타 벨벳<br/>에스프레소 원두커피</div>
-							<div class="price">5,600원</div>
+							<div class="name">[${list.p_step2}] ${list.p_name}</div>
+							<div class="price"><fmt:formatNumber value="${list.p_price}" type="number"/></div>
 						</a>
 					</li>
-					<!-- //반복 -->
-
-					<li>
-						<a href="#">
-							<div class="img"><img src="user/images/img/sample_brand.jpg" alt="제품이미지" /></div>
-							<div class="name">쟈뎅 바리스타 벨벳<br/>에스프레소 원두커피</div>
-							<div class="price">5,600원</div>
-						</a>
-					</li>
-
-					<li>
-						<a href="#">
-							<div class="img"><img src="user/images/img/sample_brand.jpg" alt="제품이미지" /></div>
-							<div class="name">쟈뎅 바리스타 벨벳<br/>에스프레소 원두커피</div>
-							<div class="price">5,600원</div>
-						</a>
-					</li>
-
-					<li>
-						<a href="#">
-							<div class="img"><img src="user/images/img/sample_brand.jpg" alt="제품이미지" /></div>
-							<div class="name">쟈뎅 바리스타 벨벳<br/>에스프레소 원두커피</div>
-							<div class="price">5,600원</div>
-						</a>
-					</li>
-
-					<li>
-						<a href="#">
-							<div class="img"><img src="user/images/img/sample_brand.jpg" alt="제품이미지" /></div>
-							<div class="name">쟈뎅 바리스타 벨벳<br/>에스프레소 원두커피</div>
-							<div class="price">5,600원</div>
-						</a>
-					</li>
-
-					<li>
-						<a href="#">
-							<div class="img"><img src="user/images/img/sample_brand.jpg" alt="제품이미지" /></div>
-							<div class="name">쟈뎅 바리스타 벨벳<br/>에스프레소 원두커피</div>
-							<div class="price">5,600원</div>
-						</a>
-					</li>
-
-					<li>
-						<a href="#">
-							<div class="img"><img src="user/images/img/sample_brand.jpg" alt="제품이미지" /></div>
-							<div class="name">쟈뎅 바리스타 벨벳<br/>에스프레소 원두커피</div>
-							<div class="price">5,600원</div>
-						</a>
-					</li>
-
-					<li>
-						<a href="#">
-							<div class="img"><img src="user/images/img/sample_brand.jpg" alt="제품이미지" /></div>
-							<div class="name">쟈뎅 바리스타 벨벳<br/>에스프레소 원두커피</div>
-							<div class="price">5,600원</div>
-						</a>
-					</li>
-
-					<li>
-						<a href="#">
-							<div class="img"><img src="user/images/img/sample_brand.jpg" alt="제품이미지" /></div>
-							<div class="name">쟈뎅 바리스타 벨벳<br/>에스프레소 원두커피</div>
-							<div class="price">5,600원</div>
-						</a>
-					</li>
-
-					<li>
-						<a href="#">
-							<div class="img"><img src="user/images/img/sample_brand.jpg" alt="제품이미지" /></div>
-							<div class="name">쟈뎅 바리스타 벨벳<br/>에스프레소 원두커피</div>
-							<div class="price">5,600원</div>
-						</a>
-					</li>
-
-					<li>
-						<a href="#">
-							<div class="img"><img src="user/images/img/sample_brand.jpg" alt="제품이미지" /></div>
-							<div class="name">쟈뎅 바리스타 벨벳<br/>에스프레소 원두커피</div>
-							<div class="price">5,600원</div>
-						</a>
-					</li>
-
-					<li>
-						<a href="#">
-							<div class="img"><img src="user/images/img/sample_brand.jpg" alt="제품이미지" /></div>
-							<div class="name">쟈뎅 바리스타 벨벳<br/>에스프레소 원두커피</div>
-							<div class="price">5,600원</div>
-						</a>
-					</li>
-
-					<li>
-						<a href="#">
-							<div class="img"><img src="user/images/img/sample_brand.jpg" alt="제품이미지" /></div>
-							<div class="name">쟈뎅 바리스타 벨벳<br/>에스프레소 원두커피</div>
-							<div class="price">5,600원</div>
-						</a>
-					</li>
-
-					<li>
-						<a href="#">
-							<div class="img"><img src="user/images/img/sample_brand.jpg" alt="제품이미지" /></div>
-							<div class="name">쟈뎅 바리스타 벨벳<br/>에스프레소 원두커피</div>
-							<div class="price">5,600원</div>
-						</a>
-					</li>
-
-					<li>
-						<a href="#">
-							<div class="img"><img src="user/images/img/sample_brand.jpg" alt="제품이미지" /></div>
-							<div class="name">쟈뎅 바리스타 벨벳<br/>에스프레소 원두커피</div>
-							<div class="price">5,600원</div>
-						</a>
-					</li>
+					</c:forEach>
 				</ul>
 			</div>
 

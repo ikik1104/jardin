@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 import com.javalec.ex.dao.BDao;
 import com.javalec.ex.dao.ProductDao;
 import com.javalec.ex.dto.BDto;
+import com.javalec.ex.dto.CartDto;
 import com.javalec.ex.dto.ProductDto;
+import com.javalec.ex.dto.QnrUserDto;
 import com.javalec.ex.dto.ReviewUserDto;
 
 @Service
@@ -102,7 +104,26 @@ public class ProductServiceImpl implements ProductService {
 		return pDao.getU_ProductList(p_step2);
 	}
 
+	//메인에서 제픔 검색
+	@Override
+	public List<ProductDto> searchProduct(String keyword) {
+		return pDao.searchProduct(keyword);
+	}
 
+
+	//제품 검색 정렬
+	@Override
+	public List<ProductDto> search_sort(HashMap<String, Object> map) {
+			if(map.get("sort").equals("new")) {
+				return pDao.search_sort_new(map);
+			}else if(map.get("sort").equals("high")) {
+				return pDao.search_sort_high(map);
+			}else {
+				return pDao.search_sort_low(map);
+			}
+			
+	}
+	
 	
 	//리뷰---------------------------------------------------
 	//리뷰작성
@@ -131,7 +152,26 @@ public class ProductServiceImpl implements ProductService {
 		return pDao.review_count(p_num);
 	}
 
-	
+
+	//질문과 답변
+	@Override
+	public void inquiry_insert(QnrUserDto quDto) {
+		pDao.inquiry_insert(quDto);
+	}
+
+	//질문과 답변 가져오기
+	@Override
+	public List<QnrUserDto> qunOne(int p_num) {
+		return pDao.qunOne(p_num);
+	}
+
+	//장바구니에 담기
+	@Override
+	public int cart_insert(CartDto cdto) {
+		return pDao.cart_insert(cdto);
+	}
+
+
 	
 	
 	

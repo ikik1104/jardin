@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.javalec.ex.dto.BDto;
+import com.javalec.ex.dto.CartDto;
 import com.javalec.ex.dto.ProductDto;
+import com.javalec.ex.dto.QnrUserDto;
 import com.javalec.ex.dto.ReviewUserDto;
 
 public interface ProductService {
@@ -41,7 +43,10 @@ public interface ProductService {
 	List<ProductDto> getU_ProductAllList(String p_step1);
 	//step2
 	List<ProductDto> getU_ProductList(String p_step2);
-
+	//메인에서 제품 검색
+	List<ProductDto> searchProduct(String keyword);
+	//제품 검색 정렬
+	List<ProductDto> search_sort(HashMap<String, Object> map);
 	
 	//리뷰---------------------------------------------------
 	//리뷰작성
@@ -56,5 +61,17 @@ public interface ProductService {
 
 	//제품의 리뷰 개수 가져오기
 	Integer review_count(int p_num);
+
+	
+	//문의 insert
+	void inquiry_insert(QnrUserDto quDto);
+
+	//문의 가져오기..
+	List<QnrUserDto> qunOne(int p_num);
+
+	//장바구니에 담기
+	int cart_insert (CartDto cdto);
+
+
 	
 }

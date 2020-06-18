@@ -35,7 +35,7 @@
 		</style>
 		<script type="text/javascript">
 
-		function delflag_update(status,num) {
+		function visility_update(status,num) {
 			var change;
 			
 			if(status == "숨김"){
@@ -44,11 +44,11 @@
 				change = "숨김";
 			}
 			
-			if(confirm("해당 게시글의 노출 여부를 '"+change+"' 상태로 변경하시겠습니까?")){
+			if(confirm("해당 리뷰의 노출 여부를 '"+change+"' 상태로 변경하시겠습니까?")){
 				$.ajax({
 				      url : "updateStatus",
 				      method : "POST",
-				      data: JSON.stringify(ru_num),
+				      data: JSON.stringify(num),
 				      dataType : "json",
 				      contentType: "application/json",
 				      success : function(val){
@@ -156,13 +156,6 @@
 				      $(this).attr("selected","selected"); // attr적용안될경우 prop으로 
 				    }
 				});
-				
-				$(".f_step option").each(function(){
-				    if($(this).val()=="${map.f_step}"){
-				      $(this).attr("selected","selected"); // attr적용안될경우 prop으로 
-				    }
-				});
-				      
 				$("#keyword").attr("value", "${map.keyword}");      
 				$("#e_start_day").attr("value", "${map.e_start_day}"); 
 				$("#e_end_day").attr("value", "${map.e_end_day}"); 
@@ -181,24 +174,16 @@
 				<h2>임시로 놔두기</h2>
 				<div class="list_count">임시로 놔두기(총 게시물 수 등등 표시?)</div>
 				<div id="search_form">
-					<form name="inputform" method="post" action="getSearchFaq">
+					<form name="inputform" method="post" action="getSearchReview">
 					<table border="1">
 						<tr>
 							<td>검색어</td>
 							<td><select name="type" class="type">
-								<option value="f_title">글제목</option>
-								<option value="f_content">글내용</option>
+								<option value="ru.ru_title">글제목</option>
+								<option value="ru.ru_content">글내용</option>
+								<option value="p.p_name">제품명</option>
 							</select>
-							<input type="text" name="keyword" id="keyword">
-							</td>
-						</tr>
-						<tr>
-							<td>카테고리</td>
-							<td><select name="f_step" class="f_step">
-								<option value="회원">회원</option>
-								<option value="주문">주문</option>
-								<option value="배송">배송</option>
-							</select>
+							<input type="text" name="keyword" id="keyword" >
 							</td>
 						</tr>
 						<tr id="search_date">
@@ -239,21 +224,23 @@
 							<th>조회수</th>
 							<th>답변상태</th>
 							<th>노출여부</th>
+							<th></th>
+							<th></th>
 						</tr>
 						<c:forEach items="${list}" var="list">
 						<tr>
-							<td>${list.rownum}</td>
-							<td>${list.ru_num}</td>
-							<td>${list.p_name}</td>
-							<td>${list.ru_title}</td>
-							<td>${list.ru_content}</td>
-							<td>${list.ru_score}</td>
-							<td>${list.ru_date}</td>
-							<td>${list.ru_hit}</td>
-							<td>${list.ru_status}</td>
-							<td>${list.ru_visility}</td>
-							<td><button type="button" onclick="location.href='list_updateForm?f_num=${list.ru_num}'">수정</button></td>
-							<td><button type="button" onclick="delflag_update('${list.ru_visility}','${list.ru_num}')">노출상태 변경</button></td>
+							<td>${list.ROWNUM}</td>
+							<td>${list.RU_NUM}</td>
+							<td>${list.P_NAME}</td>
+							<td style="cursor: pointer;" onclick="location.href='getReviewDetail?ru_num=${list.RU_NUM}'">${list.RU_TITLE}</td>
+							<td>${list.RU_CONTENT}</td>
+							<td>${list.RU_SCORE}</td>
+							<td>${list.RU_DATE}</td>
+							<td>${list.RU_HIT}</td>
+							<td>${list.RU_STATUS}</td>
+							<td>${list.RU_VISILITY}</td>
+							<td><button type="button" onclick="visility_update('${list.RU_VISILITY}','${list.RU_NUM}')">노출상태 변경</button></td>
+							<td><button type="button" onclick="location.href='list_updateForm?f_num=${list.RU_NUM}'">삭제</button></td>
 						</tr>
 						</c:forEach>
 					</table>

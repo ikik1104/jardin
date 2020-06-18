@@ -35,20 +35,20 @@
 		</style>
 		<script type="text/javascript">
 
-		function delflag_update(f_delflag,f_num) {
+		function visility_update(status,num) {
 			var change;
 			
-			if(f_delflag == "Y"){
+			if(status == "숨김"){
 				change = "노출";
 			}else{
 				change = "숨김";
 			}
 			
-			if(confirm("해당 게시글의 노출 여부를 '"+change+"' 상태로 변경하시겠습니까?")){
+			if(confirm("해당 리뷰의 노출 여부를 '"+change+"' 상태로 변경하시겠습니까?")){
 				$.ajax({
-				      url : "faq_delUpdate",
+				      url : "updateStatus",
 				      method : "POST",
-				      data: JSON.stringify(f_num),
+				      data: JSON.stringify(num),
 				      dataType : "json",
 				      contentType: "application/json",
 				      success : function(val){
@@ -156,49 +156,71 @@
 				      $(this).attr("selected","selected"); // attr적용안될경우 prop으로 
 				    }
 				});
-				
-				$(".f_step option").each(function(){
-				    if($(this).val()=="${map.f_step}"){
-				      $(this).attr("selected","selected"); // attr적용안될경우 prop으로 
-				    }
-				});
-				      
 				$("#keyword").attr("value", "${map.keyword}");      
 				$("#e_start_day").attr("value", "${map.e_start_day}"); 
 				$("#e_end_day").attr("value", "${map.e_end_day}"); 
 			}//if
 		});
 		
+		function insertAnswer(num) { //답변달기
+			var url = "insertAnswerForm?qu_num="+num;
+            var name = "insertAnswer";
+            var option = "width = 500, height = 500, top = 100, left = 200, location = no"
+            window.open(url, name, option);
+			
+		}
+		
+		function UpdateAnswer(num) { //답변 수정하기
+			var url = "updateAnswerForm?qu_num="+num;
+            var name = "insertAnswer";
+            var option = "width = 500, height = 500, top = 100, left = 200, location = no"
+            window.open(url, name, option);
+		}
+		
+		function delAnswer(num) { //답변삭제하기
+			if(confirm("해당 답변을 삭제하시겠습니다? (질문의 상태는 '답변대기'상태로 변경됩니다.)")){
+				$.ajax({
+				      type : "POST",
+				      url : "qna_answer_delete",
+				      dataType : "json",
+				      data: JSON.stringify(num),
+				      contentType: "application/json",
+				      success : function(val){
+				    	  if(val == 1){ //리턴값이 1이면 (=성공)
+					         alert("답변 삭제가 완료되었습니다.");
+					         location.reload();
+				    	  }else{ // 0이면 실패
+				    		  alert("답변삭제 실패.");
+				    	  }
+				      },
+				      error : function(){
+				         alert("서버통신실패");
+				      }
+				   });
+			}
+		}
 </script>
 	</head>
 	<body>
 	<jsp:include page="../nav/admin_header.jsp"/>
 	<jsp:include page="../nav/board_nav.jsp"/>
 	<section>
-		<h1>FAQ 리스트</h1>
+		<h1>질문과 답변 리스트</h1>
 		<div id="main_list">
 			<div id="main_user_list">
 				<h2>임시로 놔두기</h2>
 				<div class="list_count">임시로 놔두기(총 게시물 수 등등 표시?)</div>
 				<div id="search_form">
-					<form name="inputform" method="post" action="getSearchFaq">
+					<form name="inputform" method="post" action="getSearchQna">
 					<table border="1">
 						<tr>
 							<td>검색어</td>
 							<td><select name="type" class="type">
-								<option value="f_title">글제목</option>
-								<option value="f_content">글내용</option>
+								<option value="qu.qu_title">문의 제목</option>
+								<option value="qu.qu_content">문의 내용</option>
+								<option value="p.p_name">제품명</option>
 							</select>
-							<input type="text" name="keyword" id="keyword">
-							</td>
-						</tr>
-						<tr>
-							<td>카테고리</td>
-							<td><select name="f_step" class="f_step">
-								<option value="회원">회원</option>
-								<option value="주문">주문</option>
-								<option value="배송">배송</option>
-							</select>
+							<input type="text" name="keyword" id="keyword" >
 							</td>
 						</tr>
 						<tr id="search_date">
@@ -228,47 +250,39 @@
 				</div>
 				<div>
 					<table border="1" id="event_list">
-						<colgroup>
-							<col width="3%">
-							<col width="3%">
-							<col width="5%">
-							<col width="20%">
-							<col width="50%">
-							<col width="5%">
-							<col width="3%">
-							<col width="3%">
-							<col width="6%">
-							<col width="5%">
-						</colgroup>
 						<tr>
 							<th>번호</th>
-							<th>FAQ고유번호</th>
-							<th>카테고리</th>
-							<th>제목</th>
-							<th>답변</th>
-							<th>작성일</th>
-							<th>노출여부</th>
-							<th>수정</th>
-							<th>상태변경</th>
+							<th>제품명</th>
+							<th>문의 제목</th>
+							<th>문의 내용</th>
+							<th>문의 날짜</th>
+							<th>문의자 id</th>
+							<th>답변상태</th>
+							<th>답변 내용</th>
+							<th>답변일</th>
 							<th></th>
+							<th></th>
+							
 						</tr>
-						<c:forEach items="${list}" var="faq">
+						<c:forEach items="${list}" var="list">
 						<tr>
-							<td>${faq.rownum}</td>
-							<td>${faq.f_num}</td>
-							<td>${faq.f_step}</td>
-							<td>${faq.f_title}</td>
-							<td>${faq.f_content}</td>
-							<td><fmt:formatDate value="${faq.f_sysdate}" pattern="yy/MM/dd"/></td>
-							<c:if test="${faq.f_delflag eq 'N'}">
-								<td>노출</td>
+							<td>${list.ROWNUM}</td>
+							<td>${list.P_NAME}</td>
+							<td>${list.QU_TITLE}</td>
+							<td>${list.QU_CONTENT}</td>
+							<td><fmt:formatDate value="${list.QU_DATE}" pattern="yyyy-MM-dd"/></td>
+							<td>${list.M_ID}</td>
+							<c:if test="${list.QU_STATUS eq '답변대기'}">
+								<td colspan="3" style="color : red;">${list.QU_STATUS}</td>
+								<td colspan="2"><button type="button" onclick="insertAnswer('${list.QU_NUM}')">답변달기</button></td>
 							</c:if>
-							<c:if test="${faq.f_delflag eq 'Y'}">
-								<td>숨김</td>
+							<c:if test="${list.QU_STATUS eq '답변완료'}">
+								<td>${list.QU_STATUS}</td>
+								<td>${list.QA_CONTENT}</td>
+								<td><fmt:formatDate value="${list.QA_DATE}" pattern="yyyy-MM-dd"/></td>
+								<td><button type="button" onclick="UpdateAnswer('${list.QU_NUM}')">답변수정</button></td>
+								<td><button type="button" onclick="delAnswer('${list.QU_NUM}')">답변 초기화</button></td>
 							</c:if>
-							<td><button type="button" onclick="location.href='faq_updateForm?f_num=${faq.f_num}'">수정</button></td>
-							<td><button type="button" onclick="delflag_update('${faq.f_delflag}','${faq.f_num}')">노출상태 변경</button></td>
-							<td><button type="button" onclick="faq_delete('${faq.f_num}')">삭제</button></td>
 						</tr>
 						</c:forEach>
 					</table>

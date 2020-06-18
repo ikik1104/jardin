@@ -106,9 +106,73 @@
 		update review_user_tb set ru_status = '답변완료' where ru_num = #{ru_num}
 	</update>
 	
-	<!-- 답글 지우면 답변대기로 변경????? -->
-	<update id="updateStatus" parameterType="Integer">
-		update review_user_tb set ru_status = '답변대기' where ru_num = #{ru_num}
+	
+	<!-- 후기  검색 -->
+	<select id="getSearchReview" parameterType="hashmap"  resultType="map" >
+       select ru.*,p.p_name from review_user_tb ru left join product_tb p on p.p_num = ru.p_num where
+ 		ru.ru_date between to_date(#{e_start_day},'yy/MM/dd') and to_date(#{e_end_day},'yy/MM/dd')+1 and 
+        ${type} like '%' || #{keyword}|| '%'
+	</select>
+	
+	<!-- 후기 상세보기 -->
+	<select id="getReviewDetail" parameterType="Integer" resultType="map">
+		 select ru.*,p.p_name from review_user_tb ru left join product_tb p on p.p_num = ru.p_num where ru.ru_num = #{ru_num}
+	</select>
+	
+	<!-- QnA -->
+	<!-- QnA전체 리스트 -->
+	<select id="getQnaList" resultType="hashmap">
+		select rownum,qu.*,m.m_id,p.p_name,qa.* from qna_user_tb qu
+		left join product_tb p on p.p_num = qu.p_num
+		left join member_tb m on m.m_num = qu.m_num
+		left join qna_answer_tb qa on qa.qu_num = qu.qu_num
+	</select>
+	
+	<!-- QnA하나의 정보 -->
+	<select id="qnaInfo" parameterType="Integer" resultType="com.javalec.ex.dto.QnrUserDto">
+		select * from qna_user_tb where qu_num = #{qu_num}
+	</select>
+	
+	<!-- 답변 insert -->
+	<insert id="qna_answer_insert" parameterType="com.javalec.ex.dto.QnrAnswerDto">
+		insert into qna_answer_tb values(qa_seq.nextval,#{qu_num},1,#{qa_content},sysdate)
+	</insert>
+	
+	<!-- 문의 처리상태 변경 -->
+	<update id="qna_status_update" parameterType="Integer">
+		update qna_user_tb set 
+		qu_status = case 
+		when qu_status = '답변대기' then '답변완료' 
+		when qu_status = '답변완료' then '답변대기'
+		end
+		where qu_num = #{qu_num}
 	</update>
+	
+	<!-- 답변 수정  -->
+	<update id="qna_answer_update" parameterType="com.javalec.ex.dto.QnrAnswerDto">
+		update qna_answer_tb set qa_content = #{qa_content} where qa_num = #{qa_num}
+	</update>
+	
+	<!-- 답변 하나의 정보 -->
+	<select id="qna_answer_info" parameterType="Integer" resultType="hashmap">
+		select qu.qu_content,qa.* from qna_answer_tb qa left join qna_user_tb qu on qa.qu_num=qu.qu_num where qu.qu_num = #{qu_num}
+	</select>
+	
+	<!-- 답변 삭제 (다시 대기 상태로) -->
+	<delete id="qna_answer_delete" parameterType="Integer">
+		delete from qna_answer_tb where qu_num = #{qu_num}
+	</delete>
+	
+	<!-- 답변 검색 -->
+	<select id="getSearchQna" resultType="hashmap" parameterType="hashmap">
+		select rownum,qu.*,qa.*,p.p_name,m.m_id from qna_user_tb qu 
+		left join qna_answer_tb qa on qa.qu_num= qu.qu_num 
+		left join product_tb p on p.p_num = qu.p_num
+		left join member_tb m on m.m_num = qu.m_num
+		where qu.qu_date between to_date(#{e_start_day},'yy/MM/dd') 
+ 		and to_date(#{e_end_day},'yy/MM/dd')+1 
+ 		and ${type} like '%' || #{keyword}|| '%'
+	</select>
+	
 	
 </mapper>

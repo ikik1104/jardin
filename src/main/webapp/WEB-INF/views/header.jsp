@@ -21,11 +21,12 @@
 					<li><a href="#">MY PAGE</a></li>
 					<li><a href="#">CART</a></li>
 				</ul>
-
-				<div id="search">
-					<input type="text" class="searchType" />
-					<input type="image" src="user/images/btn/btn_main_search.gif" width="23" height="20" alt="검색하기" />
-				</div>
+				<form action="main_search" method="get" name="search">
+					<div id="search">
+						<input type="text" class="searchType" name="keyword" />
+						<input type="image" src="user/images/btn/btn_main_search.gif" width="23" height="20" alt="검색하기" />
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>

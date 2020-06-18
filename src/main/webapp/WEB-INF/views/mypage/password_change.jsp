@@ -33,7 +33,7 @@ function pw_ch(){
            success : function(val){
               if(val == 1){ //리턴값이 1이면 (=성공)
                  alert("비밀번호 변경이 완료되었습니다.");
-             	 parent.$.fancybox.close();;
+             	 parent.$.fancybox.close();
               }else{ // 0이면 실패
                  $('#pw_check').text('비밀번호가 일치하지 않습니다.');
               }

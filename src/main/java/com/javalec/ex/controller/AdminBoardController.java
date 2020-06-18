@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.javalec.ex.dto.EnjoyCoffeeDto;
 import com.javalec.ex.dto.FaqDto;
+import com.javalec.ex.dto.QnrAnswerDto;
+import com.javalec.ex.dto.QnrUserDto;
 import com.javalec.ex.service.AdminBoardService;
 import com.javalec.ex.service.ProductService;
 
@@ -179,10 +181,10 @@ public class AdminBoardController {
 	
 	
 	//포토 상품 후기
-	@RequestMapping("getPhotoReveiw")
+	@RequestMapping("getPhotoReview")
 	public String getPhotoReveiw(Model model) {
 		
-		model.addAttribute("list",abService.getAllReveiw("포토후기")) ;
+		model.addAttribute("list",abService.getAllReveiw("포토")) ;
 		
 		return "admin/board/review_photo_list";
 	}
@@ -191,7 +193,7 @@ public class AdminBoardController {
 	@RequestMapping("getReveiw")
 	public String getReveiw(Model model) {
 			
-		model.addAttribute("list",abService.getAllReveiw("일반후기")) ;
+		model.addAttribute("list",abService.getAllReveiw("일반")) ;
 			
 		return "admin/board/review_list";
 	}
@@ -200,12 +202,101 @@ public class AdminBoardController {
 	//리뷰 노출 여부 변경
 	@ResponseBody
 	@RequestMapping("updateStatus")
-	public String updateStatus(@RequestBody int ru_num, Model model) {
+	public int updateStatus(@RequestBody int ru_num, Model model) {
 			
-		abService.updateStatus(ru_num);
+		return abService.updateVisility(ru_num);
+	}
+	
+	
+	//상품후기 검색기능
+	@RequestMapping("getSearchReview")
+	public String getSearchReview(@RequestParam HashMap<String, Object> map, Model model) {
+		model.addAttribute("list",abService.getSearchReview(map)) ;
+		model.addAttribute("map", map);
 			
 		return "admin/board/review_list";
 	}
+	
+	//리뷰 상세보기
+	@RequestMapping("getReviewDetail")
+	public String getReviewDetail(@RequestParam int ru_num, Model model) {
+		model.addAttribute("ruDto",abService.getReviewDetail(ru_num)) ;
+			
+		return "admin/board/review_view";
+	}
+	
+	//qna-------------------------------------------------------------------------------------
+	
+	//qna 전체 리스트
+	@RequestMapping("getQnaList")
+	public String getQnaList(Model model) {
+		
+		model.addAttribute("list",abService.getQnaList()) ;
+		System.out.println(abService.getQnaList());
+		
+		return "admin/board/qna_list";
+	}
+	
+	//답글달기 창(팝업으로 이동)
+	@RequestMapping("insertAnswerForm")
+	public String insertAnswerForm(String qu_content,int qu_num, Model model) {
+		
+		model.addAttribute("dto",abService.qnaInfo(qu_num));
+		
+		return "admin/board/qna_insert_pop";
+	}
+	
+	//답글달기
+	@ResponseBody
+	@RequestMapping("qna_answer_insert")
+	public int qna_answer_insert(@RequestBody String[] values ,Model model) {
+		QnrAnswerDto qaDto = new QnrAnswerDto();
+		qaDto.setQu_num(Integer.parseInt(values[0]));
+		qaDto.setQa_content(values[1]);
+		
+		return abService.qna_answer_insert(qaDto);
+	}
+	
+	//답글 수정 form으로 이동
+	@RequestMapping("updateAnswerForm")
+	public String updateAnswerForm(int qu_num ,Model model) {
+		
+		//qu_num으로 답변정보 빼오기
+		model.addAttribute("dto", abService.qna_answer_info(qu_num));
+		
+		return "admin/board/qna_update_pop";
+	}
+	
+	//답글 수정하기
+	@ResponseBody
+	@RequestMapping("qna_answer_update")
+	public int qna_answer_update(@RequestBody String[] values ,Model model) {
+		QnrAnswerDto qaDto = new QnrAnswerDto();
+		qaDto.setQa_num(Integer.parseInt(values[0]));
+		qaDto.setQa_content(values[1]);
+		
+		return abService.qna_answer_update(qaDto);
+	}
+	
+	
+	//답글 삭제(답변대기상태로 돌아간)
+	@ResponseBody
+	@RequestMapping("qna_answer_delete")
+	public int qna_answer_delete(@RequestBody int qu_num ,Model model) {
+			
+		return abService.qna_answer_delete(qu_num);
+	}
+	
+	
+	//질문과 답변 검색기능
+	@RequestMapping("getSearchQna")
+	public String getSearchQna(@RequestParam HashMap<String, Object> map, Model model) {
+		model.addAttribute("list",abService.getSearchQna(map)) ;
+		model.addAttribute("map", map);
+			
+		return "admin/board/qna_list";
+	}
+	
 	
 	
 }

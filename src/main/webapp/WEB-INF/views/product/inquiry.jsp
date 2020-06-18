@@ -30,7 +30,8 @@ $(function() {
 	<div class="inputBody">
 		<div class="title">질문과 답변</div>
 		<p class="close"><a onclick="parent.$.fancybox.close();" href="javascript:;"><img src="user/images/btn/btn_input_close.gif" alt="닫기" /></a></p>
-			
+		
+		<form action="inquiry_insert" method="post" name="inquiry">	
 		<div class="checkDivMt">
 			<table summary="문의사항을 비밀번호, 제목, 내용 순으로 작성 하실수 있습니다." class="checkTable" border="1" cellspacing="0">
 				<caption>질문과 답변</caption>
@@ -42,30 +43,33 @@ $(function() {
 					<tr>
 						<th scope="row"><span>비밀번호</span></th>
 						<td>
-							<input type="password" class="w134" />
+							<input type="password" name="qu_pw" class="w134" />
 						</td>
 					</tr>
 					<tr>
 						<th scope="row"><span>제목</span></th>
 						<td>
-							<input type="text" class="wlong" />
+							<input type="text" name="qu_title" class="wlong" />
 						</td>
 					</tr>
 					<tr>
 						<th scope="row"><span>내용</span></th>
 						<td>
-							<textarea class="tta"></textarea>
+							<textarea class="tta"  name="qu_content"></textarea>
+							<input type="hidden" name="p_num" value="${p_num}">
+<%-- 							<input type="hidden" name="m_num" value="${m_num}"> --%>
 						</td>
 					</tr>								
 				</tbody>
 			</table>
 		</div>
+		</form>
 			
 		<!-- Btn Area -->
 		<div class="btnArea">
 			<div class="bCenter">
 				<ul>								
-					<li><a href="#" class="sbtnMini">확인</a></li>
+					<li><a href="#" onclick="javascript:inquiry.submit();" class="sbtnMini">확인</a></li>
 					<li><a onclick="parent.$.fancybox.close();" href="javascript:;" class="nbtnbig">취소</a></li>
 				</ul>
 			</div>
