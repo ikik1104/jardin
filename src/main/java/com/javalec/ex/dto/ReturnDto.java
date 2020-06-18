@@ -14,13 +14,15 @@ public class ReturnDto {
 	private String rt_reason; //반품교환 사유
 	private Timestamp rt_receipt_date; //반품교환 접수일
 	private Timestamp rt_end_date; //반품교환 완료일
+	private String ol_order_num;
+	private String p_name;
 
 	public ReturnDto() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	public ReturnDto(int rt_num, int rt_receipt_num, int ol_num, String rt_sort, int rt_amount, String rt_status,
-			String rt_reason, Timestamp rt_receipt_date, Timestamp rt_end_date) {
+			String rt_reason, Timestamp rt_receipt_date, Timestamp rt_end_date, String ol_order_num, String p_name) {
 		super();
 		this.rt_num = rt_num;
 		this.rt_receipt_num = rt_receipt_num;
@@ -31,12 +33,25 @@ public class ReturnDto {
 		this.rt_reason = rt_reason;
 		this.rt_receipt_date = rt_receipt_date;
 		this.rt_end_date = rt_end_date;
+		this.ol_order_num = ol_order_num;
+		this.p_name=p_name;
 	}
 
+	public String getOl_order_num() {
+		return ol_order_num;
+	}
+	public void setOl_order_num(String ol_order_num) {
+		this.ol_order_num = ol_order_num;
+	}
+	public String getP_name() {
+		return p_name;
+	}
+	public void setP_name(String p_name) {
+		this.p_name = p_name;
+	}
 	public int getRownum() {
 		return rownum;
 	}
-
 	public void setRownum(int rownum) {
 		this.rownum = rownum;
 	}		

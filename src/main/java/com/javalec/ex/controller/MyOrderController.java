@@ -82,19 +82,44 @@ public class MyOrderController {
 	static int i=1;
 	//환불, 결제취소 접수
 	@RequestMapping("refund_request")
-	public String refund_request(RefundSetDto refundSetDto) {
+	public String refund_request(RefundSetDto refundSetDto, HttpServletRequest request, HttpSession session) {
 		// 환불고유번호 생성 변수2 (RF_RECEIPT_NUM)
 		SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat ( "yyyyMMdd", Locale.KOREA );
 		Date currentTime = new Date ();
 		String time1 = mSimpleDateFormat.format(currentTime);
 		String rf_receipt_num = "rf"+time1+"_"+i;
-		//중첩 커맨드 객체에 담아서 데이터 가져오기
-		for(int i=0; i<refundSetDto.getRefundDto().size(); i++) {
-			int ol_num = refundSetDto.getRefundDto().get(i).getOl_num();
-			int rf_price = refundSetDto.getRefundDto().get(i).getRf_price();
-			ocService.refundRequest(rf_receipt_num, ol_num, rf_price); //환불 테이블에 insert
+		String m_id = (String) session.getAttribute("userID");
+		
+//		 indexArra request.getParameterValues("index");
+		//체크된 얘의 인덱스를 파라미터로 동시에 넘겨줘서 받은 다음 , 기준으로 스플릿 한다.
+		//포문 돌려서 배열로 각각의 스플릿한 값을 담는데, 바로 아래 get(i) 자리에 넣어서 처리하
+		//배열 사이즈 만큼 랭스만큼? 암튼 포문 돌리고  그 배열 값을 i 자리에 넣어서 처리하면 되지 않을까?
+		
+		//관건은..리퀘스트로 과연 index 를 배열로 받아오느냐 아니냐..
+		
+		String[] indexArray = request.getParameterValues("index");
+		for(int i=0; i<indexArray.length; i++) {
+			int ol_num = refundSetDto.getRefundDto().get(Integer.parseInt(indexArray[i])).getOl_num();
+			int rf_price = refundSetDto.getRefundDto().get(Integer.parseInt(indexArray[i])).getRf_price();
+			String p_name = refundSetDto.getRefundDto().get(Integer.parseInt(indexArray[i])).getP_name();
+			String ol_order_num = refundSetDto.getRefundDto().get(Integer.parseInt(indexArray[i])).getOl_order_num();
+			ocService.refundRequest(rf_receipt_num, ol_num, rf_price, ol_order_num, p_name, m_id); //환불 테이블에 insert
 			ocService.updateOrderStatus(ol_num, 0); // 주문리스트에서 상태 반품/취소으로 변경
 		}
+		
+		
+		//중첩 커맨드 객체에 담아서 데이터 가져오기
+//		for(int i=0; i<refundSetDto.getRefundDto().size(); i++) {
+//			int ol_num = refundSetDto.getRefundDto().get(i).getOl_num();
+//			int rf_price = refundSetDto.getRefundDto().get(i).getRf_price();
+//			String p_name = refundSetDto.getRefundDto().get(i).getP_name();
+//			System.out.println(p_name);
+//			String ol_order_num = refundSetDto.getRefundDto().get(i).getOl_order_num();
+//			System.out.println(ol_order_num);
+//			ocService.refundRequest(rf_receipt_num, ol_num, rf_price, ol_order_num, p_name, m_id); //환불 테이블에 insert
+//			ocService.updateOrderStatus(ol_num, 0); // 주문리스트에서 상태 반품/취소으로 변경
+//		}
+		i+=1;
 		return "mypage/refund_request_success";
 	}
 	
@@ -118,6 +143,7 @@ public class MyOrderController {
 		model.addAttribute("ol_price", info[3]);
 		model.addAttribute("p_name", info[4]);
 		model.addAttribute("origin_price", info[5]);
+		model.addAttribute("ol_order_num", info[6]);
 		return "mypage/takeback_delivery";
 	}
 	
@@ -126,17 +152,18 @@ public class MyOrderController {
 	//반품 접수
 	@ResponseBody
 	@RequestMapping("return_request")
-	public int return_reqeust(@RequestBody String[] rtinfo) {
+	public int return_reqeust(@RequestBody String[] rtinfo, HttpSession session) {
 		SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat ( "yyyyMMdd", Locale.KOREA );
 		Date currentTime = new Date ();
 		String time1 = mSimpleDateFormat.format(currentTime);
 		String rt_receipt_num = "rt"+time1+"_"+j;
+		String m_id = (String) session.getAttribute("userID");
 		//반품리스트 인서트 //0 ol_num, [1] ol_amt(반품할 수량), [2]origin_amt(원래 수량), [3]ol_price(반품시 돌려받을 예상 금액), [4]p_name, [5]origin_price(원래금액)
-		int success = ocService.returnRq(Integer.parseInt(rtinfo[0]), rtinfo[1], rtinfo[2], Integer.parseInt(rtinfo[4]), rt_receipt_num);
+		int success = ocService.returnRq(Integer.parseInt(rtinfo[0]), rtinfo[1], rtinfo[2], Integer.parseInt(rtinfo[4]), rt_receipt_num, rtinfo[6], rtinfo[7], m_id);
 		//주문리스트 수량, 제품최종결제금액(ol_final_price) 업데이트
+		System.out.println(rtinfo[6]+"이건 오더넘");
+		System.out.println(rtinfo[7]+"이건 피넴");
 		int ol_amt = Integer.parseInt(rtinfo[3]) - Integer.parseInt(rtinfo[1]);
-		System.out.println(Integer.parseInt(rtinfo[3]));
-		System.out.println(Integer.parseInt(rtinfo[1]));
 		int ol_price = Integer.parseInt(rtinfo[5]) - Integer.parseInt(rtinfo[4]);
 		if(ol_amt == 0) {
 			ocService.updateOrderStatus(Integer.parseInt(rtinfo[0]), ol_amt);//전체 수량 반품이면 상태를 반품접수 로 바꿈
@@ -144,6 +171,7 @@ public class MyOrderController {
 			ocService.updateOrderAmount(rtinfo[0], ol_amt, ol_price); //일부 수량 반품이면 기존 orderlist_tb에서 수량을 차감시킨다(update)
 		}
 		// 그리고 상태를 일부반품 으로 바꾸자...
+		j+=1;
 		return success;
 	}
 	

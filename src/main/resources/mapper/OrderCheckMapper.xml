@@ -35,8 +35,8 @@
 
 	<!-- 주문단위 상품들 불러오기 -->
 	<select id="getOneSetOrder" resultType="HashMap">
-		select rownum rnum, ot.ol_num, pt.p_name, ot.ol_amt, ot.ol_final_price, ot.ol_status 
-		from (select ol_num, p_num, ol_amt, ol_final_price, ol_status from orderlist_tb where ol_order_num = #{ ol_order_num } and ol_status not in ('반품/취소')) ot, product_tb pt
+		select rownum rnum, ot.ol_order_num, ot.ol_num, pt.p_name, ot.ol_amt, ot.ol_final_price, ot.ol_status 
+		from (select ol_order_num, ol_num, p_num, ol_amt, ol_final_price, ol_status from orderlist_tb where ol_order_num = #{ ol_order_num } and ol_status not in ('반품/취소')) ot, product_tb pt
 		where ot.p_num = pt.p_num
 		order by rnum asc
 	</select>
@@ -44,12 +44,13 @@
 	<!-- 반품신청 -->
 	<insert id="returnRq">
 		insert into return_tb values 
-		(rt_seq.nextval, #{param1}, '반품', #{param2}, default, #{param3}, sysdate, null, #{param4}, #{param5})
+		(rt_seq.nextval, #{param1}, '반품', #{param2}, default, #{param3}, sysdate, null, #{param4}, #{param5}, #{param6}, #{param7}, #{param8})
 	</insert>
 	
 	<!-- 수량 전체 반품 시 주문상품 ...(주문 아니라 주문 건 안에서의 상품 하나) -->
 	<delete id="updateOrderStatus">
-		update orderlist_tb set ol_amt=#{param2}, ol_final_price=0, ol_status='반품/취소' where ol_num=#{param1}
+		delete from orderlist_tb where ol_num=#{param1}
+<!-- 		update orderlist_tb set ol_amt=#{param2}, ol_final_price=0, ol_status='반품/취소' where ol_num=#{param1} -->
 	</delete>
 	
 	<!-- 수량 일부 반품시 주문상품 수량 변경 -->
@@ -91,40 +92,34 @@
 	<insert id="refundRequest">
 		insert into refund_tb values
 		(rf_seq.nextval, #{rf_receipt_num}, #{ol_num}, #{rf_price}, '환불접수', 
-		(select ol_payment from orderlist_tb where ol_num=#{ol_num}), sysdate, null, '취소')
+		(select wm_concat(ol_payment) from orderlist_tb where ol_num=#{ol_num}), sysdate, null, '취소', #{ol_order_num}, #{p_name}, #{m_id})
 	</insert>
 
 	<!-- 반품 테이블(특정회원) -->
 	<select id="countReturnRefund" resultType="Integer">
 		select count(*) from
-		(select rt_receipt_num, wm_concat(distinct ol.ol_order_num) ol_order_num, wm_concat(distinct pd.p_name) p_name, wm_concat(distinct rt_receipt_date) rtf_date, wm_concat(distinct rt_sort) rtf_sort, sum(distinct rt_price) rtf_price, wm_concat(distinct rt_status) rtf_status from return_tb rt
-		left join orderlist_tb ol on ol.ol_num=rt.ol_num
-		left join product_tb pd on pd.p_num=ol.p_num
-		where ol.ol_orderer_id=#{m_id}
-		group by rt.rt_receipt_num
-		union
-		select rf_receipt_num, wm_concat(distinct ol.ol_order_num), wm_concat(distinct pd.p_name), wm_concat(distinct rf_receipt_date), wm_concat(distinct rf_sort), sum(distinct rf_price), wm_concat(distinct rf_status) from refund_tb rf
-		left join orderlist_tb ol on ol.ol_num=rf.ol_num
-		left join product_tb pd on pd.p_num=ol.p_num
-		where ol.ol_orderer_id=#{m_id} and rf.rf_sort='취소'
-		group by rf.rf_receipt_num) rtf
+		(select rownum rnum, rtf.* from
+        (select rt_receipt_num, wm_concat(distinct ol_order_num) ol_order_num, wm_concat(distinct p_name) p_name, wm_concat(distinct rt_receipt_date) rtf_date, wm_concat(distinct rt_sort) rtf_sort, sum(distinct rt_price) rtf_price, wm_concat(distinct rt_status) rtf_status from return_tb
+        where m_id = #{m_id}
+        group by rt_receipt_num
+        union
+        select rf_receipt_num, wm_concat(distinct ol_order_num), wm_concat(distinct p_name), wm_concat(distinct rf_receipt_date), wm_concat(distinct rf_sort), sum(distinct rf_price), wm_concat(distinct rf_status) from refund_tb
+        where m_id = #{m_id} and rf_sort='취소'
+        group by rf_receipt_num) rtf)
+	
 	</select>
 	
 	<!-- 반품, 결제취소 항목 가져오기(환불테이블 아님 주의!!!!!) -->
 	<select id="getAllRtrf" resultType="HashMap">
 		select * from
 		(select rownum rnum, rtf.* from
-		(select rt_receipt_num, wm_concat(distinct ol.ol_order_num) ol_order_num, wm_concat(distinct pd.p_name) p_name, wm_concat(distinct rt_receipt_date) rtf_date, wm_concat(distinct rt_sort) rtf_sort, sum(distinct rt_price) rtf_price, wm_concat(distinct rt_status) rtf_status from return_tb rt
-		left join orderlist_tb ol on ol.ol_num=rt.ol_num
-		left join product_tb pd on pd.p_num=ol.p_num
-		where ol.ol_orderer_id=#{m_id}
-		group by rt.rt_receipt_num
-		union
-		select rf_receipt_num, wm_concat(distinct ol.ol_order_num), wm_concat(distinct pd.p_name), wm_concat(distinct rf_receipt_date), wm_concat(distinct rf_sort), sum(distinct rf_price), wm_concat(distinct rf_status) from refund_tb rf
-		left join orderlist_tb ol on ol.ol_num=rf.ol_num
-		left join product_tb pd on pd.p_num=ol.p_num
-		where ol.ol_orderer_id=#{m_id} and rf.rf_sort='취소'
-		group by rf.rf_receipt_num) rtf)s
+        (select rt_receipt_num, wm_concat(distinct ol_order_num) ol_order_num, wm_concat(distinct p_name) p_name, wm_concat(distinct rt_receipt_date) rtf_date, wm_concat(distinct rt_sort) rtf_sort, sum(distinct rt_price) rtf_price, wm_concat(distinct rt_status) rtf_status from return_tb
+        where m_id = #{m_id}
+        group by rt_receipt_num
+        union
+        select rf_receipt_num, wm_concat(distinct ol_order_num), wm_concat(distinct p_name), wm_concat(distinct rf_receipt_date), wm_concat(distinct rf_sort), sum(distinct rf_price), wm_concat(distinct rf_status) from refund_tb
+        where m_id = #{m_id} and rf_sort='취소'
+        group by rf_receipt_num) rtf)s
 		where <![CDATA[s.rnum>='${pageDto.startRow}']]> and <![CDATA[s.rnum<='${pageDto.endRow}']]>
 		order by s.rtf_date desc
 	</select>
@@ -150,20 +145,14 @@
 	
 	<!-- 결제 취소 상품 정보 -->
 	<select id="cancelInfoDetail" resultType="HashMap">
-		select a.p_name, a.rf_price, a.rf_status from
-		(select * from refund_tb rf
-		left join orderlist_tb ol on rf.ol_num=ol.ol_num
-		left join product_tb pd on pd.p_num=ol.p_num
-		where rf.rf_sort='취소' and ol.ol_order_num=#{ol_order_num})a
+		select p_name, rf_price, rf_status from refund_tb 
+        where rf_sort='취소' and ol_order_num=#{ol_order_num}
 	</select>
 	
 	<!-- 반품 상품 정보 -->
 	<select id="rtrfInfoDetail" resultType="HashMap">
-		select a.p_name, a.rt_amount, a.rt_price, a.rt_status from
-		(select * from return_tb rt
-		left join orderlist_tb ol on rt.ol_num=ol.ol_num
-		left join product_tb pd on pd.p_num=ol.p_num
-		where rt.rt_sort='반품' and ol.ol_order_num='${ol_order_num}')a
+		select p_name, rt_amount, rt_price, rt_status from return_tb 
+        where rt_sort='반품' and ol_order_num='${ol_order_num}'
 	</select>
 	
 	<select id="finalSum" resultType="Integer">

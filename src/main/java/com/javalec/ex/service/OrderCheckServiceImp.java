@@ -42,8 +42,8 @@ public class OrderCheckServiceImp implements OrderCheckService {
 	}
 
 	@Override
-	public int returnRq(int ol_num, String rt_amt, String rt_reason, int rt_price, String rt_receipt_num) {
-		return orderCheckDao.returnRq(ol_num, rt_amt, rt_reason, rt_price, rt_receipt_num);
+	public int returnRq(int ol_num, String rt_amt, String rt_reason, int rt_price, String rt_receipt_num, String ol_order_num, String p_name, String m_id) {
+		return orderCheckDao.returnRq(ol_num, rt_amt, rt_reason, rt_price, rt_receipt_num, ol_order_num, p_name, m_id);
 	}
 
 	@Override
@@ -101,10 +101,8 @@ public class OrderCheckServiceImp implements OrderCheckService {
 	}
 
 	@Override
-	public int refundRequest(String rf_receipt_num, int ol_num, int rf_price) {
-		System.out.println("서비스 임프");
-		System.out.println("rf receipt" + rf_receipt_num);
-		return orderCheckDao.refundRequest(rf_receipt_num, ol_num, rf_price);
+	public int refundRequest(String rf_receipt_num, int ol_num, int rf_price, String ol_order_num, String p_name, String m_id) {
+		return orderCheckDao.refundRequest(rf_receipt_num, ol_num, rf_price, ol_order_num, p_name, m_id);
 	}
 
 	@Override
