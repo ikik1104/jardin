@@ -35,4 +35,7 @@ public interface UserEventService {
 	//댓글 pw 체크
 	int checkECommentPW(E_CommentDto e_CommentDto);
 
+	//댓글 새로 등록
+	int insertEComment(E_CommentDto e_CommentDto);
+
 }

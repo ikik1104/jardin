@@ -38,6 +38,9 @@ public interface UserEventDao {
 
 	//댓글 pw 체크
 	E_CommentDto checkECommentPW(E_CommentDto e_CommentDto);
+
+	//댓글 새로 등록
+	int insertEComment(E_CommentDto e_CommentDto);
 	
 
 	

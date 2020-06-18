@@ -156,5 +156,8 @@
         where ec_pw!='-' or rownum =1
 	</select>
 	
-	
+	<!-- 댓글 새로 1개 등록 -->
+	<insert id="insertEComment">
+insert into ecomment_tb values(ec_seq.nextval, #{m_num},#{e_num},#{ec_content},#{ec_pw},sysdate,'미당첨')
+	</insert>
 </mapper>		

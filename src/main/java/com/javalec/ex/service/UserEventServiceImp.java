@@ -59,6 +59,11 @@ public class UserEventServiceImp implements UserEventService {
 		return success;
 	}
 
+	//댓글 새로 등록
+	public int insertEComment(E_CommentDto e_CommentDto) {
+		return edao.insertEComment(e_CommentDto);
+	}
+
 	
 
 

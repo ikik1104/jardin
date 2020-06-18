@@ -89,9 +89,8 @@ $(document).ready(function() {
      }
      
      window.onload=function(){
-    	 ${alerttext}
+    	${alerttext}
      }
-     
      //회원 로그인 폼 제출
 		function submitMember(){
 			m_login.submit();

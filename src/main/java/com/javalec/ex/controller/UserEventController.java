@@ -65,20 +65,31 @@ public class UserEventController {
 		return response_path+"user_event_view";
 	}
 	//댓글 비밀번호 확인하기
-	@PostMapping("ec_pw_check")
-	public String ec_pw_check(E_CommentDto e_CommentDto, Model model, @RequestParam("checkMode") String checkMode) {
-		String alerttext=""; String realpath=""; System.out.println(e_CommentDto.getE_num());
+	@ResponseBody
+	@RequestMapping("ec_pw_check")
+	public int ec_pw_check(@RequestBody String pw_mnum, Model model) {
+		String new_pw_num = pw_mnum.substring(0, pw_mnum.length()-1);
+		System.out.println("pw_num : "+new_pw_num);
+		String[] strs = new_pw_num.split("pleasegogo");
+		System.out.println(strs[0]); System.out.println(strs[1]);
+		String pw = strs[0];
+		int m_num = Integer.parseInt(strs[1]);
+		E_CommentDto e_CommentDto = new E_CommentDto();
+		e_CommentDto.setEc_pw(pw);
+		e_CommentDto.setM_num(m_num);
+		
 		int success = eservice.checkECommentPW(e_CommentDto);
-		if(success==0) { alerttext="alert('비밀번호가 일치하지 않습니다. 다시 시도해 주세요.'); backpage("+e_CommentDto.getEc_pw()+");";
-		realpath=response_path+"user_event_view";
-		}
-		if(success==1) { 
-		model.addAttribute("e_numCheck", e_CommentDto.getE_num());
-		model.addAttribute("checkMode", checkMode);
-		realpath="redirect:user_event_view";
-		}
-		model.addAttribute("alerttext", alerttext);
-		return realpath;
+		return success;
 	}
+	
+	//댓글 1개 새로 등록
+	@PostMapping("ecomment_insert")
+	public int ecomment_insert(E_CommentDto e_CommentDto) {
+	
+		int success = eservice.insertEComment(e_CommentDto);
+		return success;
+	}
+	
+	
 	
 }
