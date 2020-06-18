@@ -10,6 +10,7 @@ import com.javalec.ex.dto.CartDto;
 import com.javalec.ex.dto.Cou_IssueDto;
 import com.javalec.ex.dto.MemberDto;
 import com.javalec.ex.dto.PointDto;
+import com.javalec.ex.dto.WishListDto;
 
 @Service
 public class MP1ServiceImpl implements MP1Service {
@@ -101,6 +102,24 @@ public class MP1ServiceImpl implements MP1Service {
 	@Override
 	public List<PointDto> getUsedPoint(int m_num) {
 		return mp1Dao.getUsedPoint(m_num);
+	}
+
+	// 위시리스트에 저장된 상품 list 가져오기
+	@Override
+	public List<WishListDto> getAllWish(int m_num) {
+		return mp1Dao.getAllWish(m_num);
+	}
+
+	// 위시리스트에서 상품 삭제
+	@Override
+	public int del_wl(int p_num, int m_num) {
+		return mp1Dao.del_wl(p_num, m_num);
+	}
+	
+	// 위시리스트에서 선택한 상품 장바구니로 이동
+	@Override
+	public int add_cart(int m_num, int p_num) {
+		return mp1Dao.add_cart(m_num, p_num);
 	}
 
 

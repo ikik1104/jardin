@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.javalec.ex.dto.OrderListDto;
 import com.javalec.ex.dto.OrderlistCouDto;
+import com.javalec.ex.service.MP1Service;
 import com.javalec.ex.service.OrderConfirmService;
 import com.javalec.ex.service.PayService;
 
@@ -23,10 +24,13 @@ import com.javalec.ex.service.PayService;
 public class OrderConfirmController {
 
 	@Autowired
-	PayService payService;
+	private MP1Service mp1Service;
 	
 	@Autowired
-	OrderConfirmService orderConfirmService;
+	private PayService payService;
+	
+	@Autowired
+	private OrderConfirmService orderConfirmService;
 
 	
 	// 주문번호 생성 변수1
@@ -92,6 +96,9 @@ public class OrderConfirmController {
 				int p_num = Integer.parseInt(productNum[j]);
 				payService.deleteCart(m_num, p_num);
 			}
+			
+			//  payment_cart_tb 비우기
+			mp1Service.delPaymentCart(m_num);
 			
 			// 사용 포인트 내역 등록
 			String po_name = ol_order_num+"-제품구매";

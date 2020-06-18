@@ -161,7 +161,7 @@
 
     	var arrData = [p_num, m_num]; 
     	
-        if(confirm("제품을 장바구니에서 삭제하시겠습니까?")){
+        if(confirm("선택하신 상품을 장바구니에서 삭제하시겠습니까?")){
            
         	$.ajax({
                 url : "cart_del",
@@ -355,7 +355,7 @@
 					<li><a href="#" id="leftNavi1">주문/배송 조회</a></li>
 					<li><a href="#" id="leftNavi2">반품/배송 현황</a></li>
 					<li><a href="cart?m_num=${memDto.m_num }" id="leftNavi3">장바구니</a></li>
-					<li><a href="#" id="leftNavi4">위시리스트</a></li>
+					<li><a href="wishlist?m_num=${memDto.m_num }" id="leftNavi4">위시리스트</a></li>
 					<li><a href="mycoupon?m_num=${memDto.m_num }" id="leftNavi5">나의 쿠폰</a></li>
 					<li><a href="mypoint?m_num=${memDto.m_num }" id="leftNavi6">나의 포인트</a></li>
 					<li><a href="#" id="leftNavi7">1:1문의</a></li>

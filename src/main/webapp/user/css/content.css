@@ -711,6 +711,10 @@
 .selectbtn:hover{color:#666; text-decoration:none; cursor: pointer;}
 .selectbtn2{display:block; width:108px; height:28px; text-align:center; line-height:28px; color:#f7703c; font-size:14px; font-weight:600; border:1px #f7703c solid;}
 .selectbtn2:hover{color:#f7703c; text-decoration:none; cursor: pointer;}
+.selectbtn{display:block; width:108px; height:28px; text-align:center; line-height:28px; color:#666; font-size:14px; font-weight:600; border:1px #d3d3d3 solid;}
+.selectbtn:hover{color:#666; text-decoration:none; cursor: pointer;}
+.selectbtn_1{display:block; width:178px; height:28px; text-align:center; line-height:28px; color:#666; font-size:14px; font-weight:600; border:1px #d3d3d3 solid;}
+.selectbtn_1:hover{color:#666; text-decoration:none; cursor: pointer;}
 
 
 /* BTN WIDTH CHANGE */
@@ -1030,6 +1034,9 @@ span.searchStyleSelectBox.changed{background-color: #fff;}
 .amount .total li.mileage{padding:10px 0 0 0;}
 .amount .total li.txt{padding:20px 0 0 0;}
 .amount .total li.money{padding:5px 0 0 0;}
+
+
+#guide1{width:auto; padding:20px 15px; border: 2px #999 solid;}
 
 
 

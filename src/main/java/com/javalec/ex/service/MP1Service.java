@@ -6,6 +6,7 @@ import com.javalec.ex.dto.CartDto;
 import com.javalec.ex.dto.Cou_IssueDto;
 import com.javalec.ex.dto.MemberDto;
 import com.javalec.ex.dto.PointDto;
+import com.javalec.ex.dto.WishListDto;
 
 public interface MP1Service {
 	
@@ -50,4 +51,13 @@ public interface MP1Service {
 		
 	// 포인트 사용 내역 list 가져오기
 	List<PointDto> getUsedPoint(int m_num);
+	
+	// 위시리스트에 저장된 상품 list 가져오기
+	List<WishListDto> getAllWish(int m_num);
+	
+	// 위시리스트에서 상품 삭제
+	int del_wl(int p_num, int m_num);
+	
+	// 위시리스트에서 선택한 상품 장바구니로 이동
+	int add_cart(int m_num, int p_num);
 }

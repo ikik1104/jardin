@@ -10,18 +10,20 @@ public class WishListDto {
 	private int p_num; //상품 고유번호
 	private int w_amount; //수량
 	private Timestamp w_sysdate; //등록일
+	private ProductDto pDto;
 	
 	public WishListDto() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public WishListDto(int w_num, int m_num, int p_num, int w_amount, Timestamp w_sysdate) {
+	public WishListDto(int w_num, int m_num, int p_num, int w_amount, Timestamp w_sysdate, ProductDto pDto) {
 		super();
 		this.w_num = w_num;
 		this.m_num = m_num;
 		this.p_num = p_num;
 		this.w_amount = w_amount;
 		this.w_sysdate = w_sysdate;
+		this.pDto = pDto;
 	}
 
 	public int getRownum() {
@@ -61,6 +63,11 @@ public class WishListDto {
 	public void setW_sysdate(Timestamp w_sysdate) {
 		this.w_sysdate = w_sysdate;
 	}
-	
+	public ProductDto getpDto() {
+		return pDto;
+	}
+	public void setpDto(ProductDto pDto) {
+		this.pDto = pDto;
+	}	
 	
 }

@@ -16,7 +16,7 @@ import com.javalec.ex.service.PayService;
 public class PayController {
 
 	@Autowired
-	PayService payService;
+	private PayService payService;
 	
 	// 주문/결제 페이지로 장바구니에 포함된 제품 전체 정보 & 회원 정보  불러오기 
 	@RequestMapping("payment")
