@@ -254,7 +254,9 @@ function cart_insert() {
 					<li><a href="javascript:;" onclick="return false;" id="goodsQna">질문과 답변 <span>(1)</span></a></li>
 					<li class="last"><a href="javascript:;" onclick="return false;" id="goodsNotice">정책 및 공지</a></li>
 				</ul>
-			</div><script type="text/javascript">$(function(){$(".detailTab ul li a:eq(0)").click();});</script>
+			</div><script type="text/javascript">
+			$(function(){$(".detailTab ul li a:eq(0)").click();});
+			</script>
 		<!-- //tab -->
 
 

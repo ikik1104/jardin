@@ -219,7 +219,7 @@
 #mypage .diviRight{float:left; width:50%; padding:40px 0 15px 0;}
 #mypage .diviRight ul{float:right;}
 #mypage .diviRight ul li{float:left; line-height:18px; color:#888;}
-#mypage .diviRight ul li a{display:block; width:100px; height:20px; line-height:19px; background:#5b524d; color:#fff; font-size:13px; font-weight:600; text-align:center;}
+#mypage .diviRight ul li a{display:block; width:100px; height:20px; line-height:19px; background:#5b524d; color:#fff; font-size:13px; font-weight:600; text-align:center; cursor:default;}
 #mypage .diviRight ul li a:hover{color:#fff;}
 .method01, .method02, .method03, .method04, .method05{display:none; margin:12px 0 0 0;}
 
@@ -692,7 +692,8 @@
 .decidebtn{display:block; width:83px; height:18px; text-align:center; line-height:16px; color:#f7703c !important; font-size:12px; font-weight:600; border:1px #f7703c solid;}
 .decidebtn:hover{color:#f7703c; text-decoration:none;}
 
-.addressBtn{display:block; height:20px; text-align:center; background:#999; color:#fff; font-size:12px; padding:0 10px 0 4px;}
+
+.addressBtn{display:block; height:20px; text-align:center; background:#999; color:#fff; font-size:12px; padding:0 10px 0 4px; cursor: default;}
 .addressBtn span{display:block; height:20px; line-height:19px; background:url('../images/ico/ico_address.gif') left 5px no-repeat; padding:0 0 0 17px;}
 .addressBtn:hover{color:#fff; text-decoration:none;}
 .daybtn{display:block; width:43px; height:23px; line-height:21px; color:#777; font-weight:600; text-align:center; background:url('../images/btn/btn_daybtn.gif') left top no-repeat;}

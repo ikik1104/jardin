@@ -30,10 +30,95 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	
+	$(".hiddenstatus").each(function(){
+		var status = $(this).val();
+     	substring = "배송완료";
+     	substring2 = "구매확정";
+ 		var index = $(this).next(".heavygray").attr('id');
+     	if(status.indexOf(substring) !== -1){
+     		$("#"+index).text("배송완료");	
+     	} else if(status.indexOf(substring2) !== -1) {
+     		$("#"+index).text("구매확정");	
+		} else {
+     		$("#"+index).text(status);	
+     	}
+	});
+	
+	//status
+    var innerHtml = "";
+	 $(".heavygray").each(function(){
+        if($(this).text() == "입금대기중"){
+        	var index = $(this).attr('id');
+        	var ol_order_num = $('#on'+index).text();
+        	innerHtml = '<li><a href="#" class="nbtnMini iw83" onclick="wait_cancel('+ol_order_num+')">취소</a></li>';
+        	$('#state'+index).html(innerHtml);
+        } 
+        if($(this).text() == "배송완료"){
+        	var index = $(this).attr('id');
+        	var ol_order_num = $('#on'+index).text();
+        	innerHtml = '<li class="r5"><a href="#" class="obtnMini iw40" onclick="changebtn()">교환</a></li>'
+        				+'<li><a href="takeback_deli?ol_order_num='+ol_order_num+'" class="returnbtn nbtnMini iw40 layerpopup">반품</a></li>'
+        				+'<li><a href="my_review_alert?ol_order_num='+ol_order_num+'" class="reviewbtn layerpopup" >리뷰작성</a></li>'
+        				+'<li><a href="#" class="decidebtn" onclick="buy_decide('+ol_order_num+')">구매확정</a></li>';
+        	$('#state'+index).html(innerHtml);
+        } 
+        if($(this).text() == "구매확정"){
+        	var index = $(this).attr('id');
+        	var ol_order_num = $('#on'+index).text();
+        	innerHtml = '<li><a href="my_review_list?ol_order_num='+ol_order_num+'" class="reviewbtn layerpopup">리뷰작성</a></li>';
+        	$('#state'+index).html(innerHtml);
+        } 
+        if($(this).text() == "입금완료"){
+        	var index = $(this).attr('id');
+        	var ol_order_num = $('#on'+index).text();
+        	innerHtml = '<li><a href="list_for_refund?ol_order_num='+ol_order_num+'" class="refund_req nbtnMini iw83 layerpopup">취소</a></li>';
+        	$('#state'+index).html(innerHtml);
+        } 
+    });
 
 
 });
+
+//교환버튼클릭
+function changebtn(){
+	alert("교환 불가 상품입니다. 자세한 문의사항은 1:1문의 게시판을 이용해주세요.");
+}
+
+//배송완료 상태에서 구매확정 버튼 클릭
+function buy_decide(ol_order_num){
+	if(confirm("구매를 확정하시겠습니까? 구매 확정 후에는 반품, 교환이 불가합니다.")){
+ 		location.href="decide_buying?ol_order_num="+ol_order_num;
+	}	
+}
+
+//입금대기중 - 취소
+function wait_cancel(ol_order_num){
+	 if(confirm("주문을 취소하시겠습니까?")){
+   	 $.ajax({
+   		 type : "POST",
+   		 url : "cancel_order",
+   		 data : JSON.stringify(ol_order_num),
+   		 contentType : "application/json",
+            dataType : "json",
+            success : function(val){
+           	 if(val == 1){
+           		 alert("주문이 취소되었습니다.");
+           		 location.reload();
+           	 } else{
+           		 alert("주문을 취소할 수 없습니다. 관리자에게 문의하세요.");
+           	 }
+            },
+            error : function(){
+           	 alert("서버통신실패. 관리자에게 문의하세요.");
+            }
+   	 });
+	 } else {
+		 return;
+	 };//if confirm
+}
+
 </script>
+
 </head>
 <body>
 
@@ -61,66 +146,14 @@ $(document).ready(function() {
      var settimediv = 200000; //지속시간(1000= 1초)
      var msietimer;
 
+     
+   
+     
      $(document).ready(function () {
          msiecheck();
-         
-         //status
-         var innerHtml = "";
- 		 $(".heavygray").each(function(){
-             if($(this).text() == "입금완료"){
-             	var index = $(this).attr('id');
-             	innerHtml = '<li><a href="#" class="nbtnMini iw83">취소</a></li>';
-             	$('#state'+index).html(innerHtml);
-             } 
-             if($(this).text() == "배송완료"){
-             	var index = $(this).attr('id');
-             	innerHtml = '<li class="r5"><a href="return.html" class="obtnMini iw40">교환</a></li>'
-             				+'<li><a href="return.html" class="nbtnMini iw40">반품</a></li>'
-             				+'<li><a href="#" class="reviewbtn">리뷰작성</a></li>'
-             				+'<li><a href="#" class="decidebtn">구매확정</a></li>';
-             	$('#state'+index).html(innerHtml);
-             } 
-             if($(this).text() == "구매확정"){
-             	var index = $(this).attr('id');
-             	innerHtml = '<li><a href="#" class="reviewbtn">리뷰작성</a></li>';
-             	$('#state'+index).html(innerHtml);
-             } 
-             if($(this).text() == "입금대기중"){
-             	var index = $(this).attr('id');
-             	innerHtml = '<li><a href="#" class="nbtnMini iw83" onclick="wait_cancel(${ol.ONUM})">취소</a></li>';
-             	$('#state'+index).html(innerHtml);
-             } 
-         });
+
          
      });
-
-     //입금대기중 - 취소
-     var wait_cancel = function (ol_order_num){
-    	 
-    	 alert("order_num"+ol_order_num);
-    	 
-    	 if(confirm("주문을 취소하시겠습니까?")){
-        	 $.ajax({
-        		 type : "POST",
-        		 url : "cancel_order",
-        		 data : JSON.stringify(ol_order_num),
-        		 contentType : "application/json",
-                 dataType : "json",
-                 success : function(val){
-                	 if(val == 1){
-                		 alert("주문이 취소되었습니다.");
-                		 location.reload();
-                	 } else{
-                		 alert("주문을 취소할 수 없습니다. 관리자에게 문의하세요.");
-                	 }
-                 },
-                 error : function(){
-                	 alert("서버통신실패. 관리자에게 문의하세요.");
-                 }
-        	 });
-    	 };//if confirm
-     }
-     
      
      var msiecheck = function () {
          var browser = navigator.userAgent.toLowerCase();
@@ -171,14 +204,7 @@ $(document).ready(function() {
 				<div id="mypage">
 					<h2><strong>주문/배송 조회</strong><span>회원님이 구매하신 주문내역 및 배송정보를 확인하실 수 있습니다.</span></h2>
 					
-					<div class="myInfo">
-						<ul>
-							<li class="info"><strong>가나다</strong> 님의 정보를 한눈에 확인하세요.</li>
-							<li>보유 쿠폰<br/><span class="num">199</span> <span class="unit">장</span></li>
-							<li class="point">내 포인트<br/><span class="num">100,000</span> <span class="unit">P</span></li>
-							<li class="last">진행중인 주문<br/><span class="num">199</span> <span class="unit">건</span></li>
-						</ul>
-					</div>
+					<jsp:include page="common/shortInfo.jsp" />
 
 					<h3>주문/배송 조회</h3>
 					<div class="checkDiv">
@@ -246,17 +272,18 @@ $(document).ready(function() {
 							<tbody>
                             
                                 <c:forEach var="ol" items="${ orderlist }" varStatus="status">
-    								<tr>
+    								<tr class="parents">
     									<td>
                                             <fmt:formatDate value="${ ol.ODATE }" pattern="yyyy-MM-dd" var="dateType" />
     										<p class="day">${ dateType }</p>
-    										<p class="orderNum">${ ol.ONUM }</p>
+    										<a href="my_order_statement?ol_order_num=${ ol.ONUM }"><p class="orderNum" id="on${ status.index }">${ ol.ONUM }</p></a>
     									</td>
     									<td class="left">
     										${ ol.P_NAME }
     									</td>
     									<td class="tnone">${ ol.OSUM } 원</td>
     									<td>
+                                            <input type="hidden" class="hiddenstatus" id="status${ status.index }" value=${ ol.OSTATUS }/>
     										<span class="heavygray" id="${ status.index }">${ ol.OSTATUS }</span>
     										<ul class="state" id="state${ status.index }"></ul>										
     									</td>
@@ -315,6 +342,7 @@ $(document).ready(function() {
 <link rel="stylesheet" type="text/css" href="user/css/jquery.fancybox-1.3.4.css" />
 <script type="text/javascript">
 $(function(){
+
 	function distance(){
 		var winWidth = $(window).width();
 		if(winWidth > 767){
@@ -326,7 +354,6 @@ $(function(){
 	distance();
 	$(window).resize(function(){distance();});
 
-
 	// layer popup
 	var winWidth = $(window).width();
 	if(winWidth > 767){
@@ -335,7 +362,23 @@ $(function(){
 		var layerCheck = 320;
 	}
 
-	$(".iw40").fancybox({
+// 	$(".iw40").fancybox.center();
+
+	$(".layerpopup").fancybox({
+		'centerOnScroll' : true,
+		'autoDimensions'    : false,
+		'showCloseButton'	: false,
+		'width' : layerCheck,
+		'padding' : 0,
+		'type'			: 'iframe',
+		'onComplete' : function() {
+			$('#fancybox-frame').load(function() { // wait for frame to load and then gets it's height
+			$('#fancybox-content').height($(this).contents().find('body').height());
+			});
+		}
+	});
+	$(".layerpopup2").fancybox({
+		'centerOnScroll' : true,
 		'autoDimensions'    : false,
 		'showCloseButton'	: false,
 		'width' : layerCheck,
@@ -350,8 +393,6 @@ $(function(){
 
 });
 </script>
-
-
 
 				</div>
 			</div>

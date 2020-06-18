@@ -36,50 +36,14 @@
 	         self.location.reload(true);
 	     }
 	     else self.name = '';
-		
-		// 사용할 포인트 값 입력 시 실행 (보유 포인트와 비교)
-		$("#point").change(function(){
-			var value=Number($(this).val());
-			var ownedPoint = Number($(".orange").text());
-			// 보유 포인트보다 입력 값이 클 때
-			if(value>ownedPoint){
-				$(".pointAlert").css('visibility', 'visible');
-				$("#point").val('0');
-			// 보유 포인트보다 입력 값이 작거나 같을 때
-			}else {
-				$(".pointAlert").css('visibility', 'hidden');
-				$("#pointDisc").text(commas(-(Number(value))));
-				
-			}
-		});
-		
-		 //휴대전화번호 010, 011 ...
-        $("#phone1").val("${phone1}").attr("selected","selected");
-		
-        //유선전화번호 
-        $("#tel1").val("${tel1}").attr("selected","selected");
 		 
 	});
-	
-	// 제품 쿠폰 선택 (자식창 오픈)
-	function couponList(m_num){
-		window.open("coupon_list?m_num="+m_num, "couponlist", "width=700px, height=900px, resizable=no, scrollbars=yes");
-	}
-	
-	
-	// 천단위마다  콤마(,) 추가
-	function commas(x) {
-	       return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-	}
-
 
 </script>
 
 	
 </head>
 <body>
-
-
 
 <!--익스레이어팝업-->
 <div id="ieUser" style="display:none">
@@ -105,6 +69,50 @@
 
      $(document).ready(function () {
          msiecheck();
+ 		
+ 		// 사용할 포인트 값 입력 시 실행 (보유 포인트와 비교)
+ 		$("#point").change(function(){
+ 			var value=Number($(this).val());
+ 			var ownedPoint = Number($(".orange").text());
+ 			// 보유 포인트보다 입력 값이 클 때
+ 			if(value>ownedPoint){
+ 				$(".pointAlert").css('visibility', 'visible');
+ 				$("#point").val('0');
+ 			// 보유 포인트보다 입력 값이 작거나 같을 때
+ 			}else {
+ 				$(".pointAlert").css('visibility', 'hidden');
+ 				$("#pointDisc").text(commas(-(Number(value))));
+ 				
+ 			}
+ 		 });
+ 		
+ 		$("input[name=infosame]:checkbox").click(function(){
+ 			if($(this).is(":checked")== true){
+ 				$("input[name=re_name]").val($("input[name=m_name]").val());
+ 				$("input[name=re_zipcode]").val(Number($("input[name=m_zipcode]").val()));
+ 				$("input[name=re_address1]").val($("input[name=m_address1]").val());
+ 				$("input[name=re_address2]").val($("input[name=m_address2]").val());
+ 				$("#re_phone1").val($("#phone1").val());
+ 				$("input[name=re_phone2]").val($("input[name=phone2]").val());
+ 				$("input[name=re_phone3]").val($("input[name=phone3]").val());
+ 				$("#re_tel1").val($("#tel1").val());
+ 				$("input[name=re_tel2]").val($("input[name=tel2]").val());
+ 				$("input[name=re_tel3]").val($("input[name=tel3]").val());
+ 
+ 			}else {
+ 				$("input[name=re_name]").val('');
+ 				$("input[name=re_zipcode]").val('');
+ 				$("input[name=re_address1]").val('');
+ 				$("input[name=re_address2]").val('');
+ 				$("#re_phone1").val('');
+ 				$("input[name=re_phone2]").val('');
+ 				$("input[name=re_phone3]").val('');
+ 				$("#re_tel1").val('');
+ 				$("input[name=re_tel2]").val('');
+ 				$("input[name=re_tel3]").val('');
+ 			}
+ 		});
+         
      });
 
      var msiecheck = function () {
@@ -127,6 +135,49 @@
      var msiehide = function () {
 		$("#ieUser").hide();
         clearTimeout(msietimer);
+     }
+     
+  // 제품 쿠폰 선택 (자식창 오픈)
+ 	function couponList(m_num){
+ 		window.open("coupon_list?m_num="+m_num, "couponlist", "width=700px, height=900px, resizable=no, scrollbars=yes");
+ 	}
+ 	
+ 	
+ 	// 천단위마다  콤마(,) 추가
+ 	function commas(x) {
+ 	       return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+ 	}
+
+ 	
+ 	//이메일, 연락처, 주소 폼 맞추기
+     function change_info(){
+ 		alert("aa");
+ 	
+    	 $.ajax({
+             type : "POST",
+             url : "changeInfo",
+             data: {
+          	   m_num : "${ memDto.m_num}",
+          	   m_email : $("input[name=email_id]").val() + "@" + $("input[name=email_domain]").val(),
+          	   m_zipcode : $("input[name=m_zipcode]").val(),
+          	   m_address1 : $("input[name=m_address1]").val(),
+          	   m_address2 : $("input[name=m_address2]").val(),
+          	   m_phone : $("#phone1").val()+"-"+$("input[name=phone2]").val()+"-"+$("input[name=phone3]").val(),
+          	   m_tel : $("#tel1").val()+"-"+$("input[name=tel2]").val()+"-"+$("input[name=tel3]").val(),
+             }, 
+             success : function(val){
+                if(val == 1){ //리턴값이 1이면 (=성공)
+                   alert("회원정보 수정이 완료되었습니다.");
+                 
+                }else{ // 0이면 실패
+                   alert("회원정보 수정사항이 반영되지 않았습니다. 다시 확인해주세요.");
+                }
+             },
+             error : function(){
+                alert("서버통신실패");
+             }
+  		});
+
      }
 </script>
 
@@ -151,8 +202,8 @@
 			<div id="maxcontents">
 				<div id="mypage">
 					<h2><strong>주문/결제</strong></h2>
-					
 					<!-- 주문 상품 -->
+					<form action="submit_order" method="post" name="orderform">
 					<h3 class="dep">주문 제품 확인</h3>
 					<div class="orderDivNm">
 						<table summary="주문 제품 확인 게시판으로 상품명, 가격, 수량, 합계순으로 조회 하실수 있습니다." class="orderTable" border="1" cellspacing="0">
@@ -221,7 +272,7 @@
 					<div class="diviRight">
 						<ul>
 							<li>수정 내용을 회원정보에도 반영합니다.&nbsp;&nbsp;</li>
-							<li><a href="#">회원정보반영</a></li>
+							<li><a href="#" onclick="change_info()">회원정보반영</a></li>
 						</ul>
 					</div>
 
@@ -235,7 +286,7 @@
 							<tbody>
 								<tr>
 									<th scope="row"><span>이름</span></th>
-									<td><input type="text" class="w134" value="${memDto.m_name }" /></td>
+									<td><input type="text" class="w134" name="m_name" value="${memDto.m_name }" readonly /></td>
 								</tr>
 
 								<tr>
@@ -243,11 +294,11 @@
 									<td>
 										<ul class="pta">
 											<li>
-												<input type="text" class="w134" value="${memDto.m_zipcode }" />&nbsp;
+												<input type="text" class="w134" name="m_zipcode" id="m_zipcode" value="${memDto.m_zipcode }" readonly />&nbsp;
 											</li>
-											<li><a href="member/zip.html" class="addressBtn"><span>우편번호 찾기</span></a></li>
-											<li class="pt5"><input type="text" class="addressType2" value="${memDto.m_address1 }"/></li>
-											<li class="pt5"><input type="text" class="addressType2" value="${memDto.m_address2 }"/></li>
+											<li><a onclick="execDaumPostcode()" class="addressBtn"><span>우편번호 찾기</span></a></li>
+											<li class="pt5"><input type="text" class="addressType2" id="m_address1" name="m_address1" value="${memDto.m_address1 }"/></li>
+											<li class="pt5"><input type="text" class="addressType2" id="m_address2" name="m_address2" value="${memDto.m_address2 }"/></li>
 										</ul>
 									</td>
 								</tr>
@@ -255,9 +306,9 @@
 									<th scope="row"><span>이메일</span></th>
 									<td>
 										<ul class="pta">
-											<li><input type="text" class="w134" value="${email_id }"/></li>
+											<li><input type="text" class="w134" name="email_id" value="${email_id }"/></li>
 											<li><span class="valign">&nbsp;@&nbsp;</span></li>
-											<li class="r10"><input type="text" class="w134" value="${email_domain }"/></li>
+											<li class="r10"><input type="text" class="w134" name="email_domain" value="${email_domain }"/></li>
 											<li>
 												<select id="emailList">
 													<option value="#" selected="selected">직접입력</option>
@@ -286,7 +337,7 @@
 									<td>
 										<ul class="pta">
 											<li>
-												<select id="phone1">
+												<select id="phone1" name="phone1">
 													<option value="010">010</option>
 													<option value="011">011</option>
 													<option value="016">016</option>
@@ -296,8 +347,8 @@
 												</select>
 											</li>
 											<li>&nbsp;<span class="valign">-</span>&nbsp;</li>
-											<li><input type="text" class="w74" maxlength="4" value="${phone2 }"/> <span class="valign">-</span>&nbsp;</li>
-											<li class="r10"><input type="text" class="w74" maxlength="4" value="${phone3 }"/></li>
+											<li><input type="text" class="w74" maxlength="4" name="phone2" value="${phone2 }"/> <span class="valign">-</span>&nbsp;</li>
+											<li class="r10"><input type="text" class="w74" maxlength="4" name="phone3" value="${phone3 }"/></li>
 										</ul>
 									</td>
 								</tr>
@@ -306,7 +357,7 @@
 									<td>
 										<ul class="pta">
 											<li>
-												<select id="tel1">
+												<select id="tel1" name="tel1">
 													<option value="02">02</option>
 													<option value="031">031</option>
 													<option value="032">032</option>
@@ -327,8 +378,8 @@
 												</select>
 											</li>
 											<li>&nbsp;<span class="valign">-</span>&nbsp;</li>
-											<li><input type="text" class="w74" maxlength="4" value="${tel2 }" /> <span class="valign">-</span>&nbsp;</li>
-											<li><input type="text" class="w74" maxlength="4" value="${tel3 }"/></li>
+											<li><input type="text" class="w74" maxlength="4" name="tel2" value="${tel2 }" /> <span class="valign">-</span>&nbsp;</li>
+											<li><input type="text" class="w74" maxlength="4" name="tel3" value="${tel3 }"/></li>
 										</ul>
 									</td>
 								</tr>
@@ -342,7 +393,7 @@
 					<h3 class="dep">
 						수취자 주소 입력
 						
-						<input type="checkbox" id="infosame"/>
+						<input type="checkbox" id="infosame" name="infosame"/>
 						<label for="infosame">회원정보와 동일</label>
 					</h3>
 					<div class="checkDiv">
@@ -355,7 +406,7 @@
 							<tbody>
 								<tr>
 									<th scope="row"><span>이름</span></th>
-									<td><input type="text" class="w134" value="홍길동" /></td>
+									<td><input type="text" class="w134" name="re_name" value="홍길동" /></td>
 								</tr>
 
 								<tr>
@@ -363,11 +414,11 @@
 									<td>
 										<ul class="pta">
 											<li>
-												<input type="text" class="w134" />&nbsp;
+												<input type="text" class="w134" name="re_zipcode" id="re_zipcode" readonly/>&nbsp;
 											</li>
-											<li><a href="member/zip.html" class="addressBtn"><span>우편번호 찾기</span></a></li>
-											<li class="pt5"><input type="text" class="addressType2" /></li>
-											<li class="pt5"><input type="text" class="addressType2" /></li>
+											<li><a onclick="execDaumPostcode2()" class="addressBtn"><span>우편번호 찾기</span></a></li>
+											<li class="pt5"><input type="text" class="addressType2" id="re_address1" name="re_address1"/></li>
+											<li class="pt5"><input type="text" class="addressType2" id="re_address2" name="re_address2"/></li>
 										</ul>
 									</td>
 								</tr>
@@ -376,7 +427,7 @@
 									<td>
 										<ul class="pta">
 											<li>
-												<select>
+												<select id="re_phone1" name="re_phon1">
 													<option value="010" selected="selected">010</option>
 													<option value="011">011</option>
 													<option value="016">016</option>
@@ -386,8 +437,8 @@
 												</select>
 											</li>
 											<li>&nbsp;<span class="valign">-</span>&nbsp;</li>
-											<li><input type="text" class="w74" maxlength="4" /> <span class="valign">-</span>&nbsp;</li>
-											<li class="r10"><input type="text" class="w74" maxlength="4" /></li>
+											<li><input type="text" class="w74" maxlength="4" name="re_phone2"/> <span class="valign">-</span>&nbsp;</li>
+											<li class="r10"><input type="text" class="w74" maxlength="4" name="re_phone3"/></li>
 										</ul>
 									</td>
 								</tr>
@@ -396,7 +447,7 @@
 									<td>
 										<ul class="pta">
 											<li>
-												<select>
+												<select id="re_tel1" name="re_tel1">
 													<option value="02" selected="selected">02</option>
 													<option value="031">031</option>
 													<option value="032">032</option>
@@ -417,14 +468,14 @@
 												</select>
 											</li>
 											<li>&nbsp;<span class="valign">-</span>&nbsp;</li>
-											<li><input type="text" class="w74" maxlength="4" /> <span class="valign">-</span>&nbsp;</li>
-											<li><input type="text" class="w74" maxlength="4" /></li>
+											<li><input type="text" class="w74" maxlength="4" name="re_tel2"/> <span class="valign">-</span>&nbsp;</li>
+											<li><input type="text" class="w74" maxlength="4" name="re_tel3"/></li>
 										</ul>
 									</td>
 								</tr>
 								<tr>
 									<th scope="row"><span>배송시 <u>요구사항</u></span></th>
-									<td><textarea class="demandtta"></textarea></td>
+									<td><textarea class="demandtta" name="m_msg"></textarea></td>
 								</tr>
 							</tbody>
 						</table>
@@ -474,10 +525,10 @@
 														<c:if test="${cartCoupon.ci_end_day > sysdate }">
 															<c:choose>
 																<c:when test="${cartCoupon.cDto.co_condition <= sum }">
-																	<option id="opt_${cartCoupon.ci_num }" value="${cartCoupon.cDto.co_discount }">${cartCoupon.cDto.co_name }</option>
+																	<option id="opt_${cartCoupon.ci_num }" value="${cartCoupon.cDto.co_discount }">${cartCoupon.cDto.co_name }-${cartCoupon.ci_num } </option>
 																</c:when>
 																<c:when test="${cartCoupon.cDto.co_condition > sum }">
-																	<option id="opt_${cartCoupon.ci_num }" value="${cartCoupon.cDto.co_discount }" disabled style="background-color: #ebebeb;">${cartCoupon.cDto.co_name }</option>
+																	<option id="opt_${cartCoupon.ci_num }" value="${cartCoupon.cDto.co_discount }" disabled style="background-color: #ebebeb;">${cartCoupon.cDto.co_name }-${cartCoupon.ci_num }</option>
 																</c:when>
 															</c:choose>
 														</c:if>
@@ -500,13 +551,13 @@
 														<c:if test="${deliveryCoupon.ci_end_day > sysdate }">
 															<c:choose>
 																<c:when test="${deliveryCoupon.cDto.co_condition <= sum && del_price>0}">
-																	<option id="opt_${deliveryCoupon.ci_num }" value="3000">${deliveryCoupon.cDto.co_name }</option>
+																	<option id="opt_${deliveryCoupon.ci_num }" value="3000">${deliveryCoupon.cDto.co_name }/${deliveryCoupon.ci_num }</option>
 																</c:when>
 																<c:when test="${deliveryCoupon.cDto.co_condition > sum }">
-																	<option id="opt_${deliveryCoupon.ci_num }" value="3000" disabled style="background-color: #ebebeb;">${deliveryCoupon.cDto.co_name }</option>
+																	<option id="opt_${deliveryCoupon.ci_num }" value="3000" disabled style="background-color: #ebebeb;">${deliveryCoupon.cDto.co_name }/${deliveryCoupon.ci_num }</option>
 																</c:when>
 																<c:when test="${del_price==0 }">
-																	<option id="opt_${deliveryCoupon.ci_num }" value="3000" disabled style="background-color: #ebebeb;">${deliveryCoupon.cDto.co_name }</option>
+																	<option id="opt_${deliveryCoupon.ci_num }" value="3000" disabled style="background-color: #ebebeb;">${deliveryCoupon.cDto.co_name }/${deliveryCoupon.ci_num }</option>
 																</c:when>
 															</c:choose>
 														</c:if>
@@ -523,7 +574,7 @@
 									<td>
 										<ul class="pta">
 											<li class="r10">
-												<input type="text" class="w134" id="point" value="0" onchange="changeitem()"/>&nbsp;&nbsp;
+												<input type="text" class="w134" name= "point" id="point" value="0" onchange="changeitem()"/>&nbsp;&nbsp;
 												<span class="valign"><strong>Point</strong></span>
 											</li>
 											<li>
@@ -621,6 +672,26 @@
 				$("#finalPrice1").text(commas(final_price));
 				$("#coupDisc").text(commas(-coupsum));
 				$("#delDisc").text(commas(-dcoup));
+				
+				// hidden으로 넘겨주는 값
+				$("input[name=oc_semi_sum]").val(semiPrice-pcoup);  //주문금액-제품할인금액
+				if(ccoup==0){
+					$("input[name=oc_cart_c]").val(0); // 장바구니 쿠폰 번호
+				}else{
+					var before_ccoup = ccoupSelect.options[ccoupSelect.selectedIndex].text;
+					var after_ccoup = before_ccoup.split('-');
+					$("input[name=oc_cart_c]").val(after_ccoup[1]); // 장바구니 쿠폰 번호
+					
+				}
+				if(dcoup==0){
+					$("input[name=oc_deliv_c]").val(0);
+				}else {
+					var before_dcoup = dcoupSelect.options[dcoupSelect.selectedIndex].text;
+					var after_dcoup = before_dcoup.split('-');
+					$("input[name=oc_deliv_c]").val(after_ccoup[1]); // 배송비무료 쿠폰 번호
+					
+				}
+				$("input[name=oc_final_sum]").val(final_price);  // 총 결제금액
 			}
 			</script >
 
@@ -640,19 +711,19 @@
 									<td>
 										<ul class="pta">
 											<li>
-												<input type="radio" id="method01" name="method" checked="checked" /><label for="method01">신용카드 결제</label>
+												<input type="radio" id="method01" name="ol_payment" checked="checked" /><label for="method01">신용카드 결제</label>
 											</li>
 											<li>
-												<input type="radio" id="method02" name="method" /><label for="method02">실시간 계좌이체</label>
+												<input type="radio" id="method02" name="ol_payment" /><label for="method02">실시간 계좌이체</label>
 											</li>
 											<li>
-												<input type="radio" id="method03" name="method" /><label for="method03">가상계좌</label>
+												<input type="radio" id="method03" name="ol_payment" /><label for="method03">가상계좌</label>
 											</li>
 											<li>
-												<input type="radio" id="method04" name="method" /><label for="method04">가상계좌(에스크로)</label>
+												<input type="radio" id="method04" name="ol_payment" /><label for="method04">가상계좌(에스크로)</label>
 											</li>
 											<li>
-												<input type="radio" id="method05" name="method" /><label for="method05">무통장 입금</label>
+												<input type="radio" id="method05" name="ol_payment" /><label for="method05">무통장 입금</label>
 											</li>
 										</ul>
 									</td>
@@ -782,9 +853,18 @@
 
 					</div>
 
-
-						
-				
+					<!-- 주문리스트에 필요한 정보 -->
+					<c:forEach var="cartlist" items="${cartlist }" >
+						<input type="hidden" name="productNum" value="${cartlist.pDto.p_num }"/>
+						<input type="hidden" name="productAmt" value="${cartlist.ca_amount }"/>
+					</c:forEach>
+					
+					<input type="hidden" name="oc_cart_c" value="0"/>
+					<input type="hidden" name="oc_deliv_c" value="0"/>
+<!-- 					<input type="hidden" name="oc_semi_sum" value=""/> -->
+					<input type="hidden" name="oc_deliv_fee" value="${del_price }"/>
+<!-- 					<input type="hidden" name="oc_final_sum" value=""/> -->
+					<input type="hidden" name=ol_orderer_id value="${ memDto.m_num}"/>
 					
 
 					<!-- Btn Area -->
@@ -792,12 +872,12 @@
 						<div class="orderCenter">
 							<ul>
 								<li><a href="#" class="nbtnbig iw0140">뒤로가기</a></li>
-								<li><a href="#" class="sbtnMini iw0140">주문 / 결제</a></li>								
+								<li><input type="submit" class="sbtnMini iw0140" value="주문 / 결제"></li>								
 							</ul>
 						</div>
 					</div>
 					<!-- //Btn Area -->
-				
+				</form>
 
 
 				</div>
@@ -812,9 +892,9 @@ $(function(){
 	// select, radio - display check
 
 	// 1 Step Radio
-	var firstchk = $("input:radio[name=method]:checked").attr("id");
+	var firstchk = $("input:radio[name=ol_payment]:checked").attr("id");
 	$("div." + firstchk).css("display","block");
-	$("input:radio[name=method]").click(function(){
+	$("input:radio[name=ol_payment]").click(function(){
 		var divchk = $(this).attr("id");		
 		$(".disnone").css("display","none");
 		$("div." + divchk).css("display","block");
@@ -869,19 +949,6 @@ $(function(){
 		var couponCheck = 320;
 	}
 
-	$(".addressBtn").fancybox({
-		'autoDimensions'    : false,
-		'showCloseButton'	: false,
-		'width' : layerCheck,
-		'padding' : 0,
-		'type'			: 'iframe',
-		'onComplete' : function() {
-			$('#fancybox-frame').load(function() { // wait for frame to load and then gets it's height
-			$('#fancybox-content').height($(this).contents().find('body').height());
-			});
-		}
-	});
-
 	$(".nbtn").fancybox({
 		'autoDimensions'    : false,
 		'showCloseButton'	: false,
@@ -914,5 +981,16 @@ $(function(){
 
 </div>
 </div>
+
+<!-- 다음 주소검색 api -->
+    <div id="layer"
+        style="display: none; position: fixed; overflow: hidden; z-index: 1; -webkit-overflow-scrolling: touch;">
+        <img src="//t1.daumcdn.net/postcode/resource/images/close.png"
+            id="btnCloseLayer"
+            style="cursor: pointer; position: absolute; right: -3px; top: -3px; z-index: 1"
+            onclick="closeDaumPostcode()" alt="닫기 버튼">
+    </div>
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script type="text/javascript" src="user/js/address.js"></script>
 </body>
 </html>

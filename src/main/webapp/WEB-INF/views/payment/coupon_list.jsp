@@ -27,6 +27,7 @@
 		var optSelect = document.getElementById("cou_opt_"+p_num);
 		var optValue = optSelect.options[optSelect.selectedIndex].value;
 		$('#discount_'+p_num).text(optValue);
+		
 		var count = $('.discount1').length;
 		var sum = 0;
 		for(i=0;i<count;i++){
@@ -38,8 +39,10 @@
 	// 쿠폰 할인 금액 합계 값 부모창으로 보내기 & 자식창 닫기 
 	function confirm(){	
 		var discountSum = $('#discount_sum').text();
+		
 		opener.document.getElementById("productcoup").value = discountSum;
 		opener.document.getElementById("productcoup").onchange();
+		
 		window.close();
 	}
 	
@@ -99,11 +102,11 @@
 				<div class="popGraybox">
 					<div class="choose">
 						쿠폰선택&nbsp;&nbsp;
-						<select id="cou_opt_${cartlist.pDto.p_num }" onchange="couponSelect(${cartlist.pDto.p_num })">
+						<select class="coup_opt" id="cou_opt_${cartlist.pDto.p_num }" onchange="couponSelect(${cartlist.pDto.p_num })">
 							<option value="0">쿠폰선택</option>
 							<c:forEach var="couponlist" items="${couponlist }">
 								<c:if test="${couponlist.cDto.co_type == 'product' && couponlist.ci_end_day > sysdate && couponlist.cDto.co_product == cartlist.pDto.p_num }">
-									<option id="opt_${couponlist.ci_num }" value="${couponlist.cDto.co_discount }" >${couponlist.cDto.co_name }</option>
+									<option id="opt_${couponlist.ci_num }" value="${couponlist.cDto.co_discount }" >${couponlist.cDto.co_name }/${couponlist.ci_num }</option>
 								</c:if>
 							</c:forEach>
 						</select>

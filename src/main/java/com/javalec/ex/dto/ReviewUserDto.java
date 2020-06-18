@@ -15,7 +15,8 @@ public class ReviewUserDto {
 	private String ru_status;     //답변 상태
 	private String ru_visility;     //노출 여부
 	private String ru_img;     //첨부 이미지
-	private String ru_type; // 리뷰타입 - 이미지, 일반
+	private String ru_type; // 리뷰타입 - 포토, 일반
+	private int ol_num; // 주문 고유번호
 	
 	public ReviewUserDto() {}
 
@@ -143,7 +144,13 @@ public class ReviewUserDto {
 		this.ru_type = ru_type;
 	}
 
+	public int getOl_num() {
+		return ol_num;
+	}
 
+	public void setOl_num(int ol_num) {
+		this.ol_num = ol_num;
+	}
 	
 	
 }

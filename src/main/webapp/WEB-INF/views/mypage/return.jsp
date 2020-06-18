@@ -20,9 +20,45 @@
 <script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 <script type="text/javascript">
 $(function() {
-	var spinner = $( "#spinner" ).spinner({ min: 1 });
+	
+	//반품 수량 최소, 최대값 설정	
+	$(".spinner").each(function(){
+    	var maxNum = $(this).val();
+    	var spinner = $(this).spinner({ min: 0, max: maxNum });
+	    var index = $(this).closest(".parents").attr('id');
+    	if(maxNum == 0){
+    		$("#price"+index).text(0);
+    		$("#btn"+index).text('신청완료');
+    	}
+	});
+	
+	//수량 선택에 따라 가격 변동
+	$('.ui-spinner').click(function() {
+	    var index = $(this).closest(".parents").attr('id');
+	    var total_price = $(".tp"+index).val(); //원래 총 가격
+	    var total_amt = $(".amt"+index).val(); //원래 총 수량
+	    var one_price = total_price / total_amt;
+	    var modi_amt = $(this).children('.spinner').val(); //변경된 수량을 가져옴	   
+	    alert(modi_amt);
+	    var modi_price = one_price * modi_amt;
+	    $("#price"+index).text(modi_price);
+	});
+	
 });
-</script>
+
+		
+//개별 반품
+function return_req(ol_num, index){
+	var ol_amt = $("#spin"+index).val();
+	var origin_amt = $(".amt"+index).val();
+	var ol_price = $("#price"+index).text();
+	var origin_price = $(".tp"+index).val();
+	var p_name = $(".name"+index).text();
+	var array = [ol_num, ol_amt, origin_amt, ol_price, p_name, origin_price];
+	location.href = 'takeback_reason?array='+array;
+}
+
+</script> 
 <style type="text/css">
 .ui-corner-all{border-bottom-right-radius:0 !important; border-bottom-left-radius:0 !important; border-top-left-radius:0 !important; border-top-right-radius:0 !important;}
 .ui-widget-content{border:0;}
@@ -42,46 +78,43 @@ $(function() {
 			<table summary="상품 게시판으로 주문하신 상품명, 수량, 판매가, 배송순으로 조회 하시고 쿠폰을 적용하실 수 있습니다." class="orderTable" border="1" cellspacing="0">
 				<caption>상품 게시판</caption>
 				<colgroup>
-				<col width="18%" class="pnone" />
 				<col width="*" />
 				<col width="8%" class="tw25" />
-				<col width="14%" class="pnone" />
-				<col width="10%" class="pnone" />
+				<col width="12%" class="pnone" />
+				<col width="13%" class="pnone" />
 				</colgroup>
 				<thead>
-					<th scope="col" class="pnone">주문일자/주문번호</th>
 					<th scope="col">상품명</th>
 					<th scope="col">수량</th>
 					<th scope="col" class="pnone">가격</th>
-					<th scope="col" class="pnone">주문상태</th>
+					<th scope="col" class="pnone">반품신청</th>
 				</thead>
 				<tbody>
-					<tr>
-						<td class="pnone">
-							<p class="day">2012-05-30</p>
-							<p class="orderNum">201205301204-8057</p>
-						</td>
-						<td class="left">
+                    <c:forEach items="${ list }" var="list" varStatus="status">
+					<tr id="${ status.index }" class="parents">
+                        <td>
 							<p class="img"><img src="user/images/img/sample_product.jpg" alt="상품" width="66" height="66" /></p>
 
 							<ul class="goods">
 								<li>
-									<a href="#">쟈뎅 오리지널 콜롬비아 페레이라 원두커피백 15p</a>
+									<a href="#" class="name${ status.index }">${ list.P_NAME }</a>
 								</li>
 							</ul>
 						</td>
-						<td><input id="spinner" value="1" /></td>
-						<td class="pnone">999,000 원</td>
-						<td class="pnone">배송완료</td>
+						<td>
+                            <input class="spinner" value="${ list.OL_AMT }" id="spin${ status.index }"/>
+                            <input type="hidden" class="amt${ status.index }" value="${ list.OL_AMT }"/>
+                            <input type="hidden" class="tp${ status.index }" value="${ list.OL_FINAL_PRICE }"/>
+                            <input type="hidden" class="num${ status.index }" value="${ list.OL_NUM }"/>
+                        </td>
+						<td class="pnone" id="price${ status.index }">${ list.OL_FINAL_PRICE }</td>
+						<td class="pnone"><a href="#" id="btn${ status.index }" onclick="return_req(${ list.OL_NUM }, ${ status.index })">신청하기</a></td>
 					</tr>
+                    </c:forEach>
 				</tbody>
 			</table>
 		</div>
-
-		<div class="centerbrn pd10">
-			<a href="#">확인</a>
-		</div>
-
+        
 	</div>
 
 </div>

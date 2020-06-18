@@ -2,7 +2,7 @@ package com.javalec.ex.dto;
 
 public class OrderlistCouDto {
 	private int rownum;		//DB에서 가져오는 rownum
-	private int ol_order_num;     //주문번호
+	private String ol_order_num;     //주문번호
 	private int oc_cart_c;     //장바구니쿠폰
 	private int oc_deliv_c;     //배송비쿠폰
 	private int oc_semi_sum;     //최종결제금액1
@@ -12,7 +12,7 @@ public class OrderlistCouDto {
 	
 	public OrderlistCouDto() {}
 
-	public OrderlistCouDto(int ol_order_num, int oc_cart_c, int oc_deliv_c, int oc_semi_sum, int oc_deliv_fee,
+	public OrderlistCouDto(String ol_order_num, int oc_cart_c, int oc_deliv_c, int oc_semi_sum, int oc_deliv_fee,
 			int oc_final_sum, int m_num) {
 		super();
 		this.ol_order_num = ol_order_num;
@@ -31,11 +31,11 @@ public class OrderlistCouDto {
 	public void setRownum(int rownum) {
 		this.rownum = rownum;
 	}	
-	public int getOl_order_num() {
+	public String getOl_order_num() {
 		return ol_order_num;
 	}
 
-	public void setOl_order_num(int ol_order_num) {
+	public void setOl_order_num(String ol_order_num) {
 		this.ol_order_num = ol_order_num;
 	}
 

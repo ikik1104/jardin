@@ -31,6 +31,10 @@
 $(document).ready(function() {
 	
 });
+
+var submit = function () {
+	 modi_inq.submit();
+}
 </script>
 </head>
 <body>
@@ -64,12 +68,6 @@ $(document).ready(function() {
          
      });
      
-     
-     var submit = function () {
-    	 modi_inq.submit();
-     }
-     
-
      var msiecheck = function () {
          var browser = navigator.userAgent.toLowerCase();
          if (browser.indexOf('msie 6') != -1 ||
@@ -188,14 +186,7 @@ $(document).ready(function() {
 				<div id="mypage">
 					<h2><strong>1:1문의</strong><span>쟈뎅에 궁금하신 사항을 남겨주시면 답변해드립니다.</span></h2>
 					
-					<div class="myInfo">
-						<ul>
-							<li class="info"><strong>가나다</strong> 님의 정보를 한눈에 확인하세요.</li>
-							<li>보유 쿠폰<br/><span class="num">199</span> <span class="unit">장</span></li>
-							<li class="point">내 포인트<br/><span class="num">100,000</span> <span class="unit">P</span></li>
-							<li class="last">진행중인 주문<br/><span class="num">199</span> <span class="unit">건</span></li>
-						</ul>
-					</div>
+					<jsp:include page="common/shortInfo.jsp" />
 
                     <!-- 입력폼 -->
                     <form action="inquiry_modi_regi?iu_num=${ iu_num }&rownum=${ rownum }" method="post" name="modi_inq">
