@@ -96,7 +96,7 @@ public class MyOrderController {
 		//배열 사이즈 만큼 랭스만큼? 암튼 포문 돌리고  그 배열 값을 i 자리에 넣어서 처리하면 되지 않을까?
 		
 		//관건은..리퀘스트로 과연 index 를 배열로 받아오느냐 아니냐..
-		
+		//선택한 상품 객체의 인덱스를 배열로 넘겨받기
 		String[] indexArray = request.getParameterValues("index");
 		for(int i=0; i<indexArray.length; i++) {
 			int ol_num = refundSetDto.getRefundDto().get(Integer.parseInt(indexArray[i])).getOl_num();
