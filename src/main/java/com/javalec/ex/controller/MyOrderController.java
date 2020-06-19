@@ -91,9 +91,7 @@ public class MyOrderController {
 		String m_id = (String) session.getAttribute("userID");
 		
 //		 indexArra request.getParameterValues("index");
-		//체크된 얘의 인덱스를 파라미터로 동시에 넘겨줘서 받은 다음 , 기준으로 스플릿 한다.
-		//포문 돌려서 배열로 각각의 스플릿한 값을 담는데, 바로 아래 get(i) 자리에 넣어서 처리하
-		//배열 사이즈 만큼 랭스만큼? 암튼 포문 돌리고  그 배열 값을 i 자리에 넣어서 처리하면 되지 않을까?
+		//배열 랭스만큼  포문 돌리고  그 배열 값을 i 자리에 넣어서 처리하면 되지 않을까?
 		
 		//관건은..리퀘스트로 과연 index 를 배열로 받아오느냐 아니냐..
 		//선택한 상품 객체의 인덱스를 배열로 넘겨받기
@@ -106,8 +104,6 @@ public class MyOrderController {
 			ocService.refundRequest(rf_receipt_num, ol_num, rf_price, ol_order_num, p_name, m_id); //환불 테이블에 insert
 			ocService.updateOrderStatus(ol_num, 0); // 주문리스트에서 상태 반품/취소으로 변경
 		}
-		
-		
 		//중첩 커맨드 객체에 담아서 데이터 가져오기
 //		for(int i=0; i<refundSetDto.getRefundDto().size(); i++) {
 //			int ol_num = refundSetDto.getRefundDto().get(i).getOl_num();
@@ -166,11 +162,10 @@ public class MyOrderController {
 		int ol_amt = Integer.parseInt(rtinfo[3]) - Integer.parseInt(rtinfo[1]);
 		int ol_price = Integer.parseInt(rtinfo[5]) - Integer.parseInt(rtinfo[4]);
 		if(ol_amt == 0) {
-			ocService.updateOrderStatus(Integer.parseInt(rtinfo[0]), ol_amt);//전체 수량 반품이면 상태를 반품접수 로 바꿈
+			ocService.updateOrderStatus(Integer.parseInt(rtinfo[0]), ol_amt);//전체 수량 반품이면 오더리스트에서 삭제
 		} else {
-			ocService.updateOrderAmount(rtinfo[0], ol_amt, ol_price); //일부 수량 반품이면 기존 orderlist_tb에서 수량을 차감시킨다(update)
+			ocService.updateOrderAmount(rtinfo[0], ol_amt, ol_price); //일부 수량 반품이면 기존 orderlist_tb에서 수량과 결제금액을 차감시킨다(update)
 		}
-		// 그리고 상태를 일부반품 으로 바꾸자...
 		j+=1;
 		return success;
 	}
