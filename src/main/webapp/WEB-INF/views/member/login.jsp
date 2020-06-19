@@ -115,27 +115,26 @@ $(document).ready(function() {
      
 	 //비회원 로그인 폼 제출     
 		function submitNonMember(){
-		 
-		 var m_name_yet = nm_login.m_name.value;
-		 var ol_order_num_yet = nm_login.ol_order_num.value;
-		 //공백제거
-		 var m_name=m_name_yet.replace(' ', '');
-		 var ol_order_num = ol_order_num_yet.replace(' ', '');
-		 //공백제거한 값 form에 주입
-		 nm_login.m_name.value=m_name;
-		 nm_login.ol_order_num.value=ol_order_num;
+// 		 alert("함수는 들어오긴함");
+// 		 var m_name_yet = nm_login.ol_orderer_id.value;
+// 		 var ol_order_num_yet = nm_login.ol_order_num.value;
+// 		 //공백제거
+// 		 var m_name=m_name_yet.replace(' ', '');
+// 		 var ol_order_num = ol_order_num_yet.replace(' ', '');
+// 		 //공백제거한 값 form에 주입
+// 		 nm_login.m_name.value=m_name;
+// 		 nm_login.ol_order_num.value=ol_order_num;
 			
 			 $.ajax({
 			       url: "nonmember_login",
 			       type: "POST",
 			       data:  $("#nm_login").serialize(),
-			       success : function(val){
-			           if(val ==1 ){//성공
-			        	   location.href='nonmember_ordercheck';
-			           }else if(val==-1){ // 주문자명 불일치
-			        	   alert('주문자명이 일치하지 않습니다.');
-			           } else if(val==-99){//주문번호 불일치
-			        	   alert('주문번호가 일치하지 않습니다.'); 
+			       success : function(map){
+			    	   var val = map.success;
+			           if(val == 1){//성공
+			        	   location.href='nonmember_ordercheck?orderNum='+map.orderNum;
+			           } else {//주문번호 불일치
+			        	   alert('주문이 존재하지 않습니다. 이름 또는 주문번호를 다시 확인하세요.'); 
 			           }
 			        },
 			        error : function(){
@@ -211,7 +210,7 @@ $(document).ready(function() {
 					<div class="informbox">
 						<div class="inform">
 							<ul>
-								<li><input type="text" name="m_name" class="ordererType" onfocus="this.className='mfocus'" onblur="if (this.value.length==0) {this.className='ordererType'}else {this.className='mfocusnot'}" /></li>
+								<li><input type="text" name="ol_orderer_id" class="ordererType" onfocus="this.className='mfocus'" onblur="if (this.value.length==0) {this.className='ordererType'}else {this.className='mfocusnot'}" /></li>
 								<li><input type="text" name="ol_order_num" class="ordernumType" onfocus="this.className='mfocus'" onblur="if (this.value.length==0) {this.className='ordernumType'}else {this.className='mfocusnot'}" /></li>
 							</ul>
 

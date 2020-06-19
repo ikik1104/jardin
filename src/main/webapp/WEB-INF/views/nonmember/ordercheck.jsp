@@ -30,11 +30,74 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	
-
+	//status
+    var innerHtml = "";
+	 $(".heavygray").each(function(){
+        if($(this).text() == "입금대기"){
+        	var index = $(this).attr('id');
+        	var ol_order_num = $('#on'+index).text();
+        	innerHtml = '<li><a href="#" class="nbtnMini iw83" onclick="wait_cancel(\''+ol_order_num+'\')">취소</a></li>';
+        	$('#state'+index).html(innerHtml);
+        } 
+        if($(this).text() == "배송완료"){
+        	var index = $(this).attr('id');
+        	var ol_order_num = $('#on'+index).text();
+        	innerHtml = '<li class="r5"><a href="#" class="obtnMini iw40" onclick="changebtn()">교환</a></li>'
+        				+'<li><a href="takeback_deli?ol_order_num='+ol_order_num+'" class="returnbtn nbtnMini iw40 layerpopup">반품</a></li>'
+        				+'<li><a href="#" class="decidebtn" onclick="buy_decide(\''+ol_order_num+'\')">구매확정</a></li>';
+        	$('#state'+index).html(innerHtml);
+        } 
+        if($(this).text() == "입금완료"){
+        	var index = $(this).attr('id');
+        	var ol_order_num = $('#on'+index).text();
+        	innerHtml = '<li><a href="non_list_for_refund?ol_order_num='+ol_order_num+'" class="refund_req nbtnMini iw83 layerpopup">취소</a></li>';
+        	$('#state'+index).html(innerHtml);
+        } 
+    });
 
 });
+
+//교환버튼클릭
+function changebtn(){
+	alert("교환 불가 상품입니다. 자세한 문의사항은 1:1문의 게시판을 이용해주세요.");
+}
+
+//배송완료 상태에서 구매확정 버튼 클릭
+function buy_decide(ol_order_num){
+	if(confirm("구매를 확정하시겠습니까? 구매 확정 후에는 반품, 교환이 불가합니다.")){
+ 		location.href="decide_buying?ol_order_num="+ol_order_num+"&page=non_ordercheck";
+	}	
+}
+
+//입금대기중 - 취소
+function wait_cancel(ol_order_num){
+	console.log(ol_order_num);
+	 if(confirm("주문을 취소하시겠습니까?")){
+   	 $.ajax({
+   		 type : "POST",
+   		 url : "cancel_order",
+   		 data : ol_order_num,
+   		 contentType : "application/json",
+            dataType : "json",
+            success : function(val){
+           	 if(val == 1){
+           		 alert("주문이 취소되었습니다.");
+           		 location.reload();
+           	 } else{
+           		 alert("주문을 취소할 수 없습니다. 관리자에게 문의하세요.");
+           	 }
+            },
+            error : function(){
+           	 alert("서버통신실패. 관리자에게 문의하세요.");
+            }
+   	 });
+	 } else {
+		 return;
+	 };//if confirm
+}
 </script>
 </head>
+
 <body>
 
 
@@ -147,7 +210,7 @@ $(document).ready(function() {
                                         <td>
                                             <fmt:formatDate value="${ ol.ODATE }" pattern="yyyy-MM-dd" var="dateType" />
                                             <p class="day">${ dateType }</p>
-                                            <a href="my_order_statement?ol_order_num=${ ol.ONUM }"><p class="orderNum" id="on${ status.index }">${ ol.ONUM }</p></a>
+                                            <a href="non_order_statement?ol_order_num=${ ol.ONUM }"><p class="orderNum" id="on${ status.index }">${ ol.ONUM }</p></a>
                                         </td>
                                         <td class="left">
                                             ${ ol.P_NAME }
@@ -187,6 +250,17 @@ $(document).ready(function() {
 <script type="text/javascript">
 $(function(){
 
+	function distance(){
+		var winWidth = $(window).width();
+		if(winWidth > 767){
+			$(".productList ul li:nth-child(4n+4)").css("padding","0 0 0 0");
+		}else{
+			$(".productList ul li:nth-child(4n+4)").css("padding","0 10px");
+		}
+	}
+	distance();
+	$(window).resize(function(){distance();});
+
 	// layer popup
 	var winWidth = $(window).width();
 	if(winWidth > 767){
@@ -195,7 +269,23 @@ $(function(){
 		var layerCheck = 320;
 	}
 
-	$(".iw40").fancybox({
+// 	$(".iw40").fancybox.center();
+
+	$(".layerpopup").fancybox({
+		'centerOnScroll' : true,
+		'autoDimensions'    : false,
+		'showCloseButton'	: false,
+		'width' : layerCheck,
+		'padding' : 0,
+		'type'			: 'iframe',
+		'onComplete' : function() {
+			$('#fancybox-frame').load(function() { // wait for frame to load and then gets it's height
+			$('#fancybox-content').height($(this).contents().find('body').height());
+			});
+		}
+	});
+	$(".layerpopup2").fancybox({
+		'centerOnScroll' : true,
 		'autoDimensions'    : false,
 		'showCloseButton'	: false,
 		'width' : layerCheck,

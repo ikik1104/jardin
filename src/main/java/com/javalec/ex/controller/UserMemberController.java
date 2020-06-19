@@ -1,7 +1,9 @@
 package com.javalec.ex.controller;
 
 import java.sql.JDBCType;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -19,9 +21,11 @@ import org.springframework.web.method.annotation.ModelMethodProcessor;
 import com.javalec.ex.dto.AllDto;
 import com.javalec.ex.dto.CouponDto;
 import com.javalec.ex.dto.MemberDto;
+import com.javalec.ex.dto.OrderListDto;
 import com.javalec.ex.dto.ReceiverDto;
 import com.javalec.ex.dto.UtilDto;
 import com.javalec.ex.service.AdminCouponService;
+import com.javalec.ex.service.NonMemService;
 import com.javalec.ex.service.UserMemberService;
 
 @Controller
@@ -36,6 +40,8 @@ public class UserMemberController {
 	
 	@Autowired
 	UserMemberService mservice;
+	@Autowired
+	NonMemService nmService;
 	
 	//로그인 페이지 접속
 	@RequestMapping("login")
@@ -125,39 +131,58 @@ public class UserMemberController {
 
 	}
 	
-	//(임시)비회원 주문조회 페이지 링크
-	@RequestMapping("nonmember_ordercheck")
-	public String nonmember_ordercheck() {
-		return "nonmember/ordercheck";
-	}
+//	//(임시)비회원 주문조회 페이지 링크
+//	@RequestMapping("nonmember_ordercheck")
+//	public String nonmember_ordercheck() {
+//		return "nonmember/ordercheck";
+//	}
 	
 	//비회원 주문조회 로그인
 	@ResponseBody
 	@PostMapping("nonmember_login")
-	public int nonmember_login(ReceiverDto receiverDto, HttpSession session, Model model) {
-		int success=-99; String alerttext="";
-		ReceiverDto dto_db = mservice.nonmemberLogin(receiverDto);
-		if(!(dto_db.getOl_order_num().equals("-"))) {
-			//주문번호 일치
-			if(!(dto_db.getM_name().equals("-"))) {
-				//주문번호, 주문자명 모두 일치
-				success=1;
-			} else {
-				//주문번호 일치, 주문자명 불일치
-				success=-1;
-			}
+	public Map<String, Object> nonmember_login(OrderListDto orderListDto, HttpSession session, Model model) {
+		Map<String, Object> map = new HashMap<String, Object>();	
+//		String orderNum = orderListDto.getOl_order_num()
+		int check = nmService.nonMemLog(orderListDto);
+		int success = 0;
+		if(check == 1) {
+			success=1; //이름, 주문번호 일치
+			map.put("orderNum", orderListDto.getOl_order_num());
+			map.put("orderName", orderListDto.getOl_orderer_id());
+		} else {
+			success=-1; //이름, 주문번호 없거나 불일치
 		}
-		
-	if(success==1) { 
-			System.out.println("주문자명, 주문번호 둘다 일치"); 
-			alerttext="location.href='nonmember_ordercheck';";
-			session.setAttribute("orderName", dto_db.getM_name());
-			session.setAttribute("orderNum", dto_db.getOl_order_num());
-		}
-		model.addAttribute("alerttext", alerttext);
-		
-		return success;
+		map.put("success", success);
+		return map;
 	}
+	
+//	//비회원 주문조회 로그인
+//	@ResponseBody
+//	@PostMapping("nonmember_login")
+//	public int nonmember_login(ReceiverDto receiverDto, HttpSession session, Model model) {
+//		int success=-99; String alerttext="";
+//		ReceiverDto dto_db = mservice.nonmemberLogin(receiverDto);
+//		if(!(dto_db.getOl_order_num().equals("-"))) {
+//			//주문번호 일치
+//			if(!(dto_db.getM_name().equals("-"))) {
+//				//주문번호, 주문자명 모두 일치
+//				success=1;
+//			} else {
+//				//주문번호 일치, 주문자명 불일치
+//				success=-1;
+//			}
+//		}
+//		
+//		if(success==1) { 
+//			System.out.println("주문자명, 주문번호 둘다 일치"); 
+//			alerttext="location.href='nonmember_ordercheck';";
+//			session.setAttribute("orderName", dto_db.getM_name());
+//			session.setAttribute("orderNum", dto_db.getOl_order_num());
+//		}
+//		model.addAttribute("alerttext", alerttext);
+//		
+//		return success;
+//	}
 	
 	//회원가입 실명확인 페이지 접속
 	@RequestMapping("step01")

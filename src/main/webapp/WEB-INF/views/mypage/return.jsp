@@ -39,7 +39,6 @@ $(function() {
 	    var total_amt = $(".amt"+index).val(); //원래 총 수량
 	    var one_price = total_price / total_amt;
 	    var modi_amt = $(this).children('.spinner').val(); //변경된 수량을 가져옴	   
-	    alert(modi_amt);
 	    var modi_price = one_price * modi_amt;
 	    $("#price"+index).text(modi_price);
 	});

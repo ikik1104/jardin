@@ -25,7 +25,7 @@
 						<li><a onclick="user_logout()" style="cursor:pointer;">LOGOUT</a></li>						
 					</c:if>
 					<li><a href="#">JOIN</a></li>
-					<li><a href="#">MY PAGE</a></li>
+					<li><a href="ordercheck">MY PAGE</a></li>
 					<li><a href="#">CART</a></li>
 				</ul>
 				<form action="main_search" method="get" name="search">
