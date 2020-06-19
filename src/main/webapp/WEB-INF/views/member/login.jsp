@@ -91,7 +91,7 @@ $(document).ready(function() {
     
      //회원 로그인 폼 제출
 		function submitMember(){
-			
+    	 
 			backpath_value=document.getElementById('backpath').value;
 				
 				$.ajax({
@@ -150,7 +150,9 @@ $(document).ready(function() {
 
 <div id="allwrap">
 <div id="wrap">
-
+<!-- 세션 정보 -->
+<input type="hidden" id="userNum" value="${userNum }">
+<input type="hidden" id="orderNum" value="${orderNum }">
 
 	<jsp:include page="../header.jsp" />
 

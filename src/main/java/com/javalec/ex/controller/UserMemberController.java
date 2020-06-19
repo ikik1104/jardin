@@ -68,14 +68,31 @@ public class UserMemberController {
 	@ResponseBody
 	@RequestMapping("logout")
 	public int login(HttpSession session ) {
-		session.removeAttribute("userNum");
-		session.removeAttribute("userID");
-		int success = 0;
-		if(session.getAttribute("userNum")==null ) {
-			if(session.getAttribute("userID")==null ) {
-				success=1;
-			}
+		int success = 0;		
+		//회원 로그아웃
+		if(session.getAttribute("userNum")!=null ) {	
+			session.removeAttribute("userNum");
+			session.removeAttribute("userID");
+			//로그아웃 잘 됐는지 확인
+			if(session.getAttribute("userNum")==null ) {
+				if(session.getAttribute("userID")==null ) {
+					success=1;
+				}
+			}			
 		}
+		
+		//비회원 로그아웃
+		if(session.getAttribute("orderNum")!=null ) {	
+			session.removeAttribute("orderNum");
+			session.removeAttribute("orderName");
+			//로그아웃 잘 됐는지 확인
+			if(session.getAttribute("orderNum")==null ) {
+				if(session.getAttribute("orderName")==null ) {
+					success=1;
+				}
+			}					
+		}		
+		
 		return success;
 	}
 	
@@ -99,11 +116,16 @@ public class UserMemberController {
 			}
 		}
 		
-		
 		if(success== 1) { 
 			System.out.println("id, pw 둘다 일치"); 
 			session.setAttribute("userID", alldto_fromDB.getMemberdto().getM_id()); 
 			session.setAttribute("userNum", alldto_fromDB.getMemberdto().getM_num()); 
+			if(session.getAttribute("orderNum")!=null || session.getAttribute("orderName")!=null) {
+				//비회원으로 로그인 되어 있을 경우 비회원 자동 로그아웃
+				session.removeAttribute("orderNum");
+				session.removeAttribute("orderName");			
+			}
+			
 			if(backpath==null || backpath.equals("")) {
 				//돌아갈 경로 지정 안 했을 경우
 			} else if(backpath!=null && backpath!="") {
@@ -127,7 +149,8 @@ public class UserMemberController {
 	@ResponseBody
 	@PostMapping("nonmember_login")
 	public int nonmember_login(ReceiverDto receiverDto, HttpSession session, Model model) {
-		int success=-99; String alerttext="";
+		int success=-99; 
+		
 		ReceiverDto dto_db = mservice.nonmemberLogin(receiverDto);
 		if(!(dto_db.getOl_order_num().equals("-"))) {
 			//주문번호 일치
@@ -142,11 +165,15 @@ public class UserMemberController {
 		
 	if(success==1) { 
 			System.out.println("주문자명, 주문번호 둘다 일치"); 
-			alerttext="location.href='nonmember_ordercheck';";
 			session.setAttribute("orderName", dto_db.getM_name());
 			session.setAttribute("orderNum", dto_db.getOl_order_num());
+			
+			if(session.getAttribute("userNum")!=null || session.getAttribute("userID")!=null) {
+				//회원으로 로그인 되어 있을 회원 자동 로그아웃
+				session.removeAttribute("userNum");
+				session.removeAttribute("userID");			
+			}
 		}
-		model.addAttribute("alerttext", alerttext);
 		
 		return success;
 	}
