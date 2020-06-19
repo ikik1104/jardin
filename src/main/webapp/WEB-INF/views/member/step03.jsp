@@ -91,31 +91,34 @@ $(document).ready(function() {
      }
    
      function submitJoin(){
+    	 
     	 alert('들어옴');
     	 //이메일값 합치기
     	 var email = joinform.email1.value+'@'+joinform.email2.value;
     	 joinform.m_email.value=email;
-    	 alert('이메일 통과');
     	 
     	 //휴대폰값 합치기
     	 var phone =  joinform.phone1.value+'-'+joinform.phone2.value+'-'+joinform.phone3.value;
     	 joinform.m_phone.value=phone;
-    	 
-    	 alert('휴대폰 통과');  	 
+    
     	 
     	 //유선전화 합치기
     	  var tel =  joinform.tel1.value+'-'+joinform.tel2.value+'-'+joinform.tel3.value;
     	 joinform.m_tel.value=tel;
-    	 
-    	 alert('유선 통과');
-    	 
+    	
     	 //생년월일 합치기
     	 var birth = joinform.birth1.value+'/'+joinform.birth2.value+'/'+joinform.birth3.value;
     	 joinform.m_birth.value=birth;
+    	
+    	 //공백제거
+    	 member_join.m_name.replace(" ", "");
+    	 member_join.m_id.replace(" ", "");  
+    	 member_join.m_pw.replace(" ", "");    	 
+    	 member_join.m_email.replace(" ", "");    	 
+    	 member_join.m_zipcode.replace(" ", "");    	 
+    	 member_join.m_phone.replace(" ", "");    	 
+    	 member_join.m_tel.replace(" ", "");    	 
     	 
-    	 alert('생년월일 통과');
-    	 
-    
     	 joinform.submit();
     	 
      }
