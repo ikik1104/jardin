@@ -140,7 +140,7 @@ function submitComment(){
 	  
 	   	 if(userID==null || userID==""){
 	   		 if(confirm('로그인이 필요합니다. 로그인 페이지로 이동할까요?')){
-	   			 location.href='login?backpathSlash=none&backpath=user_event_view?e_num='+ecomment_insert.e_num.value;
+	   			 location.href='login?backpath=user_event_view?e_num='+ecomment_insert.e_num.value;
 	   		 } else {
 	   			 //댓글 등록창 막아 버리기
 	   				$( 'input#ec_pw' ).css('readonly','readonly');

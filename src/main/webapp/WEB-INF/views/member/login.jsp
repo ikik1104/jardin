@@ -92,19 +92,21 @@ $(document).ready(function() {
      //회원 로그인 폼 제출
 		function submitMember(){
 			
-				var backpath=document.getElementById('backpath').value;//로그인 뒤 돌아갈 경로
+			backpath_value=document.getElementById('backpath').value;
 				
-				 $.ajax({
+				$.ajax({
 			       url: "member_login",
 			       type: "POST",
 			       data:  $("#m_login").serialize(),
 			       success : function(val){
 			           if(val ==1 ){//1이면 성공   	    
 			           location.href='main';
-			           }else if(val==-1){ // -1이면 비밀번호 불일치
+			          } else if(val==-99){
+			        	  alert('아이디가 일치하지 않습니다. 다시 시도해 주세요.');
+			          } else if(val==-1){ // -1이면 비밀번호 불일치
 			              alert("비밀번호가 일치하지 않습니다. 다시 시도해 주세요.");
 			           } else if(val==-2){//-2이면 로그인 뒤 지정 경로로 이동
-			           location.href=backpath;
+			           location.href=backpath_value;
 			           }
 			        },
 			        error : function(){
@@ -186,7 +188,6 @@ $(document).ready(function() {
 					<form action="member_login" name="m_login" method="post" id="m_login">
 						<!-- 같이 보내줄 데이터 -->
 						<input type="hidden" id="backpath"  name="backpath" value="${backpath }"><!-- 로그인 후 돌아갈 경로(없을 수도 있음) -->
-
 						<div class="informbox">
 							<div class="inform">
 								<ul>
