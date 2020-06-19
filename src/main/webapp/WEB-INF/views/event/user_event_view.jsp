@@ -53,7 +53,8 @@
              background-color: rgb(0,0,0); /* Fallback color */
             background-color: rgba(0,0,0,0.4); /* Black w/ opacity */           
 		}
-
+		/*버튼*/
+		.rebtn{ cursor:pointer; }
 </style>
 </head>
 <body>
@@ -120,12 +121,12 @@
 
 
 <!-- 비밀번호 모달창 -->
-<div id="layerWrap">
-	<form action="ec_pw_check" name="pwInputForm" id="pwInputForm" method="post">
+<div id="layerWrap" >
+	<form action="ec_pw_check" name="pwInputForm" id="pwInputForm" method="post" onsubmit="return CheckEnter(this);"">
 		<!-- 함께 보내줄 데이터-->
 		<input type="hidden"  name="m_num" id="pwMnum">	
 		<input type="hidden" name="mode" id="pwMode">
-		<input type="hidden" name="e_num" >	
+		<input type="hidden" name="e_num"  value="${event_info.eventdto.e_num } " > 	
 		
 		<div class="inputWrap">
 			<div class="inputBody">
@@ -135,11 +136,11 @@
 				<p class="popalert">비밀번호를 입력해주세요.</p>
 				<div class="inputBox">					
 					<ul>
-						<li><label for="">비밀번호</label><input type="password" class="w348" name="ec_pw" id="ec_pw"/></li>
+						<li><label for="">비밀번호</label><input type="password" class="w348" name="ec_pw" id="ec_pw" onkeyup="enterkey()"/></li>
 					</ul>
 				</div>
 				<div class="centerbrn">
-					<a  onclick="submitCheck()" style="cursor:pointer;">확인</a>
+					<a  onclick="submitCheck()" style="cursor:pointer;" >확인</a>
 				</div>
 			</div>
 			<!-- 같이 태워 보낼 데이터 -->
@@ -166,7 +167,7 @@
 			<div id="left">
 				<div id="title2">EVENT<span>이벤트</span></div>
 				<ul>	
-					<li style="cursor:default;"><a id="leftNavi1"  style="cursor:default;">진행중 이벤트</a></li>
+					<li style="cursor:pointer;"><a id="leftNavi1"  href="event" >진행중 이벤트</a></li>
 					<li><a href="#" id="leftNavi2">종료된 이벤트</a></li>
 					<li class="last"><a href="#" id="leftNavi3"><span>당첨자 발표</span></a></li>
 				</ul>			
@@ -236,7 +237,7 @@
 									<p class="password">비밀번호&nbsp;&nbsp;<input type="password" class="replynum" name="ec_pw" id="ec_pw_check" onclick="checkComment()"/></p>
 									<textarea class="replyType" name="ec_content" id="ec_content" onclick="checkComment()"></textarea>
 								</li>
-								<li class="btn"  ><a class="replyBtn" onclick="submitComment()" style="cursor:pointer;">등록</a></li>
+								<li class="btn"  ><a class="replyBtn" onclick="submitComment()" style="cursor:pointer;" id="pwSubmitBtn">등록</a></li>
 							</ul>
 							<p class="ntic">※ 댓글을 등록하시면 자동으로 이벤트 신청이 완료됩니다.</p>
 						</div>
@@ -281,7 +282,7 @@
 											<li class="name">${ecomment_list.memberdto.m_id }(나의 댓글) <span>[${ecomment_list.utildto.str1 }&nbsp;&nbsp;${ecomment_list.utildto.str2 }]</span></li>
 											<li class="txt">${ecomment_list.e_commentdto.ec_content }</li>
 											<li class="btn">
-												<a class="rebtn" onclick="showModify()">수정</a>
+												<a class="rebtn" onclick="showModify()" id="modifybtn">수정</a>
 												<a href="#" class="rebtn">삭제</a>
 											</li>
 										</ul>		

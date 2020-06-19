@@ -22,14 +22,49 @@ $(function(){
 		$( 'input#banSign' ).val( 'ban' );		
 	}
 
-
 //[[공통 기능]]------------------------------------------------------------------------------
+
+	//비밀번호 모달창에서 엔터 치면 폼 자동 제출
+	/*function enterkey() {
+        if (window.event.keyCode == 13) {
+        	alert('ennterkey');
+        	submitCheck();
+        }
+}
+	
+	function CheckEnter() {
+		 var keycode = event.keyCode;
+		 if( keycode == 13 ){
+			 submitCheck();// 엔터키 입력시 실행할 구문이 담긴 function
+
+		 }else{
+		  return false;
+		 }
+		 
+		}
+	*/
+	
+	
+	$("#btnSearch").click(function(e) {
+		  // 검색 값 체크
+		  var params = $("#searchForm").serialize();
+
+		  $.post("/toma/testList/checkBoardValue", params, function(data) {
+		    if(data == "success") {
+		      alert("성공적으로 검색되었습니다.");
+		    } else {
+		      alert("검색 값이 잘못되었습니다.");
+		      return false;
+		    }
+		  });
+		});
 
    //다른 사람 댓글 확인창 띄우기
 	function showOtherOriginal(m_num){
 		   	 $('.pwReplyOther'+m_num).hide();   			        		   
 		   	 $('#originalReplyOther'+m_num).show();    	
 		   	 location.href='#originalReplyOther'+m_num;	
+		   	 alert('실행');
 	 }
 	
 	//비밀번호창 띄우기
@@ -38,6 +73,7 @@ $(function(){
 		$('#backbody').css('display','block');	
 		pwInputForm.m_num.value=m_num;//비밀번호 입력창에 조회하려는 댓글 회원 고유번호 주입
 		pwInputForm.mode.value=mode;//myModify/myOriginal/otherOriginal
+		pwInputForm.ec_pw.focus();
 	}	
 	
 	//비밀번호 입력창 떴을 때 바깥 클릭하면 비번창 종료
@@ -55,14 +91,14 @@ $(function(){
 	//비밀번호 체크
 	function submitCheck(){
 		var mode = pwInputForm.mode.value;//myOriginal, myModify, otherOriginal
-		var e_num=ecomment_insert.e_num.value;//이벤트 고유 번호
+		//var e_num=ecomment_insert.e_num.value;//이벤트 고유 번호
 		var m_num = pwInputForm.m_num.value;//조회하려는 사람의 회원 고유번호
 		
 		var ec_pw_input = pwInputForm.ec_pw.value;//사용자가 입력한 비밀번호값
 		var ec_pw_trim =ec_pw_input.replace(' ', '');//공백제거
-		
+		alert('엔터키 테스트');
 		pwInputForm.ec_pw.value=ec_pw_trim;//비밀번호 입력 form에 공백제거한 비밀번호 값 넣어주기
-		pwInputForm.e_num.value=e_num;
+		//pwInputForm.e_num.value=24;//e_num;
 		
 		 $.ajax({
 		       url: "ec_pw_check",
@@ -71,6 +107,8 @@ $(function(){
 		       success : function(val){
 		    	   closePW();//비밀번호 창 닫기
 		           if(val ==-1 ){//otherOriginal
+		        	   alert('잘 돌아옴');
+		        	   
 		        	   showOtherOriginal(m_num);		
 		           } else if(val ==-2){//myOriginal
 		        	   showUserOriginal();	

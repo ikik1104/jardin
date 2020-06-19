@@ -118,7 +118,7 @@
 	<select id="getAllEvents" resultMap="AllDto">
          <![CDATA[select rownum, fintb.* from
      	 (select * from
-         (select etb.*, to_char(e_start_day, 'yyyy-MM-dd') str1, to_char(e_start_day, 'yyyy-MM-dd')str2, 
+         (select etb.*, to_char(e_start_day, 'yyyy-MM-dd') str1, to_char(e_end_day, 'yyyy-MM-dd')str2, 
          case when e_end_day<sysdate then '종료'
          when e_start_day>sysdate then '시작전'
          when e_start_day<=sysdate and e_end_day>=sysdate then '진행중' end str3

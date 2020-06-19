@@ -43,11 +43,8 @@ public class UserMemberController {
 		String backpath = request.getParameter("backpath");
 		
 		if(backpath!=null && !(backpath.equals(""))) {
-			//경로값 넘겼을 때 경로값에서 확장자,맨 앞의 '/' 제거
-			if(backpath.contains(".")) {
-				String[] trims = backpath.split(".");
-				backpath=trims[0];
-			} 		
+			//경로값 넘겼을 때 경로값에서 맨 앞의 '/' 제거
+
 			if(backpath.indexOf("/")==0) {
 				backpath=backpath.substring(1, backpath.length()-1);
 			}
