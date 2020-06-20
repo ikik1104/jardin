@@ -115,6 +115,8 @@
 <div id="allwrap">
 <div id="wrap">
 
+
+
 <!-- 로그인 시 session에서 사용자 아이디, 회원 번호 저장 -->
 	<input type="hidden" value="${userNum }" id="userNum" name="m_num"> 
 	<input type="hidden" value="${userID }"  id="userID" name="m_id"> 
@@ -122,7 +124,7 @@
 
 <!-- 비밀번호 모달창 -->
 <div id="layerWrap" >
-	<form action="ec_pw_check" name="pwInputForm" id="pwInputForm" method="post" onsubmit="return CheckEnter(this);"">
+	<form action="ec_pw_check" name="pwInputForm" id="pwInputForm" method="post" >
 		<!-- 함께 보내줄 데이터-->
 		<input type="hidden"  name="m_num" id="pwMnum">	
 		<input type="hidden" name="mode" id="pwMode">
@@ -136,7 +138,7 @@
 				<p class="popalert">비밀번호를 입력해주세요.</p>
 				<div class="inputBox">					
 					<ul>
-						<li><label for="">비밀번호</label><input type="password" class="w348" name="ec_pw" id="ec_pw" onkeyup="enterkey()"/></li>
+						<li><label for="">비밀번호</label><input type="password" class="w348" name="ec_pw" id="ec_pw" /></li>
 					</ul>
 				</div>
 				<div class="centerbrn">
@@ -153,6 +155,7 @@
 <jsp:include page="../header.jsp" />
 
 	<!-- container -->
+	
 	<div id="container">
 
 		<div id="location">
