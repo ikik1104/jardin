@@ -196,6 +196,17 @@
 
 						<div class="viewContents">
 							<img src="tempUpload/${event_info.eventdto.e_content_img }" alt="" />
+							<pre style="white-sapce:pre-wrap;">
+${event_info.eventdto.e_content }							
+							</pre>
+							<div style="width:640px; height:324px; background-image : tempUpload/coupon_image.jpg" id="coupon_img_area">
+									<p id="coupon_sort">${coupon_info.coupondto.co_type }</p><!-- 쿠폰 종류 -->
+									<p id="coupon_money">${coupon_info.coupondto.co_discount }</p><!-- 할인가 표시 -->
+									
+									<p id="coupon_condition">${coupon_info.coupondto.co_discount }</p><!-- 쿠폰 사용 최소금액 표시 -->
+									<!-- 상품명 길이 길어질 때 ...으로 처리 -->
+									<p id="product_name">[${coupon_info.productdto.p_num }]${coupon_info.productdto.p_name }</p><!-- 쿠폰 사용 상품명 표시 -->									
+							</div>
 						</div>
 					</div>
 

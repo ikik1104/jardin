@@ -114,7 +114,7 @@
 	    <result column="wb_date" property="wb_date"/>	  		     
 	</resultMap>		
 	
-	<!-- 이벤트 전체 리스트 가져오기 -->
+	<!-- 진행중 이벤트 전체 리스트 가져오기 -->
 	<select id="getAllEvents" resultMap="AllDto">
          <![CDATA[select rownum, fintb.* from
      	 (select * from
@@ -135,10 +135,11 @@
          when e_start_day>sysdate then '시작전'
          when e_start_day<=sysdate and e_end_day>=sysdate then '진행중' end str3 from        
          (select * from event_tb where e_num=#{e_num}) etb) eventtb,
-         ( select count(*) total from ecomment_tb where e_num=#{e_num}) cnt	]]> 	
+         ( select count(*) total from ecomment_tb where e_num=#{e_num}) cnt	
+         where str3='진행중']]> 	
 	</select>
 	
-	<!-- 해당 이벤트 댓글 전체 리스트 불러오기 -->
+	<!-- 해당 진행중 이벤트 댓글 전체 리스트 불러오기 -->
 	<select id="getTheEComments" resultMap="AllDto">
          select etb.*, m_id from
          (select ectb.*, to_char(ec_sysdate, 'yyyy-MM-dd') str1, to_char(ec_sysdate, 'hh24:mm:ss') str2 from
@@ -147,7 +148,7 @@
          where mtb.m_num=etb.m_num	
 	</select>
 	
-	<!-- 댓글 pw 체크 -->
+	<!-- 진행중 이벤트 댓글 pw 체크 -->
 	<select id="checkECommentPW" resultMap="E_CommentDto">
         select * from
         (select ec_pw from ecomment_tb where ec_pw=#{ec_pw} and m_num=#{m_num}  and e_num=#{e_num}
@@ -156,19 +157,21 @@
         where ec_pw!='-' or rownum =1
 	</select>
 	
-	<!-- 댓글 새로 1개 등록 -->
+	<!-- 진행중 이벤트 댓글 새로 1개 등록 -->
 	<insert id="insertEComment">
 		insert into ecomment_tb values(ec_seq.nextval, #{m_num},#{e_num},#{ec_content},#{ec_pw},sysdate,'미당첨')
 	</insert>
 	
-	<!-- 회원 로그인 사용자 댓글 1개 수정 -->
+	<!-- 진행중 이벤트 회원 로그인 사용자 댓글 1개 수정 -->
 	<update id="modifyEComment">
 		update ecomment_tb set ec_content=#{ec_content}, ec_pw=#{ec_pw} where ec_num=#{ec_num} and e_num=#{e_num} and m_num=#{m_num}
 	</update>
 	
-	<!-- 회원 로그인 사용자 댓글 1개 삭제 -->
+	<!--진행중 이벤트  회원 로그인 사용자 댓글 1개 삭제 -->
 	<delete id="deleteUserEcomment">
 		delete  ecomment_tb where ec_num=#{ec_num}
 	</delete>
+	
+	
 	
 </mapper>		
