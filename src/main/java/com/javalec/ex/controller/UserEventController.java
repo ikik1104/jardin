@@ -60,7 +60,7 @@ public class UserEventController {
 	}
 	
 	//이벤트 1개 불러오기
-	@RequestMapping("/user_event_view")
+	@RequestMapping("user_event_view")
 	public String user_event_view(EventDto eventDto, Model model, HttpServletRequest request) {
 		model.addAttribute("event_info", eservice.getEventBoard(eventDto));
 		model.addAttribute("ecomment_list", eservice.getTheEComments(eventDto));		
@@ -95,10 +95,24 @@ public class UserEventController {
 	@ResponseBody
 	@PostMapping("ecomment_insert")
 	public int ecomment_insert(E_CommentDto e_CommentDto) {
-	System.out.println("들어옴");
 		int success = eservice.insertEComment(e_CommentDto);
-		System.out.println("나감");
 		System.out.println(success);
+		return success;
+	}
+	
+	//회원 로그인 사용자 댓글 1개 수정
+	@PostMapping(value="modify_ecomment", produces = "application/text; charset=utf8")
+	public @ResponseBody String modify_ecomment(E_CommentDto e_CommentDto) {
+		String content = eservice.modifyEComment(e_CommentDto);
+		return content;
+	}
+	
+	//회원 로그인 사용자 댓글 1개 삭제
+	@ResponseBody
+	@RequestMapping("user_ecomment_delete")
+	public int user_ecomment_delete(@RequestBody int ec_num, Model model) {
+		System.out.println("넘어옴");
+		int success = eservice.deleteUserEcomment(ec_num);
 		return success;
 	}
 	

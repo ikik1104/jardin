@@ -238,7 +238,7 @@
 								<li class="in">
 									<p class="txt">총 <span class="orange">${event_info.utildto.str4 }</span> 개의 댓글이 달려있습니다.</p>
 									<p class="password">비밀번호&nbsp;&nbsp;<input type="password" class="replynum" name="ec_pw" id="ec_pw_check" onclick="checkComment()"/></p>
-									<textarea class="replyType" name="ec_content" id="ec_content" onclick="checkComment()"></textarea>
+									<textarea class="replyType" name="ec_content" id="insert_ec_content" onclick="checkComment()"></textarea>
 								</li>
 								<li class="btn"  ><a class="replyBtn" onclick="submitComment()" style="cursor:pointer;" id="pwSubmitBtn">등록</a></li>
 							</ul>
@@ -281,12 +281,12 @@
 											banSign();
 										</script>
 										<!-- 로그인 사용자 자기 댓글 확인창 -->
-										<ul id="originalReply">
-											<li class="name">${ecomment_list.memberdto.m_id }(나의 댓글) <span>[${ecomment_list.utildto.str1 }&nbsp;&nbsp;${ecomment_list.utildto.str2 }]</span></li>
-											<li class="txt">${ecomment_list.e_commentdto.ec_content }</li>
+										<ul id="originalReply" >
+											<li class="name" id="forUserOriginalShow">${ecomment_list.memberdto.m_id }(나의 댓글) <span>[${ecomment_list.utildto.str1 }&nbsp;&nbsp;${ecomment_list.utildto.str2 }]</span></li>
+											<li class="txt" id="originalContent">${ecomment_list.e_commentdto.ec_content }</li>
 											<li class="btn">
-												<a class="rebtn" onclick="showModify()" id="modifybtn">수정</a>
-												<a href="#" class="rebtn">삭제</a>
+												<a class="rebtn" onclick="showUserModify()" id="modifybtn">수정</a>
+												<a href="#" class="rebtn" onclick="user_del_check(${ecomment_list.e_commentdto.ec_num })">삭제</a>
 											</li>
 										</ul>		
 										<!-- 로그인 사용자 비밀댓글창 -->
@@ -295,20 +295,27 @@
 											<li class="txt" onclick="openPW(${ecomment_list.e_commentdto.m_num }, 'myOriginal')" style="cursor:pointer;">※비밀 댓글입니다.(조회하려면 클릭하세요)</li>
 											<li class="btn">
 												<a class="rebtn" onclick="openPW(${ecomment_list.e_commentdto.m_num }, 'myModify')">수정</a>
-												<a href="#" class="rebtn">삭제</a>
+												<a href="#" class="rebtn" onclick="user_del_check(${ecomment_list.e_commentdto.ec_num })">삭제</a>
 											</li>
 										</ul>		
 										<!-- 로그인 사용자 댓글 수정창 -->
+										<form  action="modify_ecomment" method="post" name="modify_ecomment" id="modify_ecomment" >
+										<!-- 같이 보내줄 데이터 -->
+										<input type="hidden"  name="m_num" value="${userNum }">	
+										<input type="hidden" name="e_num"  value="${event_info.eventdto.e_num } " > 	
+										<input type="hidden"  name="ec_num" value="${ecomment_list.e_commentdto.ec_num}">											
+										
 										<ul id="modifyReply">
 											<li class="name">${ecomment_list.memberdto.m_id } <span>[${ecomment_list.utildto.str1 }&nbsp;&nbsp;${ecomment_list.utildto.str2 }]</span></li>
-											<li class="txt"><textarea class="replyType">${ecomment_list.e_commentdto.ec_content }</textarea></li>
-											<li><p class="password">비밀번호&nbsp;&nbsp;<input type="password" name="ec_pw_modify"/></p></li>
+											<li class="txt"><textarea class="replyType" name="ec_content" id="modifyContent">${ecomment_list.e_commentdto.ec_content }</textarea></li>
+											<li><p class="password">비밀번호&nbsp;&nbsp;<input type="password" name="ec_pw"/></p></li>
 											<li class="btn">
-												<a href="#" class="rebtn" onclick="showOriginal()">확인</a>											
-												<a href="#" class="rebtn">수정</a>
-												<a href="#" class="rebtn">삭제</a>
+												<a href="#" class="rebtn" onclick="showUserOriginal()">취소</a>											
+												<a href="#" class="rebtn" onclick="submitUserModify()">수정</a>
+												<a href="#" class="rebtn" onclick="user_del_check(${ecomment_list.e_commentdto.ec_num })">삭제</a>
 											</li>
-										</ul>							
+										</ul>			
+										</form>
 									</c:if>
 								</c:forEach>
 								<!-- //사용자 댓글 맨 위에 출력 -->

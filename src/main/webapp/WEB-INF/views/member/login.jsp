@@ -29,7 +29,7 @@
 <![endif]-->
 <script type="text/javascript">
 $(document).ready(function() {
-	
+	m_login.m_id.focus();
 
 
 });

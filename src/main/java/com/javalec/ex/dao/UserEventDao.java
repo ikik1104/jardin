@@ -41,6 +41,12 @@ public interface UserEventDao {
 
 	//댓글 새로 등록
 	int insertEComment(E_CommentDto e_CommentDto);
+
+	//회원 로그인 사용자 댓글 1개 수정
+	int modifyEComment(E_CommentDto e_CommentDto);
+
+	//회원 로그인 댓글 1개 삭제
+	int deleteUserEcomment(int ec_num);
 	
 
 	

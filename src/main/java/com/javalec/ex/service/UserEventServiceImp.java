@@ -64,6 +64,23 @@ public class UserEventServiceImp implements UserEventService {
 		return edao.insertEComment(e_CommentDto);
 	}
 
+	//회원 로그인 사용자 댓글 1개 수정
+	public String modifyEComment(E_CommentDto e_CommentDto) {
+		String result="";
+		int success = edao.modifyEComment(e_CommentDto);//수정
+		if(success==1) {
+			result=e_CommentDto.getEc_content();
+		} else {
+			result=null;
+		}
+		return result;
+	}
+
+	//회원 로그인 댓글 1개 삭제
+	public int deleteUserEcomment(int ec_num) {
+		return edao.deleteUserEcomment(ec_num);
+	}
+
 	
 
 

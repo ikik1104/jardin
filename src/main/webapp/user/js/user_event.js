@@ -2,6 +2,7 @@
 //[[페이지 load되자마자 작동]]------------------------------------------------------------------------------
 $(function(){
 	//로그인 사용자가 이미 댓글을 달았으면 댓글창 숨김
+	
 	if(document.getElementById('banSign').value=='ban'){
 		$('.replyWrite').hide();
 		$('.replyBan').show();		
@@ -92,6 +93,7 @@ $(function(){
 		        	   showUserModify();		
 		           } else if(val==0){ // 0이면 실패
 		              alert("비밀번호가 일치하지 않습니다. 다시 시도해 주세요.");
+		              openPW(m_num, mode);
 		           }
 		        },
 		        error : function(){
@@ -104,6 +106,63 @@ $(function(){
 
 //[[로그인 사용자 기능]]------------------------------------------------------------------------------
 
+//회원 로그인 사용자 댓글 1개 삭제
+	function user_del_check(ec_num){
+		if(confirm("해당 댓글을 삭제하시겠습니까? \n(삭제한 데이터는 복구할 수 없으며, 이벤트 신청이 취소됩니다.)")){
+			$.ajax({
+                  url : "user_ecomment_delete",
+                  type : "POST",
+                  data: JSON.stringify(ec_num),
+                  dataType : "json",
+                  contentType: "application/json",
+                  success : function(val){
+                     if(val == 1){ //리턴값이 1이면 (=성공)
+                        alert("삭제처리 완료되었습니다.");
+                        location.reload();
+                     }else{ // 0이면 실패
+                        alert("삭제처리 실패.");
+                     }
+                  },
+                  error: function(jqXHR, exception) {
+                	  alert('서버 통신 실패');
+                      if (jqXHR.status === 0) {
+                          alert('Not connect.\n Verify Network.');
+                      } 
+                      else if (jqXHR.status == 400) {
+                          alert('Server understood the request, but request content was invalid. [400]');
+                      } 
+                      else if (jqXHR.status == 401) {
+                          alert('Unauthorized access. [401]');
+                      } 
+                      else if (jqXHR.status == 403) {
+                          alert('Forbidden resource can not be accessed. [403]');
+                      } 
+                      else if (jqXHR.status == 404) {
+                          alert('Requested page not found. [404]');
+                      } 
+                      else if (jqXHR.status == 500) {
+                          alert('Internal server error. [500]');
+                      } 
+                      else if (jqXHR.status == 503) {
+                          alert('Service unavailable. [503]');
+                      } 
+                      else if (exception === 'parsererror') {
+                          alert('Requested JSON parse failed. [Failed]');
+                      } 
+                      else if (exception === 'timeout') {
+                          alert('Time out error. [Timeout]');
+                      } 
+                      else if (exception === 'abort') {
+                          alert('Ajax request aborted. [Aborted]');
+                      } 
+                      else {
+                          alert('Uncaught Error.n' + jqXHR.responseText);
+                      }
+                  }
+               });
+         }
+	}
+	
 //로그인 사용자 댓글 수정창 나타내기
 function showUserModify(){
 	$('#originalReply').hide();	
@@ -113,17 +172,78 @@ function showUserModify(){
 }
 //로그인 사용자 댓글 확인창 나타내기
 function showUserOriginal(){
-	$('#modifyReply').hide();	
-	$('#pwReply').hide();
-	$('#originalReply').show();	
-	location.href='#originalReply';	
+	$('#modifyReply').css('display','none');
+	$('#pwReply').css('display','none');
+	$('#originalReply').css('display','block');
+	//location.href='#forUserOriginalShow';	(왠지 작동 안 함;;)
+	 var offset = $("#originalReply").offset();
+      $('html, body').animate({scrollTop : offset.top}, 1);
+}
+
+
+//회원 로그인 사용자 댓글 수정
+function submitUserModify(){
+	
+	//비밀번호, 내용 유효성 검사
+	if(modify_ecomment.ec_pw.value=="" || modify_ecomment.ec_pw.value==null){
+		alert('비밀번호를 입력하세요.');
+		modify_ecomment.ec_pw.focus();
+		 var offset = $("#modifyReply").offset();
+	      $('html, body').animate({scrollTop : offset.top}, 1);
+	      return false;
+	} 
+	if($('#modifyContent').val()=="" || $('#modifyContent').val()==null){
+			alert('내용을 입력해 주세요.');
+			$('#modifyContent').focus();		
+			 var offset = $("#modifyReply").offset();
+		     $('html, body').animate({scrollTop : offset.top},1);
+		     return false;
+	}
+
+	
+	//비밀번호, 내용 공백제거
+	modify_ecomment.ec_pw.value = modify_ecomment.ec_pw.value.replace(' ', '');
+	$('#modifyContent').html( $('#modifyContent').html().replace(' ',''));
+	
+	 $.ajax({
+	       url: "modify_ecomment",
+	       type: "POST",
+	       data:  $("#modify_ecomment").serialize(),
+	       success : function(data){
+	    	   alert(data);
+	           if(data ==null ){//실패
+	        	  alert('댓글을 수정하지 못했습니다. 다시 시도해 주세요.');	
+	           } else if(data !=null){//성공
+	        	   //리로드 하지 않고 숨겨진 댓글창의 내용만 수정
+	        	   alert('댓글을 수정했습니다.');
+	        	    $('#originalContent').html(data);
+	        	    $('#modifyContent').html(data);	     
+	        	    showUserOriginal();
+	           }
+	        },
+	        error : function(){
+	           alert("서버통신실패");
+	        }
+		  });			
 }
 
 
 
 //로그인 사용자가 새 댓글 등록
 function submitComment(){
-	 alert('작동');
+	
+	//비밀번호, 내용 공백 체크
+	if($('#ec_pw_check').val()=="" || $('#ec_pw_check').val()==null){
+		alert('비밀번호를 입력해 주세요.');
+		ecomment_insert.ec_pw.value.focus();
+		return false;
+	}
+	if($('#insert_ec_content').val()=="" || $('#insert_ec_content').val()==null){
+		alert('내용을 입력해 주세요.');
+		$('#insert_ec_content').val().focus();
+		return false;
+	}	
+	
 	
 	 $.ajax({
        url: "ecomment_insert",
@@ -131,7 +251,7 @@ function submitComment(){
        data:  $("#insertform").serialize(),
        success : function(val){
            if(val ==1 ){//1이면 성공
-           alert('성공');                      	    
+           alert('댓글을 등록했습니다.');                      	    
            location.reload();
            }else{ // 0이면 실패
               alert("비밀번호가 일치하지 않습니다. 다시 시도해 주세요.");
@@ -157,8 +277,8 @@ function submitComment(){
 	   			 location.href='login?backpath=user_event_view?e_num='+ecomment_insert.e_num.value;
 	   		 } else {
 	   			 //댓글 등록창 막아 버리기
-	   				$( 'input#ec_pw' ).css('readonly','readonly');
-	   				$( '#ec_content' ).css('readonly','readonly');
+	   				$( 'input#ec_pw_check' ).attr("readonly",true); 
+	   				$( '#insert_ec_content' ).attr("readonly",true); 
 	   		 }
 	   	 }
     }

@@ -158,6 +158,17 @@
 	
 	<!-- 댓글 새로 1개 등록 -->
 	<insert id="insertEComment">
-insert into ecomment_tb values(ec_seq.nextval, #{m_num},#{e_num},#{ec_content},#{ec_pw},sysdate,'미당첨')
+		insert into ecomment_tb values(ec_seq.nextval, #{m_num},#{e_num},#{ec_content},#{ec_pw},sysdate,'미당첨')
 	</insert>
+	
+	<!-- 회원 로그인 사용자 댓글 1개 수정 -->
+	<update id="modifyEComment">
+		update ecomment_tb set ec_content=#{ec_content}, ec_pw=#{ec_pw} where ec_num=#{ec_num} and e_num=#{e_num} and m_num=#{m_num}
+	</update>
+	
+	<!-- 회원 로그인 사용자 댓글 1개 삭제 -->
+	<delete id="deleteUserEcomment">
+		delete  ecomment_tb where ec_num=#{ec_num}
+	</delete>
+	
 </mapper>		
