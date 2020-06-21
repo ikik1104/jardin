@@ -201,11 +201,20 @@ ${event_info.eventdto.e_content }
 							</pre>
 							<div style="width:640px; height:324px; background-image : tempUpload/coupon_image.jpg" id="coupon_img_area">
 									<p id="coupon_sort">${coupon_info.coupondto.co_type }</p><!-- 쿠폰 종류 -->
-									<p id="coupon_money">${coupon_info.coupondto.co_discount }</p><!-- 할인가 표시 -->
-									
-									<p id="coupon_condition">${coupon_info.coupondto.co_discount }</p><!-- 쿠폰 사용 최소금액 표시 -->
+									<p id="coupon_money">
+										<fmt:formatNumber type="number" maxFractionDigits="3" value="${coupon_info.coupondto.co_discount }" />원
+									</p><!-- 할인가 표시 -->
+									<c:if test="${coupon_info.coupondto.co_discount!=null }">
+										<p id="coupon_condition">
+											<fmt:formatNumber type="number" maxFractionDigits="3" value="${coupon_info.coupondto.co_discount }" />
+										</p><!-- 쿠폰 사용 최소금액 표시 --> 이상 구매 시
+									</c:if>
 									<!-- 상품명 길이 길어질 때 ...으로 처리 -->
-									<p id="product_name">[${coupon_info.productdto.p_num }]${coupon_info.productdto.p_name }</p><!-- 쿠폰 사용 상품명 표시 -->									
+									<c:if test="${coupon_info.productdto.p_num!=null }">
+										<p id="product_name" style="width:500px; overflow:hidden; text-overflow:ellipsis;white-space:nowrap;">
+											[${coupon_info.productdto.p_num }]${coupon_info.productdto.p_name }
+										</p><!-- 쿠폰 사용 상품명 표시 -->												
+									</c:if>
 							</div>
 						</div>
 					</div>

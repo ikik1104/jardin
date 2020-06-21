@@ -44,4 +44,7 @@ public interface UserEventService {
 	//회원 로그인 사용자 댓글 1개 삭제
 	int deleteUserEcomment(int ec_num);
 
+	//해당 이벤트에 쿠폰 있을 경우 쿠폰 가져오기
+	Object getTheCoupon(EventDto eventDto);
+
 }

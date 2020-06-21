@@ -64,6 +64,7 @@ public class UserEventController {
 	public String user_event_view(EventDto eventDto, Model model, HttpServletRequest request) {
 		model.addAttribute("event_info", eservice.getEventBoard(eventDto));
 		model.addAttribute("ecomment_list", eservice.getTheEComments(eventDto));		
+		model.addAttribute("coupon_info", eservice.getTheCoupon(eventDto));
 		
 		return response_path+"user_event_view";
 	}
