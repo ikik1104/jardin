@@ -344,7 +344,7 @@
 					<div class="btnArea">
 						<div class="bRight">
 							<ul>
-								<li><a href="#" class="sbtnMini mw">목록</a></li>
+								<li><a href="event" class="sbtnMini mw">목록</a></li>
 							</ul>
 						</div>
 					</div>
