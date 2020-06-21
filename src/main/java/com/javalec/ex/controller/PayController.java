@@ -1,6 +1,7 @@
 package com.javalec.ex.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,9 +21,10 @@ public class PayController {
 	
 	// 주문/결제 페이지로 장바구니에 포함된 제품 전체 정보 & 회원 정보  불러오기 
 	@RequestMapping("payment")
-	public String payment(HttpServletRequest request, Model model) {
+	public String payment(HttpServletRequest request, Model model, HttpSession session) {
+		if(session.getAttribute("userNum") == null) {return "home";}//세션체크
 		
-		int m_num = Integer.parseInt(request.getParameter("m_num"));
+		int m_num = (Integer)session.getAttribute("userNum");
 		
 		MemberDto memberDto = payService.getMemInfo1(m_num);
 				
@@ -59,7 +61,8 @@ public class PayController {
 	
 	// 쿠폰 정보 불러오기 (자식창 용)
 	@RequestMapping("coupon_list")
-	public String coupon_list(HttpServletRequest request, Model model) {
+	public String coupon_list(HttpServletRequest request, Model model, HttpSession session) {
+		if(session.getAttribute("userNum") == null) {return "home";}//세션체크
 		
 		int m_num = Integer.parseInt(request.getParameter("m_num"));
 		

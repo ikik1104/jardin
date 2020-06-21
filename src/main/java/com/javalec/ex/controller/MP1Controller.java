@@ -1,8 +1,11 @@
 package com.javalec.ex.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.javalec.ex.dto.CartDto;
 import com.javalec.ex.service.MP1Service;
 
+
 @Controller
 public class MP1Controller {
 
@@ -21,18 +25,13 @@ public class MP1Controller {
 	
 	// 장바구니 페이지 
 	@RequestMapping("cart")
-	public String cart(HttpServletRequest request, Model model) {
+	public String cart(HttpSession session, Model model) {
+		if(session.getAttribute("userNum") == null) {return "home";}//세션체크
+		int m_num = (Integer)session.getAttribute("userNum");
 		
-		int m_num = Integer.parseInt(request.getParameter("m_num"));
-		
-//		if(session.getAttribute("m_num")==null) {
-//			return "member/login";
-//		}
-		
-		//  payment_cart_tb 비우기
 		mp1Service.delPaymentCart(m_num);
 		
-		mypageInfo(request, model);
+		mypageInfo(session, model);
 		// 장바구니 제품 list 불러오기
 		model.addAttribute("cartlist", mp1Service.getAllCart(m_num));
 		
@@ -54,7 +53,6 @@ public class MP1Controller {
 	@ResponseBody
 	@RequestMapping("cartUpdate")
 	public int cartUpdate(@RequestBody int[] info, Model model) {
-		
 		//  payment_cart_tb 비우기
 		mp1Service.delPaymentCart(info[0]);
 		// 장바구니 업데이트 
@@ -66,10 +64,11 @@ public class MP1Controller {
 	
 	// 나의 쿠폰 페이지
 	@RequestMapping("mycoupon")
-	public String mycoupon(HttpServletRequest request, Model model) {
-		int m_num = Integer.parseInt(request.getParameter("m_num"));
+	public String mycoupon(HttpSession session, Model model) {
+		if(session.getAttribute("userNum") == null) {return "home";}//세션체크
+		int m_num = (Integer)session.getAttribute("userNum");
 		
-		mypageInfo(request, model);
+		mypageInfo(session, model);
 		
 		// 사용 가능  쿠폰 list 불러오기
 		model.addAttribute("couponlist", mp1Service.getAllCou(m_num));
@@ -82,10 +81,12 @@ public class MP1Controller {
 	
 	// 나의 포인트 페이지
 	@RequestMapping("mypoint")
-	public String mypoint(HttpServletRequest request, Model model) {
+	public String mypoint(HttpSession session, Model model) {
 		
-		int m_num = Integer.parseInt(request.getParameter("m_num"));
-		mypageInfo(request, model);
+		if(session.getAttribute("userNum") == null) {return "home";}//세션체크
+		int m_num = (Integer)session.getAttribute("userNum");
+		
+		mypageInfo(session, model);
 		
 		// 적립 포인트 총 합
 		model.addAttribute("totalSavePoint", mp1Service.totalSavePoint(m_num));
@@ -101,10 +102,12 @@ public class MP1Controller {
 	
 	// 위시리스트 페이지
 	@RequestMapping("wishlist")
-	public String wishlist(HttpServletRequest request, Model model) {
+	public String wishlist(HttpSession session, Model model) {
 			
-		int m_num = Integer.parseInt(request.getParameter("m_num"));
-		mypageInfo(request, model);
+		if(session.getAttribute("userNum") == null) {return "home";}//세션체크
+		int m_num = (Integer)session.getAttribute("userNum");
+		
+		mypageInfo(session, model);
 			
 		model.addAttribute("allWishlist", mp1Service.getAllWish(m_num));
 			
@@ -152,9 +155,12 @@ public class MP1Controller {
 			
 	
 	// 마이페이지 상단 공통 정보
-	public void mypageInfo(HttpServletRequest request, Model model) {
-		int m_num = Integer.parseInt(request.getParameter("m_num"));
+	public void mypageInfo(HttpSession session, Model model) {
+		int m_num = (Integer)session.getAttribute("userNum");
+		String m_id = (String)session.getAttribute("userID");
 		
+		// 회원 아이디
+		model.addAttribute("m_id", m_id);
 		// 회원 보유 쿠폰 수 카운트
 		model.addAttribute("coupon", mp1Service.getCouponCount(m_num));
 		// 회원 보유 포인트 불러오기

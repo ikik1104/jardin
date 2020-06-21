@@ -79,7 +79,7 @@
  				$(".pointAlert").css('visibility', 'visible');
  				$("#point").val('0');
  			// 보유 포인트보다 입력 값이 작거나 같을 때
- 			}else if() {
+ 			}else if(value<=ownedPoint) {
  				$(".pointAlert").css('visibility', 'hidden');
  				$("#pointDisc").text(- (commas((Number(value)))));
  				

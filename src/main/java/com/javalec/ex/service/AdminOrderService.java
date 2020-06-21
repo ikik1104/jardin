@@ -19,4 +19,12 @@ public interface AdminOrderService {
 	// 검색 주문건수
 	int countSearch(HashMap<String, String> map);
 	
+	// 입금대기리스트 전체
+	List<HashMap<String,Object>> deposit_waiting_list(HashMap<String, String> map);
+
+	// 입금대기리스트 검색, 정렬
+	List<HashMap<String,Object>> dw_search(HashMap<String, String> map);
+
+	// 선택한 주문건 처리상태 변경
+	int change_status(String orderNum);
 }

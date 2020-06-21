@@ -49,8 +49,8 @@
 	              if (rows.length > 1) {
 	                  rows.eq(0).attr("rowspan", rows.length);
 	                  id_row.eq(0).attr("rowspan", rows.length);
-	                  dc_row.eq(0).attr("rowspan", rows.length);
 	                  df_row.eq(0).attr("rowspan", rows.length);
+	                  dc_row.eq(0).attr("rowspan", rows.length);
 	                  cc_row.eq(0).attr("rowspan", rows.length);
 	                  fs_row.eq(0).attr("rowspan", rows.length);
 	                  pm_row.eq(0).attr("rowspan", rows.length);
@@ -58,14 +58,15 @@
 	                  
 	                  rows.not(":eq(0)").remove(); 
 	                  id_row.not(":eq(0)").remove(); 
-	                  dc_row.not(":eq(0)").remove(); 
 	                  df_row.not(":eq(0)").remove(); 
+	                  dc_row.not(":eq(0)").remove(); 
 	                  cc_row.not(":eq(0)").remove(); 
 	                  fs_row.not(":eq(0)").remove(); 
 	                  pm_row.not(":eq(0)").remove(); 
 	                  st_row.not(":eq(0)").remove(); 
 	              } 
 	          });
+			
 			
 			var selectedOpt = "${selectedOpt}";
 			var option = $('select[name=sort]').val();
@@ -165,7 +166,6 @@
 		function sortList(){
 			var option = $('select[name=sort]').val();
 			var opt_text =$("#sort option:selected").text();
-			alert(option);
 			
 			var keywordOpt = $('select[name=keywordOpt]').val();
 			var keyword = "${keyword}";
@@ -208,7 +208,7 @@
 			border-top: 1px solid black;
 		}
 		
-		#search_tb td {padding-left: 10px;}
+		#search_tb td {padding-left: 10px; background-color: white;}
 		
 		#searchbtn {width: 50px; height: 25px;}
 		
@@ -237,7 +237,8 @@
 					<table border="1"  id="search_tb">
 						<tr>
 							<td>검색어</td>
-							<td><select id="keywordOpt" name="keywordOpt">
+							<td>
+							<select id="keywordOpt" name="keywordOpt">
 								<option value="주문번호">주문번호</option>
 								<option value="상품코드">상품코드</option>
 								<option value="상품명">상품명</option>
@@ -285,27 +286,15 @@
 				<div id="search2">
 					<p></p>
 					<select id="sort" name="sort" onchange="sortList()">
-								<option value="ol.ol_order_num asc" selected="selected">주문번호 ↑</option>
-								<option value="ol.ol_order_num desc">주문번호 ↓</option>	
-								<option value="ol.ol_orderer_id asc">주문자 ↑</option>
-								<option value="ol.ol_orderer_id desc">주문자 ↓</option>	
-								<option value="ol.ol_status asc">주문상태 ↑</option>
-								<option value="ol.ol_status desc">주문상태 ↓</option>	
-							</select>
-				</div>
-<!-- 				<div id="state">
-					선택한 주문을
-					<select>
-						<option>입금대기중</option>
-						<option>입금대기중</option>
-						<option>입금대기중</option>
-						<option>입금대기중</option>
-						<option>입금대기중</option>
-						<option>입금대기중</option>
+						<option value="ol.ol_order_num asc" selected="selected">주문번호 ↑</option>
+						<option value="ol.ol_order_num desc">주문번호 ↓</option>	
+						<option value="ol.ol_orderer_id asc">주문자 ↑</option>
+						<option value="ol.ol_orderer_id desc">주문자 ↓</option>	
+						<option value="ol.ol_status asc">주문상태 ↑</option>
+						<option value="ol.ol_status desc">주문상태 ↓</option>	
 					</select>
-					<button type="button" onclick="아작스()">일괄처리</button>
 				</div>
- -->
+
 				<div id="list_div">
 					<table border="1" id="event_list">
 						<tr>
@@ -348,9 +337,10 @@
 						
 						</c:forEach>
 					</table>
-					<div class="detail_btn">
+<!-- 				<div class="detail_btn">
 						<a href="#">임시버튼</a>
 					</div>
+ -->					
 				</div>
 			</div>
 				</div>

@@ -70,7 +70,7 @@ public class Data_controller {
 	
 	
 	// 공공데이터 받아오는 메소드
-	@RequestMapping("weather")
+	@RequestMapping("dataList1")
 	@ResponseBody
 	public Map<String, Object> weather() throws Exception{
 		
@@ -142,19 +142,14 @@ public class Data_controller {
 		}
 		
 		map.put("weather", sb.toString());
+		map.put("array", array);
 		return map;
 	}
 		
-	@RequestMapping("json_test1")
-	@ResponseBody
-	public Map<String, Object> json_test() {
+	@RequestMapping("json_test")
+	public String json_test() {
 
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("data1", "weather");
-		map.put("response", "response");
-		map.put("body", "body");
-
-		return map;
+		return "product/json_test";
 	}
 		
 }
