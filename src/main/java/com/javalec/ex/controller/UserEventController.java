@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.method.annotation.ModelMethodProcessor;
 
+import com.javalec.ex.dao.UserEventDao;
 import com.javalec.ex.dto.AllDto;
 import com.javalec.ex.dto.CouponDto;
 import com.javalec.ex.dto.E_CommentDto;
@@ -63,7 +65,7 @@ public class UserEventController {
 	@RequestMapping("user_event_view")
 	public String user_event_view(EventDto eventDto, Model model, HttpServletRequest request) {
 		model.addAttribute("event_info", eservice.getEventBoard(eventDto));
-		model.addAttribute("ecomment_list", eservice.getTheEComments(eventDto));		
+		model.addAttribute("ecomment_list", eservice.getTheEComments(eventDto));	
 		model.addAttribute("coupon_info", eservice.getTheCoupon(eventDto));
 		
 		return response_path+"user_event_view";
@@ -116,7 +118,30 @@ public class UserEventController {
 		int success = eservice.deleteUserEcomment(ec_num);
 		return success;
 	}
+	@RequestMapping("comment")
+	public String comment() {
+		return "test/comment";
+	}
 	
+	@Autowired
+	UserEventDao edao;
 	
+	@RequestMapping("comment_List")
+	@ResponseBody
+	public List<E_CommentDto> comment_List(){
+		System.out.println(edao.comment_List().size());
+		return edao.comment_List();
+		
+	}
+	@RequestMapping("comment_delete")
+	@ResponseBody
+	public void comment_delete(@ModelAttribute E_CommentDto e_CommentDto){
+		/*
+		 IDao dao = sqlSession.getMapper(IDao.class); 
+		 dao.comment_delete(e_CommentDto.getEc_num());
+		 */
+		System.out.println("넘어옴?");
+		 edao.comment_delete(e_CommentDto.getEc_num());
+	}	
 
 }

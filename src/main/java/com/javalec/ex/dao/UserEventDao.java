@@ -49,7 +49,13 @@ public interface UserEventDao {
 	int deleteUserEcomment(int ec_num);
 
 	//해당 이벤트에 쿠폰 있을 경우 쿠폰 가져오기
-	Object getTheCoupon(EventDto eventDto);
+	AllDto getTheCoupon(EventDto eventDto);
+
+	//삭제 예정
+	List<E_CommentDto> comment_List();
+
+	//삭제 예정2
+	void comment_delete(int ec_num);
 	
 
 	

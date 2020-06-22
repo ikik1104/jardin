@@ -19,7 +19,8 @@
 	    <collection property="e_commentdto" resultMap="E_CommentDto"/>	
 	    <collection property="memberdto" resultMap="MemberDto"/>	
 	    <collection property="winboarddto" resultMap="WinBoardDto"/>
-	    <collection property="utildto" resultMap="UtilDto"/>	    			    	    	     
+	    <collection property="utildto" resultMap="UtilDto"/>	    		
+	    <collection property="productdto" resultMap="ProductDto"/>	    		    	    	    	     
 	</resultMap>	
 	
 	<resultMap type="com.javalec.ex.dto.UtilDto" id="UtilDto">
@@ -114,6 +115,31 @@
 	    <result column="wb_date" property="wb_date"/>	  		     
 	</resultMap>		
 	
+	<resultMap type="com.javalec.ex.dto.ProductDto" id="ProductDto">
+	    <result column="rownum" property="rownum"/>
+	    <result column="p_num" property="p_num"/>	 
+	    <result column="p_step1" property="p_step1"/>
+	    <result column="p_step2" property="p_step2"/>
+	    <result column="p_name" property="p_name"/>	    
+	    <result column="p_price" property="p_price"/>	    
+	    <result column="p_point" property="p_point"/>	 	    
+	    <result column="p_producer" property="p_producer"/>	 	
+	    <result column="p_expiry" property="p_expiry"/>
+	    <result column="p_type" property="p_type"/>	 
+	    <result column="p_capacity" property="p_capacity"/>	    
+	    <result column="p_detail" property="p_detail"/>	 	    
+	    <result column="p_location" property="p_location"/>	 	
+	    <result column="p_gene" property="p_gene"/>
+	    <result column="p_import" property="p_import"/>	 	   
+	    <result column="p_stock" property="p_stock"/>	    
+	    <result column="p_thumb_img1" property="p_thumb_img1"/>	 	    
+	    <result column="p_thumb_img2" property="p_thumb_img2"/>	 	
+	    <result column="p_thumb_img3" property="p_thumb_img3"/>
+	    <result column="p_content_img" property="p_content_img"/>	 	    
+	    <result column="p_sysdate" property="p_sysdate"/>	    
+	    <result column="p_update" property="p_update"/>	 	    
+	</resultMap>	
+	
 	<!-- 진행중 이벤트 전체 리스트 가져오기 -->
 	<select id="getAllEvents" resultMap="AllDto">
          <![CDATA[select rownum, fintb.* from
@@ -172,6 +198,37 @@
 		delete  ecomment_tb where ec_num=#{ec_num}
 	</delete>
 	
+	<!-- 진행중 이벤트 쿠폰 가져오기 -->
+	<select id="getTheCoupon" resultMap="AllDto">
+		 <![CDATA[ select rownum, finaltb.* from
+		(select * from
+		(select * from
+		(select coupon.*, product.p_name from
+		(select etb.e_num, ctb.*
+		from
+		(select e_num, co_num from event_tb where e_start_day<=sysdate and e_end_day>= sysdate and co_num is not null) etb,
+		(select co_num, co_name, co_start_day, co_end_day, co_type, co_discount, co_sysdate,  co_condition,
+		case when co_expiry is null then -99 else co_expiry end co_expiry,
+		case when co_product is null then -99 else co_product end co_product
+		from coupon_tb) ctb
+		where etb.co_num=ctb.co_num) coupon
+		left join
+		product_tb product on product.p_num=coupon.co_product)
+		where e_num=#{e_num}
+		union
+		select -99 e_num, -99 co_num, '-' co_name, null co_start_day, null co_end_day, '-' co_type, -99 co_discount, null co_sysdate, -99 co_condition, -99 co_expiry, -99 co_product, '-' p_name from dual)
+		fintb order by e_num desc) finaltb
+		where e_num!=-99 or rownum=1]]> 	
+	</select>
 	
+	<!-- 삭제 예정 -->
+	<select id="comment_List" resultMap="E_CommentDto" >
+		select * from ecomment_tb
+	</select>
 	
+	<!-- 삭제 예정2 -->
+	<delete id="comment_delete">
+		delete from ecomment_tb where ec_num=#{ec_num}
+	</delete>
+		
 </mapper>		

@@ -82,7 +82,7 @@ public class UserEventServiceImp implements UserEventService {
 	}
 
 	//해당 이벤트에 쿠폰 있을 경우 쿠폰 정보 가져오기
-	public Object getTheCoupon(EventDto eventDto) {
+	public AllDto getTheCoupon(EventDto eventDto) {
 		return edao.getTheCoupon(eventDto);
 	}
 

@@ -15,6 +15,7 @@
 <link rel="stylesheet" type="text/css" href="user/css/reset.css?v=Y" />
 <link rel="stylesheet" type="text/css" href="user/css/layout.css?v=Y" />
 <link rel="stylesheet" type="text/css" href="user/css/content.css?v=Y" />
+<link rel="stylesheet" type="text/css" href="user/css/coupon_style.css" />
 <script type="text/javascript" src="user/js/jquery.min.js"></script>
 <script type="text/javascript" src="user/js/top_navi.js"></script>
 <script type="text/javascript" src="user/js/left_navi.js"></script>
@@ -196,26 +197,33 @@
 
 						<div class="viewContents">
 							<img src="tempUpload/${event_info.eventdto.e_content_img }" alt="" />
-							<pre style="white-sapce:pre-wrap;">
+							<pre style="white-sapce:pre-wrap; margin-top:10px;" >
 ${event_info.eventdto.e_content }							
 							</pre>
-							<div style="width:640px; height:324px; background-image : tempUpload/coupon_image.jpg" id="coupon_img_area">
-									<p id="coupon_sort">${coupon_info.coupondto.co_type }</p><!-- 쿠폰 종류 -->
-									<p id="coupon_money">
-										<fmt:formatNumber type="number" maxFractionDigits="3" value="${coupon_info.coupondto.co_discount }" />원
-									</p><!-- 할인가 표시 -->
-									<c:if test="${coupon_info.coupondto.co_discount!=null }">
-										<p id="coupon_condition">
-											<fmt:formatNumber type="number" maxFractionDigits="3" value="${coupon_info.coupondto.co_discount }" />
-										</p><!-- 쿠폰 사용 최소금액 표시 --> 이상 구매 시
-									</c:if>
-									<!-- 상품명 길이 길어질 때 ...으로 처리 -->
-									<c:if test="${coupon_info.productdto.p_num!=null }">
-										<p id="product_name" style="width:500px; overflow:hidden; text-overflow:ellipsis;white-space:nowrap;">
-											[${coupon_info.productdto.p_num }]${coupon_info.productdto.p_name }
-										</p><!-- 쿠폰 사용 상품명 표시 -->												
-									</c:if>
-							</div>
+							<c:if test="${coupon_info.coupondto.co_name!='-' }">
+								<div id="coupon_wrap">
+									<div style="width:320px; height:162px; background : url('tempUpload/coupon_image.jpg')no-repeat;" id="coupon_img_area">
+											<c:if test="${coupon_info.coupondto.co_type=='cart' }"><p id="coupon_type">장바구니</p> </c:if>
+											<c:if test="${coupon_info.coupondto.co_type=='delivery' }"><p id="coupon_type">배송비</p></c:if>
+											<c:if test="${coupon_info.coupondto.co_type=='product' }"><p id="coupon_type">상품</p></c:if>					
+											<p id="coupon_money" style="margin-top:15px;">
+												<fmt:formatNumber type="number" maxFractionDigits="3" value="${coupon_info.coupondto.co_discount }" />원
+											</p><!-- 할인가 표시 -->
+											<c:if test="${coupon_info.coupondto.co_condition!=0 }" >
+												<p id="coupon_condition" >
+													※ <fmt:formatNumber type="number" maxFractionDigits="3" value="${coupon_info.coupondto.co_condition }" />원
+													 이상 구매 시
+												</p><!-- 쿠폰 사용 최소금액 표시 -->
+											</c:if>
+											<!-- 상품명 길이 길어질 때 ...으로 처리 -->
+											<c:if test="${coupon_info.productdto.p_name!=null }">
+												<p id="coupon_condition" >
+													FEAT. ${coupon_info.productdto.p_name } SEFSEFSEFSFSEFSEFSEFSF
+												</p><!-- 쿠폰 사용 상품명 표시 -->												
+											</c:if>
+									</div>
+								</div>
+							</c:if>
 						</div>
 					</div>
 

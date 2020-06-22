@@ -18,10 +18,10 @@
 			</div>
 			<div id="snb">
 				<ul>
-					<c:if test="${userID==null && orderNum==null }"><!-- 회원/비회원 로그인 안 되어 있을 때 -->
+					<c:if test="${userID==null }"><!-- 회원 로그인 안 되어 있을 때 -->
 						<li><a href="login"  style="cursor:pointer;">LOGIN</a></li>
 					</c:if>
-					<c:if test="${(userID!=null && orderNum==null) || (userID==null && orderNum!=null)}"><!-- 회원/비회원 로그인 되어 있을 때 -->
+					<c:if test="${userID!=null }"><!-- 회원 로그인 되어 있을 때 -->
 						<li><a onclick="user_logout()" style="cursor:pointer;">LOGOUT</a></li>						
 					</c:if>
 					<li><a href="#">JOIN</a></li>
