@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import com.javalec.ex.dto.BDto;
+import com.javalec.ex.dto.CommentDto;
 import com.javalec.ex.dto.EnjoyCoffeeDto;
 import com.javalec.ex.dto.FaqDto;
 import com.javalec.ex.dto.MemberDto;
@@ -18,6 +19,10 @@ import com.javalec.ex.dto.ReviewUserDto;
 @Repository
 public interface AdminBoardDao {
 
+	//아작스 수업 (댓글달기)
+	List<CommentDto> comment_List();
+	
+	
 	//관리자------------------------
 	//faq작성 
 	int insertFaq(FaqDto fdto);

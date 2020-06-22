@@ -70,7 +70,7 @@
 	<jsp:include page="../nav/product_nav.jsp"/>
 	<section>
 		<h1>제품 등록</h1>
-			<form action="product_insert" name="inputform" method="get" enctype="multipart/form-data">
+			<form action="product_insert" name="inputform" method="POST" enctype="multipart/form-data">
 				<div id="input_form">
 					<table border="1">
 						<tr>
@@ -113,10 +113,10 @@
 								<option value="DIY 선물세트">DIY 선물세트</option>	
 							</select>
 							<select  id="브랜드관" class="step2">
-								<option value="GS">"GS"</option>
-								<option value="투썸">"투썸"</option>
-								<option value="드롭탑">"드롭탑"</option>
-								<option value="요거프레소">"요거프레소"</option>
+								<option value="GS">GS</option>
+								<option value="투썸">투썸</option>
+								<option value="드롭탑">드롭탑</option>
+								<option value="요거프레소">요거프레소</option>
 							</select>
 							<select  id="용품" class="step2">
 								<option value="커피용품">커피용품</option>
@@ -179,23 +179,23 @@
 						</tr>
 						<tr>
 							<td>제품 대표이미지</td>
-<!-- 							<td><input type="file" name="p_thumb_img1"></td> -->
-							<td><input type="text" name="p_thumb_img1"></td>
+							<td><input type="file" name="p_thumb_img1"></td>
+<!-- 							<td><input type="text" name="p_thumb_img1"></td> -->
 						</tr>
 						<tr>
 							<td>제품 이미지1</td>
-<!-- 							<td><input type="file" name="p_thumb_img2"></td> -->
-							<td><input type="text" name="p_thumb_img2"></td>
+							<td><input type="file" name="p_thumb_img2"></td>
+<!-- 							<td><input type="text" name="p_thumb_img2"></td> -->
 						</tr>
 						<tr>
 							<td>제품 이미지2</td>
-<!-- 							<td><input type="file" name="p_thumb_img3"></td> -->
-							<td><input type="text" name="p_thumb_img3"></td>
+							<td><input type="file" name="p_thumb_img3"></td>
+<!-- 							<td><input type="text" name="p_thumb_img3"></td> -->
 						</tr>
 						<tr>
 							<td>상세내용 이미지</td>
-<!-- 							<td><input type="file" name="p_content_img"></td> -->
-							<td><input type="text" name="p_content_img"></td>
+							<td><input type="file" name="p_content_img"></td>
+<!-- 							<td><input type="text" name="p_content_img"></td> -->
 						</tr>
 					</table>
 					<div id="btn_div">

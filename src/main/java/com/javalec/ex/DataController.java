@@ -82,10 +82,12 @@ public class DataController {
         	System.out.println("courseAreaId : "+courseAreaId);
         	System.out.println("courseAreaName : "+courseAreaName);
         	System.out.println("spotAreaName : "+spotAreaName);
+        	
 		}
         
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("dataList", sb.toString());
+        map.put("array", array);
 		
         return map;
 		
@@ -95,9 +97,8 @@ public class DataController {
 	@RequestMapping("/dataPage")
 	public String dataPage(){
 		
-		Map<String, Object> map = new HashMap<String, Object>();
 		
-		return "datapage";
+		return "dataPage1";
 	}
 	
 }

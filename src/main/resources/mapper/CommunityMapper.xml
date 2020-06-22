@@ -16,4 +16,58 @@
 		update enjoy_coffee_tb set ej_hit = ej_hit+1 where ej_num = #{ej_num}
 	</update>
 	
+	<!-- *********************************************   상품평      **************************************** -->
+	
+	<!-- 리뷰 리스트 가져오기 -->
+	<select id="review_list" resultType="hashmap">
+		  select * from 
+         (select rownum rnum,review.* from 
+         (select re.*,p.p_name,rpad(substr(m.m_id,1,4),length(m.m_id),'*') as m_id
+         from review_user_tb re 
+		 left join product_tb p on p.p_num = re.p_num 
+		 left join member_tb m on re.m_num = m.m_num
+		 where re.ru_type = #{ru_type} order by re.ru_date asc) review) r
+         where <![CDATA[r.rnum>=#{pageDto.endRow}]]> and <![CDATA[r.rnum<=#{pageDto.startRow}]]> order by r.rnum desc
+	</select>
+	
+	<!-- 리뷰 상세보기 -->
+	<select id="review_detail" parameterType="Integer" resultType="hashmap">
+		 select re.*,p.*,ra.*,rpad(substr(m.m_id,1,4),length(m.m_id),'*') as m_id from review_user_tb re 
+		 left join product_tb p on p.p_num = re.p_num 
+         left join review_answer_tb ra on re.ru_num = ra.ru_num
+         left join member_tb m on m.m_num = re.m_num
+		 where re.ru_num = #{ru_num}
+	</select>
+	
+	<!-- 리뷰 조회수 증가 -->
+	<update id="review_hit" parameterType="Integer">
+		update review_user_tb set ru_hit = ru_hit+1 where ru_num = #{ru_num}
+	</update>
+	
+	<!-- 리뷰 타입별 개수 가져오기 -->
+	<select id="countReview" parameterType="String" resultType="Integer">
+		select count(*) from review_user_tb where ru_type = #{ru_type}
+	</select>
+	
+	<!-- 이전글 제목 -->	
+	<select id="getPreTitle"  resultType="com.javalec.ex.dto.ReviewUserDto">
+		select * from 
+		(select rownum rnum, review.* from 
+		(select * from review_user_tb where ru_type=#{ru_type} order by ru_date asc) review) 
+		where rnum=#{rownum}-1 
+	</select>
+
+	<!-- 다음글 제목 -->
+	<select id="getNextTitle"  resultType="com.javalec.ex.dto.ReviewUserDto">
+		select * from 
+		(select rownum rnum, review.* from 
+		(select * from review_user_tb where ru_type=#{ru_type} order by ru_date asc) review) 
+		where rnum=#{rownum}+1 
+	</select>
+	
+	<!-- 리뷰 삭제하기 -->
+	<delete id="delReview" parameterType="Integer">
+		delete from review_user_tb where ru_num = #{ru_num}
+	</delete>
+	
 </mapper>

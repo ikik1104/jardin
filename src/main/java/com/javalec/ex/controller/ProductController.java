@@ -1,5 +1,6 @@
 package com.javalec.ex.controller;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.HashMap;
@@ -10,12 +11,15 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.deser.impl.CreatorCandidate.Param;
+import com.javalec.ex.CommonUtils;
 import com.javalec.ex.dto.CartDto;
 import com.javalec.ex.dto.ProductDto;
 import com.javalec.ex.dto.QnrUserDto;
@@ -29,6 +33,8 @@ import oracle.net.aso.k;
 public class ProductController {
 	@Autowired
 	private ProductService pService;
+	@Autowired
+	CommonUtils utils;
 
 	//admin 제품 전체 리스트
 	@RequestMapping("product_list")
@@ -47,11 +53,45 @@ public class ProductController {
 
 	//제품 insert
 	@RequestMapping("product_insert")
+	public String product_insert(Model model,String p_name, String p_step1, String p_step2,int p_price, int p_point, String p_producer, String p_expiry,String p_type,
+			String p_capacity,String p_detail,String p_location,String p_gene,String p_import,int p_stock, 
+			MultipartFile p_thumb_img1, MultipartFile p_thumb_img2,MultipartFile p_thumb_img3,MultipartFile p_content_img) throws IOException {
+		System.out.println("값이 잘 넘어왔는지 찍어보자"+p_step1);
+		ProductDto pdto = new ProductDto();
+		pdto.setP_step1(p_step1);
+		pdto.setP_step2(p_step2);
+		pdto.setP_name(p_name);
+		pdto.setP_price(p_price);
+		pdto.setP_point(p_point);
+		pdto.setP_producer(p_producer);
+		pdto.setP_expiry(p_expiry);
+		pdto.setP_type(p_type);
+		pdto.setP_capacity(p_capacity);
+		pdto.setP_detail(p_detail);
+		pdto.setP_location(p_location);
+		pdto.setP_gene(p_gene);
+		pdto.setP_import(p_import);
+		pdto.setP_stock(p_stock);
+		pdto.setP_thumb_img1(utils.FileUploaderCDN(p_thumb_img1, "product/"));
+		pdto.setP_thumb_img2(utils.FileUploaderCDN(p_thumb_img2, "product/"));
+		pdto.setP_thumb_img3(utils.FileUploaderCDN(p_thumb_img3, "product/"));
+		pdto.setP_content_img(utils.FileUploaderCDN(p_content_img, "product/"));
+		
+		pService.insertProduct(pdto);
+		
+		return "redirect:product_list";
+	}
+	
+	
+	
+	/*제품 insert
+	@RequestMapping("product_insert")
 	public String product_insert(Model model,ProductDto pdto) {
 		pService.insertProduct(pdto);
 		
 		return "redirect:product_list";
 	}
+	*/
 	
 	//제품 수정updateForm으로 이동
 	@RequestMapping("product_updateForm")
