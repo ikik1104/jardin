@@ -1,6 +1,7 @@
 package com.javalec.ex.controller;
 
 import java.sql.JDBCType;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -118,6 +119,46 @@ public class UserEventController {
 		int success = eservice.deleteUserEcomment(ec_num);
 		return success;
 	}
+	//회원 사용자 쿠폰 다운로드
+	@ResponseBody
+	@PostMapping("coupon_download")
+	public int coupon_download(@RequestBody HashMap<String, String> map) {
+		int success=0;
+		
+		int m_num=Integer.parseInt(map.get("m_num"));
+		int co_num=Integer.parseInt(map.get("co_num"));
+		int co_expiry=Integer.parseInt(map.get("co_expiry"));
+		String co_start_day=map.get("co_start_day");		
+		String co_end_day=map.get("co_end_day");			
+		
+		String[] st1s = co_start_day.split("-");
+		String[] st2s = st1s[2].split(" ");
+		co_start_day=st1s[0]+"/"+st1s[1]+"/"+st2s[0];
+		
+		String[] ed1s = co_end_day.split("-");
+		String[] ed2s = ed1s[2].split(" ");
+		co_end_day=ed1s[0]+"/"+ed1s[1]+"/"+ed2s[0];		
+		
+		
+		System.out.println(m_num);
+		System.out.println(co_num);
+		System.out.println(co_expiry);
+		System.out.println(co_start_day);
+		System.out.println(co_end_day);
+		
+		if(co_expiry!=-99) {//유효기간 쿠폰인 경우
+			System.out.println("유효기간");
+			success = eservice.downloadExCoupon(m_num, co_num, co_expiry);
+		} else {//기간제 쿠폰일 경우
+			System.out.println("기간제");
+			success = eservice.downloadPeriodCoupon(m_num, co_num,co_start_day, co_end_day);
+		}
+		
+		return success;
+	}
+	
+	
+	
 	@RequestMapping("comment")
 	public String comment() {
 		return "test/comment";

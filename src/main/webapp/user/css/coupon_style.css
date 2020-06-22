@@ -3,7 +3,7 @@
 	width:100%; height:150px;   margin-top:20px;
 }
 #coupon_img_area{
-	margin:0 auto;
+	margin:0 auto; cursor:pointer;
 }
 #coupon_type{
 	font-weight:bold; font-size:16px;

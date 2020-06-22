@@ -201,8 +201,15 @@
 ${event_info.eventdto.e_content }							
 							</pre>
 							<c:if test="${coupon_info.coupondto.co_name!='-' }">
-								<div id="coupon_wrap">
-									<div style="width:320px; height:162px; background : url('tempUpload/coupon_image.jpg')no-repeat;" id="coupon_img_area">
+								<div id="coupon_wrap" >
+									<!-- 쿠폰 다운로드에 필요한 데이터들 -->
+									<input type="hidden" value="${userNum}" id="cp_mNum">
+									<input type="hidden" value="${coupon_info.coupondto.co_num  }" id="cp_coNum">
+									<input type="hidden" value="${ coupon_info.coupondto.co_expiry }" id="cp_expiry">
+									<input type="hidden" value="${ coupon_info.coupondto.co_start_day}" id="cp_startDay">
+									<input type="hidden" value="${coupon_info.coupondto.co_end_day  }" id="cp_endDay">								
+								
+									<div style="width:320px; height:162px; background : url('tempUpload/coupon_image.jpg')no-repeat;" id="coupon_img_area"onclick="coupon_download()">
 											<c:if test="${coupon_info.coupondto.co_type=='cart' }"><p id="coupon_type">장바구니</p> </c:if>
 											<c:if test="${coupon_info.coupondto.co_type=='delivery' }"><p id="coupon_type">배송비</p></c:if>
 											<c:if test="${coupon_info.coupondto.co_type=='product' }"><p id="coupon_type">상품</p></c:if>					
@@ -218,7 +225,7 @@ ${event_info.eventdto.e_content }
 											<!-- 상품명 길이 길어질 때 ...으로 처리 -->
 											<c:if test="${coupon_info.productdto.p_name!=null }">
 												<p id="coupon_condition" >
-													FEAT. ${coupon_info.productdto.p_name } SEFSEFSEFSFSEFSEFSEFSF
+													FEAT. ${coupon_info.productdto.p_name } 
 												</p><!-- 쿠폰 사용 상품명 표시 -->												
 											</c:if>
 									</div>

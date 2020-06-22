@@ -86,6 +86,16 @@ public class UserEventServiceImp implements UserEventService {
 		return edao.getTheCoupon(eventDto);
 	}
 
+	//회원 사용자 유효기간 쿠폰 다운로드
+	public int downloadExCoupon(int m_num, int co_num, int co_expiry) {
+		return edao.downloadExCoupon(m_num,co_num, co_expiry);
+	}
+
+	//회원 사용자 기간제 쿠폰 다운로드
+	public int downloadPeriodCoupon(int m_num, int co_num, String co_start_day, String co_end_day) {
+		return edao.downloadPeriodCoupon(m_num,co_num,co_start_day, co_end_day) ;
+	}
+
 	
 
 

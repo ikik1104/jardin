@@ -56,6 +56,14 @@ public interface UserEventDao {
 
 	//삭제 예정2
 	void comment_delete(int ec_num);
+
+	//회원 사용자 유효기간 쿠폰 다운로드
+	int downloadExCoupon(@Param("m_num") int m_num, @Param("co_num") int co_num, @Param("co_expiry") int co_expiry);
+
+	//회원 사용자 기간제 쿠폰 다운로드
+	int downloadPeriodCoupon(@Param("m_num") int m_num, @Param("co_num") int co_num, @Param("co_start_day") String co_start_day, @Param("co_end_day") String co_end_day);
+
+	
 	
 
 	
