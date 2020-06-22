@@ -42,8 +42,10 @@ $(document).ready(function() {
         if($(this).text() == "배송완료"){
         	var index = $(this).attr('id');
         	var ol_order_num = $('#on'+index).text();
+        	var orderer = '${orderer}';
+        	console.log(orderer);
         	innerHtml = '<li class="r5"><a href="#" class="obtnMini iw40" onclick="changebtn()">교환</a></li>'
-        				+'<li><a href="takeback_deli?ol_order_num='+ol_order_num+'" class="returnbtn nbtnMini iw40 layerpopup">반품</a></li>'
+        				+'<li><a href="non_takeback_deli?ol_order_num='+ol_order_num+'&orderer='+orderer+'" class="returnbtn nbtnMini iw40 layerpopup">반품</a></li>'
         				+'<li><a href="#" class="decidebtn" onclick="buy_decide(\''+ol_order_num+'\')">구매확정</a></li>';
         	$('#state'+index).html(innerHtml);
         } 
@@ -96,6 +98,9 @@ function wait_cancel(ol_order_num){
 	 };//if confirm
 }
 </script>
+<style>
+h3{padding-top: 17px;}
+</style>
 </head>
 
 <body>
@@ -172,7 +177,7 @@ function wait_cancel(ol_order_num){
 				<div id="title">비회원<br/>주문조회</div>
 				<ul>	
 					<li><a href="#" id="leftNavi1">비회원 주문조회</a></li>
-					<li class="last"><a href="#" id="leftNavi2">반품/교환 현황</a></li>
+					<li class="last"><a href="non_takeback_state?orderNum=${ orderNum }&orderName=${ orderer }" id="leftNavi2">반품/교환 현황</a></li>
 				</ul>			
 			</div><script type="text/javascript">initSubmenu(1,0);</script>
 
@@ -187,8 +192,13 @@ function wait_cancel(ol_order_num){
 					<div class="orderDivNm">
                     
                     <!--  -->
+                    <c:if test="${ ordersize eq '0' }">    
+                        <div class="noData">
+                                                                등록된 상품이 없습니다.
+                        </div>
+                    </c:if>
                     
-                    <c:if test="${ not empty orderlist }">
+                    <c:if test="${ ordersize != '0' }">
                         <table summary="주문일자/주문번호, 상품명, 가격, 수량, 주문상태 순으로 조회를 하실수 있습니다." class="orderTable" border="1" cellspacing="0">
                             <caption>주문게시판</caption>
                             <colgroup>
@@ -229,12 +239,6 @@ function wait_cancel(ol_order_num){
                             </tbody>
                         </table>
                     </c:if>
-                    <c:if test="${ empty orderlist }">    
-                        <div class="noData">
-                                                                등록된 상품이 없습니다.
-                        </div>
-                    </c:if>
-                    
                     
                     <!-- // -->
                     

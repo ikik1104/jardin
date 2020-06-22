@@ -122,7 +122,6 @@ public class MyOrderController {
 	//반품
 	@RequestMapping("takeback_deli")
 	public String takeback_del(Model model, HttpSession session, HttpServletRequest request, @RequestParam("ol_order_num") String ol_order_num) {
-		if(session.getAttribute("userNum") == null) {return "redirect:login";}//세션체크
 		List<Map<String, String>> list = ocService.getOneSetOrder(ol_order_num);
 		model.addAttribute("list", list);
 		return "mypage/return";
@@ -173,7 +172,7 @@ public class MyOrderController {
 	//배송완료 상태에서 리뷰작성 버튼 클릭 시 - 구매확정 유도(구매확정 후 리뷰작성 가능)
 	@RequestMapping("my_review_alert")
 	public String my_review_alert(HttpServletRequest request, HttpSession session, Model model) {
-		if(session.getAttribute("userNum") == null) {return "login";}//세션체크
+		if(session.getAttribute("userNum") == null) {return "redirect:login";}//세션체크
 		String ol_order_num = request.getParameter("ol_order_num");
 		model.addAttribute("ol_order_num", ol_order_num);
 		return "mypage/my_review_alert";
@@ -182,7 +181,7 @@ public class MyOrderController {
 	//해당 주문건의 리뷰 가능 리스트
 	@RequestMapping("my_review_list")
 	public String my_review_list(HttpServletRequest request, HttpSession session, Model model) {
-		if(session.getAttribute("userNum") == null) {return "login";}//세션체크
+		if(session.getAttribute("userNum") == null) {return "redirect:login";}//세션체크
 		String ol_order_num = request.getParameter("ol_order_num");
 		ocService.updateStatus(ol_order_num, "구매확정"); //주문리스트에서 해당 주문 ol_status 구매확정으로 변경
 		//리뷰 작성 가능 상품들 가져오기(해당 주문건(ol_order_num)에 속한 주문상품(ol_num)이 review_user_tb에 있는지 확인해서 없는 경우만 가져옴 - 리뷰 유저테이블에 ol_num이 있으면 그 ol_num에 대해서는 이미 리뷰를 작성했다는 뜻이므로)
@@ -226,7 +225,7 @@ public class MyOrderController {
 	//반품 리스트페이지 열기
 	@RequestMapping("takeback_state")
 	public String takeback_state(HttpSession session, HttpServletRequest request, PageDto pageDto, Model model) {
-		if(session.getAttribute("userNum") == null) {return "home";}//세션체크
+		if(session.getAttribute("userNum") == null) {return "redirect:login";}//세션체크
 		
 		String m_id = (String) session.getAttribute("userID");//페이징, 주문리스트 가져오기에 m_id를 넘겨줘야 하므로 세션에서 가져옴 
 		int total = ocService.countReturnRefund(m_id);//m_id 회원의 주문 개수 &&

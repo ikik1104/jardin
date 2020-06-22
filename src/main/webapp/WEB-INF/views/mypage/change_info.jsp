@@ -470,7 +470,7 @@ $(function(){
 
 });
 </script>
-<script type="text/javascript" src="user/js/common.js"></script>
+<!-- <script type="text/javascript" src="user/js/common.js"></script> -->
 
 
 

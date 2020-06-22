@@ -131,8 +131,10 @@ $(document).ready(function() {
 			       data:  $("#nm_login").serialize(),
 			       success : function(map){
 			    	   var val = map.success;
-			           if(val == 1){//성공
-			        	   location.href='nonmember_ordercheck?orderNum='+map.orderNum;
+			           if(val == 1 ){//성공
+			        	   location.href='nonmember_ordercheck?orderNum='+map.orderNum+'&orderName='+map.orderName;
+			           } else if(val ==0){
+			        	   location.href='non_takeback_state?orderNum='+map.orderNum+'&orderName='+map.orderName;
 			           } else {//주문번호 불일치
 			        	   alert('주문이 존재하지 않습니다. 이름 또는 주문번호를 다시 확인하세요.'); 
 			           }

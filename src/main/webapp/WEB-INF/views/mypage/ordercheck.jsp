@@ -19,7 +19,7 @@
 <script type="text/javascript" src="user/js/top_navi.js"></script>
 <script type="text/javascript" src="user/js/left_navi.js"></script>
 <script type="text/javascript" src="user/js/main.js"></script>
-<script type="text/javascript" src="user/js/common.js"></script>
+<!-- <script type="text/javascript" src="user/js/common.js"></script> -->
 <script type="text/javascript" src="user/js/jquery.easing.1.3.js"></script>
 <script type="text/javascript" src="user/js/idangerous.swiper-2.1.min.js"></script>
 <script type="text/javascript" src="user/js/jquery.anchor.js"></script>

@@ -142,15 +142,19 @@ public class UserMemberController {
 	@PostMapping("nonmember_login")
 	public Map<String, Object> nonmember_login(OrderListDto orderListDto, HttpSession session, Model model) {
 		Map<String, Object> map = new HashMap<String, Object>();	
-//		String orderNum = orderListDto.getOl_order_num()
 		int check = nmService.nonMemLog(orderListDto);
+		int check2 = nmService.nonMemLog2(orderListDto);
 		int success = 0;
 		if(check == 1) {
-			success=1; //이름, 주문번호 일치
+			success=1; //이름, 주문번호 일치 하고 주문목록 있음
+			map.put("orderNum", orderListDto.getOl_order_num());
+			map.put("orderName", orderListDto.getOl_orderer_id());
+		} else if(check2 != 0) {
+			success=0; //이름, 주문번호 일치하고 주문목록 없음, 반품이나 취소목록 있음
 			map.put("orderNum", orderListDto.getOl_order_num());
 			map.put("orderName", orderListDto.getOl_orderer_id());
 		} else {
-			success=-1; //이름, 주문번호 없거나 불일치
+			success = -1; //이름, 주문번호 없거나 불일치
 		}
 		map.put("success", success);
 		return map;

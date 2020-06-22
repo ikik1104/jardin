@@ -13,9 +13,26 @@
 		where ol_order_num=#{order_num}
 	</select>
 
+	<!-- 비회원 반품 조회 -->
+	<select id="getAllClaim" resultType="HashMap">
+		select * from
+		(select rt_num, ol_order_num, rt_receipt_date, rt_sort, rt_status, p_name, m_id from return_tb
+		union
+		select rf_num, ol_order_num, rf_receipt_date, rf_sort, rf_status, p_name, m_id from refund_tb)
+		where ol_order_num=#{order_num}
+	</select>
+
 	<!-- 비회원 로그인 -->
 	<select id="nonMemLog" resultType="Integer">
 		select count(*) from orderlist_tb where ol_order_num=#{orderListDto.ol_order_num} and ol_orderer_id=#{orderListDto.ol_orderer_id}
 	</select>
+	<select id="nonMemLog2" resultType="Integer">
+		select count(*) from
+		(select rt_num, ol_order_num, rt_receipt_date, rt_sort, rt_status, p_name, m_id from return_tb
+		union
+		select rf_num, ol_order_num, rf_receipt_date, rf_sort, rf_status, p_name, m_id from refund_tb)
+		where ol_order_num=#{orderListDto.ol_order_num}
+	</select>
+	
 	
 </mapper>

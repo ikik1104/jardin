@@ -31,6 +31,45 @@
 		</style>
 		<script type="text/javascript">
 
+		$(function(){
+			
+			$(".gr").each(function () {
+	              var rows = $(".gr:contains('"+$(this).text()+"')");
+	              var ck_row = rows.siblings(".td_ck"); //주문번호
+	              var on_row = rows.siblings(".td_on"); //주문번호
+	              var rd_row = rows.siblings(".td_rd"); //접수일
+	              var ed_row = rows.siblings(".td_ed"); //처리일
+	              var nm_row = rows.siblings(".td_nm");	//사용자id
+	              var mt_row = rows.siblings(".td_mt"); //결제방법
+	              var st_row = rows.siblings(".td_st"); //상태
+	              var rf_row = rows.siblings(".td_rf"); //상태
+
+	              if (rows.length > 1) {
+	                  rows.eq(0).attr("rowspan", rows.length);
+	                  ck_row.eq(0).attr("rowspan", rows.length);
+	                  on_row.eq(0).attr("rowspan", rows.length);
+	                  rd_row.eq(0).attr("rowspan", rows.length);
+	                  ed_row.eq(0).attr("rowspan", rows.length);
+	                  nm_row.eq(0).attr("rowspan", rows.length);
+	                  mt_row.eq(0).attr("rowspan", rows.length);
+	                  st_row.eq(0).attr("rowspan", rows.length);
+	                  rf_row.eq(0).attr("rowspan", rows.length);
+	                  
+	                  rows.not(":eq(0)").remove(); 
+	                  ck_row.not(":eq(0)").remove(); 
+	                  on_row.not(":eq(0)").remove(); 
+	                  rd_row.not(":eq(0)").remove(); 
+	                  ed_row.not(":eq(0)").remove(); 
+	                  nm_row.not(":eq(0)").remove(); 
+	                  mt_row.not(":eq(0)").remove(); 
+	                  st_row.not(":eq(0)").remove(); 
+	                  rf_row.not(":eq(0)").remove(); 
+	              } 
+	          });
+			
+			
+		});
+		
 		function date_chk2(){
 			var start = inputform.e_start_day.value;
 			var end = inputform.e_end_day.value;
@@ -183,39 +222,50 @@
 				<div id="list_div">
 					<table border="1" id="event_list">
 						<tr>
-							<th><input type="checkbox"></th>
-							<th>환불고유번호</th>
+							<th><input type="checkbox" name="chk"></th>
+							<th>환불번호</th>
 							<th>주문번호</th>
-							<th>주문일시</th>
+<!-- 							<th>주문일시</th> -->
 							<th>환불신청일</th>
 							<th>환불완료일시</th>
 							<th>주문자</th>
-							<th>주문고유번호</th>
+<!-- 							<th>주문고유번호</th> -->
 							<th>주문상품</th>
-							<th>수량</th>
+<!-- 							<th>수량</th> -->
 							<th>총 상품금액</th>
-							<th>총 배송비</th>
+                            <th>최종 환불금액</th>
+<!-- 							<th>총 배송비</th> -->
 							<th>결제방법</th>
 							<th>처리상태</th>
-							<th>사유</th>
+<!-- 							<th>사유</th> -->
 						</tr>
+                        <c:forEach var="list" items="${ refundlist }">
 						<tr>
-							<td><input type="checkbox"></td>
-							<td>환불고유번호</td>
-							<td>주문번호</td>
-							<td>주문일시</td>
-							<td>환불신청일</td>
-							<td>환불완료일시</td>
-							<td>주문자</td>
-							<td>주문고유번호</td>
-							<td>주문상품</td>
-							<td>수량</td>
-							<td>총 상품금액</td>
-							<td>총 배송비</td>
-							<td>결제방법</td>
-							<td>처리상태</td>
-							<td>사유</td>
+							<td class="td_ck"><input type="checkbox" name="chk" value="${ list.rf_receipt_num }"></td>
+							<td class="gr">${list.rf_receipt_num }</td>
+							<td class="td_on"><a href="order_detail?ol_order_num=${list.ol_order_num }">${list.ol_order_num }</a></td>
+<!-- 							<td>주문일시</td> -->
+                            <td class="td_rd">${ list.rf_receipt_date }</td>
+                            <td class="td_ed">${ list.rf_end_date }</td>
+                            <td class="td_nm">${ list.m_id }</td>
+<!--                             <td>주문고유번호</td> -->
+                            <td>${ list.p_name }</td>
+                            <td>${ list.rf_price }</td>
+                            <td class="td_rf">임시값</td>
+                            <td class="td_mt">${ list.rf_method }</td>
+                            <td class="td_st">${ list.rf_status }</td>
+<!-- 							<td>환불완료일시</td> -->
+<!-- 							<td>주문자</td> -->
+<!-- 							<td>주문고유번호</td> -->
+<!-- 							<td>주문상품</td> -->
+<!-- 							<td>수량</td> -->
+<!-- 							<td>총 상품금액</td> -->
+<!-- 							<td>총 배송비</td> -->
+<!-- 							<td>결제방법</td> -->
+<!-- 							<td>처리상태</td> -->
+<!-- 							<td>사유</td> -->
 						</tr>
+                        </c:forEach>
 					</table>
 					<div class="detail_btn">
 						<a href="#">임시버튼</a><!-- 필요없음 div통째로 지우세욤 -->

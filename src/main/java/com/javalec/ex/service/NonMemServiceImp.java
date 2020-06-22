@@ -22,8 +22,17 @@ public class NonMemServiceImp implements NonMemService {
 
 	@Override
 	public int nonMemLog(OrderListDto orderListDto) {
-		System.out.println("여기는 넌멤버 서비스 임프"+orderListDto.getOl_order_num());
 		return nmdao.nonMemLog(orderListDto);
+	}
+
+	@Override
+	public int nonMemLog2(OrderListDto orderListDto) {
+		return nmdao.nonMemLog2(orderListDto);
+	}
+
+	@Override
+	public List<Map<String, String>> getAllClaim(String order_num) {
+		return nmdao.getAllClaim(order_num);
 	}
 	
 	

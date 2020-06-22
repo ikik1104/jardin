@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="com.javalec.ex.dao.AdminClaimDao">
+	
+	<!-- 환불테이블 조회 -->
+	<select id="getAllMemRefund" resultType="com.javalec.ex.dto.RefundDto">
+		select * from refund_tb order by rf_receipt_num desc, rf_receipt_date desc
+	</select>
+
+	
+	
+</mapper>
