@@ -94,7 +94,6 @@ function buy_decide(ol_order_num){
 
 //입금대기중 - 취소
 function wait_cancel(ol_order_num){
-	console.log(ol_order_num);
 	 if(confirm("주문을 취소하시겠습니까?")){
    	 $.ajax({
    		 type : "POST",

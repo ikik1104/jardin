@@ -75,9 +75,6 @@ $(document).ready(function() {
      
      
      function inq_delete(iu_num){
-    	 
-    	 console.log(typeof iu_num);
-    	 console.log("inquiry : "+iu_num);
     	     	 
     	 if(confirm("1:1문의를 삭제하시겠습니까? (삭제시 더이상 답변을 확인할 수 없습니다.)")){
              $.ajax({

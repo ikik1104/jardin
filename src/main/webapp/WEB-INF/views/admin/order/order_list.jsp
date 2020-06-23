@@ -173,7 +173,7 @@
 			var e_end_day = "${e_end_day}";
 			var status = "${status}";
 			
-			if(keyword=="" && (e_start_day.equas=="" || e_end_day=="") && status==""){
+			if(keyword=="" && (e_start_day=="" || e_end_day=="") && status==""){
 				location.href="order_list?option="+option+"&&opt_text="+opt_text;
 			}else if(keyword!="" || (e_start_day !="" && e_end_day!="") || status!="") {
 				location.href="getSearchOrder?option="+option+"&&opt_text="+opt_text

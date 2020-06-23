@@ -28,6 +28,7 @@
 				width: 400px;
 				height: 250px;
 			}
+            
 		</style>
 		<script type="text/javascript">
 
@@ -42,7 +43,9 @@
 	              var nm_row = rows.siblings(".td_nm");	//사용자id
 	              var mt_row = rows.siblings(".td_mt"); //결제방법
 	              var st_row = rows.siblings(".td_st"); //상태
-	              var rf_row = rows.siblings(".td_rf"); //상태
+	              var rf_row = rows.siblings(".td_rf"); //임시값 - 합계
+	              var bt_row = rows.siblings(".td_bt"); //버튼
+	              var each_price = rows.siblings(".each_price"); //각각 가격
 
 	              if (rows.length > 1) {
 	                  rows.eq(0).attr("rowspan", rows.length);
@@ -54,6 +57,7 @@
 	                  mt_row.eq(0).attr("rowspan", rows.length);
 	                  st_row.eq(0).attr("rowspan", rows.length);
 	                  rf_row.eq(0).attr("rowspan", rows.length);
+	                  bt_row.eq(0).attr("rowspan", rows.length);
 	                  
 	                  rows.not(":eq(0)").remove(); 
 	                  ck_row.not(":eq(0)").remove(); 
@@ -64,11 +68,88 @@
 	                  mt_row.not(":eq(0)").remove(); 
 	                  st_row.not(":eq(0)").remove(); 
 	                  rf_row.not(":eq(0)").remove(); 
+	                  bt_row.not(":eq(0)").remove(); 
+	                  
+	                  //환불금액 합계
+                      var sum = 0;
+                      for(i=0; i<rows.length; i++){
+                    	  sum += Number(each_price.eq(i).text());
+                      }
+                      rf_row.text(sum);
+					  
+                      //환불처리
+                      var innerhtml = "";
+                      if(st_row.eq(0).text() == "환불접수"){
+                          if(mt_row.eq(0).text() == "신용카드 결제"){
+                        	  innerhtml = '<a href="#" class="refund_btn">PG취소</a>';
+                          } else {
+                        	  innerhtml = '<a href="#" class="refund_btn">환불처리</a>';
+                          } 
+                      } else {
+					  	  innerhtml = '-';	                    	  
+                      }
+                	  bt_row.html(innerhtml);
 	              } 
 	          });
 			
-			
+    		$(".refund_btn").click(function(){
+    			var refund_num = $(this).parent().siblings(".gr").text();
+    			var refund_price = $(this).siblings(".td_rf").text();
+    			if($(this).text() == "PG취소"){
+        			if(confirm("PG 취소를 접수하시겠습니까?")){
+        			   	 $.ajax({
+        			   		 type : "POST",
+        			   		 url : "refund_process",
+        			   		 data : JSON.stringify({ 
+        			   			 rf_receipt_num : refund_num,
+        			   		 }),
+        			   		 contentType : "application/json",
+    			             dataType : "json",
+    			             success : function(val){
+        			           	 if(val != 0){
+        			           		 alert("PG결제 취소를 요청했습니다.");
+        			           		 location.reload();
+        			           	 } else{
+        			           		 alert("취소할 수 없습니다.");
+        			           	 }
+    			             },
+    			             error : function(){
+    			           	 	alert("서버통신실패. 관리자에게 문의하세요.");
+    			             }
+        			   	 });
+        			 } else {
+        				 return;
+        			 };//if confirm
+    				
+    			} else {
+    				if(confirm("환불완료 처리하시겠습니까? 무통장입금, 계좌이체의 경우 환불을 완료했는지 다시 확인하고 신중하게 처리하세요!")){
+       			   	 $.ajax({
+       			   		 type : "POST",
+       			   		 url : "refund_process",
+       			   		 data : JSON.stringify({ 
+       			   			 rf_receipt_num : refund_num,
+       			   		 }),
+       			   		 contentType : "application/json",
+   			             dataType : "json",
+   			             success : function(val){
+       			           	 if(val != 0){
+       			           		 alert("환불 완료");
+       			           		 location.reload();
+       			           	 } else{
+       			           		 alert("완료할 수 없습니다.");
+       			           	 }
+   			             },
+   			             error : function(){
+   			           	 	alert("서버통신실패. 관리자에게 문의하세요.");
+   			             }
+       			   	 });
+       			 	} else {
+       				 return;
+       			 	};//if confirm
+    			}
+    		});
 		});
+
 		
 		function date_chk2(){
 			var start = inputform.e_start_day.value;
@@ -142,7 +223,6 @@
 			}
 		#list_div{
 			height: 500px;
-			overflow: scroll;
 		}
 		.top_cnt{
 			color: red;
@@ -209,20 +289,19 @@
 					</form>
 				</div>
 				<div id="search2">
-					<p>검색 <span class="top_cnt">22</span>개 / 전체<span class="top_cnt">22</span>개 | 검색된 주문 총 결제금액 <span class="top_cnt">123,123</span>원</p>
 					<select name="sort" onchange="에이작스스크립트()">
-								<option value="">주문번호 ↑</option>
-								<option value="">주문번호 ↓</option>	
-								<option value="">주문자 ↑</option>
-								<option value="">주문자 ↓</option>	
-								<option value="">주문상태 ↑</option>
-								<option value="">주문상태 ↓</option>	
-							</select>
+						<option value="">주문번호 ↑</option>
+						<option value="">주문번호 ↓</option>	
+						<option value="">주문자 ↑</option>
+						<option value="">주문자 ↓</option>	
+						<option value="">주문상태 ↑</option>
+						<option value="">주문상태 ↓</option>	
+					</select>
 				</div>
 				<div id="list_div">
 					<table border="1" id="event_list">
 						<tr>
-							<th><input type="checkbox" name="chk"></th>
+<!-- 							<th><input type="checkbox" name="chk"></th> -->
 							<th>환불번호</th>
 							<th>주문번호</th>
 <!-- 							<th>주문일시</th> -->
@@ -237,11 +316,12 @@
 <!-- 							<th>총 배송비</th> -->
 							<th>결제방법</th>
 							<th>처리상태</th>
+							<th>환불처리</th>
 <!-- 							<th>사유</th> -->
 						</tr>
                         <c:forEach var="list" items="${ refundlist }">
 						<tr>
-							<td class="td_ck"><input type="checkbox" name="chk" value="${ list.rf_receipt_num }"></td>
+<!-- 							<td class="td_ck"><input type="checkbox" name="chk" value=""></td> -->
 							<td class="gr">${list.rf_receipt_num }</td>
 							<td class="td_on"><a href="order_detail?ol_order_num=${list.ol_order_num }">${list.ol_order_num }</a></td>
 <!-- 							<td>주문일시</td> -->
@@ -250,10 +330,11 @@
                             <td class="td_nm">${ list.m_id }</td>
 <!--                             <td>주문고유번호</td> -->
                             <td>${ list.p_name }</td>
-                            <td>${ list.rf_price }</td>
+                            <td class="each_price">${ list.rf_price }</td>
                             <td class="td_rf">임시값</td>
                             <td class="td_mt">${ list.rf_method }</td>
                             <td class="td_st">${ list.rf_status }</td>
+                            <td class="td_bt"></td>
 <!-- 							<td>환불완료일시</td> -->
 <!-- 							<td>주문자</td> -->
 <!-- 							<td>주문고유번호</td> -->
@@ -270,19 +351,6 @@
 					<div class="detail_btn">
 						<a href="#">임시버튼</a><!-- 필요없음 div통째로 지우세욤 -->
 					</div>
-				</div>
-				<div id="state">
-					선택한 주문을
-					<select>
-						<option>입금대기중</option>
-						<option>입금대기중</option>
-						<option>입금대기중</option>
-						<option>입금대기중</option>
-						<option>입금대기중</option>
-						<option>입금대기중</option>
-					</select>
-					<button type="button" onclick="아작스()">일괄처리</button>
-					<button type="button" onclick="아작스()">취소처리</button>
 				</div>
 			</div>
 				</div>

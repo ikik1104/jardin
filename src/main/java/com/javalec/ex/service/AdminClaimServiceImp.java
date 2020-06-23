@@ -18,6 +18,11 @@ public class AdminClaimServiceImp implements AdminClaimService {
 	public List<RefundDto> getAllMemRefund() {
 		return acdao.getAllMemRefund();
 	}
+
+	@Override
+	public int refundProcess(String rf_receipt_num) {
+		return acdao.refundProcess(rf_receipt_num);
+	}
 	
 	
 	

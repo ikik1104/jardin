@@ -10,6 +10,8 @@
 		select * from refund_tb order by rf_receipt_num desc, rf_receipt_date desc
 	</select>
 
-	
+	<update id="refundProcess">
+		update refund_tb set rf_status='환불완료', rf_end_date=sysdate where rf_receipt_num=#{param1}
+	</update>
 	
 </mapper>
