@@ -64,8 +64,6 @@
 	    <result column="ad_grade" property="ad_grade"/>  		      
 	</resultMap>
 	
-		
-	
 	<resultMap type="com.javalec.ex.dto.EventDto" id="EventDto">
 	    <result column="rownum" property="rownum"/>		
 	    <result column="e_num" property="e_num"/>	     
@@ -301,6 +299,13 @@
 		select -99 e_num, -99 co_num, '-' co_name, null co_start_day, null co_end_day, '-' co_type, -99 co_discount, null co_sysdate, -99 co_condition, -99 co_expiry, -99 co_product, '-' p_name from dual)
 		fintb order by e_num desc) finaltb
 		where e_num!=-99 or rownum=1]]> 	
+	</select>
+	
+	<!-- 당첨자 발표글 전체 리스트 불러오기 -->
+	<select id="getAllWinBoard" resultMap="AllDto">
+		select rownum, wbtb.* from
+		(select wb.*, to_char(wb_date, 'yy-MM-dd')str1 from
+		(select * from win_board_tb order by wb_num desc) wb) wbtb
 	</select>
 	
 	<!-- 삭제 예정 -->

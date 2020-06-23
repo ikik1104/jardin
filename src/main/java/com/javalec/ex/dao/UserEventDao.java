@@ -76,6 +76,9 @@ public interface UserEventDao {
 	//종료된 이벤트 쿠폰 가져오기
 	AllDto getFinEventCoupon(EventDto eventDto);
 
+	//당첨자 발표글 전체 리스트 불러오기
+	List<AllDto> getAllWinBoard();
+
 	
 	
 

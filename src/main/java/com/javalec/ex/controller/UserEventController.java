@@ -178,6 +178,12 @@ public class UserEventController {
 				
 		return response_path+"fin_event_view";
 	}
+	//당첨자 발표글 전체 리스트 불러오기
+	@RequestMapping("prizewinner")
+	public String prizewinner(Model model) {
+		model.addAttribute("win_list", eservice.getAllWinBoard());
+		return response_path+"prizewinner";
+	}
 	
 	@RequestMapping("comment")
 	public String comment() {

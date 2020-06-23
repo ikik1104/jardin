@@ -140,6 +140,11 @@ public class UserEventServiceImp implements UserEventService {
 		return edao.getFinEventCoupon(eventDto);
 	}
 
+	//당첨자 발표글 전체 리스트 불러오기
+	public List<AllDto> getAllWinBoard() {
+		return edao.getAllWinBoard();
+	}
+
 	
 
 
