@@ -136,17 +136,26 @@ $(document).ready(function() {
 								<th scope="col" class="tnone">조회수</th>
 							</thead>
 							<tbody>
-								<c:forEach var="win_list" items="${win_list }">
+								<c:if test="${win_list.size()==0 }">
 									<tr>
-										<td class="tnone">${win_list.winboarddto.rownum }</td>
-										<td class="left">
-											<a href="prizewinner_view?wb_num=${ }">까페모리 봄바람 커파힌잔 30% 할인 이벤트 당첨자 발표</a>
-											<img src="user/images/ico/ico_new.gif" alt="NEW" />
-										</td>
-										<td>14-01-28</td>
-										<td class="tnone right">9999</td>
-									</tr>								
-								</c:forEach>
+										<td >당첨자 발표 게시글이 없습니다.</td>
+									</tr>													
+								</c:if>
+								<c:if test="${win_list.size()!=0 }">
+									<c:forEach var="win_list" items="${win_list }">
+										<tr>
+											<td class="tnone">${win_list.winboarddto.rownum }</td>
+											<td class="left">
+												<a href="prizewinner_view?wb_num=${win_list.winboarddto.wb_num }">${win_list.winboarddto.wb_title }</a>
+												<img src="user/images/ico/ico_new.gif" alt="NEW" />
+											</td>
+											<td>${win_list.utildto.str1 }</td>
+											<td class="tnone right">${win_list.winboarddto.wb_hit }</td>
+										</tr>								
+									</c:forEach>								
+								</c:if>
+							
+
 
 
 								

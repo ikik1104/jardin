@@ -308,6 +308,15 @@
 		(select * from win_board_tb order by wb_num desc) wb) wbtb
 	</select>
 	
+	<!-- 당첨자 발표글 1개 불러오기 -->
+	<!--  
+	<select id="getTheWinboard" resultMap="AllDto">
+		select * from
+		(select wb.*, to_char(wb_date, 'yy-MM-dd')str1 from
+		(select * from win_board_tb order by wb_num desc) wb)
+        where wb_num=#{wb_num}
+	</select>-->
+	
 	<!-- 삭제 예정 -->
 	<select id="comment_List" resultMap="E_CommentDto" >
 		select * from ecomment_tb

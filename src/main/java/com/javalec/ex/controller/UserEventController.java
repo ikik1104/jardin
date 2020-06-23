@@ -29,6 +29,7 @@ import com.javalec.ex.dto.MtmUserDto;
 import com.javalec.ex.dto.NoticeDto;
 import com.javalec.ex.dto.ReceiverDto;
 import com.javalec.ex.dto.UtilDto;
+import com.javalec.ex.dto.WinBoardDto;
 import com.javalec.ex.service.AdminCouponService;
 import com.javalec.ex.service.UserCustomerService;
 import com.javalec.ex.service.UserEventService;
@@ -183,6 +184,15 @@ public class UserEventController {
 	public String prizewinner(Model model) {
 		model.addAttribute("win_list", eservice.getAllWinBoard());
 		return response_path+"prizewinner";
+	}
+	
+	//당첨자 발표글 1개 불러오기
+	@RequestMapping("prizewinner_view")
+	public String prizewinner_view(WinBoardDto winBoardDto, Model model) {
+		System.out.println("들어왔니...");
+		model.addAttribute("win_info", eservice.getTheWinboard(winBoardDto));
+		System.out.println("나갔니...");
+		return response_path+"prizewinner_view";
 	}
 	
 	@RequestMapping("comment")

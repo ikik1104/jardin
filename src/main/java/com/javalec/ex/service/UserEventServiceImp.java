@@ -21,6 +21,7 @@ import com.javalec.ex.dto.MtmUserDto;
 import com.javalec.ex.dto.NoticeDto;
 import com.javalec.ex.dto.ReceiverDto;
 import com.javalec.ex.dto.UtilDto;
+import com.javalec.ex.dto.WinBoardDto;
 
 @Service
 public class UserEventServiceImp implements UserEventService {
@@ -143,6 +144,11 @@ public class UserEventServiceImp implements UserEventService {
 	//당첨자 발표글 전체 리스트 불러오기
 	public List<AllDto> getAllWinBoard() {
 		return edao.getAllWinBoard();
+	}
+
+	//당첨자 발표글 1개 불러오기
+	public AllDto getTheWinboard(WinBoardDto winBoardDto) {
+		return edao.getTheWinboard(winBoardDto);
 	}
 
 	

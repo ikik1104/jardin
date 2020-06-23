@@ -17,6 +17,7 @@ import com.javalec.ex.dto.MtmUserDto;
 import com.javalec.ex.dto.NoticeDto;
 import com.javalec.ex.dto.ReceiverDto;
 import com.javalec.ex.dto.UtilDto;
+import com.javalec.ex.dto.WinBoardDto;
 
 @Repository
 public interface UserEventDao {
@@ -79,6 +80,8 @@ public interface UserEventDao {
 	//당첨자 발표글 전체 리스트 불러오기
 	List<AllDto> getAllWinBoard();
 
+	//당첨자 발표글 1개 가져오기
+	AllDto getTheWinboard(WinBoardDto winBoardDto);
 	
 	
 
