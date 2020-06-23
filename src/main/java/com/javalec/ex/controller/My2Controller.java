@@ -1,6 +1,7 @@
 package com.javalec.ex.controller;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,8 +34,6 @@ public class My2Controller {
 	private LeaveService leaveService;
 	
 
-	
-	
 	//1:1문의 리스트 페이지
 	@RequestMapping("inquiry")
 	public String inquiry(PageDto pageDto, HttpServletRequest request, Model model, HttpSession session) {

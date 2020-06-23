@@ -1,5 +1,6 @@
 package com.javalec.ex.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,11 @@ public class AdminClaimServiceImp implements AdminClaimService {
 	@Override
 	public int refundProcess(String rf_receipt_num) {
 		return acdao.refundProcess(rf_receipt_num);
+	}
+
+	@Override
+	public List<RefundDto> getSearchArrRefund(HashMap<String, String> map) {
+		return acdao.getSearchArrRefund(map);
 	}
 	
 	

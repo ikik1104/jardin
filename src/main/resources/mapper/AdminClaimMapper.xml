@@ -7,8 +7,33 @@
 	
 	<!-- 환불테이블 조회 -->
 	<select id="getAllMemRefund" resultType="com.javalec.ex.dto.RefundDto">
-		select * from refund_tb order by rf_receipt_num desc, rf_receipt_date desc
+		select * from refund_tb 
+		order by rf_receipt_num desc, rf_receipt_date desc
 	</select>
+	
+	<!-- 환불테이블 검색,정렬 조회 -->
+	<select id="getSearchArrRefund" resultType="com.javalec.ex.dto.RefundDto">
+		select * from refund_tb 
+		<where>
+			<if test="e_start_day !=''">
+				and rf_receipt_date between to_date(#{e_start_day}, 'yyyy-MM-dd') and to_date(#{e_end_day}, 'yyyy-MM-dd')+0.999999
+			</if>
+			<if test="e_start_day.equals('')">
+       			and rf_receipt_date <![CDATA[<]]> to_date(#{e_end_day}, 'yyyy-MM-dd')+0.999999
+	    	</if>
+			<if test="keywordOpt.equals('주문번호')">
+	        and ol_order_num like '%'|| #{keyword} || '%' 
+	        </if>
+			<if test="keywordOpt.equals('주문자')">
+	        and m_id like '%'|| #{keyword} || '%' 
+	        </if>
+			<if test="keywordOpt.equals('상태')">
+	        and rf_status like '%'|| #{keyword} || '%' 
+	        </if>
+		</where>
+		order by ${array1}, rf_receipt_date desc
+	</select>
+	
 
 	<update id="refundProcess">
 		update refund_tb set rf_status='환불완료', rf_end_date=sysdate where rf_receipt_num=#{param1}
