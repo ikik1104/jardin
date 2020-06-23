@@ -148,7 +148,15 @@ public class UserEventServiceImp implements UserEventService {
 
 	//당첨자 발표글 1개 불러오기
 	public AllDto getTheWinboard(WinBoardDto winBoardDto) {
-		return edao.getTheWinboard(winBoardDto);
+		edao.updateWinHit(winBoardDto);//해당 글 조회수 높이기
+		AllDto alldto = edao.getTheWinboard(winBoardDto);
+		if(alldto.getWinboarddto().getWb_title()!=null) {
+			//발표글이 잘 넘어왔을 경우
+		} else {
+			//발표글 잘 안 넘어왔을 경우 조회수 높인 거 취소
+			edao.downWinHit(winBoardDto);//해당 글 조회수 높이기
+		}
+		return alldto;
 	}
 
 	

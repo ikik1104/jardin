@@ -83,6 +83,12 @@ public interface UserEventDao {
 	//당첨자 발표글 1개 가져오기
 	AllDto getTheWinboard(WinBoardDto winBoardDto);
 	
+	//당첨자 발표글 1개 조회수 1 올리기
+	int updateWinHit(WinBoardDto winBoardDto);
+
+	//당첨자 발표글 1개 조히수 1 내리기
+	void downWinHit(WinBoardDto winBoardDto);
+	
 	
 
 	

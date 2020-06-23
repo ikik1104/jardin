@@ -309,13 +309,23 @@
 	</select>
 	
 	<!-- 당첨자 발표글 1개 불러오기 -->
-	<!--  
+
 	<select id="getTheWinboard" resultMap="AllDto">
 		select * from
 		(select wb.*, to_char(wb_date, 'yy-MM-dd')str1 from
 		(select * from win_board_tb order by wb_num desc) wb)
         where wb_num=#{wb_num}
-	</select>-->
+	</select>
+	
+	<!-- 당첨자 발표글 1개 조회수 1 올리기 -->
+	<update id="updateWinHit">
+		update win_board_tb set wb_hit=wb_hit+1 where wb_num=#{wb_num}
+	</update>
+	
+	<!-- 당첨자 발표글 1개 조회수 1 낮추기 -->
+	<update id="downWinHit">
+		update win_board_tb set wb_hit=wb_hit-1 where wb_num=#{wb_num}
+	</update>	
 	
 	<!-- 삭제 예정 -->
 	<select id="comment_List" resultMap="E_CommentDto" >

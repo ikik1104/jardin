@@ -189,9 +189,7 @@ public class UserEventController {
 	//당첨자 발표글 1개 불러오기
 	@RequestMapping("prizewinner_view")
 	public String prizewinner_view(WinBoardDto winBoardDto, Model model) {
-		System.out.println("들어왔니...");
 		model.addAttribute("win_info", eservice.getTheWinboard(winBoardDto));
-		System.out.println("나갔니...");
 		return response_path+"prizewinner_view";
 	}
 	
