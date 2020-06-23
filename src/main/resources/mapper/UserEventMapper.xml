@@ -20,7 +20,8 @@
 	    <collection property="memberdto" resultMap="MemberDto"/>	
 	    <collection property="winboarddto" resultMap="WinBoardDto"/>
 	    <collection property="utildto" resultMap="UtilDto"/>	    		
-	    <collection property="productdto" resultMap="ProductDto"/>	    		    	    	    	     
+	    <collection property="productdto" resultMap="ProductDto"/>	    
+	    <collection property="cou_issuedto" resultMap="Cou_IssueDto"/>	    		    		    	    	    	     
 	</resultMap>	
 	
 	<resultMap type="com.javalec.ex.dto.UtilDto" id="UtilDto">
@@ -140,6 +141,16 @@
 	    <result column="p_update" property="p_update"/>	 	    
 	</resultMap>	
 	
+		<resultMap type="com.javalec.ex.dto.Cou_IssueDto" id="Cou_IssueDto">
+	    <result column="rownum" property="rownum"/>
+	    <result column="ci_num" property="ci_num"/>	 
+	    <result column="m_num" property="m_num"/>
+	    <result column="co_num" property="co_num"/>
+	    <result column="ci_issue_day" property="ci_issue_day"/>	    
+	    <result column="ci_end_day" property="ci_end_day"/>	    
+	    <result column="ci_use_day" property="ci_use_day"/>	 	
+	</resultMap>	
+	
 	<!-- 진행중 이벤트 전체 리스트 가져오기 -->
 	<select id="getAllEvents" resultMap="AllDto">
          <![CDATA[select rownum, fintb.* from
@@ -230,6 +241,17 @@
 	<insert id="downloadPeriodCoupon">
 		insert into c_issue_tb values(ci_seq.nextval, #{m_num}, #{co_num}, sysdate, #{co_end_day}, '')
 	</insert>	
+	
+	<!-- 로그인 사용자의 쿠폰 발급내역 확인 -->
+	<select id="checkUserCoupon" resultMap="Cou_IssueDto">
+		select * from
+		(select * from
+		(select * from c_issue_tb where m_num=#{m_num} and co_num=#{co_num}
+		union
+		select -99 ci_num, -99 m_num, -99 co_num, null ci_issue_day, null ci_end_day, null ci_use_day from dual)
+		order by ci_num desc)
+		where ci_num!=-99 or rownum=1
+	</select>
 	
 	<!-- 삭제 예정 -->
 	<select id="comment_List" resultMap="E_CommentDto" >

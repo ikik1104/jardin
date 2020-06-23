@@ -153,7 +153,7 @@ public class UserEventController {
 			System.out.println("기간제");
 			success = eservice.downloadPeriodCoupon(m_num, co_num,co_start_day, co_end_day);
 		}
-		
+		System.out.println(success);
 		return success;
 	}
 	

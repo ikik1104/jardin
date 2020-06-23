@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.javalec.ex.dto.AllDto;
+import com.javalec.ex.dto.Cou_IssueDto;
 import com.javalec.ex.dto.CouponDto;
 import com.javalec.ex.dto.E_CommentDto;
 import com.javalec.ex.dto.EventDto;
@@ -56,6 +57,9 @@ public interface UserEventDao {
 
 	//삭제 예정2
 	void comment_delete(int ec_num);
+	
+	//회원 사용자 쿠폰 발급내역 확인
+	Cou_IssueDto checkUserCoupon(@Param("m_num") int m_num, @Param("co_num") int co_num);
 
 	//회원 사용자 유효기간 쿠폰 다운로드
 	int downloadExCoupon(@Param("m_num") int m_num, @Param("co_num") int co_num, @Param("co_expiry") int co_expiry);

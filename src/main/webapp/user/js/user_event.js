@@ -37,51 +37,7 @@ $(function(){
 	}
 */
 	
-	//쿠폰 다운로드 유효성 검사
-	function checkDownload(){
-		
-	}
-	
-	//쿠폰 다운로드
-	function coupon_download(){
-		
-		
-		var m_num= $('#cp_mNum').val();
-		var co_num= $('#cp_coNum').val();		
-		var co_expiry= $('#cp_expiry').val();		
-		var co_start_day= $('#cp_startDay').val();		
-		var co_end_day= $('#cp_endDay').val();	
-		
-		if(m_num==null || m_num==""){
-			if(confirm('로그인 사용자만 이용 가능합니다. \n 로그인 페이지로 이동하시겠습니까?')){
-				location.href='login?backpath=user_event_view?e_num='+ecomment_insert.e_num.value;
-			} else {
-				return false;
-			}
-		}
-		
-		$.ajax({
-			type:'post',
-			url:'coupon_download',
-			dataType:'json',
-			data:JSON.stringify({m_num:m_num, co_num:co_num, co_expiry:co_expiry, co_start_day:co_start_day, co_end_day:co_end_day}),
-			contentType: "application/json; charset=UTF-8",
-			success:function(val){
-				if(val==1){//다운로드 성공 시 
-					if(confirm('쿠폰을 다운로드 했습니다.  \n 확인 페이지로 이동할까요?')){
-						location.href='mycoupon?m_num='+m_num;
-					} else {
-						
-					}					 
-				} else if(val!=1){//다운로드 실패 시
-					alert('쿠폰을 다운로드 하지 못했습니다. 다시 시도해 주세요.');
-				}
-			},
-			error:function(){
-				alert('서버 통신 실패');
-			}
-		});
-	}
+
 
    //다른 사람 댓글 확인창 띄우기
 	function showOtherOriginal(m_num){
@@ -150,6 +106,67 @@ $(function(){
 
 //[[로그인 사용자 기능]]------------------------------------------------------------------------------
 
+	//쿠폰 다운로드 유효성 검사
+	function checkDownload(){
+		//로그인 사용자가 이미 다운받은 쿠폰인지 확인
+		var co_num = $('#cp_coNum').val();
+		var m_num=$('#cp_mNum').val();
+		
+		if(m_num==null || m_num==""){
+			if(confirm('로그인 사용자만 이용 가능합니다. \n 로그인 페이지로 이동하시겠습니까?')){
+				location.href='login?backpath=user_event_view?e_num='+ecomment_insert.e_num.value;
+			} else {
+				return false;
+			}
+		}		
+		
+	
+		
+		
+	}
+	
+	//쿠폰 다운로드
+	function coupon_download(){
+		
+		var m_num= $('#cp_mNum').val();
+		var co_num= $('#cp_coNum').val();		
+		var co_expiry= $('#cp_expiry').val();		
+		var co_start_day= $('#cp_startDay').val();		
+		var co_end_day= $('#cp_endDay').val();	
+		
+		if(m_num==null || m_num==""){
+			if(confirm('로그인 사용자만 이용 가능합니다. \n 로그인 페이지로 이동하시겠습니까?')){
+				location.href='login?backpath=user_event_view?e_num='+ecomment_insert.e_num.value;
+			} else {
+				return false;
+			}
+		}		
+		
+		$.ajax({
+			type:'post',
+			url:'coupon_download',
+			dataType:'json',
+			data:JSON.stringify({m_num:m_num, co_num:co_num, co_expiry:co_expiry, co_start_day:co_start_day, co_end_day:co_end_day}),
+			contentType: "application/json; charset=UTF-8",
+			success:function(val){
+				if(val==1){//다운로드 성공 시 
+						if(confirm('쿠폰을 다운로드 했습니다.  \n 확인 페이지로 이동할까요?')){
+							location.href='mycoupon?m_num='+m_num;			 
+						} else {
+							//페이지에 머무름
+						}
+				}else if(val==-1){//이미 다운 받은 쿠폰일 경우
+					alert('이미 다운로드한 쿠폰입니다.');
+				}else if(val==0){//다운로드 실패 시
+					alert('쿠폰을 다운로드 하지 못했습니다. 다시 시도해 주세요.');
+				}
+			},
+			error:function(){
+				alert('서버 통신 실패');
+			}
+		});
+	}	
+	
 //회원 로그인 사용자 댓글 1개 삭제
 	function user_del_check(ec_num){
 		if(confirm("해당 댓글을 삭제하시겠습니까? \n(삭제한 데이터는 복구할 수 없으며, 이벤트 신청이 취소됩니다.)")){

@@ -11,6 +11,7 @@ import com.javalec.ex.dao.UserCustomerDao;
 import com.javalec.ex.dao.UserEventDao;
 import com.javalec.ex.dao.UserMemberDao;
 import com.javalec.ex.dto.AllDto;
+import com.javalec.ex.dto.Cou_IssueDto;
 import com.javalec.ex.dto.CouponDto;
 import com.javalec.ex.dto.E_CommentDto;
 import com.javalec.ex.dto.EventDto;
@@ -85,15 +86,43 @@ public class UserEventServiceImp implements UserEventService {
 	public AllDto getTheCoupon(EventDto eventDto) {
 		return edao.getTheCoupon(eventDto);
 	}
+	//회원 사용자 쿠폰 발급내역 확인
+	public int checkUserCoupon(int m_num, int co_num) {
+		int success=0;
+		Cou_IssueDto cidto = edao.checkUserCoupon(m_num, co_num);
+		if(cidto.getCi_num()==-99) success=1;//발급받은 적 없는 경우 발급해도 좋다는 신호
+		System.out.println(success);
+		return success;
+	}
 
 	//회원 사용자 유효기간 쿠폰 다운로드
 	public int downloadExCoupon(int m_num, int co_num, int co_expiry) {
-		return edao.downloadExCoupon(m_num,co_num, co_expiry);
+		int success = checkUserCoupon(m_num, co_num);
+		if(success==1) {
+			//발급받은 적 없는 경우
+			success = edao.downloadExCoupon(m_num,co_num, co_expiry);
+			//발급 실패할 경우 success=0;
+		} else if(success==0){
+			//발급받은 적 있는 경우
+			success=-1;
+		}
+		System.out.println(success);
+		return success;
 	}
 
 	//회원 사용자 기간제 쿠폰 다운로드
 	public int downloadPeriodCoupon(int m_num, int co_num, String co_start_day, String co_end_day) {
-		return edao.downloadPeriodCoupon(m_num,co_num,co_start_day, co_end_day) ;
+		int success = checkUserCoupon(m_num, co_num);		
+		if(success==1) {
+			//발급받은 적 없는 경우
+			success = edao.downloadPeriodCoupon(m_num,co_num,co_start_day, co_end_day) ;
+			//발급 실패할 경우 success=0;
+		} else if(success==0) {
+			//발급받은 적 있는 경우
+			success=-1;
+		}		
+		System.out.println(success);
+		return success;
 	}
 
 	

@@ -47,6 +47,9 @@ public interface UserEventService {
 	//해당 이벤트에 쿠폰 있을 경우 쿠폰 가져오기
 	AllDto getTheCoupon(EventDto eventDto);
 
+	//회원 사용자 쿠폰 발급내역 확인
+	int checkUserCoupon(int m_num, int co_num);
+	
 	//회원 사용자 유효기간 쿠폰 다운로드
 	int downloadExCoupon(int m_num, int co_num, int co_expiry);
 	
