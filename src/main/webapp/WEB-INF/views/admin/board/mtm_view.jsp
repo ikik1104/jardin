@@ -10,6 +10,7 @@
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
 		<link rel="stylesheet" type="text/css" href="admin/css/admin_main.css">
+		<link rel="stylesheet" type="text/css" href="admin/css/admin_view.css">		
 		<script type="text/javascript" src="admin/js/jquery-3.4.1.min.js"></script>
         <script type="text/javascript" src="admin/js/jquery-ui.min.js"></script>
         <script type="text/javascript" src="admin/js/prefixfree.dynamic-dom.min.js"></script>
@@ -107,7 +108,7 @@
 	<section>
 		<h1>1:1문의 조회/답변</h1>
 		
-		<div>
+		<div id="user_info_area">
 			<h1>게시글 정보</h1>
 			<table border="1">
 				<tr>
@@ -133,7 +134,7 @@
 			</table>
 		</div>
 		
-		<div style="width:1000px; ">
+		<div style="width:1000px; "  id="user_content_area">
 			<h1>게시글 내용</h1>	
 				<c:if test="${mtm_user_info.mtmuserdto.iu_img=='없음' || mtm_user_info.mtmuserdto.iu_img==null}">
 				</c:if>
@@ -147,7 +148,7 @@ ${mtm_user_info.mtmuserdto.iu_content }
 				<button type="button" onclick="user_del_check(${mtm_user_info.mtmuserdto.iu_num})">게시글 삭제</button>
 		</div>
 		
-		<div style="margin-bottom:100px;">
+		<div style="margin-bottom:100px;"  id="answer_info_area">
 			<h1>답변 조회/작성/수정</h1>	
 					<!-- 답변이 있을 경우 -->
 					<c:if test="${ mtm_answer_info.admindto.ad_num!=null}">
