@@ -31,11 +31,11 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		// 처음 페이지 로딩 시, 새로고침 적용
-		if (self.name != 'reload') {
-	         self.name = 'reload';
-	         self.location.reload(true);
-	     }
-	     else self.name = '';
+// 		if (self.name != 'reload') {
+// 	         self.name = 'reload';
+// 	         self.location.reload(true);
+// 	     }
+// 	     else self.name = '';
 		 
 	});
 
@@ -70,22 +70,7 @@
      $(document).ready(function () {
          msiecheck();
  		
- 		// 사용할 포인트 값 입력 시 실행 (보유 포인트와 비교)
- 		$("#point").live("propertychange change keyup paste", function(){
- 			var value=Number($(this).val());
- 			var ownedPoint = Number($(".orange").text());
- 			// 보유 포인트보다 입력 값이 클 때
- 			if(value>ownedPoint){
- 				$(".pointAlert").css('visibility', 'visible');
- 				$("#point").val('0');
- 			// 보유 포인트보다 입력 값이 작거나 같을 때
- 			}else if(value<=ownedPoint) {
- 				$(".pointAlert").css('visibility', 'hidden');
- 				$("#pointDisc").text(- (commas((Number(value)))));
- 				
- 			}
- 		 });
- 		
+        // 주문자 정보와 수취자 정보 동일하게 
  		$("input[name=infosame]:checkbox").click(function(){
  			if($(this).is(":checked")== true){
  				$("input[name=re_name]").val($("input[name=m_name]").val());
@@ -150,49 +135,79 @@
 		$("#ieUser").hide();
         clearTimeout(msietimer);
      }
-     
-  // 제품 쿠폰 선택 (자식창 오픈)
- 	function couponList(m_num){
- 		window.open("coupon_list?m_num="+m_num, "couponlist", "width=700px, height=900px, resizable=no, scrollbars=yes");
- 	}
- 	
- 	
+      	
  	// 천단위마다  콤마(,) 추가
  	function commas(x) {
  	       return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
  	}
-
  	
- 	//이메일, 연락처, 주소 폼 맞추기
-     function change_info(){
- 		alert("aa");
- 	
-    	 $.ajax({
-             type : "POST",
-             url : "changeInfo",
-             data: {
-          	   m_num : "${ memDto.m_num}",
-          	   m_email : $("input[name=email_id]").val() + "@" + $("input[name=email_domain]").val(),
-          	   m_zipcode : $("input[name=m_zipcode]").val(),
-          	   m_address1 : $("input[name=m_address1]").val(),
-          	   m_address2 : $("input[name=m_address2]").val(),
-          	   m_phone : $("#phone1").val()+"-"+$("input[name=phone2]").val()+"-"+$("input[name=phone3]").val(),
-          	   m_tel : $("#tel1").val()+"-"+$("input[name=tel2]").val()+"-"+$("input[name=tel3]").val(),
-             }, 
-             success : function(val){
-                if(val == 1){ //리턴값이 1이면 (=성공)
-                   alert("회원정보 수정이 완료되었습니다.");
-                 
-                }else{ // 0이면 실패
-                   alert("회원정보 수정사항이 반영되지 않았습니다. 다시 확인해주세요.");
-                }
-             },
-             error : function(){
-                alert("서버통신실패");
-             }
-  		});
+ 	// 유효성 검사
+ 	function validate(){
+ 		var or_name = document.getElementById("m_name");
+ 		var or_zipcode = document.getElementById("m_zipcode");
+ 		var or_address1= document.getElementById("m_address1");
+ 		var or_address2= document.getElementById("m_address2");
+ 		var email_id = document.getElementById("email_id");
+ 		var email_domain = document.getElementById("email_domain");
+ 		var or_phone2= document.getElementById("phone2");
+ 		var or_phone3= document.getElementById("phone3");
+ 		var re_name = document.getElementById("re_name");
+ 		var re_zipcode = document.getElementById("re_zipcode");
+ 		var re_address1= document.getElementById("re_address1");
+ 		var re_address2= document.getElementById("re_address1e");
+ 		var re_phone2= document.getElementById("re_phone2");
+ 		var re_phone3= document.getElementById("re_phone3");
+ 		
+ 		 //이름 정규화 공식
+        var checkName = /^[가-힣a-zA-Z]{2,}$/;
+        var checkEmail_Id = /^([-_.]?[0-9a-zA-Z]){2,}$/;
+        var checkEmail_D = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/;
 
-     }
+        var checkPhone = /^[0-9]{,4}$/;
+ 		
+ 	   //이름에 특수 문자가 들어간 경우
+        if (!checkName.test(or_name.value)) {
+        	alert("이름을 잘못 입력하셨습니다. 다시 입력해주세요.");
+        	or_name.value="";
+        	or_name.focus();
+            return false;
+        }
+ 	   	
+ 	   
+		if($(".emailList").val() == null){
+			if(email_domain.value==null){
+				alert("이메일 도메인 주소를 입력해주세요.");
+				email_domain.focus();
+			}
+			if(!checkEmail_D.test(email_domain.value)){
+				alert("이메일 도메인")
+			}
+		}
+ 	   
+  	  
+//         if (!checkName.test(re_name.value)) {
+//         	alert("이름을 잘못 입력하셨습니다. 다시 입력해주세요.");
+//         	re_name.value="";
+//         	re_name.focus();
+//             return false;
+//         }
+        
+//         if(!checkEmail_Id.test(or_email_id.value)){
+//         	alert("이메일 아이디를 잘못 입력하셨습니다. 다시 입력해주세요.");
+//         	or_email_id.value="";
+//         	or_email_id.focus();
+//         }
+
+		if(!checkPhone.test(or_phone2.value)){
+			or_phone2.value="";
+			or_phone2.focus();
+		}
+
+
+
+ 		return true;
+ 	}
+
 </script>
 
 <div id="allwrap">
@@ -217,7 +232,7 @@
 				<div id="mypage">
 					<h2><strong>주문/결제</strong></h2>
 					<!-- 주문 상품 -->
-					<form action="submit_order" method="post" name="orderform">
+					<form action="submit_order" method="post" id="orderform" name="orderform" onsubmit="return validate();">
 					<h3 class="dep">주문 제품 확인</h3>
 					<div class="orderDivNm">
 						<table summary="주문 제품 확인 게시판으로 상품명, 가격, 수량, 합계순으로 조회 하실수 있습니다." class="orderTable" border="1" cellspacing="0">
@@ -235,6 +250,10 @@
 								<th scope="col">합계</th>
 							</thead>
 							<tbody>
+								<c:if test="${cCount==0 }">
+								<tr><td colspan="5">장바구니에 담긴 상품이 없습니다.</td></tr>
+								</c:if>
+							
 								<c:forEach var="cartlist" items="${cartlist }" >
 									<tr>
 										<td class="left">
@@ -254,11 +273,11 @@
 											<br/><span class="pointscore">${cartlist.pDto.p_point } Point</span>
 											<!-- //회원일 시 -->
 										</td>
-										<td>${cartlist.ca_amount }</td>
-										<fmt:formatNumber var="productPriceSum" value="${cartlist.pDto.p_price * cartlist.ca_amount }" type="number"/>
+										<td>${cartlist.p_amt }</td>
+										<fmt:formatNumber var="productPriceSum" value="${cartlist.pDto.p_price * cartlist.p_amt }" type="number"/>
 										<td>${productPriceSum }원</td>
 									</tr>
-									<c:set var="sum" value="${sum + cartlist.pDto.p_price * cartlist.ca_amount }"/>
+									<c:set var="sum" value="${sum + cartlist.pDto.p_price * cartlist.p_amt }"/>
 								</c:forEach>
 							</tbody>
 						</table>
@@ -268,7 +287,6 @@
 							<fmt:formatNumber var="sum1" value="${sum }" type="number"/>
 							<li>상품 합계금액 <strong>${sum1 }</strong> 원</li>
 							<li>+ 배송비 <strong>
-								
 								<c:if test="${sum < 30000 }"><c:set var="del_price" value ="3000" />
 								<fmt:formatNumber var="del_price1" value="${del_price }" type="number"/>${del_price1 }</c:if>
 								<c:if test="${sum >= 30000 }"><c:set var="del_price" value ="0" />
@@ -283,13 +301,13 @@
 
 			<!-- 주문자 주소 입력 -->
 					<h3 class="diviLeft">주문자 주소 입력</h3>
-					<div class="diviRight">
+<!--				<div class="diviRight">
 						<ul>
 							<li>수정 내용을 회원정보에도 반영합니다.&nbsp;&nbsp;</li>
 							<li><a href="#" onclick="change_info()">회원정보반영</a></li>
 						</ul>
 					</div>
-
+-->
 					<div class="checkDiv">
 						<table summary="주문자 주소를 입력할 수 있는 란으로 이름, 주소, 이메일, 휴대폰 번호, 전화번호 순으로 입력 하실수 있습니다." class="checkTable" border="1" cellspacing="0">
 							<caption>주문자 주소 입력</caption>
@@ -299,30 +317,30 @@
 							</colgroup>
 							<tbody>
 								<tr>
-									<th scope="row"><span>이름</span></th>
-									<td><input type="text" class="w134" name="m_name" value="${memDto.m_name }" /></td>
+									<th scope="row"><span>*이름</span></th>
+									<td><input type="text" class="w134" id="m_name" name="m_name" required/></td>
 								</tr>
 
 								<tr>
-									<th scope="row"><span>주소</span></th>
+									<th scope="row"><span>*주소</span></th>
 									<td>
 										<ul class="pta">
 											<li>
-												<input type="text" class="w134" name="m_zipcode" id="m_zipcode" value="${memDto.m_zipcode }" readonly />&nbsp;
+												<input type="text" class="w134" id="m_zipcode" name="m_zipcode" readonly required/>&nbsp;
 											</li>
 											<li><a onclick="execDaumPostcode()" class="addressBtn"><span>우편번호 찾기</span></a></li>
-											<li class="pt5"><input type="text" class="addressType2" id="m_address1" name="m_address1" value="${memDto.m_address1 }"/></li>
-											<li class="pt5"><input type="text" class="addressType2" id="m_address2" name="m_address2" value="${memDto.m_address2 }"/></li>
+											<li class="pt5"><input type="text" class="addressType2" id="m_address1" name="m_address1" required/></li>
+											<li class="pt5"><input type="text" class="addressType2" id="m_address2" name="m_address2" required/></li>
 										</ul>
 									</td>
 								</tr>
 								<tr>
-									<th scope="row"><span>이메일</span></th>
+									<th scope="row"><span>*이메일</span></th>
 									<td>
 										<ul class="pta">
-											<li><input type="text" class="w134" name="email_id" value="${email_id }"/></li>
+											<li><input type="text" class="w134" id="email_id" name="email_id" required/></li>
 											<li><span class="valign">&nbsp;@&nbsp;</span></li>
-											<li class="r10"><input type="text" class="w134" name="email_domain" value="${email_domain }"/></li>
+											<li class="r10"><input type="text" class="w134" id="email_domain" name="email_domain"/></li>
 											<li>
 												<select id="emailList">
 													<option value="#" selected="selected">직접입력</option>
@@ -347,7 +365,7 @@
 									</td>
 								</tr>
 								<tr>
-									<th scope="row"><span>휴대폰 번호</span></th>
+									<th scope="row"><span>*휴대폰 번호</span></th>
 									<td>
 										<ul class="pta">
 											<li>
@@ -361,8 +379,8 @@
 												</select>
 											</li>
 											<li>&nbsp;<span class="valign">-</span>&nbsp;</li>
-											<li><input type="text" class="w74" maxlength="4" name="phone2" value="${phone2 }"/> <span class="valign">-</span>&nbsp;</li>
-											<li class="r10"><input type="text" class="w74" maxlength="4" name="phone3" value="${phone3 }"/></li>
+											<li><input type="text" class="w74" maxlength="4" id="phone2" name="phone2" required/> <span class="valign">-</span>&nbsp;</li>
+											<li class="r10"><input type="text" class="w74" maxlength="4" id="phone3" name="phone3" required/></li>
 										</ul>
 									</td>
 								</tr>
@@ -392,8 +410,8 @@
 												</select>
 											</li>
 											<li>&nbsp;<span class="valign">-</span>&nbsp;</li>
-											<li><input type="text" class="w74" maxlength="4" name="tel2" value="${tel2 }" /> <span class="valign">-</span>&nbsp;</li>
-											<li><input type="text" class="w74" maxlength="4" name="tel3" value="${tel3 }"/></li>
+											<li><input type="text" class="w74" maxlength="4" id="tel2" name="tel2" /> <span class="valign">-</span>&nbsp;</li>
+											<li><input type="text" class="w74" maxlength="4" id="tel3" name="tel3" /></li>
 										</ul>
 									</td>
 								</tr>
@@ -408,7 +426,7 @@
 						수취자 주소 입력
 						
 						<input type="checkbox" id="infosame" name="infosame"/>
-						<label for="infosame">회원정보와 동일</label>
+						<label for="infosame">주문자 정보와 동일</label>
 					</h3>
 					<div class="checkDiv">
 						<table summary="수취자 주소를 입력할 수 있는 란으로 이름, 주소, 이메일, 휴대폰 번호, 전화번호 순으로 입력 하실수 있습니다." class="checkTable" border="1" cellspacing="0">
@@ -419,25 +437,25 @@
 							</colgroup>
 							<tbody>
 								<tr>
-									<th scope="row"><span>이름</span></th>
-									<td><input type="text" class="w134" name="re_name" value="홍길동" /></td>
+									<th scope="row"><span>*이름</span></th>
+									<td><input type="text" class="w134" id="re_name" name="re_name" required/></td>
 								</tr>
 
 								<tr>
-									<th scope="row"><span>주소</span></th>
+									<th scope="row"><span>*주소</span></th>
 									<td>
 										<ul class="pta">
 											<li>
-												<input type="text" class="w134" name="re_zipcode" id="re_zipcode" readonly/>&nbsp;
+												<input type="text" class="w134" name="re_zipcode" id="re_zipcode" readonly required/>&nbsp;
 											</li>
 											<li><a onclick="execDaumPostcode2()" class="addressBtn"><span>우편번호 찾기</span></a></li>
-											<li class="pt5"><input type="text" class="addressType2" id="re_address1" name="re_address1"/></li>
-											<li class="pt5"><input type="text" class="addressType2" id="re_address2" name="re_address2"/></li>
+											<li class="pt5"><input type="text" class="addressType2" id="re_address1" name="re_address1" required/></li>
+											<li class="pt5"><input type="text" class="addressType2" id="re_address2" name="re_address2" required/></li>
 										</ul>
 									</td>
 								</tr>
 								<tr>
-									<th scope="row"><span>휴대폰 번호</span></th>
+									<th scope="row"><span>*휴대폰 번호</span></th>
 									<td>
 										<ul class="pta">
 											<li>
@@ -451,8 +469,8 @@
 												</select>
 											</li>
 											<li>&nbsp;<span class="valign">-</span>&nbsp;</li>
-											<li><input type="text" class="w74" maxlength="4" name="re_phone2"/> <span class="valign">-</span>&nbsp;</li>
-											<li class="r10"><input type="text" class="w74" maxlength="4" name="re_phone3"/></li>
+											<li><input type="text" class="w74" maxlength="4" id="re_phone2" name="re_phone2" required/> <span class="valign">-</span>&nbsp;</li>
+											<li class="r10"><input type="text" class="w74" maxlength="4" id="re_phone3" name="re_phone3" required/></li>
 										</ul>
 									</td>
 								</tr>
@@ -482,8 +500,8 @@
 												</select>
 											</li>
 											<li>&nbsp;<span class="valign">-</span>&nbsp;</li>
-											<li><input type="text" class="w74" maxlength="4" name="re_tel2"/> <span class="valign">-</span>&nbsp;</li>
-											<li><input type="text" class="w74" maxlength="4" name="re_tel3"/></li>
+											<li><input type="text" class="w74" maxlength="4" id="re_tel2" name="re_tel2"/> <span class="valign">-</span>&nbsp;</li>
+											<li><input type="text" class="w74" maxlength="4" id="re_tel3" name="re_tel3"/></li>
 										</ul>
 									</td>
 								</tr>
@@ -498,122 +516,8 @@
 
 
 			<!-- 쿠폰 및 포인트 사용 -->
-					<h3 class="dep">쿠폰 및 포인트 사용</h3>
-					<div class="checkDiv">
-						<table summary="쿠폰 및 포인트를 입력 또는 확인 할 수 있는 란으로 총 주문금액, 배송비, 쿠폰할인, 포인트 사용, 총 결제금액 순으로 입력 또는 확인 하실수 있습니다." class="checkTable" border="1" cellspacing="0">
-							<caption>쿠폰 및 포인트 사용</caption>
-							<colgroup>
-							<col width="22%" class="tw30" />
-							<col width="*" />
-							</colgroup>
-							<tbody>
-								<tr>
-									<th scope="row"><span>총 주문금액</span></th>
-									<td id="semiPrice">${sum1 }원</td>
-								</tr>
-								<tr>
-									<th scope="row"><span>배송비</span></th>
-									<td id="delPrice">${del_price1 }원(선불)</td>
-								</tr>
-								<tr>
-									<th scope="row"><span>제품 쿠폰 할인</span></th>
-									<td>
-										<ul class="pta">
-											<li class="r10">
-												<input type="text" class="w134" id="productcoup" value="0" readonly onchange="changeitem()" />&nbsp;&nbsp;
-												<span class="valign"><strong>원</strong></span>
-											</li>
-											<li class="r10"><span class="valign">( 보유 쿠폰 내역 : ${p_couponCount }장 )&nbsp;</span></li>
-											<li><input type="button" class="nbtn1" onclick="couponList(${memDto.m_num })" value ="쿠폰목록"></li>
-										</ul>
-									</td>
-								</tr>
-								<tr>
-									<th scope="row"><span>장바구니 쿠폰 할인</span></th>
-									<td>
-										<ul class="pta">
-											<li class="r10">
-												<select id="cartcoup" onchange="changeitem()">
-													<option class="w134" value="0">쿠폰선택</option>
-													<c:forEach var="cartCoupon" items="${cartCoupon }">
-														<c:if test="${cartCoupon.ci_end_day > sysdate }">
-															<c:choose>
-																<c:when test="${cartCoupon.cDto.co_condition <= sum }">
-																	<option id="opt_${cartCoupon.ci_num }" value="${cartCoupon.cDto.co_discount }">${cartCoupon.cDto.co_name }-${cartCoupon.ci_num } </option>
-																</c:when>
-																<c:when test="${cartCoupon.cDto.co_condition > sum }">
-																	<option id="opt_${cartCoupon.ci_num }" value="${cartCoupon.cDto.co_discount }" disabled style="background-color: #ebebeb;">${cartCoupon.cDto.co_name }-${cartCoupon.ci_num }</option>
-																</c:when>
-															</c:choose>
-														</c:if>
-													</c:forEach>
-												</select>&nbsp;&nbsp;
-											</li>
-											<li class="r10"><span class="valign">( 보유 쿠폰 내역 : ${c_couponCount }장 )&nbsp;</span></li>
-										</ul>
-									</td>
-								</tr>
-								
-								<tr>
-									<th scope="row"><span>배송비 쿠폰 할인</span></th>
-									<td>
-										<ul class="pta">
-											<li class="r10">
-												<select id="deliverycoup" onchange="changeitem()">
-													<option class="w134" value="0">쿠폰선택</option>
-													<c:forEach var="deliveryCoupon" items="${deliveryCoupon }">
-														<c:if test="${deliveryCoupon.ci_end_day > sysdate }">
-															<c:choose>
-																<c:when test="${deliveryCoupon.cDto.co_condition <= sum && del_price>0}">
-																	<option id="opt_${deliveryCoupon.ci_num }" value="3000">${deliveryCoupon.cDto.co_name }-${deliveryCoupon.ci_num }</option>
-																</c:when>
-																<c:when test="${deliveryCoupon.cDto.co_condition > sum }">
-																	<option id="opt_${deliveryCoupon.ci_num }" value="3000" disabled style="background-color: #ebebeb;">${deliveryCoupon.cDto.co_name }-${deliveryCoupon.ci_num }</option>
-																</c:when>
-																<c:when test="${del_price==0 }">
-																	<option id="opt_${deliveryCoupon.ci_num }" value="3000" disabled style="background-color: #ebebeb;">${deliveryCoupon.cDto.co_name }-${deliveryCoupon.ci_num }</option>
-																</c:when>
-															</c:choose>
-														</c:if>
-													</c:forEach>
-												</select>&nbsp;&nbsp;
-											</li>
-											<li class="r10"><span class="valign">( 보유 쿠폰 내역 : ${d_couponCount }장 )&nbsp;</span></li>
-										</ul>
-									</td>
-								</tr>
-								<!-- 회원 일시 -->
-								<tr>
-									<th scope="row"><span>포인트 사용</span></th>
-									<td>
-										<ul class="pta">
-											<li class="r10">
-												<input type="text" class="w134" name= "point" id="point" value="0" onchange="changeitem()"/>&nbsp;&nbsp;
-												<span class="valign"><strong>Point</strong></span>
-											</li>
-											<li>
-												<span class="valign">( 사용 가능 포인트 : </span>
-												<span class="orange">${memDto.m_point }</span>
-												<span class="valign"> Point)</span> 
-												<span class="pointAlert">보유하신 포인트 이내로 입력해주세요.</span>
-											</li>
-										</ul>
-									</td>
-								</tr>
-								<!-- //회원 일시 -->
-								
-								<tr>
-									<th scope="row"><span>총 결제금액</span></th>
-									<td>
-										<ul class="pta">
-											<li><span class="valign"><strong id="finalPrice">${finalP	 }원</strong></li>
-										</ul>
-									</td>
-								</tr>
-
-							</tbody>
-						</table>
-					</div>
+					<h3 class="dep">쿠폰 및 포인트 사용</h3> <span>*회원만 사용 가능한 서비스입니다.</span>
+					<div class="checkDiv" style="display: none;"></div>
 			<!-- //쿠폰 및 포인트 사용 -->
 			
 
@@ -635,7 +539,7 @@
 								<span class="won"><strong>${del_price1 }</strong> 원</span>
 							</li>
 
-							<!-- 회원 일때만 -->
+							<!-- 회원 일때만 
 							<li>
 								<span class="title">포인트 할인</span>
 								<span class="won"><strong id="pointDisc">0</strong> P</span>
@@ -648,7 +552,7 @@
 								<span class="title">배송비 할인</span>
 								<span class="won"><strong id="delDisc">0</strong> 원</span>
 							</li>
-							<!-- //회원 일떄만 -->
+							-->
 						</ul>
 
 						<ul class="total">
@@ -662,54 +566,7 @@
 						</ul>
 					</div>
 			<!-- //총 주문금액 -->
-			<script type="text/javascript">
-			// 쿠폰, 포인트 입력에 따른 연계된 입력값 변경
-			function changeitem(){
-				var ccoupSelect = document.getElementById("cartcoup");
-				var dcoupSelect = document.getElementById("deliverycoup");
-				var pcoup = Number($("#productcoup").val());    // 제품 쿠폰 할인 금액
-				var ccoup = Number(ccoupSelect.options[ccoupSelect.selectedIndex].value);  // 장바구니 쿠폰 할인 금액
-				var dcoup = Number(dcoupSelect.options[dcoupSelect.selectedIndex].value);  // 배송비 쿠폰 할인 금액
-				var semiPrice = ${sum }; // 총 주문금액
-				var delPrice = $("#delPrice").text();
-				var delPrice1 = parseInt(delPrice.substring(0,(delPrice.length-5)))*1000;	// 기본 배송비
-				var point = Number($("#point").val());     // 사용 포인트
-				var ownedPoint = Number($(".orange").text());  // 보유 포인트 
-				var coupsum = pcoup+ccoup;    // 쿠폰할인 합계 (제품 쿠폰 + 장바구니 쿠폰)
-				var final_price=0; //총 결제금액
-				if(point>ownedPoint){ 
-					final_price = semiPrice+delPrice1-pcoup-ccoup-dcoup-0;  
-				}else {
-					final_price = semiPrice+delPrice1-pcoup-ccoup-dcoup-point;  
-				}
-				$("#finalPrice").text(commas(final_price)+"원");
-				$("#finalPrice1").text(commas(final_price));
-				$("#coupDisc").text(commas(- coupsum));
-				$("#delDisc").text(commas(- dcoup));
-				
-				// hidden으로 넘겨주는 값
-				$("input[name=oc_semi_sum]").val(semiPrice-pcoup);  //주문금액-제품할인금액
-				if(ccoup==0){
-					$("input[name=oc_cart_c]").val(0); // 장바구니 쿠폰 번호
-				}else{
-					var before_ccoup = ccoupSelect.options[ccoupSelect.selectedIndex].text;
-					var after_ccoup = before_ccoup.split('-');
-					$("input[name=oc_cart_c]").val(after_ccoup[1]); // 장바구니 쿠폰 번호
-					
-				}
-				if(dcoup==0){
-					$("input[name=oc_deliv_c]").val(0);
-				}else {
-					var before_dcoup = dcoupSelect.options[dcoupSelect.selectedIndex].text;
-					var after_dcoup = before_dcoup.split('-');
-					$("input[name=oc_deliv_c]").val(after_ccoup[1]); // 배송비무료 쿠폰 번호
-					
-				}
-				$("input[name=oc_final_sum]").val(final_price);  // 총 결제금액
-			}
-			</script >
-
-
+			
 			<!-- 결제수단 선택 -->
 					<h3 class="dep">결제수단 선택</h3>
 					<div class="checkDiv">
@@ -727,15 +584,6 @@
 											<li>
 												<input type="radio" id="method01" name="ol_payment" checked="checked" value="신용카드 결제"/><label for="method01">신용카드 결제</label>
 											</li>
-<!-- 											<li> -->
-<!-- 												<input type="radio" id="method02" name="ol_payment" value="실시간 계좌이체"/><label for="method02">실시간 계좌이체</label> -->
-<!-- 											</li> -->
-<!-- 											<li> -->
-<!-- 												<input type="radio" id="method03" name="ol_payment" /><label for="method03">가상계좌</label> -->
-<!-- 											</li> -->
-<!-- 											<li> -->
-<!-- 												<input type="radio" id="method04" name="ol_payment" /><label for="method04">가상계좌(에스크로)</label> -->
-<!-- 											</li> -->
 											<li>
 												<input type="radio" id="method05" name="ol_payment" value="무통장 입금" /><label for="method05">무통장 입금</label>
 											</li>
@@ -874,25 +722,17 @@
 					<!-- 주문리스트에 필요한 정보 -->
 					<c:forEach var="cartlist" items="${cartlist }" varStatus="status">
 						<input type="hidden" name="productNum" value="${cartlist.pDto.p_num }"/>
-						<input type="hidden" name="productAmt" value="${cartlist.ca_amount }"/>
-						<input type="hidden" id="productCou_${status.index }" name="productCou" value="0"/>
+						<input type="hidden" name="productPrice" value="${cartlist.pDto.p_price }"/>
+						<input type="hidden" name="productAmt" value="${cartlist.p_amt }"/>
 					</c:forEach>
-					
-					
-					<input type="hidden" name="oc_cart_c" value="0"/>
-					<input type="hidden" name="oc_deliv_c" value="0"/>
-					<input type="hidden" name="oc_semi_sum" value="${sum }"/>
-					<input type="hidden" name="oc_deliv_fee" value="${del_price }"/>
-					<input type="hidden" name="oc_final_sum" value="${sum+del_prirce }"/>
-					<input type="hidden" name=ol_orderer_id value="${ memDto.m_num}"/>
-					<input type="hidden" name="m_num" value="${ memDto.m_num}"/>
+					<!-- 주문리스트에 필요한 정보 -->
 
 					<!-- Btn Area -->
 					<div class="btnArea">
 						<div class="orderCenter">
 							<ul>
-								<li><a href="#" class="nbtnbig iw0140">뒤로가기</a></li>
-								<li><input type="submit" class="sbtnMini iw0140" value="주문 / 결제"></li>								
+								<li><a href="main" class="nbtnbig iw0140">취소</a></li>
+								<li><input type="submit" onclick="validate()" class="sbtnMini iw0140" value="주문 / 결제" style="border-style: none;"></li>								
 							</ul>
 						</div>
 					</div>

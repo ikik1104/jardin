@@ -12,6 +12,7 @@ import com.javalec.ex.dto.Cou_IssueDto;
 import com.javalec.ex.dto.MemberDto;
 import com.javalec.ex.dto.OrderListDto;
 import com.javalec.ex.dto.OrderlistCouDto;
+import com.javalec.ex.dto.ProductDto;
 import com.javalec.ex.dto.ReceiverDto;
 
 @Service
@@ -123,6 +124,12 @@ public class PayServiceImpl implements PayService {
 	@Override
 	public int insertUsedPoint(int m_num, int point, String po_name) {
 		return payDao.insertUsedPoint(m_num, point, po_name);
+	}
+	
+	// 비회원 - 주문/장바구니 제품 정보 불러오기
+	@Override
+	public ProductDto getProductInfo(int p_num) {
+		return payDao.getProductInfo(p_num);
 	}
 	
 }

@@ -1,11 +1,15 @@
 package com.javalec.ex.controller;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.javalec.ex.dto.NonmemberCartDto;
 import com.javalec.ex.dto.OrderListDto;
 import com.javalec.ex.dto.OrderlistCouDto;
 import com.javalec.ex.service.MP1Service;
@@ -34,20 +39,27 @@ public class OrderConfirmController {
 
 	
 	// 주문번호 생성 변수1
-		static int i=1;
+	static int i=1;
 		
-		@RequestMapping("submit_order")
-		public String sumbit_order(OrderListDto orderListDto, @RequestParam HashMap<String, String> map,  OrderlistCouDto orderCouDto, HttpServletRequest request, Model model) {
+	@RequestMapping("submit_order")
+	public String sumbit_order(OrderListDto orderListDto, @RequestParam HashMap<String, String> map,  OrderlistCouDto orderCouDto, HttpServletRequest request, HttpSession session, Model model) {
+			
+		String page="";
+
+		// 주문번호 생성 변수2 (ol_order_num)
+		SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat ( "yyyyMMdd", Locale.KOREA );
+		Date currentTime = new Date ();
+		String time1 = mSimpleDateFormat.format(currentTime);
+		String ol_order_num = time1+"_"+i;
+			
+			// 로그인 시,
+		if(session.getAttribute("userNum") != null) { 
+			int m_num = (Integer)session.getAttribute("userNum");
+			String m_id = (String)session.getAttribute("userID");
 			
 			String[] productNum = request.getParameterValues("productNum");
 			String[] productAmt = request.getParameterValues("productAmt");
 			String[] productCou = request.getParameterValues("productCou");
-			
-			// 주문번호 생성 변수2 (ol_order_num)
-			SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat ( "yyyyMMdd", Locale.KOREA );
-			Date currentTime = new Date ();
-			String time1 = mSimpleDateFormat.format(currentTime);
-			String ol_order_num = time1+"_"+i;
 			
 			// 주문리스트 등록
 			for(int j=0; j<productNum.length; j++) {
@@ -61,6 +73,7 @@ public class OrderConfirmController {
 				olDto.setP_num(p_num);
 				olDto.setOl_amt(ol_amt);
 				olDto.setCo_num(ci_num);
+				olDto.setOl_orderer_id(m_id);
 				
 				if(ci_num==0) {
 					payService.insertOrderList2(olDto);
@@ -75,6 +88,7 @@ public class OrderConfirmController {
 			
 			// 주문쿠폰적용 테이블 등록
 			orderCouDto.setOl_order_num(ol_order_num);
+			orderCouDto.setM_num(m_num);
 			payService.insertOrderListCou(orderCouDto);
 			
 			// 사용한 제품 쿠폰 사용 날짜 업데이트
@@ -88,7 +102,6 @@ public class OrderConfirmController {
 
 			// 사용 포인트 차감
 			int point = Integer.parseInt(request.getParameter("point"));
-			int m_num = Integer.parseInt(request.getParameter("m_num"));
 			payService.subUsedPoint(point, m_num);
 			
 			// 장바구니에서 주문한 제품 삭제
@@ -110,7 +123,30 @@ public class OrderConfirmController {
 			model.addAttribute("orderInfo", orderConfirmService.getOrReInfo(ol_order_num));
 			model.addAttribute("coupon_point", orderConfirmService.getOrderlistCou(ol_order_num));
 			
-			return  "payment/order_confirmation";
+			page="payment/order_confirmation";
+		}else {
+			List<String> arr = (ArrayList<String>)session.getAttribute("nonmem_cart");
+			List<NonmemberCartDto> ncDtos = new ArrayList<NonmemberCartDto>();
+			for(int i=0; i<arr.size(); i++) {
+				String[] sp = arr.get(i).split("_");
+				int p_num = Integer.parseInt(sp[0]);
+				int p_amt = Integer.parseInt(sp[1]);
+				NonmemberCartDto ncDto = new NonmemberCartDto();
+				ncDto.setP_amt(p_amt);
+				ncDto.setpDto(payService.getProductInfo(p_num));
+				ncDtos.add(ncDto);
+			}
+			// 주문자,수취자 정보 등록
+			map.put("ol_order_num", ol_order_num);
+			payService.insertOrReInfo(map);
+			
+			model.addAttribute("orderlist", ncDtos);
+			model.addAttribute("orderInfo", orderConfirmService.getOrReInfo(ol_order_num));
+			model.addAttribute("cCount", ncDtos.size());
+			
+			page = "nonmember/order_confirmation";
 		}
-	
+		
+		return page;
+	}
 }

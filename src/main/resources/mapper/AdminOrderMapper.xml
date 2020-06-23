@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.javalec.ex.dao.AdminOrderDao">
 
-	<!-- 주문리스트 전체 -->
+<!-- 주문리스트 전체******************************************************************************************* -->
 	<select id="getAllOrderlist" resultType="hashmap">
 		select ol.*, p_name, p_price, oc.*, c.co_discount as prod_disc, nn.cart_disc, mm.deliv_disc
 		from orderlist_tb ol
@@ -21,25 +21,7 @@
 		where a.oc_deliv_c=b.co_num and a.ol_order_num = d.ol_order_num) mm on mm.ol_order_num = ol.ol_order_num
 		order by ${option}
 	</select>
-	
-	<!-- 주문리스트 정렬 변경
-	<select id="sortlist" resultType="hashmap">
-		select ol.*, p_name, p_price, oc.*, c.co_discount as prod_disc, nn.cart_disc, mm.deliv_disc
-		from orderlist_tb ol
-		left join product_tb p on p.p_num=ol.p_num
-		left join orderlist_cou_tb oc on oc.ol_order_num=ol.ol_order_num
-		left join coupon_tb c on ol.co_num = c.co_num
-		left join 
-		(select d.ol_order_num, a.oc_cart_c, b.co_discount as cart_disc
-		from orderlist_cou_tb a, coupon_tb b, orderlist_tb d 
-		where a.oc_cart_c=b.co_num and a.ol_order_num = d.ol_order_num) nn on nn.ol_order_num = ol.ol_order_num
-		left join 
-		(select d.ol_order_num, a.oc_deliv_c, b.co_discount as deliv_disc
-		from orderlist_cou_tb a, coupon_tb b, orderlist_tb d 
-		where a.oc_deliv_c=b.co_num and a.ol_order_num = d.ol_order_num) mm on mm.ol_order_num = ol.ol_order_num
-		order by ${option}, ol.ol_order_num asc
-	</select>
-	-->
+
 	<!-- 총 주문건수 카운트 -->
 	<select id="countOrder" resultType="Integer">
 		select count(DISTINCT ol_order_num) from orderlist_tb
@@ -82,6 +64,59 @@
 		where 1=1 ${whereQuery}
 		order by ${option}
 	</select>
-
 	
+<!-- 입금대기 리스트 전체******************************************************************************************* -->
+	<select id="deposit_waiting_list" resultType="hashmap">
+		select ol.*, p_name, p_price, oc.*, c.co_discount as prod_disc, nn.cart_disc, mm.deliv_disc
+		from orderlist_tb ol
+		left join product_tb p on p.p_num=ol.p_num
+		left join orderlist_cou_tb oc on oc.ol_order_num=ol.ol_order_num
+		left join coupon_tb c on ol.co_num = c.co_num
+		left join 
+		(select d.ol_order_num, a.oc_cart_c, b.co_discount as cart_disc
+		from orderlist_cou_tb a, coupon_tb b, orderlist_tb d 
+		where a.oc_cart_c=b.co_num and a.ol_order_num = d.ol_order_num) nn on nn.ol_order_num = ol.ol_order_num
+		left join 
+		(select d.ol_order_num, a.oc_deliv_c, b.co_discount as deliv_disc
+		from orderlist_cou_tb a, coupon_tb b, orderlist_tb d 
+		where a.oc_deliv_c=b.co_num and a.ol_order_num = d.ol_order_num) mm on mm.ol_order_num = ol.ol_order_num
+		where ${listName}
+		order by ol.ol_order_num asc   	
+	</select>
+
+	<!-- 입금대기 리스트 검색&정렬 -->
+	<select id="searchandsort" resultType="hashmap">
+		select ol.*, to_char(ol.ol_date, 'yyyy-MM-dd')as odate, p_name, p_price, oc.*, c.co_discount as prod_disc, nn.cart_disc, mm.deliv_disc
+		from orderlist_tb ol
+		left join product_tb p on p.p_num=ol.p_num
+		left join orderlist_cou_tb oc on oc.ol_order_num=ol.ol_order_num
+		left join coupon_tb c on ol.co_num = c.co_num
+		left join 
+		(select d.ol_order_num, a.oc_cart_c, b.co_discount as cart_disc
+		from orderlist_cou_tb a, coupon_tb b, orderlist_tb d 
+		where a.oc_cart_c=b.co_num and a.ol_order_num = d.ol_order_num) nn on nn.ol_order_num = ol.ol_order_num
+		left join 
+		(select d.ol_order_num, a.oc_deliv_c, b.co_discount as deliv_disc
+		from orderlist_cou_tb a, coupon_tb b, orderlist_tb d 
+		where a.oc_deliv_c=b.co_num and a.ol_order_num = d.ol_order_num) mm on mm.ol_order_num = ol.ol_order_num
+		where ${listName}
+       	<if test="e_start_day !=''">
+	       	and ol.ol_date between to_date(#{e_start_day}, 'yyyy-MM-dd') and to_date(#{e_end_day}, 'yyyy-MM-dd')+0.999999
+	    </if>
+	    <if test="e_start_day.equals('')">
+       		and ol.ol_date <![CDATA[<]]> to_date(#{e_end_day}, 'yyyy-MM-dd')+0.999999
+	    </if>
+       	<if test="keywordOpt.equals('주문번호')">
+        and ol.ol_order_num like '%'|| #{keyword} || '%' 
+        </if>
+		<if test="keywordOpt.equals('주문자')">
+        and ol.ol_orderer_id like '%'|| #{keyword} || '%' 
+        </if>        
+        order by ${option1}
+	</select>
+	
+	<!-- 선택한 주문건 처리상태 변경 (입금대기 -> 입금완료) -->
+	<update id="change_status">
+		update orderlist_tb set ol_status = #{param2} and ol_pay_date = sysdate where ol_order_num = #{param1}
+	</update>
 </mapper>
