@@ -80,12 +80,12 @@
 		(select d.ol_order_num, a.oc_deliv_c, b.co_discount as deliv_disc
 		from orderlist_cou_tb a, coupon_tb b, orderlist_tb d 
 		where a.oc_deliv_c=b.co_num and a.ol_order_num = d.ol_order_num) mm on mm.ol_order_num = ol.ol_order_num
-		where ol.ol_status='입금대기'
+		where ${listName}
 		order by ol.ol_order_num asc   	
 	</select>
 
 	<!-- 입금대기 리스트 검색&정렬 -->
-	<select id="dw_search" resultType="hashmap">
+	<select id="searchandsort" resultType="hashmap">
 		select ol.*, to_char(ol.ol_date, 'yyyy-MM-dd')as odate, p_name, p_price, oc.*, c.co_discount as prod_disc, nn.cart_disc, mm.deliv_disc
 		from orderlist_tb ol
 		left join product_tb p on p.p_num=ol.p_num
@@ -99,7 +99,7 @@
 		(select d.ol_order_num, a.oc_deliv_c, b.co_discount as deliv_disc
 		from orderlist_cou_tb a, coupon_tb b, orderlist_tb d 
 		where a.oc_deliv_c=b.co_num and a.ol_order_num = d.ol_order_num) mm on mm.ol_order_num = ol.ol_order_num
-		where ol.ol_status='입금대기'  
+		where ${listName}
        	<if test="e_start_day !=''">
 	       	and ol.ol_date between to_date(#{e_start_day}, 'yyyy-MM-dd') and to_date(#{e_end_day}, 'yyyy-MM-dd')+0.999999
 	    </if>
@@ -117,6 +117,6 @@
 	
 	<!-- 선택한 주문건 처리상태 변경 (입금대기 -> 입금완료) -->
 	<update id="change_status">
-		update orderlist_tb set ol_status = '입금완료' where ol_order_num = #{param1}
+		update orderlist_tb set ol_status = #{param2} and ol_pay_date = sysdate where ol_order_num = #{param1}
 	</update>
 </mapper>

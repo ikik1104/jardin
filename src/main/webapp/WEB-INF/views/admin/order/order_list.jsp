@@ -218,7 +218,7 @@
 	</head>
 	<body>
 	<jsp:include page="../nav/admin_header.jsp"/>
-	<jsp:include page="../nav/board_nav.jsp"/>
+	<jsp:include page="../nav/order_nav.jsp"/>
 	<section>
 		<h1>주문통합리스트</h1>
 		<div id="main_list">
@@ -324,13 +324,20 @@
 								<td>${list.P_NUM }</td>
 								<td>${list.P_NAME }</td>
 								<td>${list.OL_AMT }</td>
-								<td>${list.P_PRICE }</td>
-								<td>${list.PROD_DISC }</td>
-								<td>${list.OL_FINAL_PRICE }</td>
-								<td class="td_df">${list.OC_DELIV_FEE }</td>
+								<fmt:formatNumber var="p_price" value="${list.P_PRICE }" type="number"/>
+								<td>${p_price }</td>
+								<fmt:formatNumber var="prod_disc" value="${list.PROD_DISC }" type="number"/>
+								<td>${prod_disc }</td>
+								<fmt:formatNumber var="final_price" value="${list.OL_FINAL_PRICE }" type="number"/>
+								<td>${final_price }</td>
+								<fmt:formatNumber var="deliv_fee" value="${list.OC_DELIV_FEE }" type="number"/>
+								<td class="td_df">${deliv_fee }</td>
+								<fmt:formatNumber var="deliv_disc" value="${list.DELIV_DISC }" type="number"/>
 								<td class="td_dc">${list.DELIV_DISC }</td>
-								<td class="td_cc">${list.CART_DISC }</td>
-								<td class="td_fs">${list.OC_FINAL_SUM }</td>
+								<fmt:formatNumber var="cart_disc" value="${list.CART_DISC }" type="number"/>
+								<td class="td_cc">${cart_disc }</td>
+								<fmt:formatNumber var="final_sum" value="${list.OC_FINAL_SUM }" type="number"/>
+								<td class="td_fs">${final_sum }</td>
 								<td class="td_pm">${list.OL_PAYMENT }</td>
 								<td class="td_st">${list.OL_STATUS }</td>
 							</tr>

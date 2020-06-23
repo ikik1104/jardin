@@ -227,10 +227,12 @@
 				if(confirm("선택하신 주문건의 처리상태를 입금완료로 변경하시겠습니까?")){
 					$("input[name=chk]:checked").each(function(){
 						var orderNum = $(this).attr('id');
+						var statusOpt = $("select[name=statusOpt]").val();
+						var arrData = [orderNum, statusOpt]
 						$.ajax({
 			                url : "change_status",
 			                method : "POST",
-			                data: orderNum,
+			                data: arrData,
 			                dataType : "json",
 			                contentType: "application/json",
 			                success : function(val){
@@ -283,7 +285,7 @@
 	</head>
 	<body>
 	<jsp:include page="../nav/admin_header.jsp"/>
-	<jsp:include page="../nav/board_nav.jsp"/>
+	<jsp:include page="../nav/order_nav.jsp"/>
 	<section>
 		<h1>입금대기 리스트</h1>
 		<div id="main_list">
@@ -370,8 +372,8 @@
 				</div>
 				<div id="state">
 					선택한 주문을
-					<select>
-						<option>입금완료</option>
+					<select name="statusOpt">
+						<option value="입금완료">입금완료</option>
 					</select>
 					<button type="button" onclick="change_status()">일괄처리</button>
 				</div>

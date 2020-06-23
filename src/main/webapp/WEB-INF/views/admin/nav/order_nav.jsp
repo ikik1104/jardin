@@ -6,9 +6,9 @@
 			<a>주문/배송<span id="s_icon" class="icon_minus"></span></a>
 			<div class="tes_list">
 				<ul>
-					<li><a href="#"><img src="admin/images/icon_title_left.png">주문통합</a></li>
-					<li><a href="#"><img src="admin/images/icon_title_left.png">입금완료</a></li>
-					<li><a href="#"><img src="admin/images/icon_title_left.png">결제완료</a></li>
+					<li><a href="order_list"><img src="admin/images/icon_title_left.png">주문통합</a></li>
+					<li><a href="deposit_waiting_list"><img src="admin/images/icon_title_left.png">입금대기</a></li>
+					<li><a href="complete_payment_list"><img src="admin/images/icon_title_left.png">결제완료</a></li>
 					<li><a href="#"><img src="admin/images/icon_title_left.png">상품준비중</a></li>
 					<li><a href="#"><img src="admin/images/icon_title_left.png">배송중</a></li>
 					<li><a href="#"><img src="admin/images/icon_title_left.png">배송완료</a></li>

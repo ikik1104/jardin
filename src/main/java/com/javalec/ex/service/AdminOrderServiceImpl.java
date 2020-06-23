@@ -45,14 +45,14 @@ public class AdminOrderServiceImpl implements AdminOrderService {
 	}
 	// 입금대기 리스트 - 검색 & 정렬
 	@Override
-	public List<HashMap<String, Object>> dw_search(HashMap<String, String> map) {
-		return aoDao.dw_search(map);
+	public List<HashMap<String, Object>> searchandsort(HashMap<String, String> map) {
+		return aoDao.searchandsort(map);
 	}
 
 	// 선택한 주문건 처리상태 변경
 	@Override
-	public int change_status(String orderNum) {
-		return aoDao.change_status(orderNum);
+	public int change_status(String orderNum, String statusOpt) {
+		return aoDao.change_status(orderNum, statusOpt);
 	}
 
 

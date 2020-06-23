@@ -23,8 +23,8 @@ public interface AdminOrderService {
 	List<HashMap<String,Object>> deposit_waiting_list(HashMap<String, String> map);
 
 	// 입금대기리스트 검색, 정렬
-	List<HashMap<String,Object>> dw_search(HashMap<String, String> map);
+	List<HashMap<String,Object>> searchandsort(HashMap<String, String> map);
 
 	// 선택한 주문건 처리상태 변경
-	int change_status(String orderNum);
+	int change_status(String orderNum, String statusOpt);
 }

@@ -1,10 +1,12 @@
 package com.javalec.ex.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -52,13 +54,25 @@ public class MP1Controller {
 	// 주문/결제 페이지로 장바구니에 포함된 제품 전체 정보 & 회원 정보  불러오기 
 	@ResponseBody
 	@RequestMapping("cartUpdate")
-	public int cartUpdate(@RequestBody int[] info, Model model) {
-		//  payment_cart_tb 비우기
-		mp1Service.delPaymentCart(info[0]);
-		// 장바구니 업데이트 
-		int success = mp1Service.cartUpdate(info[0], info[1], info[2]);
-		// 주문하기로 넘어가는 제품 payment_cart_tb에 삽입 
-		mp1Service.paymentCart(info[0], info[1], info[2]);
+	public int cartUpdate(@RequestBody int[] info, HttpSession session, Model model) {
+		int success=1;
+		// 로그인 시, 장바구니에 담기
+		if(session.getAttribute("userNum") != null) {
+			int m_num = (Integer)session.getAttribute("userNum");
+			//  payment_cart_tb 비우기
+			mp1Service.delPaymentCart(m_num);
+			// 장바구니 업데이트 
+			mp1Service.cartUpdate(m_num, info[0], info[1]);
+			// 주문하기로 넘어가는 제품 payment_cart_tb에 삽입 
+			success= mp1Service.paymentCart(m_num, info[0], info[1]);
+		}else {  // 비회원 장바구니 담기
+			ArrayList<String> arr = new ArrayList<String>();
+			String value = info[0]+"_"+info[1];
+			int sessionChk=0;
+			arr.add(value);
+			session.setAttribute("nonmem_cart", arr);
+		}
+		
 		return success;
 	}
 	

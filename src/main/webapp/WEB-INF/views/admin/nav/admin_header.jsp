@@ -43,9 +43,9 @@
 	            	<li><a href="product_list">상품</a></li>
 	           		 </ul>
 	            </li>
-	            <li id="ca_order"><a href="order.jsp"><span></span>주문/배송</a>
+	            <li id="ca_order"><a href="order_list"><span></span>주문/배송</a>
 	            	<ul class="sub_list">
-	            	<li><a href="#">주문/배송</a></li>
+	            	<li><a href="order_list">주문/배송</a></li>
 	            	<li><a href="#">클레임</a></li>
 	           		 </ul>
 	            </li>

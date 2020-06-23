@@ -74,7 +74,7 @@ public class AdminOrderController {
 
 		HashMap<String, String> map = optionValue(request, model);
 		
-		map.put("listName", "and ol.ol_status='입금대기'");
+		map.put("listName", "ol.ol_status='입금대기'");
 		
 		int count = aoService.deposit_waiting_list(map).size();		
 		model.addAttribute("allOrderlist", aoService.deposit_waiting_list(map));
@@ -86,7 +86,7 @@ public class AdminOrderController {
 	@ResponseBody
 	@RequestMapping("dw_search")
 	public List<HashMap <String, Object>> dw_search(@RequestBody HashMap<String, String> map)throws Exception {
-		ModelAndView mv = new ModelAndView();
+	
 		String opt = map.get("option");
 		String option1 ="";
 		
@@ -96,18 +96,54 @@ public class AdminOrderController {
 			option1 = opt+", ol.ol_order_num asc";
 		}
 		map.put("option1", option1);
-		List<HashMap<String, Object>> resultMap = aoService.dw_search(map);
+		map.put("listName", "ol.ol_status='입금대기'");
+		List<HashMap<String, Object>> resultMap = aoService.searchandsort(map);
 			
 		return resultMap;
 	}
 	
+	// 결제완료 리스트
+		@RequestMapping("complete_payment_list")
+		public String complete_payment_list(HttpServletRequest request, Model model) {
+
+			HashMap<String, String> map = optionValue(request, model);
+			
+			map.put("listName", "ol.ol_status='입금완료'");
+			
+			int count = aoService.deposit_waiting_list(map).size();		
+			model.addAttribute("allOrderlist", aoService.deposit_waiting_list(map));
+			model.addAttribute("count", count);
+			return "admin/order/complete_payment_list";
+		}
+		
+		// 결제완료 리스트- 검색 & 정렬
+		@ResponseBody
+		@RequestMapping("cp_search")
+		public List<HashMap <String, Object>> cp_search(@RequestBody HashMap<String, String> map)throws Exception {
+			
+			String opt = map.get("option");
+			String option1 ="";
+			
+			if(opt==null || opt.equals("ol.ol_order_num asc")) {
+				option1 = "ol.ol_order_num asc";
+			}else {
+				option1 = opt+", ol.ol_order_num asc";
+			}
+			map.put("option1", option1);
+			map.put("listName", "ol.ol_status='입금완료'");
+			List<HashMap<String, Object>> resultMap = aoService.searchandsort(map);
+				
+			return resultMap;
+		}
+	
+	
+	
 	// 선택한 주문건 처리상태 변경
 	@ResponseBody
 	@RequestMapping("change_status")
-	public int change_status(@RequestBody String orderNum) {
+	public int change_status(@RequestBody String arrData[]) {
 		
-		System.out.println(orderNum);
-		int success=aoService.change_status(orderNum);
+		int success=aoService.change_status(arrData[0], arrData[1]);
 		return success;
 	}
 	

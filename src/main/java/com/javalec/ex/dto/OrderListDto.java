@@ -130,7 +130,7 @@ public class OrderListDto {
 	public void setOl_status(String ol_status) {
 		this.ol_status = ol_status;
 	}
-	
+
 	public ProductDto getpDto() {
 		return pDto;
 	}
