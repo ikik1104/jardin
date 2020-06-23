@@ -147,6 +147,8 @@
  		var or_zipcode = document.getElementById("m_zipcode");
  		var or_address1= document.getElementById("m_address1");
  		var or_address2= document.getElementById("m_address2");
+ 		var email_id = document.getElementById("email_id");
+ 		var email_domain = document.getElementById("email_domain");
  		var or_phone2= document.getElementById("phone2");
  		var or_phone3= document.getElementById("phone3");
  		var re_name = document.getElementById("re_name");
@@ -157,14 +159,53 @@
  		var re_phone3= document.getElementById("re_phone3");
  		
  		 //이름 정규화 공식
-        var regul3 = /^[가-힝a-zA-Z]{2,}$/;
+        var checkName = /^[가-힣a-zA-Z]{2,}$/;
+        var checkEmail_Id = /^([-_.]?[0-9a-zA-Z]){2,}$/;
+        var checkEmail_D = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/;
+
+        var checkPhone = /^[0-9]{,4}$/;
  		
  	   //이름에 특수 문자가 들어간 경우
-        if (!check(regul3,objName,"이름이 잘못 되었습니다.")) {
+        if (!checkName.test(or_name.value)) {
+        	alert("이름을 잘못 입력하셨습니다. 다시 입력해주세요.");
+        	or_name.value="";
+        	or_name.focus();
             return false;
         }
+ 	   	
+ 	   
+		if($(".emailList").val() == null){
+			if(email_domain.value==null){
+				alert("이메일 도메인 주소를 입력해주세요.");
+				email_domain.focus();
+			}
+			if(!checkEmail_D.test(email_domain.value)){
+				alert("이메일 도메인")
+			}
+		}
+ 	   
+  	  
+//         if (!checkName.test(re_name.value)) {
+//         	alert("이름을 잘못 입력하셨습니다. 다시 입력해주세요.");
+//         	re_name.value="";
+//         	re_name.focus();
+//             return false;
+//         }
+        
+//         if(!checkEmail_Id.test(or_email_id.value)){
+//         	alert("이메일 아이디를 잘못 입력하셨습니다. 다시 입력해주세요.");
+//         	or_email_id.value="";
+//         	or_email_id.focus();
+//         }
 
- 		return document.orderform.submit();
+		if(!checkPhone.test(or_phone2.value)){
+			or_phone2.value="";
+			or_phone2.focus();
+		}
+
+
+
+ 		return true;
  	}
 
 </script>
@@ -191,7 +232,7 @@
 				<div id="mypage">
 					<h2><strong>주문/결제</strong></h2>
 					<!-- 주문 상품 -->
-					<form action="submit_order" method="post" id="orderform" name="orderform">
+					<form action="submit_order" method="post" id="orderform" name="orderform" onsubmit="return validate();">
 					<h3 class="dep">주문 제품 확인</h3>
 					<div class="orderDivNm">
 						<table summary="주문 제품 확인 게시판으로 상품명, 가격, 수량, 합계순으로 조회 하실수 있습니다." class="orderTable" border="1" cellspacing="0">
@@ -246,7 +287,6 @@
 							<fmt:formatNumber var="sum1" value="${sum }" type="number"/>
 							<li>상품 합계금액 <strong>${sum1 }</strong> 원</li>
 							<li>+ 배송비 <strong>
-								
 								<c:if test="${sum < 30000 }"><c:set var="del_price" value ="3000" />
 								<fmt:formatNumber var="del_price1" value="${del_price }" type="number"/>${del_price1 }</c:if>
 								<c:if test="${sum >= 30000 }"><c:set var="del_price" value ="0" />
@@ -300,7 +340,7 @@
 										<ul class="pta">
 											<li><input type="text" class="w134" id="email_id" name="email_id" required/></li>
 											<li><span class="valign">&nbsp;@&nbsp;</span></li>
-											<li class="r10"><input type="text" class="w134" id="email_domain" name="email_domain" required/></li>
+											<li class="r10"><input type="text" class="w134" id="email_domain" name="email_domain"/></li>
 											<li>
 												<select id="emailList">
 													<option value="#" selected="selected">직접입력</option>
