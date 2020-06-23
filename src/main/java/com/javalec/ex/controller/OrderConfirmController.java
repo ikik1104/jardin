@@ -1,11 +1,13 @@
 package com.javalec.ex.controller;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,7 +39,11 @@ public class OrderConfirmController {
 		static int i=1;
 		
 		@RequestMapping("submit_order")
-		public String sumbit_order(OrderListDto orderListDto, @RequestParam HashMap<String, String> map,  OrderlistCouDto orderCouDto, HttpServletRequest request, Model model) {
+		public String sumbit_order(OrderListDto orderListDto, @RequestParam HashMap<String, String> map,  OrderlistCouDto orderCouDto, HttpServletRequest request, HttpSession session, Model model) {
+			
+			if(session.getAttribute("userNum") != null) { 
+				
+				int m_num = (Integer)session.getAttribute("userNum");
 			
 			String[] productNum = request.getParameterValues("productNum");
 			String[] productAmt = request.getParameterValues("productAmt");

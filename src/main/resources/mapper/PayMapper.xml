@@ -142,5 +142,10 @@
 	<insert id="insertUsedPoint">
 		insert into point_tb values(pnt_seq.nextval, #{param1}, '사용', #{param2}, sysdate, #{param3})
 	</insert>
+	
+	<!-- 비회원 바로구매/장바구니 담기 시, 제품 정보 불러오기 -->
+	<select id="getProductInfo" resultType="com.javalec.ex.dto.ProductDto">
+		select * from product_tb where p_num=${param1}
+	</select>
 
 </mapper>

@@ -80,7 +80,7 @@
 	
 	<!-- 주문하기로 넘어가는 제품 payment_cart_tb에 삽입 -->
 	<insert id="paymentCart">
-		insert into payment_cart_tb values(#{param1}, #{param2}, #{param3}, (select ca_sysdate from cart_tb where m_num=#{param1} and p_num=#{param2}))
+		insert into payment_cart_tb values(#{param1}, #{param2}, #{param3}, sysdate)
 	</insert>
 	
 	<!-- payment_cart_tb 비우기 -->

@@ -55,6 +55,35 @@ function cart_insert() {
 	
 }
 
+// 바로구매 
+function buyNow(){
+	var arrData = [$("#p_num").val(),$("#ca_amount").val()];
+
+	if(confirm("구매하기 페이지로 이동하시겠습니까?")){
+		$.ajax({
+	        	type:"POST",
+	        	url : "cartUpdate",
+	        	data: JSON.stringify(arrData),
+	         	contentType: "application/json",
+	            success : function(data){
+	                        if(data == 1){
+	                        	alert("데이터 성공");
+	                        	location.href="payment";
+		    	       	}
+		        	  },
+			error:function(){
+					alert("서버통신실패");
+				  }
+		});
+		
+	}else {
+		return false;
+	}
+
+
+}
+
+
 </script>
 </head>
 <body>
@@ -87,6 +116,7 @@ function cart_insert() {
          msiecheck();
          //리뷰 길이 자르기
          textLengthOverCut();
+         
      });
 
      var msiecheck = function () {
@@ -124,8 +154,6 @@ function cart_insert() {
          }
          return txt;
      }
-     
-     
      
      
 </script>
@@ -221,13 +249,13 @@ function cart_insert() {
 					<!-- 판매중 -->
 					<div class="infobtn">
 						<ul>
-							<li><a href="#" class="ty1">바로 <span>구매하기</span></a></li>
+							<li><a onclick="buyNow()" class="ty1">바로 <span>구매하기</span></a></li>
 							<li onclick="cart_insert()"><a class="ty2">장바구니 <span>담기</span></a></li>
 							<li class="last"><a href="#" class="ty3">위시 <span>리스트</span></a></li>
 						</ul>
 					</div>
 					<!-- //판매중 -->
-
+					
 					<!-- 판매중지 -->
 					<div class="endbtn" style="display:none;">
 						<ul>
