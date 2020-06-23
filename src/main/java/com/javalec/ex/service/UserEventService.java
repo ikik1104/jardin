@@ -23,7 +23,7 @@ public interface UserEventService {
 	 * 이벤트
 	 * */
 	
-	//이벤트 전체 리스트 가져오기
+	//진행중 이벤트 전체 리스트 가져오기
 	List<AllDto> getAllEvents();
 
 	//이벤트 1개 불러오기
@@ -54,6 +54,9 @@ public interface UserEventService {
 	int downloadExCoupon(int m_num, int co_num, int co_expiry);
 	
 	//회원 사용자 기간제 쿠폰 다운로드
-	int downloadPeriodCoupon(int m_num, int co_num, String co_start_day, String co_end_day);	
+	int downloadPeriodCoupon(int m_num, int co_num, String co_start_day, String co_end_day);
+
+	//종료된 이벤트 전체 리스트 가져오기
+	List<AllDto> getAllFinEvents();	
 
 }

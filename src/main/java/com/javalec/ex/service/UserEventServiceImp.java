@@ -125,6 +125,11 @@ public class UserEventServiceImp implements UserEventService {
 		return success;
 	}
 
+	//종료 이벤트 전체 리스트 가져오기
+	public List<AllDto> getAllFinEvents() {
+		return edao.getAllFinEvents();
+	}
+
 	
 
 

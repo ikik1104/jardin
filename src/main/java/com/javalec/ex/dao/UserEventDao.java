@@ -67,6 +67,9 @@ public interface UserEventDao {
 	//회원 사용자 기간제 쿠폰 다운로드
 	int downloadPeriodCoupon(@Param("m_num") int m_num, @Param("co_num") int co_num, @Param("co_start_day") String co_start_day, @Param("co_end_day") String co_end_day);
 
+	//종료된 이벤트 전체 리스트 가져오기
+	List<AllDto> getAllFinEvents();
+
 	
 	
 

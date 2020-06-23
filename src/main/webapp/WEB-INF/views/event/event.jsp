@@ -110,8 +110,8 @@ $(document).ready(function() {
 				<div id="title2">EVENT<span>이벤트</span></div>
 				<ul>	
 					<li style="cursor:pointer;"><a href="event" id="leftNavi1">진행중 이벤트</a></li>
-					<li><a href="#" id="leftNavi2">종료된 이벤트</a></li>
-					<li class="last"><a href="#" id="leftNavi3">당첨자 발표</a></li>
+					<li style="cursor:pointer;"><a href="fin_event" id="leftNavi2">종료된 이벤트</a></li>
+					<li class="last" style="cursor:pointer;"><a href="prizewinner" id="leftNavi3">당첨자 발표</a></li>
 				</ul>			
 			</div><script type="text/javascript">initSubmenu(1,0);</script>
 
@@ -133,10 +133,8 @@ $(document).ready(function() {
 									<div class="subject">${event_list.eventdto.e_title }</div>
 									<div class="day">이벤트 기간 : ${event_list.utildto.str1 } ~ ${event_list.utildto.str2 }</div>
 								</div>
-							</li>							
-							
+							</li>						
 							</c:forEach>
-						
 						</ul>
 					</div>
 					<!-- //list -->
