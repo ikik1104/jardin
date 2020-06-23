@@ -125,20 +125,25 @@ $(document).ready(function() {
 					<div class="eventList">
 						<ul>
 							<!-- 반복 -->
-							<c:forEach var="fin_event_list" items="${fin_event_list }">
-							<li>
-								<div class="img">
-									<a href="fin_event_view?e_num=${fin_event_list.eventdto.e_num }"><img src="tempUpload/${fin_event_list.eventdto.e_thumb_img }" alt="진행중 이벤트" /></a>
-								</div>
-								<div class="txt">
-									<div class="subject">
-										<span class="finishbtn">종료</span>&nbsp;
-										${fin_event_list.eventdto.e_title }
-									</div>
-									<div class="day">이벤트 기간 : ${fin_event_list.utildto.str1 } ~ ${fin_event_list.utildto.str2 }</div>
-								</div>
-							</li>
-							</c:forEach>
+							<c:if test="${list_size==0 }">
+								<li style="text-align:center; font-size:16px;">종료된 이벤트가 없습니다.</li>
+							</c:if>
+							<c:if test="${list_size!=0 }">
+								<c:forEach var="fin_event_list" items="${fin_event_list }">
+									<li>
+										<div class="img">
+											<a href="fin_event_view?e_num=${fin_event_list.eventdto.e_num }"><img src="tempUpload/${fin_event_list.eventdto.e_thumb_img }" alt="진행중 이벤트" /></a>
+										</div>
+										<div class="txt">
+											<div class="subject">
+												<span class="finishbtn">종료</span>&nbsp;
+												${fin_event_list.eventdto.e_title }
+											</div>
+											<div class="day">이벤트 기간 : ${fin_event_list.utildto.str1 } ~ ${fin_event_list.utildto.str2 }</div>
+										</div>
+									</li>							
+								</c:forEach>
+							</c:if>
 							<!-- //반복 -->
 						</ul>
 					</div>

@@ -124,17 +124,22 @@ $(document).ready(function() {
 					<!-- list -->
 					<div class="eventList">
 						<ul>
-							<c:forEach var="event_list" items="${event_list }">
-							<li>
-								<div class="img">
-									<a href="user_event_view?e_num=${event_list.eventdto.e_num }"><img src="tempUpload/${event_list.eventdto.e_thumb_img }" alt="진행중 이벤트" /></a>
-								</div>
-								<div class="txt">
-									<div class="subject">${event_list.eventdto.e_title }</div>
-									<div class="day">이벤트 기간 : ${event_list.utildto.str1 } ~ ${event_list.utildto.str2 }</div>
-								</div>
-							</li>						
-							</c:forEach>
+							<c:if test="${list_size==0 }">
+								<li style="text-align:center; font-size:16px;">종료된 이벤트가 없습니다.</li>
+							</c:if>
+							<c:if test="${list_size!=0 }">							
+								<c:forEach var="event_list" items="${event_list }">
+								<li>
+									<div class="img">
+										<a href="user_event_view?e_num=${event_list.eventdto.e_num }"><img src="tempUpload/${event_list.eventdto.e_thumb_img }" alt="진행중 이벤트" /></a>
+									</div>
+									<div class="txt">
+										<div class="subject">${event_list.eventdto.e_title }</div>
+										<div class="day">이벤트 기간 : ${event_list.utildto.str1 } ~ ${event_list.utildto.str2 }</div>
+									</div>
+								</li>						
+								</c:forEach>
+							</c:if>
 						</ul>
 					</div>
 					<!-- //list -->

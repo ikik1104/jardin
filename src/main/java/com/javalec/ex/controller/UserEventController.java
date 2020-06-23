@@ -58,7 +58,9 @@ public class UserEventController {
 	//진행중 이벤트 전체 리스트 불러오기
 	@RequestMapping("event")
 	public String event(Model model) {
-		model.addAttribute("event_list", eservice.getAllEvents());
+		List<AllDto> list= eservice.getAllEvents();
+		model.addAttribute("list_size", list.size());		
+		model.addAttribute("event_list", list);
 		return response_path+"event";
 	}
 	
@@ -160,7 +162,10 @@ public class UserEventController {
 	//종료된 이벤트 전체 리스트 출력
 	@RequestMapping("fin_event")
 	public String fin_event(Model model) {
-		model.addAttribute("fin_event_list", eservice.getAllFinEvents());
+		List<AllDto> list = eservice.getAllFinEvents();
+		model.addAttribute("list_size", list.size());
+		model.addAttribute("fin_event_list", list);
+		System.out.println(list.size());
 		return response_path+"fin_event";
 	}
 	
