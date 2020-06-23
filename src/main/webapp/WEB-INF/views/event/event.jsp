@@ -125,7 +125,7 @@ $(document).ready(function() {
 					<div class="eventList">
 						<ul>
 							<c:if test="${list_size==0 }">
-								<li style="text-align:center; font-size:16px;">종료된 이벤트가 없습니다.</li>
+								<li style="text-align:center; font-size:16px;">진행중 이벤트가 없습니다.</li>
 							</c:if>
 							<c:if test="${list_size!=0 }">							
 								<c:forEach var="event_list" items="${event_list }">

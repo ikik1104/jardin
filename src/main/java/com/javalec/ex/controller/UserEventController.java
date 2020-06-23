@@ -169,6 +169,16 @@ public class UserEventController {
 		return response_path+"fin_event";
 	}
 	
+	//종료된 이벤트 1개 불러오기
+	@RequestMapping("fin_event_view")
+	public String fin_event_view(EventDto eventDto, Model model) {
+		model.addAttribute("event_info", eservice.getFinEventBoard(eventDto));
+		model.addAttribute("ecomment_list", eservice.getTheEComments(eventDto));	
+		model.addAttribute("coupon_info", eservice.getFinEventCoupon(eventDto));
+				
+		return response_path+"fin_event_view";
+	}
+	
 	@RequestMapping("comment")
 	public String comment() {
 		return "test/comment";

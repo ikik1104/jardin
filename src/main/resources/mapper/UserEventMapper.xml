@@ -156,21 +156,22 @@
          <![CDATA[select rownum, fintb.* from
      	 (select * from
          (select etb.*, to_char(e_start_day, 'yyyy-MM-dd') str1, to_char(e_end_day, 'yyyy-MM-dd')str2, 
-         case when e_end_day<sysdate then '종료'
-         when e_start_day>sysdate then '시작전'
-         when e_start_day<=sysdate and e_end_day>=sysdate then '진행중' end str3
+         case when to_char(e_end_day, 'yy/MM/dd')<to_char(sysdate, 'yy/MM/dd') then '종료'
+         when to_char(e_start_day, 'yy/MM/dd')>to_char(sysdate, 'yy/MM/dd') then '시작전'
+         when to_char(e_start_day, 'yy/MM/dd')<=to_char(sysdate, 'yy/MM/dd') and to_char(e_end_day, 'yy/MM/dd')>=to_char(sysdate, 'yy/MM/dd') then '진행중' end str3
          from
          (select * from event_tb order by e_num desc) etb)
          where str3='진행중') fintb]]> 
 	</select>
 	
-	<!-- 이벤트 1개 불러오기 -->
+	<!-- 진행중 이벤트 1개 불러오기 -->
 	<select id="getEventBoard" resultMap="AllDto">
           <![CDATA[ select eventtb.*, total str4 from
-         (select etb.*, to_char(e_start_day, 'yyyy-MM-dd') str1, to_char(e_start_day, 'yyyy-MM-dd')str2,
-        case when e_end_day<sysdate then '종료'
-         when e_start_day>sysdate then '시작전'
-         when e_start_day<=sysdate and e_end_day>=sysdate then '진행중' end str3 from        
+         (select etb.*, to_char(e_start_day, 'yyyy-MM-dd') str1, to_char(e_end_day, 'yyyy-MM-dd')str2, 
+         case when to_char(e_end_day, 'yy/MM/dd')<to_char(sysdate, 'yy/MM/dd') then '종료'
+         when to_char(e_start_day, 'yy/MM/dd')>to_char(sysdate, 'yy/MM/dd') then '시작전'
+         when to_char(e_start_day, 'yy/MM/dd')<=to_char(sysdate, 'yy/MM/dd') and to_char(e_end_day, 'yy/MM/dd')>=to_char(sysdate, 'yy/MM/dd') then '진행중' end str3
+         from       
          (select * from event_tb where e_num=#{e_num}) etb) eventtb,
          ( select count(*) total from ecomment_tb where e_num=#{e_num}) cnt	
          where str3='진행중']]> 	
@@ -217,7 +218,7 @@
 		(select coupon.*, product.p_name from
 		(select etb.e_num, ctb.*
 		from
-		(select e_num, co_num from event_tb where e_start_day<=sysdate and e_end_day>= sysdate and co_num is not null) etb,
+		(select e_num, co_num from event_tb where to_char(e_start_day, 'yy/MM/dd')<=to_char(sysdate, 'yy/MM/dd') and to_char(e_end_day, 'yy/MM/dd')>=to_char(sysdate, 'yy/MM/dd') and co_num is not null) etb,
 		(select co_num, co_name, co_start_day, co_end_day, co_type, co_discount, co_sysdate,  co_condition,
 		case when co_expiry is null then -99 else co_expiry end co_expiry,
 		case when co_product is null then -99 else co_product end co_product
@@ -256,14 +257,50 @@
 	<!-- 종료된 이벤트 전체 리스트 가져오기 -->
 	<select id="getAllFinEvents" resultMap="AllDto">
 		<![CDATA[select rownum, fintb.* from
-		     	 (select * from
-		         (select etb.*, to_char(e_start_day, 'yyyy-MM-dd') str1, to_char(e_end_day, 'yyyy-MM-dd')str2, 
-		         case when e_end_day<sysdate then '종료'
-		         when e_start_day>sysdate then '시작전'
-		         when e_start_day<=sysdate and e_end_day>=sysdate then '진행중' end str3
-		         from
-		         (select * from event_tb order by e_num desc) etb)
-		         where str3='종료') fintb	]]> 	
+     	 (select * from
+         (select etb.*, to_char(e_start_day, 'yyyy-MM-dd') str1, to_char(e_end_day, 'yyyy-MM-dd')str2, 
+         case when to_char(e_end_day, 'yy/MM/dd')<to_char(sysdate, 'yy/MM/dd') then '종료'
+         when to_char(e_start_day, 'yy/MM/dd')>to_char(sysdate, 'yy/MM/dd') then '시작전'
+         when to_char(e_start_day, 'yy/MM/dd')<=to_char(sysdate, 'yy/MM/dd') and to_char(e_end_day, 'yy/MM/dd')>=to_char(sysdate, 'yy/MM/dd') then '진행중' end str3
+         from
+         (select * from event_tb order by e_num desc) etb)
+         where str3='종료') fintb	]]> 	
+	</select>
+	
+	<!-- 종료된 이벤트 1개 불러오기 -->
+	<select id="getFinEventBoard" resultMap="AllDto">
+<![CDATA[select eventtb.*, total str4 from
+         (select etb.*, to_char(e_start_day, 'yyyy-MM-dd') str1, to_char(e_end_day, 'yyyy-MM-dd')str2, 
+         case when to_char(e_end_day, 'yy/MM/dd')<to_char(sysdate, 'yy/MM/dd') then '종료'
+         when to_char(e_start_day, 'yy/MM/dd')>to_char(sysdate, 'yy/MM/dd') then '시작전'
+         when to_char(e_start_day, 'yy/MM/dd')<=to_char(sysdate, 'yy/MM/dd') and to_char(e_end_day, 'yy/MM/dd')>=to_char(sysdate, 'yy/MM/dd') then '진행중' end str3
+         from       
+         (select * from event_tb where e_num=#{e_num}) etb) eventtb,
+         ( select count(*) total from ecomment_tb where e_num=#{e_num}) cnt	
+         where str3='종료'	]]> 	
+	</select>
+	
+	<!-- 종료된 이벤트 쿠폰 가져오기 -->
+	<select id="getFinEventCoupon"  resultMap="AllDto">
+	<![CDATA[select rownum, finaltb.* from
+		(select * from
+		(select * from
+		(select coupon.*, product.p_name from
+		(select etb.e_num, ctb.*
+		from
+		(select e_num, co_num from event_tb where to_char(e_end_day, 'yy/MM/dd')<to_char(sysdate, 'yy/MM/dd') and co_num is not null) etb,
+		(select co_num, co_name, co_start_day, co_end_day, co_type, co_discount, co_sysdate,  co_condition,
+		case when co_expiry is null then -99 else co_expiry end co_expiry,
+		case when co_product is null then -99 else co_product end co_product
+		from coupon_tb) ctb
+		where etb.co_num=ctb.co_num) coupon
+		left join
+		product_tb product on product.p_num=coupon.co_product)
+		where e_num=#{e_num}
+		union
+		select -99 e_num, -99 co_num, '-' co_name, null co_start_day, null co_end_day, '-' co_type, -99 co_discount, null co_sysdate, -99 co_condition, -99 co_expiry, -99 co_product, '-' p_name from dual)
+		fintb order by e_num desc) finaltb
+		where e_num!=-99 or rownum=1]]> 	
 	</select>
 	
 	<!-- 삭제 예정 -->

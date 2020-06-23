@@ -33,12 +33,12 @@ public class UserEventServiceImp implements UserEventService {
 	@Autowired
 	UserEventDao edao;
 
-	//이벤트 전체리스트 가져오기
+	//진행중 이벤트 전체리스트 가져오기
 	public List<AllDto> getAllEvents() {
 		return edao.getAllEvents();
 	}
 
-	//이벤트 1개 불러오기
+	//진행중 이벤트 1개 불러오기
 	public AllDto getEventBoard(EventDto eventDto) {
 		return edao.getEventBoard(eventDto);
 	}
@@ -82,7 +82,7 @@ public class UserEventServiceImp implements UserEventService {
 		return edao.deleteUserEcomment(ec_num);
 	}
 
-	//해당 이벤트에 쿠폰 있을 경우 쿠폰 정보 가져오기
+	//진행중 이벤트에 쿠폰 있을 경우 쿠폰 정보 가져오기
 	public AllDto getTheCoupon(EventDto eventDto) {
 		return edao.getTheCoupon(eventDto);
 	}
@@ -128,6 +128,16 @@ public class UserEventServiceImp implements UserEventService {
 	//종료 이벤트 전체 리스트 가져오기
 	public List<AllDto> getAllFinEvents() {
 		return edao.getAllFinEvents();
+	}
+
+	//종료된 이벤트 1개 불러오기
+	public AllDto getFinEventBoard(EventDto eventDto) {
+		return edao.getFinEventBoard(eventDto);
+	}
+
+	//종료된 이벤트 쿠폰 가져오기
+	public AllDto getFinEventCoupon(EventDto eventDto) {
+		return edao.getFinEventCoupon(eventDto);
 	}
 
 	

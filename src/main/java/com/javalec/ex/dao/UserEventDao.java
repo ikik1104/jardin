@@ -49,7 +49,7 @@ public interface UserEventDao {
 	//회원 로그인 댓글 1개 삭제
 	int deleteUserEcomment(int ec_num);
 
-	//해당 이벤트에 쿠폰 있을 경우 쿠폰 가져오기
+	//진행중 이벤트에 쿠폰 가져오기
 	AllDto getTheCoupon(EventDto eventDto);
 
 	//삭제 예정
@@ -69,6 +69,12 @@ public interface UserEventDao {
 
 	//종료된 이벤트 전체 리스트 가져오기
 	List<AllDto> getAllFinEvents();
+
+	//종료된 이벤트 1개 불러오기
+	AllDto getFinEventBoard(EventDto eventDto);
+
+	//종료된 이벤트 쿠폰 가져오기
+	AllDto getFinEventCoupon(EventDto eventDto);
 
 	
 	

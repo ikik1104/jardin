@@ -26,7 +26,7 @@ public interface UserEventService {
 	//진행중 이벤트 전체 리스트 가져오기
 	List<AllDto> getAllEvents();
 
-	//이벤트 1개 불러오기
+	//진행중 이벤트 1개 불러오기
 	AllDto getEventBoard(EventDto eventDto);
 
 	//해당 이벤트 댓글 전체 리스트 불러오기
@@ -44,7 +44,7 @@ public interface UserEventService {
 	//회원 로그인 사용자 댓글 1개 삭제
 	int deleteUserEcomment(int ec_num);
 
-	//해당 이벤트에 쿠폰 있을 경우 쿠폰 가져오기
+	//진행중 이벤트에 쿠폰 있을 경우 쿠폰 가져오기
 	AllDto getTheCoupon(EventDto eventDto);
 
 	//회원 사용자 쿠폰 발급내역 확인
@@ -57,6 +57,12 @@ public interface UserEventService {
 	int downloadPeriodCoupon(int m_num, int co_num, String co_start_day, String co_end_day);
 
 	//종료된 이벤트 전체 리스트 가져오기
-	List<AllDto> getAllFinEvents();	
+	List<AllDto> getAllFinEvents();
+
+	//종료된 이벤트 1개 불러오기
+	AllDto getFinEventBoard(EventDto eventDto);
+
+	//종료된 이벤트에 쿠폰 있을 경우 쿠폰 가져오기
+	AllDto getFinEventCoupon(EventDto eventDto);	
 
 }
