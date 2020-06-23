@@ -66,8 +66,9 @@ function changebtn(){
 
 //배송완료 상태에서 구매확정 버튼 클릭
 function buy_decide(ol_order_num){
+	var orderer = '${orderer}';
 	if(confirm("구매를 확정하시겠습니까? 구매 확정 후에는 반품, 교환이 불가합니다.")){
- 		location.href="decide_buying?ol_order_num="+ol_order_num+"&page=nonmember_ordercheck";
+ 		location.href="decide_buying?ol_order_num="+ol_order_num+"&page=nonmember_ordercheck&orderer="+orderer;
 	}	
 }
 

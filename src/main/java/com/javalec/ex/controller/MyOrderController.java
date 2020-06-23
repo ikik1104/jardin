@@ -195,12 +195,9 @@ public class MyOrderController {
 	
 	//구매확정
 	@RequestMapping("decide_buying")
-	public String decide_buying(@RequestParam("ol_order_num") String ol_order_num, @RequestParam("page")String page) {
-		System.out.println("??");
-		System.out.println("?"+ol_order_num);
-		System.out.println("??"+page);
+	public String decide_buying(@RequestParam("ol_order_num") String ol_order_num, @RequestParam("page")String page, @RequestParam("orderer")String orderer) {
 		ocService.updateStatus(ol_order_num, "구매확정"); //주문리스트에서 해당 주문 ol_status 구매확정으로 변경
-		return "redirect:"+page;
+		return "redirect:"+page+"?orderNum="+ol_order_num+"&orderName="+orderer;
 	}
 	
 	//리뷰가능 리스티에서 '작성하기' 버튼 클릭시 작성폼으로 이동시키는 메서드
