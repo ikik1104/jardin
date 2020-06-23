@@ -17,8 +17,17 @@
 	    <collection property="coupondto" resultMap="CouponDto"/>	 
 	    <collection property="e_commentdto" resultMap="E_CommentDto"/>	
 	    <collection property="memberdto" resultMap="MemberDto"/>	
-	    <collection property="winboarddto" resultMap="WinBoardDto"/>		               	    	    	     
+	    <collection property="winboarddto" resultMap="WinBoardDto"/>		            
+	    <collection property="utildto" resultMap="UtilDto"/>		
 	</resultMap>	
+	
+	<resultMap type="com.javalec.ex.dto.UtilDto" id="UtilDto">
+	    <result column="str1" property="str1"/>	
+	    <result column="str2" property="str2"/>  
+	    <result column="str3" property="str3"/>  	
+	    <result column="str4" property="str4"/> 	  
+	    <result column="temp_int" property="temp_int"/> 	  	          
+	</resultMap>
 	
 	<resultMap type="com.javalec.ex.dto.MtmUserDto" id="MtmUserDto">
 	    <result column="rownum" property="rownum"/>	
@@ -68,8 +77,6 @@
 	    <result column="ia_content" property="ia_content"/>
 	    <result column="ia_date" property="ia_date"/>    
 	</resultMap>
-	
-
 		
 	<resultMap type="com.javalec.ex.dto.NoticeDto" id="NoticeDto">
 	    <result column="rownum" property="rownum"/>		
@@ -131,14 +138,13 @@
 	    <result column="wb_date" property="wb_date"/>	  		     
 	</resultMap>		
 	
-	
-	
-	
 	<!--  1:1문의 전체 리스트 불러오기-->
 	<select id="getAllBoards" resultMap="AllDto">
-		select rownum, mem.m_id, iu_title, iu_date, iu_status, iu_num, iu_sort, iu_content, iu_img
-		from mtm_inqury_user_tb mtm, member_tb mem 
-		where mem.m_num=mtm.m_num order by iu_num desc
+		select rownum, fintb.* from
+        (select m_id, mtm.*, to_char(iu_Date, 'yy-MM-dd') str1 from 
+        (select * from mtm_inqury_user_tb order by iu_num desc) mtm,
+        member_tb mem
+        where mem.m_num=mtm.m_num) fintb
 	</select>
 
 	<!-- 1:1문의 글 삭제 -->
@@ -146,11 +152,23 @@
 		delete from mtm_inqury_user_tb where iu_num=#{param1}
 	</delete>	
 	
+	<!-- 1:1 문의글 1개 불러오기 -->
+	<select id="getMtmUserBoard" resultMap="AllDto">
+        select * from
+        (select m_id, mtm.*, to_char(iu_Date, 'yy-MM-dd') str1 from 
+        (select * from mtm_inqury_user_tb order by iu_num desc) mtm,
+        member_tb mem
+        where mem.m_num=mtm.m_num)
+       where m_num=#{m_num} and iu_num=#{iu_num}
+	</select>
+	
 	<!-- 1:1 답변 1개 불러오기 -->
 	<select id="getAnswerBoard" resultMap="AllDto">
-		select ia_num, ia_content, ia_date, ad.ad_num, ad.ad_id, ad.ad_grade 
-		from mtm_inqury_answer_tb mtm, admin_tb ad
-		where mtm.ad_num=ad.ad_num and mtm.iu_num=#{iu_num}
+		select * from
+        (select  ad_id, ad_grade, ad_name, ia.*, to_char(ia_date, 'yy-MM-dd') str1 from
+        (select * from mtm_inqury_answer_tb order by ia_num desc) ia,
+        admin_tb ad where ia.ad_num=ad.ad_num)
+        where iu_num=#{iu_num}
 	</select>
 	
 	<!-- 1:1 답변 1개 등록 -->
@@ -167,7 +185,15 @@
 	<delete id="deleteAnswerBoard">
 		delete from mtm_inqury_answer_tb where ia_num=#{ia_num}
 	</delete>
-
+	
+	<!-- 선택한 1:1문의 일괄 삭제 -->
+	<delete id="deleteSomeMtms" parameterType="HashMap">
+		delete from mtm_inqury_user_tb where iu_num in
+		<foreach collection="chkArray" item="item" open="(" close=")" separator=",">
+ 			#{item}
+		</foreach>		
+	</delete>
+	
 	<!-- 1:1 문의글 상태 '답변대기'로 바꾸기 -->
 	<update id="updateStatusWait">
 		update mtm_inqury_user_tb set iu_status='답변대기' where iu_num=#{iu_num}

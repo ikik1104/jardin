@@ -13,6 +13,7 @@
 		<script type="text/javascript" src="admin/js/jquery-3.4.1.min.js"></script>
         <script type="text/javascript" src="admin/js/jquery-ui.min.js"></script>
         <script type="text/javascript" src="admin/js/prefixfree.dynamic-dom.min.js"></script>
+        <script type="text/javascript" src="admin/js/admin_board.js"></script>
 		<style type="text/css">
 			
 			#search_form table{
@@ -95,58 +96,8 @@
 			
 			
 		}
-		//1:1문의 삭제 체크
-		function user_del_check(iu_num){
-			if(confirm("해당 게시글을 삭제하시겠습니까? (삭제한 데이터는 복구할 수 없습니다.)")){
-	            $.ajax({
-	                  url : "mtm_delete",
-	                  method : "POST",
-	                  data: JSON.stringify(iu_num),
-	                  dataType : "json",
-	                  contentType: "application/json",
-	                  success : function(val){
-	                     if(val == 1){ //리턴값이 1이면 (=성공)
-	                        alert("삭제처리 완료되었습니다.");
-	                        location.href="mtm_list?rownum=getElementById('rownum')"; //페이지 새로고침
-	                     }else{ // 0이면 실패
-	                        alert("삭제처리 실패.");
-	                     }
-	                  },
-	                  error : function(){
-	                     alert("서버통신실패");
-	                  }
-	               });
-	         }
-		}
-		
-		function answer_del_check(ia_num, rownum, iu_num){
-			var arrNum = [ ia_num, rownum, iu_num];
-			if(confirm("해당 답변을 삭제하시겠습니까? (삭제한 데이터는 복구할 수 없습니다.)")){
-	            $.ajax({
-	                  url : "mtm_answer_delete",
-	                  method : "POST",
-	                  data: JSON.stringify(arrNum),
-	                  dataType : "json",
-	                  contentType: "application/json",
-	                  success : function(val){
-	                     if(val == 1){ //리턴값이 1이면 (=성공)
-	                        alert("삭제처리 완료되었습니다.");
-	                       location.href='mtm_list?rownum='+rownum;
-	                     }else{ // 0이면 실패
-	                        alert("삭제처리 실패.");
-	                     }
-	                  },
-	                  error : function(){
-	                     alert("서버통신실패");
-	                  }
-	               });
-	         }
-		}		
-		
-		//답변을 등록/수정하면 다시 이 페이지로 돌아와 alert을 띄움
-		window.onload=function(){
-			${alerttext}
-		}
+
+	
 			
 </script>
 	</head>
@@ -161,56 +112,60 @@
 			<table border="1">
 				<tr>
 					<th>번호</th>
-					<td>${MtmUserDto.iu_num }</td>
+					<td>${mtm_user_info.mtmuserdto.iu_num }</td>
 					<th>작성자</th>
-					<td>${m_id }</td>
+					<td>${mtm_user_info.memberdto.m_id }</td>
 				</tr>
 				<tr>
 					<th>제목</th>
-					<td colspan="3">${MtmUserDto.iu_title }</td>
+					<td colspan="3">${mtm_user_info.mtmuserdto.iu_title }</td>
 				</tr>
 				<tr>
 					<th>답변상태</th>
-					<td colspan="3">${MtmUserDto.iu_status }</td>
+					<td colspan="3">${mtm_user_info.mtmuserdto.iu_status }</td>
 				</tr>
 				<tr>
 					<th>등록일</th>
-					<td>${MtmUserDto.iu_date}</td>
+					<td>${mtm_user_info.utildto.str1}</td>
 					<th>분류</th>
-					<td>${MtmUserDto.iu_sort}</td>
+					<td>${mtm_user_info.mtmuserdto.iu_sort}</td>
 				</tr>										
 			</table>
 		</div>
 		
-		<div>
+		<div style="width:1000px; ">
 			<h1>게시글 내용</h1>	
-				<pre style="white-space:pre-warp">
-				<!-- 이미지 첨부 
-				<c:if test="${MtmUserDto.iu_img!='없음' }">
-					<img src="../upload/${MtmUserDto.iu_img}" width="100%" alt="${ MtmUserDto.iu_img}">
+				<c:if test="${mtm_user_info.mtmuserdto.iu_img=='없음' || mtm_user_info.mtmuserdto.iu_img==null}">
 				</c:if>
-				-->
-				${MtmUserDto.iu_content }
+				<c:if test="${mtm_user_info.mtmuserdto.iu_img!='없음' && mtm_user_info.mtmuserdto.iu_img!=null}">
+					<img src="tempUpload/${mtm_user_info.mtmuserdto.iu_img }" width="100%" alt="${ MtmUserDto.iu_img}">
+				</c:if>				
+				
+				<pre style="white-space:pre-warp">
+${mtm_user_info.mtmuserdto.iu_content }
 				</pre>
-				<button type="button" onclick="user_del_check(${MtmUserDto.iu_num})">게시글 삭제</button>
+				<button type="button" onclick="user_del_check(${mtm_user_info.mtmuserdto.iu_num})">게시글 삭제</button>
 		</div>
 		
-		<div>
+		<div style="margin-bottom:100px;">
 			<h1>답변 조회/작성/수정</h1>	
 					<!-- 답변이 있을 경우 -->
-					<c:if test="${ MtmAnswerDto.admindto.ad_num!=null}">
-						<form action="mtm_answer_modify" method="post" name="modify_form">
+					<c:if test="${ mtm_answer_info.admindto.ad_num!=null}">
+						<form action="mtm_answer_modify" method="post" name="modify_form" id="modify_form">
+							<!-- 같이 보내줄 데이터 -->
+							<input type="hidden" value="${mtm_answer_info.mtmanswerdto.ia_num }" name="ia_num">
+							
 							<table border="1">
 							<tr>
 								<th>작성자</th>
 								<td>
-									${MtmAnswerDto.admindto.ad_grade }(${MtmAnswerDto.admindto.ad_id })
+									${mtm_answer_info.admindto.ad_grade }(${mtm_answer_info.admindto.ad_id })
 								</td>
 							</tr>
 							<tr>
 								<th>등록일</th>
 								<td>
-									${MtmAnswerDto.mtmanswerdto.ia_date }
+									${mtm_answer_info.utildto.str1 }
 								</td>
 							</tr>			
 							<tr>
@@ -218,26 +173,28 @@
 								<td>
 									<!-- 에디터로 수정해야 함★★★★★★★ -->
 									<textarea cols="20" wrap="hard" name="ia_content">
-${MtmAnswerDto.mtmanswerdto.ia_content }
+${mtm_answer_info.mtmanswerdto.ia_content }
 									</textarea>
 								</td>
 							</tr>			
 							</table>
 						<div>
-							<button type="button" onclick="location.href='mtm_list?rownum=${MtmUserDto.rownum}'">목록</button>
-							<button type="submit" >답변수정</button>				
-							<button type="button" onclick="answer_del_check(${MtmAnswerDto.mtmanswerdto.ia_num}, ${MtmUserDto.rownum}, ${ MtmUserDto.iu_num })">삭제</button>
-						</div>																		
-							<input type="hidden" value="${MtmUserDto.rownum}" name="rownum">
-							<input type="hidden" value="${MtmAnswerDto.mtmanswerdto.ia_num }" name="ia_num">							
+							<button type="button" onclick="location.href='mtm_list'">목록</button>
+							<button type="button" onclick="modifyAnswer()">답변수정</button>				
+							<button type="button" onclick="answer_del_check(${mtm_answer_info.mtmanswerdto.ia_num}, ${ mtm_answer_info.mtmuserdto.iu_num })">삭제</button>
+						</div>																									
 						</form>
 					</c:if>
 					<!-- 답변이 없을 경우 -->					
-					<c:if test="${ MtmAnswerDto.admindto.ad_num==null}">
+					<c:if test="${ mtm_answer_info.admindto.ad_num==null}">
 						<p>	
 								작성한 답변이 없습니다.
 						</p>
-						<form action="mtm_answer_write" method="post" name="write_form">
+						<form action="mtm_answer_write" method="post" name="write_form" id="write_form">
+							<!-- 같이 보내줄 데이터 -->
+							<input type="hidden" value="${adminNum }" name="ad_num" id="adminNum">
+							<input type="hidden" value="${mtm_user_info.mtmuserdto.iu_num }" name="iu_num" >
+						
 							<table border="1">
 							<tr>
 								<th>작성자</th>
@@ -252,12 +209,9 @@ ${MtmAnswerDto.mtmanswerdto.ia_content }
 							</tr>			
 							</table>
 							<div>
-								<button type="button" onclick="location.href='mtm_list?rownum=${MtmUserDto.rownum}'">목록</button>
-								<button type="submit">답변등록</button>
-							</div>							
-							<input type="hidden" value="${adNum}" name="ad_num">							
-							<input type="hidden" value="${MtmUserDto.rownum}" name="rownum">					
-							<input type="hidden" value=${ MtmUserDto.iu_num } name="iu_num">		
+								<button type="button" onclick="location.href='mtm_list'">목록</button>
+								<button type="button" onclick="insertAnswer()">답변등록</button>
+							</div>								
 						</form>						
 					</c:if>					
 		</div>

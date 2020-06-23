@@ -61,9 +61,6 @@ public class ADBController {
 		}
 		
 		model.addAttribute("mtm_list", adbservice.getAllBoards());
-		model.addAttribute("UtilDto", utilDto);
-		
-		System.out.println("mtm_list 작동");
 		return response_path+"mtm_list";
 	}	
 	
@@ -75,49 +72,44 @@ public class ADBController {
 		return success;
 	}	
 	
+	//선택한 1:1문의글 일괄 삭제
+	@ResponseBody
+	@RequestMapping("mtm_some_delete")
+	public int mtm_some_delete(@RequestBody int[] chkArray) {
+		int success = adbservice.deleteSomeMtms(chkArray);
+		return success;
+	}
+	
 	//1:1 답변 1개 불러오기
 	@RequestMapping("mtm_view")
-	public String mtm_answer_write(@RequestParam("m_id") String m_id, MtmUserDto mtmUserDto, Model model) {
-		AllDto alldto = adbservice.getAnswerBoard(mtmUserDto.getIu_num());
-		model.addAttribute("MtmAnswerDto", alldto);
-		model.addAttribute("MtmUserDto", mtmUserDto);
-		model.addAttribute("m_id", m_id);
+	public String mtm_answer_write(MtmUserDto mtmUserDto, Model model) {
+		model.addAttribute("mtm_user_info", adbservice.getMtmUserBoard(mtmUserDto));
+		model.addAttribute("mtm_answer_info", adbservice.getAnswerBoard(mtmUserDto.getIu_num()));	
 		return response_path+"mtm_view";
 	}
 	
 	//1:1 답변 1개 작성
+	@ResponseBody
 	@PostMapping("mtm_answer_write")
-	public String mtm_answer_write(MtmAnswerDto mtmAnswerDto, Model model){
+	public int mtm_answer_write(MtmAnswerDto mtmAnswerDto, Model model){
 		int success = adbservice.insertAnswerBoard(mtmAnswerDto);
-		String alerttext="";
-		switch(success) {
-		case 0 : alerttext="alert('답변을 등록하지 못했습니다. 다시 시도해 주세요.'); history.go(-1);"; break;
-		case 1 : alerttext="alert('답변을 등록했습니다.'); location.href='mtm_list?rownum="+mtmAnswerDto.getRownum()+"';"; break;
-		}//switch
-		model.addAttribute("alerttext", alerttext);
-		return response_path+"mtm_view";
+		return success;
 	}
 	
 	//1:1문의 글 1개 삭제
 	@ResponseBody
 	@RequestMapping("mtm_answer_delete")
 	public int mtm_answer_delete(@RequestBody int[] arrNum, Model model) {
-		int success = adbservice.deleteAnswerBoard(arrNum[0], arrNum[2]);		
+		int success = adbservice.deleteAnswerBoard(arrNum[0], arrNum[1]);		
 		return success;
 	}	
 	
 	//1:1문의 답변 수정
+	@ResponseBody	
 	@RequestMapping("mtm_answer_modify")
-	public String mtm_answer_modify
-	(MtmAnswerDto mtmAnswerDto, Model model) {
+	public int mtm_answer_modify(MtmAnswerDto mtmAnswerDto) {
 		int success = adbservice.modifyAnswerBoard(mtmAnswerDto);
-		String alerttext="";
-		switch(success) {
-		case 0 : alerttext="alert('답변을 수정하지 못했습니다. 다시 시도해 주세요.'); history.go(-1);"; break;
-		case 1 : alerttext="alert('답변을 수정했습니다.'); location.href='mtm_list?rownum="+mtmAnswerDto.getRownum()+"';"; break;
-		}//switch
-		model.addAttribute("alerttext", alerttext);
-		return response_path+"mtm_view";		
+		return success;	
 	}
 	
 	//공지사항 전체 리스트 불러오기

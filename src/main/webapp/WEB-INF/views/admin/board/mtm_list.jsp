@@ -13,6 +13,7 @@
 		<script type="text/javascript" src="admin/js/jquery-3.4.1.min.js"></script>
         <script type="text/javascript" src="admin/js/jquery-ui.min.js"></script>
         <script type="text/javascript" src="admin/js/prefixfree.dynamic-dom.min.js"></script>
+        <script type="text/javascript" src="admin/js/admin_board.js"></script>        
 		<style type="text/css">
 			
 			#search_form table{
@@ -129,7 +130,7 @@
 		<div id="main_list">
 			<div id="main_user_list">
 				<h2>게시글 검색</h2>
-				<div class="list_count">임시로 놔두기(총 게시물 수 등등 표시?)</div>
+				<div class="list_count"> 총 게시글 수 : ${ mtm_list.size()}</div>
 				<div id="search_form">
 					<form name="inputform" method="get" onsubmit="return false;">
 					<table border="1">
@@ -175,49 +176,54 @@
 					
 				</div>
 				<div>
-					<table border="1" id="event_list">
-						<tr>
-							<th><input type="checkbox" ></th>
-							<th>번호</th>
-							<th>제목</th>
-							<th>분류</th>
-							<th>작성자</th>
-							<th>등록일</th>
-							<th>답변상태</th>
+					<!-- 등록된 1:1문의 없을 경우 -->
+					<c:if test="${mtm_list.size()==0 }">
+						등록된 1:1문의가 없습니다.
+					</c:if>
+					<!-- 등록된 1:1문의 있을 경우 -->
+					<c:if test="${mtm_list.size()!=0 }">
+						<table border="1" id="event_list">
+							<tr>
+								<th><input type="checkbox" id="check_all"  ></th>
+								<th>번호</th>
+								<th>제목</th>
+								<th>분류</th>
+								<th>작성자</th>
+								<th>등록일</th>
+								<th>답변상태</th>
+								
+								<th>답변/삭제</th>
+							</tr>
+							<c:forEach var="mtm_list" items="${mtm_list }">
+							<tr>
+								<td><input type="checkbox" name="chk_ids"  value="${mtm_list.mtmuserdto.iu_num }"></td>
+								<td>${mtm_list.mtmuserdto.rownum }</td>
+								<td>
+									<a href="mtm_view?m_num=${mtm_list.memberdto.m_num }&iu_num=${mtm_list.mtmuserdto.iu_num}"> 
+										${mtm_list.mtmuserdto.iu_title }
+									</a>								
+								</td>
+								<td>${mtm_list.mtmuserdto.iu_sort }</td>
+								<td>${mtm_list.memberdto.m_id }</td>
+								<td>${mtm_list.utildto.str1 }</td>
+								<td>${mtm_list.mtmuserdto.iu_status }</td>
+								<td>
+									<button type="button" onclick="location.href='mtm_view?m_num=${mtm_list.memberdto.m_num }&iu_num=${mtm_list.mtmuserdto.iu_num}'">
+										답변
+									</button>								
+									<button type="button" onclick="del_check(${mtm_list.mtmuserdto.iu_num})">삭제</button>
+								</td>
+							</tr>
+							</c:forEach>
 							
-							<th>답변/삭제</th>
-						</tr>
-						<c:forEach var="mtm_list" items="${mtm_list }">
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>${mtm_list.mtmuserdto.rownum }</td>
-							<td>
-								<a href="mtm_view?m_id=${mtm_list.memberdto.m_id }&rownum=${mtm_list.mtmuserdto.rownum }&iu_num=${mtm_list.mtmuserdto.iu_num}
-								&iu_title=${mtm_list.mtmuserdto.iu_title}&iu_content=${mtm_list.mtmuserdto.iu_content}&iu_sort=${mtm_list.mtmuserdto.iu_sort}&iu_date=${mtm_list.mtmuserdto.iu_date}
-								&iu_status=${mtm_list.mtmuserdto.iu_status}&iu_img=${mtm_list.mtmuserdto.iu_img}"> 
-									${mtm_list.mtmuserdto.iu_title }
-								</a>
-							</td>
-							<td>${mtm_list.mtmuserdto.iu_sort }</td>
-							<td>${mtm_list.memberdto.m_id }</td>
-							<td>${mtm_list.mtmuserdto.iu_date }</td>
-							<td>${mtm_list.mtmuserdto.iu_status }</td>
-							<td>
-								<button type="button" onclick="location.href='mtm_view?m_id=${mtm_list.memberdto.m_id }&rownum=${mtm_list.mtmuserdto.rownum }&iu_num=${mtm_list.mtmuserdto.iu_num}
-									&iu_title=${mtm_list.mtmuserdto.iu_title}&iu_content=${mtm_list.mtmuserdto.iu_content}&iu_sort=${mtm_list.mtmuserdto.iu_sort}&iu_date=${mtm_list.mtmuserdto.iu_date}
-									&iu_status=${mtm_list.mtmuserdto.iu_status}&iu_img=${mtm_list.mtmuserdto.iu_img}'">
-									답변
-								</button>
-								<button type="button" onclick="del_check(${mtm_list.mtmuserdto.iu_num})">삭제</button>
-							</td>
-						</tr>
-						</c:forEach>
-						
-						
-					</table>
-					<div class="detail_btn">
-						<a href="#">임시버튼</a>
-					</div>
+							
+						</table>
+						<div class="detail_btn" style="text-align:left; cursor:pointer;">
+							<a onclick="mtmSomeDelete()">선택 삭제</a>
+							<!-- 선택된 체크박스 값 체크용 -->
+							 <input type="hidden" name="hiddenValue" id="hiddenValue" value=""/>
+						</div>				
+					</c:if>
 				</div>
 			</div>
 				</div>
