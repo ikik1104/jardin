@@ -149,12 +149,12 @@ $(document).ready(function() {
 										<br/><span class="pointscore">${p_point } Point</span>
 										<!-- //회원일 시 -->
 									</td>
-									<td>${orderlist.ol_amt } 개</td>
+									<td>${orderlist.p_amt } 개</td>
 									<td>
-									<fmt:formatNumber var="productPriceSum" value="${orderlist.pDto.p_price * orderlist.ol_amt }" type="number"/>
+									<fmt:formatNumber var="productPriceSum" value="${orderlist.pDto.p_price * orderlist.p_amt }" type="number"/>
 									${productPriceSum } 원</td>
 								</tr>
-								<c:set var="allProductsSum" value="${allProductsSum + orderlist.pDto.p_price * orderlist.ol_amt }"/>
+								<c:set var="allProductsSum" value="${allProductsSum + orderlist.pDto.p_price * orderlist.p_amt }"/>
 							</c:forEach>
 							</tbody>
 						</table>
@@ -164,8 +164,13 @@ $(document).ready(function() {
 							<fmt:formatNumber var="allProductsSum1" value="${allProductsSum }" type="number"/>
 							<li>상품 합계금액 <strong>${allProductsSum1 }</strong> 원</li>
 							<fmt:formatNumber var="deliv_fee" value="${coupon_point.oc_deliv_fee }" type="number"/>
-							<li>+ 배송비 <strong>${deliv_fee }</strong> 원</li>
-							<fmt:formatNumber var="finalP" value="${allProductsSum+coupon_point.oc_deliv_fee }" type="number"/>
+							<li>+ 배송비 <strong>
+								<c:if test="${sum < 30000 }"><c:set var="del_price" value ="3000" />
+								<fmt:formatNumber var="del_price1" value="${del_price }" type="number"/>${del_price1 }</c:if>
+								<c:if test="${sum >= 30000 }"><c:set var="del_price" value ="0" />
+								<fmt:formatNumber var="del_price1" value="${del_price }" type="number"/>${del_price1 }</c:if>
+							</strong> 원</li>
+							<fmt:formatNumber var="finalP" value="${allProductsSum+del_price }" type="number"/>
 							<li>= 총 합계 <strong>${finalP }</strong> 원</li>
 						</ul>
 					</div>
@@ -189,57 +194,11 @@ $(document).ready(function() {
 								<span class="title">배송비</span>
 								<span class="won"><strong>${deliv_fee }</strong> 원</span>
 							</li>
-
-							<!-- 회원 일때만 -->
-							<li>
-								<span class="title">포인트 할인</span>
-								<fmt:formatNumber var="point" value="${coupon_point.point }" type="number"/>
-								<c:if test="${coupon_point.point>0 }">
-								<span class="won"><strong>- ${point }</strong> P</span>
-								</c:if>
-								<c:if test="${coupon_point.point==0 }">
-								<span class="won"><strong>${point }</strong> P</span>
-								</c:if>
-							</li>
-							<li>
-								<span class="title">쿠폰 할인(제품쿠폰+장바구니쿠폰)</span>
-								<c:set var="couDiscount" value="${allProductsSum+coupon_point.oc_deliv_fee-coupon_point.oc_final_sum-coupon_point.point }"/>
-								<c:if test="${coupon_point.oc_deliv_c>0 }">
-								<fmt:formatNumber var="couDiscount1" value="${couDiscount-3000}" type="number"/>
-								<span class="won"><strong>
-								<c:if test="${couDiscount-3000>0 }">- ${couDiscount1}</c:if>
-								<c:if test="${couDiscount-3000==0 }"> ${couDiscount1}</c:if>
-								</strong> 원</span>
-								</c:if>
-								<c:if test="${coupon_point.oc_deliv_c==0 }">
-								<fmt:formatNumber var="couDiscount1" value="${couDiscount}" type="number"/>
-								<span class="won"><strong>
-								<c:if test="${couDiscount>0 }">- ${couDiscount1}</c:if>
-								<c:if test="${couDiscount==0 }"> ${couDiscount1}</c:if>
-								</strong> 원</span>
-								</c:if>
-							</li>
-							<li>
-								<span class="title">배송비 할인</span>
-								<c:if test="${coupon_point.oc_deliv_c>0 }">
-									<span class="won"><strong>- 3,000</strong> 원</span>
-								</c:if>
-								<c:if test="${coupon_point.oc_deliv_c==0 }">
-									<span class="won"><strong>0</strong> 원</span>
-								</c:if>
-							</li>
-							<!-- //회원 일떄만 -->
 						</ul>
 
 						<ul class="total">
-							<!-- 회원 일때만 -->
-							<fmt:formatNumber var="pointSum" value="${allProductsSum*0.01 }" type="number"/>
-							<li class="mileage">(적립 포인트 <strong>${pointSum }</strong> Point) </li>
-							<!-- //회원 일때만 -->
-
 							<li class="txt"><strong>결제 예정 금액</strong></li>
-							<fmt:formatNumber var="finalPrice" value="${coupon_point.oc_final_sum }" type="number"/>
-							<li class="money"><span>${finalPrice }</span> 원</li>
+							<li class="money"><span>${finalP}</span> 원</li>
 						</ul>
 					</div>
 			<!-- //총 주문금액 -->
@@ -372,7 +331,7 @@ $(document).ready(function() {
 
 					<!-- Btn Area -->
 					<div class="btnArea2">
-						<a href="main?m_num=${coupon_point.m_num }" class="nbtnbig iw0140">확인</a>
+						<a href="main" class="nbtnbig iw0140">확인</a>
 					</div>
 					<!-- //Btn Area -->
 
