@@ -150,7 +150,7 @@
     		});
 		});
 
-		
+		//검색 날짜 유효성
 		function date_chk2(){
 			var start = inputform.e_start_day.value;
 			var end = inputform.e_end_day.value;
@@ -158,20 +158,30 @@
 			var date1 = new Date();
 			var start_date = new Date(start);
 			var end_date = new Date(end);
-			if(end_date.getTime()<date1.getTime()){
-				alert("종료일은 오늘 날짜 이후 or 시작일 이후의 날짜를 선택해주세요.");
-				inputform.e_end_day.value ="";
+			
+			if(end_date>date1 || start_date>date1){
+				alert("시작일과 종료일은 오늘 날짜 이내로 선택해주세요.");
+				inputform.e_end_day.value = "";
+				inputform.e_start_day.value ="";
 				return false;
 			}
-			if(end_date.getTime()<start_date.getTime()){
+			if(end_date<start_date){
 				alert("시작일 이후의 날짜를 선택해주세요.");
 				inputform.e_end_day.value ="";
 				return false;
 			}
 		}
 		
+		//검색 & 정렬
 		function search() {
-			//ajax 구현 해서 바로 검색결과 띄워주기
+			//종료일 유효성
+			if($("#e_end_day").val()==""){
+				alert("종료일을 선택해주세요.");
+				return false;
+			}
+			
+			
+			
 			
 		}
 		
@@ -216,6 +226,10 @@
 			$(".step2").css("display", "none");
 			$("#"+val).css("display", "inline-block");
 		}
+		
+		
+		
+		
 </script>
 	<style type="text/css">
 		.step2{
@@ -290,7 +304,7 @@
 				</div>
 				<div id="search2">
 					<select name="sort" onchange="에이작스스크립트()">
-						<option value="">주문번호 ↑</option>
+						<option value="" selected="selected">주문번호 ↑</option>
 						<option value="">주문번호 ↓</option>	
 						<option value="">주문자 ↑</option>
 						<option value="">주문자 ↓</option>	
