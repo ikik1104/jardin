@@ -9,11 +9,15 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>당첨자 발표 게시글 리스트</title>
+		<title>당첨자 발표 게시글 관리</title>
 		<link rel="stylesheet" type="text/css" href="admin/css/admin_main.css">
 		<script type="text/javascript" src="admin/js/jquery-3.4.1.min.js"></script>
         <script type="text/javascript" src="admin/js/jquery-ui.min.js"></script>
         <script type="text/javascript" src="admin/js/prefixfree.dynamic-dom.min.js"></script>
+        <!-- 기능, css 수정  -->
+        <script type="text/javascript" src="admin/js/admin_board.js"></script>    
+		<link rel="stylesheet" type="text/css" href="admin/css/list_button.css">    
+
 		<style type="text/css">
 			
 			#search_form table{
@@ -111,7 +115,7 @@
 		<div id="main_list">
 			<div id="main_user_list">
 				<h2>게시글 검색</h2>
-				<div class="list_count">임시로 놔두기(총 게시물 수 등등 표시?)</div>
+				<div class="list_count">총 게시글 수 : ${win_board_list.size() }</div>
 				<div id="search_form">
 					<form name="inputform" method="get" onsubmit="return false;">
 					<table border="1">
@@ -160,9 +164,9 @@
 					</button>
 				</div>
 				<div>
-					<table border="1" id="event_list">
+					<table border="1" id="event_list" style="margin-top:10px;">
 						<tr>
-							<th><input type="checkbox" ></th>
+							<th><input type="checkbox"   id="check_all"   ></th>
 							<th>번호</th>
 							<th>제목</th>
 							<th>작성자</th>
@@ -173,7 +177,7 @@
 						</tr>
 						<c:forEach var="win_board_list" items="${win_board_list }">
 						<tr>
-							<td><input type="checkbox"></td>
+							<td><input type="checkbox"  name="chk_ids"  value="${win_board_list.winboarddto.wb_num }"></td>
 							<td>${win_board_list.winboarddto.rownum }</td>
 							<td>
 								<a href="win_board_view?wb_num=${win_board_list.winboarddto.wb_num }"> 
@@ -181,7 +185,7 @@
 								</a>
 							</td>
 							<td>${win_board_list.admindto.ad_grade }(${win_board_list.admindto.ad_id })</td>
-							<td>${win_board_list.winboarddto.wb_date }</td>
+							<td>${win_board_list.utildto.str1 }</td>
 							<td>${win_board_list.eventdto.e_title }</td>							
 							<td>${win_board_list.winboarddto.wb_hit }</td>
 							<td>
@@ -195,8 +199,10 @@
 						
 						
 					</table>
-					<div class="detail_btn">
-						<a href="#">임시버튼</a>
+					<div class="detail_btn" style="text-align:left; cursor:pointer;">
+						<a onclick="winBoardSomeDelete()">선택 삭제</a>
+						<!-- 선택된 체크박스 값 체크용 -->
+						<input type="hidden" name="hiddenValue" id="hiddenValue" value=""/>						
 					</div>
 				</div>
 			</div>

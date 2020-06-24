@@ -56,6 +56,7 @@
 					<li><a href="event_list"><img src="admin/images/icon_title_left.png">리스트</a></li>
 					<li><a href="event_write"><img src="admin/images/icon_title_left.png">글쓰기</a></li>
 					<li><a href="event_applicants"><img src="admin/images/icon_title_left.png">신청자 리스트</a></li>
+					<li><a href="win_list"><img src="admin/images/icon_title_left.png">당첨자 발표 게시판</a></li>				
 				</ul>
 			</div>
 		</div>

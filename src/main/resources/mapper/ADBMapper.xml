@@ -381,12 +381,15 @@
 	
 	<!-- 당첨자 게시글 전체 리스트 불러오기 -->
 	<select id="getAllWinBoards" resultMap="AllDto">
-		select rownum, finaltb.* from
-		(select ewtb.* , ad.ad_id, ad.ad_grade, ad.ad_name from 
-		(select wtb.*, etb.e_title from win_board_tb wtb, event_tb etb
-		where wtb.e_num=etb.e_num order by wb_num desc) ewtb,
-		admin_tb ad
-		where ad.ad_num=ewtb.ad_num) finaltb
+		select rownum, fintb.* from
+        (select wbtb.*, e_title from
+        (select wbt.*, ad_id, ad_grade, ad_name from
+        (select wb.*, to_char(wb_date, 'yy-MM-dd') str1 from
+        (select * from win_board_tb order by wb_num desc) wb) wbt,
+        admin_tb ad 
+        where ad.ad_num=wbt.ad_num) wbtb,
+        event_tb ev
+        where ev.e_num=wbtb.e_num) fintb
 	</select>
 	
 	<!-- 당첨자 게시글 1개 불러오기 -->
