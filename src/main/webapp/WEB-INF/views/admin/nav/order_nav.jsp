@@ -9,10 +9,10 @@
 					<li><a href="order_list"><img src="admin/images/icon_title_left.png">주문통합</a></li>
 					<li><a href="deposit_waiting_list"><img src="admin/images/icon_title_left.png">입금대기</a></li>
 					<li><a href="complete_payment_list"><img src="admin/images/icon_title_left.png">결제완료</a></li>
-					<li><a href="#"><img src="admin/images/icon_title_left.png">상품준비중</a></li>
-					<li><a href="#"><img src="admin/images/icon_title_left.png">배송중</a></li>
-					<li><a href="#"><img src="admin/images/icon_title_left.png">배송완료</a></li>
-					<li><a href="#"><img src="admin/images/icon_title_left.png">구매확정</a></li>
+					<li><a href="pre_delivery_list"><img src="admin/images/icon_title_left.png">상품준비중</a></li>
+					<li><a href="in_transit_list"><img src="admin/images/icon_title_left.png">배송중</a></li>
+					<li><a href="complete_delivery_list"><img src="admin/images/icon_title_left.png">배송완료</a></li>
+					<li><a href="confirm_buying_list"><img src="admin/images/icon_title_left.png">구매확정</a></li>
 				</ul>
 			</div>
 		</div>
@@ -20,9 +20,9 @@
 			<a>클레임<span id="s_icon" class="icon_minus"></span></a>
 			<div class="tes_list">
 				<ul>
-					<li><a href="#"><img src="admin/images/icon_title_left.png">교환</a></li>
-					<li><a href="#"><img src="admin/images/icon_title_left.png">반품</a></li>
-					<li><a href="#"><img src="admin/images/icon_title_left.png">환불</a></li>
+<!-- 					<li><a href=""><img src="admin/images/icon_title_left.png">교환</a></li> -->
+					<li><a href="return_list"><img src="admin/images/icon_title_left.png">반품</a></li>
+					<li><a href="refund_list"><img src="admin/images/icon_title_left.png">환불</a></li>
 				</ul>
 			</div>
 		</div>

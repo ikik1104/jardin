@@ -79,7 +79,9 @@ public class MyOrderController {
 	}
 	
 	//환불고유번호 생성 변수1
-	static int i=1;
+	public static int i=1;
+	
+
 	//환불, 결제취소 접수
 	@RequestMapping("refund_request")
 	public String refund_request(RefundSetDto refundSetDto, HttpServletRequest request, HttpSession session) {

@@ -6,7 +6,7 @@ public class ReturnDto {
 
 	private int rownum;		//DB에서 가져오는 rownum
 	private int rt_num; //반품교환 고유번호
-	private int rt_receipt_num; //반품교환 접수번호
+	private String rt_receipt_num; //반품교환 접수번호
 	private int ol_num; //주문 고유번호
 	private String rt_sort; //분류
 	private int rt_amount; //수량
@@ -16,14 +16,19 @@ public class ReturnDto {
 	private Timestamp rt_end_date; //반품교환 완료일
 	private String ol_order_num;
 	private String p_name;
+	private String m_id;
+	private int rt_price;
+	private String ol_payment; //환불방법
 
 	public ReturnDto() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public ReturnDto(int rt_num, int rt_receipt_num, int ol_num, String rt_sort, int rt_amount, String rt_status,
-			String rt_reason, Timestamp rt_receipt_date, Timestamp rt_end_date, String ol_order_num, String p_name) {
+	public ReturnDto(int rownum, int rt_num, String rt_receipt_num, int ol_num, String rt_sort, int rt_amount,
+			String rt_status, String rt_reason, Timestamp rt_receipt_date, Timestamp rt_end_date, String ol_order_num,
+			String p_name, String m_id, int rt_price, String ol_payment) {
 		super();
+		this.rownum = rownum;
 		this.rt_num = rt_num;
 		this.rt_receipt_num = rt_receipt_num;
 		this.ol_num = ol_num;
@@ -34,9 +39,31 @@ public class ReturnDto {
 		this.rt_receipt_date = rt_receipt_date;
 		this.rt_end_date = rt_end_date;
 		this.ol_order_num = ol_order_num;
-		this.p_name=p_name;
+		this.p_name = p_name;
+		this.m_id = m_id;
+		this.rt_price = rt_price;
+		this.ol_payment = ol_payment;
 	}
 
+	
+	public synchronized String getOl_payment() {
+		return ol_payment;
+	}
+	public synchronized void setOl_payment(String ol_payment) {
+		this.ol_payment = ol_payment;
+	}
+	public synchronized int getRt_price() {
+		return rt_price;
+	}
+	public synchronized void setRt_price(int rt_price) {
+		this.rt_price = rt_price;
+	}
+	public synchronized String getM_id() {
+		return m_id;
+	}
+	public synchronized void setM_id(String m_id) {
+		this.m_id = m_id;
+	}
 	public String getOl_order_num() {
 		return ol_order_num;
 	}
@@ -61,10 +88,10 @@ public class ReturnDto {
 	public void setRt_num(int rt_num) {
 		this.rt_num = rt_num;
 	}
-	public int getRt_receipt_num() {
+	public String getRt_receipt_num() {
 		return rt_receipt_num;
 	}
-	public void setRt_receipt_num(int rt_receipt_num) {
+	public void setRt_receipt_num(String rt_receipt_num) {
 		this.rt_receipt_num = rt_receipt_num;
 	}
 	public int getOl_num() {

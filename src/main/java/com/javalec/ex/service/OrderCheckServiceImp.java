@@ -43,7 +43,9 @@ public class OrderCheckServiceImp implements OrderCheckService {
 
 	@Override
 	public int returnRq(int ol_num, String rt_amt, String rt_reason, int rt_price, String rt_receipt_num, String ol_order_num, String p_name, String m_id) {
-		return orderCheckDao.returnRq(ol_num, rt_amt, rt_reason, rt_price, rt_receipt_num, ol_order_num, p_name, m_id);
+		String ol_payment = orderCheckDao.getPayment(ol_order_num);
+		System.out.println("오더첵 임프, 결제방법 : "+ol_payment);
+		return orderCheckDao.returnRq(ol_num, rt_amt, rt_reason, rt_price, rt_receipt_num, ol_order_num, p_name, m_id, ol_payment);
 	}
 
 	@Override

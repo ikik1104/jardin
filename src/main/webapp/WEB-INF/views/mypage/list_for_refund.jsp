@@ -143,7 +143,6 @@ function submit(){
     					<th scope="col">상품명</th>
     					<th scope="col">수량</th>
     					<th scope="col" class="pnone">가격</th>
-    					<th scope="col" class="pnone">반품신청</th>
     				</thead>
     				<tbody>
                         <c:forEach items="${ list }" var="list" varStatus="status">
@@ -166,7 +165,6 @@ function submit(){
                                 <input type="hidden" name="refundDto[${ status.index }].ol_order_num" class="name${ status.index }" value="${ list.OL_ORDER_NUM }"/>
                             </td>
     						<td class="pnone" id="price${ status.index }">${ list.OL_FINAL_PRICE }</td>
-    						<td class="pnone"><a href="#" id="btn${ status.index }" onclick="return_req(${ list.OL_NUM }, ${ status.index })">신청하기</a></td>
     					</tr>
                         </c:forEach>
     				</tbody>

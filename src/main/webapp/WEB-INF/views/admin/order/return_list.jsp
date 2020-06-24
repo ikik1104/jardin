@@ -37,60 +37,30 @@
             rowspan_f();
             
             $(".refund_btn").click(function(){
-                var refund_num = $(this).parent().siblings(".gr").text();
-                var refund_price = $(this).siblings(".td_rf").text();
-                if($(this).text() == "PG취소"){
-                    if(confirm("PG 취소를 접수하시겠습니까?")){
-                         $.ajax({
-                             type : "POST",
-                             url : "refund_process",
-                             data : JSON.stringify({ 
-                                 rf_receipt_num : refund_num,
-                             }),
-                             contentType : "application/json",
-                             dataType : "json",
-                             success : function(val){
-                                 if(val != 0){
-                                     alert("PG결제 취소를 요청했습니다.");
-                                     location.reload();
-                                 } else{
-                                     alert("취소할 수 없습니다.");
-                                 }
-                             },
-                             error : function(){
-                                alert("서버통신실패. 관리자에게 문의하세요.");
-                             }
-                         });
-                     } else {
-                         return;
-                     };//if confirm
-                    
-                } else {
-                    if(confirm("환불완료 처리하시겠습니까? 무통장입금, 계좌이체의 경우 환불을 완료했는지 다시 확인하고 신중하게 처리하세요!")){
+                var return_num = $(this).parent().siblings(".gr").text();
+                var return_price = $(this).siblings(".td_rf").text();
+                if(confirm("선택한 상품의 상태를 반품 완료로 변경하시겠습니까?")){
                      $.ajax({
                          type : "POST",
-                         url : "refund_process",
-                         data : JSON.stringify({ 
-                             rf_receipt_num : refund_num,
-                         }),
+                         url : "return_process",
+                         data : return_num,
                          contentType : "application/json",
                          dataType : "json",
                          success : function(val){
                              if(val != 0){
-                                 alert("환불 완료");
+                                 alert("반품 완료 처리 및 환불 접수되었습니다. 환불 게시판을 확인하세요.");
                                  location.reload();
                              } else{
-                                 alert("완료할 수 없습니다.");
+                                 alert("반품완료를 할 수 없습니다.");
                              }
                          },
                          error : function(){
                             alert("서버통신실패. 관리자에게 문의하세요.");
                          }
                      });
-                    } else {
+                 } else {
                      return;
-                    };//if confirm
-                }
+                 };//if confirm
             });
         });
 
@@ -98,18 +68,18 @@
         function rowspan_f(){
             $(".gr").each(function () {
                   var rows = $(".gr:contains('"+$(this).text()+"')");
-                  var ck_row = rows.siblings(".td_ck"); //주문번호
+                  var ck_row = rows.siblings(".td_ck"); //체크박스
                   var on_row = rows.siblings(".td_on"); //주문번호
                   var rd_row = rows.siblings(".td_rd"); //접수일
                   var ed_row = rows.siblings(".td_ed"); //처리일
                   var nm_row = rows.siblings(".td_nm"); //사용자id
-                  var mt_row = rows.siblings(".td_mt"); //결제방법
                   var st_row = rows.siblings(".td_st"); //상태
                   var rf_row = rows.siblings(".td_rf"); //임시값 - 합계
                   var bt_row = rows.siblings(".td_bt"); //버튼
                   var each_price = rows.siblings(".each_price"); //각각 가격
-					
-                  var sum = 0; //환불금액 합계
+
+                  var sum = 0; //반품금액 합계
+                  
                   if(rows.length > 1) {
                       rows.eq(0).attr("rowspan", rows.length);
                       ck_row.eq(0).attr("rowspan", rows.length);
@@ -117,7 +87,6 @@
                       rd_row.eq(0).attr("rowspan", rows.length);
                       ed_row.eq(0).attr("rowspan", rows.length);
                       nm_row.eq(0).attr("rowspan", rows.length);
-                      mt_row.eq(0).attr("rowspan", rows.length);
                       st_row.eq(0).attr("rowspan", rows.length);
                       rf_row.eq(0).attr("rowspan", rows.length);
                       bt_row.eq(0).attr("rowspan", rows.length);
@@ -128,32 +97,29 @@
                       rd_row.not(":eq(0)").remove(); 
                       ed_row.not(":eq(0)").remove(); 
                       nm_row.not(":eq(0)").remove(); 
-                      mt_row.not(":eq(0)").remove(); 
                       st_row.not(":eq(0)").remove(); 
                       rf_row.not(":eq(0)").remove(); 
                       bt_row.not(":eq(0)").remove(); 
-                    
-                      //최종환불금액 계산
-                      for(i=0; i<rows.length; i++){
-                    	  var ch_num = Number(each_price.eq(i).text().replace(/,/g, ''));
-                    	  sum += ch_num;
+                      
+                      //최종 환불금액   
+	                  for(i=0; i<rows.length; i++){
+                        	var ch_num = Number(each_price.eq(i).text().replace(/,/g, ''));
+                        	sum += ch_num;
                       }
+//                       rf_row.text(commas(sum));
                   } else {
+                	  //최종환불금액
                 	  sum = each_price.eq(0).text();
-                  } 
-                  //환불처리
+                  }
+               	  //환불접수 버튼
                   var innerhtml = "";
-                  if(st_row.eq(0).text() == "환불접수"){
-                      if(mt_row.eq(0).text() == "신용카드 결제"){
-                        innerhtml = '<a href="#" class="refund_btn">PG취소</a>';
-                      } else {
-                        innerhtml = '<a href="#" class="refund_btn">환불처리</a>';
-                      } 
+                  if(st_row.eq(0).text() == "반품접수"){
+	                    innerhtml = '<a href="#" class="refund_btn">완료처리</a>';
                   } else {
                         innerhtml = '-';                            
                   }
-              	  bt_row.html(innerhtml);
                   rf_row.text(commas(sum));
+                  bt_row.html(innerhtml);
               });
         }
         
@@ -197,7 +163,7 @@
             
             $.ajax({
                 type: "POST",       // get/post
-                url: "refund_s_a",     // controller json 데이터 링크주소
+                url: "return_s_a",     // controller json 데이터 링크주소
                 data: JSON.stringify(inputData),
                 contentType: "application/json;charset=UTF-8",  // 한글처리
                 success: function(data){            // json데이터 return 데이터
@@ -206,21 +172,20 @@
                     var html="";
                     var count = 0;
                     for(var i=0; i<data.length; i++){
-                        var timestamp1 = data[i].rf_receipt_date;
-                        var timestamp2 = data[i].rf_end_date;
+                        var timestamp1 = data[i].rt_receipt_date;
+                        var timestamp2 = data[i].rt_end_date;
                         var date1 = new Date(timestamp1).format('yyyy-MM-dd HH:mm:ss');
                         var date2 = new Date(timestamp2).format('yyyy-MM-dd HH:mm:ss');
                         html += '<tr class="tr_search">'
-                        html += '<td class="gr">'+data[i].rf_receipt_num+'</td>';
+                        html += '<td class="gr">'+data[i].rt_receipt_num+'</td>';
                         html += '<td class="td_on"><a href="order_detail?ol_order_num=${data[i].ol_order_num }">'+data[i].ol_order_num+'</a></td>'
                         html += '<td class="td_rd">'+date1+'</td>';
                         html += '<td class="td_ed">'+date2+'</td>';
                         html += '<td class="td_nm">'+data[i].m_id+'</td>';
                         html += '<td>'+data[i].p_name+'</td>';
-                        html += '<td class="each_price">'+commas(data[i].rf_price)+'</td>';
+                        html += '<td class="each_price">'+commas(data[i].rt_price)+'</td>';
                         html += '<td class="td_rf">임시값</td>';
-                        html += '<td class="td_mt">'+data[i].rf_method+'</td>';
-                        html += '<td class="td_st">'+data[i].rf_status+'</td>';
+                        html += '<td class="td_st">'+data[i].rt_status+'</td>';
                         html += '<td class="td_bt"></td>'
                         html += '</tr>'
                         count +=1;
@@ -359,7 +324,7 @@
     <jsp:include page="../nav/admin_header.jsp"/>
     <jsp:include page="../nav/order_nav.jsp"/>
     <section>
-        <h1>환불 리스트</h1>
+        <h1>반품 리스트</h1>
         <div id="main_list">
             <div id="main_user_list">
                 <h2>임시로 놔두기</h2>
@@ -383,7 +348,7 @@
                             <td>
                             <fmt:formatDate var="sys" value="${sysdate}" pattern="yyyy-MM-dd"/>
                             <select name="****미정****" >
-                                <option>환불신청일</option>
+                                <option>반품신청일</option>
                             </select>
                             <input type="date" name="e_start_day" id="e_start_day" onchange="date_chk2()"> ~ 
                             <input type="date" name="e_end_day" id="e_end_day" value="${sys}" onchange="date_chk2()">
@@ -404,23 +369,23 @@
                 </div>
                 <div id="search2">
                     <select name="sort" id="sort" onchange="search()">
-                        <option value="rf_receipt_num asc" selected="selected">주문번호 ↑</option>
-                        <option value="rf_receipt_num desc">주문번호 ↓</option> 
+                        <option value="rt_receipt_num asc" selected="selected">주문번호 ↑</option>
+                        <option value="rt_receipt_num desc">주문번호 ↓</option> 
                         <option value="m_id asc">주문자 ↑</option>
                         <option value="m_id desc">주문자 ↓</option>    
-                        <option value="rf_status asc">주문상태 ↑</option>
-                        <option value="rf_status desc">주문상태 ↓</option>  
+                        <option value="rt_status asc">주문상태 ↑</option>
+                        <option value="rt_status desc">주문상태 ↓</option>  
                     </select>
                 </div>
                 <div id="list_div">
                     <table border="1" id="event_list">
                         <tr>
 <!--                            <th><input type="checkbox" name="chk"></th> -->
-                            <th>환불번호</th>
+                            <th>반품번호</th>
                             <th>주문번호</th>
 <!--                            <th>주문일시</th> -->
-                            <th>환불신청일</th>
-                            <th>환불완료일시</th>
+                            <th>반품신청일</th>
+                            <th>반품완료일시</th>
                             <th>주문자</th>
 <!--                            <th>주문고유번호</th> -->
                             <th>주문상품</th>
@@ -428,26 +393,24 @@
                             <th>총 상품금액</th>
                             <th>최종 환불금액</th>
 <!--                            <th>총 배송비</th> -->
-                            <th>결제방법</th>
                             <th>처리상태</th>
-                            <th>환불처리</th>
+                            <th>상태변경</th>
 <!--                            <th>사유</th> -->
                         </tr>
-                        <c:forEach var="list" items="${ refundlist }">
+                        <c:forEach var="list" items="${ returnlist }">
                         <tr class="tr_02">
 <!--                            <td class="td_ck"><input type="checkbox" name="chk" value=""></td> -->
-                            <td class="gr">${list.rf_receipt_num }</td>
+                            <td class="gr">${list.rt_receipt_num }</td>
                             <td class="td_on"><a href="order_detail?ol_order_num=${list.ol_order_num }">${list.ol_order_num }</a></td>
 <!--                            <td>주문일시</td> -->
-                            <td class="td_rd">${ list.rf_receipt_date }</td>
-                            <td class="td_ed">${ list.rf_end_date }</td>
+                            <td class="td_rd">${ list.rt_receipt_date }</td>
+                            <td class="td_ed">${ list.rt_end_date }</td>
                             <td class="td_nm">${ list.m_id }</td>
 <!--                             <td>주문고유번호</td> -->
                             <td>${ list.p_name }</td>
-                            <td class="each_price">${ list.rf_price }</td>
+                            <td class="each_price">${ list.rt_price }</td>
                             <td class="td_rf">임시값</td>
-                            <td class="td_mt">${ list.rf_method }</td>
-                            <td class="td_st">${ list.rf_status }</td>
+                            <td class="td_st">${ list.rt_status }</td>
                             <td class="td_bt"></td>
 <!--                            <td>환불완료일시</td> -->
 <!--                            <td>주문자</td> -->

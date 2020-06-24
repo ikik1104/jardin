@@ -11,6 +11,12 @@
 		order by rf_receipt_num desc, rf_receipt_date desc
 	</select>
 	
+	<!-- 반품테이블 조회 -->
+	<select id="getAllMemReturn" resultType="com.javalec.ex.dto.ReturnDto">
+		select * from return_tb 
+		order by rt_receipt_num desc, rt_receipt_date desc
+	</select>
+	
 	<!-- 환불테이블 검색,정렬 조회 -->
 	<select id="getSearchArrRefund" resultType="com.javalec.ex.dto.RefundDto">
 		select * from refund_tb 
@@ -34,9 +40,51 @@
 		order by ${array1}, rf_receipt_date desc
 	</select>
 	
-
+	<!-- 환불페이지 : 환불완료로 상태 바꾸기 -->
 	<update id="refundProcess">
 		update refund_tb set rf_status='환불완료', rf_end_date=sysdate where rf_receipt_num=#{param1}
 	</update>
+	
+	<!-- 반품페이지 : 반품완료로 상태 바꾸기 -->
+	<update id="returnProcess">
+		update return_tb set rt_status='반품완료', rt_end_date=sysdate where rt_receipt_num=#{param1}
+	</update>
+	
+	<select id="getOneReturn" resultType="com.javalec.ex.dto.ReturnDto">
+		select * from return_tb where rt_receipt_num=#{param1}
+	</select>
+	
+	<!-- 반품 완료 처리하면서 환불테이블에 insert -->
+	<insert id="adminRefundRq">
+		insert into refund_tb values
+		(rf_seq.nextval, #{rf_receipt_num}, #{ol_num}, #{rf_price}, '환불접수', 
+		#{rf_method}, sysdate, null, '반품', #{ol_order_num}, #{p_name}, #{m_id})
+	</insert>
+	
+	<!-- 반품테이블 검색,정렬 조회 -->
+	<select id="getSearchArrReturn" resultType="com.javalec.ex.dto.ReturnDto">
+		select * from return_tb 
+		<where>
+			<if test="e_start_day !=''">
+				and rt_receipt_date between to_date(#{e_start_day}, 'yyyy-MM-dd') and to_date(#{e_end_day}, 'yyyy-MM-dd')+0.999999
+			</if>
+			<if test="e_start_day.equals('')">
+       			and rt_receipt_date <![CDATA[<]]> to_date(#{e_end_day}, 'yyyy-MM-dd')+0.999999
+	    	</if>
+			<if test="keywordOpt.equals('주문번호')">
+	        and ol_order_num like '%'|| #{keyword} || '%' 
+	        </if>
+			<if test="keywordOpt.equals('주문자')">
+	        and m_id like '%'|| #{keyword} || '%' 
+	        </if>
+			<if test="keywordOpt.equals('상태')">
+	        and rt_status like '%'|| #{keyword} || '%' 
+	        </if>
+		</where>
+		order by ${array1}, rt_receipt_date desc
+	</select>
+	
+	
+	
 	
 </mapper>

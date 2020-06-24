@@ -44,8 +44,13 @@
 	<!-- 반품신청 -->
 	<insert id="returnRq">
 		insert into return_tb values 
-		(rt_seq.nextval, #{param1}, '반품', #{param2}, default, #{param3}, sysdate, null, #{param4}, #{param5}, #{param6}, #{param7}, #{param8})
+		(rt_seq.nextval, #{param1}, '반품', #{param2}, default, #{param3}, sysdate, null, #{param4}, #{param5}, #{param6}, #{param7}, #{param8}, #{param9})
 	</insert>
+	
+	<!-- 반품방법 가져오기 : 주문테이블에서... -->
+	<select id="getPayment" resultType="String">
+		select wm_concat(distinct ol_payment) ol_payment from orderlist_tb where ol_order_num=#{param1}
+	</select>
 	
 	<!-- 수량 전체 반품 시 주문상품 ...(주문 아니라 주문 건 안에서의 상품 하나) -->
 	<delete id="updateOrderStatus">
@@ -88,7 +93,7 @@
 		insert into review_user_tb values(ru_seq.nextval,#{p_num},#{m_num},#{ru_title},#{ru_content},#{ru_score},sysdate,0,'답변대기','노출',#{ru_img},#{ru_type},#{ol_num})
 	</insert>
 	
-	<!-- 환불 insert -->
+	<!-- 결제 취소시 환불접수 insert -->
 	<insert id="refundRequest">
 		insert into refund_tb values
 		(rf_seq.nextval, #{rf_receipt_num}, #{ol_num}, #{rf_price}, '환불접수', 

@@ -135,6 +135,147 @@ public class AdminOrderController {
 				
 			return resultMap;
 		}
+		
+		
+		// 상품준비중(배송준비중) 리스트
+		@RequestMapping("pre_delivery_list")
+		public String pre_delivery_list(HttpServletRequest request, Model model) {
+			
+			HashMap<String, String> map = optionValue(request, model);
+			
+			map.put("listName", "ol.ol_status='배송준비중'");
+			
+			int count = aoService.deposit_waiting_list(map).size();		
+			model.addAttribute("allOrderlist", aoService.deposit_waiting_list(map));
+			model.addAttribute("count", count);
+			return "admin/order/pre_delivery_list";
+		}
+		
+		// 상품준비중(배송준비중) 리스트- 검색 & 정렬
+		@ResponseBody
+		@RequestMapping("pd_search")
+		public List<HashMap <String, Object>> pd_search(@RequestBody HashMap<String, String> map)throws Exception {
+			
+			String opt = map.get("option");
+			String option1 ="";
+			
+			if(opt==null || opt.equals("ol.ol_order_num asc")) {
+				option1 = "ol.ol_order_num asc";
+			}else {
+				option1 = opt+", ol.ol_order_num asc";
+			}
+			map.put("option1", option1);
+			map.put("listName", "ol.ol_status='배송준비중'");
+			List<HashMap<String, Object>> resultMap = aoService.searchandsort(map);
+			
+			return resultMap;
+		}
+		
+		
+		// 배송중 리스트
+		@RequestMapping("in_transit_list")
+		public String in_transit_list(HttpServletRequest request, Model model) {
+			
+			HashMap<String, String> map = optionValue(request, model);
+			
+			map.put("listName", "ol.ol_status='배송중'");
+			
+			int count = aoService.deposit_waiting_list(map).size();		
+			model.addAttribute("allOrderlist", aoService.deposit_waiting_list(map));
+			model.addAttribute("count", count);
+			return "admin/order/in_transit_list";
+		}
+		
+		// 배송중 리스트- 검색 & 정렬
+		@ResponseBody
+		@RequestMapping("it_search")
+		public List<HashMap <String, Object>> it_search(@RequestBody HashMap<String, String> map)throws Exception {
+			
+			String opt = map.get("option");
+			String option1 ="";
+			
+			if(opt==null || opt.equals("ol.ol_order_num asc")) {
+				option1 = "ol.ol_order_num asc";
+			}else {
+				option1 = opt+", ol.ol_order_num asc";
+			}
+			map.put("option1", option1);
+			map.put("listName", "ol.ol_status='배송중'");
+			List<HashMap<String, Object>> resultMap = aoService.searchandsort(map);
+			
+			return resultMap;
+		}
+		
+		
+	// 배숑완료 리스트
+	@RequestMapping("complete_delivery_list")
+	public String complete_delivery_list(HttpServletRequest request, Model model) {
+
+		HashMap<String, String> map = optionValue(request, model);
+		
+		map.put("listName", "ol.ol_status='배송완료'");
+		
+		int count = aoService.deposit_waiting_list(map).size();		
+		model.addAttribute("allOrderlist", aoService.deposit_waiting_list(map));
+		model.addAttribute("count", count);
+		return "admin/order/complete_delivery_list";
+	}
+	
+	// 배송완료 리스트- 검색 & 정렬
+	@ResponseBody
+	@RequestMapping("cd_search")
+	public List<HashMap <String, Object>> cd_search(@RequestBody HashMap<String, String> map)throws Exception {
+		
+		String opt = map.get("option");
+		String option1 ="";
+		
+		if(opt==null || opt.equals("ol.ol_order_num asc")) {
+			option1 = "ol.ol_order_num asc";
+		}else {
+			option1 = opt+", ol.ol_order_num asc";
+		}
+		map.put("option1", option1);
+		map.put("listName", "ol.ol_status='배송완료'");
+		List<HashMap<String, Object>> resultMap = aoService.searchandsort(map);
+			
+		return resultMap;
+	}
+	
+	
+	// 구매확정 리스트
+	@RequestMapping("confirm_buying_list")
+	public String confirm_buying_list(HttpServletRequest request, Model model) {
+		
+		HashMap<String, String> map = optionValue(request, model);
+		
+		map.put("listName", "ol.ol_status='구매확정'");
+		
+		int count = aoService.deposit_waiting_list(map).size();		
+		model.addAttribute("allOrderlist", aoService.deposit_waiting_list(map));
+		model.addAttribute("count", count);
+		return "admin/order/complete_delivery_list";
+	}
+	
+	// 구매확정 리스트- 검색 & 정렬
+	@ResponseBody
+	@RequestMapping("cb_search")
+	public List<HashMap <String, Object>> cb_search(@RequestBody HashMap<String, String> map)throws Exception {
+		
+		String opt = map.get("option");
+		String option1 ="";
+		
+		if(opt==null || opt.equals("ol.ol_order_num asc")) {
+			option1 = "ol.ol_order_num asc";
+		}else {
+			option1 = opt+", ol.ol_order_num asc";
+		}
+		map.put("option1", option1);
+		map.put("listName", "ol.ol_status='구매확정'");
+		List<HashMap<String, Object>> resultMap = aoService.searchandsort(map);
+		
+		return resultMap;
+	}
+	
 	
 	
 	
