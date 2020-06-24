@@ -107,5 +107,18 @@ public interface ADBService {
 	//선택한 공지글 일괄 삭제
 	int deleteSomeNotice(int[] chkArray);
 
+	//선택한 이벤트글 일괄 삭제
+	int deleteSomeEvents(int[] chkArray);
+
+	//선택한 신청자들 일괄 삭제
+	int deleteSomeApplicants(int[] chkArray);
+
+	//선택한 신청자들 일괄 당첨/당첨 취소
+	int WinSomeApplicants(int[] chkArray);
+
+	//댓글 1개 삭제
+	int deleteTheEcomment(int ec_num);
+	
+
 }
 

@@ -8,7 +8,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Insert title here</title>
+		<title>이벤트 관리</title>
 		<link rel="stylesheet" type="text/css" href="admin/css/admin_main.css">
 		<script type="text/javascript" src="admin/js/jquery-3.4.1.min.js"></script>
         <script type="text/javascript" src="admin/js/jquery-ui.min.js"></script>
@@ -110,8 +110,8 @@
 		<h1>상품 리스트</h1>
 		<div id="main_list">
 			<div id="main_user_list">
-				<h2>임시로 놔두기</h2>
-				<div class="list_count">임시로 놔두기(총 게시물 수 등등 표시?)</div>
+				<h2>게시글 검색</h2>
+				<div class="list_count">총 게시글 수 : ${AllDtos.size() }</div>
 				<div id="search_form">
 					<form name="inputform" method="get" onsubmit="return false;">
 					<table border="1">
@@ -184,22 +184,22 @@
 								</a>
 							</td>
 							<td>${AllDtos.admindto.ad_grade }(${AllDtos.admindto.ad_id })</td>
-							<td>${AllDtos.eventdto.e_sysdate }</td>
-							<td>${AllDtos.eventdto.e_start_day }</td>
-							<td>${AllDtos.eventdto.e_end_day }</td>		
-							<c:if test="${AllDtos.eventdto.co_num!=null }">
+							<td>${AllDtos.utildto.str5 }</td>
+							<td>${AllDtos.utildto.str1 }</td>
+							<td>${AllDtos.utildto.str2 }</td>		
+							<c:if test="${AllDtos.eventdto.co_num!=0 }">
 								<td>있음</td>
 							</c:if>			
-							<c:if test="${AllDtos.eventdto.co_num==null }">
+							<c:if test="${AllDtos.eventdto.co_num==0 }">
 								<td>없음</td>
 							</c:if>								
-							<td>${AllDtos.eventdto.e_win_day }</td>
-							<td>${ AllDtos.eventdto.e_status}</td>
+							<td>${AllDtos.utildto.str3 }</td>
+							<td>${ AllDtos.utildto.str4}</td>
 							<td>
 								<button type="button" onclick="location.href='event_view?e_num=${AllDtos.eventdto.e_num}'">
 									수정
 								</button>
-								<button type="button" onclick="del_check(${AllDtos.eventdto.e_num})">삭제</button>
+								<button type="button" onclick="event_del_check(${AllDtos.eventdto.e_num})">삭제</button>
 							</td>
 						</tr>
 						</c:forEach>						

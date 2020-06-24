@@ -15,26 +15,28 @@
 
 		//선택 1:1문의 체크박스 값 배열에 넣기
 		function arrayingCheckbox(){
+
+			 var obj = $("[name=chk_ids]");
+		        var chkArray = new Array(); // 배열 선언
+		 
+		        $('input:checkbox[name=chk_ids]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
+		            chkArray.push(this.value);
+		        });
+		        
+		        if(chkArray.length==0){
+		        	//아무것도 체크 안 했을 경우
+		        	alert('항목을 체크해 주세요.');
+		        	return false;
+		        }			
 			
-			if(confirm('선택한 게시물을 일괄 삭제하시겠습니까?\n삭제한 데이터는 복구할 수 없습니다.')){
-				 var obj = $("[name=chk_ids]");
-			        var chkArray = new Array(); // 배열 선언
-			 
-			        $('input:checkbox[name=chk_ids]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
-			            chkArray.push(this.value);
-			        });
-			        
-			        if(chkArray.length==0){
-			        	//아무것도 체크 안 했을 경우
-			        	alert('항목을 체크해 주세요.');
-			        	return false;
-			        }
+			if(confirm('일괄 삭제하시겠습니까?\n삭제한 데이터는 복구할 수 없습니다.')){
+				
 			        /*
 			        $('#hiddenValue').val(chkArray);
 			        
 			        alert($('#hiddenValue').val()); // 배열에 담긴 체크박스 값 확인
 				*/
-			        return chkArray;				
+			   return chkArray;				
 			} else {
 				return false;
 			}
@@ -228,6 +230,246 @@
 			        }
 				  });			
 		}		
+//[이벤트]------------------------------------------------------
+		//이벤트 일괄 삭제
+		function eventSomeDelete(){
+			var chkArray = arrayingCheckbox();//체크박스 값 배열에 넣기
+			
+			if(chkArray==false){
+				return false;
+			}
+		
+            $.ajax({
+                url : "event_some_delete",
+                method : "POST",
+                data: JSON.stringify(chkArray),
+                dataType : "json",
+                contentType: "application/json",
+                success : function(val){
+                   if(val != 0){ //성공
+                      alert("일괄삭제처리 완료되었습니다.");
+                     location.reload();
+                   }else if(val==0){ // 0이면 실패
+                      alert("일괄삭제 실패.");
+                   }
+                },
+                error : function(){
+                   alert("서버통신실패");
+                }
+             });
+		}
+		//이벤트글 1개 등록
+		function event_insert(){
+			 $.ajax({
+			       url: "event_insert",
+			       type: "POST",
+			       data:  $("#event_insert").serialize(),
+			       success : function(val){
+			           if(val ==1 ){//등록 성공
+			        	   alert('이벤트글을 등록했습니다.');
+			        	   location.href='event_list';
+			           } else if(val ==0){//등록 실패
+			              alert("이벤트글을 등록하지 못했습니다. 다시 시도해 주세요.");
+			           }
+			        },
+			        error : function(){
+			           alert("서버통신실패");
+			        }
+				  });			
+		}				
+		//당첨 취소 체크
+		function back_check(ec_num){
+	            $.ajax({
+	                  url : "applicant_back",
+	                  method : "POST",
+	                  data: JSON.stringify(ec_num),
+	                  dataType : "json",
+	                  contentType: "application/json",
+	                  success : function(val){
+	                     if(val == 1){ //리턴값이 1이면 (=성공)
+	                        alert("당첨취소로 처리 되었습니다.");
+	                        location.reload(); //페이지 새로고침
+	                     }else{ // 0이면 실패
+	                        alert("당첨취소 처리 실패.");
+	                     }
+	                  },
+	                  error : function(){
+	                     alert("서버통신실패");
+	                  }
+	               });	
+		}
+		
+		//당첨 체크
+		function win_check(ec_num){
+            $.ajax({
+                url : "applicant_win",
+                method : "POST",
+                data: JSON.stringify(ec_num),
+                dataType : "json",
+                contentType: "application/json",
+                success : function(val){
+                   if(val == 1){ //리턴값이 1이면 (=성공)
+                      alert("당첨 처리 되었습니다.");
+                      location.reload(); //페이지 새로고침
+                   }else{ // 0이면 실패
+                      alert("당첨 처리 실패.");
+                   }
+                },
+                error : function(){
+                   alert("서버통신실패");
+                }
+             });				
+		}		
+		//선택 신청자 일괄 삭제
+		function applicantSomeDelete(){
+			var chkArray = arrayingCheckbox();//체크박스 값 배열에 넣기
+			
+			if(chkArray==false){
+				return false;
+			}
+		
+            $.ajax({
+                url : "applicant_some_delete",
+                method : "POST",
+                data: JSON.stringify(chkArray),
+                dataType : "json",
+                contentType: "application/json",
+                success : function(val){
+                   if(val != 0){ //성공
+                      alert("일괄삭제처리 완료되었습니다.");
+                     location.reload();
+                   }else if(val==0){ // 0이면 실패
+                      alert("일괄삭제 실패.");
+                   }
+                },
+                error : function(){
+                   alert("서버통신실패");
+                }
+             });
+		}		
+		//선택 신청자 일괄 당첨/당첨 취소
+		function applicantSomeWin(){
+			var chkArray = arrayingCheckbox();//체크박스 값 배열에 넣기
+			
+			if(chkArray==false){
+				return false;
+			}
+		
+            $.ajax({
+                url : "applicant_some_win",
+                method : "POST",
+                data: JSON.stringify(chkArray),
+                dataType : "json",
+                contentType: "application/json",
+                success : function(val){
+                   if(val != 0){ //성공
+                      alert("일괄 당첨/당첨취소 처리 완료되었습니다.");
+                     location.reload();
+                   }else if(val==0){ // 0이면 실패
+                      alert("일괄 당첨/당첨취소 처리 실패.");
+                   }
+                },
+                error : function(){
+                   alert("서버통신실패");
+                }
+             });
+		}
+		
+		//event_view에서 삭제 체크
+		function event_view_del_check(e_num){
+			if(confirm("해당 게시글을 삭제하시겠습니까? (삭제한 데이터는 복구할 수 없습니다.)")){
+	            $.ajax({
+	                  url : "event_delete",
+	                  method : "POST",
+	                  data: JSON.stringify(e_num),
+	                  dataType : "json",
+	                  contentType: "application/json",
+	                  success : function(val){
+	                     if(val == 1){ //리턴값이 1이면 (=성공)
+	                        alert("삭제처리 완료되었습니다.");
+	                        location.href="event_list"; //페이지 새로고침
+	                     }else{ // 0이면 실패
+	                        alert("삭제처리 실패.");
+	                     }
+	                  },
+	                  error : function(){
+	                     alert("서버통신실패");
+	                  }
+	               });
+	         }
+		}
+		
+		//event_view에서 댓글 삭제 확인
+		function comment_del_check(ec_num){
+			if(confirm("해당 댓글을 삭제하시겠습니까? (삭제한 데이터는 복구할 수 없습니다.)")){
+	            $.ajax({
+	                  url : "event_comment_delete",
+	                  method : "POST",
+	                  data: JSON.stringify(ec_num),
+	                  dataType : "json",
+	                  contentType: "application/json",
+	                  success : function(val){
+	                     if(val == 1){ //리턴값이 1이면 (=성공)
+	                        alert("삭제처리 완료되었습니다.");
+	                       location.reload();
+	                     }else{ // 0이면 실패
+	                        alert("삭제처리 실패.");
+	                     }
+	                  },
+	                  error : function(){
+	                     alert("서버통신실패");
+	                  }
+	               });
+	         }
+		}		
+		//event_view에서 수정할 때 수정하지 않은 항목 있을 경우 기존 값 넣어주기
+		function modify_check(){
+			if(inputform.e_start_day.value=="" || inputform.e_start_day.value==null){
+				inputform.e_start_day.value=inputform.start.value;
+			}
+			if(inputform.e_end_day.value=="" || inputform.e_end_day.value==null){
+				inputform.e_end_day.value=inputform.end.value;
+			}				
+			if(inputform.e_win_day.value=="" || inputform.e_win_day.value==null){
+				inputform.e_win_day.value=inputform.win.value;
+			}
+			if(inputform.co_num.value=="" || inputform.co_num.value==null){
+				inputform.co_num.value=inputform.coupon.value;
+			}			
+			inputform.submit();
+		}		
+		
+		//event_list에서 버튼 삭제
+		function event_del_check(e_num){
+			if(confirm("해당 게시글을 삭제하시겠습니까? (삭제한 데이터는 복구할 수 없습니다.)")){
+	            $.ajax({
+	                  url : "event_delete",
+	                  method : "POST",
+	                  data: JSON.stringify(e_num),
+	                  dataType : "json",
+	                  contentType: "application/json",
+	                  success : function(val){
+	                     if(val == 1){ //리턴값이 1이면 (=성공)
+	                        alert("삭제처리 완료되었습니다.");
+	                        location.reload();
+	                     }else{ // 0이면 실패
+	                        alert("삭제처리 실패.");
+	                     }
+	                  },
+	                  error : function(){
+	                     alert("서버통신실패");
+	                  }
+	               });
+	         }
+		}		
+		//event_view에서 이벤트 수정
+		function event_modify(){
+			inputform.submit(); 
+		}
+		
+		
+		
+		
 		
 		
 		

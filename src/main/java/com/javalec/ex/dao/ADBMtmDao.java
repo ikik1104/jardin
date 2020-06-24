@@ -115,8 +115,20 @@ public interface ADBMtmDao {
 	//선택한 1:1문의 일괄 삭제
 	int deleteSomeMtms(@Param("chkArray") int[] chkArray);
 
-	//선택한 1:1문의 일괄 삭제
+	//선택한 공지글 일괄 삭제
 	int deleteSomeNotice(@Param("chkArray") int[] chkArray);
+
+	//선택한 이벤트글 일괄 삭제
+	int deleteSomeEvents(@Param("chkArray") int[] chkArray);
+
+	//선택한 신청자 일괄 삭제
+	int deleteSomeApplicants(@Param("chkArray") int[] chkArray);
+
+	//선택 신청자 일괄 당첨/당첨 취소
+	int WinSomeApplicants(@Param("chkArray") int[] chkArray);
+
+	//댓글 1개 삭제
+	int deleteTheEcomment(int ec_num);
 
 
 	

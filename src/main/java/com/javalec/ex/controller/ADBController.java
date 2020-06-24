@@ -184,6 +184,36 @@ public class ADBController {
 		return response_path+"event_list";
 	}
 	
+	//선택 이벤트글 일괄 삭제
+	@ResponseBody
+	@RequestMapping("event_some_delete")
+	public int event_some_delete(@RequestBody int[] chkArray) {
+		int success = adbservice.deleteSomeEvents(chkArray);
+		return success;
+	}	
+	//댓글 1개 삭제
+	@ResponseBody
+	@RequestMapping("event_comment_delete")
+	public int event_comment_delete(@RequestBody int ec_num) {
+		int success = adbservice.deleteTheEcomment(ec_num);
+		return success;
+	}			
+	
+	//선택 신청자 일괄 삭제
+	@ResponseBody
+	@RequestMapping("applicant_some_win")
+	public int applicant_some_win(@RequestBody int[] chkArray) {
+		int success = adbservice.deleteSomeApplicants(chkArray);
+		return success;
+	}		
+	//선택 신청자 일괄 당첨/당첨 취소
+	@ResponseBody
+	@RequestMapping("applicant_some_delete")
+	public int applicant_some_delete(@RequestBody int[] chkArray) {
+		int success = adbservice.deleteSomeApplicants(chkArray);
+		return success;
+	}			
+	
 	//이벤트 작성 페이지 접속
 	@RequestMapping("event_write")
 	public String event_write(Model model) {
@@ -192,30 +222,23 @@ public class ADBController {
 	}
 	
 	//이벤트 새글 1개 등록
+	@ResponseBody
 	@PostMapping("event_insert")
-	public String event_insert(UtilDto utilDto, Model model) {
-		
-		System.out.println(utilDto.getE_start_day());
-		
+	public int event_insert(UtilDto utilDto){
+		if(utilDto.getStr8()==null || utilDto.getStr8().equals("")) {
+			//쿠폰 등록 안 할 때
+			utilDto.setStr8("null");
+		}
 		int success = adbservice.insertEventBoard(utilDto);
-		
-		String alerttext="";
-		switch(success) {
-		case 0 : alerttext="alert('이벤트글을 등록하지 못했습니다. 다시 시도해 주세요.'); history.go(-1);"; break;
-		case 1 : alerttext="alert('이벤트글을 등록했습니다.'); location.href='event_list?rownum="+utilDto.getPage()+"';"; break;
-		}//switch
-		model.addAttribute("alerttext", alerttext);				
-		return response_path+"event_write";
-	}
+		return success;
+	}	
 	
 	//이벤트&댓글 1개씩 불러오기
 	@RequestMapping("event_view")
 	public String event_view(EventDto eventDto, UtilDto utilDto, Model model) {
-		System.out.println("들어오니");
 		model.addAttribute("CouponDtos", admincouponservice.getAllCoupons());//쿠폰 목록 가져오기
 		model.addAttribute("AllDto", adbservice.getEventBoard(eventDto));//이벤트 정보 가져오기
 		model.addAttribute("ECDtos",adbservice.getEventComments(eventDto));//댓글 전체 가져오기
-		System.out.println("나가니");
 		return response_path+"event_view";
 	}
 	
@@ -226,24 +249,48 @@ public class ADBController {
 			@RequestParam("start") String start,
 			@RequestParam("end") String end,
 			@RequestParam("win") String win,
-			@RequestParam("coupon") int coupon
+			@RequestParam("coupon") int coupon,
+			@RequestParam("title") String title,			
+			@RequestParam("content") String content	
 			) {	
 		
+		String[] splits=null;
 		//수정하지 않은 항목 있을 경우 기존값 넣어주기
-		if(utilDto.getE_start_day()==null||utilDto.getE_start_day().equals("")) 
-			utilDto.setE_start_day(start);
-		if(utilDto.getE_end_day()==null||utilDto.getE_end_day().equals("")) 
-			utilDto.setE_end_day(end);		
-		if(utilDto.getE_win_day()==null||utilDto.getE_win_day().equals("")) 
-			utilDto.setE_win_day(win);		
-		if(utilDto.getCo_num()==0) 
-			utilDto.setCo_num(coupon);
+		if(utilDto.getE_start_day()==null||utilDto.getE_start_day().equals("")) {
+			System.out.println("여기여기");
+			utilDto.setStr2(start);
+		}else {
+			splits = utilDto.getE_start_day().split(" ");
+			utilDto.setStr2(splits[0]);			
+		}
+		if(utilDto.getE_end_day()==null||utilDto.getE_end_day().equals("")) {
+			utilDto.setStr3(end);		
+		} else {
+			splits = utilDto.getE_end_day().split(" ");			
+			utilDto.setStr3(splits[0]);
+		}
+		if(utilDto.getE_win_day()==null||utilDto.getE_win_day().equals("")) {
+			utilDto.setStr4(win);		
+		} else {
+			splits = utilDto.getE_win_day().split(" ");						
+			utilDto.setStr4(splits[0]);
+		}
+		if(utilDto.getCo_num()==0) {
+			utilDto.setStr1("");
+		} else {
+			utilDto.setStr1(utilDto.getCo_num()+"");
+		}
+		if(utilDto.getE_title()==null||utilDto.getE_title().equals("")) {
+			utilDto.setE_title(title);
+		}		if(utilDto.getE_content()==null||utilDto.getE_content().equals("")) {
+			utilDto.setE_content(content);
+		}
 		
 		int success = adbservice.modifyEventBoard(utilDto);
 		String alerttext="";
 		switch(success) {
 		case 0 : alerttext="alert('이벤트글을 수정하지 못했습니다. 다시 시도해 주세요.'); history.go(-1);"; break;
-		case 1 : alerttext="alert('이벤트글을 수정했습니다.'); location.href='event_list';"; break;
+		case 1 : alerttext="alert('이벤트글을 수정했습니다.'); location.href='event_view?e_num="+utilDto.getE_num()+"';"; break;
 		}//switch
 		model.addAttribute("alerttext", alerttext);			
 		return response_path+"event_view";
@@ -253,9 +300,11 @@ public class ADBController {
 	@ResponseBody
 	@RequestMapping("event_delete")
 	public int event_delete(@RequestBody int e_num) {
+		System.out.println("들어옴");
 		int success = adbservice.deleteEventBoard(e_num);
 		return success;
 	}
+
 	
 	//이벤트 신청자 전체 리스트 불러오기(회원정보, 이벤트 정보 포함)
 	@RequestMapping("event_applicants")

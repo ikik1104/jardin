@@ -8,11 +8,14 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Insert title here</title>
+		<title>이벤트 신청자 리스트</title>
 		<link rel="stylesheet" type="text/css" href="admin/css/admin_main.css">
 		<script type="text/javascript" src="admin/js/jquery-3.4.1.min.js"></script>
         <script type="text/javascript" src="admin/js/jquery-ui.min.js"></script>
         <script type="text/javascript" src="admin/js/prefixfree.dynamic-dom.min.js"></script>
+        <!-- 기능, css 수정  -->
+        <script type="text/javascript" src="admin/js/admin_board.js"></script>    
+		<link rel="stylesheet" type="text/css" href="admin/css/list_button.css">           
 		<style type="text/css">
 			
 			#search_form table{
@@ -95,74 +98,7 @@
 			
 		}
 	
-		//1:1문의 삭제 체크 
-		function del_check(iu_num){
-			if(confirm("해당 게시글을 삭제하시겠습니까? (삭제한 데이터는 복구할 수 없습니다.)")){
-	            $.ajax({
-	                  url : "mtm_delete",
-	                  method : "POST",
-	                  data: JSON.stringify(iu_num),
-	                  dataType : "json",
-	                  contentType: "application/json",
-	                  success : function(val){
-	                     if(val == 1){ //리턴값이 1이면 (=성공)
-	                        alert("삭제처리 완료되었습니다.");
-	                     //location.href="product_list";
-	                        location.reload(); //페이지 새로고침
-	                     }else{ // 0이면 실패
-	                        alert("삭제처리 실패.");
-	                     }
-	                  },
-	                  error : function(){
-	                     alert("서버통신실패");
-	                  }
-	               });
-	         }
-		}
-		
-		//당첨 취소 체크
-		function back_check(ec_num){
-	            $.ajax({
-	                  url : "applicant_back",
-	                  method : "POST",
-	                  data: JSON.stringify(ec_num),
-	                  dataType : "json",
-	                  contentType: "application/json",
-	                  success : function(val){
-	                     if(val == 1){ //리턴값이 1이면 (=성공)
-	                        alert("당첨취소로 처리 되었습니다.");
-	                        location.reload(); //페이지 새로고침
-	                     }else{ // 0이면 실패
-	                        alert("당첨취소 처리 실패.");
-	                     }
-	                  },
-	                  error : function(){
-	                     alert("서버통신실패");
-	                  }
-	               });	
-		}
-		
-		//당첨 체크
-		function win_check(ec_num){
-            $.ajax({
-                url : "applicant_win",
-                method : "POST",
-                data: JSON.stringify(ec_num),
-                dataType : "json",
-                contentType: "application/json",
-                success : function(val){
-                   if(val == 1){ //리턴값이 1이면 (=성공)
-                      alert("당첨 처리 되었습니다.");
-                      location.reload(); //페이지 새로고침
-                   }else{ // 0이면 실패
-                      alert("당첨 처리 실패.");
-                   }
-                },
-                error : function(){
-                   alert("서버통신실패");
-                }
-             });				
-		}
+
 </script>
 	</head>
 	<body>
@@ -172,8 +108,8 @@
 		<h1>이벤트 신청자 관리</h1>
 		<div id="main_list">
 			<div id="main_user_list">
-				<h2>이벤스 신청자 리스트</h2>
-				<div class="list_count">임시로 놔두기(총 게시물 수 등등 표시?)</div>
+				<h2>신청자 검색</h2>
+				<div class="list_count">총 신청자 수 : ${apply_list.size() }</div>
 				<div id="search_form">
 					<form name="inputform" method="get" onsubmit="return false;">
 					<table border="1">
@@ -227,32 +163,39 @@
 				</form>
 					
 				</div>
+				
+				<div class="detail_btn" style="text-align:left; cursor:pointer; margin-bottom:10px;">
+					<button onclick="location.href='event_list'">이벤트 리스트</button>											
+				</div>					
+				
 				<div>
-					<table border="1" id="event_list">
+					<table border="1" id="event_list" >
 						<tr>
-							<th><input type="checkbox" ></th>
+							<th><input type="checkbox"  id="check_all" ></th>
 							<th>번호</th>
 							<th>아이디</th>
 							<th>신청일</th>
 							<th>이벤트명</th>
 							<th>이벤트 상태</th>
+							<th>당첨 상태</th>							
 							<th>당첨/삭제</th>
 							
 						</tr>
 						<c:forEach var="apply_list" items="${apply_list }">
 						<tr>
-							<td><input type="checkbox"></td>
+							<td><input type="checkbox" name="chk_ids"  value="${apply_list.e_commentdto.ec_num}"></td>
 							<td>
 								${apply_list.eventdto.rownum }
 							</td>
 							<td>${apply_list.memberdto.m_id }</td>
-							<td>${apply_list.e_commentdto.ec_sysdate }</td>
+							<td>${apply_list.utildto.str1 }</td>
 							<td>
 								<a href="event_view?e_num=${apply_list.eventdto.e_num }">
 									${apply_list.eventdto.e_title }
 								</a>
 							</td>
 							<td>${apply_list.eventdto.e_status }</td>
+							<td>${apply_list.e_commentdto.ec_status }</td>							
 							<td>
 								<c:if test="${ apply_list.e_commentdto.ec_status=='당첨'}">
 									<button type="button" onclick="back_check(${apply_list.e_commentdto.ec_num})">당첨취소</button>
@@ -265,13 +208,12 @@
 						</tr>
 					</c:forEach>
 				</table>
-				
-				<div>
-					<!-- 당첨/당첨취소가 섞여 있으면 alert -->
-					<button>선택 당첨/당첨취소</button>
-					<button>선택 삭제</button>
-				</div>
-
+				<div class="detail_btn" style="text-align:left; cursor:pointer;">
+					<a onclick="applicantSomeWin()">선택 당첨/당첨취소</a>					
+					<a onclick="applicantSomeDelete()">선택 삭제</a>
+					<!-- 선택된 체크박스 값 체크용 -->
+					<input type="hidden" name="hiddenValue" id="hiddenValue" value=""/>						
+				</div>				
 				</div>
 			</div>
 				</div>

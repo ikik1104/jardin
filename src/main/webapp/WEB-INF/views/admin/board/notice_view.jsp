@@ -5,13 +5,14 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>공지사항 조회/수정</title>
-		<link rel="stylesheet" type="text/css" href="admin/css/admin_main.css">
-		<link rel="stylesheet" type="text/css" href="admin/css/admin_view.css">				
-		<link rel="stylesheet" type="text/css" href="admin/css/list_button.css">   		
+		<link rel="stylesheet" type="text/css" href="admin/css/admin_main.css">			
 		<!-- 페이지 상단 또는 하단에 라이브러르 추가 --> 
 		<script type="text/javascript" src="se2/admin/js/HuskyEZCreator.js" charset="utf-8"></script> 
 		<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-        <script type="text/javascript" src="admin/js/admin_board.js"></script>		
+        <script type="text/javascript" src="admin/js/admin_board.js"></script>	
+        <!-- css, 기능 수정 -->
+ 		<link rel="stylesheet" type="text/css" href="admin/css/admin_view.css">	   
+		<link rel="stylesheet" type="text/css" href="admin/css/list_button.css">   		 		    	
 		<!-- 페이지 로딩시 초기화 --> 
 		<script>
 		$(document).ready(function(){

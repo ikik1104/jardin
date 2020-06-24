@@ -8,11 +8,14 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Insert title here</title>
+		<title>이벤트 새 글 등록</title>
 		<link rel="stylesheet" type="text/css" href="admin/css/admin_main.css">
 		<!-- 페이지 상단 또는 하단에 라이브러르 추가 --> 
 		<script type="text/javascript" src="se2/admin/js/HuskyEZCreator.js" charset="utf-8"></script> 
 		<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+        <!-- css, 기능 수정 -->
+ 		<link rel="stylesheet" type="text/css" href="admin/css/admin_view.css">	 
+        <script type="text/javascript" src="admin/js/admin_board.js"></script>	 		  
 		<!-- 페이지 로딩시 초기화 --> 
 		<script>
 		$(document).ready(function(){
@@ -83,7 +86,6 @@
 			margin: 20px;	
 			}
 			table {
-				margin:0 auto;
 				 min-width: 1000px;
 			}
 			table tr td:NTH-OF-TYPE(1) {
@@ -93,6 +95,12 @@
 			#btn_div{
 			 text-align: center;
 			}
+			.notice_th{
+				width:15%;
+			}
+			input{
+			border:none; background:inherit;
+			}
 		</style>
 	</head>
 	<body>
@@ -100,45 +108,45 @@
 	<jsp:include page="../nav/board_nav.jsp"/>
 	<section>
 		<h1>이벤트 등록</h1>
-			<form action="event_insert" name="inputform" method="post">
+			<form action="event_insert" name="inputform" method="post"id="event_insert">
 				<div id="input_form">
-					<table border="1">	
+					<table border="1" style="margin-top:10px; width:1000px; margin-bottom:10px; font-size:15px;">	
 						<tr>
-							<td>작성자</td>
+							<th class="notice_th">작성자</th>
 							<td>${adminGrade }(${adminId })</td>
 						</tr>					
 						<tr>
-							<td>글 제목</td>
-							<td><input type="text" name="e_title"></td>
+							<th class="notice_th">글 제목</th>
+							<td><input type="text" name="str1" style="border:none; background:inherit; height:40; font-size:15px; padding:3px 0; width:800px;"></td>
 						</tr>
 						<tr>
-							<td>글 내용</td>
-							<td><textarea name="e_content" id="smartEditor" style="width:100%; height: 412px;"></textarea></td>
+							<th class="notice_th">글 내용</th>
+							<td><textarea name="str2" id="smartEditor" style="width:100%; height: 412px;"></textarea></td>
 						</tr>
 						<tr>
-							<td>이벤트 기간</td>
+							<th class="notice_th">이벤트 기간</th>
 							<fmt:formatDate var="sys" value="${sysdate}" pattern="yyyy-MM-dd"/>
-							<td>시작일 : <input type="date" name="e_start_day"  value="${sys}" onchange="date_chk1()"> ~ 
-							종료일 : <input type="date" name="e_end_day" onchange="date_chk1()">
+							<td>시작일 : <input type="date" name="str5"  value="${sys}" onchange="date_chk1()"> ~ 
+							종료일 : <input type="date" name="str6" onchange="date_chk1()">
 							</td>
 						</tr>
 						<tr>
-							<td>썸네일 이미지</td>
+							<th class="notice_th">썸네일 이미지</th>
 							<td><!--  <input type="file" name="e_thumb_img">-->
-								<input type="text" name="e_thumb_img" value="testthumb.jpg">
+								<input type="text" name="str3" value="sample_event.jpg" style="width:800px; padding:5px 0;">
 							</td>
 						</tr>
 						<tr>
-							<td>내용 이미지</td>
+							<th class="notice_th">내용 이미지</th>
 							<td><!-- <input type="file" name="e_content_img"> -->
-								<input type="text" name="e_content_img" value="testcontent.jpg">												
+								<input type="text" name="str4" value="sample_event_view.jpg" style="width:800px; padding:5px 0;">												
 							</td>
 						</tr>
 						<tr>
-							<td>쿠폰</td>
+							<th class="notice_th">쿠폰</th>
 							<td>
-							<select name="co_num"> <!-- model에 쿠폰 리스트 같이 보내서 ${coupon.name} , ${coupon.seq}사용 -->
-								<option>쿠폰없음</option>
+							<select name="str8"> <!-- model에 쿠폰 리스트 같이 보내서 ${coupon.name} , ${coupon.seq}사용 -->
+								<option value="">쿠폰없음</option>
 								<c:forEach var="AllDtos" items="${AllDtos }">
 									<option value="${AllDtos.coupondto.co_num}">${AllDtos.coupondto.co_name}</option>
 								</c:forEach>
@@ -147,18 +155,19 @@
 							</td>
 						</tr>
 						<tr>
-							<td>당첨자 발표일</td>
+							<th class="notice_th">당첨자 발표일</th>
 							<td>
-							<input type="date" name="e_win_day" onchange="date_chk2(this.value)" >
+							<input type="date" name="str7" onchange="date_chk2(this.value)" >
 							</td>
 						</tr>
 					</table>
-					<div id="btn_div">
-						<button type="button" onclick="location.href='event_list'">취소</button>
-						<button type="submit">등록</button>
-					</div>
+					
+					<div class="detail_btn" style="width:1000px;">
+						<a onclick="location.href='event_list'">목록</a>				
+						<a onclick="event_insert()">등록</a>														
+					</div>					
 				</div>
-				<input type="hidden" value="${adNum }" name="ad_num">
+				<input type="hidden" value="${adminNum }" name="temp_int">
 			</form>
 	</section>
 	</body>
