@@ -134,18 +134,29 @@
 			</table>
 		</div>
 		
-		<div style="width:1000px; "  id="user_content_area">
+		<div id="user_content_area">
 			<h1>게시글 내용</h1>	
-				<c:if test="${mtm_user_info.mtmuserdto.iu_img=='없음' || mtm_user_info.mtmuserdto.iu_img==null}">
-				</c:if>
-				<c:if test="${mtm_user_info.mtmuserdto.iu_img!='없음' && mtm_user_info.mtmuserdto.iu_img!=null}">
-					<img src="tempUpload/${mtm_user_info.mtmuserdto.iu_img }" width="100%" alt="${ MtmUserDto.iu_img}">
-				</c:if>				
-				
-				<pre style="white-space:pre-warp">
+				<table class="content_table">
+					<thead>
+					</thead>
+					<tbody>
+					<tr>
+						<td class="content_img">
+							<c:if test="${mtm_user_info.mtmuserdto.iu_img=='없음' || mtm_user_info.mtmuserdto.iu_img==null}">
+							</c:if>
+							<c:if test="${mtm_user_info.mtmuserdto.iu_img!='없음' && mtm_user_info.mtmuserdto.iu_img!=null}">
+							<img src="tempUpload/${mtm_user_info.mtmuserdto.iu_img }" alt="${ MtmUserDto.iu_img}">
+							</c:if>								
+							<pre style="white-space:pre-warp" >
 ${mtm_user_info.mtmuserdto.iu_content }
-				</pre>
-				<button type="button" onclick="user_del_check(${mtm_user_info.mtmuserdto.iu_num})">게시글 삭제</button>
+							</pre>							
+						</td>
+					</tr>
+					</tbody>
+				</table>
+				<div class="detail_btn">
+					<a onclick="user_del_check(${mtm_user_info.mtmuserdto.iu_num})">게시글 삭제</a>
+				</div>					
 		</div>
 		
 		<div style="margin-bottom:100px;"  id="answer_info_area">
@@ -179,17 +190,17 @@ ${mtm_answer_info.mtmanswerdto.ia_content }
 								</td>
 							</tr>			
 							</table>
-						<div>
-							<button type="button" onclick="location.href='mtm_list'">목록</button>
-							<button type="button" onclick="modifyAnswer()">답변수정</button>				
-							<button type="button" onclick="answer_del_check(${mtm_answer_info.mtmanswerdto.ia_num}, ${ mtm_answer_info.mtmuserdto.iu_num })">삭제</button>
-						</div>																									
+							<div class="detail_btn">
+								<a onclick="location.href='mtm_list'">목록</a>
+								<a onclick="modifyAnswer()">답변수정</a>					
+								<a onclick="answer_del_check(${mtm_answer_info.mtmanswerdto.ia_num}, ${ mtm_answer_info.mtmuserdto.iu_num })">삭제</a>					
+							</div>																				
 						</form>
 					</c:if>
 					<!-- 답변이 없을 경우 -->					
 					<c:if test="${ mtm_answer_info.admindto.ad_num==null}">
-						<p>	
-								작성한 답변이 없습니다.
+						<p style="margin-bottom:10px;">	
+								작성한 답변이 없습니다. 아래 양식을 채워서 등록해 주세요.
 						</p>
 						<form action="mtm_answer_write" method="post" name="write_form" id="write_form">
 							<!-- 같이 보내줄 데이터 -->
@@ -209,9 +220,9 @@ ${mtm_answer_info.mtmanswerdto.ia_content }
 								</td>
 							</tr>			
 							</table>
-							<div>
-								<button type="button" onclick="location.href='mtm_list'">목록</button>
-								<button type="button" onclick="insertAnswer()">답변등록</button>
+							<div class="detail_btn">
+								<a onclick="location.href='mtm_list'">목록</a>
+								<a onclick="insertAnswer()">답변등록</a>		
 							</div>								
 						</form>						
 					</c:if>					
