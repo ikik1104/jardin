@@ -6,8 +6,8 @@
 			<a>1:1문의<span id="s_icon" class="icon_minus"></span></a>
 			<div class="tes_list">
 				<ul>
-					<li><a href="#"><img src="admin/images/icon_title_left.png">리스트</a></li>
-					<li><a href="#"><img src="admin/images/icon_title_left.png">글보기</a></li>
+					<li><a href="mtm_list"><img src="admin/images/icon_title_left.png">리스트</a></li>
+					<li><a href="mtm_list"><img src="admin/images/icon_title_left.png">글보기</a></li>
 				</ul>
 			</div>
 		</div>
@@ -15,9 +15,9 @@
 			<a>공지사항<span id="s_icon" class="icon_minus"></span></a>
 			<div class="tes_list">
 				<ul>
-					<li><a href="#"><img src="admin/images/icon_title_left.png">리스트</a></li>
-					<li><a href="#"><img src="admin/images/icon_title_left.png">글쓰기</a></li>
-					<li><a href="#"><img src="admin/images/icon_title_left.png">글수정</a></li>
+					<li><a href="notice_list"><img src="admin/images/icon_title_left.png">리스트</a></li>
+					<li><a href="notice_write"><img src="admin/images/icon_title_left.png">글쓰기</a></li>
+					<li><a href="notice_list"><img src="admin/images/icon_title_left.png">글수정</a></li>
 				</ul>
 			</div>
 		</div>
@@ -53,9 +53,9 @@
 			<a>이벤트<span id="s_icon" class="icon_minus"></span></a>
 			<div class="tes_list">
 				<ul>
-					<li><a href="#"><img src="admin/images/icon_title_left.png">강사 등록</a></li>
-					<li><a href="#"><img src="admin/images/icon_title_left.png">강사 리스트</a></li>
-					<li><a href="#"><img src="admin/images/icon_title_left.png">강사 리스트(사용중지)</a></li>
+					<li><a href="event_list"><img src="admin/images/icon_title_left.png">리스트</a></li>
+					<li><a href="event_list"><img src="admin/images/icon_title_left.png">글보기</a></li>
+					<li><a href="event_write"><img src="admin/images/icon_title_left.png">글쓰기</a></li>
 				</ul>
 			</div>
 		</div>
