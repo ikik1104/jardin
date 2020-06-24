@@ -209,7 +209,25 @@
 			        }
 				  });			
 		}				
-		
+		//공지글 1개 등록
+		function notice_insert(){
+			 $.ajax({
+			       url: "notice_insert",
+			       type: "POST",
+			       data:  $("#notice_insert").serialize(),
+			       success : function(val){
+			           if(val ==1 ){//등록 성공
+			        	   alert('공지글을 등록했습니다.');
+			        	   location.href='notice_list';
+			           } else if(val ==0){//등록 실패
+			              alert("공지글을 등록하지 못했습니다. 다시 시도해 주세요.");
+			           }
+			        },
+			        error : function(){
+			           alert("서버통신실패");
+			        }
+				  });			
+		}		
 		
 		
 		

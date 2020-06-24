@@ -4,11 +4,16 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Insert title here</title>
+		<title>공지사항 새 글 등록</title>
 		<link rel="stylesheet" type="text/css" href="admin/css/admin_main.css">
+		
 		<!-- 페이지 상단 또는 하단에 라이브러르 추가 --> 
 		<script type="text/javascript" src="se2/admin/js/HuskyEZCreator.js" charset="utf-8"></script> 
 		<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+		<!-- css. 기능 수정 -->
+		<link rel="stylesheet" type="text/css" href="admin/css/admin_view.css">	
+        <script type="text/javascript" src="admin/js/admin_board.js"></script>		
+				
 		<!-- 페이지 로딩시 초기화 --> 
 		<script>
 		$(document).ready(function(){
@@ -47,31 +52,33 @@
 	<jsp:include page="../nav/board_nav.jsp"/>
 	<section>
 		<h1>공지사항 등록</h1>
-			<form action="notice_insert" name="inputform" method="post">
+			<form action="notice_insert" name="inputform" method="post" id="notice_insert" >
 				<div id="input_form">
 					<h1>공지사항 작성</h1>
-					<table border="1">
+					<table border="1" style="margin-top:10px; width:1000px;">
 						<tr>
-							<td>작성자</td>
+							<th class="notice_th">작성자</th>
 							<td>${adminGrade }(${adminId })</td>
 						</tr>
 						<tr>
-							<td>제목</td>
-							<td><input type="text" name="no_title"></td>
+							<th class="notice_th">제목</th>
+							<td><input type="text" name="str2" style="border:none; background:inherit; height:40; font-size:15px; padding:3px 0; width:800px;"></td>
 						</tr>									
 						<tr>
-							<td>내용</td>
+							<th class="notice_th">내용</th>
 							<td>
 								<!-- 텍스트에디터로 변경?★★★★★★★★★ -->
-								<textarea name="no_content" id="smartEditor" style="width:100%; height: 412px;"></textarea>
+								<textarea name="str3" id="smartEditor" style="width:100%; height: 412px;"></textarea>
 							</td>
 						</tr>
 					</table>
-					<div id="btn_div">
-						<button type="button" onclick="location.href='notice_list'">목록</button>
-						<button type="submit" >등록</button>
-					</div>
-					<input type="hidden" value="${adNum }" name="ad_num">					
+					
+					<div class="detail_btn" style="width:1000px;">
+						<a onclick="location.href='notice_list'">목록</a>				
+						<a onclick="notice_insert()">등록</a>														
+					</div>					
+					
+					<input type="hidden" value="${adminNum }" name="str1">					
 				</div>
 			</form>
 	</section>

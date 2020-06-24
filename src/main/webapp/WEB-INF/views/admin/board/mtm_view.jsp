@@ -8,7 +8,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>1:1문의 조회/수정</title>
+		<title>1:1문의 조회/답변</title>
 		<link rel="stylesheet" type="text/css" href="admin/css/admin_main.css">
 		<link rel="stylesheet" type="text/css" href="admin/css/admin_view.css">		
 		<script type="text/javascript" src="admin/js/jquery-3.4.1.min.js"></script>

@@ -1,6 +1,7 @@
 package com.javalec.ex.controller;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -139,16 +140,16 @@ public class ADBController {
 	}
 	
 	//공지사항 새글 1개 등록
+	@ResponseBody
 	@PostMapping("notice_insert")
-	public String notice_insert(NoticeDto noticeDto, Model model) {
+	public int notice_insert(UtilDto utilDto){
+		NoticeDto noticeDto = new NoticeDto();
+		noticeDto.setAd_num(Integer.parseInt(utilDto.getStr1()));
+		noticeDto.setNo_title(utilDto.getStr2());
+		noticeDto.setNo_content(utilDto.getStr3());	
+		
 		int success = adbservice.insertNoticeBoard(noticeDto);
-		String alerttext="";
-		switch(success) {
-		case 0 : alerttext="alert('공지글을 등록하지 못했습니다. 다시 시도해 주세요.'); history.go(-1);"; break;
-		case 1 : alerttext="alert('공지글을 등록했습니다.'); location.href='notice_list';"; break;
-		}//switch
-		model.addAttribute("alerttext", alerttext);
-		return response_path+"notice_write";		
+		return success;
 	}
 	
 	//공지글 1개 불러오기

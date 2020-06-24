@@ -12,7 +12,10 @@
 		<link rel="stylesheet" type="text/css" href="admin/css/admin_main.css">
 		<script type="text/javascript" src="admin/js/jquery-3.4.1.min.js"></script>
         <script type="text/javascript" src="admin/js/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="admin/js/prefixfree.dynamic-dom.min.js"></script>
+        <script type="text/javascript" src="admin/js/prefixfree.dynamic-dom.min.js"></script>  
+        <!-- 기능, css 수정  -->
+        <script type="text/javascript" src="admin/js/admin_board.js"></script>    
+		<link rel="stylesheet" type="text/css" href="admin/css/list_button.css">              
 		<style type="text/css">
 			
 			#search_form table{
@@ -149,17 +152,17 @@
 					
 				</div>
 				<div>
-					<button type="button" onclick="location.href='event_applicants'">
+					<button type="button" onclick="location.href='event_applicants'" class="new_insert_btn">
 						신청자 리스트
 					</button>
-					<button type="button" onclick="location.href='event_write'">
+					<button type="button" onclick="location.href='event_write'" class="new_insert_btn">
 						새 글 등록
 					</button>					
 				</div>				
 				<div>
 					<table border="1" id="event_list">
 						<tr>
-							<th><input type="checkbox" ></th>						
+							<th><input type="checkbox"  id="check_all"  ></th>						
 							<th>번호</th>
 							<th>제목</th>
 							<th>작성자</th>
@@ -173,7 +176,7 @@
 						</tr>
 						<c:forEach var="AllDtos" items="${AllDtos }">
 						<tr>
-							<td><input type="checkbox"></td>
+							<td><input type="checkbox" name="chk_ids"  value="${AllDtos.eventdto.e_num}"></td>
 							<td>${AllDtos.eventdto.rownum }</td>
 							<td>
 								<a href="event_view?e_num=${AllDtos.eventdto.e_num}"> 
@@ -201,8 +204,10 @@
 						</tr>
 						</c:forEach>						
 					</table>
-					<div class="detail_btn">
-						<a href="#">임시버튼</a>
+					<div class="detail_btn" style="text-align:left; cursor:pointer;">
+						<a onclick="eventSomeDelete()">선택 삭제</a>
+						<!-- 선택된 체크박스 값 체크용 -->
+						<input type="hidden" name="hiddenValue" id="hiddenValue" value=""/>						
 					</div>
 				</div>
 			</div>
