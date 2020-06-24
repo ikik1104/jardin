@@ -203,6 +203,11 @@ public class ADBServiceImp implements ADBService {
 	public int deleteSomeMtms(int[] chkArray) {
 		return adbmtmdao.deleteSomeMtms(chkArray);
 	}
+
+	//선택한 공지글 일괄 삭제
+	public int deleteSomeNotice(int[] chkArray) {
+		return adbmtmdao.deleteSomeNotice(chkArray);
+	}
 	
 	
 	

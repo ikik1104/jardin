@@ -113,9 +113,16 @@ table textarea{
 #answer_info_area{
 	
 }
-
-
-
+/*공지사항*/
+.notice_title{
+	padding-bottom:5px;
+}
+#notice_content{
+	width:1000px; margin-top:5px;
+}
+.notice_th{
+	width:10%; 
+}
 
 
 

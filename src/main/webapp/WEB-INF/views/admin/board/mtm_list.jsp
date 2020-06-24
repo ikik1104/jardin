@@ -8,12 +8,13 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Insert title here</title>
+		<title>1:1문의 관리</title>
 		<link rel="stylesheet" type="text/css" href="admin/css/admin_main.css">
 		<script type="text/javascript" src="admin/js/jquery-3.4.1.min.js"></script>
         <script type="text/javascript" src="admin/js/jquery-ui.min.js"></script>
         <script type="text/javascript" src="admin/js/prefixfree.dynamic-dom.min.js"></script>
-        <script type="text/javascript" src="admin/js/admin_board.js"></script>        
+        <script type="text/javascript" src="admin/js/admin_board.js"></script>    
+		<link rel="stylesheet" type="text/css" href="admin/css/list_button.css">            
 		<style type="text/css">
 			
 			#search_form table{

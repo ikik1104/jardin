@@ -207,9 +207,21 @@
 	<!-- 공지사항 전체 리스트 불러오기 -->
 
 	<select id="getAllNoticeBoards" resultMap="AllDto">
-		select rownum, ad_id, ad_grade, ad.ad_num, no_num, no_title, no_content, no_date, no_hit 
-		from admin_tb ad, notice_tb no where ad.ad_num=no.ad_num order by no_num desc
+		select rownum, fintb.* from
+        (select ad_id, ad_grade, notb.* from
+        (select ntb.*, to_char(no_Date, 'yy-MM-dd') str1 from 
+        (select * from notice_tb order by no_num desc) ntb) notb,
+        admin_tb ad
+        where ad.ad_num=notb.ad_num) fintb	
 	</select>	
+
+	<!-- 선택한 공지글 일괄 삭제 -->
+	<delete id="deleteSomeNotice" parameterType="HashMap">
+		delete from notice_tb where no_num in
+		<foreach collection="chkArray" item="item" open="(" close=")" separator=",">
+ 			#{item}
+		</foreach>		
+	</delete>
 
 	<!-- 공지사항 새글 1개 등록 -->
 	<insert id="insertNoticeBoard">
@@ -219,9 +231,13 @@
 	
 	<!-- 공지글 1개 불러오기 -->
 	<select id="getNoticeBoard" resultMap="AllDto">
-		select no_title, no_content, no_num, ad.ad_num, ad.ad_id, ad.ad_grade 
-		from notice_tb noti, admin_tb ad
-		where noti.ad_num=ad.ad_num and noti.no_num=#{no_num}		
+		select * from
+        (select ad.ad_id, ad.ad_grade, ntb.* from
+        (select no.*, to_char(no_date, 'yy-MM-dd') str1 from
+        (select * from notice_tb) no) ntb,
+        admin_tb ad
+        where ntb.ad_num=ad.ad_num)
+        where no_num=#{no_num}	
 	</select>
 	
 	<!-- 공지글 1개 수정 -->
@@ -328,14 +344,17 @@
 		where ad.ad_num=ewtb.ad_num		
 	</select>
 	
+	<!-- 당첨자 게시글 1개 수정 -->
 	<update id="modifyWinBoard">
 		update win_board_tb set e_num=#{e_num}, wb_title=#{wb_title}, wb_content=#{wb_content} where wb_num=#{wb_num}
 	</update>
 	
+	<!-- 당첨자 게시글 1개 삭제 -->
 	<delete id="deleteWinBoard">
 		delete from win_board_tb where wb_num=#{wb_num}
 	</delete>
 	
+	<!-- 당첨자 게시글 1개 등록 -->
 	<insert id="insertWinBoard">
 		insert into win_board_tb values(
 		wb_seq.nextval, #{ad_num}, #{e_num},

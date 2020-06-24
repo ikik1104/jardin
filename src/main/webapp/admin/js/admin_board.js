@@ -15,24 +15,31 @@
 
 		//선택 1:1문의 체크박스 값 배열에 넣기
 		function arrayingCheckbox(){
-			 var obj = $("[name=chk_ids]");
-		        var chkArray = new Array(); // 배열 선언
-		 
-		        $('input:checkbox[name=chk_ids]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
-		            chkArray.push(this.value);
-		        });
-		        
-		        if(chkArray.length==0){
-		        	//아무것도 체크 안 했을 경우
-		        	alert('항목을 체크해 주세요.');
-		        	return false;
-		        }
-		        /*
-		        $('#hiddenValue').val(chkArray);
-		        
-		        alert($('#hiddenValue').val()); // 배열에 담긴 체크박스 값 확인
-			*/
-		        return chkArray;
+			
+			if(confirm('선택한 게시물을 일괄 삭제하시겠습니까?\n삭제한 데이터는 복구할 수 없습니다.')){
+				 var obj = $("[name=chk_ids]");
+			        var chkArray = new Array(); // 배열 선언
+			 
+			        $('input:checkbox[name=chk_ids]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
+			            chkArray.push(this.value);
+			        });
+			        
+			        if(chkArray.length==0){
+			        	//아무것도 체크 안 했을 경우
+			        	alert('항목을 체크해 주세요.');
+			        	return false;
+			        }
+			        /*
+			        $('#hiddenValue').val(chkArray);
+			        
+			        alert($('#hiddenValue').val()); // 배열에 담긴 체크박스 값 확인
+				*/
+			        return chkArray;				
+			} else {
+				return false;
+			}
+			
+
 		}
 		
 //[1:1문의]---------------------------------------------------------
@@ -152,3 +159,58 @@
                 }
              });
 		}
+		
+//[공지사항]--------------------------------------------------
+		
+		//공지사항 일괄 삭제
+		function noticeSomeDelete(){
+			var chkArray = arrayingCheckbox();//체크박스 값 배열에 넣기
+			
+			if(chkArray==false){
+				return false;
+			}
+		
+            $.ajax({
+                url : "notice_some_delete",
+                method : "POST",
+                data: JSON.stringify(chkArray),
+                dataType : "json",
+                contentType: "application/json",
+                success : function(val){
+                   if(val != 0){ //성공
+                      alert("일괄삭제처리 완료되었습니다.");
+                     location.reload();
+                   }else if(val==0){ // 0이면 실패
+                      alert("일괄삭제 실패.");
+                   }
+                },
+                error : function(){
+                   alert("서버통신실패");
+                }
+             });
+		}
+		
+		//공지사항 1개 수정 notice_modify
+		function notice_modify(){
+			 $.ajax({
+			       url: "notice_modify",
+			       type: "POST",
+			       data:  $("#notice_modify").serialize(),
+			       success : function(val){
+			           if(val ==1 ){//수정 성공
+			        	   alert('공지글을 수정했습니다.');
+			        	   location.reload();
+			           } else if(val ==0){//수정 실패
+			              alert("공지글을 수정하지 못했습니다. 다시 시도해 주세요.");
+			           }
+			        },
+			        error : function(){
+			           alert("서버통신실패");
+			        }
+				  });			
+		}				
+		
+		
+		
+		
+		

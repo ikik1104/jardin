@@ -112,6 +112,14 @@ public class ADBController {
 		return success;	
 	}
 	
+	//선택한 공지글 일괄 삭제
+	@ResponseBody
+	@RequestMapping("notice_some_delete")
+	public int notice_some_delete(@RequestBody int[] chkArray) {
+		int success = adbservice.deleteSomeNotice(chkArray);
+		return success;
+	}
+	
 	//공지사항 전체 리스트 불러오기
 	@RequestMapping("notice_list")
 	public String notice_list(UtilDto utilDto, Model model) {
@@ -151,24 +159,13 @@ public class ADBController {
 		model.addAttribute("AllDto2", allDto2);//공지글		
 		return response_path+"notice_view";
 	}
-	
+
 	//공지글 1개 글수정
-	@PostMapping("notice_modify")
-	public String notice_modify(NoticeDto noticeDto, UtilDto utilDto, Model model) {
-		
-		int page=1;
-		if(!(utilDto.getPage()==0)) {
-			page=utilDto.getPage();
-		} 	
+	@ResponseBody	
+	@RequestMapping("notice_modify")
+	public int notice_modify(NoticeDto noticeDto) {
 		int success = adbservice.modifyNoticeBoard(noticeDto);
-		
-		String alerttext="";
-		switch(success) {
-		case 0 : alerttext="alert('공지글을 수정하지 못했습니다. 다시 시도해 주세요.'); history.go(-1);"; break;
-		case 1 : alerttext="alert('공지글을 수정했습니다.'); location.href='notice_list?rownum="+utilDto.getPage()+"';"; break;
-		}//switch
-		model.addAttribute("alerttext", alerttext);		
-		return response_path+"notice_view";
+		return success;	
 	}
 	
 	//공지글 1개 삭제

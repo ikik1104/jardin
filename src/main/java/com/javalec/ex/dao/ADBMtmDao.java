@@ -115,6 +115,9 @@ public interface ADBMtmDao {
 	//선택한 1:1문의 일괄 삭제
 	int deleteSomeMtms(@Param("chkArray") int[] chkArray);
 
+	//선택한 1:1문의 일괄 삭제
+	int deleteSomeNotice(@Param("chkArray") int[] chkArray);
+
 
 	
 }

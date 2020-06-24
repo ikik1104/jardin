@@ -104,5 +104,8 @@ public interface ADBService {
 	//선택한 1:1문의 일괄 삭제
 	int deleteSomeMtms(int[] chkArray);
 
+	//선택한 공지글 일괄 삭제
+	int deleteSomeNotice(int[] chkArray);
+
 }
 
