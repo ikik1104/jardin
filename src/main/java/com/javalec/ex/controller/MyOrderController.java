@@ -36,13 +36,6 @@ public class MyOrderController {
 	@Autowired
 	private ProductService pService;
 	
-//	//임시 - 로그아웃
-//	@RequestMapping("logout")
-//	public String logout(HttpSession session) {
-//		session.invalidate();
-//		return "home";
-//	}
-	
 	//전체 주문리스트 불러오기
 	@RequestMapping("ordercheck")
 	public String ordercheck(PageDto pageDto, HttpSession session, HttpServletRequest request, Model model) {
