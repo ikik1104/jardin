@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="com.javalec.ex.dao.AdminMainDao">
+	
+	<!-- 메인배너 -->
+	<insert id="insertMainBanner">
+		insert into main_banner_tb values 
+		(#{mbdto.b_1}, #{mbdto.b_2}, #{mbdto.b_3}, #{mbdto.b_4})
+	</insert>
+	
+	
+</mapper>

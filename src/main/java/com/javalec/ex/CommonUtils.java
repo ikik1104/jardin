@@ -64,16 +64,18 @@ public class CommonUtils {
 
 //		}
 
-
+		System.out.println("유틸에 들어왔따");
 
 		String storedFileName = UUID.randomUUID().toString().replaceAll("-", "");
+		System.out.println(storedFileName);
 
-
+		System.out.println("클라우디너리시작");
 
 		Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap("cloud_name", CLOUDINARY_CLOUD_NAME, "api_key",
 
 				CLOUDINARY_API_KEY, "api_secret", CLOUDINARY_API_SECRET, "secure", true));
 
+		System.out.println("클라우디너리끝");
 
 
 		Map<String, Object> cloudinaryURL = null;
@@ -82,22 +84,27 @@ public class CommonUtils {
 
 		File convFile = new File(storedFileName);
 
+		System.out.println("트렌스퍼를 해볼게욥");
 		mFile.transferTo(convFile);
+		System.out.println("트렌스퍼가 됐을까?");
 
 
 
 		try {
 
+			System.out.println("트라이 내부로 들어옴?");
 			Map<String, Object> result = (Map<String, Object>) cloudinary.uploader().upload(convFile, params);
 
 			cloudinaryURL = result;
 
 		} catch (Exception e) {
 
+			System.out.println("혹시 캐치로 왔나?");
 			e.printStackTrace();
 
 		}
 
+		System.out.println("여기까지 왔는데 안된다고?");
 
 
 		return (String) (cloudinaryURL.get("url"));
