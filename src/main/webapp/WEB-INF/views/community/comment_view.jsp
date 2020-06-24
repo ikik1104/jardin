@@ -23,6 +23,7 @@
 <script type="text/javascript" src="user/js/jquery.easing.1.3.js"></script>
 <script type="text/javascript" src="user/js/idangerous.swiper-2.1.min.js"></script>
 <script type="text/javascript" src="user/js/jquery.anchor.js"></script>
+<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <!--[if lt IE 9]>
 <script type="text/javascript" src="user/js/html5.js"></script>
 <script type="text/javascript" src="user/js/respond.min.js"></script>
@@ -33,6 +34,37 @@ $(document).ready(function() {
 
 
 });
+
+function delReview(ru_num) {
+	if(confirm("해당 상품평을 삭제하시겠습니까?")){
+		 $.ajax({
+             url : "delReview",
+             method : "POST",
+             data: JSON.stringify(ru_num),
+             dataType : "json",
+             contentType: "application/json",
+             success : function(val){
+                if(val == 1){ //리턴값이 1이면 (=성공)
+                   alert("삭제되었습니다.");
+                   location.href="review_list?page=${page}&ru_type=${dto.RU_TYPE}";
+                }else{ // 0이면 실패
+                   alert("삭제 실패");
+                }
+             },
+             error : function(){
+                alert("서버통신실패");
+             }
+          });
+	}
+}
+
+function updateReview(ru_num) {
+	var url = "updateReviewForm?ru_num="+ru_num;
+    var name = "updateReview";
+    var option = "width = 500, height = 500, top = 100, left = 200, location = no";
+    window.open(url, name, option);
+	
+}
 </script>
 </head>
 <body>
@@ -63,6 +95,13 @@ $(document).ready(function() {
 
      $(document).ready(function () {
          msiecheck();
+         
+         
+         if(${dto.RU_TYPE eq '포토'}){
+        	 $("#photo").attr("class", "on");
+         }else{
+        	 $("#basic").attr("class", "on");
+         }
      });
 
      var msiecheck = function () {
@@ -108,9 +147,8 @@ $(document).ready(function() {
 			<div id="left">
 				<div id="title2">COMMUNITY<span>커뮤니티</span></div>
 				<ul>	
-					<li><a href="#" id="leftNavi1">체험단</a></li>
-					<li><a href="#" id="leftNavi2">사용 후기</a></li>
-					<li class="last"><a href="#" id="leftNavi3">ENJOY COFFEE</a></li>
+					<li><a href="review_list?ru_type=일반" id="leftNavi2">사용 후기</a></li>
+					<li class="last"><a href="enjoy_list" id="leftNavi3">ENJOY COFFEE</a></li>
 				</ul>			
 			</div><script type="text/javascript">initSubmenu(2,0);</script>
 
@@ -122,8 +160,8 @@ $(document).ready(function() {
 					
 					<div class="productTab normaltab">
 						<ul>
-							<li><a href="#">포토 구매후기</a></li>
-							<li class="last"><a href="#" class="on">상품평</a></li>
+							<li><a href="review_list?ru_type='포토'" id="photo">포토 구매후기</a></li>
+							<li class="last"><a href="review_list?ru_type='일반'" id="basic">상품평</a></li>
 						</ul>						
 					</div>
 
@@ -131,59 +169,54 @@ $(document).ready(function() {
 						<div class="viewHead">
 							<div class="subject">
 								<ul>
-									<li class="cate">[먹어봤어요]</li>
-									<li>&nbsp;쟈뎅, 테이크아웃 카페모리 구매후기</li>
+									<li>&nbsp;${dto.RU_TITLE}</li>
 								</ul>
 							</div>
 							<div class="day">
-								<p class="txt">제품명<span>쟈뎅, 테이크아웃 ‘카페모리’ </span></p>
+								<p class="txt">제품명<span>${dto.P_NAME}</span></p>
 							</div>
 							<div class="data">
 								<ul>
-									<li>작성자<span>wldkjf****</span></li>
-									<li class="tnone">등록일<span>2014-03-24</span></li>
-									<li class="tnone">조회수<span>2146</span></li>
+									<li>작성자<span>${dto.M_ID}</span></li>
+									<li class="tnone">등록일<span><fmt:formatDate value="${dto.RU_DATE}" pattern="yy-MM-dd"/></span></li>
+									<li class="tnone">조회수<span>${dto.RU_HIT}</span></li>
 									<li class="last">평점
 										<span>
+										<c:forEach begin="1" end="${dto.RU_SCORE}">
 											<img src="user/images/ico/ico_star.gif" alt="별점" />
-											<img src="user/images/ico/ico_star.gif" alt="별점" />
-											<img src="user/images/ico/ico_star.gif" alt="별점" />
-											<img src="user/images/ico/ico_star.gif" alt="별점" />
-											<img src="user/images/ico/ico_star.gif" alt="별점" />
+										</c:forEach>
+										<c:forEach begin="1" end="${5-dto.RU_SCORE}">
+											<img src="user/images/ico/ico_star_off.gif" alt="별점" />
+										</c:forEach>
 										</span>
 									</li>
 								</ul>
 							</div>
 						</div>
 
-						<div class="viewContents">
-							물을 많이 많이 마셔야 하는 계절입니다.<br/>
-							물도 많이 마셔야 하고 커피도 땡기고 이럴 때 워터커피가 너무 좋아요.<br/>
-							그냥 물은 안넘어가는데 워터커피 덕분엔 시원하고 촉촉한 여름을 보내고 있답니다.
+						<div class="viewContents" style="text-align: center;">
+							<c:if test="${not empty dto.ru_img}">
+								<img src="${not empty dto.ru_img}">
+							</c:if>
+							${dto.RU_CONTENT}
 						</div>
 					</div>
 
-					<!-- 답변 -->
-					<div class="answer">
-						<div class="inbox">
-							<div class="aname">
-								<p>담당자 <span>[2014-03-04&nbsp;&nbsp;15:01:59]</span></p>
-							</div>
 
-							<div class="atxt">
-								쟈뎅 커피를 사랑해주셔서 감사합니다. 앞으로도 노력하는 쟈뎅이 되겠습니다. 감사합니다.
-								쟈뎅 커피를 사랑해주셔서 감사합니다. 앞으로도 노력하는 쟈뎅이 되겠습니다. 감사합니다.
-								쟈뎅 커피를 사랑해주셔서 감사합니다. 앞으로도 노력하는 쟈뎅이 되겠습니다. 감사합니다.
-								쟈뎅 커피를 사랑해주셔서 감사합니다. 앞으로도 노력하는 쟈뎅이 되겠습니다. 감사합니다.
-								쟈뎅 커피를 사랑해주셔서 감사합니다. 앞으로도 노력하는 쟈뎅이 되겠습니다. 감사합니다.
-								쟈뎅 커피를 사랑해주셔서 감사합니다. 앞으로도 노력하는 쟈뎅이 되겠습니다. 감사합니다.
-								쟈뎅 커피를 사랑해주셔서 감사합니다. 앞으로도 노력하는 쟈뎅이 되겠습니다. 감사합니다.
-								쟈뎅 커피를 사랑해주셔서 감사합니다. 앞으로도 노력하는 쟈뎅이 되겠습니다. 감사합니다.
-								쟈뎅 커피를 사랑해주셔서 감사합니다. 앞으로도 노력하는 쟈뎅이 되겠습니다. 감사합니다.
-								쟈뎅 커피를 사랑해주셔서 감사합니다. 앞으로도 노력하는 쟈뎅이 되겠습니다. 감사합니다.
+					<c:if test="${not empty dto.RA_NUM}">
+						<!-- 답변 -->
+						<div class="answer">
+							<div class="inbox">
+								<div class="aname">
+									<p>담당자 <span>[ <fmt:formatDate value="${dto.RA_DATE}" pattern="yy-MM-dd"/> ]</span></p>
+								</div>
+	
+								<div class="atxt">
+									${dto.RA_CONTENT}
+								</div>
 							</div>
 						</div>
-					</div>
+					</c:if>
 					<!-- //답변 -->
 
 
@@ -199,15 +232,30 @@ $(document).ready(function() {
 							<tbody>
 								<tr>
 									<th class="pre">PREV</th>
-									<td><a href="#">상품 재입고는 언제 되나요?</a></td>
-									<td>&nbsp;</td>
+                                    <c:if test="${ empty next_title }">
+                                        <td>이전 글이 없습니다.</td>
+                                        <td>&nbsp;</td>
+                                    </c:if>
+                                    <c:if test="${ not empty next_title }">
+                                        <td><a href="review_detail?ru_type=${ next_title.ru_type }&ru_num=${ next_title.ru_num }&rownum=${ rownum-1 }&page=${page}">${ next_title.ru_title }</a></td>
+                                        <td>
+                                        </td>
+                                    </c:if>
 								</tr>
 
 								<tr>
 									<th class="next">NEXT</th>
-									<td>다음 글이 없습니다.</td>
-									<td>&nbsp;</td>
+                                     <c:if test="${ empty pre_title }">
+                                        <td>다음 글이 없습니다.</td>
+                                    </c:if>
+                                    <c:if test="${ not empty pre_title }">
+                                        <td><a href="review_detail?ru_type=${ pre_title.ru_type }&ru_num=${ pre_title.ru_num }&rownum=${ rownum+1 }&page=${page}">${ pre_title.ru_title }</a></td>
+                                        <td>
+                                        </td>
+                                    </c:if>
+                                    
 								</tr>
+                                
 							</tbody>
 						</table>
 					</div>
@@ -218,9 +266,11 @@ $(document).ready(function() {
 					<div class="btnArea">
 						<div class="bRight">
 							<ul>
-								<li><a href="#" class="nbtnbig mw">수정</a></li>
-								<li><a href="#" class="nbtnbig mw">삭제</a></li>
-								<li><a href="#" class="sbtnMini mw">목록</a></li>
+							<c:if test="${dto.M_NUM == userNum}">
+								<li><a href="updateReview('${dto.RU_NUM}')" class="nbtnbig mw">수정</a></li>
+								<li><a onclick="delReview('${dto.RU_NUM}')" class="nbtnbig mw">삭제</a></li>
+							</c:if>
+								<li><a href="review_list?page=${page}&ru_type=${dto.RU_TYPE}" class="sbtnMini mw">목록</a></li>
 							</ul>
 						</div>
 					</div>

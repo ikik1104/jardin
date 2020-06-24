@@ -3,6 +3,15 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.javalec.ex.dao.AdminBoardDao">
+	<!-- 아작스 수업(댓글달기) -->
+	<select id="comment_List" resultType="com.javalec.ex.dto.CommentDto">
+		select * from ccomment order by cdate desc
+	</select>
+	<!-- 댓글 삭제 -->
+	<delete id="comment_delete" parameterType="Integer">
+		delete from ccomment where cId = #{cId}
+	</delete>
+
 	<!-- 관리자 -->
 	
 	<!-- faq작성  -->
@@ -41,7 +50,7 @@
 		select * from faq_tb where f_num = #{f_num}
 	</select>
 	
-	<!-- enjoy coffee   검색 -->
+	<!-- faq coffee   검색 -->
 	<select id="getSearchFaq" parameterType="hashmap"  resultType="com.javalec.ex.dto.FaqDto" >
         select * from faq_tb where 
  		f_sysdate between to_date(#{e_start_day},'yy/MM/dd') and to_date(#{e_end_day},'yy/MM/dd')+1 and 

@@ -235,7 +235,7 @@ $(document).ready(function() {
 					<div class="btnArea">
 						<div class="bRight">
 							<ul>
-								<li><a href="inquiry_modify?m_num=${ inq_view.getM_num() }&iu_num=${ inq_view.getIu_num() }&rownum=${ rownum }" class="nbtnbig mw">수정</a></li>
+								<li><a href="inquiry_modify?m_num=${ inq_view.getM_num() }&iu_num=${ inq_view.getIu_num() }&rownum=${ rownum+1 }" class="nbtnbig mw">수정</a></li>
 								<li><a href="#" class="nbtnbig mw" onclick="inq_delete(${inq_view.getIu_num()})">삭제</a></li>
 								<li><a href="inquiry?m_num=${ inq_view.getM_num() }" class="sbtnMini mw">목록</a></li>
 							</ul>

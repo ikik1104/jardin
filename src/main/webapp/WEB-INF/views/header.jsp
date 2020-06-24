@@ -13,7 +13,7 @@
 				<ul>
 					<li><a href="event">EVENT</a></li>
 					<li><a href="notice_Ulist">CUSTOMER</a></li>
-					<li><a href="review_list">COMMUNITY</a></li>
+					<li><a href="review_list?ru_type=일반">COMMUNITY</a></li>
 				</ul>
 			</div>
 			<div id="snb">

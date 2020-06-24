@@ -112,8 +112,7 @@ $(document).ready(function() {
 			<div id="left">
 				<div id="title2">COMMUNITY<span>커뮤니티</span></div>
 				<ul>	
-					<li><a href="#" id="leftNavi1">체험단</a></li>
-					<li><a href="#" id="leftNavi2">사용 후기</a></li>
+					<li><a href="review_list?ru_type=일반" id="leftNavi2">사용 후기</a></li>
 					<li class="last"><a href="enjoy_list" id="leftNavi3">ENJOY COFFEE</a></li>
 				</ul>			
 			</div><script type="text/javascript">initSubmenu(3,0);</script>
@@ -139,7 +138,8 @@ $(document).ready(function() {
 							</div>
 						</div>
 
-						<div class="viewContents">
+						<div class="viewContents" style="text-align: center;">
+							<img alt="내용 이미지" src="${enjoy.ej_img}">
 							${enjoy.ej_content}
 						</div>
 					</div>
@@ -156,26 +156,40 @@ $(document).ready(function() {
 							<tbody>
 								<tr>
 									<th class="pre">PREV</th>
-									<td><a href="#">상품 재입고는 언제 되나요?</a></td>
-									<td>&nbsp;</td>
+                                    
+                                    <c:if test="${ empty next_title }">
+                                        <td>다음 글이 없습니다.</td>
+                                        <td>&nbsp;</td>
+                                    </c:if>
+                                    <c:if test="${ not empty next_title }">
+                                        <td><a href="enjoy_view?ej_num=${ next_title.getEj_num() }&page=${ page }&rownum=${ rownum+1 }">${ next_title.getEj_title() }</a></td>
+                                        <td>
+                                        </td>
+                                    </c:if>
 								</tr>
 
 								<tr>
 									<th class="next">NEXT</th>
-									<td>다음 글이 없습니다.</td>
-									<td>&nbsp;</td>
+                                    <c:if test="${ empty pre_title }">
+                                        <td>이전 글이 없습니다.</td>
+                                    </c:if>
+                                    <c:if test="${ not empty pre_title }">
+                                        <td><a href="enjoy_view?ej_num=${ pre_title.getEj_num() }&page=${ page }&rownum=${ rownum-1 }">${ pre_title.getEj_title() }</a></td>
+                                        <td>
+                                        </td>
+                                    </c:if>
 								</tr>
+                                
 							</tbody>
 						</table>
 					</div>
 					<!-- //이전다음글 -->
 
-
 					<!-- Btn Area -->
 					<div class="btnArea btline">
 						<div class="bRight">
 							<ul>
-								<li><a href="#" class="sbtnMini mw">목록</a></li>
+								<li><a href="enjoy_list?page=${page}" class="sbtnMini mw">목록</a></li>
 							</ul>
 						</div>
 					</div>

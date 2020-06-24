@@ -1,5 +1,6 @@
 package com.javalec.ex.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.javalec.ex.CommonUtils;
 import com.javalec.ex.dto.EnjoyCoffeeDto;
 import com.javalec.ex.dto.FaqDto;
 import com.javalec.ex.dto.QnrAnswerDto;
@@ -25,6 +28,8 @@ public class AdminBoardController {
 	//연지언니랑 겹쳐서 오류날까봐 따로 만들어용
 	@Autowired
 	private AdminBoardService abService;
+	@Autowired
+	CommonUtils utils;
 	
 
 	//관리자---------------------------------------
@@ -41,7 +46,6 @@ public class AdminBoardController {
 	//faq 작성
 	@RequestMapping("faq_insert")
 	public String faq_insert(FaqDto fdto, Model model) {
-		
 		abService.insertFaq(fdto);
 		
 		return "redirect:faq_allList";
@@ -112,8 +116,9 @@ public class AdminBoardController {
 	
 	//enjoy coffee insert
 	@RequestMapping("enjoy_insert")
-	public String enjoy_insert(EnjoyCoffeeDto ecDto, Model model) {
-		
+	public String enjoy_insert(EnjoyCoffeeDto ecDto, MultipartFile enjoy_img, Model model) throws IOException {
+		ecDto.setEj_img(utils.FileUploaderCDN(enjoy_img, "enjoy/"));
+
 		abService.enjoy_insert(ecDto);
 		
 		return "redirect:enjoy_allList";

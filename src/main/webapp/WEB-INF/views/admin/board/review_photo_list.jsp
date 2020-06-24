@@ -233,7 +233,7 @@
 						<tr>
 							<td>${list.ROWNUM}</td>
 							<td>${list.RU_NUM}</td>
-							<td>${list.P_IMG}</td>
+							<td><img src="${list.P_IMG}"></td>
 							<td>${list.P_NAME}</td>
 							<td style="cursor: pointer;" onclick="location.href='getReviewDetail?ru_num=${list.RU_NUM}'">${list.RU_TITLE}</td>
 							<td>${list.RU_CONTENT}</td>

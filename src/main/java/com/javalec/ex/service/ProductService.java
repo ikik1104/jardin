@@ -4,8 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.javalec.ex.dto.BDto;
 import com.javalec.ex.dto.CartDto;
+import com.javalec.ex.dto.PageDto;
 import com.javalec.ex.dto.ProductDto;
 import com.javalec.ex.dto.QnrUserDto;
 import com.javalec.ex.dto.ReviewUserDto;
@@ -71,6 +74,18 @@ public interface ProductService {
 
 	//장바구니에 담기
 	int cart_insert (CartDto cdto);
+	
+	//------------------------------------------------------------
+	
+	//한 제품의 리뷰 페이징 리스트
+	List<Map<String,Object>> pageReviewList(PageDto pageDto, int p_num, String ru_type);
+	//한 제품의 리뷰 총 개수
+	int pageReviewCount(String ru_type,int p_num);
+	
+	//한 제품의 질문과 답변 페이징 리스트
+	List<Map<String,Object>> qnaList(PageDto pageDto,int p_num);
+	//한 제품의 질문 총 개수
+	int qnaUserCount(int p_num);
 
 
 	

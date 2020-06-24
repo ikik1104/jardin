@@ -13,6 +13,7 @@ import com.javalec.ex.dao.AdminBoardDao;
 import com.javalec.ex.dao.BDao;
 import com.javalec.ex.dao.ChangeInfoDao;
 import com.javalec.ex.dto.BDto;
+import com.javalec.ex.dto.CommentDto;
 import com.javalec.ex.dto.EnjoyCoffeeDto;
 import com.javalec.ex.dto.FaqDto;
 import com.javalec.ex.dto.MemberDto;
@@ -25,6 +26,19 @@ import com.javalec.ex.dto.ReviewUserDto;
 public class AdminBoardServiceImp implements AdminBoardService {
 	@Autowired
 	AdminBoardDao abDao;
+	
+	//아작스 수업 (댓글달기)
+	@Override
+	public List<CommentDto> comment_List(){
+		return abDao.comment_List();
+	}
+	@Override
+	public int comment_delete(int cId) {
+		return abDao.comment_delete(cId);
+	}
+
+
+
 
 	//관리자------------------------
 
@@ -212,8 +226,6 @@ public class AdminBoardServiceImp implements AdminBoardService {
 	public List<Object> getSearchQna(HashMap<String, Object> map) {
 		return abDao.getSearchQna(map);
 	}
-
-
 
 	
 	
