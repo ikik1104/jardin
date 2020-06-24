@@ -19,6 +19,8 @@ public interface AdminBoardService {
 	
 	//아작스 수업 (댓글달기)
 		List<CommentDto> comment_List();
+		//댓글 삭제
+		int comment_delete(int cId);
 	
 	
 	//관리자------------------------
@@ -104,6 +106,7 @@ public interface AdminBoardService {
 
 		//답변 검색
 		List<Object> getSearchQna(HashMap<String, Object> map);
+
 	
 
 		

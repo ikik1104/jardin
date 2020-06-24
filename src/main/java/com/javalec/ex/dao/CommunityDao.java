@@ -24,10 +24,19 @@ public interface CommunityDao {
 	
 	
 	//enjoy coffee 리스트
-	List<EnjoyCoffeeDto> enjoy_List();
+	List<EnjoyCoffeeDto> enjoy_List(@Param("pageDto") PageDto pageDto);
 	
 	//enjoy coffee 조회수 증가
 	void enjoy_hitUp(int ej_num);
+		
+	//enjoy coffee 게시글 개수 가져오기
+	int countEnjoy();
+	
+	//이전글 제목
+	EnjoyCoffeeDto getEnjoyPreTitle(@Param("rownum") int rownum);
+
+	//다음글 제목
+	EnjoyCoffeeDto getEnjoyNextTitle(@Param("rownum") int rownum);
 	
 	
 	
@@ -54,5 +63,7 @@ public interface CommunityDao {
 	
 	//리뷰 삭제하기
 	int delReview(int ru_num);
+
+
 
 }

@@ -34,20 +34,37 @@ public class CommunityController {
 	
 	//enjoy coffee list
 	@RequestMapping("enjoy_list")
-	public String enjoy_list(Model model) {
+	public String enjoy_list(PageDto pageDto, HttpServletRequest request, Model model) {
 		
-		model.addAttribute("list", cmService.enjoy_List()); 
+		//유저에게 보여줄 상품평 리스트
+		int total = cmService.countEnjoy();
+		
+		int cntPerPage = 4;
+		String page = request.getParameter("page"); //열려야하는 페이지
+		if(page == null) { page = "1"; }
+		
+		pageDto = new PageDto(total, Integer.parseInt(page), cntPerPage);
+		
+		model.addAttribute("paging", pageDto);
+		
+		model.addAttribute("list", cmService.enjoy_List(pageDto)); 
 		
 		return "community/enjoy";
 	}
 	
 	//enjoy coffee 상세보기
 	@RequestMapping("enjoy_view")
-	public String enjoy_view(int ej_num, int rownum, Model model) {
+	public String enjoy_view(int ej_num, int rownum,int page,HttpSession session, Model model) {
 			
+		System.out.println("rownum"+rownum);
+		model.addAttribute("userNum", session.getAttribute("userNum"));//세션체크
 		cmService.enjoy_hitUp(ej_num); //조회수 증가
+		model.addAttribute("page", page); //현재 페이지(목록으로 버튼때문에)
+		model.addAttribute("rownum", rownum);
 		model.addAttribute("enjoy", abService.enjoy_info(ej_num)); //하나의 정보
-			
+		model.addAttribute("pre_title", cmService.getEnjoyPreTitle(rownum)); //이전글 제목 불러오기
+		model.addAttribute("next_title", cmService.getEnjoyNextTitle(rownum)); //다음글 제목 불러오기
+
 		return "community/enjoy_view";
 	}
 	
@@ -58,7 +75,7 @@ public class CommunityController {
 	public String review_list(PageDto pageDto,String ru_type ,HttpServletRequest request, Model model) {
 		System.out.println(ru_type);
 		
-		if(ru_type.equals("포토")) {
+		if(ru_type.equals("photo") || ru_type.equals("포토")) {
 			//유저에게 보여줄 상품평 리스트
 			int total = cmService.countReview("포토");
 			

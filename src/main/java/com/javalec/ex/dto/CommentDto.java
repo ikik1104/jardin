@@ -7,7 +7,7 @@ public class CommentDto {
 
 	private int cId;
 	private int bId;
-	private String cContnet;
+	private String cContent;
 	private String cName;
 	private Timestamp cDate;
 	public int getcId() {
@@ -22,11 +22,11 @@ public class CommentDto {
 	public void setbId(int bId) {
 		this.bId = bId;
 	}
-	public String getcContnet() {
-		return cContnet;
+	public String getcContent() {
+		return cContent;
 	}
-	public void setcContnet(String cContnet) {
-		this.cContnet = cContnet;
+	public void setcContent(String cContent) {
+		this.cContent = cContent;
 	}
 	public String getcName() {
 		return cName;
@@ -44,16 +44,15 @@ public class CommentDto {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public CommentDto(int cId, int bId, String cContnet, String cName, Timestamp cDate) {
+	public CommentDto(int cId, int bId, String cContent, String cName, Timestamp cDate) {
 		super();
 		this.cId = cId;
 		this.bId = bId;
-		this.cContnet = cContnet;
+		this.cContent = cContent;
 		this.cName = cName;
 		this.cDate = cDate;
 	}
-	
-	
+
 	
 	
 }

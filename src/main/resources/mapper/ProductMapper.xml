@@ -10,8 +10,8 @@
 
 	<!-- 제품 insert -->
 	<insert id="insertProduct" parameterType="com.javalec.ex.dto.ProductDto">
-		insert into product_tb values(p_seq.nextval,#{p_step1},#{p_step2},#{p_name},#{p_price},#{p_point},#{p_producer},#{p_expiry},
-		#{p_type},#{p_capacity},#{p_detail},#{p_location},#{p_gene},#{p_import},#{p_stock},#{p_thumb_img1},#{p_thumb_img2},#{p_thumb_img3},#{p_content_img},sysdate,sysdate,'N',0)
+		insert into product_tb values(p_seq.nextval,#{p_step1},#{p_step2},#{p_name},#{p_price},#{p_point},'쟈뎅','상품페이지 참고',
+		#{p_type},'상품페이지 참고','상품페이지 참고','쟈뎅',#{p_gene},#{p_import},#{p_stock},#{p_thumb_img1},#{p_thumb_img2,jdbcType=VARCHAR},#{p_thumb_img3,jdbcType=VARCHAR},#{p_content_img},sysdate,sysdate,'N',0)
 	</insert>
 	
 	<!-- 제품 하나의 정보  -->
@@ -131,5 +131,44 @@
 	<insert id="cart_insert" parameterType="com.javalec.ex.dto.CartDto">
 		insert into cart_tb values(cart_seq.nextval,#{m_num},#{p_num},#{ca_amount},sysdate)
 	</insert>
+	
+	
+	<!-- =================================== 제품 상세보기에서의 페이징 ====================ㅎ;;;; -->
+	
+	<!-- 한 제품의 리뷰 페이징 리스트 -->
+	<select id="pageReviewList" resultType="hashmap">
+		 select * from 
+         (select rownum rnum,review.* from 
+         (select re.*,p.p_name,rpad(substr(m.m_id,1,3),length(m.m_id),'*') as m_id,ra.ra.ra_num,ra.ad_num,ra.ra_content,ra.ra_date
+         from review_user_tb re 
+         left join review_answer_tb ra on ra.ru_num = re.ru_num
+		 left join product_tb p on p.p_num = re.p_num 
+		 left join member_tb m on re.m_num = m.m_num
+		 where re.ru_type = #{ru_type} and re.p_num= #{p_num} order by re.ru_num asc) review) r
+         where <![CDATA[r.rnum>=#{pageDto.endRow}]]> and <![CDATA[r.rnum<=#{pageDto.startRow}]]> order by r.rnum desc
+	</select>
+	
+	<!-- 한 제품의 리뷰 총 개수 -->
+	<select id="pageReviewCount" resultType="Integer">
+		select count(*) from review_user_tb where ru_type=#{ru_type} and p_num=#{p_num}
+	</select>
+	
+	<!-- 한 제품의 질문과 답변 페이징 리스트 -->
+	<select id="qnaList" resultType="hashmap">
+		 select * from 
+         (select rownum rnum,qna.* from 
+         (select qu.*,p.p_name,rpad(substr(m.m_id,1,3),length(m.m_id),'*') as m_id,qa.qa_num,qa.ad_num,qa.qa_content,qa.qa_date
+         from qna_user_tb qu 
+         left join qna_answer_tb qa on qa.qu_num = qu.qu_num
+		 left join product_tb p on p.p_num = qu.p_num 
+		 left join member_tb m on qu.m_num = m.m_num
+		 where qu.p_num= #{p_num} order by qu.qu_num asc) qna) r
+         where <![CDATA[r.rnum>=#{pageDto.endRow}]]> and <![CDATA[r.rnum<=#{pageDto.startRow}]]> order by r.rnum desc
+	</select>
+	
+	<!-- 한 제품의 질문 총 개수 -->
+	<select id="qnaUserCount" resultType="Integer">
+		select count(*) from qna_user_tb where p_num = #{p_num}
+	</select>
 	
 </mapper>

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.javalec.ex.dto.BDto;
@@ -21,7 +22,9 @@ public interface AdminBoardDao {
 
 	//아작스 수업 (댓글달기)
 	List<CommentDto> comment_List();
-	
+
+	//댓글 삭제
+	int comment_delete(int cId);
 	
 	//관리자------------------------
 	//faq작성 
@@ -105,5 +108,6 @@ public interface AdminBoardDao {
 	
 	//답변 검색
 	List<Object> getSearchQna(HashMap<String, Object> map);
+
 	
 }

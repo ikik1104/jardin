@@ -147,9 +147,8 @@ function updateReview(ru_num) {
 			<div id="left">
 				<div id="title2">COMMUNITY<span>커뮤니티</span></div>
 				<ul>	
-					<li><a href="#" id="leftNavi1">체험단</a></li>
-					<li><a href="#" id="leftNavi2">사용 후기</a></li>
-					<li class="last"><a href="#" id="leftNavi3">ENJOY COFFEE</a></li>
+					<li><a href="review_list?ru_type=일반" id="leftNavi2">사용 후기</a></li>
+					<li class="last"><a href="enjoy_list" id="leftNavi3">ENJOY COFFEE</a></li>
 				</ul>			
 			</div><script type="text/javascript">initSubmenu(2,0);</script>
 
@@ -195,7 +194,10 @@ function updateReview(ru_num) {
 							</div>
 						</div>
 
-						<div class="viewContents">
+						<div class="viewContents" style="text-align: center;">
+							<c:if test="${not empty dto.ru_img}">
+								<img src="${not empty dto.ru_img}">
+							</c:if>
 							${dto.RU_CONTENT}
 						</div>
 					</div>
@@ -230,13 +232,12 @@ function updateReview(ru_num) {
 							<tbody>
 								<tr>
 									<th class="pre">PREV</th>
-                                    
                                     <c:if test="${ empty next_title }">
                                         <td>이전 글이 없습니다.</td>
                                         <td>&nbsp;</td>
                                     </c:if>
                                     <c:if test="${ not empty next_title }">
-                                        <td><a href="review_detail?ru_type=${ next_title.ru_type }&ru_num=${ next_title.ru_num }&rownum=${ rownum+1 }">${ next_title.ru_title }</a></td>
+                                        <td><a href="review_detail?ru_type=${ next_title.ru_type }&ru_num=${ next_title.ru_num }&rownum=${ rownum-1 }&page=${page}">${ next_title.ru_title }</a></td>
                                         <td>
                                         </td>
                                     </c:if>
@@ -244,14 +245,15 @@ function updateReview(ru_num) {
 
 								<tr>
 									<th class="next">NEXT</th>
-                                    <c:if test="${ empty pre_title }">
+                                     <c:if test="${ empty pre_title }">
                                         <td>다음 글이 없습니다.</td>
                                     </c:if>
                                     <c:if test="${ not empty pre_title }">
-                                        <td><a href="review_detail?ru_type=${ pre_title.ru_type }&ru_num=${ pre_title.ru_num }&rownum=${ rownum-1 }">${ pre_title.ru_title }</a></td>
+                                        <td><a href="review_detail?ru_type=${ pre_title.ru_type }&ru_num=${ pre_title.ru_num }&rownum=${ rownum+1 }&page=${page}">${ pre_title.ru_title }</a></td>
                                         <td>
                                         </td>
                                     </c:if>
+                                    
 								</tr>
                                 
 							</tbody>

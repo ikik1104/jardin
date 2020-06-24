@@ -6,15 +6,39 @@
 
 	<!-- enjoy coffee 리스트 -->
 	<select id="enjoy_List" resultType="com.javalec.ex.dto.EnjoyCoffeeDto">
-		select rownum,e.* from enjoy_coffee_tb e order by ej_num desc
+		select * from 
+         (select rownum rnum, enjoy.* from 
+         (select * from enjoy_coffee_tb 
+         order by ej_num asc) enjoy) r
+         where <![CDATA[r.rnum>=#{pageDto.endRow}]]> and <![CDATA[r.rnum<=#{pageDto.startRow}]]> order by r.rnum desc
+		
 	</select>
-	<update id="">
-	
-	</update>
 	<!-- enjoy coffee 조회수 증가 -->
 	<update id="enjoy_hitUp" parameterType="Integer">
 		update enjoy_coffee_tb set ej_hit = ej_hit+1 where ej_num = #{ej_num}
 	</update>
+	
+	<!-- enjoy coffee 전체개수 가져오기 -->
+	<select id="countEnjoy" resultType="Integer">
+		select count(*) from enjoy_coffee_tb
+	</select>
+	
+	<!-- enjoy 이전글 제목 -->	
+	<select id="getEnjoyPreTitle"  resultType="com.javalec.ex.dto.EnjoyCoffeeDto">
+		select * from 
+		(select rownum rnum, enjoy.* from 
+		(select * from enjoy_coffee_tb order by ej_num asc) enjoy) 
+		where rnum=#{rownum}-1 
+	</select>
+
+	<!--enjoy  다음글 제목 -->
+	<select id="getEnjoyNextTitle"  resultType="com.javalec.ex.dto.EnjoyCoffeeDto">
+		select * from 
+		(select rownum rnum, enjoy.* from 
+		(select * from enjoy_coffee_tb order by ej_num asc) enjoy) 
+		where rnum=#{rownum}+1
+	</select>
+	
 	
 	<!-- *********************************************   상품평      **************************************** -->
 	
@@ -53,7 +77,7 @@
 	<select id="getPreTitle"  resultType="com.javalec.ex.dto.ReviewUserDto">
 		select * from 
 		(select rownum rnum, review.* from 
-		(select * from review_user_tb where ru_type=#{ru_type} order by ru_date asc) review) 
+		(select * from review_user_tb where ru_type=#{ru_type} order by ru_num asc) review) 
 		where rnum=#{rownum}-1 
 	</select>
 
@@ -61,7 +85,7 @@
 	<select id="getNextTitle"  resultType="com.javalec.ex.dto.ReviewUserDto">
 		select * from 
 		(select rownum rnum, review.* from 
-		(select * from review_user_tb where ru_type=#{ru_type} order by ru_date asc) review) 
+		(select * from review_user_tb where ru_type=#{ru_type} order by ru_num asc) review) 
 		where rnum=#{rownum}+1 
 	</select>
 	

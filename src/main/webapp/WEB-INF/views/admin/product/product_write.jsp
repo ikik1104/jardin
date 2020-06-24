@@ -11,20 +11,27 @@
 		<title>Insert title here</title>
 		<link rel="stylesheet" type="text/css" href="admin/css/admin_main.css">
 		<!-- 페이지 상단 또는 하단에 라이브러르 추가 --> 
-		<script type="text/javascript" src="se2/admin/js/HuskyEZCreator.js" charset="utf-8"></script> 
 		<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 		<script type="text/javascript" src="admin/js/jquery-3.4.1.min.js"></script>
 		<!-- 페이지 로딩시 초기화 --> 
 		<script>
-		$(document).ready(function(){
-				nhn.husky.EZCreator.createInIFrame({ 
-					oAppRef: editor, 
-					elPlaceHolder: 'txtContent', 
-					sSkinURI: '/plugin/smarteditor2/SmartEditor2Skin.html', 
-					fCreator: 'createSEditor2' 
-					}); 
-				}); 
 		
+		function checkForm() {
+			var regexp = /^[0-9]*$/;
+			
+			if(regexp.test(inputform.p_price.value){
+				alert("가격을 숫자만 입력 가능합니다.");
+				return false;
+			}
+			
+			if(regexp.test(inputform.p_stock.value){
+				alert("재고는 숫자만 입력 가능합니다.");
+				return false;
+			}
+			
+			inputform.submit()==true;
+			
+		}
 		
 		function aa(val) {
 		//step1의 value와 step2의 id와 일치한 애들을 class를 빼준다.(일단 전부 넣어주고 나서)
@@ -43,6 +50,19 @@
 			var point = val*0.01;
 			$("#point").val(point);
 		}
+		
+// 		//제품 등록 전 검사
+// 		function insertChk() {
+// 			alert(inputform.p_thumb_img2.value);
+// 			if(inputform.p_name.value == ""){
+// 				alert("상품의 이름을 입력해주세요."); 
+// 				inputform.p_name.focus();
+// 				return false;
+				
+// 			}
+			
+			
+// 		}
 		
 		</script>
 		<style type="text/css">
@@ -70,7 +90,7 @@
 	<jsp:include page="../nav/product_nav.jsp"/>
 	<section>
 		<h1>제품 등록</h1>
-			<form action="product_insert" name="inputform" method="POST" enctype="multipart/form-data">
+			<form action="product_insert" name="inputform" method="POST" enctype="multipart/form-data" onsubmit="return checkForm();">
 				<div id="input_form">
 					<table border="1">
 						<tr>
@@ -125,87 +145,67 @@
 						</tr>
 						<tr>
 							<td>제품명</td>
-							<td><input type="text" name="p_name" maxlength="40"></td>
+							<td><input type="text" name="p_name" maxlength="40" required></td>
 						</tr>
 						<tr>
 							<td>가격</td>
-							<td><input type="text" name="p_price" onchange="point_change(this.value)" max="9999999"></td>
+							<td><input type="text" name="p_price" onchange="point_change(this.value)" max="9999999" required></td>
 						</tr>
 						<tr>
 							<td>포인트</td>
-							<td><input type="text" name="p_point" id="point" readonly>제품 가격의 1%</td>
-						</tr>
-						<tr>
-							<td>제조원</td>
-							<td><input type="text" name="p_producer" maxlength="10"></td>
-						</tr>
-						<tr>
-							<td>유통기한</td>
-							<td><input type="text" name="p_expiry" maxlength="10"></td>
+							<td><input type="text" name="p_point" id="point" readonly required>제품 가격의 1%</td>
 						</tr>
 						<tr>
 							<td>식품유형</td>
-							<td><input type="text" name="p_type" maxlength="10"></td>
-						</tr>
-						<tr>
-							<td>용량</td>
-							<td><input type="text" name="p_capacity" maxlength="10"></td>
-						</tr>
-						<tr>
-							<td>원재료명 및 함량</td>
-							<td><input type="text" name="p_detail" maxlength="350"></td>
-						</tr>
-						<tr>
-							<td>업소명 및 소재지</td>
-							<td><input type="text" name="p_location" maxlength="50"></td>
+							<td><input type="text" name="p_type" maxlength="10" required></td>
 						</tr>
 						<tr>
 							<td>유전자 재조합 유무</td>
 							<td>
-								예<input type="radio" name="p_gene" value="유전자 재조합 상품">&nbsp;&nbsp;&nbsp;
-								아니오<input type="radio" name="p_gene" value="해당사항없음">
+								<label>예<input type="radio" name="p_gene" value="유전자 재조합 상품" >&nbsp;&nbsp;&nbsp;</label>
+								<label>아니오<input type="radio" name="p_gene" value="해당사항없음" checked></label>
 							</td>
 						</tr>
 						<tr>
 							<td>수입식품 여부</td>
 							<td>
-								예<input type="radio" name="p_import" value="수입식품">&nbsp;&nbsp;&nbsp;
-								아니오<input type="radio" name="p_import" value="해당사항없음">
+								<label>예<input type="radio" name="p_import" value="수입식품">&nbsp;&nbsp;&nbsp;</label>
+								<label>아니오<input type="radio" name="p_import" value="해당사항없음" checked></label>
 							</td>
 						</tr>
 						<tr>
 							<td>재고</td>
-							<td><input type="text" name="p_stock" max="99999"></td>
+							<td><input type="text" name="p_stock" max="99999" required></td>
 						</tr>
 						<tr>
 							<td>제품 대표이미지</td>
-							<td><input type="file" name="p_thumb_img1"></td>
+							<td><input type="file" name="thumb_img1" required></td>
 <!-- 							<td><input type="text" name="p_thumb_img1"></td> -->
 						</tr>
 						<tr>
 							<td>제품 이미지1</td>
-							<td><input type="file" name="p_thumb_img2"></td>
+							<td><input type="file" name="thumb_img2"></td>
 <!-- 							<td><input type="text" name="p_thumb_img2"></td> -->
 						</tr>
 						<tr>
 							<td>제품 이미지2</td>
-							<td><input type="file" name="p_thumb_img3"></td>
+							<td><input type="file" name="thumb_img3"></td>
 <!-- 							<td><input type="text" name="p_thumb_img3"></td> -->
 						</tr>
 						<tr>
 							<td>상세내용 이미지</td>
-							<td><input type="file" name="p_content_img"></td>
+							<td><input type="file" name="content_img" required></td>
 <!-- 							<td><input type="text" name="p_content_img"></td> -->
 						</tr>
 					</table>
 					<div id="btn_div">
 						<button type="button" onclick="location.href="입력전페이지 이동">취소</button>
 						<button type="button" onclick="location.href="유효성 검사">등록</button>
-						<button type="submit" >임시등록</button>
+						<button type="submit"  >임시등록</button>
+<!-- 						onclick="insertChk()" -->
 					</div>
 				</div>
 			</form>
 	</section>
 	</body>
 </html>
-<script type="text/javascript" src = "admin/js/notice_write.js"></script>

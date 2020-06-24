@@ -31,8 +31,8 @@ public class CommunityServiceImp implements CommunityService {
 
 	//enjoy coffee 리스트
 	@Override
-	public List<EnjoyCoffeeDto> enjoy_List() {
-		return cmDao.enjoy_List();
+	public List<EnjoyCoffeeDto> enjoy_List(PageDto pageDto) {
+		return cmDao.enjoy_List(pageDto);
 	}
 	
 	//enjoy coffee 조회수증가
@@ -40,9 +40,27 @@ public class CommunityServiceImp implements CommunityService {
 	public void enjoy_hitUp(int ej_num) {
 		
 		cmDao.enjoy_hitUp(ej_num);
-		
 	}
 
+	//enjoy coffee 전체 게시글 개수
+	@Override
+	public int countEnjoy() {
+		return cmDao.countEnjoy();
+	}
+	
+	//이전글 제목 가져오기
+	@Override
+	public EnjoyCoffeeDto getEnjoyPreTitle(int rownum) {
+		return cmDao.getEnjoyPreTitle(rownum);
+	}
+
+	//다음글 제목 가져오기
+	@Override
+	public EnjoyCoffeeDto getEnjoyNextTitle(int rownum) {
+		return cmDao.getEnjoyNextTitle(rownum);
+	}
+	
+	
 	//-----------------------------------------    상품평           ----------------------------------------
 	//상품평 가져오기
 	@Override
@@ -88,6 +106,7 @@ public class CommunityServiceImp implements CommunityService {
 	public int delReview(int ru_num) {
 		return cmDao.delReview(ru_num);
 	}
+
 	
 	
 }

@@ -18,11 +18,19 @@ public interface CommunityService {
 	//---------------------------------------  enjoy coffee   ---------------------------------
 	
 	//enjoy coffee 리스트
-	List<EnjoyCoffeeDto> enjoy_List();
+	List<EnjoyCoffeeDto> enjoy_List(PageDto pageDto);
 		
 	//enjoy coffee 조회수 증가
 	void enjoy_hitUp(int ej_num);
+	
+	//enjoy coffee 게시글 개수 가져오기
+	int countEnjoy();
 
+	//enjoy 이전글
+	EnjoyCoffeeDto getEnjoyPreTitle(int rownum);
+	
+	//enjoy 다음글
+	EnjoyCoffeeDto getEnjoyNextTitle(int rownum);
 	
 	//-----------------------------------------    상품평           ----------------------------------------
 	
@@ -46,6 +54,8 @@ public interface CommunityService {
 
 	//리뷰 삭제하기
 	int delReview(int ru_num);
+
+
 
 		
 

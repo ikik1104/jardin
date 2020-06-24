@@ -125,8 +125,7 @@ function search() {
 			<div id="left">
 				<div id="title2">COMMUNITY<span>커뮤니티</span></div>
 				<ul>	
-					<li><a href="#" id="leftNavi1">체험단</a></li>
-					<li><a href="#" id="leftNavi2">사용 후기</a></li>
+					<li><a href="review_list?ru_type=일반" id="leftNavi2">사용 후기</a></li>
 					<li class="last"><a href="enjoy_list" id="leftNavi3">ENJOY COFFEE</a></li>
 				</ul>			
 			</div><script type="text/javascript">initSubmenu(2,0);</script>
@@ -258,9 +257,6 @@ function search() {
 		</div>
 	</div>
 	<!-- //container -->
-
-
-
 
 	<jsp:include page="../footer.jsp" />
 

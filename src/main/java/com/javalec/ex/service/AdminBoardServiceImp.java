@@ -32,7 +32,13 @@ public class AdminBoardServiceImp implements AdminBoardService {
 	public List<CommentDto> comment_List(){
 		return abDao.comment_List();
 	}
-	
+	@Override
+	public int comment_delete(int cId) {
+		return abDao.comment_delete(cId);
+	}
+
+
+
 
 	//관리자------------------------
 
@@ -220,8 +226,6 @@ public class AdminBoardServiceImp implements AdminBoardService {
 	public List<Object> getSearchQna(HashMap<String, Object> map) {
 		return abDao.getSearchQna(map);
 	}
-
-
 
 	
 	

@@ -56,8 +56,6 @@ public class CommonUtils {
 
 	public String FileUploaderCDN(MultipartFile mFile, String folderName) throws IOException {
 
-
-
 //		String fileExtension = ".jpg";
 
 //		if (!mFile.getOriginalFilename().equals("blob")) {

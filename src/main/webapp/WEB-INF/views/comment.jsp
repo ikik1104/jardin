@@ -18,6 +18,44 @@
 			$(function() {
 				getComment_List();
 			});
+			
+			function comment_insert(num) {
+				$.ajax({
+					type:'post',
+					url:"./comment_delete",
+					data:{ cId : num },  //$("#toptable").serialize, //bId:25
+					contentType:"application/json; charset=UTF-8",
+					success:function(data){
+						if(data == 1){
+							alert("데이터가 삭제되었습니다/");
+							getComment_List();
+						}
+					},
+					error:function(request,status,error){
+						alert("실패"+error);
+					}
+				});
+			}
+			
+			
+			
+			function comment_delete(num) {
+				$.ajax({
+					type:'post',
+					url:"./comment_delete",
+					data:{ cId : num },  //$("#toptable").serialize, //bId:25
+					contentType:"application/json; charset=UTF-8",
+					success:function(data){
+						if(data == 1){
+							alert("데이터가 삭제되었습니다/");
+							getComment_List();
+						}
+					},
+					error:function(request,status,error){
+						alert("실패"+error);
+					}
+				});
+			}
 		
 			//댓글 리스트
 			function getComment_List() {
@@ -27,10 +65,27 @@
 					dataType:"json",
 					data:{ },  //$("#toptable").serialize, //bId:25
 					contentType:"application/json; charset=UTF-8",
-					success:function(date){
+					success:function(data){
 						alert("성공");
 						var html="";
-						var cCnt = data.length; //list 개수를 확인할 수 있음
+						var cCnt = data.length; // list 개수를 확인할 수 있음
+						$("#Ccnt").html(cCnt);
+						
+						if(data.length>0){
+							for(var i=0; i<data.length;i++){
+							
+								html += '<tr><td colspan="2"><h5>작성자 : '+data[i].cName+' </h5></td></tr>';
+								html += '<tr><td>내용 : '+data[i].cContent+'</td>';
+								html += '<td><a href="#">수정</a><a onclick="comment_delete('+data[i].cId+')">삭제</a></td></tr>';
+								
+							}
+						}else{
+							html += '<tr><td colspan="2"><h5>작성자 : 없음  </h5></td></tr>';
+							html += '<tr><td>내용 : 등록된 댓글이 없습니다. </td>';
+							html += '<td></td></tr>';
+						}
+						
+						$("#commentList").html(html);
 						
 					},
 					error:function(request,status,error){
@@ -42,7 +97,7 @@
 	</head>
 <body>
 	<form action="" id="toptable" name="toptable" method="post">
-		<h3>댓글 개수 : <span id="Ccnt">100</span></h3> 
+		<h3>댓글 개수 : <span id="Ccnt"></span></h3> 
 		<table id="top_table">
 			<tr>
 				<td>
@@ -55,16 +110,7 @@
 	</form>
 	<form action="commentListForm" name="commentListForm" method="post">
 		<table id="commentList">
-			<tr>
-				<td colspan="2"><h5>작성자 : </h5></td>
-			</tr>
-			<tr>
-				<td>내용 : 댓글에 입력한 글자가 여기에 나타납니다.</td>
-				<td>
-					<a href="#">수정</a>
-					<a href="#">삭제</a>
-				</td>
-			</tr>
+			<!-- ajax의 데이터를 넣는 곳 -->
 		</table>
 	</form>
 </body>
