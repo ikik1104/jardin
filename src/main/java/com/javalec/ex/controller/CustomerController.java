@@ -39,7 +39,7 @@ public class CustomerController {
 			model.addAttribute("list", csService.getFaq_StepList(request.getParameter("f_step"))); 
 			model.addAttribute("f_step", request.getParameter("f_step")); 
 		}
-		return "customer/faq";
+		return "customer/faq_all";
 	}
 	
 	

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>    
+<script type="text/javascript" src="user/js/common.js"></script>
   <!-- 헤더 -->  
     <div id="header">
 		
@@ -9,16 +11,21 @@
 				<div id="mnaviOpen"><img src="user/images/btn/btn_mnavi.gif" width="33" height="31" alt="메뉴열기" /></div>
 				<div id="mnaviClose"><img src="user/images/btn/btn_mnavi_close.gif" width="44" height="43" alt="메뉴닫기" /></div>
 				<ul>
-					<li><a href="#">EVENT</a></li>
+					<li><a href="event">EVENT</a></li>
 					<li><a href="notice_Ulist">CUSTOMER</a></li>
-					<li><a href="review_list">COMMUNITY</a></li>
+					<li><a href="review_list?ru_type=일반">COMMUNITY</a></li>
 				</ul>
 			</div>
 			<div id="snb">
 				<ul>
-					<li><a href="#">LOGIN</a></li>
+					<c:if test="${userID==null  }"><!-- 로그인 안 되어 있을 때 -->
+						<li><a href="login"  style="cursor:pointer;">LOGIN</a></li>
+					</c:if>
+					<c:if test="${userID!=null }">
+						<li><a onclick="user_logout()" style="cursor:pointer;">LOGOUT</a></li>						
+					</c:if>
 					<li><a href="#">JOIN</a></li>
-					<li><a href="#">MY PAGE</a></li>
+					<li><a href="ordercheck">MY PAGE</a></li>
 					<li><a href="#">CART</a></li>
 				</ul>
 				<form action="main_search" method="get" name="search">

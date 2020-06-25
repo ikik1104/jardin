@@ -19,7 +19,7 @@
 <script type="text/javascript" src="user/js/top_navi.js"></script>
 <script type="text/javascript" src="user/js/left_navi.js"></script>
 <script type="text/javascript" src="user/js/main.js"></script>
-<script type="text/javascript" src="user/js/common.js"></script>
+<!-- <script type="text/javascript" src="user/js/common.js"></script> -->
 <script type="text/javascript" src="user/js/jquery.easing.1.3.js"></script>
 <script type="text/javascript" src="user/js/idangerous.swiper-2.1.min.js"></script>
 <script type="text/javascript" src="user/js/jquery.anchor.js"></script>
@@ -30,36 +30,37 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	
-	$(".hiddenstatus").each(function(){
-		var status = $(this).val();
-     	substring = "배송완료";
-     	substring2 = "구매확정";
- 		var index = $(this).next(".heavygray").attr('id');
-     	if(status.indexOf(substring) !== -1){
-     		$("#"+index).text("배송완료");	
-     	} else if(status.indexOf(substring2) !== -1) {
-     		$("#"+index).text("구매확정");	
-		} else {
-     		$("#"+index).text(status);	
-     	}
-	});
+// 	$(".hiddenstatus").each(function(){
+// 		var status = $(this).val();
+//      	substring = "배송완료";
+//      	substring2 = "구매확정";
+//  		var index = $(this).next(".heavygray").attr('id');
+//      	if(status.indexOf(substring) !== -1){
+//      		$("#"+index).text("배송완료");	
+//      	} else if(status.indexOf(substring2) !== -1) {
+//      		$("#"+index).text("구매확정");	
+// 		} else {
+//      		$("#"+index).text(status);	
+//      	}
+// 	});
 	
 	//status
     var innerHtml = "";
 	 $(".heavygray").each(function(){
-        if($(this).text() == "입금대기중"){
+        if($(this).text() == "입금대기"){
         	var index = $(this).attr('id');
         	var ol_order_num = $('#on'+index).text();
-        	innerHtml = '<li><a href="#" class="nbtnMini iw83" onclick="wait_cancel('+ol_order_num+')">취소</a></li>';
+        	innerHtml = '<li><a href="#" class="nbtnMini iw83" onclick="wait_cancel(\''+ol_order_num+'\')">취소</a></li>';
         	$('#state'+index).html(innerHtml);
         } 
         if($(this).text() == "배송완료"){
         	var index = $(this).attr('id');
         	var ol_order_num = $('#on'+index).text();
+        	console.log(ol_order_num);
         	innerHtml = '<li class="r5"><a href="#" class="obtnMini iw40" onclick="changebtn()">교환</a></li>'
         				+'<li><a href="takeback_deli?ol_order_num='+ol_order_num+'" class="returnbtn nbtnMini iw40 layerpopup">반품</a></li>'
         				+'<li><a href="my_review_alert?ol_order_num='+ol_order_num+'" class="reviewbtn layerpopup" >리뷰작성</a></li>'
-        				+'<li><a href="#" class="decidebtn" onclick="buy_decide('+ol_order_num+')">구매확정</a></li>';
+        				+'<li><a href="#" class="decidebtn" onclick="buy_decide(\''+ol_order_num+'\')">구매확정</a></li>';
         	$('#state'+index).html(innerHtml);
         } 
         if($(this).text() == "구매확정"){
@@ -87,7 +88,7 @@ function changebtn(){
 //배송완료 상태에서 구매확정 버튼 클릭
 function buy_decide(ol_order_num){
 	if(confirm("구매를 확정하시겠습니까? 구매 확정 후에는 반품, 교환이 불가합니다.")){
- 		location.href="decide_buying?ol_order_num="+ol_order_num;
+ 		location.href="decide_buying?ol_order_num="+ol_order_num+"&page=ordercheck";
 	}	
 }
 
@@ -97,7 +98,7 @@ function wait_cancel(ol_order_num){
    	 $.ajax({
    		 type : "POST",
    		 url : "cancel_order",
-   		 data : JSON.stringify(ol_order_num),
+   		 data : ol_order_num,
    		 contentType : "application/json",
             dataType : "json",
             success : function(val){
@@ -283,7 +284,7 @@ function wait_cancel(ol_order_num){
     									</td>
     									<td class="tnone">${ ol.OSUM } 원</td>
     									<td>
-                                            <input type="hidden" class="hiddenstatus" id="status${ status.index }" value=${ ol.OSTATUS }/>
+                                            <input type="hidden" class="hiddenstatus" id="status${ status.index }" value="${ ol.OSTATUS }"/>
     										<span class="heavygray" id="${ status.index }">${ ol.OSTATUS }</span>
     										<ul class="state" id="state${ status.index }"></ul>										
     									</td>

@@ -147,19 +147,15 @@ $(document).ready(function() {
                                 <colgroup>
                                 <col width="*" />
                                 <col width="8%" class="pnone" />
-                                <col width="12%" class="pnone" />
-                                <col width="12%" class="pnone" />
-                                <col width="12%" class="pnone" />
-                                <col width="12%" class="ptw30"/>
-                                <col width="12%" class="pnone" />
+                                <col width="13%" class="pnone" />
+                                <col width="13%" class="pnone" />
+                                <col width="13%" class="pnone" />
                                 </colgroup>
                                 <thead>
                                     <th scope="col">상품명</th>
                                     <th scope="col" class="pnone">수량</th>
                                     <th scope="col" class="pnone">판매가</th>
                                     <th scope="col" class="pnone">할인가</th>
-                                    <th scope="col" class="pnone">배송비</th>
-                                    <th scope="col">합계</th>
                                     <th scope="col" class="pnone">상태</th>
                                 </thead>
                                 <tbody>
@@ -168,11 +164,9 @@ $(document).ready(function() {
                                             <td class="left">
                                                 ${ plist.P_NAME }
                                             </td>
-                                            <td class="pnone">${ plist.OL_AMT }개</td>
-                                            <td class="pnone">${ plist.P_PRICE }원</td>
-                                            <td class="pnone">${ plist.OC_SEMI_SUM } 원</td>
-                                            <td class="pnone">${ plist.OC_DELIV_FEE } 원</td>
-                                            <td>${ plist.OC_FINAL_SUM } 원</td>
+                                            <td class="pnone">${ plist.OL_AMT } 개</td>
+                                            <td class="pnone">${ plist.P_PRICE } 원</td>
+                                            <td class="pnone">${ plist.OL_FINAL_PRICE } 원</td>
                                             <td class="pnone">${ plist.OL_STATUS }</td>
                                         </tr>
                                     </c:forEach>
@@ -276,7 +270,7 @@ $(document).ready(function() {
                                     </tr>
                                     <tr>
                                         <th scope="row" class="align_center"><span>결제총액</span></th>
-                                        <td>원</td>
+                                        <td>${ ilist.OC_FINAL_SUM }원</td>
                                     </tr>
                                     <tr>
                                         <th scope="row" class="align_center"><span>결제수단</span></th>
@@ -305,27 +299,27 @@ $(document).ready(function() {
                                 <tbody>
                                     <tr>
                                         <th scope="row" class="align_center"><span>구매자 명</span></th>
-                                        <td>홍길동</td>
+                                        <td>${ ilist.M_NAME }</td>
                                     </tr>
                                     <tr>
                                         <th scope="row" class="align_center"><span>수취인 명</span></th>
-                                        <td>김철수</td>
+                                        <td>${ ilist.RE_NAME }</td>
                                     </tr>
                                     <tr>
                                         <th scope="row" class="align_center"><span>배송지 주소</span></th>
-                                        <td>[123-456] 경기도 오산시 원동</td>
+                                        <td>[${ ilist.RE_ZIPCODE }] ${ ilist.RE_ADDRESS1 } ${ ilist.RE_ADDRESS2 }</td>
                                     </tr>
                                     <tr>
                                         <th scope="row" class="align_center"><span>휴대전화</span></th>
-                                        <td>010-1234-5678</td>
+                                        <td>${ ilist.RE_PHONE }</td>
                                     </tr>
                                     <tr>
                                         <th scope="row" class="align_center"><span>전화번호</span></th>
-                                        <td>031-1234-5678</td>
+                                        <td>${ ilist.RE_TEL }</td>
                                     </tr>
                                     <tr>
                                         <th scope="row" class="align_center"><span>배송<u>요구사항</u></span></th>
-                                        <td>부재시 경비실에 맡겨주세요.</td>
+                                        <td>${ ilist.M_MSG }</td>
                                     </tr>
             
                                 </tbody>

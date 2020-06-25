@@ -163,17 +163,23 @@ $(document).ready(function() {
 		<div id="mainRoll">
 			<div class="swiper-wrapper">
 				<div class="swiper-slide">
-					<a href="#"><img src="user/images/img/main_visible01.jpg" alt="" /></a>
+					<a href="#"><img src="${ mbdto.getB_1() }" alt="" /></a>
 				</div>
-				<div class="swiper-slide">
-					<a href="#"><img src="user/images/img/main_visible01.jpg" alt="" /></a>
-				</div>
-				<div class="swiper-slide">
-					<a href="#"><img src="user/images/img/main_visible01.jpg" alt="" /></a>
-				</div>
-				<div class="swiper-slide">
-					<a href="#"><img src="user/images/img/main_visible01.jpg" alt="" /></a>
-				</div>
+                <c:if test="${ not empty mbdto.getB_2() }">
+    				<div class="swiper-slide">
+    					<a href="#"><img src="${ mbdto.getB_2() }" alt="" /></a>
+    				</div>
+                </c:if>
+                <c:if test="${ not empty mbdto.getB_3() }">
+    				<div class="swiper-slide">
+    					<a href="#"><img src="${ mbdto.getB_3() }" alt="" /></a>
+    				</div>
+                </c:if>
+                <c:if test="${ not empty mbdto.getB_4() }">
+    				<div class="swiper-slide">
+    					<a href="#"><img src="${ mbdto.getB_4() }" alt="" /></a>
+    				</div>
+                </c:if>
 			</div>
 			<div id="mainThum"></div>
 		</div>

@@ -75,9 +75,6 @@ $(document).ready(function() {
      
      
      function inq_delete(iu_num){
-    	 
-    	 console.log(typeof iu_num);
-    	 console.log("inquiry : "+iu_num);
     	     	 
     	 if(confirm("1:1문의를 삭제하시겠습니까? (삭제시 더이상 답변을 확인할 수 없습니다.)")){
              $.ajax({
@@ -238,7 +235,7 @@ $(document).ready(function() {
 					<div class="btnArea">
 						<div class="bRight">
 							<ul>
-								<li><a href="inquiry_modify?m_num=${ inq_view.getM_num() }&iu_num=${ inq_view.getIu_num() }&rownum=${ rownum }" class="nbtnbig mw">수정</a></li>
+								<li><a href="inquiry_modify?m_num=${ inq_view.getM_num() }&iu_num=${ inq_view.getIu_num() }&rownum=${ rownum+1 }" class="nbtnbig mw">수정</a></li>
 								<li><a href="#" class="nbtnbig mw" onclick="inq_delete(${inq_view.getIu_num()})">삭제</a></li>
 								<li><a href="inquiry?m_num=${ inq_view.getM_num() }" class="sbtnMini mw">목록</a></li>
 							</ul>

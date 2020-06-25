@@ -100,17 +100,17 @@
 	
 	<!-- 주문리스트 등록 (제품 쿠폰 사용한 경우)  -->
 	<insert id="insertOrderList" parameterType="com.javalec.ex.dto.OrderListDto">
-		insert into orderlist_tb values(ol_seq.nextval, #{ol_order_num}, #{ol_orderer_id}, #{p_num}, #{ol_amt}, (select co_num from c_issue_tb where ci_num=#{co_num}), ((select p_price from product_tb where p_num=#{p_num})-(select co_discount from coupon_tb where co_num=(select co_num from c_issue_tb where ci_num=#{co_num}))), #{ol_payment}, sysdate, null, default)
+		insert into orderlist_tb values(ol_seq.nextval, #{ol_order_num}, #{ol_orderer_id}, #{p_num}, #{ol_amt}, (select co_num from c_issue_tb where ci_num=#{co_num}), ((select p_price from product_tb where p_num=#{p_num})-(select co_discount from coupon_tb where co_num=(select co_num from c_issue_tb where ci_num=#{co_num}))), #{ol_payment}, sysdate, null, #{ol_status})
 	</insert>
 	
 	<!-- 주문리스트 등록 (제품 쿠폰 사용하지 않은 경우)  -->
 	<insert id="insertOrderList2" parameterType="com.javalec.ex.dto.OrderListDto">
-		insert into orderlist_tb values(ol_seq.nextval, #{ol_order_num}, #{ol_orderer_id}, #{p_num}, #{ol_amt}, default, (select p_price from product_tb where p_num=#{p_num}), #{ol_payment}, sysdate, null, default)
+		insert into orderlist_tb values(ol_seq.nextval, #{ol_order_num}, #{ol_orderer_id}, #{p_num}, #{ol_amt}, default, (select p_price from product_tb where p_num=#{p_num}), #{ol_payment}, sysdate, null, #{ol_status})
 	</insert>
 	
 	<!-- 주문자, 수취자 정보 등록 -->
 	<insert id="insertOrReInfo" parameterType="hashmap">
-		insert into orderer_receiver_tb values(#{ol_order_num}, #{m_name}, #{m_zipcode}, #{m_address1}, #{m_address2}, #{email_id}||'@'||#{email_domain}, #{phone1}||'-'||#{phone2}||'-'||#{phone3}, #{tel1}||'-'||#{tel2}||'-'||#{tel3}, #{re_name}, #{re_zipcode}, #{re_address1}, #{re_address2}, #{re_phone1}||'-'||#{re_phone2}||'-'||#{re_phone3}, #{re_tel1}||'-'||#{re_tel2}||'-'||#{re_tel3}, (NVL2(#{m_msg},#{m_msg},'없음')))
+		insert into orderer_receiver_tb values(#{ol_order_num}, #{m_name}, #{m_zipcode}, #{m_address1}, #{m_address2}, #{email_id}||'@'||#{email_domain}, #{phone1}||'-'||#{phone2}||'-'||#{phone3}, #{tel1}||'-'||#{tel2}||'-'||#{tel3}, #{re_name}, #{re_zipcode}, #{re_address1}, #{re_address2}, #{re_phone1}||'-'||#{re_phone2}||'-'||#{re_phone3}, #{re_tel1}||'-'||#{re_tel2}||'-'||#{re_tel3}, (NVL2(#{m_msg},#{m_msg},'없음')), #{bank}, #{dep_name})
 	</insert>
 	
 	<!-- 주문쿠폰적용 테이블 등록 -->
@@ -142,5 +142,15 @@
 	<insert id="insertUsedPoint">
 		insert into point_tb values(pnt_seq.nextval, #{param1}, '사용', #{param2}, sysdate, #{param3})
 	</insert>
+	
+	<!-- 포인트 적립 내역 등록 -->
+	<insert id="insertSavePoint">
+		insert into point_tb values(pnt_seq.nextval, #{param1}, '적립', #{param2}, sysdate, #{param3})
+	</insert>
+	
+	<!-- 비회원 바로구매/장바구니 담기 시, 제품 정보 불러오기 -->
+	<select id="getProductInfo" resultType="com.javalec.ex.dto.ProductDto">
+		select * from product_tb where p_num=${param1}
+	</select>
 
 </mapper>

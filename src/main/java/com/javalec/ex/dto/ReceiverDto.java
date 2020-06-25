@@ -16,12 +16,14 @@ public class ReceiverDto {
 	private String re_phone;     //수취자 휴대폰
 	private String re_tel;     //수취자 일반폰
 	private String m_msg;     //배송 요구사항
+	private String bank;     // 입금은행(무통장만)
+	private String dep_name; // 입금자명(무통장만)
 	
 	public ReceiverDto() {}
 
 	public ReceiverDto(String ol_order_num, String m_name, int m_zipcode, String m_address1, String m_address2,
 			String m_email, String m_phone, String m_tel, String re_name, int re_zipcode, String re_address1,
-			String re_address2, String re_phone, String re_tel, String m_msg) {
+			String re_address2, String re_phone, String re_tel, String m_msg, String bank, String dep_name) {
 		super();
 		this.ol_order_num = ol_order_num;
 		this.m_name = m_name;
@@ -38,6 +40,8 @@ public class ReceiverDto {
 		this.re_phone = re_phone;
 		this.re_tel = re_tel;
 		this.m_msg = m_msg;
+		this.bank = bank;
+		this.dep_name = dep_name;
 	}
 
 	public String getOl_order_num() {
@@ -158,6 +162,22 @@ public class ReceiverDto {
 
 	public void setM_msg(String m_msg) {
 		this.m_msg = m_msg;
+	}
+
+	public String getBank() {
+		return bank;
+	}
+
+	public void setBank(String bank) {
+		this.bank = bank;
+	}
+
+	public String getDep_name() {
+		return dep_name;
+	}
+
+	public void setDep_name(String dep_name) {
+		this.dep_name = dep_name;
 	}
 
 	

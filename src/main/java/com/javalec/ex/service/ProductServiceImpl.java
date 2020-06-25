@@ -12,6 +12,7 @@ import com.javalec.ex.dao.BDao;
 import com.javalec.ex.dao.ProductDao;
 import com.javalec.ex.dto.BDto;
 import com.javalec.ex.dto.CartDto;
+import com.javalec.ex.dto.PageDto;
 import com.javalec.ex.dto.ProductDto;
 import com.javalec.ex.dto.QnrUserDto;
 import com.javalec.ex.dto.ReviewUserDto;
@@ -169,6 +170,32 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public int cart_insert(CartDto cdto) {
 		return pDao.cart_insert(cdto);
+	}
+
+	//------------------------------------------------------------
+
+	//한 제품의 리뷰 페이징 리스트
+	@Override
+	public List<Map<String, Object>> pageReviewList(PageDto pageDto, int p_num,String ru_type) {
+		return pDao.pageReviewList(pageDto, p_num, ru_type);
+	}
+
+	//한 제품의 리뷰 총 개수
+	@Override
+	public int pageReviewCount(String ru_type, int p_num) {
+		return pDao.pageReviewCount(ru_type, p_num);
+	}
+
+	//한 제품의 질문과 답변 페이징 리스트
+	@Override
+	public List<Map<String, Object>> qnaList(PageDto pageDto, int p_num) {
+		return pDao.qnaList(pageDto, p_num);
+	}
+
+	//한 제품의 질문 총 개수
+	@Override
+	public int qnaUserCount(int p_num) {
+		return pDao.qnaUserCount(p_num);
 	}
 
 

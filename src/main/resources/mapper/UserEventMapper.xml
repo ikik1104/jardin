@@ -150,7 +150,7 @@
 	<!-- 댓글 pw 체크 -->
 	<select id="checkECommentPW" resultMap="E_CommentDto">
         select * from
-        (select ec_pw from ecomment_tb where ec_pw=#{ec_pw} and m_num=#{m_num}
+        (select ec_pw from ecomment_tb where ec_pw=#{ec_pw} and m_num=#{m_num}  and e_num=#{e_num}
 		union all
 		select '-' ec_pw from dual)
         where ec_pw!='-' or rownum =1

@@ -39,7 +39,6 @@ $(function() {
 	    var total_amt = $(".amt"+index).val(); //원래 총 수량
 	    var one_price = total_price / total_amt;
 	    var modi_amt = $(this).children('.spinner').val(); //변경된 수량을 가져옴	   
-	    alert(modi_amt);
 	    var modi_price = one_price * modi_amt;
 	    $("#price"+index).text(modi_price);
 	});
@@ -54,7 +53,8 @@ function return_req(ol_num, index){
 	var ol_price = $("#price"+index).text();
 	var origin_price = $(".tp"+index).val();
 	var p_name = $(".name"+index).text();
-	var array = [ol_num, ol_amt, origin_amt, ol_price, p_name, origin_price];
+	var ol_order_num = $(".onum"+index).val();
+	var array = [ol_num, ol_amt, origin_amt, ol_price, p_name, origin_price, ol_order_num];
 	location.href = 'takeback_reason?array='+array;
 }
 
@@ -106,6 +106,7 @@ function return_req(ol_num, index){
                             <input type="hidden" class="amt${ status.index }" value="${ list.OL_AMT }"/>
                             <input type="hidden" class="tp${ status.index }" value="${ list.OL_FINAL_PRICE }"/>
                             <input type="hidden" class="num${ status.index }" value="${ list.OL_NUM }"/>
+                            <input type="hidden" class="onum${ status.index }" value="${ list.OL_ORDER_NUM }"/>
                         </td>
 						<td class="pnone" id="price${ status.index }">${ list.OL_FINAL_PRICE }</td>
 						<td class="pnone"><a href="#" id="btn${ status.index }" onclick="return_req(${ list.OL_NUM }, ${ status.index })">신청하기</a></td>

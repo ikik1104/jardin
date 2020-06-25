@@ -122,17 +122,13 @@ $(document).ready(function() {
      }
      
   // 선택 상품 위시리스트에서 삭제
-     function del_wl(p_num, m_num) {
-
-     	var arrData = [p_num, m_num]; 
-     	
+     function del_wl(pNum) {
          if(confirm("해당 상품을 위시리스트에서 삭제하시겠습니까?")){
-            
+            var p_num = String(pNum);
          	$.ajax({
                  url : "del_wishlist",
-                 method : "POST",
-                 data: JSON.stringify(arrData),
-                 dataType : "json",
+                 type : "POST",
+                 data: p_num,
                  contentType: "application/json",
                  success : function(val){
                     if(val == 1){
@@ -147,17 +143,16 @@ $(document).ready(function() {
       }
   
   // 체크한 상품 한 번에 삭제
-     function del_chk(m_num){
+     function del_chk(){
      	var count = $('input:checkbox[name="chk"]:checked').length;
  		if(count>0){
  			if(confirm("선택하신 상품을 위시리스트에서 삭제하시겠습니까?")){
  				$("input[name=chk]:checked").each(function(){
  			  		var p_num =$(this).val();  
- 			    	var arrData = [p_num, m_num]
  			    	$.ajax({
  			        	type:"POST",
  			        	url : "del_wishlist",
- 			        	data: JSON.stringify(arrData),
+ 			        	data: p_num,
  			         	contentType: "application/json",
  			            success : function(data){
  			                        if(data == 1){
@@ -177,17 +172,15 @@ $(document).ready(function() {
   
   
      // 체크한 상품 장바구니로 이동
-     function go_cart(m_num){
+     function go_cart(){
      	var count = $('input:checkbox[name="chk"]:checked').length;
  		if(count>0){
  				$("input[name=chk]:checked").each(function(){
  			  		var p_num =$(this).val();  
- 			  		alert(p_num);
- 			    	var arrData = [m_num, p_num]
  			    	$.ajax({
  			        	type:"POST",
  			        	url : "go_cart",
- 			        	data: JSON.stringify(arrData),
+ 			        	data: p_num,
  			         	contentType: "application/json",
  			            success : function(data){
  			                        if(data == 1){
@@ -198,7 +191,7 @@ $(document).ready(function() {
  			            }
  			        });
  				});
- 				window.location.href="cart?m_num="+m_num;
+ 				window.location.href="cart";
  		}else {
  			alert("선택하신 상품이 없습니다. 상품을 먼저 선택해주시기 바랍니다.");
  		}
@@ -228,10 +221,10 @@ $(document).ready(function() {
 				<ul>	
 					<li><a href="#" id="leftNavi1">주문/배송 조회</a></li>
 					<li><a href="#" id="leftNavi2">반품/배송 현황</a></li>
-					<li><a href="cart?m_num=${memDto.m_num }" id="leftNavi3">장바구니</a></li>
-					<li><a href="wishlist?m_num=${memDto.m_num }" id="leftNavi4">위시리스트</a></li>
-					<li><a href="mycoupon?m_num=${memDto.m_num }" id="leftNavi5">나의 쿠폰</a></li>
-					<li><a href="mypoint?m_num=${memDto.m_num }" id="leftNavi6">나의 포인트</a></li>
+					<li><a href="cart" id="leftNavi3">장바구니</a></li>
+					<li><a href="wishlist" id="leftNavi4">위시리스트</a></li>
+					<li><a href="mycoupon" id="leftNavi5">나의 쿠폰</a></li>
+					<li><a href="mypoint" id="leftNavi6">나의 포인트</a></li>
 					<li><a href="#" id="leftNavi7">1:1문의</a></li>
 					<li><a href="#" id="leftNavi8">회원정보 수정</a></li>
 					<li class="last"><a href="#" id="leftNavi9">회원 탈퇴</a></li>
@@ -246,9 +239,10 @@ $(document).ready(function() {
 					
 					<div class="myInfo">
 						<ul>
-							<li class="info"><strong>${memDto.m_id }</strong> 님의 정보를 한눈에 확인하세요.</li>
+							<li class="info"><strong>${m_id }</strong> 님의 정보를 한눈에 확인하세요.</li>
 							<li>보유 쿠폰<br/><span class="num">${coupon }</span> <span class="unit">장</span></li>
-							<li class="point">내 포인트<br/><span class="num">${memDto.m_point }</span> <span class="unit">P</span></li>
+							<fmt:formatNumber var="mypoint" value="${memDto.m_point }" type="number"/>
+							<li class="point">내 포인트<br/><span class="num">${mypoint }</span> <span class="unit">P</span></li>
 							<li class="last">진행중인 주문<br/><span class="num">${order }</span> <span class="unit">건</span></li>
 						</ul>
 					</div>
@@ -279,7 +273,7 @@ $(document).ready(function() {
 								<tr>
 									<td><input type="checkbox" class="chk" name="chk" value="${allWishlist.p_num }"/></td>
 									<td class="left">
-										<p class="img"><img src="user/images/img/sample_product.jpg" alt="상품" width="66" height="66" /></p>
+										<p class="img"><img src="${allWishlist.pDto.p_thumb_img1}" alt="상품" width="66" height="66" /></p>
 
 										<ul class="goods">
 											<li>
@@ -292,7 +286,7 @@ $(document).ready(function() {
 									<td class="tnone">${p_price} 원<br/><span class="pointscore">${p_point } Point</span></td>
 									<td class="tnone">
 										<ul class="order">	
-											<li><a href="#" class="nbtnMini iw70" onclick="del_wl(${allWishlist.p_num }, ${memDto.m_num })">상품삭제</a></li>
+											<li><a href="#" class="nbtnMini iw70" onclick="del_wl(${allWishlist.p_num })">상품삭제</a></li>
 										</ul>
 									</td>
 								</tr>
@@ -305,8 +299,8 @@ $(document).ready(function() {
 					<div class="btnArea">
 						<div class="bRight">
 							<ul>
-								<li><a href="#" class="selectbtn_1" onclick="go_cart(${memDto.m_num })">선택상품 장바구니로 이동</a></li>
-								<li><a href="#" class="selectbtn2" onclick="del_chk(${memDto.m_num })">선택삭제</a></li>
+								<li><a href="#" class="selectbtn_1" onclick="go_cart()">선택상품 장바구니로 이동</a></li>
+								<li><a href="#" class="selectbtn2" onclick="del_chk()">선택삭제</a></li>
 							</ul>
 						</div>
 					</div>

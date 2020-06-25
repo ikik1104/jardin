@@ -7,7 +7,7 @@
 		<title>Insert title here</title>
 		<link rel="stylesheet" type="text/css" href="admin/css/admin_main.css">
 		<!-- 페이지 상단 또는 하단에 라이브러르 추가 --> 
-		<script type="text/javascript" src="se2/admin/js/HuskyEZCreator.js" charset="utf-8"></script> 
+<!-- 		<script type="text/javascript" src="se2/admin/js/HuskyEZCreator.js" charset="utf-8"></script>  -->
 		<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 		<!-- 페이지 로딩시 초기화 --> 
 		<script>
@@ -22,7 +22,7 @@
 		
 		function insertChk() {
 			
-			inputform.submit;
+			inputform.submit();
 		}
 		</script>
 		<style type="text/css">
@@ -50,7 +50,7 @@
 
 		<h1>enjoy Coffee 입력</h1>
 
-			<form action="enjoy_insert" name="inputform" method="post">
+			<form action="enjoy_insert" name="inputform" method="post" enctype="multipart/form-data">
 				<div id="input_form">
 					<table border="1">
 						<tr>
@@ -67,8 +67,7 @@
 						</tr>
 						<tr>
 							<td>첨부 이미지</td>
-<!-- 							<td><input type="file" name="file"></td> -->
-							<td><input type="text" name="ej_img"></td>
+							<td><input type="file" name="enjoy_img"></td>
 						</tr>
 					</table>
 					<div id="btn_div">
@@ -80,4 +79,4 @@
 	</section>
 	</body>
 </html>
-<script type="text/javascript" src = "admin/js/notice_write.js"></script>
+<!-- <script type="text/javascript" src = "admin/js/notice_write.js"></script> -->

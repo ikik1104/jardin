@@ -1,13 +1,18 @@
 package com.javalec.ex.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.javalec.ex.service.AdminOrderService;
 
 @Controller
@@ -16,44 +21,303 @@ public class AdminOrderController {
 	@Autowired
 	private AdminOrderService aoService;
 	
-	// 주문 전체 리스트
+	// 주문통합리스트 ----------------------------------------------------------------------------
+	
+	// 전체 리스트 (검색어 & 정렬 배제)
 	@RequestMapping("order_list")
 	public String order_list(HttpServletRequest request, Model model) {
 		
-		String opt = request.getParameter("option");
-		String opt_text = request.getParameter("opt_text");
-		String option ="";
-		if(opt == "ol.ol_order_num asc") {
-			option = "ol.ol_order_num asc";
-		}else {
-			option = opt+", ol.ol_order_num asc";
-		}
-		
+		HashMap<String, String> map = optionValue(request, model);
+		String option = map.get("option1");
+		String opt = map.get("opt1");
+		String listName = "";
 		model.addAttribute("allOrderlist", aoService.getAllOrderlist(option));
-		model.addAttribute("countOrder", aoService.countOrder());
+		model.addAttribute("countOrder", aoService.countOrder(listName));
 		model.addAttribute("selectedOpt", opt);
 		
 		return "admin/order/order_list";
 	}
 	
 	
+	// 주문통합리스트 - 검색 & 정렬
 	@RequestMapping("getSearchOrder")
 	public String getSearchOrder(@RequestParam HashMap<String, String> map, HttpServletRequest request, Model model) {
 	
+		HashMap<String, String> map3 = searchValue(map, request, model);
+
+		String keywordOpt1 = map3.get("keywordOpt");
+		String keyword1 = map3.get("keyword");
+		String e_start_day1 = map3.get("e_start_day");
+		String e_end_day1 = map3.get("e_end_day");
+		String status1 = map3.get("status");
+		String opt = map3.get("opt");
+		String listName = "";
+		
+		model.addAttribute("allOrderlist", aoService.search_1(map3));
+		model.addAttribute("keywordOpt", keywordOpt1);
+		model.addAttribute("keyword", keyword1);
+		model.addAttribute("e_start_day", e_start_day1);
+		model.addAttribute("e_end_day", e_end_day1);
+		model.addAttribute("status", status1);
+		model.addAttribute("selectedOpt", opt);
+		model.addAttribute("countOrder", aoService.countOrder(listName));
+		model.addAttribute("countSearch", aoService.countSearch(map3));
+		
+		return "admin/order/order_list";
+	}
+	
+	
+	// 입금대기 리스트 ----------------------------------------------------------------------------
+	
+	// 입금대기 리스트 
+	@RequestMapping("deposit_waiting_list")
+	public String deposit_waiting_list(HttpServletRequest request, Model model) {
+		HashMap<String, String> map = optionValue(request, model);
+		String status = "입금대기";
+		map.put("listName", "ol.ol_status='입금대기'");
+		
+		model.addAttribute("allOrderlist", aoService.deposit_waiting_list(map));
+		model.addAttribute("countOrder", aoService.countOrder(status));
+		return "admin/order/deposit_waiting_list";
+	}
+	
+	// 입금대기 리스트- 검색 & 정렬
+	@ResponseBody
+	@RequestMapping("dw_search")
+	public List<HashMap <String, Object>> dw_search(@RequestBody HashMap<String, String> map)throws Exception {
+	
+		String opt = map.get("option");
+		String option1 ="";
+		
+		if(opt==null || opt.equals("ol.ol_order_num asc")) {
+			option1 = "ol.ol_order_num asc";
+		}else {
+			option1 = opt+", ol.ol_order_num asc";
+		}
+		map.put("option1", option1);
+		List<HashMap<String, Object>> resultMap = aoService.searchandsort(map);
+			
+		return resultMap;
+	}
+	
+	// 결제완료 리스트
+		@RequestMapping("complete_payment_list")
+		public String complete_payment_list(HttpServletRequest request, Model model) {
+			HashMap<String, String> map = optionValue(request, model);
+			map.put("listName", "ol.ol_status='입금완료'");
+			String status = "입금완료";
+			
+			model.addAttribute("allOrderlist", aoService.deposit_waiting_list(map));
+			model.addAttribute("countOrder", aoService.countOrder(status));
+			return "admin/order/complete_payment_list";
+		}
+		
+		// 결제완료 리스트- 검색 & 정렬
+		@ResponseBody
+		@RequestMapping("cp_search")
+		public List<HashMap <String, Object>> cp_search(@RequestBody HashMap<String, String> map)throws Exception {
+			
+			String opt = map.get("option");
+			String option1 ="";
+			
+			if(opt==null || opt.equals("ol.ol_order_num asc")) {
+				option1 = "ol.ol_order_num asc";
+			}else {
+				option1 = opt+", ol.ol_order_num asc";
+			}
+			map.put("option1", option1);
+			List<HashMap<String, Object>> resultMap = aoService.searchandsort(map);
+			
+			return resultMap;
+		}
+		
+		
+		// 상품준비중(배송준비중) 리스트
+		@RequestMapping("pre_delivery_list")
+		public String pre_delivery_list(HttpServletRequest request, Model model) {
+			
+			HashMap<String, String> map = optionValue(request, model);
+			
+			map.put("listName", "ol.ol_status='배송준비중'");
+			
+			int count = aoService.deposit_waiting_list(map).size();		
+			model.addAttribute("allOrderlist", aoService.deposit_waiting_list(map));
+			model.addAttribute("count", count);
+			return "admin/order/pre_delivery_list";
+		}
+		
+		// 상품준비중(배송준비중) 리스트- 검색 & 정렬
+		@ResponseBody
+		@RequestMapping("pd_search")
+		public List<HashMap <String, Object>> pd_search(@RequestBody HashMap<String, String> map)throws Exception {
+			
+			String opt = map.get("option");
+			String option1 ="";
+			
+			if(opt==null || opt.equals("ol.ol_order_num asc")) {
+				option1 = "ol.ol_order_num asc";
+			}else {
+				option1 = opt+", ol.ol_order_num asc";
+			}
+			map.put("option1", option1);
+			map.put("listName", "ol.ol_status='배송준비중'");
+			List<HashMap<String, Object>> resultMap = aoService.searchandsort(map);
+			
+			return resultMap;
+		}
+		
+		
+		// 배송중 리스트
+		@RequestMapping("in_transit_list")
+		public String in_transit_list(HttpServletRequest request, Model model) {
+			
+			HashMap<String, String> map = optionValue(request, model);
+			
+			map.put("listName", "ol.ol_status='배송중'");
+			
+			int count = aoService.deposit_waiting_list(map).size();		
+			model.addAttribute("allOrderlist", aoService.deposit_waiting_list(map));
+			model.addAttribute("count", count);
+			return "admin/order/in_transit_list";
+		}
+		
+		// 배송중 리스트- 검색 & 정렬
+		@ResponseBody
+		@RequestMapping("it_search")
+		public List<HashMap <String, Object>> it_search(@RequestBody HashMap<String, String> map)throws Exception {
+			
+			String opt = map.get("option");
+			String option1 ="";
+			
+			if(opt==null || opt.equals("ol.ol_order_num asc")) {
+				option1 = "ol.ol_order_num asc";
+			}else {
+				option1 = opt+", ol.ol_order_num asc";
+			}
+			map.put("option1", option1);
+			map.put("listName", "ol.ol_status='배송중'");
+			List<HashMap<String, Object>> resultMap = aoService.searchandsort(map);
+			
+			return resultMap;
+		}
+		
+		
+	// 배숑완료 리스트
+	@RequestMapping("complete_delivery_list")
+	public String complete_delivery_list(HttpServletRequest request, Model model) {
+
+		HashMap<String, String> map = optionValue(request, model);
+		
+		map.put("listName", "ol.ol_status='배송완료'");
+		
+		int count = aoService.deposit_waiting_list(map).size();		
+		model.addAttribute("allOrderlist", aoService.deposit_waiting_list(map));
+		model.addAttribute("count", count);
+		return "admin/order/complete_delivery_list";
+	}
+	
+	// 배송완료 리스트- 검색 & 정렬
+	@ResponseBody
+	@RequestMapping("cd_search")
+	public List<HashMap <String, Object>> cd_search(@RequestBody HashMap<String, String> map)throws Exception {
+		
+		String opt = map.get("option");
+		String option1 ="";
+		
+		if(opt==null || opt.equals("ol.ol_order_num asc")) {
+			option1 = "ol.ol_order_num asc";
+		}else {
+			option1 = opt+", ol.ol_order_num asc";
+		}
+		map.put("option1", option1);
+		map.put("listName", "ol.ol_status='배송완료'");
+		List<HashMap<String, Object>> resultMap = aoService.searchandsort(map);
+			
+		return resultMap;
+	}
+	
+	
+	// 구매확정 리스트
+	@RequestMapping("confirm_buying_list")
+	public String confirm_buying_list(HttpServletRequest request, Model model) {
+		
+		HashMap<String, String> map = optionValue(request, model);
+		
+		map.put("listName", "ol.ol_status='구매확정'");
+		
+		int count = aoService.deposit_waiting_list(map).size();		
+		model.addAttribute("allOrderlist", aoService.deposit_waiting_list(map));
+		model.addAttribute("count", count);
+		return "admin/order/complete_delivery_list";
+	}
+	
+	// 구매확정 리스트- 검색 & 정렬
+	@ResponseBody
+	@RequestMapping("cb_search")
+	public List<HashMap <String, Object>> cb_search(@RequestBody HashMap<String, String> map)throws Exception {
+		
+		String opt = map.get("option");
+		String option1 ="";
+		
+		if(opt==null || opt.equals("ol.ol_order_num asc")) {
+			option1 = "ol.ol_order_num asc";
+		}else {
+			option1 = opt+", ol.ol_order_num asc";
+		}
+		map.put("option1", option1);
+		map.put("listName", "ol.ol_status='구매확정'");
+		List<HashMap<String, Object>> resultMap = aoService.searchandsort(map);
+		
+		return resultMap;
+	}
+	
+	
+	
+	
+	// 선택한 주문건 처리상태 변경
+	@ResponseBody
+	@RequestMapping("change_status")
+	public int change_status(@RequestBody String arrData[]) {
+		int success=aoService.change_status(arrData[0], arrData[1]);
+		return success;
+	}
+	
+	
+	// 공통 메소드 ----------------------------------------------------------------------------
+	// 기본 리스트 메소드
+	public HashMap<String, String> optionValue(HttpServletRequest request, Model model) {
 		String opt = request.getParameter("option");
-		String opt_text = request.getParameter("opt_text");
+		String option1 ="";
+		if(opt==null || opt == "ol.ol_order_num asc") {
+			option1 = "ol.ol_order_num asc";
+		}else {
+			option1 = opt+", ol.ol_order_num asc";
+		}
+		
+		HashMap<String, String> map1 = new HashMap<String, String>();
+		map1.put("option1", option1);
+		map1.put("opt1", opt);
+		
+		return map1;
+	}
+	
+	// 검색 & 정렬 메소드
+	public HashMap<String, String> searchValue(@RequestParam HashMap<String, String> map, HttpServletRequest request, Model model) {
+		
+		HashMap<String, String> map2 = new HashMap<String, String>();
+		
+		String opt = request.getParameter("option");
 				
 		String option ="";
-		System.out.println(opt);
-		System.out.println(opt_text);
+		
 		if(opt==null || opt=="ol.ol_order_num asc") {
 			option = "ol.ol_order_num asc";
 		}else {
 			option = opt+", ol.ol_order_num asc";
 		}
-		System.out.println(option);
-		map.put("option", option);
 		
+		map2.put("option", option);
+		map2.put("opt", opt);
 		
 		String keywordOpt1 = request.getParameter("keywordOpt");
 		String keyword1 = request.getParameter("keyword");
@@ -62,12 +326,12 @@ public class AdminOrderController {
 		String status1 = request.getParameter("status");
 		String search1="";
 		String whereQuery = "";
-		System.out.println(keyword1);
-		
-		map.put("keyword", keyword1);
-		map.put("e_start_day", e_start_day1);
-		map.put("e_end_day", e_end_day1);
-		map.put("status", status1);
+				
+		map2.put("keywordOpt", keywordOpt1);
+		map2.put("keyword", keyword1);
+		map2.put("e_start_day", e_start_day1);
+		map2.put("e_end_day", e_end_day1);
+		map2.put("status", status1);
 		
 		
 			switch (keywordOpt1) {
@@ -117,19 +381,10 @@ public class AdminOrderController {
 			}
 		}
 		
-		System.out.println(whereQuery);
-		map.put("whereQuery", whereQuery);
+		map2.put("whereQuery", whereQuery);
 		
-		model.addAttribute("allOrderlist", aoService.search_1(map));
-		model.addAttribute("keywordOpt", keywordOpt1);
-		model.addAttribute("keyword", keyword1);
-		model.addAttribute("e_start_day", e_start_day1);
-		model.addAttribute("e_end_day", e_end_day1);
-		model.addAttribute("status", status1);
-		model.addAttribute("selectedOpt", opt);
-		model.addAttribute("countOrder", aoService.countOrder());
-		model.addAttribute("countSearch", aoService.countSearch(map));
-		
-		return "admin/order/order_list";
+		return map2;
 	}
+	
+	
 }

@@ -4,10 +4,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.javalec.ex.dto.BDto;
 import com.javalec.ex.dto.CartDto;
+import com.javalec.ex.dto.PageDto;
 import com.javalec.ex.dto.ProductDto;
 import com.javalec.ex.dto.QnrUserDto;
 import com.javalec.ex.dto.ReviewUserDto;
@@ -81,5 +83,17 @@ public interface ProductDao { //상품
 	
 	//장바구니에 담기
 	int cart_insert (CartDto cdto);
+	
+	//------------------------------------------------------------
+	//한 제품의 리뷰 페이징 리스트
+	List<Map<String,Object>> pageReviewList(@Param("pageDto") PageDto pageDto,@Param("p_num") int p_num,@Param("ru_type") String ru_type);
+	//한 제품의 리뷰 총 개수
+	int pageReviewCount(@Param("ru_type") String ru_type,@Param("p_num") int p_num);
+	
+	//한 제품의 질문과 답변 페이징 리스트
+	List<Map<String,Object>> qnaList(@Param("pageDto") PageDto pageDto,@Param("p_num") int p_num);
+	//한 제품의 질문 총 개수
+	int qnaUserCount(@Param("p_num") int p_num);
+	
 	
 }

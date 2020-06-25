@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="com.javalec.ex.dao.NonMemDao">
+	
+	<!-- 비회원 주문 조회 -->
+	<select id="getAllNonOrder" resultType="HashMap">
+		select ot.ol_order_num onum, ol_final_price osum, pt.p_name p_name, ol_date odate, ol_status ostatus
+		from orderlist_tb ot
+		left join product_tb pt on ot.p_num=pt.p_num
+		where ol_order_num=#{order_num}
+	</select>
+
+	<!-- 비회원 반품 조회 -->
+	<select id="getAllClaim" resultType="HashMap">
+		select * from
+		(select rt_num, ol_order_num, rt_receipt_date, rt_sort, rt_status, p_name, m_id from return_tb
+		union
+		select rf_num, ol_order_num, rf_receipt_date, rf_sort, rf_status, p_name, m_id from refund_tb)
+		where ol_order_num=#{order_num}
+	</select>
+
+	<!-- 비회원 로그인 -->
+	<select id="nonMemLog" resultType="Integer">
+		select count(*) from orderlist_tb where ol_order_num=#{orderListDto.ol_order_num} and ol_orderer_id=#{orderListDto.ol_orderer_id}
+	</select>
+	<select id="nonMemLog2" resultType="Integer">
+		select count(*) from
+		(select rt_num, ol_order_num, rt_receipt_date, rt_sort, rt_status, p_name, m_id from return_tb
+		union
+		select rf_num, ol_order_num, rf_receipt_date, rf_sort, rf_status, p_name, m_id from refund_tb)
+		where ol_order_num=#{orderListDto.ol_order_num}
+	</select>
+	
+	
+</mapper>

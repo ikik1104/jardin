@@ -107,8 +107,7 @@ $(document).ready(function() {
 			<div id="left">
 				<div id="title2">COMMUNITY<span>커뮤니티</span></div>
 				<ul>	
-					<li><a href="#" id="leftNavi1">체험단</a></li>
-					<li><a href="#" id="leftNavi2">사용 후기</a></li>
+					<li><a href="review_list?ru_type=일반" id="leftNavi2">사용 후기</a></li>
 					<li class="last"><a href="enjoy_list" id="leftNavi3">ENJOY COFFEE</a></li>
 				</ul>			
 			</div><script type="text/javascript">initSubmenu(3,0);</script>
@@ -124,10 +123,10 @@ $(document).ready(function() {
 							<c:forEach items="${list}" var="list">
 							<!-- List -->
 							<li>
-								<div class="img"><img src="user/images/img/sample_epil.jpg" width="155" height="160" alt="" /></div>
+								<div class="img"><img src="${list.ej_img}" width="155" height="160" alt="" /></div>
 								<div class="txt">
 									<div class="subject">
-										<a href="enjoy_view?ej_num=${list.ej_num}&rownum=${list.rownum}" >${list.ej_title}</a>
+										<a href="enjoy_view?ej_num=${list.ej_num}&rownum=${list.rownum}&page=${paging.getPage()}" >${list.ej_title}</a>
 									</div>
 									<div class="conf">
 										${list.ej_content}
@@ -144,17 +143,34 @@ $(document).ready(function() {
 
 
 					<div class="btnAreaList">
+
 						<!-- 페이징이동1 -->
 						<div class="allPageMoving1">
-
-						<a href="#" class="n"><img src="user/images/btn/btn_pre2.gif" alt="처음으로"/></a><a href="#" class="pre"><img src="user/images/btn/btn_pre1.gif" alt="앞페이지로"/></a>
-						<strong>1</strong>
-						<a href="#">2</a>
-						<a href="#">3</a>
-						<a href="#">4</a>
-						<a href="#">5</a>
-						<a href="#" class="next"><img src="user/images/btn/btn_next1.gif" alt="뒤페이지로"/></a><a href="#" class="n"><img src="user/images/btn/btn_next2.gif" alt="마지막페이지로"/></a>
-
+							<a href="enjoy_list?page=1" class="n"><img src="user/images/btn/btn_pre2.gif" alt="처음으로"/></a>
+							<c:if test="${ paging.getPage()<=1 }">
+								<img src="user/images/btn/btn_pre1.gif" alt="앞페이지로"/>
+							</c:if>
+							<c:if test="${ paging.getPage()>1 }">
+								<a href="enjoy_list?page=${ paging.getPage() - 1 }" class="pre"><img src="user/images/btn/btn_pre1.gif" alt="앞페이지로"/></a>
+							</c:if>
+							<c:forEach var="num" begin="${ paging.getStartPage() }" end="${ paging.getEndPage() }" step="1">
+								<c:choose>
+									<c:when test="${ num == paging.getPage() }">
+										<strong>${ num }</strong>
+									</c:when>
+									<c:when test="${ num != paging.getPage() }">
+										<a href="enjoy_list?page=${ num }">${ num }</a>
+									</c:when>
+								</c:choose>
+							</c:forEach>
+							
+							<c:if test="${ paging.getPage()>= paging.getLastPage() }">
+								<img src="user/images/btn/btn_next1.gif" alt="뒤페이지로"/>
+							</c:if>
+							<c:if test="${ paging.getPage() < paging.getLastPage() }">
+								<a href="enjoy_list?page=${ paging.getPage() + 1 }" class="next"><img src="user/images/btn/btn_next1.gif" alt="뒤페이지로"/></a>
+							</c:if>
+							<a href="enjoy_list?page=${ paging.getLastPage() }" class="n"><img src="user/images/btn/btn_next2.gif" alt="마지막페이지로"/></a>
 						</div>
 						<!-- //페이징이동1 -->
 					</div>

@@ -61,10 +61,63 @@ $(document).ready(function() {
      var settimediv = 200000; //지속시간(1000= 1초)
      var msietimer;
 
-     $(document).ready(function () {
+     $(document).ready(function(){
          msiecheck();
+         
+         var listcount = $("input:checkbox[name=chk]").length;
+         if(listcount==0){
+        	 $("#hidden").css("display", "");
+         }else {
+        	 $("#hidden").css("display", "none");
+         }
+         
+         // 체크박스 선택에 따른 주문금액 변동
+  		$("#checkAll").click(function(){
+  		// 전체 선택 체크박스가 체크된 상태일 경우
+ 			if($('#checkAll').prop('checked')){
+ 				// 해당 화면에 있는 모든 checkbox들 체크
+ 				var sum = 0;
+ 				$('input[name=chk]:checkbox').each(function(){
+ 					$(this).prop('checked', true);
+ 					var chk_value =$(this).attr('id');  //id = ${p_num}_${p_price}
+ 		    		var sp = chk_value.split("_");
+ 					var p_price = sp[1];
+ 					var p_amt = $("#ipt_"+sp[0]).val();
+ 					
+ 					sum += Number(p_price)*Number(p_amt);
+ 				});
+ 				$('#sum1').text(commas(sum));
+ 				
+ 		 		if(sum>=30000){ 
+ 		 			$('#del_price').text("0");
+ 		 			$('#sum2').text(commas(sum));
+ 		 		}else{
+ 		 			$('#del_price').text("3,000");
+ 		 			$('#sum2').text(commas(sum+3000));
+ 		 		}
+ 				
+ 			}else {
+ 				// 해당 화면에 있는 모든 checkbox들 체크 해제
+ 				$('input[name=chk]:checkbox').each(function(){
+ 					$(this).prop('checked', false);
+ 				});
+ 				$('#sum1').text("0");
+ 				$('#del_price').text("0");
+ 				$('#sum2').text("0");
+ 			}
+  		});		
+         
+  		$(".chk").click(function(){
+			var checkboxLength = $('input:checkbox[name="chk"]').length;
+			var checkedLength = $('input:checkbox[name="chk"]:checked').length;
+			if(checkboxLength == checkedLength){
+				$('#checkAll').prop('checked', true);
+			}else {
+				$('#checkAll').prop('checked', false);
+			}
+		});
      });
-
+     
      var msiecheck = function () {
          var browser = navigator.userAgent.toLowerCase();
          if (browser.indexOf('msie 6') != -1 ||
@@ -86,6 +139,194 @@ $(document).ready(function() {
 		$("#ieUser").hide();
         clearTimeout(msietimer);
      }
+     
+  	// 천단위마다  콤마(,) 추가
+  	function commas(x) {
+  	       return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  	}
+  	
+  	function itemSum(){
+  		var sum=0;
+		$('input:checkbox[name=chk]:checked').each(function(){
+			var chk_value =$(this).attr('id');
+			var sp = chk_value.split("_");
+			var p_price = sp[1];
+			var p_amt = $("#ipt_"+sp[0]).val();
+			sum += Number(p_price)*Number(p_amt);
+		});
+		$('#sum1').text(commas(sum));
+		
+		if(sum>=30000 || sum==0){ 
+ 	 		$('#del_price').text("0");
+ 	 		$('#sum2').text(commas(sum));
+ 	 	}else if(0<sum<3000) {
+ 	 		$('#del_price').text("3,000");
+ 	 		$('#sum2').text(commas(sum+3000));
+ 	 	}
+  	}
+  	
+ // 수량 변경에 따른 해당 제품 총합계 변경
+	function ch1(price, num){
+		var id = document.getElementById("ipt_"+num);
+		$('#td1_'+num).text(commas(price * id.value)+"원");
+		
+		itemSum();
+	}	
+
+ // 전체 선택 버튼 클릭 시, 
+ 	function selectAll(){
+		$('#checkAll').prop('checked', true);
+		$('input:checkbox[name="chk"]').each(function(){
+			$(this).prop('checked', true);
+		});
+		itemSum();
+ 	}
+ 
+ // 바로구매 
+ 	function buyNow(p_num, p_amt){
+ 		var arrData = [p_num, p_amt];
+
+ 		if(confirm("구매하기 페이지로 이동하시겠습니까?")){
+ 			$.ajax({
+ 		        	type:"POST",
+ 		        	url : "cartUpdate",
+ 		        	data: JSON.stringify(arrData),
+ 		         	contentType: "application/json",
+ 		            success : function(data){
+ 		                        if(data == 1){
+ 		                        	alert("데이터 성공");
+ 		                        	location.href="payment";
+ 			    	       	}
+ 			        	  },
+ 				error:function(){
+ 						alert("서버통신실패");
+ 					  }
+ 			});
+ 			
+ 		}else {
+ 			return false;
+ 		}
+ 	}
+ 
+ 	 // 전체상품 주문하기
+    function orderAll(){
+    	// 전체상품 주문하기 버튼 클릭 시, 모든 상품의 체크박스 checked
+    	$('#checkAll').prop('checked', true);
+		$('input[name=chk]:checkbox').each(function(){
+			$(this).prop('checked', true);
+		});
+	
+    	$('input:checkbox[name=chk]:checked').each(function(){
+    		var chk_value =$(this).attr('id');  //id = ${p_num}_${p_amt}
+    		var sp = chk_value.split("_");
+    		var p_num = sp[0];
+			var p_amt = $("#ipt_"+sp[0]).val();
+			var arrData = [p_num, p_amt];
+			
+		$.ajax({
+	        	type:"POST",
+	        	url : "cartUpdate",
+	        	data: JSON.stringify(arrData),
+	         	contentType: "application/json",
+	            success : function(data){
+	                        if(data == 1){
+		    	       	}
+		        	  },
+			error:function(){
+					alert("서버통신실패");
+				  }
+		});
+	});
+    	location.href="payment";
+    }
+
+    
+ // 선택상품 주문하기
+    function orderSel(){
+	 
+    	var count = $('input:checkbox[name="chk"]:checked').length;
+		if(count>0){
+
+	    	$('input:checkbox[name=chk]:checked').each(function(){
+	    		var chk_value =$(this).attr('id');  //id = ${p_num}_${p_amt}
+	    		var sp = chk_value.split("_");
+	    		var p_num = sp[0];
+				var p_amt = $("#ipt_"+sp[0]).val();
+				var arrData = [p_num, p_amt];
+				
+				$.ajax({
+			        	type:"POST",
+			        	url : "cartUpdate",
+			        	data: JSON.stringify(arrData),
+			         	contentType: "application/json",
+			            success : function(data){
+			                        if(data == 1){
+				    	       	}
+				        	  },
+					error:function(){
+							alert("서버통신실패");
+						  }
+				});
+			});
+	    	window.location.href="payment";
+		}else {
+			alert("선택하신 상품이 없습니다. 주문하실 상품을 먼저 선택해주시기 바랍니다.");
+		}
+	}
+ 
+ // 선택한 제품 장바구니에서 삭제
+    function cart_del(pNum) {
+	 	var p_num = String(pNum);
+
+	 	if(confirm("선택하신 상품을 장바구니에서 삭제하시겠습니까?")){
+        	$.ajax({
+                type : "POST",
+                url : "cart_del",
+                data: p_num,
+                dataType : "json",
+                contentType: "application/json",
+                success : function(val){
+                   if(val == 1){
+                      location.reload();
+                   }
+                },
+                error : function(){
+                   alert("서버통신실패");
+                }
+             });
+        }
+     }
+ 
+ // 선택 상품 모두 삭제 
+	function chk_del(){
+		var count = $('input:checkbox[name="chk"]:checked').length;
+		if(count>0){
+			if(confirm("선택하신 상품을 장바구니에서 삭제하시겠습니까?")){
+				$("input[name=chk]:checked").each(function(){
+					var chk_value =$(this).attr('id');  //id = ${p_num}_${p_amt}
+		    		var sp = chk_value.split("_");
+		    		var p_num = sp[0];
+			    	$.ajax({
+			        	type:"POST",
+			        	url : "cart_del",
+			        	data: p_num,
+			         	contentType: "application/json",
+			            success : function(data){
+			                        if(data == 1){
+			                        }
+			                      },
+			            error:function(){
+			                   alert("서버통신실패");
+			            }
+			        });
+				});
+			    location.reload();
+			}
+		}else {
+			alert("선택하신 상품이 없습니다. 삭제하실 상품을 먼저 선택해주시기 바랍니다.");
+		}
+ }
+  	
 </script>
 
 <div id="allwrap">
@@ -125,7 +366,7 @@ $(document).ready(function() {
 							<col width="14%" class="tnone" />
 							</colgroup>
 							<thead>
-								<th scope="col"><input type="checkbox" /></th>
+								<th scope="col"><input type="checkbox" id="checkAll" checked/></th>
 								<th scope="col">상품명</th>
 								<th scope="col" class="tnone">가격</th>
 								<th scope="col">수량</th>
@@ -133,49 +374,41 @@ $(document).ready(function() {
 								<th scope="col" class="tnone">주문</th>
 							</thead>
 							<tbody>
-								<tr>
-									<td><input type="checkbox" /></td>
-									<td class="left">
-										<p class="img"><img src="user/images/img/sample_product.jpg" alt="상품" width="66" height="66" /></p>
-
-										<ul class="goods">
-											<li>
-												<a href="#">쟈뎅 오리지널 콜롬비아 페레이라 원두커피백 15p</a>
-											</li>
-										</ul>
-									</td>
-									<td class="tnone">1,123,400 원</td>
-									<td><input class="spinner" value="1" maxlength="3" /></td>
-									<td>1,123,400 원</td>
-									<td class="tnone">
+							<tr id="hidden" style="display: none; text-align: center">
+								<td colspan="4">장바구니에 등록한 상품이 없습니다.</td>
+							</tr>
+							<c:forEach var="cartlist" items="${cartlist }" >
+									<tr>
+										<td><input type="checkbox" class="chk" name="chk" id="${cartlist.pDto.p_num }_${cartlist.pDto.p_price}" onclick="itemSum()" checked/></td>
+										<td class="left">
+											<p class="img"><img src="${cartlist.pDto.p_thumb_img1 }" alt="상품" width="66" height="66" /></p>
+	
+											<ul class="goods">
+												<li>
+													<a href="product_detail?p_num=${cartlist.pDto.p_num }">${cartlist.pDto.p_name }</a>
+												</li>
+											</ul>
+										</td>
+										<td class="tnone">
+											<fmt:formatNumber var="productPrice" value="${cartlist.pDto.p_price }" type="number"/>
+											${productPrice } 원
+	
+											<!-- 회원일 시 -->
+											<br/><span class="pointscore">${cartlist.pDto.p_point } Point</span>
+											<!-- //회원일 시 -->
+										</td>
+										<td><input id="ipt_${cartlist.pDto.p_num}" class="spinner" onblur="ch1(${cartlist.pDto.p_price }, ${cartlist.pDto.p_num})" value="${cartlist.p_amt }" maxlength="3" /></td>
+										<fmt:formatNumber var="productPriceSum" value="${cartlist.pDto.p_price * cartlist.p_amt }" type="number"/>
+										<td id="td1_${cartlist.pDto.p_num}">${productPriceSum }원</td>
+										<td class="tnone">
 										<ul class="order">	
-											<li><a href="#" class="obtnMini iw70">바로구매</a></li>
-											<li><a href="#" class="nbtnMini iw70">상품삭제</a></li>
+											<li><a onclick="buyNow(${cartlist.pDto.p_num }, ${cartlist.p_amt })" class="obtnMini iw70" style="cursor: default;">바로구매</a></li>
+											<li><a onclick="cart_del(${cartlist.pDto.p_num })" class="nbtnMini iw70" style="cursor: default;">상품삭제</a></li>
 										</ul>
 									</td>
-								</tr>
-								
-								<tr>
-									<td><input type="checkbox" /></td>
-									<td class="left">
-										<p class="img"><img src="user/images/img/sample_product.jpg" alt="상품" width="66" height="66" /></p>
-
-										<ul class="goods">
-											<li>
-												<a href="#">가나다라마바사아자차카타파하 가나다라마바사아자차카타파하 가나다라마바사아자차카타파하</a>
-											</li>
-										</ul>
-									</td>
-									<td class="tnone">1,123,400 원</td>
-									<td><input class="spinner" value="1" maxlength="3" /></td>
-									<td>1,123,400 원</td>
-									<td class="tnone">
-										<ul class="order">	
-											<li><a href="#" class="obtnMini iw70">바로구매</a></li>
-											<li><a href="#" class="nbtnMini iw70">상품삭제</a></li>
-										</ul>
-									</td>
-								</tr>
+									</tr>
+									<c:set var="sum" value="${sum + cartlist.pDto.p_price * cartlist.p_amt }"/>
+								</c:forEach>
 							</tbody>
 						</table>
 					</div>
@@ -183,9 +416,8 @@ $(document).ready(function() {
 					<div class="btnArea">
 						<div class="bRight">
 							<ul>
-								<li><a href="#" class="selectbtn">전체선택</a></li>
-								<li><a href="#" class="selectbtn2">선택수정</a></li>
-								<li><a href="#" class="selectbtn2">선택삭제</a></li>
+								<li><a class="selectbtn" onclick="selectAll()">전체선택</a></li>
+								<li><a id="selectbtn2" class="selectbtn2" onclick="chk_del()">선택삭제</a></li>
 							</ul>
 						</div>
 					</div>
@@ -198,25 +430,34 @@ $(document).ready(function() {
 						<ul class="info">
 							<li>
 								<span class="title">상품 합계금액</span>
-								<span class="won"><strong>1,132,310</strong> 원</span>
+								<fmt:formatNumber var="sum1" value="${sum }" type="number"/>
+								<span class="won"><strong id="sum1">${sum1 }</strong> 원</span>
 							</li>
 							<li>
 								<span class="title">배송비</span>
-								<span class="won"><strong>2,500</strong> 원</span>
+								<span class="won"><strong  id="del_price">
+									<c:if test="${sum < 30000 }">
+										<c:out value="3,000"/>
+									</c:if>
+									<c:if test="${sum >= 30000 }">
+										<c:out value="0"/>
+									</c:if>
+								</strong> 원</span>
 							</li>
 						</ul>
 						<ul class="total">
 							<li class="txt"><strong>결제 예정 금액</strong></li>
-							<li class="money"><span>1,134,810</span> 원</li>
+							<fmt:formatNumber var="finalP" value="${sum+del_price }" type="number"/>
+							<li class="money"><span id="sum2">${finalP }</span> 원</li>
 						</ul>
 					</div>
 					<!-- //총 주문금액 -->
 
 					<div class="cartarea">
 						<ul>
-							<li><a href="#" class="ty1">선택상품 <span>주문하기</span></a></li>
-							<li><a href="#" class="ty2">전체상품 <span>주문하기</span></a></li>
-							<li class="last"><a href="#" class="ty3">쇼핑 <span>계속하기</span></a></li>
+							<li><a class="ty1" onclick="orderSel()">선택상품 <span>주문하기</span></a></li>
+							<li><a class="ty2" onclick="orderAll()">전체상품 <span>주문하기</span></a></li>
+							<li class="last"><a href="/ex/" class="ty3">쇼핑 <span>계속하기</span></a></li>
 						</ul>
 					</div>
 
@@ -244,6 +485,8 @@ $(document).ready(function() {
 $(function() {
 	var spinner = $( ".spinner" ).spinner({ min: 1, max: 999 });
 });
+
+
 </script>
 
 

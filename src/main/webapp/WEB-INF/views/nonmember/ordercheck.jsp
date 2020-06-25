@@ -30,11 +30,80 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	
-
+	//status
+    var innerHtml = "";
+	 $(".heavygray").each(function(){
+        if($(this).text() == "입금대기"){
+        	var index = $(this).attr('id');
+        	var ol_order_num = $('#on'+index).text();
+        	innerHtml = '<li><a href="#" class="nbtnMini iw83" onclick="wait_cancel(\''+ol_order_num+'\')">취소</a></li>';
+        	$('#state'+index).html(innerHtml);
+        } 
+        if($(this).text() == "배송완료"){
+        	var index = $(this).attr('id');
+        	var ol_order_num = $('#on'+index).text();
+        	var orderer = '${orderer}';
+        	console.log(orderer);
+        	innerHtml = '<li class="r5"><a href="#" class="obtnMini iw40" onclick="changebtn()">교환</a></li>'
+        				+'<li><a href="non_takeback_deli?ol_order_num='+ol_order_num+'&orderer='+orderer+'" class="returnbtn nbtnMini iw40 layerpopup">반품</a></li>'
+        				+'<li><a href="#" class="decidebtn" onclick="buy_decide(\''+ol_order_num+'\')">구매확정</a></li>';
+        	$('#state'+index).html(innerHtml);
+        } 
+        if($(this).text() == "입금완료"){
+        	var index = $(this).attr('id');
+        	var ol_order_num = $('#on'+index).text();
+        	innerHtml = '<li><a href="non_list_for_refund?ol_order_num='+ol_order_num+'" class="refund_req nbtnMini iw83 layerpopup">취소</a></li>';
+        	$('#state'+index).html(innerHtml);
+        } 
+    });
 
 });
+
+//교환버튼클릭
+function changebtn(){
+	alert("교환 불가 상품입니다. 자세한 문의사항은 1:1문의 게시판을 이용해주세요.");
+}
+
+//배송완료 상태에서 구매확정 버튼 클릭
+function buy_decide(ol_order_num){
+	var orderer = '${orderer}';
+	if(confirm("구매를 확정하시겠습니까? 구매 확정 후에는 반품, 교환이 불가합니다.")){
+ 		location.href="decide_buying?ol_order_num="+ol_order_num+"&page=nonmember_ordercheck&orderer="+orderer;
+	}	
+}
+
+//입금대기중 - 취소
+function wait_cancel(ol_order_num){
+	console.log(ol_order_num);
+	 if(confirm("주문을 취소하시겠습니까?")){
+   	 $.ajax({
+   		 type : "POST",
+   		 url : "cancel_order",
+   		 data : ol_order_num,
+   		 contentType : "application/json",
+            dataType : "json",
+            success : function(val){
+           	 if(val == 1){
+           		 alert("주문이 취소되었습니다.");
+           		 location.reload();
+           	 } else{
+           		 alert("주문을 취소할 수 없습니다. 관리자에게 문의하세요.");
+           	 }
+            },
+            error : function(){
+           	 alert("서버통신실패. 관리자에게 문의하세요.");
+            }
+   	 });
+	 } else {
+		 return;
+	 };//if confirm
+}
 </script>
+<style>
+h3{padding-top: 17px;}
+</style>
 </head>
+
 <body>
 
 
@@ -109,7 +178,7 @@ $(document).ready(function() {
 				<div id="title">비회원<br/>주문조회</div>
 				<ul>	
 					<li><a href="#" id="leftNavi1">비회원 주문조회</a></li>
-					<li class="last"><a href="#" id="leftNavi2">반품/교환 현황</a></li>
+					<li class="last"><a href="non_takeback_state?orderNum=${ orderNum }&orderName=${ orderer }" id="leftNavi2">반품/교환 현황</a></li>
 				</ul>			
 			</div><script type="text/javascript">initSubmenu(1,0);</script>
 
@@ -122,134 +191,60 @@ $(document).ready(function() {
 
 					<h3 class="dep">주문내역</h3>
 					<div class="orderDivNm">
-						<table summary="주문일자/주문번호, 상품명, 가격, 수량, 주문상태 순으로 조회를 하실수 있습니다." class="orderTable" border="1" cellspacing="0">
-							<caption>주문게시판</caption>
-							<colgroup>
-							<col width="25%" class="tw28" />
-							<col width="*" />
-							<col width="15%" class="tnone" />
-							<col width="8%" class="tnone" />
-							<col width="18%" class="tw30" />
-							</colgroup>
-							<thead>
-								<th scope="col">주문일자 <span>/ 주문번호</span></th>
-								<th scope="col">상품명</th>
-								<th scope="col" class="tnone">가격</th>
-								<th scope="col" class="tnone">수량</th>
-								<th scope="col">주문상태</th>
-							</thead>
-							<tbody>
-								<tr>
-									<td>
-										<p class="day">2012-05-30</p>
-										<p class="orderNum">201205301204-8057</p>
-									</td>
-									<td class="left">
-										쟈뎅 오리지널 콜롬비아 페레이라 원두커피백 15p
-									</td>
-									<td class="tnone">999,999 원</td>
-									<td class="tnone">1000개</td>
-									<td>
-										<span class="heavygray">배송완료</span>
-										<ul class="state">	
-											<li class="r5"><a href="mypage/return.html" class="obtnMini iw40">교환</a></li>
-											<li><a href="mypage/return.html" class="nbtnMini iw40">반품</a></li>
-											<li><a href="#" class="reviewbtn">리뷰작성</a></li>
-										</ul>										
-									</td>
-								</tr>
-
-								<tr>
-									<td>
-										<p class="day">2012-05-30</p>
-										<p class="orderNum">201205301204-8057</p>
-									</td>
-									<td class="left">
-										쟈뎅 오리지널 콜롬비아 페레이라 원두커피백 15p
-									</td>
-									<td class="tnone">999,999 원</td>
-									<td class="tnone">1000개</td>
-									<td>
-										<span class="lightgray">입금대기중</span>
-										<ul class="state">
-											<li><a href="#" class="nbtnMini iw83">취소</a></li>
-										</ul>										
-									</td>
-								</tr>
-
-								<tr>
-									<td>
-										<p class="day">2012-05-30</p>
-										<p class="orderNum">201205301204-8057</p>
-									</td>
-									<td class="left">
-										쟈뎅 오리지널 콜롬비아 페레이라 원두커피백 15p
-									</td>
-									<td class="tnone">999,999 원</td>
-									<td class="tnone">1000개</td>
-									<td>
-										<span class="lightgray">입금완료</span>
-										<ul class="state">
-											<li><a href="#" class="nbtnMini iw83">취소</a></li>
-										</ul>										
-									</td>
-								</tr>
-
-								<tr>
-									<td>
-										<p class="day">2012-05-30</p>
-										<p class="orderNum">201205301204-8057</p>
-									</td>
-									<td class="left">
-										쟈뎅 오리지널 콜롬비아 페레이라 원두커피백 15p
-									</td>
-									<td class="tnone">999,999 원</td>
-									<td class="tnone">1000개</td>
-									<td>
-										<span class="orange">배송중</span>									
-									</td>
-								</tr>
-
-								<tr>
-									<td>
-										<p class="day">2012-05-30</p>
-										<p class="orderNum">201205301204-8057</p>
-									</td>
-									<td class="left">
-										쟈뎅 오리지널 콜롬비아 페레이라 원두커피백 15p
-									</td>
-									<td class="tnone">999,999 원</td>
-									<td class="tnone">1000개</td>
-									<td>
-										<span class="orange">배송준비중</span>									
-									</td>
-								</tr>
-							</tbody>
-						</table>
-
-						<div class="noData">
-							주문내역이 없습니다.
-						</div>
+                    
+                    <!--  -->
+                    <c:if test="${ ordersize eq '0' }">    
+                        <div class="noData">
+                                                                등록된 상품이 없습니다.
+                        </div>
+                    </c:if>
+                    
+                    <c:if test="${ ordersize != '0' }">
+                        <table summary="주문일자/주문번호, 상품명, 가격, 수량, 주문상태 순으로 조회를 하실수 있습니다." class="orderTable" border="1" cellspacing="0">
+                            <caption>주문게시판</caption>
+                            <colgroup>
+                            <col width="25%" class="tw28" />
+                            <col width="*" />
+                            <col width="15%" class="tnone" />
+                            <col width="18%" class="tw30" />
+                            </colgroup>
+                            <thead>
+                                <th scope="col">주문일자 <span>/ 주문번호</span></th>
+                                <th scope="col">상품명</th>
+                                <th scope="col" class="tnone">가격</th>
+                                <th scope="col">주문상태</th>
+                            </thead>
+                            <tbody>
+                            
+                                <c:forEach var="ol" items="${ orderlist }" varStatus="status">
+                                    <tr class="parents">
+                                        <td>
+                                            <fmt:formatDate value="${ ol.ODATE }" pattern="yyyy-MM-dd" var="dateType" />
+                                            <p class="day">${ dateType }</p>
+                                            <a href="non_order_statement?ol_order_num=${ ol.ONUM }"><p class="orderNum" id="on${ status.index }">${ ol.ONUM }</p></a>
+                                        </td>
+                                        <td class="left">
+                                            ${ ol.P_NAME }
+                                        </td>
+                                        <td class="tnone">${ ol.OSUM } 원</td>
+                                        <td>
+                                            <input type="hidden" class="hiddenstatus" id="status${ status.index }" value="${ ol.OSTATUS }"/>
+                                            <span class="heavygray" id="${ status.index }">${ ol.OSTATUS }</span>
+                                            <ul class="state" id="state${ status.index }"></ul>                                     
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                                
+                              
+                                
+                            </tbody>
+                        </table>
+                    </c:if>
+                    
+                    <!-- // -->
+                    
 					</div>
 					
-
-					<div class="btnAreaList">
-						<!-- 페이징이동1 -->
-						<div class="allPageMoving1">
-
-						<a href="#" class="n"><img src="user/images/btn/btn_pre2.gif" alt="처음으로"/></a><a href="#" class="pre"><img src="user/images/btn/btn_pre1.gif" alt="앞페이지로"/></a>
-						<strong>1</strong>
-						<a href="#">2</a>
-						<a href="#">3</a>
-						<a href="#">4</a>
-						<a href="#">5</a>
-						<a href="#" class="next"><img src="user/images/btn/btn_next1.gif" alt="뒤페이지로"/></a><a href="#" class="n"><img src="user/images/btn/btn_next2.gif" alt="마지막페이지로"/></a>
-
-						</div>
-						<!-- //페이징이동1 -->
-					</div>
-
-
 				</div>
 			</div>
 			<!-- //contents -->
@@ -260,6 +255,17 @@ $(document).ready(function() {
 <script type="text/javascript">
 $(function(){
 
+	function distance(){
+		var winWidth = $(window).width();
+		if(winWidth > 767){
+			$(".productList ul li:nth-child(4n+4)").css("padding","0 0 0 0");
+		}else{
+			$(".productList ul li:nth-child(4n+4)").css("padding","0 10px");
+		}
+	}
+	distance();
+	$(window).resize(function(){distance();});
+
 	// layer popup
 	var winWidth = $(window).width();
 	if(winWidth > 767){
@@ -268,7 +274,23 @@ $(function(){
 		var layerCheck = 320;
 	}
 
-	$(".iw40").fancybox({
+// 	$(".iw40").fancybox.center();
+
+	$(".layerpopup").fancybox({
+		'centerOnScroll' : true,
+		'autoDimensions'    : false,
+		'showCloseButton'	: false,
+		'width' : layerCheck,
+		'padding' : 0,
+		'type'			: 'iframe',
+		'onComplete' : function() {
+			$('#fancybox-frame').load(function() { // wait for frame to load and then gets it's height
+			$('#fancybox-content').height($(this).contents().find('body').height());
+			});
+		}
+	});
+	$(".layerpopup2").fancybox({
+		'centerOnScroll' : true,
 		'autoDimensions'    : false,
 		'showCloseButton'	: false,
 		'width' : layerCheck,

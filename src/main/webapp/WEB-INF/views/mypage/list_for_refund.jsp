@@ -96,20 +96,17 @@ $(function() {
 });
 
 function submit(){
+	var html ="";
+	$('input:checkbox[name=chk]:checked').each(function(){
+		var index = $(this).closest(".parents").attr('id');
+		html += '<input type="hidden" name="index" value="'+ index +'">'; 
+	});
+	$(".hidden_array").html(html);
+	
 	refund_request.submit();
 }
 
 
-// //개별 반품
-// function return_req(ol_num, index){
-// 	var ol_amt = $("#spin"+index).val();
-// 	var origin_amt = $(".amt"+index).val();
-// 	var ol_price = $("#price"+index).text();
-// 	var origin_price = $(".tp"+index).val();
-// 	var p_name = $(".name"+index).text();
-// 	var array = [ol_num, ol_amt, origin_amt, ol_price, p_name, origin_price];
-// 	location.href = 'takeback_reason?array='+array;
-// }
 
 </script> 
 <style type="text/css">
@@ -146,7 +143,6 @@ function submit(){
     					<th scope="col">상품명</th>
     					<th scope="col">수량</th>
     					<th scope="col" class="pnone">가격</th>
-    					<th scope="col" class="pnone">반품신청</th>
     				</thead>
     				<tbody>
                         <c:forEach items="${ list }" var="list" varStatus="status">
@@ -165,9 +161,10 @@ function submit(){
                                 <span class="amt${ status.index }">${ list.OL_AMT }</span>
                                 <input type="hidden" name="refundDto[${ status.index }].ol_num" class="num${ status.index }" value="${ list.OL_NUM }"/>
                                 <input type="hidden" name="refundDto[${ status.index }].rf_price" class="price${ status.index }" value="${ list.OL_FINAL_PRICE }"/>
+                                <input type="hidden" name="refundDto[${ status.index }].p_name" class="name${ status.index }" value="${ list.P_NAME }"/>
+                                <input type="hidden" name="refundDto[${ status.index }].ol_order_num" class="name${ status.index }" value="${ list.OL_ORDER_NUM }"/>
                             </td>
     						<td class="pnone" id="price${ status.index }">${ list.OL_FINAL_PRICE }</td>
-    						<td class="pnone"><a href="#" id="btn${ status.index }" onclick="return_req(${ list.OL_NUM }, ${ status.index })">신청하기</a></td>
     					</tr>
                         </c:forEach>
     				</tbody>
@@ -176,6 +173,8 @@ function submit(){
             <div class="refundTotal">
                 <div>예상 환불 금액 : <span class="refund_price">0</span></div>
             </div>
+            
+            <span class="hidden_array"></span>
             
             <!-- Btn Area -->
             <div class="btnArea">

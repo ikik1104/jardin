@@ -88,22 +88,68 @@ $(document).ready(function() {
         clearTimeout(msietimer);
      }
      
-     window.onload=function(){
-    	${alerttext}
-     }
+    
      //회원 로그인 폼 제출
 		function submitMember(){
-			m_login.submit();
+			
+				var backpath=document.getElementById('backpath').value;//로그인 뒤 돌아갈 경로
+				
+				 $.ajax({
+			       url: "member_login",
+			       type: "POST",
+			       data:  $("#m_login").serialize(),
+			       success : function(val){
+			           if(val ==1 ){//1이면 성공   	    
+			           location.href='main';
+			           }else if(val==-1){ // -1이면 비밀번호 불일치
+			              alert("비밀번호가 일치하지 않습니다. 다시 시도해 주세요.");
+			           } else if(val==-2){//-2이면 로그인 뒤 지정 경로로 이동
+			           location.href=backpath;
+			           }
+			        },
+			        error : function(){
+			           alert("서버통신실패");
+			        }
+				  });		
 		}
      
 	 //비회원 로그인 폼 제출     
 		function submitNonMember(){
-			nm_login.submit();
+// 		 alert("함수는 들어오긴함");
+// 		 var m_name_yet = nm_login.ol_orderer_id.value;
+// 		 var ol_order_num_yet = nm_login.ol_order_num.value;
+// 		 //공백제거
+// 		 var m_name=m_name_yet.replace(' ', '');
+// 		 var ol_order_num = ol_order_num_yet.replace(' ', '');
+// 		 //공백제거한 값 form에 주입
+// 		 nm_login.m_name.value=m_name;
+// 		 nm_login.ol_order_num.value=ol_order_num;
+			
+			 $.ajax({
+			       url: "nonmember_login",
+			       type: "POST",
+			       data:  $("#nm_login").serialize(),
+			       success : function(map){
+			    	   var val = map.success;
+			           if(val == 1 ){//성공
+			        	   location.href='nonmember_ordercheck?orderNum='+map.orderNum+'&orderName='+map.orderName;
+			           } else if(val ==0){
+			        	   location.href='non_takeback_state?orderNum='+map.orderNum+'&orderName='+map.orderName;
+			           } else {//주문번호 불일치
+			        	   alert('주문이 존재하지 않습니다. 이름 또는 주문번호를 다시 확인하세요.'); 
+			           }
+			        },
+			        error : function(){
+			           alert("서버통신실패");
+			        }
+				  });				 
+		 
 		}    
 </script>
 
 <div id="allwrap">
 <div id="wrap">
+
 
 	<jsp:include page="../header.jsp" />
 
@@ -137,7 +183,11 @@ $(document).ready(function() {
 				<div id="member">
 					<h2><strong>로그인</strong><span>로그인 후 주문하시면 다양한 혜택을 받으실 수 있습니다.</span></h2>
 					<h3>회원 로그인</h3>
-					<form action="member_login" name="m_login" method="post">
+					<!-- 회원 로그인 -->
+					<form action="member_login" name="m_login" method="post" id="m_login">
+						<!-- 같이 보내줄 데이터 -->
+						<input type="hidden" id="backpath"  name="backpath" value="${backpath }"><!-- 로그인 후 돌아갈 경로(없을 수도 있음) -->
+
 						<div class="informbox">
 							<div class="inform">
 								<ul>
@@ -156,12 +206,13 @@ $(document).ready(function() {
 						</div>
 					</form>
 
-					<form action="nonmember_login" name="nm_login" method="post">
+					<!-- 비회원 주문조회 로그인 -->
+					<form action="nonmember_login" name="nm_login" method="post"  id="nm_login" >
 					<h3>비회원 주문 조회</h3>
 					<div class="informbox">
 						<div class="inform">
 							<ul>
-								<li><input type="text" name="m_name" class="ordererType" onfocus="this.className='mfocus'" onblur="if (this.value.length==0) {this.className='ordererType'}else {this.className='mfocusnot'}" /></li>
+								<li><input type="text" name="ol_orderer_id" class="ordererType" onfocus="this.className='mfocus'" onblur="if (this.value.length==0) {this.className='ordererType'}else {this.className='mfocusnot'}" /></li>
 								<li><input type="text" name="ol_order_num" class="ordernumType" onfocus="this.className='mfocus'" onblur="if (this.value.length==0) {this.className='ordernumType'}else {this.className='mfocusnot'}" /></li>
 							</ul>
 
