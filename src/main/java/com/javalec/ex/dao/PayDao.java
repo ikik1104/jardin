@@ -70,6 +70,9 @@ public interface PayDao {
 	// 포인트 사용 내역 등록
 	int insertUsedPoint(int m_num, int point, String po_name);
 	
+	// 포인트 적립내역 등록
+	int insertSavePoint(int m_num, int point, String po_name);
+	
 	// 비회원 - 주문/장바구니 제품 정보 불러오기
 	ProductDto getProductInfo(int p_num);
 }

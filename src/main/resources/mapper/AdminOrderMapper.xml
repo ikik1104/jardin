@@ -25,6 +25,11 @@
 	<!-- 총 주문건수 카운트 -->
 	<select id="countOrder" resultType="Integer">
 		select count(DISTINCT ol_order_num) from orderlist_tb
+		<where>
+			<if test="listName !=''">
+				ol_status = #{param1}
+			</if>
+		</where>
 	</select>
 	
 	<!-- 검색  주문건수 -->
@@ -99,7 +104,7 @@
 		(select d.ol_order_num, a.oc_deliv_c, b.co_discount as deliv_disc
 		from orderlist_cou_tb a, coupon_tb b, orderlist_tb d 
 		where a.oc_deliv_c=b.co_num and a.ol_order_num = d.ol_order_num) mm on mm.ol_order_num = ol.ol_order_num
-		where ${listName}
+		where ol.ol_status=#{listName}
        	<if test="e_start_day !=''">
 	       	and ol.ol_date between to_date(#{e_start_day}, 'yyyy-MM-dd') and to_date(#{e_end_day}, 'yyyy-MM-dd')+0.999999
 	    </if>
@@ -117,6 +122,6 @@
 	
 	<!-- 선택한 주문건 처리상태 변경 (입금대기 -> 입금완료) -->
 	<update id="change_status">
-		update orderlist_tb set ol_status = #{param2} and ol_pay_date = sysdate where ol_order_num = #{param1}
+		update orderlist_tb set ol_status = #{param2} where ol_order_num = #{param1}
 	</update>
 </mapper>

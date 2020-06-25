@@ -51,6 +51,10 @@ public class OrderConfirmController {
 		Date currentTime = new Date ();
 		String time1 = mSimpleDateFormat.format(currentTime);
 		String ol_order_num = time1+"_"+i;
+		
+		// 주문자,수취자 정보 등록
+		map.put("ol_order_num", ol_order_num);
+		payService.insertOrReInfo(map);
 			
 			// 로그인 시,
 		if(session.getAttribute("userNum") != null) { 
@@ -74,17 +78,19 @@ public class OrderConfirmController {
 				olDto.setOl_amt(ol_amt);
 				olDto.setCo_num(ci_num);
 				olDto.setOl_orderer_id(m_id);
+				if(map.get("ol_payment")=="신용카드 결제") {
+					olDto.setOl_status("입금완료");
+				}else {
+					olDto.setOl_status("입금대기");
+				}
 				
 				if(ci_num==0) {
 					payService.insertOrderList2(olDto);
 				}else {
+					System.out.println("회원주문");
 					payService.insertOrderList(olDto);
 				}
 			}
-			
-			// 주문자,수취자 정보 등록
-			map.put("ol_order_num", ol_order_num);
-			payService.insertOrReInfo(map);
 			
 			// 주문쿠폰적용 테이블 등록
 			orderCouDto.setOl_order_num(ol_order_num);
@@ -117,6 +123,10 @@ public class OrderConfirmController {
 			String po_name = ol_order_num+"-제품구매";
 			payService.insertUsedPoint(m_num, point, po_name);
 			
+			// 포인트 적립 내역 등록
+			int saveP = (int)(orderCouDto.getOc_semi_sum() * 0.01);
+			payService.insertSavePoint(m_num, saveP, po_name);
+			
 			i +=1;
 			
 			model.addAttribute("orderlist", orderConfirmService.getOderList(ol_order_num));
@@ -124,25 +134,66 @@ public class OrderConfirmController {
 			model.addAttribute("coupon_point", orderConfirmService.getOrderlistCou(ol_order_num));
 			
 			page="payment/order_confirmation";
-		}else {
-			List<String> arr = (ArrayList<String>)session.getAttribute("nonmem_cart");
-			List<NonmemberCartDto> ncDtos = new ArrayList<NonmemberCartDto>();
-			for(int i=0; i<arr.size(); i++) {
-				String[] sp = arr.get(i).split("_");
-				int p_num = Integer.parseInt(sp[0]);
-				int p_amt = Integer.parseInt(sp[1]);
-				NonmemberCartDto ncDto = new NonmemberCartDto();
-				ncDto.setP_amt(p_amt);
-				ncDto.setpDto(payService.getProductInfo(p_num));
-				ncDtos.add(ncDto);
-			}
-			// 주문자,수취자 정보 등록
-			map.put("ol_order_num", ol_order_num);
-			payService.insertOrReInfo(map);
 			
-			model.addAttribute("orderlist", ncDtos);
+		}else {
+			if(session.getAttribute("nonmem_buyNow") !=null) {
+				List<String> arr = (ArrayList<String>)session.getAttribute("nonmem_buyNow");
+				for(int i=0; i<arr.size(); i++) {
+					String[] sp = arr.get(i).split("_");
+					int p_num = Integer.parseInt(sp[0]);
+					int p_amt = Integer.parseInt(sp[1]);
+					String ol_status = "";
+					if(map.get("ol_payment")=="신용카드 결제") {
+						ol_status="입금완료";
+					}else {
+						ol_status="입금대기";
+					}
+					OrderListDto olDto = new OrderListDto();
+					olDto = orderListDto;
+					olDto.setOl_order_num(ol_order_num);
+					olDto.setP_num(p_num);
+					olDto.setOl_amt(p_amt);
+					olDto.setOl_orderer_id(map.get("m_name"));
+					olDto.setOl_status(ol_status);
+					System.out.println("비회원 바로 주문");
+					// 주문리스트에 등록
+					payService.insertOrderList2(olDto);
+				}
+			}else {
+				List<String> arr = (ArrayList<String>)session.getAttribute("nonmem_cartbuy");
+				List<String> cartArr = (ArrayList<String>)session.getAttribute("nonmem_cart");
+				for(int i=0; i<arr.size(); i++) {
+					String[] sp = arr.get(i).split("_");
+					int p_num = Integer.parseInt(sp[0]);
+					int p_amt = Integer.parseInt(sp[1]);
+					String ol_status = "";
+					if(map.get("ol_payment")=="신용카드 결제") {
+						ol_status="입금완료";
+					}else {
+						ol_status="입금대기";
+					}
+					OrderListDto olDto = new OrderListDto();
+					olDto = orderListDto;
+					olDto.setOl_order_num(ol_order_num);
+					olDto.setP_num(p_num);
+					olDto.setOl_amt(p_amt);
+					olDto.setOl_orderer_id(map.get("m_name"));
+					olDto.setOl_status(ol_status);
+					System.out.println("비회원 장바구니 주문");
+					// 주문리스트에 등록
+					payService.insertOrderList2(olDto);
+					for(int j=0; j<cartArr.size();j++) {
+						if(cartArr.get(j).toString().contains(p_num+"")) {
+							cartArr.remove(j);
+						}
+					}
+					session.setAttribute("nonmem_cart", cartArr);
+				}
+			}
+			model.addAttribute("orderlist", orderConfirmService.getOderList(ol_order_num));
 			model.addAttribute("orderInfo", orderConfirmService.getOrReInfo(ol_order_num));
-			model.addAttribute("cCount", ncDtos.size());
+			System.out.println(map.get("bank"));
+			System.out.println(map.get("dep_name"));
 			
 			page = "nonmember/order_confirmation";
 		}

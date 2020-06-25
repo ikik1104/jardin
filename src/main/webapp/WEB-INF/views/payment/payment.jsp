@@ -238,11 +238,11 @@
 								<c:forEach var="cartlist" items="${cartlist }" >
 									<tr>
 										<td class="left">
-											<p class="img"><img src="user/images/img/sample_product.jpg" alt="상품" width="66" height="66" /></p>
+											<p class="img"><img src="${cartlist.pDto.p_thumb_img1}" alt="상품" width="66" height="66" /></p>
 	
 											<ul class="goods">
 												<li>
-													<a href="detail?p_num=${cartlist.pDto.p_num }">${cartlist.pDto.p_name }</a>
+													<a href="product_detail?p_num=${cartlist.pDto.p_num }">${cartlist.pDto.p_name }</a>
 												</li>
 											</ul>
 										</td>
@@ -300,7 +300,7 @@
 							<tbody>
 								<tr>
 									<th scope="row"><span>이름</span></th>
-									<td><input type="text" class="w134" name="m_name" value="${memDto.m_name }" /></td>
+									<td><input type="text" class="w134" name="m_name" value="${memDto.m_name }" required/></td>
 								</tr>
 
 								<tr>
@@ -308,11 +308,11 @@
 									<td>
 										<ul class="pta">
 											<li>
-												<input type="text" class="w134" name="m_zipcode" id="m_zipcode" value="${memDto.m_zipcode }" readonly />&nbsp;
+												<input type="text" class="w134" name="m_zipcode" id="m_zipcode" value="${memDto.m_zipcode }" readonly required/>&nbsp;
 											</li>
 											<li><a onclick="execDaumPostcode()" class="addressBtn"><span>우편번호 찾기</span></a></li>
-											<li class="pt5"><input type="text" class="addressType2" id="m_address1" name="m_address1" value="${memDto.m_address1 }"/></li>
-											<li class="pt5"><input type="text" class="addressType2" id="m_address2" name="m_address2" value="${memDto.m_address2 }"/></li>
+											<li class="pt5"><input type="text" class="addressType2" id="m_address1" name="m_address1" value="${memDto.m_address1 }" required/></li>
+											<li class="pt5"><input type="text" class="addressType2" id="m_address2" name="m_address2" value="${memDto.m_address2 }" required/></li>
 										</ul>
 									</td>
 								</tr>
@@ -320,7 +320,7 @@
 									<th scope="row"><span>이메일</span></th>
 									<td>
 										<ul class="pta">
-											<li><input type="text" class="w134" name="email_id" value="${email_id }"/></li>
+											<li><input type="text" class="w134" name="email_id" value="${email_id }" required/></li>
 											<li><span class="valign">&nbsp;@&nbsp;</span></li>
 											<li class="r10"><input type="text" class="w134" name="email_domain" value="${email_domain }"/></li>
 											<li>
@@ -361,8 +361,8 @@
 												</select>
 											</li>
 											<li>&nbsp;<span class="valign">-</span>&nbsp;</li>
-											<li><input type="text" class="w74" maxlength="4" name="phone2" value="${phone2 }"/> <span class="valign">-</span>&nbsp;</li>
-											<li class="r10"><input type="text" class="w74" maxlength="4" name="phone3" value="${phone3 }"/></li>
+											<li><input type="text" class="w74" maxlength="4" name="phone2" value="${phone2 }" required/> <span class="valign">-</span>&nbsp;</li>
+											<li class="r10"><input type="text" class="w74" maxlength="4" name="phone3" value="${phone3 }" required/></li>
 										</ul>
 									</td>
 								</tr>
@@ -420,7 +420,7 @@
 							<tbody>
 								<tr>
 									<th scope="row"><span>이름</span></th>
-									<td><input type="text" class="w134" name="re_name" value="홍길동" /></td>
+									<td><input type="text" class="w134" name="re_name" required/></td>
 								</tr>
 
 								<tr>
@@ -428,11 +428,11 @@
 									<td>
 										<ul class="pta">
 											<li>
-												<input type="text" class="w134" name="re_zipcode" id="re_zipcode" readonly/>&nbsp;
+												<input type="text" class="w134" name="re_zipcode" id="re_zipcode" readonly required/>&nbsp;
 											</li>
 											<li><a onclick="execDaumPostcode2()" class="addressBtn"><span>우편번호 찾기</span></a></li>
-											<li class="pt5"><input type="text" class="addressType2" id="re_address1" name="re_address1"/></li>
-											<li class="pt5"><input type="text" class="addressType2" id="re_address2" name="re_address2"/></li>
+											<li class="pt5"><input type="text" class="addressType2" id="re_address1" name="re_address1" required/></li>
+											<li class="pt5"><input type="text" class="addressType2" id="re_address2" name="re_address2" required/></li>
 										</ul>
 									</td>
 								</tr>
@@ -451,8 +451,8 @@
 												</select>
 											</li>
 											<li>&nbsp;<span class="valign">-</span>&nbsp;</li>
-											<li><input type="text" class="w74" maxlength="4" name="re_phone2"/> <span class="valign">-</span>&nbsp;</li>
-											<li class="r10"><input type="text" class="w74" maxlength="4" name="re_phone3"/></li>
+											<li><input type="text" class="w74" maxlength="4" name="re_phone2" required/> <span class="valign">-</span>&nbsp;</li>
+											<li class="r10"><input type="text" class="w74" maxlength="4" name="re_phone3" required/></li>
 										</ul>
 									</td>
 								</tr>

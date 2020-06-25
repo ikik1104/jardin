@@ -38,6 +38,7 @@
 			// 동적 rowspan
 			rowspan_f();
 		}
+		
 		$(document).ready(function () {
 			  // 체크박스 
 	 		$("#checkAll").click(function(){
@@ -135,8 +136,9 @@
 					keyword : $("#keyword").val(),
 					e_start_day : $("#e_start_day").val(),
 					e_end_day : $("#e_end_day").val(),
-					option: $("#sort").val()// 페이지로 매개변수 값을 넘겨줄 때 사용
-			}
+					option: $("#sort").val(),
+					listName: "입금대기",// 페이지로 매개변수 값을 넘겨줄 때 사용
+				}
 			
 			$.ajax({
 				type: "POST",       // get/post
@@ -224,16 +226,15 @@
 		function change_status() {
 			var count = $('input:checkbox[name="chk"]:checked').length;
 			if(count>0){
-				if(confirm("선택하신 주문건의 처리상태를 입금완료로 변경하시겠습니까?")){
+				if(confirm("선택하신 주문건의 처리상태를 '입금완료' 로 변경하시겠습니까?")){
 					$("input[name=chk]:checked").each(function(){
 						var orderNum = $(this).attr('id');
 						var statusOpt = $("select[name=statusOpt]").val();
 						var arrData = [orderNum, statusOpt]
 						$.ajax({
 			                url : "change_status",
-			                method : "POST",
-			                data: arrData,
-			                dataType : "json",
+			                type : "POST",
+			                data: JSON.stringify(arrData),
 			                contentType: "application/json",
 			                success : function(val){
 			                   if(val == 1){
@@ -292,7 +293,7 @@
 			<div id="main_user_list">
 				<h2>주문 검색 결과</h2>
 				<div class="list_count">
-				<fmt:formatNumber var="countAll" value="${count }" type="number"/>
+				<fmt:formatNumber var="countAll" value="${countOrder }" type="number"/>
 				검색 <span class="top_cnt" id="search_cnt">${countAll }</span>개 / 전체 <span class="top_cnt">${countAll }</span>개 
 				</div> 
 				<div id="search_form">
@@ -362,7 +363,8 @@
 								<td class="td_date"><fmt:formatDate var="o_date" value="${list.OL_DATE }" pattern="yy-MM-dd"/>${o_date }</td>
 								<td class="td_id">${list.OL_ORDERER_ID }</td>
 								<td>${list.OL_NUM }</td>
-								<td class="td_fs">${list.OC_FINAL_SUM }</td>
+								<fmt:formatNumber var="f_sum" value="${list.OC_FINAL_SUM }" type="number"/>
+								<td class="td_fs">${f_sum}</td>
 								<td class="td_pm">${list.OL_PAYMENT }</td>
 								<td class="td_name">입금자명</td>
 								<td class="td_account">입금계좌</td>

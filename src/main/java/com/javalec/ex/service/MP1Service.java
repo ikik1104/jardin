@@ -52,6 +52,9 @@ public interface MP1Service {
 	// 포인트 사용 내역 list 가져오기
 	List<PointDto> getUsedPoint(int m_num);
 	
+	// 위시리스트에 상품 저장
+	int add_wl(int m_num, int p_num);
+	
 	// 위시리스트에 저장된 상품 list 가져오기
 	List<WishListDto> getAllWish(int m_num);
 	

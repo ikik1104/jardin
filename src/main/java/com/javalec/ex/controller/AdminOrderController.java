@@ -30,9 +30,9 @@ public class AdminOrderController {
 		HashMap<String, String> map = optionValue(request, model);
 		String option = map.get("option1");
 		String opt = map.get("opt1");
-		
+		String listName = "";
 		model.addAttribute("allOrderlist", aoService.getAllOrderlist(option));
-		model.addAttribute("countOrder", aoService.countOrder());
+		model.addAttribute("countOrder", aoService.countOrder(listName));
 		model.addAttribute("selectedOpt", opt);
 		
 		return "admin/order/order_list";
@@ -51,6 +51,7 @@ public class AdminOrderController {
 		String e_end_day1 = map3.get("e_end_day");
 		String status1 = map3.get("status");
 		String opt = map3.get("opt");
+		String listName = "";
 		
 		model.addAttribute("allOrderlist", aoService.search_1(map3));
 		model.addAttribute("keywordOpt", keywordOpt1);
@@ -59,7 +60,7 @@ public class AdminOrderController {
 		model.addAttribute("e_end_day", e_end_day1);
 		model.addAttribute("status", status1);
 		model.addAttribute("selectedOpt", opt);
-		model.addAttribute("countOrder", aoService.countOrder());
+		model.addAttribute("countOrder", aoService.countOrder(listName));
 		model.addAttribute("countSearch", aoService.countSearch(map3));
 		
 		return "admin/order/order_list";
@@ -71,14 +72,12 @@ public class AdminOrderController {
 	// 입금대기 리스트 
 	@RequestMapping("deposit_waiting_list")
 	public String deposit_waiting_list(HttpServletRequest request, Model model) {
-
 		HashMap<String, String> map = optionValue(request, model);
-		
+		String status = "입금대기";
 		map.put("listName", "ol.ol_status='입금대기'");
 		
-		int count = aoService.deposit_waiting_list(map).size();		
 		model.addAttribute("allOrderlist", aoService.deposit_waiting_list(map));
-		model.addAttribute("count", count);
+		model.addAttribute("countOrder", aoService.countOrder(status));
 		return "admin/order/deposit_waiting_list";
 	}
 	
@@ -96,7 +95,6 @@ public class AdminOrderController {
 			option1 = opt+", ol.ol_order_num asc";
 		}
 		map.put("option1", option1);
-		map.put("listName", "ol.ol_status='입금대기'");
 		List<HashMap<String, Object>> resultMap = aoService.searchandsort(map);
 			
 		return resultMap;
@@ -105,14 +103,12 @@ public class AdminOrderController {
 	// 결제완료 리스트
 		@RequestMapping("complete_payment_list")
 		public String complete_payment_list(HttpServletRequest request, Model model) {
-
 			HashMap<String, String> map = optionValue(request, model);
-			
 			map.put("listName", "ol.ol_status='입금완료'");
+			String status = "입금완료";
 			
-			int count = aoService.deposit_waiting_list(map).size();		
 			model.addAttribute("allOrderlist", aoService.deposit_waiting_list(map));
-			model.addAttribute("count", count);
+			model.addAttribute("countOrder", aoService.countOrder(status));
 			return "admin/order/complete_payment_list";
 		}
 		
@@ -130,9 +126,8 @@ public class AdminOrderController {
 				option1 = opt+", ol.ol_order_num asc";
 			}
 			map.put("option1", option1);
-			map.put("listName", "ol.ol_status='입금완료'");
 			List<HashMap<String, Object>> resultMap = aoService.searchandsort(map);
-				
+			
 			return resultMap;
 		}
 		
@@ -283,7 +278,6 @@ public class AdminOrderController {
 	@ResponseBody
 	@RequestMapping("change_status")
 	public int change_status(@RequestBody String arrData[]) {
-		
 		int success=aoService.change_status(arrData[0], arrData[1]);
 		return success;
 	}

@@ -103,6 +103,12 @@ public class MP1ServiceImpl implements MP1Service {
 	public List<PointDto> getUsedPoint(int m_num) {
 		return mp1Dao.getUsedPoint(m_num);
 	}
+	
+	// 위시리스트에 상품 추가
+	@Override
+	public int add_wl(int m_num, int p_num) {
+		return mp1Dao.add_wl(m_num, p_num);
+	}
 
 	// 위시리스트에 저장된 상품 list 가져오기
 	@Override

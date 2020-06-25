@@ -161,49 +161,53 @@
  		 //이름 정규화 공식
         var checkName = /^[가-힣a-zA-Z]{2,}$/;
         var checkEmail_Id = /^([-_.]?[0-9a-zA-Z]){2,}$/;
-        var checkEmail_D = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/;
-
-        var checkPhone = /^[0-9]{,4}$/;
+        var checkPhone = /^[0-9]{3,4}$/;
  		
  	   //이름에 특수 문자가 들어간 경우
         if (!checkName.test(or_name.value)) {
-        	alert("이름을 잘못 입력하셨습니다. 다시 입력해주세요.");
+        	alert("주문자 이름을 잘못 입력하셨습니다. 다시 입력해주세요.");
         	or_name.value="";
         	or_name.focus();
             return false;
         }
  	   	
- 	   
-		if($(".emailList").val() == null){
-			if(email_domain.value==null){
-				alert("이메일 도메인 주소를 입력해주세요.");
-				email_domain.focus();
-			}
-			if(!checkEmail_D.test(email_domain.value)){
-				alert("이메일 도메인")
-			}
-		}
- 	   
+ 	 	if(!checkEmail_Id.test(email_id.value)){
+ 	 		alert("이메일을 잘못 입력하셨습니다. 다시 입력해주세요.");
+ 	 		email_id.value="";
+ 	 		email_id.focus();
+ 	 	} 	 	
+
+ 	 	if(!checkPhone.test(or_phone2.value)){
+ 	 		alert("전화번호를 잘못 입력하셨습니다. 다시 입력해주세요.");
+ 	 		or_phone2.value="";
+ 	 		or_phone2.focus();
+ 	 	}
+ 	 	
+ 	 	if(!checkPhone.test(or_phone3.value)){
+ 	 		alert("전화번호를 잘못 입력하셨습니다. 다시 입력해주세요.");
+ 	 		or_phone3.value="";
+ 	 		or_phone3.focus();
+ 	 	}
   	  
-//         if (!checkName.test(re_name.value)) {
-//         	alert("이름을 잘못 입력하셨습니다. 다시 입력해주세요.");
-//         	re_name.value="";
-//         	re_name.focus();
-//             return false;
-//         }
+ 	 //이름에 특수 문자가 들어간 경우
+        if (!checkName.test(re_name.value)) {
+        	alert("수취자 이름을 잘못 입력하셨습니다. 다시 입력해주세요.");
+        	re_name.value="";
+        	re_name.focus();
+            return false;
+        }
         
-//         if(!checkEmail_Id.test(or_email_id.value)){
-//         	alert("이메일 아이디를 잘못 입력하셨습니다. 다시 입력해주세요.");
-//         	or_email_id.value="";
-//         	or_email_id.focus();
-//         }
-
-		if(!checkPhone.test(or_phone2.value)){
-			or_phone2.value="";
-			or_phone2.focus();
-		}
-
-
+        if(!checkPhone.test(re_phone2.value)){
+ 	 		alert("전화번호를 잘못 입력하셨습니다. 다시 입력해주세요.");
+ 	 		re_phone2.value="";
+ 	 		re_phone2.focus();
+ 	 	}
+ 	 	
+ 	 	if(!checkPhone.test(re_phone3.value)){
+ 	 		alert("전화번호를 잘못 입력하셨습니다. 다시 입력해주세요.");
+ 	 		re_phone3.value="";
+ 	 		re_phone3.focus();
+ 	 	}
 
  		return true;
  	}
@@ -257,11 +261,11 @@
 								<c:forEach var="cartlist" items="${cartlist }" >
 									<tr>
 										<td class="left">
-											<p class="img"><img src="user/images/img/sample_product.jpg" alt="상품" width="66" height="66" /></p>
+											<p class="img"><img src="${cartlist.pDto.p_thumb_img1}" alt="상품" width="66" height="66" /></p>
 	
 											<ul class="goods">
 												<li>
-													<a href="detail?p_num=${cartlist.pDto.p_num }">${cartlist.pDto.p_name }</a>
+													<a href="product_detail?p_num=${cartlist.pDto.p_num }">${cartlist.pDto.p_name }</a>
 												</li>
 											</ul>
 										</td>
@@ -516,7 +520,7 @@
 
 
 			<!-- 쿠폰 및 포인트 사용 -->
-					<h3 class="dep">쿠폰 및 포인트 사용</h3> <span>*회원만 사용 가능한 서비스입니다.</span>
+					<h3 class="dep">쿠폰 및 포인트 사용<span>*회원 전용 서비스입니다.</span></h3> 
 					<div class="checkDiv" style="display: none;"></div>
 			<!-- //쿠폰 및 포인트 사용 -->
 			
@@ -556,11 +560,6 @@
 						</ul>
 
 						<ul class="total">
-							<!-- 회원 일때만 -->
-							<fmt:formatNumber var="point" value="${sum*0.01 }" type="number"/>
-							<li class="mileage">(적립 포인트 <strong>${point }</strong> Point) </li>
-							<!-- //회원 일때만 -->
-
 							<li class="txt"><strong>결제 예정 금액</strong></li>
 							<li class="money"><span id="finalPrice1">${finalP }</span> 원</li>
 						</ul>
@@ -731,7 +730,7 @@
 					<div class="btnArea">
 						<div class="orderCenter">
 							<ul>
-								<li><a href="main" class="nbtnbig iw0140">취소</a></li>
+								<li><a href="/ex/" class="nbtnbig iw0140">취소</a></li>
 								<li><input type="submit" onclick="validate()" class="sbtnMini iw0140" value="주문 / 결제" style="border-style: none;"></li>								
 							</ul>
 						</div>

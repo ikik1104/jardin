@@ -3,11 +3,14 @@ package com.javalec.ex.controller;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,6 +32,7 @@ import com.javalec.ex.dto.QnrUserDto;
 import com.javalec.ex.dto.ReviewUserDto;
 import com.javalec.ex.service.BService;
 import com.javalec.ex.service.CommunityService;
+import com.javalec.ex.service.MP1Service;
 import com.javalec.ex.service.ProductService;
 
 import oracle.net.aso.k;
@@ -39,6 +43,9 @@ public class ProductController {
 	private ProductService pService;
 	@Autowired
 	CommonUtils utils;
+	@Autowired
+	private MP1Service mp1Service;
+	
 
 	//admin 제품 전체 리스트
 	@RequestMapping("product_list")
@@ -348,12 +355,58 @@ public class ProductController {
 	//장바구니로 이동~~~!~!!~
 	@ResponseBody
 	@RequestMapping("cart_insert")
-	public int cart_insert(@RequestBody int[] val, Model model) {
-		CartDto cdto = new CartDto();
-		cdto.setCa_amount(val[0]);
-		cdto.setP_num(val[1]);
-		
-		return pService.cart_insert(cdto);
+	public int cart_insert(@RequestBody int[] val, HttpSession session, Model model) {
+		int success=1;
+		int cartChk=0;
+		// 회원 장바구니 담기
+		if(session.getAttribute("userNum") != null) {
+			int m_num = (Integer)session.getAttribute("userNum");
+			List<CartDto> cdtos = mp1Service.getAllCart(m_num);
+			// 장바구니에 동일 제품 존재 시, 제품 수량만 업데이트
+			if(cdtos.size()>0) {
+				for(int i=0; i<cdtos.size();i++) {
+					if(cdtos.get(i).getP_num()==val[0]) {
+						int p_num = cdtos.get(i).getP_num();
+						int p_amt = cdtos.get(i).getCa_amount()+val[1];
+						mp1Service.cartUpdate(m_num, p_num, p_amt);
+						cartChk=1;
+						break;
+					}
+				}
+			}
+			//장바구니에 동일 제품 없으면, 새로 추가 
+			if(cartChk==0) {
+				CartDto cdto = new CartDto();
+				cdto.setM_num(m_num);
+				cdto.setP_num(val[0]);
+				cdto.setCa_amount(val[1]);
+				success = pService.cart_insert(cdto);
+			}
+		}else {
+			ArrayList<String> arr = (ArrayList<String>)(session.getAttribute("nonmem_cart"));
+			String value = val[0]+"_"+val[1];
+			System.out.println(value);
+			int sessionChk=0;
+			/* arr에 아무것도 없는 경우 새로 생성 */
+			if(session.getAttribute("nonmem_cart")==null) {
+				arr = new ArrayList<String>();
+			}else {
+				for(int i=0; i<arr.size(); i++) {
+					if(arr.get(i).toString().contains(val[0]+"")) {
+						String[] sp = arr.get(i).split("_");
+						arr.set(i, val[0]+"_"+(val[1]+Integer.parseInt(sp[1])));
+						sessionChk=1;
+						break;
+					} // 같은 상품이 이미 장바구니에 담겨있는 경우, 개수만 업데이트
+				}
+			}
+			if(sessionChk==0) {
+				arr.add(value);
+			}
+			session.setAttribute("nonmem_cart", arr);
+			System.out.println(session.getAttribute("nonmem_cart"));
+		}
+		return success;
 	}
 	
 //	//리뷰 수정 "mypage/my_review_write"
