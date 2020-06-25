@@ -31,6 +31,13 @@
 </head>
 <body>
 
+					<!-- 등록된 1:1문의 없을 경우 -->
+					<c:if test="${mtm_list.size()==0 }">
+						등록된 1:1문의가 없습니다.
+					</c:if>
+					<!-- 등록된 1:1문의 있을 경우 -->
+					<c:if test="${mtm_list.size()!=0 }">
+
 <style>
 			section{
 				padding-bottom:300px;
@@ -43,32 +50,71 @@
 				overflow:hidden; text-overflow:ellipsis;
 			}
 			
-			.modify_textarea{
+			.modify_textarea, .modify_textarea2{
 				overflow:hidden;
 			}
-			.byte_area{
+			.byte_area, .byte_area2{
 				text-align:right; padding-right:10px;
 			}
-			#byte_alert{
+			#byte_alert, #byte_alert2{
 				color:red;
-			}			
+			}		
 </style>
-
+maxlength="85" 
 class="user_title"
  class="modify_textarea" onkeyup="resize(this)"
+  class="modify_textarea2" onkeyup="resize2(this)"
 <p class="byte_area"><span id="byte_alert">※최대 입력 글자 수를 초과했습니다. </span><span id="present_byte"></span> /4000 byte</p>
+<p class="byte_area2"><span id="byte_alert2">※최대 입력 글자 수를 초과했습니다. </span><span id="present_byte2"></span> /4000 byte</p>
+<!-- 글자수 입력 초과 신호 -->
+<input type="hidden" id="byte_excess" name="byte_excess">
+<input type="hidden" id="byte_excess2" name="byte_excess2">
 
 <script type="text/javascript">
-$(function(){
+if($('#byte_excess').val()=='on'){
+	alert('제목 최대 입력 글자 수를 초과했습니다.');
+	return false;
+}
+if($('#byte_excess2').val()=='on'){
+	alert('내용 최대 입력 글자 수를 초과했습니다.');
+	return false;
+}
+
+
+window.onload=function(){
 	$('#byte_alert').hide();		
 	
 	var original_height= $('.modify_textarea').prop('scrollHeight');
 	$('.modify_textarea').height(12+original_height);
 	 var str = $('.modify_textarea').val();
-	 var len=str.length;
+	 var len=0;
+	 
+	 for (var i = 0; i < str.length; i++) {
+	        if (escape(str.charAt(i)).length == 6) {
+	            len+=2;
+	        }
+	        len++;
+	    }
+	 
 	$('#present_byte').html(len);
 	
-});		
+	$('#byte_alert2').hide();		
+	
+	var original_height2= $('.modify_textarea2').prop('scrollHeight');
+	$('.modify_textarea2').height(12+original_height2);
+	 var str2 = $('.modify_textarea2').val();
+	 var len2=0;
+	 
+	 for (var i = 0; i < str2.length; i++) {
+	        if (escape(str2.charAt(i)).length == 6) {
+	            len2+=2;
+	        }
+	        len2++;
+	    }
+	 
+	$('#present_byte2').html(len2);	
+	
+};		
 
 function resize(obj) {
 	  obj.style.height = "1px";
@@ -91,6 +137,30 @@ function resize(obj) {
 	     }
 	     
 	  	$('#present_byte').html(len);
+	  
+	}
+	
+function resize2(obj) {
+	  obj.style.height = "1px";
+	  obj.style.height = (12+obj.scrollHeight)+"px";
+	  
+	  var str = $('.modify_textarea2').val();
+	    var len = 0;
+	    for (var i = 0; i < str.length; i++) {
+	        if (escape(str.charAt(i)).length == 6) {
+	            len+=2;
+	        }
+	        len++;
+	    }
+	     if(len>4000){
+	    	$('#byte_alert2').show();
+	    	$('#byte_excess2').val('on');
+	     } else {
+	    	 $('#byte_alert2').hide();
+	    	 $('#byte_excess2').val('off');
+	     }
+	     
+	  	$('#present_byte2').html(len);
 	  
 	}
 

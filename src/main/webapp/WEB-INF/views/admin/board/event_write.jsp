@@ -117,7 +117,7 @@
 						</tr>					
 						<tr>
 							<th class="notice_th">글 제목</th>
-							<td><input type="text" name="str1" style="border:none; background:inherit; height:40; font-size:15px; padding:3px 0; width:800px;"></td>
+							<td><input maxlength="90"  type="text" name="str1" style="border:none; background:inherit; height:40; font-size:15px; padding:3px 0; width:800px;"></td>
 						</tr>
 						<tr>
 							<th class="notice_th">글 내용</th>

@@ -12,6 +12,7 @@
 		<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 		<!-- css. 기능 수정 -->
 		<link rel="stylesheet" type="text/css" href="admin/css/admin_view.css">	
+		<link rel="stylesheet" type="text/css" href="admin/css/a_setting.css">	
         <script type="text/javascript" src="admin/js/admin_board.js"></script>		
 				
 		<!-- 페이지 로딩시 초기화 --> 
@@ -23,13 +24,85 @@
 					sSkinURI: '/plugin/smarteditor2/SmartEditor2Skin.html', 
 					fCreator: 'createSEditor2' 
 					}); 
+				
+
+				
 				}); 
 		
 		//공지글을 등록/수정하면 다시 이 페이지로 돌아와 alert을 띄움
 		window.onload=function(){
-			${alerttext}
-		}
+			$('#byte_alert').hide();		
+			
+			 var str = $('.modify_textarea').val();
+			 var len=0;
+			 
+			 for (var i = 0; i < str.length; i++) {
+			        if (escape(str.charAt(i)).length == 6) {
+			            len+=2;
+			        }
+			        len++;
+			    }
+			 
+			$('#present_byte').html(len);
+			
+			$('#byte_alert2').hide();		
+			
+			 var str2 = $('.modify_textarea2').val();
+			 var len2=0;
+			 
+			 for (var i = 0; i < str2.length; i++) {
+			        if (escape(str2.charAt(i)).length == 6) {
+			            len2+=2;
+			        }
+			        len2++;
+			    }
+			 
+			$('#present_byte2').html(len2);	
+			
+		};		
+
+		function resize(obj) {
+			  var str = $('.modify_textarea').val();
+			    var len = 0;
+			    for (var i = 0; i < str.length; i++) {
+			        if (escape(str.charAt(i)).length == 6) {
+			            len+=2;
+			        }
+			        len++;
+			    }
+			     if(len>85){
+			    	$('#byte_alert').show();
+			    	$('#byte_excess').val('on');
+			     } else {
+			    	 $('#byte_alert').hide();
+			    	 $('#byte_excess').val('off');
+			     }
+			     
+			  	$('#present_byte').html(len);
+			  
+			}
 		
+		function resize2(obj) {
+			  
+			  var str = $('.modify_textarea2').val();
+			    var len = 0;
+			    for (var i = 0; i < str.length; i++) {
+			        if (escape(str.charAt(i)).length == 6) {
+			            len+=2;
+			        }
+			        len++;
+			    }
+			     if(len>4000){
+			    	$('#byte_alert2').show();
+			    	$('#byte_excess2').val('on');
+			     } else {
+			    	 $('#byte_alert2').hide();
+			    	 $('#byte_excess2').val('off');
+			     }
+			     
+			  	$('#present_byte2').html(len);
+			  
+			}
 		</script>
 		<style type="text/css">
 			#input_form{
@@ -44,6 +117,12 @@
 			}
 			#btn_div{
 			 text-align: center;
+			}
+			#byte_alert, #byte_alert2{
+				color:red;
+			}			
+			.byte_area, .byte_area2{
+				text-align:right; padding-right:10px;
 			}
 		</style>
 	</head>
@@ -62,13 +141,18 @@
 						</tr>
 						<tr>
 							<th class="notice_th">제목</th>
-							<td><input type="text" name="str2" style="border:none; background:inherit; height:40; font-size:15px; padding:3px 0; width:800px;"></td>
+							<td><input maxlength="85" class="modify_textarea" onkeyup="resize(this)" type="text" name="str2" style="border:none; background:inherit; height:40; font-size:15px; padding:3px 0; width:800px;">
+							<p class="byte_area"><span id="byte_alert">※최대 입력 글자 수를 초과했습니다. </span><span id="present_byte"></span> /85 byte</p>
+							<input type="hidden" id="byte_excess" name="byte_excess">
+							</td>
 						</tr>									
 						<tr>
 							<th class="notice_th">내용</th>
 							<td>
 								<!-- 텍스트에디터로 변경?★★★★★★★★★ -->
-								<textarea name="str3" id="smartEditor" style="width:100%; height: 412px;"></textarea>
+								<textarea class="modify_textarea2" onkeyup="resize2(this)" name="str3" id="smartEditor" style="width:100%; height: 412px;"></textarea>
+							<p class="byte_area2"><span id="byte_alert2">※최대 입력 글자 수를 초과했습니다. </span><span id="present_byte2"></span> /4000 byte</p>
+							<input type="hidden" id="byte_excess2" name="byte_excess2">
 							</td>
 						</tr>
 					</table>

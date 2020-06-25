@@ -282,7 +282,7 @@
 				</tr>							
 				<tr>
 					<th  class="cut_fifteen">* 제목</th>
-					<td colspan="3"><textarea id="e_title" onkeyup="change_img()" name="e_title" style="border:none; background:inherit; height:40; font-size:15px; padding:3px 0;">${AllDto.eventdto.e_title }</textarea></td>
+					<td colspan="3"><textarea maxlength="85"  id="e_title" onkeyup="change_img()" name="e_title" style="border:none; background:inherit; height:40; font-size:15px; padding:3px 0;">${AllDto.eventdto.e_title }</textarea></td>
 				</tr>
 
 				<tr>

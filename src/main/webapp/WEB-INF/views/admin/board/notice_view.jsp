@@ -12,7 +12,8 @@
         <script type="text/javascript" src="admin/js/admin_board.js"></script>	
         <!-- css, 기능 수정 -->
  		<link rel="stylesheet" type="text/css" href="admin/css/admin_view.css">	   
-		<link rel="stylesheet" type="text/css" href="admin/css/list_button.css">   		 		    	
+		<link rel="stylesheet" type="text/css" href="admin/css/list_button.css">   
+		<link rel="stylesheet" type="text/css" href="admin/css/a_setting.css">			 		    	
 		<!-- 페이지 로딩시 초기화 --> 
 		<script>
 		$(document).ready(function(){
@@ -47,7 +48,79 @@
 	               });
 	         }
 		}	
+		window.onload=function(){
+			$('#byte_alert').hide();		
+			
+			 var str = $('.modify_textarea').val();
+			 var len=0;
+			 
+			 for (var i = 0; i < str.length; i++) {
+			        if (escape(str.charAt(i)).length == 6) {
+			            len+=2;
+			        }
+			        len++;
+			    }
+			 
+			$('#present_byte').html(len);
+			
+			$('#byte_alert2').hide();		
+			
+			 var str2 = $('.modify_textarea2').val();
+			 var len2=0;
+			 
+			 for (var i = 0; i < str2.length; i++) {
+			        if (escape(str2.charAt(i)).length == 6) {
+			            len2+=2;
+			        }
+			        len2++;
+			    }
+			 
+			$('#present_byte2').html(len2);	
+			
+		};		
 		
+		function resize(obj) {
+			  
+			  var str = $('.modify_textarea').val();
+			    var len = 0;
+			    for (var i = 0; i < str.length; i++) {
+			        if (escape(str.charAt(i)).length == 6) {
+			            len+=2;
+			        }
+			        len++;
+			    }
+			     if(len>85){
+			    	$('#byte_alert').show();
+			    	$('#byte_excess').val('on');
+			     } else {
+			    	 $('#byte_alert').hide();
+			    	 $('#byte_excess').val('off');
+			     }
+			     
+			  	$('#present_byte').html(len);
+			  
+			}
+		function resize2(obj) {
+			  
+			  var str = $('.modify_textarea2').val();
+			    var len = 0;
+			    for (var i = 0; i < str.length; i++) {
+			        if (escape(str.charAt(i)).length == 6) {
+			            len+=2;
+			        }
+			        len++;
+			    }
+			     if(len>4000){
+			    	$('#byte_alert2').show();
+			    	$('#byte_excess2').val('on');
+			     } else {
+			    	 $('#byte_alert2').hide();
+			    	 $('#byte_excess2').val('off');
+			     }
+			     
+			  	$('#present_byte2').html(len);
+			  
+			}
 		</script>
 		<style type="text/css">
 			#input_form{
@@ -63,6 +136,15 @@
 			#btn_div{
 			 text-align: center;
 			}
+			.modify_textarea{
+				overflow:hidden;
+			}
+			.byte_area, .byte_area2{
+				text-align:right; padding-right:10px;
+			}
+			#byte_alert, #byte_alert2{
+				color:red;
+			}	
 		</style>
 	</head>
 	<body>
@@ -87,17 +169,21 @@
 							<td>${AllDto2.utildto.str1 }</td>
 						</tr>								
 						<tr >
-							<th class="notice_th" >* 제목</th>
+							<th class="notice_th"  >* 제목</th>
 							<td >
-							<textarea name="no_title" style="margin:0; padding-top:10px; height:33px;">${AllDto2.noticedto.no_title }</textarea>
+							<textarea  class="modify_textarea" onkeyup="resize(this)" name="no_title" maxlength="85" style="overflow:hidden;margin:0; padding-top:10px; height:33px;">${AllDto2.noticedto.no_title }</textarea>
+							<p class="byte_area"><span id="byte_alert">※최대 입력 글자 수를 초과했습니다. </span><span id="present_byte"></span> /85 byte</p>
+							<input type="hidden" id="byte_excess" name="byte_excess">
 							</td>
 						</tr>									
 						<tr>
 							<th class="notice_th">* 내용</th>
 							<td>
 								<!-- 텍스트에디터로 변경?★★★★★★★★★ -->
-								<textarea wrap="hard" name="no_content" name="no_content" id="smartEditor" style="width:100%; height: 412px;">
-${AllDto2.noticedto.no_content }</textarea>								
+								<textarea   class="modify_textarea2" onkeyup="resize2(this)" wrap="hard" name="no_content" id="smartEditor" style="width:100%; height: 412px;">
+${AllDto2.noticedto.no_content }</textarea>	
+								<p class="byte_area2"><span id="byte_alert2">※최대 입력 글자 수를 초과했습니다. </span><span id="present_byte2"></span> /4000 byte</p>							
+								<input type="hidden" id="byte_excess2" name="byte_excess2">
 							</td>
 						</tr>
 					</table>

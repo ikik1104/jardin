@@ -15,7 +15,8 @@
         <script type="text/javascript" src="admin/js/prefixfree.dynamic-dom.min.js"></script>
         <!-- 기능, css 수정  -->
         <script type="text/javascript" src="admin/js/admin_board.js"></script>    
-		<link rel="stylesheet" type="text/css" href="admin/css/list_button.css">           
+		<link rel="stylesheet" type="text/css" href="admin/css/list_button.css">     
+		<link rel="stylesheet" type="text/css" href="admin/css/a_setting.css">	      
 		<style type="text/css">
 			
 			#search_form table{
@@ -34,6 +35,9 @@
 			#search_date td button{
 				border: 1px solid black;
 				padding: 4px;
+			}
+			.user_title{
+				width:20%; overflow:hidden; text-overflow:ellipsis;
 			}
 		</style>
 		<script type="text/javascript">
@@ -169,6 +173,12 @@
 				</div>					
 				
 				<div>
+					<!-- 등록된 신청자 없을 경우 -->
+					<c:if test="${apply_list.size()==0 }">
+						※등록된 신청자가 없습니다.
+					</c:if>
+					<!-- 등록된 1:1문의 있을 경우 -->
+					<c:if test="${apply_list.size()!=0 }">
 					<table border="1" id="event_list" >
 						<tr>
 							<th><input type="checkbox"  id="check_all" ></th>
@@ -189,8 +199,8 @@
 							</td>
 							<td>${apply_list.memberdto.m_id }</td>
 							<td>${apply_list.utildto.str1 }</td>
-							<td>
-								<a href="event_view?e_num=${apply_list.eventdto.e_num }">
+							<td class="user_title">
+								<a class="user_title" href="event_view?e_num=${apply_list.eventdto.e_num }">
 									${apply_list.eventdto.e_title }
 								</a>
 							</td>
@@ -209,11 +219,13 @@
 					</c:forEach>
 				</table>
 				<div class="detail_btn" style="text-align:left; cursor:pointer;">
+					<input type="hidden" id="win_lose_sign">
 					<a onclick="applicantSomeWin()">선택 당첨/당첨취소</a>					
 					<a onclick="applicantSomeDelete()">선택 삭제</a>
 					<!-- 선택된 체크박스 값 체크용 -->
 					<input type="hidden" name="hiddenValue" id="hiddenValue" value=""/>						
 				</div>				
+				</c:if>
 				</div>
 			</div>
 				</div>

@@ -14,7 +14,8 @@
         <script type="text/javascript" src="admin/js/jquery-ui.min.js"></script>
         <script type="text/javascript" src="admin/js/prefixfree.dynamic-dom.min.js"></script>
         <script type="text/javascript" src="admin/js/admin_board.js"></script>    
-		<link rel="stylesheet" type="text/css" href="admin/css/list_button.css">            
+		<link rel="stylesheet" type="text/css" href="admin/css/list_button.css">      
+		<link rel="stylesheet" type="text/css" href="admin/css/a_setting.css">	      
 		<style type="text/css">
 			
 			#search_form table{
@@ -37,6 +38,8 @@
 		</style>
 		<script type="text/javascript">
 
+		
+		
 		function date_chk2(){
 			var start = inputform.e_start_day.value;
 			var end = inputform.e_end_day.value;

@@ -15,6 +15,7 @@
         <script type="text/javascript" src="admin/js/jquery-ui.min.js"></script>
         <script type="text/javascript" src="admin/js/prefixfree.dynamic-dom.min.js"></script>
         <script type="text/javascript" src="admin/js/admin_board.js"></script>
+        <link rel="stylesheet" type="text/css" href="admin/css/a_setting.css">	
 		<style type="text/css">
 			section{
 				padding-bottom:300px;
@@ -54,20 +55,38 @@
 		</style>
 		<script type="text/javascript">
 		$(function(){
-			$('#byte_alert').hide();			
-			$('#byte_alert2').hide();
+			$('#byte_alert').hide();		
 			
 			var original_height= $('.modify_textarea').prop('scrollHeight');
 			$('.modify_textarea').height(12+original_height);
 			 var str = $('.modify_textarea').val();
-			 var len=str.length;
+			 var len=0;
+			 
+			 for (var i = 0; i < str.length; i++) {
+			        if (escape(str.charAt(i)).length == 6) {
+			            len+=2;
+			        }
+			        len++;
+			    }
+			 
 			$('#present_byte').html(len);
-
+			
+			$('#byte_alert2').hide();		
+			
 			var original_height2= $('.modify_textarea2').prop('scrollHeight');
 			$('.modify_textarea2').height(12+original_height2);
-			var str2 = $('.modify_textarea2').val();
-			var len2=str2.length;
-			$('#present_byte2').html(len2);			
+			 var str2 = $('.modify_textarea2').val();
+			 var len2=0;
+			 
+			 for (var i = 0; i < str2.length; i++) {
+			        if (escape(str2.charAt(i)).length == 6) {
+			            len2+=2;
+			        }
+			        len2++;
+			    }
+			 
+			$('#present_byte2').html(len2);	
+			
 			
 			
 		});		

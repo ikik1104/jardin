@@ -15,7 +15,8 @@
         <script type="text/javascript" src="admin/js/prefixfree.dynamic-dom.min.js"></script>  
         <!-- 기능, css 수정  -->
         <script type="text/javascript" src="admin/js/admin_board.js"></script>    
-		<link rel="stylesheet" type="text/css" href="admin/css/list_button.css">              
+		<link rel="stylesheet" type="text/css" href="admin/css/list_button.css">    
+		<link rel="stylesheet" type="text/css" href="admin/css/a_setting.css">	          
 		<style type="text/css">
 			
 			#search_form table{
@@ -34,6 +35,9 @@
 			#search_date td button{
 				border: 1px solid black;
 				padding: 4px;
+			}			
+			.user_title{
+				width:30%; overflow:hidden; text-overflow:ellipsis;
 			}
 		</style>
 		<script type="text/javascript">
@@ -160,11 +164,17 @@
 					</button>					
 				</div>				
 				<div>
+					<!-- 등록된 이벤트글 없을 경우 -->
+					<c:if test="${AllDtos.size()==0 }">
+						등록된 이벤트글이 없습니다.
+					</c:if>
+					<!-- 등록된 1:1문의 있을 경우 -->
+					<c:if test="${AllDtos.size()!=0 }">			
 					<table border="1" id="event_list">
 						<tr>
 							<th><input type="checkbox"  id="check_all"  ></th>						
 							<th>번호</th>
-							<th>제목</th>
+							<th class="user_title">제목</th>
 							<th>작성자</th>
 							<th>등록일</th>
 							<th>시작일</th>
@@ -179,7 +189,7 @@
 							<td><input type="checkbox" name="chk_ids"  value="${AllDtos.eventdto.e_num}"></td>
 							<td>${AllDtos.eventdto.rownum }</td>
 							<td>
-								<a href="event_view?e_num=${AllDtos.eventdto.e_num}"> 
+								<a lass="user_title" href="event_view?e_num=${AllDtos.eventdto.e_num}"> 
 									${AllDtos.eventdto.e_title }
 								</a>
 							</td>
@@ -204,6 +214,7 @@
 						</tr>
 						</c:forEach>						
 					</table>
+					</c:if>
 					<div class="detail_btn" style="text-align:left; cursor:pointer;">
 						<a onclick="eventSomeDelete()">선택 삭제</a>
 						<!-- 선택된 체크박스 값 체크용 -->

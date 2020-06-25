@@ -15,6 +15,8 @@
 
 		//선택 1:1문의 체크박스 값 배열에 넣기
 		function arrayingCheckbox(){
+			
+			
 
 			 var obj = $("[name=chk_ids]");
 		        var chkArray = new Array(); // 배열 선언
@@ -29,6 +31,10 @@
 		        	return false;
 		        }			
 			
+		        if($('#win_lose_sign').val()=='on'){
+					return chkArray;
+		        }
+		        
 			if(confirm('일괄 삭제하시겠습니까?\n삭제한 데이터는 복구할 수 없습니다.')){
 				
 			        /*
@@ -206,6 +212,16 @@
 		
 		//공지사항 1개 수정 notice_modify
 		function notice_modify(){
+			
+			if($('#byte_excess').val()=='on'){
+				alert('제목 최대 입력 글자 수를 초과했습니다.');
+				return false;
+			}
+			if($('#byte_excess2').val()=='on'){
+				alert('내용 최대 입력 글자 수를 초과했습니다.');
+				return false;
+			}
+
 			 $.ajax({
 			       url: "notice_modify",
 			       type: "POST",
@@ -225,6 +241,17 @@
 		}				
 		//공지글 1개 등록
 		function notice_insert(){
+			
+			if($('#byte_excess').val()=='on'){
+				alert('제목 최대 입력 글자 수를 초과했습니다.');
+				return false;
+			}
+			
+			if($('#byte_excess2').val()=='on'){
+				alert('내용 최대 입력 글자 수를 초과했습니다.');
+				return false;
+			}
+			
 			 $.ajax({
 			       url: "notice_insert",
 			       type: "POST",
@@ -364,6 +391,9 @@
 		}		
 		//선택 신청자 일괄 당첨/당첨 취소
 		function applicantSomeWin(){
+			
+			$('#win_lose_sign').val('on');
+			
 			var chkArray = arrayingCheckbox();//체크박스 값 배열에 넣기
 			
 			if(chkArray==false){
@@ -388,6 +418,8 @@
                    alert("서버통신실패");
                 }
              });
+            
+            $('#win_lose_sign').val('off');
 		}
 		
 		//event_view에서 삭제 체크
