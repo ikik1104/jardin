@@ -15,7 +15,7 @@
         <script type="text/javascript" src="admin/js/admin_board.js"></script>
 		<link rel="stylesheet" type="text/css" href="admin/css/list_button.css">          			
 		<script type="text/javascript" src="user/js/event_view.js"></script>
-		<script src="//ajax.googleapis.com/ajax/libs/webfont/1.4.10/webfont.js"></script>
+		
 		<!-- 페이지 로딩시 초기화 --> 
 		<script>
 	
@@ -136,7 +136,7 @@
 			.cut_thirty{
 			width:270px;
 			}
-			#layerWrap {/*.modal*/
+			#layerWrap, #none_layerWrap {/*.modal*/
         	margin:auto auto;
             display: none; /* Hidden by default */
             position: fixed; 
@@ -149,7 +149,7 @@
             background-color: white;
             padding-bottom:100px;
             padding-top:10px;
-        }
+        }    
 		#backbody{
 			display:none;
 			width:100%; height:100%;
@@ -158,17 +158,19 @@
              background-color: rgb(0,0,0); /* Fallback color */
             background-color: rgba(0,0,0,0.4); /* Black w/ opacity */           
 		}
-		@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+		
 		</style>
 	
 	</head>
 		<!-- 모달창 띄울 때 화면 어둡게 하는 효과 -->
 	<div  id="backbody" onclick="closePreview()"></div>
-	<!-- 미리보기 창 -->
+	<!-- 이미지 있는 미리보기 창 -->
 	<div id="layerWrap">
-		<!-- 미리보기 공간 -->
 	</div>	
-	<!-- 미리보기 창 -->
+	<!-- 이미지 없는 미리보기 창 -->
+	<div id="none_layerWrap">
+	</div>		
+	
 	<body>
 	<jsp:include page="../nav/admin_header.jsp"/>
 	<jsp:include page="../nav/board_nav.jsp"/>
@@ -176,6 +178,8 @@
 	<!-- 미리보기 창 띄울 때 필요한 값 -->
 	<input type="hidden" value="${AllDto.eventdto.e_thumb_img }" id="original_thumb_forPreview">
 	<input type="hidden" value="${AllDto.eventdto.e_content_img }" id="original_content_forPreview">	
+	<input  type="hidden" id="origin_start" value="${AllDto.utildto.str1 }">
+	<input  type="hidden" id="origin_end" value="${AllDto.utildto.str2 }">	
 
 		<h1>이벤트 조회/수정 </h1>
 	<form runat="server" action="event_modify" name="inputform" method="post"  enctype="multipart/form-data" >		
@@ -211,13 +215,13 @@
 					<th class="cut_fifteen">기존 시작일</th>
 					<td class="cut_forty">${AllDto.utildto.str1 }</td>
 					<th class="cut_fifteen">* 시작일 변경</th>
-					<td class="cut_thirty"><input type="date" name="e_start_day"></td>				
+					<td class="cut_thirty"><input type="date" name="e_start_day" id="e_start_day"></td>				
 				</tr>
 				<tr>
 					<th class="cut_fifteen">기존 종료일</th>
 					<td class="cut_forty">${AllDto.utildto.str2 }</td>
 					<th class="cut_fifteen">* 종료일 변경</th>
-					<td class="cut_thirty"><input type="date" name="e_end_day"></td>				
+					<td class="cut_thirty"><input type="date" name="e_end_day" id="e_end_day"></td>				
 				</tr>				
 				<tr>
 					<th class="cut_fifteen">기존 당첨자 발표일</th>
@@ -243,7 +247,7 @@
 						<td><a target="_blank" href="${AllDto.eventdto.e_content_img }"><p class="cut">${AllDto.eventdto.e_content_img }</p></a></td>
 					</c:if>
 					<th class="cut_fifteen">* 첨부이미지 변경</th>
-					<td class="cut_thirty"><p class="cut"><input type="file" name="new_content[]" id="new_content" multiple="multiple" onchange="change_img()"></p></td>				
+					<td class="cut_thirty"><p class="cut"><input type="file" name="new_content" id="new_content" multiple="multiple" onchange="change_img()"></p></td>				
 				</tr>		
 				<c:if test="${AllDto.eventdto.co_num!=0 }"><!-- 기존에 쿠폰이 있을 경우 -->
 				<tr>
