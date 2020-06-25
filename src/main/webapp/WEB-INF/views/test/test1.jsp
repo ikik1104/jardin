@@ -30,40 +30,140 @@
 
 </head>
 <body>
-					<th class="cut_fifteen">기존 썸네일</th>
-					<td class="cut_forty"><a href="${AllDto.eventdto.e_thumb_img }" target="_blank"><p class="cut">${AllDto.eventdto.e_thumb_img }</p></a></td>
-					<th class="cut_fifteen">* 썸네일 변경</th>
-					<td class="cut_thirty"><p class="cut"><input type="file" name="new_thumb" id="new_thumb"></p></td>				
-				</tr>				
-				
-				<tr>
-					<th class="cut_fifteen">기존 첨부이미지</th>
-					<c:if test="${ AllDto.eventdto.e_content_img==null}"><td>-</td></c:if>
-					<c:if test="${ AllDto.eventdto.e_content_img!=null}">
-						<td><a target="_blank" href="${AllDto.eventdto.e_content_img }"><p class="cut">${AllDto.eventdto.e_content_img }</p></a></td>
-					</c:if>
-					<th class="cut_fifteen">* 첨부이미지 변경</th>
-					<td class="cut_thirty"><p class="cut"><input type="file" name="new_content" id="new_content" multiple="multiple" onchange="change_img()"></p></td>				
-				</tr>		
-				<c:if test="${AllDto.eventdto.co_num!=0 }"><!-- 기존에 쿠폰이 있을 경우 -->
-				<tr>
+
+<style>
+			section{
+				padding-bottom:300px;
+			}
+			
+			table th{
+				width:15%;
+			}
+			.user_title{
+				overflow:hidden; text-overflow:ellipsis;
+			}
+			
+			.modify_textarea{
+				overflow:hidden;
+			}
+			.byte_area{
+				text-align:right; padding-right:10px;
+			}
+			#byte_alert{
+				color:red;
+			}			
+</style>
+
+class="user_title"
+ class="modify_textarea" onkeyup="resize(this)"
+<p class="byte_area"><span id="byte_alert">※최대 입력 글자 수를 초과했습니다. </span><span id="present_byte"></span> /4000 byte</p>
+
+<script type="text/javascript">
+$(function(){
+	$('#byte_alert').hide();		
+	
+	var original_height= $('.modify_textarea').prop('scrollHeight');
+	$('.modify_textarea').height(12+original_height);
+	 var str = $('.modify_textarea').val();
+	 var len=str.length;
+	$('#present_byte').html(len);
+	
+});		
+
+function resize(obj) {
+	  obj.style.height = "1px";
+	  obj.style.height = (12+obj.scrollHeight)+"px";
+	  
+	  var str = $('.modify_textarea').val();
+	    var len = 0;
+	    for (var i = 0; i < str.length; i++) {
+	        if (escape(str.charAt(i)).length == 6) {
+	            len+=2;
+	        }
+	        len++;
+	    }
+	     if(len>4000){
+	    	$('#byte_alert').show();
+	    	$('#byte_excess').val('on');
+	     } else {
+	    	 $('#byte_alert').hide();
+	    	 $('#byte_excess').val('off');
+	     }
+	     
+	  	$('#present_byte').html(len);
+	  
+	}
+
+</script>
 
 
 
-				<tr>
-					<th class="cut_fifteen">기존 시작일</th>
-					<td class="cut_forty">${AllDto.utildto.str1 }</td>
-					<th class="cut_fifteen">* 시작일 변경</th>
-					<td class="cut_thirty"><input type="date" name="e_start_day" id="e_start_day"></td>				
-				</tr>
-				<tr>
-					<th class="cut_fifteen">기존 종료일</th>
-					<td class="cut_forty">${AllDto.utildto.str2 }</td>
-					<th class="cut_fifteen">* 종료일 변경</th>
-					<td class="cut_thirty"><input type="date" name="e_end_day" id="e_end_day"></td>				
-				</tr>				
 
 
-	<a onclick="openPreview()" id="preview_btn">내용 미리보기</a>
+
+
+
+<script type="text/javascript">
+function date_chk2(){
+	var start = inputform.e_start_day.value;
+	var end = inputform.e_end_day.value;
+	
+	var date1 = new Date();
+	var start_date = new Date(start);
+	var end_date = new Date(end);
+	if(end_date.getTime()<date1.getTime()){
+		alert("종료일은 오늘 날짜 이후 or 시작일 이후의 날짜를 선택해주세요.");
+		inputform.e_end_day.value ="";
+		return false;
+	}
+	if(end_date.getTime()<start_date.getTime()){
+		alert("시작일 이후의 날짜를 선택해주세요.");
+		inputform.e_end_day.value ="";
+		return false;
+	}
+}
+
+function search() {
+	//ajax 구현 해서 바로 검색결과 띄워주기
+	
+}
+
+//구현 끝~! ㅋㅋ
+function search_date(val){
+	var start = document.getElementById("e_start_day");
+	var end = document.getElementById("e_end_day");
+	
+	var today = new Date();
+	var date = new Date();
+	
+	if(val == "today"){
+		start.valueAsDate = today;
+		end.valueAsDate = today;
+	}else if(val == "all"){
+		start.valueAsDate = null;
+		end.valueAsDate = null;
+	}else if(val == "7day"){
+		var weekDate = today.getTime() - (7 * 24 * 60 * 60 * 1000);
+		date.setTime(weekDate);				
+		start.valueAsDate = date;
+		end.valueAsDate = today;
+	}else if(val == "15day"){
+		var weekDate = today.getTime() - (15 * 24 * 60 * 60 * 1000);
+		date.setTime(weekDate);				
+		start.valueAsDate = date;
+		end.valueAsDate = today;
+	}else if(val == "1month"){
+		date.setMonth(date.getMonth() - 1);
+		start.valueAsDate = date;
+		end.valueAsDate = today;
+	}else if(val == "3month"){
+		date.setMonth(date.getMonth() - 3);
+		start.valueAsDate = date;
+		end.valueAsDate = today;
+	}
+}
+</script>
+
+	
 </body>
 </html>

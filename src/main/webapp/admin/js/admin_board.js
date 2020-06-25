@@ -97,6 +97,12 @@
 		
 		//1:1문의 답변 등록
 		function insertAnswer(){
+			
+			if($('#byte_excess2').val()=='on'){
+				alert('답변 최대 입력 글자 수를 초과했습니다.');
+				return false;
+			}
+			
 			 $.ajax({
 			       url: "mtm_answer_write",
 			       type: "POST",
@@ -116,6 +122,12 @@
 		}
 		//1:1문의 답변 수정
 		function modifyAnswer(){
+			
+			if($('#byte_excess').val()=='on'){
+				alert('답변 최대 입력 글자 수를 초과했습니다.');
+				return false;
+			}
+			
 			 $.ajax({
 			       url: "mtm_answer_modify",
 			       type: "POST",
