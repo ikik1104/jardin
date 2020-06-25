@@ -38,6 +38,8 @@
 					<!-- 등록된 1:1문의 있을 경우 -->
 					<c:if test="${mtm_list.size()!=0 }">
 
+		<link rel="stylesheet" type="text/css" href="admin/css/a_setting.css">	
+
 <style>
 			section{
 				padding-bottom:300px;
