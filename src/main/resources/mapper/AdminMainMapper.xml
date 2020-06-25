@@ -4,12 +4,56 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
         
 <mapper namespace="com.javalec.ex.dao.AdminMainDao">
+ 	
+	<select id="countMainBanners" resultType="Integer">
+		select count(*) from main_banner_tb2
+	</select>
+
+	<select id="selectMainBanners" resultType="com.javalec.ex.dto.MainBannerDto">
+		select * from main_banner_tb2
+	</select>
 	
-	<!-- 메인배너 -->
 	<insert id="insertMainBanner">
-		insert into main_banner_tb values 
-		(#{mbdto.b_1}, #{mbdto.b_2}, #{mbdto.b_3}, #{mbdto.b_4})
+		insert into main_banner_tb2 values 
+		(#{mbdto.b_1,jdbcType=VARCHAR}, #{mbdto.b_2,jdbcType=VARCHAR}, #{mbdto.b_3, jdbcType=VARCHAR}, #{mbdto.b_4, jdbcType=VARCHAR}, 1)
 	</insert>
 	
+	<update id="updateMainBanner">
+		update main_banner_tb2 
+		set 
+		b_1=#{mbdto.b_1, jdbcType=VARCHAR}, 
+		b_2=#{mbdto.b_2, jdbcType=VARCHAR}, 
+		b_3=#{mbdto.b_3, jdbcType=VARCHAR}, 
+		b_4=#{mbdto.b_4, jdbcType=VARCHAR}
+		where num=1
+	</update>
+<!-- 	<update id="updateMainBanner"> -->
+<!-- 		update main_banner_tb2 set  -->
+<!-- 	</update> -->
+	
+	<!-- 메인배너  -->
+<!-- 	<update id="insertMainBanner" parameterType="java.util.Map"> -->
+
+<!-- 	 	<foreach collection="mblist" item="item" separator=" " open="INSERT ALL" close="SELECT * FROM DUAL"> -->
+<!-- 	         INTO main_banner_tb  (  -->
+<!-- 	               orders -->
+<!-- 	               , files                  -->
+<!-- 	        ) VALUES( -->
+<!-- 	               #{item.orders}                     -->
+<!--               		,#{item.files}                          -->
+<!-- 			) -->
+<!-- 	     </foreach> -->
+<!--  	</update> -->
+ 	
+ 	<!-- 배너 이미지들 가져오기 --> 
+<!-- 	<select id="selectMainBanners" resultType="com.javalec.ex.dto.MainBannerDto"> -->
+<!-- 		select * from main_banner_tb -->
+<!-- 	</select> -->
+	
+ 	<!-- 배너 이미지 지우기 --> 
+<!-- 	<delete id="deleteMainBanner"> -->
+<!-- 		delete from main_banner_tb where orders=#{param1} -->
+<!-- 	</delete> -->
+ 	
 	
 </mapper>
