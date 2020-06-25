@@ -117,66 +117,6 @@
 			  	$('#present_byte2').html(len);
 			  
 			}		
-
-		function date_chk2(){
-			var start = inputform.e_start_day.value;
-			var end = inputform.e_end_day.value;
-			
-			var date1 = new Date();
-			var start_date = new Date(start);
-			var end_date = new Date(end);
-			if(end_date.getTime()<date1.getTime()){
-				alert("종료일은 오늘 날짜 이후 or 시작일 이후의 날짜를 선택해주세요.");
-				inputform.e_end_day.value ="";
-				return false;
-			}
-			if(end_date.getTime()<start_date.getTime()){
-				alert("시작일 이후의 날짜를 선택해주세요.");
-				inputform.e_end_day.value ="";
-				return false;
-			}
-		}
-		
-		function search() {
-			//ajax 구현 해서 바로 검색결과 띄워주기
-			
-		}
-		
-		//구현 끝~! ㅋㅋ
-		function search_date(val){
-			var start = document.getElementById("e_start_day");
-			var end = document.getElementById("e_end_day");
-			
-			var today = new Date();
-			var date = new Date();
-			
-			if(val == "today"){
-				start.valueAsDate = today;
-				end.valueAsDate = today;
-			}else if(val == "all"){
-				start.valueAsDate = null;
-				end.valueAsDate = null;
-			}else if(val == "7day"){
-				var weekDate = today.getTime() - (7 * 24 * 60 * 60 * 1000);
-				date.setTime(weekDate);				
-				start.valueAsDate = date;
-				end.valueAsDate = today;
-			}else if(val == "15day"){
-				var weekDate = today.getTime() - (15 * 24 * 60 * 60 * 1000);
-				date.setTime(weekDate);				
-				start.valueAsDate = date;
-				end.valueAsDate = today;
-			}else if(val == "1month"){
-				date.setMonth(date.getMonth() - 1);
-				start.valueAsDate = date;
-				end.valueAsDate = today;
-			}else if(val == "3month"){
-				date.setMonth(date.getMonth() - 3);
-				start.valueAsDate = date;
-				end.valueAsDate = today;
-			}
-		}
-	
 </script>
 	</head>
 	<body>
