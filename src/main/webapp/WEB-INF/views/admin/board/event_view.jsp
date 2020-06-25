@@ -121,6 +121,20 @@
 			#comment_btn_area{
 				border-bottom:none; 
 			}
+			.cut{
+			width:320px; overflow:hidden; text-overflow:ellipsis;
+			white-space:nowrap;
+			}			
+			.cut_forty{
+			width:270px;
+			}
+			.cut_fifteen{
+			width:140px; 
+			}
+			.cut_thirty{
+			width:270px;
+			}
+			
 		</style>
 	</head>
 	<body>
@@ -130,69 +144,82 @@
 
 		<h1>이벤트 조회/수정 </h1>
 		
-	<form action="event_modify" name="inputform" method="post">		
+	<form action="event_modify" name="inputform" method="post"  enctype="multipart/form-data" >		
+		<!-- 수정하지 않은 항목에 넣어줄 값들 -->
+		<input type="hidden" name="start" value=${AllDto.utildto.str1 }>
+		<input type="hidden" name="end" value=${AllDto.utildto.str2 }>
+		<input type="hidden" name="win" value=${AllDto.utildto.str3 }>		
+		<input type="hidden" name="coupon" value=${AllDto.eventdto.co_num }>		
+		<input type="hidden" name="title" value=${AllDto.eventdto.e_title }>		
+		<input type="hidden" name="content" value=${AllDto.eventdto.e_content }>		
+		<input type="hidden" name="original_thumb" value=${AllDto.eventdto.e_thumb_img }>		
+		<input type="hidden" name="original_content" value=${AllDto.eventdto.e_content_img }>	
+
 		<div  id="input_form">
 			<h1>게시글 조회/수정  <span style="font-size:15px; font-weight:normal;"> * 표시 : 수정 가능 항목</h1>
 			<table border="1" style="margin-top:10px; width:1000px; margin-bottom:10px; font-size:15px;">
 				<tr>
-					<th>번호</th>
-					<td>${AllDto.eventdto.e_num }</td>
-					<th>작성자</th>
-					<td>${AllDto.admindto.ad_grade }(${AllDto.admindto.ad_id })</td>
+					<th class="cut_fifteen">번호</th>
+					<td class="cut_forty">${AllDto.eventdto.e_num }</td>
+					<th class="cut_fifteen">작성자</th>
+					<td class="cut_thirty">${AllDto.admindto.ad_grade }(${AllDto.admindto.ad_id })</td>
 				</tr>
 				<tr>
-					<th>등록일</th>
+					<th class="cut_fifteen">등록일</th>
 					<td colspan="3">${AllDto.utildto.str5 }</td>
 				</tr>							
 				<tr>
-					<th >* 제목</th>
+					<th  class="cut_fifteen">* 제목</th>
 					<td colspan="3"><textarea name="e_title" style="border:none; background:inherit; height:40; font-size:15px; padding:3px 0;">${AllDto.eventdto.e_title }</textarea></td>
 				</tr>
 
 				<tr>
-					<th>기존 시작일</th>
-					<td>${AllDto.utildto.str1 }</td>
-					<th>* 시작일 변경</th>
-					<td><input type="date" name="e_start_day"></td>				
+					<th class="cut_fifteen">기존 시작일</th>
+					<td class="cut_forty">${AllDto.utildto.str1 }</td>
+					<th class="cut_fifteen">* 시작일 변경</th>
+					<td class="cut_thirty"><input type="date" name="e_start_day"></td>				
 				</tr>
 				<tr>
-					<th>기존 종료일</th>
-					<td>${AllDto.utildto.str2 }</td>
-					<th>* 종료일 변경</th>
-					<td><input type="date" name="e_end_day"></td>				
+					<th class="cut_fifteen">기존 종료일</th>
+					<td class="cut_forty">${AllDto.utildto.str2 }</td>
+					<th class="cut_fifteen">* 종료일 변경</th>
+					<td class="cut_thirty"><input type="date" name="e_end_day"></td>				
 				</tr>				
 				<tr>
-					<th>기존 당첨자 발표일</th>
-					<td>${AllDto.utildto.str3 }</td>
-					<th>* 발표일 변경</th>
-					<td><input type="date" name="e_win_day"></td>				
+					<th class="cut_fifteen">기존 당첨자 발표일</th>
+					<td class="cut_forty">${AllDto.utildto.str3 }</td>
+					<th class="cut_fifteen">* 발표일 변경</th>
+					<td class="cut_thirty"><input type="date" name="e_win_day"></td>				
 				</tr>				
 				<tr>
-					<th>진행 상태</th>
+					<th class="cut_fifteen">진행 상태</th>
 					<td colspan="3">${AllDto.utildto.str4 }</td>				
 				</tr>					
 				<tr>
-					<th>기존 썸네일</th>
-					<td>${AllDto.eventdto.e_thumb_img }</td>
-					<th>* 썸네일 변경</th>
-					<td>여기 코딩해야 함</td>				
+					<th class="cut_fifteen">기존 썸네일</th>
+					<td class="cut_forty"><a href="${AllDto.eventdto.e_thumb_img }" target="_blank"><p class="cut">${AllDto.eventdto.e_thumb_img }</p></a></td>
+					<th class="cut_fifteen">* 썸네일 변경</th>
+					<td class="cut_thirty"><p class="cut"><input type="file" name="new_thumb"></p></td>				
 				</tr>				
 				
 				<tr>
-					<th>기존 첨부이미지</th>
-					<td style="width:20%;">${AllDto.eventdto.e_content_img }</td>
-					<th>* 첨부이미지 변경</th>
-					<td>여기도 코딩 해야 함</td>				
+					<th class="cut_fifteen">기존 첨부이미지</th>
+					<c:if test="${ AllDto.eventdto.e_content_img==null}"><td>-</td></c:if>
+					<c:if test="${ AllDto.eventdto.e_content_img!=null}">
+						<td><a target="_blank" href="${AllDto.eventdto.e_content_img }"><p class="cut">${AllDto.eventdto.e_content_img }</p></a></td>
+					</c:if>
+					<th class="cut_fifteen">* 첨부이미지 변경</th>
+					<td class="cut_thirty"><p class="cut"><input type="file" name="new_content"></p></td>				
 				</tr>		
 				<c:if test="${AllDto.eventdto.co_num!=0 }"><!-- 기존에 쿠폰이 있을 경우 -->
 				<tr>
-					<th>쿠폰번호</th>
-					<td>${AllDto.eventdto.co_num }</td>
-					<th>쿠폰명</th>
-					<td>${AllDto.coupondto.co_name }</td>				
+					<th class="cut_fifteen">쿠폰번호</th>
+					<td class="cut_forty">${AllDto.eventdto.co_num }</td>
+					<th class="cut_fifteen">쿠폰명</th>
+					<td class="cut_thirty"><p class="cut">${AllDto.coupondto.co_name }</p></td>				
 				</tr>		
 				<tr>
-					<th>* 쿠폰 변경</th><!-- 여기 쿠폰 가져오기 -->
+					<th class="cut_fifteen">* 쿠폰 변경</th><!-- 여기 쿠폰 가져오기 -->
 					<td colspan="3">
 							<select name="co_num"> <!-- model에 쿠폰 리스트 같이 보내서 ${coupon.name} , ${coupon.seq}사용 -->
 								<option value="0">쿠폰없음</option>
@@ -205,13 +232,13 @@
 				</c:if>			
 				<c:if test="${AllDto.eventdto.co_num==0 }"><!-- 기존에 쿠폰이 없을 경우 -->
 				<tr>
-					<th>쿠폰번호</th>
-					<td>-</td>
-					<th>쿠폰명</th>
-					<td>-</td>				
+					<th class="cut_fifteen">쿠폰번호</th>
+					<td class="cut_forty">-</td>
+					<th class="cut_fifteen">쿠폰명</th>
+					<td class="cut_thirty">-</td>				
 				</tr>		
 				<tr>
-					<th>* 쿠폰 등록</th><!-- 여기 쿠폰 가져오기 -->
+					<th class="cut_fifteen">* 쿠폰 등록</th><!-- 여기 쿠폰 가져오기 -->
 					<td colspan="3">
 							<select name="co_num"> <!-- model에 쿠폰 리스트 같이 보내서 ${coupon.name} , ${coupon.seq}사용 -->
 								<option value="0">쿠폰없음</option>
@@ -232,19 +259,14 @@ ${AllDto.eventdto.e_content }</textarea>
 			</table>
 			<input type="hidden" value=${AllDto.eventdto.e_num } name="e_num">
 			<div class="detail_btn" style="width:1000px;">
+				<a href="user_event_view?e_num=${AllDto.eventdto.e_num }" target="_blank">현재 사용자 화면</a>				
 				<a onclick="location.href='event_list'">목록</a>				
 				<a onclick="event_modify()">수정</a>				
 				<a  onclick="event_view_del_check(${AllDto.eventdto.e_num })">삭제</a>														
 			</div>					
 		</div>
 		
-		<!-- 수정하지 않은 항목에 넣어줄 값들 -->
-		<input type="hidden" name="start" value=${AllDto.utildto.str1 }>
-		<input type="hidden" name="end" value=${AllDto.utildto.str2 }>
-		<input type="hidden" name="win" value=${AllDto.utildto.str3 }>		
-		<input type="hidden" name="coupon" value=${AllDto.eventdto.co_num }>		
-		<input type="hidden" name="title" value=${AllDto.eventdto.e_title }>		
-		<input type="hidden" name="content" value=${AllDto.eventdto.e_content }>				
+		
 	</form>
 		
 		<div style="margin-left:20px;">

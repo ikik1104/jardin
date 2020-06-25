@@ -21,19 +21,19 @@ public class CommentController {
 //	@Autowired
 //	private SqlSession sqlSession;
 	
+	/*
 	@RequestMapping("/comment") //댓글 달기 페이지
 	public String comment() {
 		
 		return "comment";
 	}
-	
 	@ResponseBody
 	@RequestMapping("/comment_List")
 	public List<CommentDto> comment_List(){
 		return abService.comment_List();
 		
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("/comment_delete")
 	public int comment_delete(@RequestBody int cId){
@@ -41,5 +41,5 @@ public class CommentController {
 		
 	}
 	
-	
+		*/
 }

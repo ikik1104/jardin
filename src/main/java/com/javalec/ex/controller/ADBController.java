@@ -1,5 +1,6 @@
 package com.javalec.ex.controller;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.javalec.ex.CommonUtils;
 import com.javalec.ex.dto.AdminDto;
 import com.javalec.ex.dto.AllDto;
 import com.javalec.ex.dto.E_CommentDto;
@@ -42,6 +45,9 @@ public class ADBController {
 	
 	String response_path = "admin/board/";//보내는 경로
 
+	@Autowired
+	CommonUtils utils;
+	
 	@Autowired
 	private ADBService adbservice;
 	@Autowired
@@ -222,15 +228,29 @@ public class ADBController {
 	}
 	
 	//이벤트 새글 1개 등록
-	@ResponseBody
 	@PostMapping("event_insert")
-	public int event_insert(UtilDto utilDto){
+	public String event_insert(Model model, UtilDto utilDto, MultipartFile content_img, MultipartFile thumb_img) throws IOException{
+		String alerttext="";
+		
+		utilDto.setStr3(utils.FileUploaderCDN(thumb_img, "event/"));
+		
+		//관리자가 등록 안 한 이미지 처리
+		if(content_img.isEmpty()==false) {
+		utilDto.setStr4(utils.FileUploaderCDN(content_img, "event/"));
+		}
+		
 		if(utilDto.getStr8()==null || utilDto.getStr8().equals("")) {
 			//쿠폰 등록 안 할 때
 			utilDto.setStr8("null");
 		}
 		int success = adbservice.insertEventBoard(utilDto);
-		return success;
+		
+		if(success==0) alerttext="alert('새 글을 등록하지 못했습니다. 다시 시도해 주세요.'); history.go(-1);";
+		if(success==1) alerttext="alert('새 글을 등록했습니다.'); location.href='event_list';";
+		model.addAttribute("alerttext", alerttext);
+		
+		
+		return response_path+"event_write";
 	}	
 	
 	//이벤트&댓글 1개씩 불러오기
@@ -244,18 +264,33 @@ public class ADBController {
 	
 	//이벤트 글 1개 수정하기
 	@PostMapping("event_modify")
-	public String event_modify(
+	public String event_modify (
 			UtilDto utilDto, Model model,
 			@RequestParam("start") String start,
 			@RequestParam("end") String end,
 			@RequestParam("win") String win,
 			@RequestParam("coupon") int coupon,
 			@RequestParam("title") String title,			
-			@RequestParam("content") String content	
-			) {	
+			@RequestParam("content") String content	,
+			@RequestParam("original_thumb") String original_thumb	,			
+			@RequestParam("original_content") String original_content,
+			MultipartFile new_thumb, MultipartFile new_content
+			)  throws IOException{	
+		
+		//수정하지 않은 항목 있을 경우 기존값 넣어주기
+		if(new_thumb.isEmpty()==true) {
+			utilDto.setStr5(original_thumb);
+		} else { 
+			utilDto.setStr5(utils.FileUploaderCDN(new_thumb, "event/"));
+		}
+		
+		if(new_content.isEmpty()==true) {
+			utilDto.setStr6(original_content);
+		} else { 
+			utilDto.setStr6(utils.FileUploaderCDN(new_content, "event/"));
+		}		
 		
 		String[] splits=null;
-		//수정하지 않은 항목 있을 경우 기존값 넣어주기
 		if(utilDto.getE_start_day()==null||utilDto.getE_start_day().equals("")) {
 			System.out.println("여기여기");
 			utilDto.setStr2(start);

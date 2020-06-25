@@ -277,7 +277,7 @@
 	
 	<!-- 이벤트 새 글 1개 등록 -->
 	<insert id="insertEventBoard">
- 		insert into event_tb values(e_seq.nextval, #{str1}, #{str5}, #{str6}, #{str3}, #{str4},
+ 		insert into event_tb values(e_seq.nextval, #{str1}, #{str5}, #{str6}, #{str3 ,jdbcType=VARCHAR}, #{str4 ,jdbcType=VARCHAR},
  		#{str2}, sysdate, ${str8}, #{str7}, #{temp_int}, '페이지용')
 	</insert>
 	
@@ -331,7 +331,8 @@
 	<!-- 이벤트 1개 수정 -->
 	<update id="modifyEventBoard">
 		update event_tb set e_title=#{e_title}, e_start_day=#{str2}, e_end_day=#{str3},
-		e_win_day=#{str4}, e_content=#{e_content}, co_num=#{str1} where e_num=#{e_num}
+		e_win_day=#{str4}, e_content=#{e_content}, co_num=#{str1}, E_THUMB_IMG=#{str5},
+		E_CONTENT_IMG=#{str6} where e_num=#{e_num}
 	</update>
 	
 	<!-- 이벤트글 1개 삭제 -->

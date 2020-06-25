@@ -131,7 +131,7 @@ $(document).ready(function() {
 								<c:forEach var="event_list" items="${event_list }">
 								<li>
 									<div class="img">
-										<a href="user_event_view?e_num=${event_list.eventdto.e_num }"><img src="tempUpload/${event_list.eventdto.e_thumb_img }" alt="진행중 이벤트" /></a>
+										<a href="user_event_view?e_num=${event_list.eventdto.e_num }"><img style="width:668px; height:198px;" src="${event_list.eventdto.e_thumb_img }" alt="진행중 이벤트" /></a>
 									</div>
 									<div class="txt">
 										<div class="subject">${event_list.eventdto.e_title }</div>

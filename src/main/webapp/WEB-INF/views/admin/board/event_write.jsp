@@ -108,7 +108,7 @@
 	<jsp:include page="../nav/board_nav.jsp"/>
 	<section>
 		<h1>이벤트 등록</h1>
-			<form action="event_insert" name="inputform" method="post"id="event_insert">
+			<form action="event_insert" name="inputform" method="post"id="event_insert"  enctype="multipart/form-data" >
 				<div id="input_form">
 					<table border="1" style="margin-top:10px; width:1000px; margin-bottom:10px; font-size:15px;">	
 						<tr>
@@ -133,13 +133,13 @@
 						<tr>
 							<th class="notice_th">썸네일 이미지</th>
 							<td><!--  <input type="file" name="e_thumb_img">-->
-								<input type="text" name="str3" value="sample_event.jpg" style="width:800px; padding:5px 0;">
+								<input type="file" name="thumb_img" value="sample_event.jpg" style="width:800px; padding:5px 0;">
 							</td>
 						</tr>
 						<tr>
 							<th class="notice_th">내용 이미지</th>
 							<td><!-- <input type="file" name="e_content_img"> -->
-								<input type="text" name="str4" value="sample_event_view.jpg" style="width:800px; padding:5px 0;">												
+								<input type="file" name="content_img" value="sample_event_view.jpg" style="width:800px; padding:5px 0;">												
 							</td>
 						</tr>
 						<tr>

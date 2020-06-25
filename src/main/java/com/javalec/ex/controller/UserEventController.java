@@ -192,11 +192,11 @@ public class UserEventController {
 		model.addAttribute("win_info", eservice.getTheWinboard(winBoardDto));
 		return response_path+"prizewinner_view";
 	}
-	
+	/*
 	@RequestMapping("comment")
 	public String comment() {
 		return "test/comment";
-	}
+	}*/
 	
 	@Autowired
 	UserEventDao edao;

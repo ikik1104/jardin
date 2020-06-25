@@ -231,6 +231,12 @@
 				  });			
 		}		
 //[이벤트]------------------------------------------------------
+		
+		//현재 사용자가 보는 이벤트글 화면 띄우기
+		function openNowUser(){
+			window.open("user_event_view?e_num="+inputform.e_num,"현재 사용자 이벤트 화면","width=auto,height=auto");
+		}
+		
 		//이벤트 일괄 삭제
 		function eventSomeDelete(){
 			var chkArray = arrayingCheckbox();//체크박스 값 배열에 넣기
@@ -260,6 +266,8 @@
 		}
 		//이벤트글 1개 등록
 		function event_insert(){
+			inputform.submit();
+			/*
 			 $.ajax({
 			       url: "event_insert",
 			       type: "POST",
@@ -275,8 +283,8 @@
 			        error : function(){
 			           alert("서버통신실패");
 			        }
-				  });			
-		}				
+				  });				*/
+		}			
 		//당첨 취소 체크
 		function back_check(ec_num){
 	            $.ajax({
