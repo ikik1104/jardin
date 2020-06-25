@@ -30,12 +30,30 @@
                 success : function(mbdtos) {
                 	alert("업로드 성공!!");
                 	location.reload();
-//                     var innerhtml = "";
-//                     for(var i=0; i<mbdtos.length; i++){
-// //                     	console.log(mbdtos[i].files);
-//                     	innerhtml += '<img class="banners" src='+mbdtos[i].files+'>';
-//                     }
-//                     $('.bannerImg').html(innerhtml);
+                },
+                error: function(){
+                    alert("데이터 가져오기 실패");
+                }
+            });
+        }
+        
+        
+        function uploadFile_mid() {
+        	var formData = new FormData(); 
+        	formData.append("config", $("#config2").val()); 
+        	formData.append("mid_left", $("#mid_left")[0].files[0]);
+
+
+            $.ajax({
+                url : 'admin_file',
+                processData : false,
+                contentType : false,
+                enctype: 'multipart/form-data',
+                data : formData,
+                type : 'POST',
+                success : function(mbdtos) {
+                	alert("업로드 성공!!");
+                	location.reload();
                 },
                 error: function(){
                     alert("데이터 가져오기 실패");

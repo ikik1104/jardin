@@ -36,6 +36,7 @@ public class AdminMainController {
 		return "admin/main/main";
 	}
 	
+	
 	@ResponseBody
 	@RequestMapping("admin_file")
 	public int admin_file(MainBannerDto mbdto, MultipartFile banner1, MultipartFile banner2, MultipartFile banner3, MultipartFile banner4, String config, Model model) throws IOException  {
@@ -83,7 +84,6 @@ public class AdminMainController {
 //		}
 //		
 		return result;
-		
 	}
 	
 	
