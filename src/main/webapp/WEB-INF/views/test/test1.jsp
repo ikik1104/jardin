@@ -30,16 +30,40 @@
 
 </head>
 <body>
+					<th class="cut_fifteen">기존 썸네일</th>
+					<td class="cut_forty"><a href="${AllDto.eventdto.e_thumb_img }" target="_blank"><p class="cut">${AllDto.eventdto.e_thumb_img }</p></a></td>
+					<th class="cut_fifteen">* 썸네일 변경</th>
+					<td class="cut_thirty"><p class="cut"><input type="file" name="new_thumb" id="new_thumb"></p></td>				
+				</tr>				
+				
+				<tr>
+					<th class="cut_fifteen">기존 첨부이미지</th>
+					<c:if test="${ AllDto.eventdto.e_content_img==null}"><td>-</td></c:if>
+					<c:if test="${ AllDto.eventdto.e_content_img!=null}">
+						<td><a target="_blank" href="${AllDto.eventdto.e_content_img }"><p class="cut">${AllDto.eventdto.e_content_img }</p></a></td>
+					</c:if>
+					<th class="cut_fifteen">* 첨부이미지 변경</th>
+					<td class="cut_thirty"><p class="cut"><input type="file" name="new_content" id="new_content" multiple="multiple" onchange="change_img()"></p></td>				
+				</tr>		
+				<c:if test="${AllDto.eventdto.co_num!=0 }"><!-- 기존에 쿠폰이 있을 경우 -->
+				<tr>
 
-<h1 style="font-size:24px; color:black;">테스트 페이지</h1>
-
-<div style="font-size:24px; color:black;" >
 
 
+				<tr>
+					<th class="cut_fifteen">기존 시작일</th>
+					<td class="cut_forty">${AllDto.utildto.str1 }</td>
+					<th class="cut_fifteen">* 시작일 변경</th>
+					<td class="cut_thirty"><input type="date" name="e_start_day" id="e_start_day"></td>				
+				</tr>
+				<tr>
+					<th class="cut_fifteen">기존 종료일</th>
+					<td class="cut_forty">${AllDto.utildto.str2 }</td>
+					<th class="cut_fifteen">* 종료일 변경</th>
+					<td class="cut_thirty"><input type="date" name="e_end_day" id="e_end_day"></td>				
+				</tr>				
 
-</div>
 
-
-
+	<a onclick="openPreview()" id="preview_btn">내용 미리보기</a>
 </body>
 </html>

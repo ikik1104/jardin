@@ -98,6 +98,9 @@
 		
 		</script>
 		<style type="text/css">
+			a, a:active, a:link, a:visited, a:hover{
+				color:inherit;
+			}
 			#input_form{
 			margin: 20px;	
 			}
@@ -136,7 +139,7 @@
 			.cut_thirty{
 			width:270px;
 			}
-			#layerWrap, #none_layerWrap {/*.modal*/
+			#layerWrap, #none_layerWrap, #first_wrap {/*.modal*/
         	margin:auto auto;
             display: none; /* Hidden by default */
             position: fixed; 
@@ -158,17 +161,88 @@
              background-color: rgb(0,0,0); /* Fallback color */
             background-color: rgba(0,0,0,0.4); /* Black w/ opacity */           
 		}
-		
+		.subject{
+			width:670px;margin:0 auto; 
+			border-top:1px #5b524d solid; border-bottom:1px #5b524d solid; background:#ebebeb; word-break:keep-all; overflow:hidden;
+		}
+		.subject ul{
+		width:100%; padding:11px 20px 10px 20px; overflow:hidden;
+		}
+		.subject ul li{
+			float:left; font-size:14px; color:#444; font-weight:600; line-height:1.3;
+		}
+		.day{
+			width:670px; margin:0 auto; margin-bottom:30px; font-size:14px; font-weight:600; color:#666; border-bottom:1px #d9d9d9 solid; overflow:hidden;
+		}
+		.day p{
+			float:left; padding:13px 0 12px 0; margin:0 0 0 20px; color:#666;
+		}
+		.day span{
+			font-size:13px; color:#666; font-weight:normal; padding:0 18px 0 14px;
+		}
+		#first_content img, #img_img img{
+			width:630px; display:block; margin:0 auto;
+		}
+		#first_content pre, #layerWrap pre, #none_img_content_area pre{
+			width:630px;margin:0 auto;  margin-top:10px;white-space:pre-wrap; word-break:break-all;font-size:14px; color:#727272; font-family: "Nanum Gothic", sans-serif, "Dotum", "Gulim", "Arial", sans-serif;
+		}
 		</style>
 	
 	</head>
-		<!-- 모달창 띄울 때 화면 어둡게 하는 효과 -->
+	<!-- 모달창 띄울 때 화면 어둡게 하는 효과 -->
 	<div  id="backbody" onclick="closePreview()"></div>
+	
+	<!-- 미리보기창 초기 화면 -->
+		<div id="first_wrap">
+			<div class="subject">
+				<ul>
+					<li>${AllDto.eventdto.e_title }</li>
+				</ul>
+			</div>
+			<div class="day">
+				<p class="txt">이벤트 기간<span>${AllDto.utildto.str1 } ~ ${AllDto.utildto.str2 }</span></p>
+			</div>
+			<div id="first_content">
+				<c:if test="${AllDto.eventdto.e_content_img!=null }">
+					<img src="${AllDto.eventdto.e_content_img}"><br>
+				</c:if>
+				<c:if test="${AllDto.eventdto.e_content_img==null }"></c:if>
+				<pre>${AllDto.eventdto.e_content}</pre>
+				<input type="hidden" id="first_sign">
+				<input type="hidden" id="first_open_sign">				
+			</div>	
+		</div>	
+		<!-- 미리보기창 초기 화면 -->
+		
 	<!-- 이미지 있는 미리보기 창 -->
 	<div id="layerWrap">
+			<div class="subject">
+				<ul>
+					<li id="img_title"></li>
+				</ul>
+			</div>
+			<div class="day">
+				<p class="txt">이벤트 기간<span id="img_date"></span></p>
+			</div>
+			<div id="img_img">
+			</div>
+			<div >
+				<pre id="img_content"></pre>
+			</div>		
 	</div>	
 	<!-- 이미지 없는 미리보기 창 -->
 	<div id="none_layerWrap">
+			<div class="subject">
+				<ul>
+					<li id="none_img_title"></li>
+				</ul>
+			</div>
+			<div class="day">
+				<p class="txt">이벤트 기간<span id="none_img_date"></span></p>
+			</div>
+			<div id="none_img_content_area">
+				<pre id="none_img_content"></pre>
+			</div>	
 	</div>		
 	
 	<body>
@@ -208,20 +282,20 @@
 				</tr>							
 				<tr>
 					<th  class="cut_fifteen">* 제목</th>
-					<td colspan="3"><textarea id="e_title" name="e_title" style="border:none; background:inherit; height:40; font-size:15px; padding:3px 0;">${AllDto.eventdto.e_title }</textarea></td>
+					<td colspan="3"><textarea id="e_title" onkeyup="change_img()" name="e_title" style="border:none; background:inherit; height:40; font-size:15px; padding:3px 0;">${AllDto.eventdto.e_title }</textarea></td>
 				</tr>
 
 				<tr>
 					<th class="cut_fifteen">기존 시작일</th>
 					<td class="cut_forty">${AllDto.utildto.str1 }</td>
 					<th class="cut_fifteen">* 시작일 변경</th>
-					<td class="cut_thirty"><input type="date" name="e_start_day" id="e_start_day"></td>				
+					<td class="cut_thirty"><input  onchange="change_img()" type="date" name="e_start_day" id="e_start_day"></td>				
 				</tr>
 				<tr>
 					<th class="cut_fifteen">기존 종료일</th>
 					<td class="cut_forty">${AllDto.utildto.str2 }</td>
 					<th class="cut_fifteen">* 종료일 변경</th>
-					<td class="cut_thirty"><input type="date" name="e_end_day" id="e_end_day"></td>				
+					<td class="cut_thirty"><input onchange="change_img()" type="date" name="e_end_day" id="e_end_day"></td>				
 				</tr>				
 				<tr>
 					<th class="cut_fifteen">기존 당첨자 발표일</th>
@@ -297,7 +371,8 @@ ${AllDto.eventdto.e_content }</textarea>
 			</table>
 			<input type="hidden" value=${AllDto.eventdto.e_num } name="e_num">
 			<div class="detail_btn" style="width:1000px;">
-				<a onclick="openPreview()" id="preview_btn">내용 미리보기</a>				
+				<a onclick="openOriginal()">수정 전 보기</a>			
+				<a onclick="openPreview()" id="preview_btn">수정 후 보기</a>				
 				<a onclick="location.href='event_list'">목록</a>				
 				<a onclick="event_modify()">수정</a>				
 				<a  onclick="event_view_del_check(${AllDto.eventdto.e_num })">삭제</a>														
