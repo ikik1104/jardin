@@ -91,13 +91,14 @@ window.onload=function(){
 	 var str = $('.modify_textarea').val();
 	 var len=0;
 	 
+	 if(str!=undefined && str!=null && str!=''){
 	 for (var i = 0; i < str.length; i++) {
 	        if (escape(str.charAt(i)).length == 6) {
 	            len+=2;
 	        }
 	        len++;
 	    }
-	 
+	 }
 	$('#present_byte').html(len);
 	
 	$('#byte_alert2').hide();		
@@ -107,13 +108,14 @@ window.onload=function(){
 	 var str2 = $('.modify_textarea2').val();
 	 var len2=0;
 	 
+	 if(str2!=undefined && str2!=null && str2!=''){
 	 for (var i = 0; i < str2.length; i++) {
 	        if (escape(str2.charAt(i)).length == 6) {
 	            len2+=2;
 	        }
 	        len2++;
 	    }
-	 
+	 }
 	$('#present_byte2').html(len2);	
 	
 };		
@@ -165,6 +167,11 @@ function resize2(obj) {
 	  	$('#present_byte2').html(len);
 	  
 	}
+
+if($('#mtm_content2').val()==null || $('#mtm_content2').val()==''){
+	alert('내용을 입력해 주세요.');
+	return false;
+}			
 
 </script>
 

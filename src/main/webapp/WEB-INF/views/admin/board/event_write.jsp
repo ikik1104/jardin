@@ -16,6 +16,7 @@
         <!-- css, 기능 수정 -->
  		<link rel="stylesheet" type="text/css" href="admin/css/admin_view.css">	 
         <script type="text/javascript" src="admin/js/admin_board.js"></script>	 		  
+		<link rel="stylesheet" type="text/css" href="admin/css/a_setting.css">
 		<!-- 페이지 로딩시 초기화 --> 
 		<script>
 		$(document).ready(function(){
@@ -29,7 +30,7 @@
 		
 		function date_chk1(){
 			
-			/*
+			
 			var start = inputform.e_start_day.value;
 			var end = inputform.e_end_day.value;
 			
@@ -46,13 +47,13 @@
 				inputform.e_end_day.value ="";
 				return false;
 			}
-		*/
+		
 		}
 		
 		function date_chk2(win){
 	
 			
-		/*
+		
 	
 			var end = inputform.e_end_day.value;
 			
@@ -71,14 +72,87 @@
 				return false;
 			}
 			
-		*/
+		
 		}
 		
 		window.onload=function(){
 			${alerttext}
+			
+			$('#byte_alert').hide();		
+			
+			 var str = $('.modify_textarea').val();
+			 var len=0;
+			 
+			 if(str!=undefined && str!=null && str!=''){
+			 for (var i = 0; i < str.length; i++) {
+			        if (escape(str.charAt(i)).length == 6) {
+			            len+=2;
+			        }
+			        len++;
+			    }
+			  }
+			 
+			$('#present_byte').html(len);
+			
+			$('#byte_alert2').hide();		
+			
+			 var str2 = $('.modify_textarea2').val();
+			 var len2=0;
+			 
+			 if(str2!=undefined && str2!=null && str2!=''){
+			 for (var i = 0; i < str2.length; i++) {
+			        if (escape(str2.charAt(i)).length == 6) {
+			            len2+=2;
+			        }
+			        len2++;
+			    }
+			 }
+			$('#present_byte2').html(len2);	
 		}
 		
-		
+		function resize(obj) {
+			  
+			  var str = $('.modify_textarea').val();
+			    var len = 0;
+			    for (var i = 0; i < str.length; i++) {
+			        if (escape(str.charAt(i)).length == 6) {
+			            len+=2;
+			        }
+			        len++;
+			    }
+			     if(len>90){
+			    	$('#byte_alert').show();
+			    	$('#byte_excess').val('on');
+			     } else {
+			    	 $('#byte_alert').hide();
+			    	 $('#byte_excess').val('off');
+			     }
+			     
+			  	$('#present_byte').html(len);
+			  
+			}
+			
+		function resize2(obj) {
+			  
+			  var str = $('.modify_textarea2').val();
+			    var len = 0;
+			    for (var i = 0; i < str.length; i++) {
+			        if (escape(str.charAt(i)).length == 6) {
+			            len+=2;
+			        }
+			        len++;
+			    }
+			     if(len>4000){
+			    	$('#byte_alert2').show();
+			    	$('#byte_excess2').val('on');
+			     } else {
+			    	 $('#byte_alert2').hide();
+			    	 $('#byte_excess2').val('off');
+			     }
+			     
+			  	$('#present_byte2').html(len);
+			  
+			}
 		
 		</script>
 		<style type="text/css">
@@ -101,6 +175,15 @@
 			input{
 			border:none; background:inherit;
 			}
+			.modify_textarea{
+				overflow:hidden;
+			}
+			.byte_area, .byte_area2{
+				text-align:right; padding-right:10px;
+			}
+			#byte_alert, #byte_alert2{
+				color:red;
+			}		
 		</style>
 	</head>
 	<body>
@@ -117,11 +200,17 @@
 						</tr>					
 						<tr>
 							<th class="notice_th">글 제목</th>
-							<td><input maxlength="90"  type="text" name="str1" style="border:none; background:inherit; height:40; font-size:15px; padding:3px 0; width:800px;"></td>
+							<td><input  class="modify_textarea" onkeyup="resize(this)" maxlength="90"  type="text" name="str1" style="border:none; background:inherit; height:40; font-size:15px; padding:3px 0; width:800px;">
+							<p class="byte_area"><span id="byte_alert">※최대 입력 글자 수를 초과했습니다. </span><span id="present_byte"></span> /90 byte</p>
+							<input type="hidden" id="byte_excess" name="byte_excess">
+							</td>
 						</tr>
 						<tr>
 							<th class="notice_th">글 내용</th>
-							<td><textarea name="str2" id="smartEditor" style="width:100%; height: 412px;"></textarea></td>
+							<td><textarea   class="modify_textarea2" onkeyup="resize2(this)" name="str2" id="smartEditor" style="width:100%; height: 412px;"></textarea>
+							<p class="byte_area2"><span id="byte_alert2">※최대 입력 글자 수를 초과했습니다. </span><span id="present_byte2"></span> /4000 byte</p>
+							<input type="hidden" id="byte_excess2" name="byte_excess2">
+							</td>
 						</tr>
 						<tr>
 							<th class="notice_th">이벤트 기간</th>

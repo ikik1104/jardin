@@ -54,45 +54,47 @@
 			}
 		</style>
 		<script type="text/javascript">
-		$(function(){
+		$(document).ready(function(){
+
 			$('#byte_alert').hide();		
 			
 			var original_height= $('.modify_textarea').prop('scrollHeight');
 			$('.modify_textarea').height(12+original_height);
+			
 			 var str = $('.modify_textarea').val();
 			 var len=0;
 			 
-			 for (var i = 0; i < str.length; i++) {
-			        if (escape(str.charAt(i)).length == 6) {
-			            len+=2;
-			        }
-			        len++;
-			    }
+			 if(str!=undefined && str!=null && str!=''){
+				 for (var i = 0; i < str.length; i++) {
+				        if (escape(str.charAt(i)).length == 6) {
+				            len+=2;
+				        }
+				        len++;
+				    }
+			 }
 			 
 			$('#present_byte').html(len);
 			
 			$('#byte_alert2').hide();		
-			
+			/*
 			var original_height2= $('.modify_textarea2').prop('scrollHeight');
 			$('.modify_textarea2').height(12+original_height2);
-			 var str2 = $('.modify_textarea2').val();
+			
+			 var str2 = $('.modify_textarea2').val();*/
 			 var len2=0;
-			 
+			 /*
 			 for (var i = 0; i < str2.length; i++) {
 			        if (escape(str2.charAt(i)).length == 6) {
 			            len2+=2;
 			        }
 			        len2++;
 			    }
-			 
+			 */
 			$('#present_byte2').html(len2);	
 			
 			
-			
-		});		
+		});	
 		function resize(obj) {
-			  obj.style.height = "1px";
-			  obj.style.height = (12+obj.scrollHeight)+"px";
 			  
 			  var str = $('.modify_textarea').val();
 			    var len = 0;
@@ -115,8 +117,7 @@
 			}
 		
 		function resize2(obj) {
-			  obj.style.height = "1px";
-			  obj.style.height = (12+obj.scrollHeight)+"px";
+			
 			  
 			  var str = $('.modify_textarea2').val();
 			    var len = 0;
@@ -200,7 +201,7 @@ ${mtm_user_info.mtmuserdto.iu_content }
 		</div>
 		
 		<div style="margin-bottom:100px;"  id="answer_info_area">
-			<h1>답변 조회/작성/수정</h1>	
+			<h1>답변 조회/작성/수정 <span style="font-size:14px; font-weight:normal;">* 수정 가능 항목</span></h1>	
 					<!-- 답변이 있을 경우 -->
 					<c:if test="${ mtm_answer_info.admindto.ad_num!=null}">
 						<form action="mtm_answer_modify" method="post" name="modify_form" id="modify_form">
@@ -221,10 +222,10 @@ ${mtm_user_info.mtmuserdto.iu_content }
 								</td>
 							</tr>			
 							<tr>
-								<th>내용</th>
+								<th>내용 *</th>
 								<td>
 									<!-- 에디터로 수정해야 함★★★★★★★ -->
-									<textarea cols="20" wrap="hard" name="ia_content" class="modify_textarea" onkeyup="resize(this)">
+									<textarea style="height:300px;" id="mtm_content" cols="20" wrap="hard" name="ia_content" class="modify_textarea" onkeyup="resize(this)">
 ${mtm_answer_info.mtmanswerdto.ia_content }</textarea>
 									<p class="byte_area"><span id="byte_alert">※최대 입력 글자 수를 초과했습니다. </span><span id="present_byte"></span> /4000 byte</p>
 								</td>
@@ -253,10 +254,10 @@ ${mtm_answer_info.mtmanswerdto.ia_content }</textarea>
 								<td>${adminGrade }(${adminId })</td>
 							</tr>	
 							<tr>
-								<th>내용</th>
+								<th>내용 *</th>
 								<td>
 									<!-- 에디터로 수정해야 함★★★★★★★ -->
-									<textarea cols="20" wrap="hard" name="ia_content"  class="modify_textarea2" onkeyup="resize2(this)"></textarea>
+									<textarea style="height:300px;" id="mtm_content2" cols="20" wrap="hard" name="ia_content"  class="modify_textarea2" onkeyup="resize2(this)"></textarea>
 									<p class="byte_area2"><span id="byte_alert2">※최대 입력 글자 수를 초과했습니다. </span><span id="present_byte2"></span> /4000 byte </p>
 								</td>
 							</tr>			

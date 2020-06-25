@@ -36,12 +36,14 @@
 			 var str = $('.modify_textarea').val();
 			 var len=0;
 			 
+			 if(str!=undefined && str!=null && str!=''){
 			 for (var i = 0; i < str.length; i++) {
 			        if (escape(str.charAt(i)).length == 6) {
 			            len+=2;
 			        }
 			        len++;
 			    }
+			 }
 			 
 			$('#present_byte').html(len);
 			
@@ -50,13 +52,14 @@
 			 var str2 = $('.modify_textarea2').val();
 			 var len2=0;
 			 
+			 if(str2!=undefined && str2!=null && str2!=''){
 			 for (var i = 0; i < str2.length; i++) {
 			        if (escape(str2.charAt(i)).length == 6) {
 			            len2+=2;
 			        }
 			        len2++;
 			    }
-			 
+			 }
 			$('#present_byte2').html(len2);	
 			
 		};		
@@ -141,7 +144,7 @@
 						</tr>
 						<tr>
 							<th class="notice_th">제목</th>
-							<td><input maxlength="85" class="modify_textarea" onkeyup="resize(this)" type="text" name="str2" style="border:none; background:inherit; height:40; font-size:15px; padding:3px 0; width:800px;">
+							<td><input id="notice_content" maxlength="85" class="modify_textarea" onkeyup="resize(this)" type="text" name="str2" style="border:none; background:inherit; height:40; font-size:15px; padding:3px 0; width:800px;">
 							<p class="byte_area"><span id="byte_alert">※최대 입력 글자 수를 초과했습니다. </span><span id="present_byte"></span> /85 byte</p>
 							<input type="hidden" id="byte_excess" name="byte_excess">
 							</td>

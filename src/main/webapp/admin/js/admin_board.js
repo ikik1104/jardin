@@ -104,6 +104,11 @@
 		//1:1문의 답변 등록
 		function insertAnswer(){
 			
+			if($('#mtm_content2').val()==null || $('#mtm_content2').val()==''){
+				alert('내용을 입력해 주세요.');
+				return false;
+			}			
+			
 			if($('#byte_excess2').val()=='on'){
 				alert('답변 최대 입력 글자 수를 초과했습니다.');
 				return false;
@@ -128,6 +133,11 @@
 		}
 		//1:1문의 답변 수정
 		function modifyAnswer(){
+			
+			if($('#mtm_content').val()==null || $('#mtm_content').val()==''){
+				alert('내용을 입력해 주세요.');
+				return false;
+			}
 			
 			if($('#byte_excess').val()=='on'){
 				alert('답변 최대 입력 글자 수를 초과했습니다.');
@@ -213,6 +223,15 @@
 		//공지사항 1개 수정 notice_modify
 		function notice_modify(){
 			
+			if($('#notice_modify_title').val()==null || $('#notice_modify_title').val()==''){
+				alert('제목을 입력해 주세요.');
+				return false;
+			}			
+			if($('#smartEditor').val()==null || $('#smartEditor').val()==''){
+				alert('내용을 입력해 주세요.');
+				return false;
+			}					
+			
 			if($('#byte_excess').val()=='on'){
 				alert('제목 최대 입력 글자 수를 초과했습니다.');
 				return false;
@@ -241,6 +260,15 @@
 		}				
 		//공지글 1개 등록
 		function notice_insert(){
+			
+			if($('#notice_content').val()==null || $('#notice_content').val()==''){
+				alert('제목을 입력해 주세요.');
+				return false;
+			}			
+			if($('#smartEditor').val()==null || $('#smartEditor').val()==''){
+				alert('내용을 입력해 주세요.');
+				return false;
+			}			
 			
 			if($('#byte_excess').val()=='on'){
 				alert('제목 최대 입력 글자 수를 초과했습니다.');
@@ -300,6 +328,16 @@
 		}
 		//이벤트글 1개 등록
 		function event_insert(){
+			
+			if($('#byte_excess').val()=='on'){
+				alert('제목 최대 입력 글자 수를 초과했습니다.');
+				return false;
+			}
+			if($('#byte_excess2').val()=='on'){
+				alert('내용 최대 입력 글자 수를 초과했습니다.');
+				return false;
+			}
+			
 			inputform.submit();
 			/*
 			 $.ajax({
