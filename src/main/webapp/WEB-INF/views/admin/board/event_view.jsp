@@ -14,6 +14,8 @@
  		<link rel="stylesheet" type="text/css" href="admin/css/admin_view.css">	 
         <script type="text/javascript" src="admin/js/admin_board.js"></script>
 		<link rel="stylesheet" type="text/css" href="admin/css/list_button.css">          			
+		<script type="text/javascript" src="user/js/event_view.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/webfont/1.4.10/webfont.js"></script>
 		<!-- 페이지 로딩시 초기화 --> 
 		<script>
 	
@@ -89,7 +91,7 @@
 
 		//이벤트글을 등록/수정하면 다시 이 페이지로 돌아와 alert을 띄움
 		window.onload=function(){
-			${alerttext};
+			${alerttext}
 		}
 		
 
@@ -134,17 +136,49 @@
 			.cut_thirty{
 			width:270px;
 			}
-			
+			#layerWrap {/*.modal*/
+        	margin:auto auto;
+            display: none; /* Hidden by default */
+            position: fixed; 
+            z-index: 2; /* Sit on top */
+            left: 500px;
+            top: 100px;
+            width: 800px; /* Full width 100%*/
+            height: 800px; /* Full height 100%*/
+            overflow: scroll; /* Enable scroll if needed */
+            background-color: white;
+            padding-bottom:100px;
+            padding-top:10px;
+        }
+		#backbody{
+			display:none;
+			width:100%; height:100%;
+			position:fixed;
+            z-index: 1; /* Sit on top */		
+             background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */           
+		}
+		@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
 		</style>
+	
 	</head>
+		<!-- 모달창 띄울 때 화면 어둡게 하는 효과 -->
+	<div  id="backbody" onclick="closePreview()"></div>
+	<!-- 미리보기 창 -->
+	<div id="layerWrap">
+		<!-- 미리보기 공간 -->
+	</div>	
+	<!-- 미리보기 창 -->
 	<body>
 	<jsp:include page="../nav/admin_header.jsp"/>
 	<jsp:include page="../nav/board_nav.jsp"/>
 	<section style="padding-bottom:300px;">
+	<!-- 미리보기 창 띄울 때 필요한 값 -->
+	<input type="hidden" value="${AllDto.eventdto.e_thumb_img }" id="original_thumb_forPreview">
+	<input type="hidden" value="${AllDto.eventdto.e_content_img }" id="original_content_forPreview">	
 
 		<h1>이벤트 조회/수정 </h1>
-		
-	<form action="event_modify" name="inputform" method="post"  enctype="multipart/form-data" >		
+	<form runat="server" action="event_modify" name="inputform" method="post"  enctype="multipart/form-data" >		
 		<!-- 수정하지 않은 항목에 넣어줄 값들 -->
 		<input type="hidden" name="start" value=${AllDto.utildto.str1 }>
 		<input type="hidden" name="end" value=${AllDto.utildto.str2 }>
@@ -170,7 +204,7 @@
 				</tr>							
 				<tr>
 					<th  class="cut_fifteen">* 제목</th>
-					<td colspan="3"><textarea name="e_title" style="border:none; background:inherit; height:40; font-size:15px; padding:3px 0;">${AllDto.eventdto.e_title }</textarea></td>
+					<td colspan="3"><textarea id="e_title" name="e_title" style="border:none; background:inherit; height:40; font-size:15px; padding:3px 0;">${AllDto.eventdto.e_title }</textarea></td>
 				</tr>
 
 				<tr>
@@ -199,7 +233,7 @@
 					<th class="cut_fifteen">기존 썸네일</th>
 					<td class="cut_forty"><a href="${AllDto.eventdto.e_thumb_img }" target="_blank"><p class="cut">${AllDto.eventdto.e_thumb_img }</p></a></td>
 					<th class="cut_fifteen">* 썸네일 변경</th>
-					<td class="cut_thirty"><p class="cut"><input type="file" name="new_thumb"></p></td>				
+					<td class="cut_thirty"><p class="cut"><input type="file" name="new_thumb" id="new_thumb"></p></td>				
 				</tr>				
 				
 				<tr>
@@ -209,7 +243,7 @@
 						<td><a target="_blank" href="${AllDto.eventdto.e_content_img }"><p class="cut">${AllDto.eventdto.e_content_img }</p></a></td>
 					</c:if>
 					<th class="cut_fifteen">* 첨부이미지 변경</th>
-					<td class="cut_thirty"><p class="cut"><input type="file" name="new_content"></p></td>				
+					<td class="cut_thirty"><p class="cut"><input type="file" name="new_content[]" id="new_content" multiple="multiple" onchange="change_img()"></p></td>				
 				</tr>		
 				<c:if test="${AllDto.eventdto.co_num!=0 }"><!-- 기존에 쿠폰이 있을 경우 -->
 				<tr>
@@ -252,14 +286,14 @@
 				<tr>
 					<td colspan="4">
 						<!-- 텍스트에디터로 변경?★★★★★★★★★ -->
-						<textarea wrap="hard" name="e_content" id="smartEditor" style="width:100%; height: 412px;">
+						<textarea wrap="hard" name="e_content" id="smartEditor" style="width:100%; height: 412px;" onkeyup="change_img()">
 ${AllDto.eventdto.e_content }</textarea>								
 					</td>
 				</tr>
 			</table>
 			<input type="hidden" value=${AllDto.eventdto.e_num } name="e_num">
 			<div class="detail_btn" style="width:1000px;">
-				<a href="user_event_view?e_num=${AllDto.eventdto.e_num }" target="_blank">현재 사용자 화면</a>				
+				<a onclick="openPreview()" id="preview_btn">내용 미리보기</a>				
 				<a onclick="location.href='event_list'">목록</a>				
 				<a onclick="event_modify()">수정</a>				
 				<a  onclick="event_view_del_check(${AllDto.eventdto.e_num })">삭제</a>														

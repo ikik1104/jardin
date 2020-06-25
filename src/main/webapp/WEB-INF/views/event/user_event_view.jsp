@@ -56,9 +56,11 @@
 		}
 		/*버튼*/
 		.rebtn{ cursor:pointer; }
+		
 </style>
 </head>
 <body>
+<!-- 모달창 띄울 때 화면 어둡게 하는 효과 -->
 <div  id="backbody"></div>
 
 
@@ -197,7 +199,7 @@
 
 						<div class="viewContents">
 							<img style="width:100%" src="${event_info.eventdto.e_content_img }" alt="" />
-							<pre style="white-sapce:pre-wrap; margin-top:10px;" >
+							<pre style="white-space:pre-wrap; margin-top:10px;" >
 ${event_info.eventdto.e_content }							
 							</pre>
 							<c:if test="${coupon_info.coupondto.co_name!='-' }">
