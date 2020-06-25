@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.javalec.ex.dto.BDto;
+import com.javalec.ex.dto.CommentDto;
 import com.javalec.ex.dto.EnjoyCoffeeDto;
 import com.javalec.ex.dto.FaqDto;
 import com.javalec.ex.dto.MemberDto;
@@ -15,6 +16,12 @@ import com.javalec.ex.dto.QnrUserDto;
 import com.javalec.ex.dto.ReviewUserDto;
 
 public interface AdminBoardService {
+	
+	//아작스 수업 (댓글달기)
+		List<CommentDto> comment_List();
+		//댓글 삭제
+		int comment_delete(int cId);
+	
 	
 	//관리자------------------------
 		//faq작성 
@@ -99,6 +106,7 @@ public interface AdminBoardService {
 
 		//답변 검색
 		List<Object> getSearchQna(HashMap<String, Object> map);
+
 	
 
 		

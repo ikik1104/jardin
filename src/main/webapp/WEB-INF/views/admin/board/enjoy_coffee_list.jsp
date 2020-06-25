@@ -197,7 +197,7 @@
 							<td>${list.ej_num}</td>
 							<td>${list.ej_title}</td>
 							<td>${list.ej_content}</td>
-							<td>${list.ej_img}</td>
+							<td><img alt="이미지" src="${list.ej_img}"></td>
 							<td>${list.ej_date}</td>
 							<td>${list.ej_hit}</td>
 							<td>
