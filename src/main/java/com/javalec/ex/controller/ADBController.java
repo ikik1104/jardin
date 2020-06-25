@@ -205,14 +205,14 @@ public class ADBController {
 		return success;
 	}			
 	
-	//선택 신청자 일괄 삭제
+	//선택 신청자 일괄 당첨/당첨 취소
 	@ResponseBody
 	@RequestMapping("applicant_some_win")
 	public int applicant_some_win(@RequestBody int[] chkArray) {
-		int success = adbservice.deleteSomeApplicants(chkArray);
+		int success = adbservice.WinSomeApplicants(chkArray);
 		return success;
 	}		
-	//선택 신청자 일괄 당첨/당첨 취소
+	//선택 신청자 일괄 삭제
 	@ResponseBody
 	@RequestMapping("applicant_some_delete")
 	public int applicant_some_delete(@RequestBody int[] chkArray) {

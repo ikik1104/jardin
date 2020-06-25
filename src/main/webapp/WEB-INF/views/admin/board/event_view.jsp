@@ -249,6 +249,8 @@
 	<jsp:include page="../nav/admin_header.jsp"/>
 	<jsp:include page="../nav/board_nav.jsp"/>
 	<section style="padding-bottom:300px;">
+	
+	<input type="hidden" id="applicant_comment" value="off">
 	<!-- 미리보기 창 띄울 때 필요한 값 -->
 	<input type="hidden" value="${AllDto.eventdto.e_thumb_img }" id="original_thumb_forPreview">
 	<input type="hidden" value="${AllDto.eventdto.e_content_img }" id="original_content_forPreview">	

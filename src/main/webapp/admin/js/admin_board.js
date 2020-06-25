@@ -448,7 +448,17 @@
 		
 		//event_view에서 댓글 삭제 확인
 		function comment_del_check(ec_num){
-			if(confirm("해당 댓글을 삭제하시겠습니까? (삭제한 데이터는 복구할 수 없습니다.)")){
+			
+			var sign = $('#applicant_comment').val();
+			var str="";
+			
+			if(sign=='on'){
+				str="신청자를";
+			} else {
+				str="댓글을";
+			}
+			
+			if(confirm("해당 "+str+" 삭제하시겠습니까? (삭제한 데이터는 복구할 수 없습니다.)")){
 	            $.ajax({
 	                  url : "event_comment_delete",
 	                  method : "POST",

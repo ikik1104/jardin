@@ -362,7 +362,7 @@
         where mem.m_num=eco.m_num) fintb]]>
 	</select>
 	
-	<!-- 선택 신청자 일괄 당첨/당첨 처리 -->
+	<!-- 선택 신청자 일괄 당첨/미당첨 처리 -->
 	<update id="WinSomeApplicants">
 		update ecomment_tb set ec_status=case when ec_status='미당첨' then '당첨' when ec_status='당첨' then '미당첨' end  where ec_num in
 		<foreach collection="chkArray" item="item" open="(" close=")" separator=",">

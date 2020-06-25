@@ -213,7 +213,8 @@
 								<c:if test="${ apply_list.e_commentdto.ec_status=='미당첨'}">
 									<button type="button" onclick="win_check(${apply_list.e_commentdto.ec_num})">당첨</button>
 								</c:if>									
-								<button type="button" onclick="del_check(${apply_list.e_commentdto.ec_num})">삭제</button>
+								<button type="button" onclick=" comment_del_check(${apply_list.e_commentdto.ec_num})">삭제</button>
+								<input type="hidden" id="applicant_comment" value="on">
 							</td>
 						</tr>
 					</c:forEach>
