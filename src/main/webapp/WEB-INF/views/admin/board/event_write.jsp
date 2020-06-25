@@ -31,20 +31,20 @@
 		function date_chk1(){
 			
 			
-			var start = inputform.e_start_day.value;
-			var end = inputform.e_end_day.value;
+			var start = inputform.str5.value;
+			var end = inputform.str6.value;
 			
 			var date1 = new Date();
 			var start_date = new Date(start);
 			var end_date = new Date(end);
 			if(end_date.getTime()<date1.getTime()){
 				alert("종료일은 오늘 날짜 이후 or 시작일 이후의 날짜를 선택해주세요.");
-				inputform.e_end_day.value ="";
+				inputform.str6.value ="";
 				return false;
 			}
 			if(end_date.getTime()<start_date.getTime()){
 				alert("시작일 이후의 날짜를 선택해주세요.");
-				inputform.e_end_day.value ="";
+				inputform.str6.value ="";
 				return false;
 			}
 		
@@ -55,20 +55,20 @@
 			
 		
 	
-			var end = inputform.e_end_day.value;
+			var end = inputform.str5.value;
 			
 			var end_date = new Date(end);
 			var win_date = new Date(win);
 			
 			if(end == null || end == ""){
 				alert("이벤트 시작/종료일을 먼저 선택해 주세요.");
-				inputform.e_win_day.value ="";
+				inputform.str7.value ="";
 				return false;
 			}
 			
 			if(win_date.getTime()<end_date.getTime()){
 				alert("이벤트 종료일 이후의 날짜를 선택해주세요.");
-				inputform.e_win_day.value ="";
+				inputform.str7.value ="";
 				return false;
 			}
 			

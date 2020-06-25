@@ -329,6 +329,38 @@
 		//이벤트글 1개 등록
 		function event_insert(){
 			
+			if(inputform.str1.value==null || inputform.str1.value==''){
+				alert('제목을 입력해 주세요.');
+				return false;
+			}	
+			if(inputform.str2.value==null || inputform.str2.value==''){
+				alert('내용을 입력해 주세요.');
+				return false;
+			}	
+			var start = inputform.str5.value;
+			var end = inputform.str6.value;
+			var win = inputform.str7.value;
+			if(start=='' || start==null || start==undefined){
+				alert('시작 날짜를 선택해 주세요.');
+				return false;
+			}
+			if(end=='' || end==null || end==undefined){
+				alert('종료 날짜를 선택해 주세요.');
+				return false;
+			}
+			var file= inputform.thumb_img.value;
+			if(file=='' || file==null || file==undefined){
+				alert('썸네일 이미지를 선택해 주세요.');
+				return false;
+			}
+			
+			
+			if(win=='' || win==null || win==undefined){
+				alert('당첨 발표 날짜를 선택해 주세요.');
+				return false;
+			}
+			
+			
 			if($('#byte_excess').val()=='on'){
 				alert('제목 최대 입력 글자 수를 초과했습니다.');
 				return false;
