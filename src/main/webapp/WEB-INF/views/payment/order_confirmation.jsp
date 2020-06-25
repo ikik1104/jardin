@@ -273,7 +273,14 @@ $(document).ready(function() {
 
 								<tr>
 									<th scope="row"><span>전화<u>번호</u></span></th>
-									<td>${orderInfo.m_tel }</td>
+									<c:choose>
+										<c:when test="${orderInfo.m_tel=='02--' }">
+										<td>-</td>
+										</c:when>
+										<c:otherwise>
+										<td>${orderInfo.m_tel}</td>
+										</c:otherwise>
+									</c:choose>
 								</tr>
 							</tbody>
 						</table>
@@ -307,7 +314,14 @@ $(document).ready(function() {
 
 								<tr>
 									<th scope="row"><span>전화<u>번호</u></span></th>
-									<td>${orderInfo.re_tel }</td>
+									<c:choose>
+										<c:when test="${orderInfo.re_tel=='02--' }">
+										<td>-</td>
+										</c:when>
+										<c:otherwise>
+										<td>${orderInfo.re_tel}</td>
+										</c:otherwise>
+									</c:choose>
 								</tr>
 
 								<tr>
@@ -350,7 +364,12 @@ $(document).ready(function() {
 									<fmt:formatDate value="${sysdate}" pattern="yyyy-MM-dd" var="orderDate" />
 									<td>${orderDate}</td>
 									<th scope="row"><span>입금은행</span></th>
-									<td></td>
+									<c:if test="${orderInfo.dep_name=='' }">
+										<td></td>
+									</c:if>
+									<c:if test="${orderInfo.dep_name=='' }">
+										<td>${orderInfo.bank}</td>
+									</c:if>
 								</tr>
 
 								<tr>
@@ -362,7 +381,7 @@ $(document).ready(function() {
 										<td>${orderInfo.m_msg}</td>
 									</c:if>
 									<th scope="row"><span>입금자 <u>명</u></span></th>
-									<td></td>
+									<td>${orderInfo.dep_name }</td>
 								</tr>
 							</tbody>
 						</table>

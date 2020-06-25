@@ -35,24 +35,28 @@ $(document).ready(function() {
 //장바구니에 담기
 function cart_insert() {
 	var val = [$("#p_num").val(),$("#ca_amount").val()];
-	
-	$.ajax({
-        type : "POST",
-        url : "cart_insert",
-        data: JSON.stringify(val), 
-        contentType: "application/json",
-        success : function(val){
-           if(val == 1){ //리턴값이 1이면 (=성공)
-              alert("해당제품을 장바구니에 담았습니다.");
-           }else{ // 0이면 실패
-        	   alert("장바구니에 담기 실패");
-           }
-        },
-        error : function(){
-           alert("서버통신실패");
-        }
-	});
-	
+	if(confirm("해당 상품을 장바구니에 담으시겠습니까?")){
+		$.ajax({
+	        type : "POST",
+	        url : "cart_insert",
+	        data: JSON.stringify(val), 
+	        contentType: "application/json",
+	        success : function(val){
+	           if(val == 1){ //리턴값이 1이면 (=성공)
+	        	   if(confirm("장바구니 페이지로 이동하시겠습니까?")){
+	        			location.href="cart";
+	        		}
+	           }else{ // 0이면 실패
+	        	   alert("장바구니에 담기 실패");
+	           }
+	        },
+	        error : function(){
+	           alert("서버통신실패");
+	        }
+		});
+	}else{
+		return false;
+	}
 }
 
 // 바로구매 
@@ -62,13 +66,13 @@ function buyNow(){
 	if(confirm("구매하기 페이지로 이동하시겠습니까?")){
 		$.ajax({
 	        	type:"POST",
-	        	url : "cartUpdate",
+	        	url : "buynow",
 	        	data: JSON.stringify(arrData),
 	         	contentType: "application/json",
 	            success : function(data){
 	                        if(data == 1){
 	                        	alert("데이터 성공");
-	                        	location.href="payment";
+	                        	location.href="buynow_payment";
 		    	       	}
 		        	  },
 			error:function(){
@@ -79,9 +83,40 @@ function buyNow(){
 	}else {
 		return false;
 	}
-
-
 }
+
+//위시리스트 담기
+function addWishlist(p_num){
+	
+	$.ajax({
+    	type:"POST",
+    	url : "addWishlist",
+    	data: JSON.stringify(p_num),
+     	contentType: "application/json",
+        success : function(data){
+                    if(data == 1){
+                    	if(confirm("해당 상품을 위시리스트에 담았습니다. 위시리스트 페이지로 이동하시겠습니까?")){
+                    		location.href="wishlist";
+                    	}else {
+                    		return false;
+                    	}
+                    }else if(data == -1){
+                    	if(confirm("이미 위시리스트에 담겨 있는 상품입니다. 위시리스트 페이지로 이동하시겠습니까?")){
+                    		location.href="wishlist";
+                    	}else {
+                    		return false;
+                    	}
+	    	       	}else{
+	    	       		alert("회원 전용 서비스입니다. 로그인 후 사용이 가능합니다. ");
+	    	       	}
+        	  },
+	error:function(){
+			alert("서버통신실패");
+		  }
+});
+	
+}
+
 
 
 </script>
@@ -249,9 +284,9 @@ function buyNow(){
 					<!-- 판매중 -->
 					<div class="infobtn">
 						<ul>
-							<li><a onclick="buyNow()" class="ty1">바로 <span>구매하기</span></a></li>
-							<li onclick="cart_insert()"><a class="ty2">장바구니 <span>담기</span></a></li>
-							<li class="last"><a href="#" class="ty3">위시 <span>리스트</span></a></li>
+							<li onclick="buyNow()"><a href="#" class="ty1">바로 <span>구매하기</span></a></li>
+							<li onclick="cart_insert()"><a href="#" class="ty2">장바구니 <span>담기</span></a></li>
+							<li onclick="addWishlist(${pdto.p_num})" class="last"><a href="#" class="ty3">위시 <span>리스트</span></a></li>
 						</ul>
 					</div>
 					<!-- //판매중 -->

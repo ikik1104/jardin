@@ -126,10 +126,17 @@ public class PayServiceImpl implements PayService {
 		return payDao.insertUsedPoint(m_num, point, po_name);
 	}
 	
+	// 포인트 적립 내역 등록
+	@Override
+	public int insertSavePoint(int m_num, int point, String po_name) {
+		return payDao.insertSavePoint(m_num, point, po_name);
+	}
+	
 	// 비회원 - 주문/장바구니 제품 정보 불러오기
 	@Override
 	public ProductDto getProductInfo(int p_num) {
 		return payDao.getProductInfo(p_num);
 	}
+
 	
 }

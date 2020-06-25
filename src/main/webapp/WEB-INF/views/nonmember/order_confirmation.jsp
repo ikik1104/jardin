@@ -149,12 +149,12 @@ $(document).ready(function() {
 										<br/><span class="pointscore">${p_point } Point</span>
 										<!-- //회원일 시 -->
 									</td>
-									<td>${orderlist.p_amt } 개</td>
+									<td>${orderlist.ol_amt } 개</td>
 									<td>
-									<fmt:formatNumber var="productPriceSum" value="${orderlist.pDto.p_price * orderlist.p_amt }" type="number"/>
+									<fmt:formatNumber var="productPriceSum" value="${orderlist.pDto.p_price * orderlist.ol_amt }" type="number"/>
 									${productPriceSum } 원</td>
 								</tr>
-								<c:set var="allProductsSum" value="${allProductsSum + orderlist.pDto.p_price * orderlist.p_amt }"/>
+								<c:set var="allProductsSum" value="${allProductsSum + orderlist.pDto.p_price * orderlist.ol_amt }"/>
 							</c:forEach>
 							</tbody>
 						</table>
@@ -163,7 +163,6 @@ $(document).ready(function() {
 						<ul>	
 							<fmt:formatNumber var="allProductsSum1" value="${allProductsSum }" type="number"/>
 							<li>상품 합계금액 <strong>${allProductsSum1 }</strong> 원</li>
-							<fmt:formatNumber var="deliv_fee" value="${coupon_point.oc_deliv_fee }" type="number"/>
 							<li>+ 배송비 <strong>
 								<c:if test="${sum < 30000 }"><c:set var="del_price" value ="3000" />
 								<fmt:formatNumber var="del_price1" value="${del_price }" type="number"/>${del_price1 }</c:if>
@@ -192,7 +191,7 @@ $(document).ready(function() {
 							</li>
 							<li>
 								<span class="title">배송비</span>
-								<span class="won"><strong>${deliv_fee }</strong> 원</span>
+								<span class="won"><strong>${del_price1 }</strong> 원</span>
 							</li>
 						</ul>
 
@@ -232,7 +231,14 @@ $(document).ready(function() {
 
 								<tr>
 									<th scope="row"><span>전화<u>번호</u></span></th>
-									<td>${orderInfo.m_tel }</td>
+									<c:choose>
+										<c:when test="${orderInfo.m_tel=='02--' }">
+										<td>-</td>
+										</c:when>
+										<c:otherwise>
+										<td>${orderInfo.m_tel}</td>
+										</c:otherwise>
+									</c:choose>
 								</tr>
 							</tbody>
 						</table>
@@ -266,7 +272,14 @@ $(document).ready(function() {
 
 								<tr>
 									<th scope="row"><span>전화<u>번호</u></span></th>
-									<td>${orderInfo.re_tel }</td>
+									<c:choose>
+										<c:when test="${orderInfo.re_tel=='02--' }">
+										<td>-</td>
+										</c:when>
+										<c:otherwise>
+										<td>${orderInfo.re_tel}</td>
+										</c:otherwise>
+									</c:choose>
 								</tr>
 
 								<tr>
@@ -297,7 +310,7 @@ $(document).ready(function() {
 							<tbody>
 								<tr>
 									<th scope="row"><span>주문번호</span></th>
-									<td>${coupon_point.ol_order_num}</td>
+									<td>${orderInfo.ol_order_num}</td>
 									<th scope="row"><span>결제수단</span></th>
 									<c:forEach var="order" items="${orderlist }" begin="0" end="0">
 									<td>${order.ol_payment }</td>
@@ -309,7 +322,12 @@ $(document).ready(function() {
 									<fmt:formatDate value="${sysdate}" pattern="yyyy-MM-dd" var="orderDate" />
 									<td>${orderDate}</td>
 									<th scope="row"><span>입금은행</span></th>
-									<td></td>
+									<c:if test="${orderInfo.dep_name=='' }">
+									<td>-<td>
+									</c:if>
+									<c:if test="${orderInfo.dep_name!='' }">
+									<td>${orderInfo.bank}<td>
+									</c:if>
 								</tr>
 
 								<tr>
@@ -321,7 +339,7 @@ $(document).ready(function() {
 										<td>${orderInfo.m_msg}</td>
 									</c:if>
 									<th scope="row"><span>입금자 <u>명</u></span></th>
-									<td></td>
+									<td>${orderInfo.dep_name }</td>
 								</tr>
 							</tbody>
 						</table>
@@ -331,7 +349,7 @@ $(document).ready(function() {
 
 					<!-- Btn Area -->
 					<div class="btnArea2">
-						<a href="main" class="nbtnbig iw0140">확인</a>
+						<a href="/ex/" class="nbtnbig iw0140">확인</a>
 					</div>
 					<!-- //Btn Area -->
 

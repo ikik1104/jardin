@@ -23,8 +23,8 @@ public class AdminOrderServiceImpl implements AdminOrderService {
 	
 	// 총 주문건수
 	@Override
-	public int countOrder() {
-		return aoDao.countOrder();
+	public int countOrder(String status) {
+		return aoDao.countOrder(status);
 	}
 
 	// 검색

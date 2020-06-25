@@ -135,7 +135,8 @@
 					keyword : $("#keyword").val(),
 					e_start_day : $("#e_start_day").val(),
 					e_end_day : $("#e_end_day").val(),
-					option: $("#sort").val()// 페이지로 매개변수 값을 넘겨줄 때 사용
+					option: $("#sort").val(),
+					listName: "입금완료",// 페이지로 매개변수 값을 넘겨줄 때 사용
 				}
 			
 			$.ajax({
@@ -155,7 +156,7 @@
 						html += '<td class="td_search">'+list.ODATE+'</td>';
 						html += '<td class="td_id">'+list.OL_ORDERER_ID+'</td>';
 						html += '<td>'+list.OL_NUM+'</td>';
-						html += '<td class="td_fs">'+numberWithCommas(list.OC_FINAL_SUM)+'</td>';
+						html += '<td class="td_fs">'+list.OC_FINAL_SUM+'</td>';
 						html += '<td class="td_pm">'+list.OL_PAYMENT+'</td>';
 						html += '</tr>'
 						count +=1;
@@ -226,18 +227,17 @@
 		function change_status() {
 			var count = $('input:checkbox[name="chk"]:checked').length;
 			if(count>0){
-				if(confirm("선택하신 주문건의 처리상태를 입금완료로 변경하시겠습니까?")){
+				var statusOpt = $("select[name=statusOpt]").val();
+				if(confirm("선택하신 주문건의 처리상태를 '"+statusOpt+"' 으로 변경하시겠습니까?")){
 					$("input[name=chk]:checked").each(function(){
 						var orderNum = $(this).attr('id');
-						var statusOpt = $("select[name=statusOpt]").val();
 						var arrData = [orderNum, statusOpt]
 						$.ajax({
-			                url : "change_status",
-			                method : "POST",
-			                data: arrData,
-			                dataType : "json",
-			                contentType: "application/json",
-			                success : function(val){
+							url : "change_status",
+							type : "POST",
+				            data: JSON.stringify(arrData),
+				            contentType: "application/json",
+				            success : function(val){
 			                   if(val == 1){
 			                      search();
 			                   }
@@ -372,7 +372,8 @@
 				<div id="state">
 					선택한 주문을
 					<select name="statusOpt">
-						<option value="상품준비">상품준비</option>
+						<option value="상품준비중">상품준비중</option>
+						<option value="배송중">배송중</option>
 					</select>
 					<button type="button" onclick="change_status()">일괄처리</button>
 				</div>

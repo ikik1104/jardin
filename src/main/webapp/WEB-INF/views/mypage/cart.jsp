@@ -135,9 +135,9 @@
 	}
 	
 	// 바로구매 
-	function buyNow(p_num, m_num){
+	function buyNow(p_num){
 		var	p_amt = $('#ipt_'+p_num).val();
-		var arrData = [m_num, p_num, p_amt];
+		var arrData = [p_num, p_amt];
 		
 		$.ajax({
 	        	type:"POST",
@@ -153,20 +153,18 @@
 				  }
 		});
 
-		window.location.href="payment?m_num="+m_num;
+		window.location.href="payment";
 	}
 	
 	// 선택한 제품 장바구니에서 삭제
-    function cart_del(p_num, m_num) {
-
-    	var arrData = [p_num, m_num]; 
+    function cart_del(p_num) {
     	
         if(confirm("선택하신 상품을 장바구니에서 삭제하시겠습니까?")){
            
         	$.ajax({
+                type : "POST",
                 url : "cart_del",
-                method : "POST",
-                data: JSON.stringify(arrData),
+                data: JSON.stringify(p_num),
                 dataType : "json",
                 contentType: "application/json",
                 success : function(val){
@@ -182,22 +180,20 @@
      }
 	
     // 체크한 제품 한 번에 삭제
-    function chk_del(m_num){
+    function chk_del(){
     	var count = $('input:checkbox[name="chk"]:checked').length;
 		if(count>0){
 			if(confirm("선택하신 상품을 장바구니에서 삭제하시겠습니까?")){
 				$("input[name=chk]:checked").each(function(){
 			  		var chk_value =$(this).attr('id');  //id = chk_${p_num}
 			    	var p_num = parseInt(chk_value.substring(4,chk_value.length));
-			    	var arrData = [p_num, m_num]
 			    	$.ajax({
 			        	type:"POST",
 			        	url : "cart_del",
-			        	data: JSON.stringify(arrData),
+			        	data: JSON.stringify(p_num),
 			         	contentType: "application/json",
 			            success : function(data){
 			                        if(data == 1){
-			                           location.reload();
 			                        }
 			                      },
 			            error:function(){
@@ -205,6 +201,7 @@
 			            }
 			        });
 				});
+				 location.reload();
 			}
 		}else {
 			alert("선택하신 상품이 없습니다. 삭제하실 상품을 먼저 선택해주시기 바랍니다.");
@@ -212,7 +209,7 @@
 	}
     
     // 전체상품 주문하기
-    function orderAll(m_num){
+    function orderAll(){
     	// 전체상품 주문하기 버튼 클릭 시, 모든 상품의 체크박스 checked
     	$('#checkAll').prop('checked', true);
 		$('input[name=chk]:checkbox').each(function(){
@@ -223,7 +220,7 @@
     		var chk_value =$(this).attr('id');  //id = chk_${p_num}
     		var p_num = parseInt(chk_value.substring(4,chk_value.length));
 	    	var	p_amt = $('#ipt_'+p_num).val();
-			var arrData = [m_num, p_num, p_amt];
+			var arrData = [p_num, p_amt];
 			
 		$.ajax({
 	        	type:"POST",
@@ -239,12 +236,12 @@
 				  }
 		});
 	});
-    	location.href="payment?m_num="+m_num;
+    	location.href="payment";
     }
 
     
  // 선택상품 주문하기
-    function orderSel(m_num){
+    function orderSel(){
 	 
     	var count = $('input:checkbox[name="chk"]:checked').length;
 		if(count>0){
@@ -253,7 +250,7 @@
 	    		var chk_value =$(this).attr('id');  //id = chk_${p_num}
 	    		var p_num = parseInt(chk_value.substring(4,chk_value.length));
 		    	var	p_amt = $('#ipt_'+p_num).val();
-				var arrData = [m_num, p_num, p_amt];
+				var arrData = [p_num, p_amt];
 				
 				$.ajax({
 			        	type:"POST",
@@ -269,7 +266,7 @@
 						  }
 				});
 			});
-	    	window.location.href="payment?m_num="+m_num;
+	    	window.location.href="payment";
 		}else {
 			alert("선택하신 상품이 없습니다. 주문하실 상품을 먼저 선택해주시기 바랍니다.");
 		}
@@ -354,10 +351,10 @@
 				<ul>	
 					<li><a href="#" id="leftNavi1">주문/배송 조회</a></li>
 					<li><a href="#" id="leftNavi2">반품/배송 현황</a></li>
-					<li><a href="cart?m_num=${memDto.m_num }" id="leftNavi3">장바구니</a></li>
-					<li><a href="wishlist?m_num=${memDto.m_num }" id="leftNavi4">위시리스트</a></li>
-					<li><a href="mycoupon?m_num=${memDto.m_num }" id="leftNavi5">나의 쿠폰</a></li>
-					<li><a href="mypoint?m_num=${memDto.m_num }" id="leftNavi6">나의 포인트</a></li>
+					<li><a href="cart" id="leftNavi3">장바구니</a></li>
+					<li><a href="wishlist" id="leftNavi4">위시리스트</a></li>
+					<li><a href="mycoupon" id="leftNavi5">나의 쿠폰</a></li>
+					<li><a href="mypoint" id="leftNavi6">나의 포인트</a></li>
 					<li><a href="#" id="leftNavi7">1:1문의</a></li>
 					<li><a href="#" id="leftNavi8">회원정보 수정</a></li>
 					<li class="last"><a href="#" id="leftNavi9">회원 탈퇴</a></li>
@@ -406,11 +403,11 @@
 								<tr>
 									<td><input type="checkbox" checked class="chk" name="chk" id="chk_${cartlist.pDto.p_num }" onclick="itemSum()"/></td>
 									<td class="left">
-										<p class="img"><img src="user/images/img/sample_product.jpg" alt="상품" width="66" height="66" /></p>
+										<p class="img"><img src="${cartlist.pDto.p_thumb_img1}" alt="상품" width="66" height="66" /></p>
 
 										<ul class="goods">
 											<li>
-												<a href="detail?p_num=${cartlist.pDto.p_num }">${cartlist.pDto.p_name }</a>
+												<a href="product_detail?p_num=${cartlist.pDto.p_num }">${cartlist.pDto.p_name }</a>
 											</li>
 										</ul>
 									</td>
@@ -420,7 +417,7 @@
 									<td class="tnone">
 										<ul class="order">	
 											<li><a href="#" onclick="buyNow(${cartlist.pDto.p_num }, ${memDto.m_num })" class="obtnMini iw70">바로구매</a></li>
-											<li><a href="#" onclick="cart_del(${cartlist.pDto.p_num }, ${memDto.m_num })" class="nbtnMini iw70">상품삭제</a></li>
+											<li><a href="#" onclick="cart_del(${cartlist.pDto.p_num })" class="nbtnMini iw70">상품삭제</a></li>
 										</ul>
 									</td>
 								</tr>
@@ -436,7 +433,7 @@
 							<ul>
 								<li><a id="selectbtn" class="selectbtn">전체선택</a></li>
 <!-- 								<li><a href="#" class="selectbtn2">선택수정</a></li> -->
-								<li><a id="selectbtn2" class="selectbtn2" onclick="chk_del(${memDto.m_num })">선택삭제</a></li>
+								<li><a id="selectbtn2" class="selectbtn2" onclick="chk_del()">선택삭제</a></li>
 							</ul>
 						</div>
 					</div>
@@ -473,9 +470,9 @@
 
 					<div class="cartarea">
 						<ul>
-							<li><a class="ty1" onclick="orderSel(${memDto.m_num })">선택상품 <span>주문하기</span></a></li>
-							<li><a class="ty2" onclick="orderAll(${memDto.m_num })">전체상품 <span>주문하기</span></a></li>
-							<li class="last"><a href="#" class="ty3">쇼핑 <span>계속하기</span></a></li>
+							<li><a class="ty1" onclick="orderSel()">선택상품 <span>주문하기</span></a></li>
+							<li><a class="ty2" onclick="orderAll()">전체상품 <span>주문하기</span></a></li>
+							<li class="last"><a href="/ex/" class="ty3">쇼핑 <span>계속하기</span></a></li>
 						</ul>
 					</div>
 

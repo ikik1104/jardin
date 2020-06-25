@@ -12,7 +12,7 @@ public interface AdminOrderDao {
 	List<OrderListDto> getAllOrderlist(String option);
 	
 	// 총 주문건수
-	int countOrder();
+	int countOrder(String status);
 	
 	// 검색 주문건수
 	int countSearch(HashMap<String, String> map);

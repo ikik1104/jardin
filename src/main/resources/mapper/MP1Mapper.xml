@@ -105,8 +105,8 @@
 	</select>
 	
 	<!-- 적립 포인트 총 합 -->
-	<select id="totalSavePoint" resultType="Integer">
-		select sum(po_point) from point_tb where m_num=#{param1} and po_type='적립'
+	<select id="totalSavePoint" resultType="int">
+		select nvl(sum(po_point),0) from point_tb where m_num=#{param1} and po_type='적립'
 	</select>
 	
 	<!-- 포인트 적립 내역 list 가져오기 -->
@@ -115,14 +115,19 @@
 	</select>
 	
 	<!-- 사용 포인트 총 합 -->
-	<select id="totalUsedPoint" resultType="Integer">
-		select sum(po_point) from point_tb where m_num=#{param1} and po_type='사용'
+	<select id="totalUsedPoint" resultType="int">
+		select nvl(sum(po_point),0) from point_tb where m_num=#{param1} and po_type='사용'
 	</select>
 	
 	<!-- 포인트 사용 내역 list 가져오기 -->
 	<select id="getUsedPoint" resultType="com.javalec.ex.dto.PointDto">
 		select * from point_tb where m_num=#{param1} and po_type='사용' order by po_num asc
 	</select>
+	
+	<!-- 위시리스트에 상품 추가 -->
+	<insert id="add_wl">
+		insert into wishlist_tb values(w_seq.nextval, #{param1}, #{param2}, 1, sysdate)
+	</insert>
 	
 	<!-- 위시리스트에 저장된 상품 list 가져오기 -->
 	<select id="getAllWish" resultMap="WishListDto">

@@ -14,7 +14,7 @@ public interface AdminOrderService {
 	List<HashMap<String,Object>> search_1(HashMap<String, String> map);
 		
 	// 총 주문건수
-	int countOrder();
+	int countOrder(String status);
 	
 	// 검색 주문건수
 	int countSearch(HashMap<String, String> map);
