@@ -193,23 +193,23 @@
 						</tr>
 						<tr>
 							<td>제품 대표이미지</td>
-<!-- 							<td><input type="file" name="p_thumb_img1"></td> -->
-							<td><input type="text" name="p_thumb_img1" value="${pdto.p_thumb_img1}"></td>
+							<td><input type="file" name="thumb_img1" value="${pdto.p_thumb_img1}"></td>
+<%-- 							<td><input type="text" name="p_thumb_img1" value="${pdto.p_thumb_img1}"></td> --%>
 						</tr>
 						<tr>
 							<td>제품 이미지1</td>
-<!-- 							<td><input type="file" name="p_thumb_img2"></td> -->
-							<td><input type="text" name="p_thumb_img2" value="${pdto.p_thumb_img2}"></td>
+							<td><input type="file" name="thumb_img2" value="${pdto.p_thumb_img2}"></td>
+<%-- 							<td><input type="text" name="p_thumb_img2" value="${pdto.p_thumb_img2}"></td> --%>
 						</tr>
 						<tr>
 							<td>제품 이미지2</td>
-<!-- 							<td><input type="file" name="p_thumb_img3"></td> -->
-							<td><input type="text" name="p_thumb_img3" value="${pdto.p_thumb_img3}"></td>
+							<td><input type="file" name="thumb_img3" value="${pdto.p_thumb_img3}"></td>
+<%-- 							<td><input type="text" name="p_thumb_img3" value="${pdto.p_thumb_img3}"></td> --%>
 						</tr>
 						<tr>
 							<td>상세내용 이미지</td>
-<!-- 							<td><input type="file" name="p_content_img"></td> -->
-							<td><input type="text" name="p_content_img" value="${pdto.p_content_img}"></td>
+							<td><input type="file" name="content_img" value="${pdto.p_content_img}"></td>
+<%-- 							<td><input type="text" name="p_content_img" value="${pdto.p_content_img}"></td> --%>
 						</tr>
 					</table>
 					<div id="btn_div">

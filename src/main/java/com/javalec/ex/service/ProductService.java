@@ -67,7 +67,7 @@ public interface ProductService {
 
 	
 	//문의 insert
-	void inquiry_insert(QnrUserDto quDto);
+	int inquiry_insert(QnrUserDto quDto);
 
 	//문의 가져오기..
 	List<QnrUserDto> qunOne(int p_num);

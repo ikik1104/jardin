@@ -76,7 +76,7 @@ public interface ProductDao { //상품
 	Integer review_count(int p_num);
 
 	//문의 insert
-	void inquiry_insert(QnrUserDto quDto);
+	int inquiry_insert(QnrUserDto quDto);
 	
 	//문의 가져오기..
 	List<QnrUserDto> qunOne(int p_num);

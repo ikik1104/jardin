@@ -117,7 +117,7 @@
 	<!-- ================================ 질문과 답변 ============================== -->
 	<!-- 질문 insert -->
 	<insert id="inquiry_insert" parameterType="com.javalec.ex.dto.QnrUserDto">
-		insert into qna_user_tb values(qu_seq.nextval,1,#{p_num},#{qu_title},#{qu_content},sysdate,'답변대기',#{qu_pw})
+		insert into qna_user_tb values(qu_seq.nextval,#{m_num},#{p_num},#{qu_title},#{qu_content},sysdate,'답변대기',#{qu_pw})
 	</insert>
 	
 	<!-- 제품의 qna 가져오기 -->
