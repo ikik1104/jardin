@@ -33,6 +33,7 @@ public class NonMemController {
 	public String non_ordercheck(HttpServletRequest request, Model model) {
 		String order_num = request.getParameter("orderNum");
 		String orderer = request.getParameter("orderName");
+		System.out.println(order_num);
 		List<Map<String, String>> orderlist = nmService.getAllNonOrder(order_num);
 		model.addAttribute("ordersize", orderlist.size());
 		model.addAttribute("orderlist", orderlist);
@@ -119,9 +120,12 @@ public class NonMemController {
 	public String non_takeback_state(HttpServletRequest request, Model model) {
 		String order_num = request.getParameter("orderNum");
 		String orderer = request.getParameter("orderName");
+		System.out.println("비회원 주문번호 : "+order_num);
+		System.out.println("비회원 주문자명 : "+orderer);
 		List<Map<String, String>> rtrflist = nmService.getAllClaim(order_num);
 		model.addAttribute("rtrflist", rtrflist);
 		model.addAttribute("orderer", orderer);
+		model.addAttribute("orderNum", order_num);
 		return "nonmember/takeback_state";
 	}
 	

@@ -131,8 +131,8 @@
 	
 	<!-- 주문 상세페이지 주문상품 가져오기 -->
 	<select id="proInOneOrder" resultType="HashMap">
-		select p_name, ol_amt, p_price, ol_final_price, ol_status, oc_semi_sum, oc_deliv_fee, oc_final_sum from
-		(select * from orderlist_tb ol
+		select p_name, ol_amt, p_price, ol_final_price, ol_status, oc_semi_sum, oc_deliv_fee, oc_final_sum, p_num from
+		(select ol.*, oc.*, p_name, p_price from orderlist_tb ol
 		left join product_tb pd on ol.p_num=pd.p_num
 		left join orderlist_cou_tb oc on ol.ol_order_num=oc.ol_order_num
 		where ol.ol_status not in('반품/취소') and ol.ol_order_num=#{ol_order_num})
