@@ -12,10 +12,10 @@ import com.javalec.ex.service.CommentService;
 
 @Controller
 public class Comment_Controller {
+	
 
 	@Autowired
 	CommentService cs;
-	
 	@RequestMapping("comment")
 	public String comment() {
 
