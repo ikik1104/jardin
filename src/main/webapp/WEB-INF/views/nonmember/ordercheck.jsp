@@ -221,7 +221,7 @@ h3{padding-top: 17px;}
                                         <td>
                                             <fmt:formatDate value="${ ol.ODATE }" pattern="yyyy-MM-dd" var="dateType" />
                                             <p class="day">${ dateType }</p>
-                                            <a href="non_order_statement?ol_order_num=${ ol.ONUM }"><p class="orderNum" id="on${ status.index }">${ ol.ONUM }</p></a>
+                                            <a href="non_order_statement?ol_order_num=${ ol.ONUM }&orderer=${ orderer }"><p class="orderNum" id="on${ status.index }">${ ol.ONUM }</p></a>
                                         </td>
                                         <td class="left">
                                             ${ ol.P_NAME }

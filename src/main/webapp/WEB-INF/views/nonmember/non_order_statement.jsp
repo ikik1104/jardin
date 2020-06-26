@@ -45,6 +45,7 @@ $(document).ready(function() {
 #member h3{margin-top:0}
 .checkTable th {text-align: center;}
 .checkTable th span{padding: 0px;}
+.inputBody{margin-top:30px;}
 </style>
 
 </head>
@@ -126,10 +127,10 @@ $(document).ready(function() {
 			<div id="left">
 				<div id="title">비회원<br/>주문조회</div>
 				<ul>	
-					<li><a href="#" id="leftNavi1">비회원 주문조회</a></li>
-					<li class="last"><a href="#" id="leftNavi2">반품/교환 현황</a></li>
+					<li><a href="nonmember_ordercheck?orderNum=${ orderNum }&orderName=${ orderer }" id="leftNavi1">비회원 주문조회</a></li>
+					<li class="last"><a href="non_takeback_state?orderNum=${ orderNum }&orderName=${ orderer }" id="leftNavi2">반품/교환 현황</a></li>
 				</ul>			
-			</div><script type="text/javascript">initSubmenu(1,0);</script>
+			</div><script type="text/javascript"></script>
 
 
 			<!-- contents -->

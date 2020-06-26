@@ -37,7 +37,7 @@ public class My2Controller {
 	//1:1문의 리스트 페이지
 	@RequestMapping("inquiry")
 	public String inquiry(PageDto pageDto, HttpServletRequest request, Model model, HttpSession session) {
-		if(session.getAttribute("userNum") == null) {return "home";}//세션체크
+		if(session.getAttribute("userNum") == null) {return "redirect:login";}//세션체크
 		
 		int m_num = (Integer)session.getAttribute("userNum"); //회원 아이디 변수에 담기
 		
@@ -56,7 +56,7 @@ public class My2Controller {
 	//1:1문의 리스트 페이지 : 검색
 	@RequestMapping("inq_search")
 	public String inq_search(PageDto pageDto, HttpServletRequest request, Model model, HttpSession session) {
-		if(session.getAttribute("userNum") == null) {return "home";}//세션체크
+		if(session.getAttribute("userNum") == null) {return "redirect:login";}//세션체크
 		
 		int m_num = (Integer)session.getAttribute("userNum"); //회원 아이디 변수에 담기
 		
@@ -78,7 +78,7 @@ public class My2Controller {
 	//1:1문의 뷰 페이지
 	@RequestMapping("inquiry_view")
 	public String inquiry_view(HttpServletRequest request, Model model, HttpSession session) {
-		if(session.getAttribute("userNum") == null) {return "home";}//세션체크
+		if(session.getAttribute("userNum") == null) {return "redirect:login";}//세션체크
 		
 		int m_num = Integer.parseInt(request.getParameter("m_num"));
 		int iu_num = Integer.parseInt(request.getParameter("iu_num"));
@@ -95,14 +95,14 @@ public class My2Controller {
 	//1:1문의 작성 페이지
 	@RequestMapping("inquiry_write")
 	public String inquiry_write(Model model, HttpSession session) {
-		if(session.getAttribute("userNum") == null) {return "home";}//세션체크끝
+		if(session.getAttribute("userNum") == null) {return "redirect:login";}//세션체크
 		return "mypage/inquiry_write";
 	}
 	
 	//1:1문의 작성 후 등록
 	@RequestMapping("inquiry_write_regi")
 	public String inquiry_write_regi(MtmUserDto mtmUserDto, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
-		if(session.getAttribute("userNum") == null) {return "home";} //세션체크 끝
+		if(session.getAttribute("userNum") == null) {return "redirect:login";}//세션체크
 		mtmService.insertInquiry(mtmUserDto);
 		return "redirect:inquiry";
 	}
@@ -110,7 +110,7 @@ public class My2Controller {
 	//1:1문의 수정 보기
 	@RequestMapping("inquiry_modify")
 	public String inquiry_modify(HttpServletRequest request, Model model, HttpSession session) {
-		if(session.getAttribute("userNum") == null) { return "home";} //세션체크
+		if(session.getAttribute("userNum") == null) {return "redirect:login";}//세션체크
 		int iu_num = Integer.parseInt(request.getParameter("iu_num"));
 		int rownum = Integer.parseInt(request.getParameter("rownum"));
 		model.addAttribute("modi_view", mtmService.modifyView(iu_num));
@@ -122,7 +122,7 @@ public class My2Controller {
 	//1:1문의 수정 등록
 	@RequestMapping("inquiry_modi_regi")
 	public String inquiry_modi_regi(MtmUserDto mtmUserDto, HttpServletRequest request, HttpSession session) {
-		if(session.getAttribute("userNum") == null) { return "home";} //세션체크
+		if(session.getAttribute("userNum") == null) {return "redirect:login";}//세션체크
 		int m_num = Integer.parseInt(request.getParameter("m_num"));
 		int iu_num = Integer.parseInt(request.getParameter("iu_num"));
 		int rownum = Integer.parseInt(request.getParameter("rownum"));
@@ -141,7 +141,7 @@ public class My2Controller {
 	//회원정보수정 수정 양식 보기
 	@RequestMapping("change_info")
 	public String change_info(HttpSession session, Model model, HttpServletRequest request) {
-		if(session.getAttribute("userNum") == null) { return "home";} //세션체크
+		if(session.getAttribute("userNum") == null) {return "redirect:login";}//세션체크
 		int m_num = (Integer) session.getAttribute("userNum");
 		
 		MemberDto memberDto = changeInfoService.getOneInfo(m_num);
@@ -212,7 +212,7 @@ public class My2Controller {
 	//회원탈퇴 페이지 열기
 	@RequestMapping("get_leave")
 	public String get_leave(HttpSession session, Model model) {
-		if(session.getAttribute("userNum") == null) { return "home";} //세션체크
+		if(session.getAttribute("userNum") == null) {return "redirect:login";}//세션체크
 		return "mypage/get_leave";
 	}
 	

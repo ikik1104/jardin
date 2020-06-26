@@ -2,6 +2,8 @@ package com.javalec.ex.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,9 +40,15 @@ public class UserLayoutController {
 	
 	//메인 페이지 접속
 	@RequestMapping("main")
-	public String main(Model model) {
+	public String main(Model model, HttpSession session) {
+		//메인 슬라이드(롤)배너 가져오기
 		MainBannerDto mbdto2 = amServ.selectMainBanners();
 		model.addAttribute("mbdto", mbdto2);
+		//플롯 메뉴 위시리스트  가져오기
+		String m_num = (String) session.getAttribute("userNum");
+		if(m_num != null) {
+			//아직 구현중
+		}
 		return response_path+"main";
 	}
 	

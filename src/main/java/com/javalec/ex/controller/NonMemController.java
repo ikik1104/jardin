@@ -44,7 +44,7 @@ public class NonMemController {
 	
 	//주문상세조회 
 	@RequestMapping("non_order_statement")
-	public String non_order_statement(@RequestParam("ol_order_num") String ol_order_num, Model model) {
+	public String non_order_statement(@RequestParam("ol_order_num") String ol_order_num, @RequestParam("orderer") String orderer, Model model) {
 		List<Map<String, String>> plist = ocService.proInOneOrder(ol_order_num); //주문 상품 가져오기
 		Map<String, String> ilist = ocService.orderInfoDetail(ol_order_num); //결제, 배송지 정보 가져오기
 		List<Map<String, String>> clist = ocService.cancelInfoDetail(ol_order_num); //취소 상품 가져오기
@@ -53,6 +53,8 @@ public class NonMemController {
 		model.addAttribute("ilist", ilist);
 		model.addAttribute("clist", clist);
 		model.addAttribute("tflist", tflist);
+		model.addAttribute("orderNum", ol_order_num);
+		model.addAttribute("orderer", orderer);
 		return "nonmember/non_order_statement";
 	}
 	
