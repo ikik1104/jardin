@@ -34,6 +34,11 @@ $(document).ready(function() {
 
 });
 </script>
+<style type="text/css">
+.contentimg{width: 100%;}
+.contenttext{text-align: left;
+    line-height: 20px;}
+</style>
 </head>
 <body>
 
@@ -139,8 +144,8 @@ $(document).ready(function() {
 						</div>
 
 						<div class="viewContents" style="text-align: center;">
-							<img alt="내용 이미지" src="${enjoy.ej_img}">
-							${enjoy.ej_content}
+							<img class="contentimg" alt="내용 이미지" src="${enjoy.ej_img}">
+							<div class="contenttext">${enjoy.ej_content}</div>
 						</div>
 					</div>
 

@@ -73,7 +73,7 @@
 			        }
 			        len++;
 			    }
-			     if(len>85){
+			     if(len>150){
 			    	$('#byte_alert').show();
 			    	$('#byte_excess').val('on');
 			     } else {
@@ -144,8 +144,8 @@
 						</tr>
 						<tr>
 							<th class="notice_th">제목</th>
-							<td><input id="notice_content" maxlength="85" class="modify_textarea" onkeyup="resize(this)" type="text" name="str2" style="border:none; background:inherit; height:40; font-size:15px; padding:3px 0; width:800px;">
-							<p class="byte_area"><span id="byte_alert">※최대 입력 글자 수를 초과했습니다. </span><span id="present_byte"></span> /85 byte</p>
+							<td><input id="notice_content" maxlength="150" class="modify_textarea" onkeyup="resize(this)" type="text" name="str2" style="border:none; background:inherit; height:40; font-size:15px; padding:3px 0; width:800px;">
+							<p class="byte_area"><span id="byte_alert">※최대 입력 글자 수를 초과했습니다. </span><span id="present_byte"></span> /150 byte</p>
 							<input type="hidden" id="byte_excess" name="byte_excess">
 							</td>
 						</tr>									

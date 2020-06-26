@@ -216,7 +216,7 @@
 			    	$.ajax({
 			        	type:"POST",
 			        	url : "cart_del",
-			        	data: JSON.stringify(p_num),
+			        	data: p_num,
 			         	contentType: "application/json",
 			            success : function(data){
 			                        if(data == 1){

@@ -32,11 +32,19 @@
 	<delete id="deleteOrder">
 		delete from orderlist_tb where ol_order_num = #{param1}
 	</delete>
+	<!-- 주문취소 - 주문쿠폰 테이블(입금대기 - 취소) -->
+	<delete id="deleteOrderCou">
+		delete from orderlist_cou_tb where ol_order_num = #{param1}
+	</delete>
+	<!-- 주문취소 - 주문수령지 테이블(입금대기 - 취소) -->
+	<delete id="deleteOrderRec">
+		delete from orderer_receiver_tb where ol_order_num = #{param1}
+	</delete>
 
 	<!-- 주문단위 상품들 불러오기 -->
 	<select id="getOneSetOrder" resultType="HashMap">
-		select rownum rnum, ot.ol_order_num, ot.ol_num, pt.p_name, ot.ol_amt, ot.ol_final_price, ot.ol_status 
-		from (select ol_order_num, ol_num, p_num, ol_amt, ol_final_price, ol_status from orderlist_tb where ol_order_num = #{ ol_order_num } and ol_status not in ('반품/취소')) ot, product_tb pt
+		select rownum rnum, ot.ol_order_num, ot.ol_num, pt.p_name, ot.ol_amt, ot.ol_final_price, ot.ol_status, ot.p_num, pt.p_thumb_img1   
+		from (select ol_order_num, ol_num, p_num, ol_amt, ol_final_price, ol_status from orderlist_tb where ol_order_num = #{ ol_order_num }) ot, product_tb pt
 		where ot.p_num = pt.p_num
 		order by rnum asc
 	</select>
@@ -66,7 +74,7 @@
 	<!-- 해당 주문건의 리뷰 작성 가능 상품 목록 불러오기 -->
 	<select id="reviewReadyList" resultType="HashMap">
 		select *
-		from (select rownum rnum, ot.ol_order_num, ot.ol_num o_num, ot.p_num, pt.p_name, ot.ol_amt, ot.ol_final_price 
+		from (select rownum rnum, ot.ol_order_num, ot.ol_num o_num, ot.p_num, pt.p_name, ot.ol_amt, ot.ol_final_price, pt.p_thumb_img1 
 		from (select ol_order_num, ol_num, p_num, ol_amt, ol_final_price from orderlist_tb where ol_order_num = #{ol_order_num}) ot, product_tb pt
 		where ot.p_num = pt.p_num) od
 		where od.o_num not in (select rv.ol_num from review_user_tb rv)
@@ -76,7 +84,7 @@
 	<!-- 해당 주문건의 리뷰 작성 완료한 상품 목록 불러오기 -->
 	<select id="reviewEndList" resultType="HashMap">
 		select *
-		from (select rownum rnum, ot.ol_order_num, ot.ol_num o_num, ot.p_num, pt.p_name, ot.ol_amt, ot.ol_final_price 
+		from (select rownum rnum, ot.ol_order_num, ot.ol_num o_num, ot.p_num, pt.p_name, ot.ol_amt, ot.ol_final_price, pt.p_thumb_img1 
 		from (select ol_order_num, ol_num, p_num, ol_amt, ol_final_price from orderlist_tb where ol_order_num = #{ol_order_num}) ot, product_tb pt
 		where ot.p_num = pt.p_num) od
 		where od.o_num in (select rv.ol_num from review_user_tb rv)

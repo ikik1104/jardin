@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.javalec.ex.CommonUtils;
 import com.javalec.ex.dao.OrderCheckDao;
 import com.javalec.ex.dto.OrderListDto;
 import com.javalec.ex.dto.PageDto;
@@ -20,6 +21,8 @@ public class OrderCheckServiceImp implements OrderCheckService {
 
 	@Autowired
 	OrderCheckDao orderCheckDao;
+	@Autowired
+	CommonUtils utils;
 
 	@Override
 	public int countOrder(String m_id) {
@@ -36,6 +39,16 @@ public class OrderCheckServiceImp implements OrderCheckService {
 		return orderCheckDao.deleteOrder(ol_order_num);
 	}
 
+	@Override
+	public int deleteOrderCou(String ol_order_num) {
+		return orderCheckDao.deleteOrderCou(ol_order_num);
+	}
+
+	@Override
+	public int deleteOrderRec(String ol_order_num) {
+		return orderCheckDao.deleteOrderRec(ol_order_num);
+	}
+	
 	@Override
 	public List<Map<String, String>> getOneSetOrder(String ol_order_num) {
 		return orderCheckDao.getOneSetOrder(ol_order_num);
@@ -72,35 +85,41 @@ public class OrderCheckServiceImp implements OrderCheckService {
 		return orderCheckDao.updateStatus(ol_order_num, order_status);
 	}
 
+//	@Override
+//	public String review_insert(MultipartFile ru_img_file, ReviewUserDto reviewUserDto) throws Exception {
+//		String path = "z:/upload"; //저장경로 - 절대경로
+////		String path = "/Users/soojilee/upload/"; //저장경로 - 절대경로
+//		//학원에서 z:/upload로 바꾸기..근데 이미지 경로를 서버 하나로 통일시키려면 어케?
+//		String fileName = ru_img_file.getOriginalFilename(); //오리지널 파일이름
+//		String extName = fileName.substring(fileName.lastIndexOf("."), fileName.length()); //확장자 분리
+//		String saveName = genSaveFileName(extName);//실제로 db에 저장할 파일명 생성(파일명 중복 방지)
+//		ru_img_file.transferTo(new File(path + saveName));//파일 전송
+//		reviewUserDto.setRu_img(saveName); //dto에 파일명 변수에 파일명 넣기
+//		orderCheckDao.review_insert(reviewUserDto); //db에 저장
+//		return path+saveName; //이미지 등록 후 이미지 바로 보여주려고 리턴해주기
+//	}
+//	
+//	//현재시간을 기준으로 파일 이름 재생성(파일명 중복 방지)
+//	private String genSaveFileName(String extName) {
+//		String fileName = "";
+//		Calendar calendar = Calendar.getInstance();
+//		fileName += calendar.get(Calendar.YEAR);
+//		fileName += calendar.get(Calendar.MONTH);
+//		fileName += calendar.get(Calendar.DATE);
+//		fileName += calendar.get(Calendar.HOUR);
+//		fileName += calendar.get(Calendar.MINUTE);
+//		fileName += calendar.get(Calendar.SECOND);
+////		fileName += calendar.get(Calendar.MILLISECOND);
+//		fileName += extName;//'연월일시분초.확장자' 로 파일명 수정(밀리초는 에바쎄바같아서 뻄)
+//		return fileName;
+//	}
 	@Override
-	public String review_insert(MultipartFile ru_img_file, ReviewUserDto reviewUserDto) throws Exception {
-		String path = "z:/upload"; //저장경로 - 절대경로
-//		String path = "/Users/soojilee/upload/"; //저장경로 - 절대경로
-		//학원에서 z:/upload로 바꾸기..근데 이미지 경로를 서버 하나로 통일시키려면 어케?
-		String fileName = ru_img_file.getOriginalFilename(); //오리지널 파일이름
-		String extName = fileName.substring(fileName.lastIndexOf("."), fileName.length()); //확장자 분리
-		String saveName = genSaveFileName(extName);//실제로 db에 저장할 파일명 생성(파일명 중복 방지)
-		ru_img_file.transferTo(new File(path + saveName));//파일 전송
-		reviewUserDto.setRu_img(saveName); //dto에 파일명 변수에 파일명 넣기
-		orderCheckDao.review_insert(reviewUserDto); //db에 저장
-		return path+saveName; //이미지 등록 후 이미지 바로 보여주려고 리턴해주기
+	public int review_insert(MultipartFile ru_img_file, ReviewUserDto reviewUserDto) throws Exception {
+		reviewUserDto.setRu_img(utils.FileUploaderCDN(ru_img_file, "review/"));
+		int check = orderCheckDao.review_insert(reviewUserDto); //db에 저장
+		return check;
 	}
 	
-	//현재시간을 기준으로 파일 이름 재생성(파일명 중복 방지)
-	private String genSaveFileName(String extName) {
-		String fileName = "";
-		Calendar calendar = Calendar.getInstance();
-		fileName += calendar.get(Calendar.YEAR);
-		fileName += calendar.get(Calendar.MONTH);
-		fileName += calendar.get(Calendar.DATE);
-		fileName += calendar.get(Calendar.HOUR);
-		fileName += calendar.get(Calendar.MINUTE);
-		fileName += calendar.get(Calendar.SECOND);
-//		fileName += calendar.get(Calendar.MILLISECOND);
-		fileName += extName;//'연월일시분초.확장자' 로 파일명 수정(밀리초는 에바쎄바같아서 뻄)
-		return fileName;
-	}
-
 	@Override
 	public int refundRequest(String rf_receipt_num, int ol_num, int rf_price, String ol_order_num, String p_name, String m_id) {
 		return orderCheckDao.refundRequest(rf_receipt_num, ol_num, rf_price, ol_order_num, p_name, m_id);
@@ -140,6 +159,7 @@ public class OrderCheckServiceImp implements OrderCheckService {
 	public Map<String, Object> getShortInfo(String m_id) {
 		return orderCheckDao.getShortInfo(m_id);
 	}
+
 
 
 

@@ -19,7 +19,7 @@
 <script type="text/javascript" src="user/js/top_navi.js"></script>
 <script type="text/javascript" src="user/js/left_navi.js"></script>
 <script type="text/javascript" src="user/js/main.js"></script>
-<script type="text/javascript" src="user/js/common.js"></script>
+<!-- <script type="text/javascript" src="user/js/common.js"></script> -->
 <script type="text/javascript" src="user/js/jquery.easing.1.3.js"></script>
 <script type="text/javascript" src="user/js/idangerous.swiper-2.1.min.js"></script>
 <script type="text/javascript" src="user/js/jquery.anchor.js"></script>
@@ -147,8 +147,8 @@ $(document).ready(function() {
     											<option value="">선택해주세요.</option>
     											<option value="상품">상품문의</option>
     											<option value="배송">배송문의</option>
-    											<option value="교환/반품/취소">교환/반품/취소</option>
-    											<option value="주문/입금확인">주문/입금확인</option>
+    											<option value="교환/반품">교환/반품</option>
+    											<option value="주문확인">주문확인</option>
     											<option value="기타">기타</option>
     										</select>
     									</td>

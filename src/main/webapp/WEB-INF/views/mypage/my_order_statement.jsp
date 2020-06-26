@@ -124,7 +124,6 @@ $(document).ready(function() {
 		
 		<div id="outbox">		
 			<jsp:include page="common/sub_navi.jsp" />
-            <script type="text/javascript">initSubmenu(1,0);</script>
 
 
 			<!-- contents -->

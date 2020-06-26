@@ -32,11 +32,14 @@
 				border: 1px solid black;
 				padding: 4px;
 			}
+            .imgListType ul li .txt .conf{
+                overflow: hidden;
+            }
 		</style>
 		<script type="text/javascript">
 		//페이지 로딩시
 		$(document).ready(function(){
-			if(${not empty map}){
+			if('${not empty map}'){
 				//step2
 				$(".type option").each(function(){
 				    if($(this).val()=="${map.type}"){

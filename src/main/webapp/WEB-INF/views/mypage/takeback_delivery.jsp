@@ -33,6 +33,13 @@
 
 
 $(document).ready(function() {
+	
+	//취소버튼
+	$("#cancel_return").click(function(){
+		parent.location.href="ordercheck";
+  		parent.$.fancybox.close();
+	});
+	
    	//반품버튼 클릭
 	$("#return_submit").click(function(){
 		var rt_reason = '[' + $("#rt_reason1 option:selected").val() + ']' + $("#rt_reason2").val();
@@ -151,7 +158,7 @@ background : white;
             <div class="bCenter">
                 <ul>
                     <li><a href="#" class="sbtnMini" id="return_submit">반품/교환신청</a></li>
-                    <li><a href="#" class="nbtnbig">취소</a></li>
+                    <li><a href="#" class="nbtnbig" id="cancel_return">취소</a></li>
                 </ul>
             </div>
         </div>

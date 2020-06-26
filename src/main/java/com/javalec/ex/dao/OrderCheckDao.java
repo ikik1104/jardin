@@ -16,7 +16,12 @@ public interface OrderCheckDao {
 
 	int countOrder(String m_id); //특정 회원의 전체 주문건
 	List<Map<String, String>> getAllOrder(@Param("m_id")String m_id, @Param("pageDto")PageDto pageDto); // 특정 회원의 전체 주문 목록
-	int deleteOrder(String ol_order_num); //주문취소(입금대기중 - 취소)
+	
+	/*입금 대기중 취소*/
+	int deleteOrder(String ol_order_num); //주문테이블 삭제(입금대기중 - 취소)
+	int deleteOrderCou(String ol_order_num); //주문쿠폰테이블 삭제(입금대기중 - 취소)
+	int deleteOrderRec(String ol_order_num); //주문수령지테이블 삭제(입금대기중 - 취소)
+	
 	List<Map<String, String>> getOneSetOrder(@Param("ol_order_num")String ol_order_num); // 특정 주문번호의 전체 상품목록
 	int returnRq(int ol_num, String rt_amt, String rt_reason, int rt_price, String rt_receipt_num, String ol_order_num, String p_name, String m_id, String ol_payment); //반품신청
 	int updateOrderStatus(int ol_num, int ol_amt); //수량 전체 반품 시 주문상품 삭제(주문 아니라 주문 건 안에서의 상품 하나)

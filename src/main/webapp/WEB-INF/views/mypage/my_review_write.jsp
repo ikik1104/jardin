@@ -36,6 +36,13 @@ $(document).ready(function() {
 	$(".photo_btn").click(function(){
 		photo_rv_insert.submit();
 	});
+	//일반등록버튼
+	$(".normal_btn").click(function(){
+		var orderNum = $(".normal_btn").attr('id');
+		console.log(typeof orderNum);
+		console.log(orderNum);
+		normal_rv_insert.submit();
+	});
 	
 });
 </script>
@@ -257,7 +264,7 @@ $(document).ready(function() {
 									<div class="bCenter">
 										<ul>																
 											<li><a href="#" class="nbtnbig">취소</a></li>
-											<li><a href="#" class="sbtnMini normal_btn">확인</a></li>
+											<li><a href="#" class="sbtnMini normal_btn" id="${ ol_order_num }">확인</a></li>
 										</ul>
 									</div>
 								</div>

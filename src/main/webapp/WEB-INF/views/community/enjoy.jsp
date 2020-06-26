@@ -34,6 +34,11 @@ $(document).ready(function() {
 
 });
 </script>
+<style>
+.imgListType ul li .txt .conf{
+                overflow: hidden;
+            }
+</style>
 </head>
 <body>
 

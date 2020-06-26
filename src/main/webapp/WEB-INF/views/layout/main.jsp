@@ -97,6 +97,9 @@ $(document).ready(function() {
 });
 
 </script>
+<style>
+#mainThum{left:46%; top:311px; margin:0px;}
+</style>
 </head>
 <body>
 
