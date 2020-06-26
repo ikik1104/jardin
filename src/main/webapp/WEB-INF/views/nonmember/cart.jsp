@@ -375,8 +375,9 @@ $(document).ready(function() {
 							</thead>
 							<tbody>
 							<tr id="hidden" style="display: none; text-align: center">
-								<td colspan="4">장바구니에 등록한 상품이 없습니다.</td>
+								<td colspan="6">장바구니에 등록한 상품이 없습니다.</td>
 							</tr>
+							<c:if test="${cCount>0 }">
 							<c:forEach var="cartlist" items="${cartlist }" >
 									<tr>
 										<td><input type="checkbox" class="chk" name="chk" id="${cartlist.pDto.p_num }_${cartlist.pDto.p_price}" onclick="itemSum()" checked/></td>
@@ -409,6 +410,7 @@ $(document).ready(function() {
 									</tr>
 									<c:set var="sum" value="${sum + cartlist.pDto.p_price * cartlist.p_amt }"/>
 								</c:forEach>
+							</c:if>
 							</tbody>
 						</table>
 					</div>
@@ -457,7 +459,7 @@ $(document).ready(function() {
 						<ul>
 							<li><a class="ty1" onclick="orderSel()">선택상품 <span>주문하기</span></a></li>
 							<li><a class="ty2" onclick="orderAll()">전체상품 <span>주문하기</span></a></li>
-							<li class="last"><a href="/ex/" class="ty3">쇼핑 <span>계속하기</span></a></li>
+							<li class="last"><a href="main" class="ty3">쇼핑 <span>계속하기</span></a></li>
 						</ul>
 					</div>
 

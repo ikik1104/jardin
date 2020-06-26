@@ -26,7 +26,7 @@
 					</c:if>
 					<li><a href="#">JOIN</a></li>
 					<li><a href="ordercheck">MY PAGE</a></li>
-					<li><a href="#">CART</a></li>
+					<li><a href="cart">CART</a></li>
 				</ul>
 				<form action="main_search" method="get" name="search">
 					<div id="search">

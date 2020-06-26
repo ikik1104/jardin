@@ -58,39 +58,40 @@ public class MP1Controller {
 	// 장바구니 페이지 
 	@RequestMapping("cart")
 	public String cart(HttpSession session, Model model) {
-		int success=1;
+		
 		String page="";
-		// 회원 장바구니 정보 가져오기
+		int success=1;
 		if(session.getAttribute("userNum") != null) {
 			int m_num = (Integer)session.getAttribute("userNum");
 			mp1Service.delPaymentCart(m_num);
 			mypageInfo(session, model);  // mypage 상단 회원 정보
 			model.addAttribute("cartlist", mp1Service.getAllCart(m_num));
 			page = "mypage/cart";
-		}else {  // 비회원 장바구니 정보 가져오기
+		}else {
+			// 비회원 장바구니 정보 가져오기
 			session.removeAttribute("nonmem_cartbuy");
 			session.removeAttribute("nonmem_buyNow");
-			List<String> arr = (ArrayList<String>)session.getAttribute("nonmem_cart");
-			System.out.println(arr.get(0));
-			List<NonmemberCartDto> ncDtos = new ArrayList<NonmemberCartDto>();
-			for(int i=0; i<arr.size(); i++) {
-				String[] sp = arr.get(i).split("_");
-				int p_num = Integer.parseInt(sp[0]);
-				int p_amt = Integer.parseInt(sp[1]);
-				NonmemberCartDto ncDto = new NonmemberCartDto();
-				ncDto.setP_amt(p_amt);
-				ncDto.setpDto(payService.getProductInfo(p_num));
-				ncDtos.add(ncDto);
+			if(session.getAttribute("nonmem_cart") !=null) {
+				List<String> arr = (ArrayList<String>)session.getAttribute("nonmem_cart");
+				List<NonmemberCartDto> ncDtos = new ArrayList<NonmemberCartDto>();
+				for(int i=0; i<arr.size(); i++) {
+					String[] sp = arr.get(i).split("_");
+					int p_num = Integer.parseInt(sp[0]);
+					int p_amt = Integer.parseInt(sp[1]);
+					NonmemberCartDto ncDto = new NonmemberCartDto();
+					ncDto.setP_amt(p_amt);
+					ncDto.setpDto(payService.getProductInfo(p_num));
+					ncDtos.add(ncDto);
+				}
+				model.addAttribute("cartlist", ncDtos);
+				model.addAttribute("cCount", ncDtos.size());
+			}else {
+				model.addAttribute("cCount", 0);
 			}
-			model.addAttribute("cartlist", ncDtos);
-			model.addAttribute("cCount", ncDtos.size());
+			
 			page = "nonmember/cart";
 		}
-		
-		if(session.getAttribute("userNum")==null && session.getAttribute("nonmem_cart")==null) {
-			page="/ex/";
-		}
-		
+
 		return page;
 	}
 	
@@ -104,7 +105,6 @@ public class MP1Controller {
 			int p_num = Integer.parseInt(pNum);
 			success = mp1Service.cart_del(p_num,m_num);
 		}else {
-			System.out.println(pNum);
 			ArrayList<String> arr = (ArrayList<String>)(session.getAttribute("nonmem_cart"));
 			for(int i=0; i<arr.size(); i++) {
 				if(arr.get(i).toString().contains(pNum+"")) {
@@ -150,7 +150,7 @@ public class MP1Controller {
 	// 나의 쿠폰 페이지
 	@RequestMapping("mycoupon")
 	public String mycoupon(HttpSession session, Model model) {
-		if(session.getAttribute("userNum") == null) {return "/ex/";}//세션체크
+		if(session.getAttribute("userNum") == null) {return "main";}//세션체크
 		int m_num = (Integer)session.getAttribute("userNum");
 		
 		mypageInfo(session, model);
@@ -168,7 +168,7 @@ public class MP1Controller {
 	@RequestMapping("mypoint")
 	public String mypoint(HttpSession session, Model model) {
 		
-		if(session.getAttribute("userNum") == null) {return "/ex/";}//세션체크
+		if(session.getAttribute("userNum") == null) {return "main";}//세션체크
 		int m_num = (Integer)session.getAttribute("userNum");
 		
 		mypageInfo(session, model);
@@ -216,7 +216,7 @@ public class MP1Controller {
 	@RequestMapping("wishlist")
 	public String wishlist(HttpSession session, Model model) {
 			
-		if(session.getAttribute("userNum") == null) {return "/ex/";}//세션체크
+		if(session.getAttribute("userNum") == null) {return "main";}//세션체크
 		int m_num = (Integer)session.getAttribute("userNum");
 		
 		mypageInfo(session, model);
