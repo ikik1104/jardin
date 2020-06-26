@@ -43,24 +43,33 @@
 				});
 				
 				var sum = 0;
-		 		var count= $('input[name=chk]:checkbox').length;
-		 		for(var i=0; i<count; i++){
-						var p_price1 = $('.td1').eq(i).text();
-			 			var p_price2 = p_price1.substring(0,(p_price1.length-1));
-						sum += Number(p_price2);
-		 		}
-		 		$('#sum1').text(sum);
+				$('input[name=chk]:checkbox').each(function(){
+ 					$(this).prop('checked', true);
+ 					var chk_value =$(this).attr('id');  //id = ${p_num}_${p_price}
+ 		    		var sp = chk_value.split("_");
+ 					var p_price = sp[1];
+ 					var p_amt = $("#ipt_"+sp[0]).val();
+ 					
+ 					sum += Number(p_price)*Number(p_amt);
+ 				});
+ 				$('#sum1').text(commas(sum));
+// 		 		var count= $('input[name=chk]:checkbox').length;
+// 		 		for(var i=0; i<count; i++){
+// 						var p_price1 = $('.td1').eq(i).text();
+// 			 			var p_price2 = p_price1.substring(0,(p_price1.length-1));
+// 						sum += Number(p_price2);
+// 		 		}
+// 		 		$('#sum1').text(sum);
 				
-		 		if(sum>=30000){
-		 			$('#del_price').text("0");
-		 		}else{
-		 			$('#del_price').text("3000");
-		 		}
-		 		var deliv_price = Number($('#del_price').text());
-		 		var final_price = sum + deliv_price;
-		 		$('#sum2').text(final_price);
-		 		var total_point = sum * 0.01;
-		 		$('#total_m').text(total_point);
+ 				if(sum>=30000 || sum==0){ 
+ 		 	 		$('#del_price').text("0");
+ 		 	 		$('#sum2').text(commas(sum));
+ 		 	 	}else if(0<sum<3000) {
+ 		 	 		$('#del_price').text("3,000");
+ 		 	 		$('#sum2').text(commas(sum+3000));
+ 		 	 	}
+ 		 	 		var total_point = sum * 0.01;
+ 		 			$('#total_m').text(commas(total_point));
 				
 				// 전체 선택 체크박스 해제된 경우
 			}else{
@@ -98,41 +107,57 @@
 	
 	});
 	
-	// 수량 변경에 따른 해당 제품 총합계 변경
-	function ch1(price, num){
-		var id = document.getElementById("ipt_"+num);
-		$('#td1_'+num).text(price * id.value+"원");
-		var total_price = 0;
-		
-		itemSum();
-	}	
+  	// 천단위마다  콤마(,) 추가
+  	function commas(x) {
+  	       return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  	}
 	
 	// 체크한 상품 총 주문금액 & 적립 포인트
 	function itemSum(){
 		
 		var sum = 0;
-		var count = $('input[name=chk]:checkbox').length;
-		for(var i=0; i<count; i++ ){
-			if($('input[name=chk]:checkbox').eq(i).is(":checked")==true){
-				var p_price1 = $('.td1').eq(i).text();
-	 			var p_price2 = p_price1.substring(0,(p_price1.length-1));
-				sum += Number(p_price2);
-			}
-		}
+// 		var count = $('input[name=chk]:checkbox').length;
+// 		for(var i=0; i<count; i++ ){
+// 			if($('input[name=chk]:checkbox').eq(i).is(":checked")==true){
+// 				var p_price1 = $('.td1').eq(i).text();
+// 	 			var p_price2 = p_price1.substring(0,(p_price1.length-1));
+// 				sum += Number(p_price2);
+// 			}
+// 		}
+		$('input:checkbox[name=chk]:checked').each(function(){
+			var chk_value =$(this).attr('id');
+			var sp = chk_value.split("_");
+			var p_price = sp[1];
+			var p_amt = $("#ipt_"+sp[0]).val();
+			sum += Number(p_price)*Number(p_amt);
+		});
 		
-		$('#sum1').text(sum);
-		if(sum>=30000){
-			$('#del_price').text("0");
-		}else{
-			$('#del_price').text("3000");
-		}
-		var deliv_price = Number($('#del_price').text());
-		var final_price = sum + deliv_price;
-		$('#sum2').text(final_price);
-		var total_point = sum * 0.01;
-		$('#total_m').text(total_point);
+		$('#sum1').text(commas(sum));
+		
+		if(sum>=30000 || sum==0){ 
+ 	 		$('#del_price').text("0");
+ 	 		$('#sum2').text(commas(sum));
+ 	 	}else if(0<sum<3000) {
+ 	 		$('#del_price').text("3,000");
+ 	 		$('#sum2').text(commas(sum+3000));
+ 	 	}
+ 	 		var total_point = sum * 0.01;
+ 			$('#total_m').text(commas(total_point));
+// 		var deliv_price = Number($('#del_price').text());
+// 		var final_price = sum + deliv_price;
+// 		$('#sum2').text(commas(final_price));
+// 		var total_point = sum * 0.01;
+// 		$('#total_m').text(commas(total_point));
 		
 	}
+	
+	// 수량 변경에 따른 해당 제품 총합계 변경
+	function ch1(price, num){
+		var id = document.getElementById("ipt_"+num);
+		$('#td1_'+num).text(commas(price * id.value)+"원");
+		
+		itemSum();
+	}	
 	
 	// 바로구매 
 	function buyNow(p_num){
@@ -185,8 +210,9 @@
 		if(count>0){
 			if(confirm("선택하신 상품을 장바구니에서 삭제하시겠습니까?")){
 				$("input[name=chk]:checked").each(function(){
-			  		var chk_value =$(this).attr('id');  //id = chk_${p_num}
-			    	var p_num = parseInt(chk_value.substring(4,chk_value.length));
+					var chk_value =$(this).attr('id');  //id = ${p_num}_${p_amt}
+		    		var sp = chk_value.split("_");
+		    		var p_num = sp[0];
 			    	$.ajax({
 			        	type:"POST",
 			        	url : "cart_del",
@@ -217,10 +243,11 @@
 		});
 	
     	$('input:checkbox[name=chk]:checked').each(function(){
-    		var chk_value =$(this).attr('id');  //id = chk_${p_num}
-    		var p_num = parseInt(chk_value.substring(4,chk_value.length));
-	    	var	p_amt = $('#ipt_'+p_num).val();
-			var arrData = [p_num, p_amt];
+    		var chk_value =$(this).attr('id');  //id = ${p_num}_${p_amt}
+    		var sp = chk_value.split("_");
+    		var p_num = sp[0];
+			var p_amt = $("#ipt_"+sp[0]).val();
+			var arrData = [p_num, p_amt];;
 			
 		$.ajax({
 	        	type:"POST",
@@ -247,9 +274,10 @@
 		if(count>0){
 
 	    	$('input:checkbox[name=chk]:checked').each(function(){
-	    		var chk_value =$(this).attr('id');  //id = chk_${p_num}
-	    		var p_num = parseInt(chk_value.substring(4,chk_value.length));
-		    	var	p_amt = $('#ipt_'+p_num).val();
+	     		var chk_value =$(this).attr('id');  //id = ${p_num}_${p_amt}
+	    		var sp = chk_value.split("_");
+	    		var p_num = sp[0];
+				var p_amt = $("#ipt_"+sp[0]).val();
 				var arrData = [p_num, p_amt];
 				
 				$.ajax({
@@ -272,7 +300,6 @@
 		}
 	}
     
-
     
 </script>
 </head>
@@ -381,7 +408,7 @@
 							<tbody>
 								<c:forEach var="cartlist" items="${cartlist }">
 								<tr>
-									<td><input type="checkbox" checked class="chk" name="chk" id="chk_${cartlist.pDto.p_num }" onclick="itemSum()"/></td>
+									<td><input type="checkbox" checked class="chk" name="chk" id="${cartlist.pDto.p_num }_${cartlist.pDto.p_price}" onclick="itemSum()"/></td>
 									<td class="left">
 										<p class="img"><img src="${cartlist.pDto.p_thumb_img1}" alt="상품" width="66" height="66" /></p>
 
@@ -391,9 +418,11 @@
 											</li>
 										</ul>
 									</td>
-									<td class="tnone">${cartlist.pDto.p_price } 원<br/><span class="pointscore">${cartlist.pDto.p_point } Point</span></td>
+									<fmt:formatNumber var="pPrice" value="${cartlist.pDto.p_price }" type="number"/>
+									<td class="tnone">${pPrice } 원<br/><span class="pointscore">${cartlist.pDto.p_point } Point</span></td>
 									<td><input id="ipt_${cartlist.pDto.p_num}" class="spinner" onblur="ch1(${cartlist.pDto.p_price }, ${cartlist.pDto.p_num})" value="${cartlist.ca_amount }" maxlength="3" /></td>
-									<td class="td1" id="td1_${cartlist.pDto.p_num}">${cartlist.pDto.p_price * cartlist.ca_amount  }원</td>
+									<fmt:formatNumber var="pTotal" value="${cartlist.pDto.p_price * cartlist.ca_amount  }" type="number"/>
+									<td class="td1" id="td1_${cartlist.pDto.p_num}">${pTotal }원</td>
 									<td class="tnone">
 										<ul class="order">	
 											<li><a href="#" onclick="buyNow(${cartlist.pDto.p_num }, ${memDto.m_num })" class="obtnMini iw70">바로구매</a></li>
@@ -423,16 +452,17 @@
 					<!-- 총 주문금액 -->
 					<div class="amount">
 						<h4>총 주문금액</h4>
-						<ul class="info">
+						<ul class="total_info">
 							<li>
 								<span class="title">상품 합계금액</span>
-								<span class="won"><strong id="sum1">${sum }</strong> 원</span>
+								<fmt:formatNumber var="pSum" value="${sum }" type="number"/>
+								<span class="won"><strong id="sum1">${pSum }</strong> 원</span>
 							</li>
 							<li>
 								<span class="title">배송비</span>
 								<span class="won"><strong id="del_price">
 									<c:if test="${sum < 30000 }">
-										<c:out value="3000"/>
+										<c:out value="3,000"/>
 									</c:if>
 									<c:if test="${sum >= 30000 }">
 										<c:out value="0"/>
@@ -443,7 +473,13 @@
 						<ul class="total">
 							<li class="mileage">(적립 마일리지 <strong id="total_m"><c:out value="${sumpoint }"/></strong> Point) </li>
 							<li class="txt"><strong>결제 예정 금액</strong></li>
-							<li class="money"><span id="sum2">${sum }</span> 원</li>
+							<c:if test="${sum < 30000 }">
+							<fmt:formatNumber var="totalPay" value="${sum+3000 }" type="number"/>
+							<li class="money"><span id="sum2">${totalPay }</span> 원</li>
+							</c:if>
+							<c:if test="${sum >= 30000 }">
+							<li class="money"><span id="sum2">${pSum }</span> 원</li>
+							</c:if>
 						</ul>
 					</div>
 					<!-- //총 주문금액 -->
@@ -452,7 +488,7 @@
 						<ul>
 							<li><a class="ty1" onclick="orderSel()">선택상품 <span>주문하기</span></a></li>
 							<li><a class="ty2" onclick="orderAll()">전체상품 <span>주문하기</span></a></li>
-							<li class="last"><a href="/ex/" class="ty3">쇼핑 <span>계속하기</span></a></li>
+							<li class="last"><a href="main" class="ty3">쇼핑 <span>계속하기</span></a></li>
 						</ul>
 					</div>
 
