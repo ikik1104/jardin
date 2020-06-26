@@ -98,27 +98,15 @@ $(document).ready(function() {
 
 		<div id="location">
 			<ol>
-				<li><a href="#">HOME</a></li>
-				<li><a href="#">MY PAGE</a></li>
+				<li><a href="main">HOME</a></li>
+				<li><a href="ordercheck">MY PAGE</a></li>
 				<li class="last">나의 쿠폰</li>
 			</ol>
 		</div>
 		
-		<div id="outbox">		
-			<div id="left">
-				<div id="title">MY PAGE<span>마이페이지</span></div>
-				<ul>	
-					<li><a href="#" id="leftNavi1">주문/배송 조회</a></li>
-					<li><a href="#" id="leftNavi2">반품/배송 현황</a></li>
-					<li><a href="cart" id="leftNavi3">장바구니</a></li>
-					<li><a href="wishlist" id="leftNavi4">위시리스트</a></li>
-					<li><a href="mycoupon" id="leftNavi5">나의 쿠폰</a></li>
-					<li><a href="mypoint" id="leftNavi6">나의 포인트</a></li>
-					<li><a href="#" id="leftNavi7">1:1문의</a></li>
-					<li><a href="#" id="leftNavi8">회원정보 수정</a></li>
-					<li class="last"><a href="#" id="leftNavi9">회원 탈퇴</a></li>
-				</ul>			
-			</div><script type="text/javascript">initSubmenu(5,0);</script>
+		<div id="outbox">	
+			<jsp:include page="common/sub_navi.jsp" />
+			<script type="text/javascript">initSubmenu(5,0);</script>
 
 
 			<!-- contents -->
@@ -126,19 +114,7 @@ $(document).ready(function() {
 				<div id="mypage">
 					<h2><strong>나의 쿠폰</strong><span>회원님께서 보유하신 쿠폰을 확인해보세요.</span></h2>
 					
-					<div class="myInfo">
-						<ul>
-							<li class="info"><strong>${m_id }</strong> 님의 정보를 한눈에 확인하세요.</li>
-							<li>보유 쿠폰<br/><span class="num">${coupon }</span> <span class="unit">장</span></li>
-							<fmt:formatNumber var="mypoint" value="${memDto.m_point }" type="number"/>
-							<li class="point">내 포인트<br/><span class="num">${mypoint }</span> <span class="unit">P</span></li>
-							<li class="last">진행중인 주문<br/><span class="num">${order }</span> <span class="unit">건</span></li>
-						</ul>
-					</div>
-
-
-
-
+					<jsp:include page="common/shortInfo.jsp" />
 
 					<div class="otherTab">
 						<ul>

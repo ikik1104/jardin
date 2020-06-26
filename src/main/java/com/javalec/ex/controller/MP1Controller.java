@@ -58,39 +58,40 @@ public class MP1Controller {
 	// 장바구니 페이지 
 	@RequestMapping("cart")
 	public String cart(HttpSession session, Model model) {
-		int success=1;
+		
 		String page="";
-		// 회원 장바구니 정보 가져오기
+		int success=1;
 		if(session.getAttribute("userNum") != null) {
 			int m_num = (Integer)session.getAttribute("userNum");
 			mp1Service.delPaymentCart(m_num);
 			mypageInfo(session, model);  // mypage 상단 회원 정보
 			model.addAttribute("cartlist", mp1Service.getAllCart(m_num));
 			page = "mypage/cart";
-		}else {  // 비회원 장바구니 정보 가져오기
+		}else {
+			// 비회원 장바구니 정보 가져오기
 			session.removeAttribute("nonmem_cartbuy");
 			session.removeAttribute("nonmem_buyNow");
-			List<String> arr = (ArrayList<String>)session.getAttribute("nonmem_cart");
-			System.out.println(arr.get(0));
-			List<NonmemberCartDto> ncDtos = new ArrayList<NonmemberCartDto>();
-			for(int i=0; i<arr.size(); i++) {
-				String[] sp = arr.get(i).split("_");
-				int p_num = Integer.parseInt(sp[0]);
-				int p_amt = Integer.parseInt(sp[1]);
-				NonmemberCartDto ncDto = new NonmemberCartDto();
-				ncDto.setP_amt(p_amt);
-				ncDto.setpDto(payService.getProductInfo(p_num));
-				ncDtos.add(ncDto);
+			if(session.getAttribute("nonmem_cart") !=null) {
+				List<String> arr = (ArrayList<String>)session.getAttribute("nonmem_cart");
+				List<NonmemberCartDto> ncDtos = new ArrayList<NonmemberCartDto>();
+				for(int i=0; i<arr.size(); i++) {
+					String[] sp = arr.get(i).split("_");
+					int p_num = Integer.parseInt(sp[0]);
+					int p_amt = Integer.parseInt(sp[1]);
+					NonmemberCartDto ncDto = new NonmemberCartDto();
+					ncDto.setP_amt(p_amt);
+					ncDto.setpDto(payService.getProductInfo(p_num));
+					ncDtos.add(ncDto);
+				}
+				model.addAttribute("cartlist", ncDtos);
+				model.addAttribute("cCount", ncDtos.size());
+			}else {
+				model.addAttribute("cCount", 0);
 			}
-			model.addAttribute("cartlist", ncDtos);
-			model.addAttribute("cCount", ncDtos.size());
+			
 			page = "nonmember/cart";
 		}
-		
-		if(session.getAttribute("userNum")==null && session.getAttribute("nonmem_cart")==null) {
-			page="/ex/";
-		}
-		
+
 		return page;
 	}
 	
@@ -104,7 +105,6 @@ public class MP1Controller {
 			int p_num = Integer.parseInt(pNum);
 			success = mp1Service.cart_del(p_num,m_num);
 		}else {
-			System.out.println(pNum);
 			ArrayList<String> arr = (ArrayList<String>)(session.getAttribute("nonmem_cart"));
 			for(int i=0; i<arr.size(); i++) {
 				if(arr.get(i).toString().contains(pNum+"")) {
@@ -150,39 +150,46 @@ public class MP1Controller {
 	// 나의 쿠폰 페이지
 	@RequestMapping("mycoupon")
 	public String mycoupon(HttpSession session, Model model) {
-		if(session.getAttribute("userNum") == null) {return "/ex/";}//세션체크
-		int m_num = (Integer)session.getAttribute("userNum");
-		
-		mypageInfo(session, model);
-		
-		// 사용 가능  쿠폰 list 불러오기
-		model.addAttribute("couponlist", mp1Service.getAllCou(m_num));
-		
-		// 쿠폰 사용 내역 list 불러오기 
-		model.addAttribute("usedlist", mp1Service.getUsedCou(m_num));
-		
-		return "mypage/coupon";
+		//세션체크
+		if(session.getAttribute("userNum") == null) {
+			return "member/login";
+		}else {
+			int m_num = (Integer)session.getAttribute("userNum");
+			
+			mypageInfo(session, model);
+			
+			// 사용 가능  쿠폰 list 불러오기
+			model.addAttribute("couponlist", mp1Service.getAllCou(m_num));
+			
+			// 쿠폰 사용 내역 list 불러오기 
+			model.addAttribute("usedlist", mp1Service.getUsedCou(m_num));
+			
+			return "mypage/coupon";
+		}
 	}
 	
 	// 나의 포인트 페이지
 	@RequestMapping("mypoint")
 	public String mypoint(HttpSession session, Model model) {
+		//세션체크
+		if(session.getAttribute("userNum") == null) {
+			return "member/login";
+		}else {
+			int m_num = (Integer)session.getAttribute("userNum");
+			
+			mypageInfo(session, model);
+			
+			// 적립 포인트 총 합
+			model.addAttribute("totalSavePoint", mp1Service.totalSavePoint(m_num));
+			// 포인트 적립 내역 list 가져오기
+			model.addAttribute("savePoint", mp1Service.getSavePoint(m_num));
+			// 사용 포인트 총 합
+			model.addAttribute("totalUsedPoint", mp1Service.totalUsedPoint(m_num));
+			// 포인트 사용 내역 list 가져오기
+			model.addAttribute("usedPoint", mp1Service.getUsedPoint(m_num));
 		
-		if(session.getAttribute("userNum") == null) {return "/ex/";}//세션체크
-		int m_num = (Integer)session.getAttribute("userNum");
-		
-		mypageInfo(session, model);
-		
-		// 적립 포인트 총 합
-		model.addAttribute("totalSavePoint", mp1Service.totalSavePoint(m_num));
-		// 포인트 적립 내역 list 가져오기
-		model.addAttribute("savePoint", mp1Service.getSavePoint(m_num));
-		// 사용 포인트 총 합
-		model.addAttribute("totalUsedPoint", mp1Service.totalUsedPoint(m_num));
-		// 포인트 사용 내역 list 가져오기
-		model.addAttribute("usedPoint", mp1Service.getUsedPoint(m_num));
-		
-		return "mypage/point";
+			return "mypage/point";
+		}
 	}
 	
 	// 위시리스트에 상품 추가
@@ -215,15 +222,18 @@ public class MP1Controller {
 	// 위시리스트 페이지
 	@RequestMapping("wishlist")
 	public String wishlist(HttpSession session, Model model) {
+		//세션체크	
+		if(session.getAttribute("userNum") == null) {
+			return "member/login";
+		}else {
+			int m_num = (Integer)session.getAttribute("userNum");
 			
-		if(session.getAttribute("userNum") == null) {return "/ex/";}//세션체크
-		int m_num = (Integer)session.getAttribute("userNum");
-		
-		mypageInfo(session, model);
-			
-		model.addAttribute("allWishlist", mp1Service.getAllWish(m_num));
-			
-		return "mypage/wishlist";
+			mypageInfo(session, model);
+				
+			model.addAttribute("allWishlist", mp1Service.getAllWish(m_num));
+				
+			return "mypage/wishlist";
+		}
 	}	
 		
 	// 위시리스트 상품 삭제

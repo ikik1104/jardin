@@ -730,7 +730,7 @@
 					<div class="btnArea">
 						<div class="orderCenter">
 							<ul>
-								<li><a href="/ex/" class="nbtnbig iw0140">취소</a></li>
+								<li><a href="main" class="nbtnbig iw0140">취소</a></li>
 								<li><input type="submit" onclick="validate()" class="sbtnMini iw0140" value="주문 / 결제" style="border-style: none;"></li>								
 							</ul>
 						</div>
