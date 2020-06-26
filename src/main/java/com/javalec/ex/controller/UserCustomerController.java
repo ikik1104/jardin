@@ -79,19 +79,14 @@ public class UserCustomerController {
 	//1:1문의 작성 페이지 접속
 	@RequestMapping("inquiryform")
 	public String inquiryform(HttpSession session, Model model) {
-		String userNum = (String)session.getAttribute("userID");
-		String alerttext=""; String realpath="";
-		if(userNum==null) {
+		String userID = (String)session.getAttribute("userID");
+		String alerttext=""; 
+		if(userID==null) {
 			//로그인 안 되어 있을 경우
-			System.out.println(userNum);
-			alerttext="alert('로그인이 필요한 페이지입니다. 로그인 페이지로 이동합니다.');";
-			realpath="member/login";
+			alerttext="alert('로그인이 필요한 페이지입니다. 로그인 페이지로 이동합니다.'); location.href='login?backpath=inquiryform'";
 			model.addAttribute("alerttext", alerttext);
-		} else {
-			//로그인 되어 있을 경우
-			realpath=response_path+"inquiryform";
-		}
-		return realpath;
+		} 
+		return response_path+"inquiryform";
 	}
 	//faq 전체 리스트 불러오기
 	@RequestMapping("faq_all")

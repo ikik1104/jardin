@@ -15,7 +15,7 @@ public class AllDto {
 	private LevelDto leveldto;
 	private ProductDto productdto;
 	private ReceiverDto receiverdto;
-	private FaqDto fapdto;
+	private FaqDto faqdto;
 	private Cou_IssueDto cou_issuedto;
 	private UtilDto utildto;
 	
@@ -104,17 +104,17 @@ public class AllDto {
 	public void setReceiverdto(ReceiverDto receiverdto) {
 		this.receiverdto = receiverdto;
 	}
-	public FaqDto getFapdto() {
-		return fapdto;
-	}
-	public void setFapdto(FaqDto fapdto) {
-		this.fapdto = fapdto;
-	}
 	public Cou_IssueDto getCou_issuedto() {
 		return cou_issuedto;
 	}
 	public void setCou_issuedto(Cou_IssueDto cou_issuedto) {
 		this.cou_issuedto = cou_issuedto;
+	}
+	public FaqDto getFaqdto() {
+		return faqdto;
+	}
+	public void setFaqdto(FaqDto faqdto) {
+		this.faqdto = faqdto;
 	}
 
 	

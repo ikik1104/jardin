@@ -220,7 +220,7 @@ ${event_info.eventdto.e_content }
 					</div>
 
 
-					<!-- 이전다음글 -->
+					<!-- 이전다음글 
 					<div class="pnDiv web">
 						<table summary="이전다음글을 선택하여 보실 수 있습니다." class="preNext" border="1" cellspacing="0">
 							<caption>이전다음글</caption>
@@ -243,11 +243,11 @@ ${event_info.eventdto.e_content }
 								</tr>
 							</tbody>
 						</table>
-					</div>
+					</div>-->
 					<!-- //이전다음글 -->
 
 					<!-- 댓글 전체 리스트 출력 -->
-					<p  style="margin-top:50px; width:100%; height:20px; padding:10px 0; font-size:20px; color:black;">댓글</p>
+					<p class="txt">총 <span class="orange">${ecomment_list.size() }</span> 개의 댓글이 달려있습니다.</p>
 					<div class="replyBox"> <a href='anchor'></a>
 							
 							<!-- 등록된 댓글 없을 경우 -->
@@ -256,9 +256,10 @@ ${event_info.eventdto.e_content }
 										<li class="name">등록된 댓글이 없습니다.</li>
 									</ul>									
 							</c:if>
-							
+						
 							<!-- 등록된 댓글 있을 경우 -->
 							<c:if test="${ecomment_list.size()!=0 }">
+
 							
 								<!--로그인  사용자 댓글 맨 위에 출력 -->
 								<c:forEach var="ecomment_list" items="${ecomment_list }">		

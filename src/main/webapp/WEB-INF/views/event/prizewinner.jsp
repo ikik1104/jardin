@@ -165,8 +165,8 @@ $(document).ready(function() {
 						
 
 
-					<div class="btnAreaList">
-						<!-- 페이징이동1 -->
+					<!--<div class="btnAreaList">
+						 페이징이동1 
 						<div class="allPageMoving1">
 
 						<a href="#" class="n"><img src="user/images/btn/btn_pre2.gif" alt="처음으로"/></a><a href="#" class="pre"><img src="user/images/btn/btn_pre1.gif" alt="앞페이지로"/></a>
@@ -178,7 +178,7 @@ $(document).ready(function() {
 						<a href="#" class="next"><img src="user/images/btn/btn_next1.gif" alt="뒤페이지로"/></a><a href="#" class="n"><img src="user/images/btn/btn_next2.gif" alt="마지막페이지로"/></a>
 
 						</div>
-						<!-- //페이징이동1 -->
+						
 					</div>
 
 					<div class="searchWrap">
@@ -195,7 +195,7 @@ $(document).ready(function() {
 								<li class="mobile"><a href="#"><img src="user/images/btn/btn_search_m.gif" alt="검색" /></a></li>
 							</ul>
 						</div>
-					</div>
+					</div>-->
 					<!-- //포토 구매후기 -->
 
 

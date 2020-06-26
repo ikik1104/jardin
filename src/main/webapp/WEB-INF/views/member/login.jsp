@@ -58,6 +58,8 @@ $(document).ready(function() {
 <!--IE 6,7,8 사용자에게 브라우저 업데이터 설명 Div 관련 스크립트-->
  <script type="text/javascript">
 
+
+ 
      var settimediv = 200000; //지속시간(1000= 1초)
      var msietimer;
 
@@ -172,12 +174,12 @@ $(document).ready(function() {
 			<div id="left">
 				<div id="title2">MEMBERSHIP<span>멤버쉽</span></div>
 				<ul>	
-					<li><a href="#" id="leftNavi1">로그인</a></li>
+					<li><a href="login" id="leftNavi1">로그인</a></li>
 					<li><a href="step01" id="leftNavi2">회원가입</a></li>
-					<li><a href="#" id="leftNavi3">아이디/<span>비밀번호 찾기</span></a></li>
-					<li><a href="#" id="leftNavi4">회원약관</a></li>
-					<li><a href="#" id="leftNavi5">개인정보<span>취급방침</span></a></li>
-					<li class="last"><a href="#" id="leftNavi6">이메일무단<span>수집거부</span></a></li>
+					<li><a href="idsearch" id="leftNavi3">아이디/<span>비밀번호 찾기</span></a></li>
+					<!-- <li><a href="step01" id="leftNavi4">회원약관</a></li>-->
+					<!-- <li><a href="#" id="leftNavi5">개인정보<span>취급방침</span></a></li>
+					<li class="last"><a href="#" id="leftNavi6">이메일무단<span>수집거부</span></a></li> -->
 				</ul>			
 			</div><script type="text/javascript">initSubmenu(1,0);</script>
 
@@ -203,7 +205,7 @@ $(document).ready(function() {
 	
 								<div class="point">
 									<p>아이디와 비밀번호를 잊으셨나요?</p>
-									<a href="#" class="nbtn">아이디/비밀번호 찾기</a>
+									<a href="idsearch" class="nbtn">아이디/비밀번호 찾기</a>
 								</div>
 							</div>
 						</div>

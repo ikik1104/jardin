@@ -144,9 +144,10 @@ $(document).ready(function() {
 					</div>
 					<!-- //list -->
 
-					<div class="btnAreaList">
+					  <!-- 
+					<div class="btnAreaList"> -->
 						<!-- 페이징이동1 -->
-						<div class="allPageMoving1">
+						 <!-- <div class="allPageMoving1">
 
 						<a href="#" class="n"><img src="user/images/btn/btn_pre2.gif" alt="처음으로"/></a><a href="#" class="pre"><img src="user/images/btn/btn_pre1.gif" alt="앞페이지로"/></a>
 						<strong>1</strong>
@@ -156,12 +157,12 @@ $(document).ready(function() {
 						<a href="#">5</a>
 						<a href="#" class="next"><img src="user/images/btn/btn_next1.gif" alt="뒤페이지로"/></a><a href="#" class="n"><img src="user/images/btn/btn_next2.gif" alt="마지막페이지로"/></a>
 
-						</div>
+						</div> -->
 						<!-- //페이징이동1 -->
-					</div>
+					<!--</div>-->
 					
 					<!-- 검색 -->
-					<div class="searchWrap">
+					<!--<div class="searchWrap">
 						<div class="search">
 							<ul>
 								<li class="web"><img src="user/images/txt/txt_search.gif" alt="search" /></li>
@@ -175,7 +176,7 @@ $(document).ready(function() {
 								<li class="mobile"><a href="#"><img src="user/images/btn/btn_search_m.gif" alt="검색" /></a></li>
 							</ul>
 						</div>
-					</div>
+					</div>-->
 					<!-- //검색 -->
 
 				</div>
@@ -185,7 +186,7 @@ $(document).ready(function() {
 		</div>
 
 		<!-- quickmenu -->
-		<div id="quick">
+		<!--  <div id="quick">
 			<div class="cart"><a href="#">장바구니</a></div>
 			<div class="wish">
 				<p class="title">위시 리스트</p>
@@ -219,7 +220,9 @@ $(document).ready(function() {
 			</div>
 
 			<div class="top"><a href="#">TOP&nbsp;&nbsp;<img src="user/images/ico/ico_top.gif" alt="" /></a></div>
-		</div>
+		</div>-->
+		
+		
 		<script type="text/javascript">
 		$(function(){
 			

@@ -249,7 +249,6 @@ function submitUserModify(){
 	       type: "POST",
 	       data:  $("#modify_ecomment").serialize(),
 	       success : function(data){
-	    	   alert(data);
 	           if(data ==null ){//실패
 	        	  alert('댓글을 수정하지 못했습니다. 다시 시도해 주세요.');	
 	           } else if(data !=null){//성공

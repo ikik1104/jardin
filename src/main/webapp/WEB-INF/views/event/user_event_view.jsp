@@ -237,7 +237,7 @@ ${event_info.eventdto.e_content }
 					</div>
 
 
-					<!-- 이전다음글 -->
+					<!-- 이전다음글 
 					<div class="pnDiv web">
 						<table summary="이전다음글을 선택하여 보실 수 있습니다." class="preNext" border="1" cellspacing="0">
 							<caption>이전다음글</caption>
@@ -260,7 +260,7 @@ ${event_info.eventdto.e_content }
 								</tr>
 							</tbody>
 						</table>
-					</div>
+					</div>-->
 					<!-- //이전다음글 -->
 
 

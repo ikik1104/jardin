@@ -132,7 +132,7 @@ $(document).ready(function() {
 								<c:forEach var="fin_event_list" items="${fin_event_list }">
 									<li>
 										<div class="img">
-											<a href="fin_event_view?e_num=${fin_event_list.eventdto.e_num }"><img src="tempUpload/${fin_event_list.eventdto.e_thumb_img }" alt="진행중 이벤트" /></a>
+											<a href="fin_event_view?e_num=${fin_event_list.eventdto.e_num }"><img src="${fin_event_list.eventdto.e_thumb_img }"  alt="진행중 이벤트" /></a>
 										</div>
 										<div class="txt">
 											<div class="subject">
@@ -149,8 +149,8 @@ $(document).ready(function() {
 					</div>
 					<!-- //list -->
 
-					<div class="btnAreaList">
-						<!-- 페이징이동1 -->
+					<!-- <div class="btnAreaList">
+						페이징이동1
 						<div class="allPageMoving1">
 
 						<a href="#" class="n"><img src="user/images/btn/btn_pre2.gif" alt="처음으로"/></a><a href="#" class="pre"><img src="user/images/btn/btn_pre1.gif" alt="앞페이지로"/></a>
@@ -162,10 +162,10 @@ $(document).ready(function() {
 						<a href="#" class="next"><img src="user/images/btn/btn_next1.gif" alt="뒤페이지로"/></a><a href="#" class="n"><img src="user/images/btn/btn_next2.gif" alt="마지막페이지로"/></a>
 
 						</div>
-						<!-- //페이징이동1 -->
+						
 					</div>
 					
-					<!-- 검색 -->
+					<!-- 검색
 					<div class="searchWrap">
 						<div class="search">
 							<ul>
@@ -180,7 +180,7 @@ $(document).ready(function() {
 								<li class="mobile"><a href="#"><img src="user/images/btn/btn_search_m.gif" alt="검색" /></a></li>
 							</ul>
 						</div>
-					</div>
+					</div> -->
 					<!-- //검색 -->
 
 				</div>
