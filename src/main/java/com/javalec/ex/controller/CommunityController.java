@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.javalec.ex.dto.EnjoyCoffeeDto;
 import com.javalec.ex.dto.FaqDto;
 import com.javalec.ex.dto.PageDto;
+import com.javalec.ex.dto.ReviewUserDto;
 import com.javalec.ex.service.AdminBoardService;
 import com.javalec.ex.service.CommunityService;
 import com.javalec.ex.service.ProductService;
@@ -135,15 +137,20 @@ public class CommunityController {
 		return cmService.delReview(ru_num);
 	}
 	
-	//리뷰 수정 폼으로 이동 (팝업창)
-	@RequestMapping("updateReviewForm")
-	public String updateReviewForm(int ru_num,Model model) {
+	
+	//리뷰 수정
+	@ResponseBody
+	@RequestMapping("/updateReview")
+	public int updateReview(Model model, @ModelAttribute ReviewUserDto ruDto) {
 		
-		//리뷰 하나의 정보 가져오기
-		model.addAttribute("dto", cmService.review_detail(ru_num));
+		System.out.println(ruDto.getRu_content());
+		System.out.println(ruDto.getRu_title());
+		System.out.println(ruDto.getRu_num());
+		
 			
-		return "product/updateReviewForm";
+		return cmService.updateReview(ruDto);
 	}
+	
 	
 	
 }

@@ -19,7 +19,31 @@
 <script type="text/javascript">
 $(function() {
 
+	alert(${userNum});
+	
 });
+
+
+	function insert_qna() {
+		$.ajax({
+			  type: 'post',
+			  url:"./inquiry_insert",
+			  data: $("#updateReview").serialize(), // form에 있는 input값을 controller전송
+			  contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+			  success:function(data){
+			   if(data==1){
+			    alert("질문 등록이 완료되었습니다.");
+			    parent.$.fancybox.close();
+			   }
+			   
+			  },
+			  error:function(request,status,error){
+			   alert("실패 : "+error);
+			  }
+			  
+			  });
+	}
+
 </script>
 </head>
 <body>
@@ -31,7 +55,7 @@ $(function() {
 		<div class="title">질문과 답변</div>
 		<p class="close"><a onclick="parent.$.fancybox.close();" href="javascript:;"><img src="user/images/btn/btn_input_close.gif" alt="닫기" /></a></p>
 		
-		<form action="inquiry_insert" method="post" name="inquiry">	
+		<form action="inquiry_insert" method="post" name="inquiry" id="inquiry">	
 		<div class="checkDivMt">
 			<table summary="문의사항을 비밀번호, 제목, 내용 순으로 작성 하실수 있습니다." class="checkTable" border="1" cellspacing="0">
 				<caption>질문과 답변</caption>
@@ -57,7 +81,7 @@ $(function() {
 						<td>
 							<textarea class="tta"  name="qu_content"></textarea>
 							<input type="hidden" name="p_num" value="${p_num}">
-<%-- 							<input type="hidden" name="m_num" value="${m_num}"> --%>
+							<input type="hidden" name="m_num" value="${userNum}">
 						</td>
 					</tr>								
 				</tbody>
@@ -69,7 +93,7 @@ $(function() {
 		<div class="btnArea">
 			<div class="bCenter">
 				<ul>								
-					<li><a href="#" onclick="javascript:inquiry.submit();" class="sbtnMini">확인</a></li>
+					<li><a href="#" onclick="insert_qna()" class="sbtnMini">확인</a></li>
 					<li><a onclick="parent.$.fancybox.close();" href="javascript:;" class="nbtnbig">취소</a></li>
 				</ul>
 			</div>

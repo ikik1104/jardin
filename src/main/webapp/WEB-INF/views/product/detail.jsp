@@ -7,75 +7,28 @@
 <html>
 <head>
     <title> JARDIN SHOP </title>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="description" content="JARDIN SHOP" />
-    <meta name="keywords" content="JARDIN SHOP" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scaleable=no" />
-    <link rel="stylesheet" type="text/css" href="user/css/reset.css?v=Y" />
-    <link rel="stylesheet" type="text/css" href="user/css/layout.css?v=Y" />
-    <link rel="stylesheet" type="text/css" href="user/css/content.css?v=Y" />
-    <script type="text/javascript" src="user/js/jquery.min.js"></script>
-    <script type="text/javascript" src="user/js/top_navi.js"></script>
-    <script type="text/javascript" src="user/js/left_navi.js"></script>
-    <script type="text/javascript" src="user/js/main.js"></script>
-    <script type="text/javascript" src="user/js/common.js"></script>
-    <script type="text/javascript" src="user/js/jquery.easing.1.3.js"></script>
-    <script type="text/javascript" src="user/js/idangerous.swiper-2.1.min.js"></script>
-    <script type="text/javascript" src="user/js/jquery.anchor.js"></script>
-    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-    <!--[if lt IE 9]>
-    <script type="text/javascript" src="user/js/html5.js"></script>
-    <script type="text/javascript" src="user/js/respond.min.js"></script>
-    <![endif]-->
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="description" content="JARDIN SHOP" />
+	<meta name="keywords" content="JARDIN SHOP" />
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scaleable=no" />
+	<link rel="stylesheet" type="text/css" href="user/css/reset.css?v=Y" />
+	<link rel="stylesheet" type="text/css" href="user/css/layout.css?v=Y" />
+	<link rel="stylesheet" type="text/css" href="user/css/content.css?v=Y" />
+	<script type="text/javascript" src="user/js/jquery.min.js"></script>
+	<script type="text/javascript" src="user/js/top_navi.js"></script>
+	<script type="text/javascript" src="user/js/left_navi.js"></script>
+	<script type="text/javascript" src="user/js/main.js"></script>
+	<script type="text/javascript" src="user/js/common.js"></script>
+	<script type="text/javascript" src="user/js/jquery.easing.1.3.js"></script>
+	<script type="text/javascript" src="user/js/idangerous.swiper-2.1.min.js"></script>
+	<script type="text/javascript" src="user/js/jquery.anchor.js"></script>
     <script type="text/javascript">$(function(){$(".detailTab ul li a:eq(${initVal})").click();});</script>
     <script type="text/javascript">
+    $(document).ready(function() {
 
-        //일반리뷰 페이지 이동
-        function basicPaging() {
-            var val = [$("#p_num").val(),$("#ca_amount").val()];
+    });
 
-            $.ajax({
-                type : "POST",
-                url : "cart_insert",
-                data: JSON.stringify(val),
-                contentType: "application/json",
-                success : function(val){
-                    if(val == 1){ //리턴값이 1이면 (=성공)
-                        alert("해당제품을 장바구니에 담았습니다.");
-                    }else{ // 0이면 실패
-                        alert("장바구니에 담기 실패");
-                    }
-                },
-                error : function(){
-                    alert("서버통신실패");
-                }
-            });
-        }
-
-       
-
-        //답변 페이징 이동
-        function qnaPaging() {
-            var val = [$("#p_num").val(),$("#ca_amount").val()];
-
-            $.ajax({
-                type : "POST",
-                url : "cart_insert",
-                data: JSON.stringify(val),
-                contentType: "application/json",
-                success : function(val){
-                    if(val == 1){ //리턴값이 1이면 (=성공)
-                        alert("해당제품을 장바구니에 담았습니다.");
-                    }else{ // 0이면 실패
-                        alert("장바구니에 담기 실패");
-                    }
-                },
-                error : function(){
-                    alert("서버통신실패");
-                }
-            });
-        }
 
         //장바구니에 담기
 function cart_insert() {
@@ -162,13 +115,48 @@ function addWishlist(p_num){
 	
 }
 
-
-</script>
+		function basicUpdate(num,content,title) {
+			var html = "";
+			html += "<form name='updateReview' id='updateReview' method='post'>";
+			html += "제목 : <input type='text' name='ru_title' value='"+title+"'><br>";
+			html += "<input type='hidden' name='ru_num' value='"+num+"'>";
+			html += "내용 : <br><textarea rows='5' cols='50' name='ru_content'>"+content+"</textarea><br>";
+			html += "<button type='button' onclick='updateReviewAjax()'>취소</button> <button type='button' onclick='back(\""+content+"\",\""+title+"\")'>취소</button></form>";
+			$("#review_title").html(html);
+			$("#reviewModify").css("display", "none");
+		}
+		
+		function back(content, title){
+			$("#review_title").html(title);
+			$("#review_content").html(content);
+			$("#reviewModify").css("display", "block");
+		}
+	
+    	
+		//ajax리뷰 업데이트
+		function updateReviewAjax() {
+			$.ajax({
+				  type: 'post',
+				  url:"./updateReview",
+				  data: $("#updateReview").serialize(), // form에 있는 input값을 controller전송
+				  contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+				  success:function(data){
+				   if(data==1){
+				    alert("리뷰 수정이 완료되었습니다.");
+				    location.reload(true);
+				   }
+				   
+				  },
+				  error:function(request,status,error){
+				   alert("실패 : "+error);
+				  }
+				  
+				  });
+		}
+        
+    </script>
 </head>
 <body>
-
-<table><tr><td>제목 </td><td><input type='text' name='ru_title' value='title'></td></tr>
-<tr><td>내용</td><td><textarea rows='5' cols='50' name='ru_content'>content</textarea></td></tr></table>
 
 <!--익스레이어팝업-->
 <div id="ieUser" style="display:none">
@@ -495,6 +483,9 @@ function addWishlist(p_num){
                     <div class="goodsReview disnone">
                         <div class="headTitle">
                             <strong>포토 상품평&nbsp;</strong> 포토 상품평 작성자 중 우수상품평을 선정해 소정의 선물을 드립니다.
+                            <c:if test="${not empty userNum}">
+	                        	<p class="btn"><a href="ordercheck" >포토 상품평 작성</a></p>
+                            </c:if>
                         </div>
 
 
@@ -579,6 +570,9 @@ function addWishlist(p_num){
                         <!-- //포토 구매후기 -->
                         <div class="headTitle depth">
                             <strong>상품리뷰&nbsp;</strong>상품리뷰는 상품 구매 후 작성하실 수 있습니다.
+                            <c:if test="${not empty userNum}">
+	                        	<p class="btn"><a href="ordercheck" >구매 후기 작성</a></p>
+	                        </c:if>
                         </div>
 
                         <!-- 상품리뷰 -->
@@ -631,7 +625,7 @@ function addWishlist(p_num){
 		 											</c:if>
 		
 													<c:if test="${basic.M_NUM == userNum}">
-		                                            <div class="modify">
+		                                            <div class="modify" id="reviewModify">
 		                                                <a onclick="basicUpdate('${basic.RU_NUM}','${basic.RU_CONTENT}','${basic.RU_TITLE}')">수정</a>
 		                                                <a onclick="basicDelete(${basic.RU_NUM})">삭제</a>
 		                                            </div>
@@ -691,7 +685,9 @@ function addWishlist(p_num){
                     <div class="goodsQna disnone">
                         <div class="headTitle depth">
                             <strong>질문과 답변&nbsp;</strong>상품과 관련된 문의와 답변을 하는 공간입니다.
-                            <p class="btn"><a href="inquiry_form?p_num=${pdto.p_num}" class="popBtn">문의하기</a></p>
+                            <c:if test="${not empty userNum}">
+	                            <p class="btn"><a href="inquiry_form?p_num=${pdto.p_num}" class="popBtn">문의하기</a></p>
+                            </c:if>
                         </div>
 
                         <!-- 질문과 답변 -->
@@ -952,18 +948,6 @@ function addWishlist(p_num){
                             var layerCheck = 320;
                             var popCheck = 320;
                         }
-                        $(".passbtn").fancybox({
-                            'autoDimensions'    : false,
-                            'showCloseButton'   : false,
-                            'width' : layerCheck,
-                            'padding' : 0,
-                            'type'         : 'iframe',
-                            'onComplete' : function() {
-                                $('#fancybox-frame').load(function() { // wait for frame to load and then gets it's height
-                                    $('#fancybox-content').height($(this).contents().find('body').height());
-                                });
-                            }
-                        });
 
                         $(".popBtn").fancybox({
                             'autoDimensions'    : false,

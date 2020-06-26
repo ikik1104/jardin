@@ -54,6 +54,9 @@ public interface CommunityService {
 
 	//리뷰 삭제하기
 	int delReview(int ru_num);
+	
+	//일반 리뷰 수정하기
+	int updateReview(ReviewUserDto ruDto);
 
 
 

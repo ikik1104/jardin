@@ -94,4 +94,9 @@
 		delete from review_user_tb where ru_num = #{ru_num}
 	</delete>
 	
+	<!-- 일반리뷰 수정하기 -->
+	<update id="updateReview" parameterType="com.javalec.ex.dto.ReviewUserDto">
+		update review_user_tb set ru_title = #{ru_title}, ru_content=#{ru_content} where ru_num = #{ru_num}
+	</update>
+	
 </mapper>

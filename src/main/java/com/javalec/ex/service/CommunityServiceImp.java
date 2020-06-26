@@ -107,6 +107,12 @@ public class CommunityServiceImp implements CommunityService {
 		return cmDao.delReview(ru_num);
 	}
 
+	//일반 리뷰 수정하기
+	@Override
+	public int updateReview(ReviewUserDto ruDto) {
+		return cmDao.updateReview(ruDto);
+	}
+
 	
 	
 }

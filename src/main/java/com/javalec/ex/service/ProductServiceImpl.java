@@ -156,8 +156,8 @@ public class ProductServiceImpl implements ProductService {
 
 	//질문과 답변
 	@Override
-	public void inquiry_insert(QnrUserDto quDto) {
-		pDao.inquiry_insert(quDto);
+	public int inquiry_insert(QnrUserDto quDto) {
+		return pDao.inquiry_insert(quDto);
 	}
 
 	//질문과 답변 가져오기

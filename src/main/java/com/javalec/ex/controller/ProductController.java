@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -211,7 +212,7 @@ public class ProductController {
 	*/
 	//제품 상세보기 페이지로!
 	@RequestMapping("product_detail")
-	public String product_detail(int p_num,  Model model,HttpServletRequest request,PageDto pageDto,
+	public String product_detail(int p_num,  Model model,HttpServletRequest request,PageDto pageDto,HttpSession session,
 		@RequestParam(value = "p_page", defaultValue = "1") String p_page,
 		@RequestParam(value = "b_page", defaultValue = "1") String b_page,
 		@RequestParam(value = "q_page", defaultValue = "1") String q_page,
@@ -251,6 +252,9 @@ public class ProductController {
 		model.addAttribute("reviewCount", (pService.pageReviewCount("포토", p_num)+pService.pageReviewCount("일반", p_num)));
 		model.addAttribute("qnaCount", qna_total);
 		model.addAttribute("initVal", initVal);
+		
+		System.out.println(session.getAttribute("userNum"));
+		
 		
 		return "product/detail";
 	}
@@ -309,7 +313,9 @@ public class ProductController {
 	
 	//☆★☆★☆★☆★☆★☆★☆★☆★ 리뷰 입력폼으로 20/06/10 임시 ☆★☆★☆★☆★☆★☆★☆★☆★
 	@RequestMapping("review_insertForm")
-	public String review_insertForm(int p_num, int m_num ,Model model) {
+	public String review_insertForm(int p_num, int m_num ,Model model,HttpSession session) {
+		if(session.getAttribute("userNum") == null) {return "redirect:product_detail?p_num="+p_num;}
+		else {model.addAttribute("userNum", session.getAttribute("userNum"));}
 		
 		//유저의 정보는 세션에서 가져오고..
 		//해당 제품의 정보는 가져와여한다.
@@ -343,13 +349,12 @@ public class ProductController {
 	}
 	
 	//문의하기 insert
+	@ResponseBody
 	@RequestMapping("inquiry_insert")
-	public String inquiry_form(QnrUserDto quDto, Model model) {
+	public int inquiry_form(@ModelAttribute QnrUserDto quDto, Model model) {
+		System.out.println(quDto.getM_num());
 		
-		//m_num 세션으로 받을지....
-		pService.inquiry_insert(quDto);
-		
-		return "product/inquiry";
+		return pService.inquiry_insert(quDto);
 	}
 	
 	//장바구니로 이동~~~!~!!~
