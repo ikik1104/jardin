@@ -134,7 +134,7 @@ $(document).ready(function() {
 										<a href="user_event_view?e_num=${event_list.eventdto.e_num }"><img style="width:668px; height:198px;" src="${event_list.eventdto.e_thumb_img }" alt="진행중 이벤트" /></a>
 									</div>
 									<div class="txt">
-										<div class="subject">${event_list.eventdto.e_title }</div>
+										<div class="subject"  style="overflow:hidden; text-overflow:ellipsis; width:420px; white-space:pre;">${event_list.eventdto.e_title }</div>
 										<div class="day">이벤트 기간 : ${event_list.utildto.str1 } ~ ${event_list.utildto.str2 }</div>
 									</div>
 								</li>						

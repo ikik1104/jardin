@@ -246,7 +246,7 @@
 						<tr>
 							<th class="notice_th">당첨자 발표일</th>
 							<td>
-							<input type="date" name="str7" onchange="date_chk2(this.value)" >
+							<input type="date" name="str7" >
 							</td>
 						</tr>
 					</table>

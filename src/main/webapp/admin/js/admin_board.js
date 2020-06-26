@@ -355,11 +355,6 @@
 			}
 			
 			
-			if(win=='' || win==null || win==undefined){
-				alert('당첨 발표 날짜를 선택해 주세요.');
-				return false;
-			}
-			
 			
 			if($('#byte_excess').val()=='on'){
 				alert('제목 최대 입력 글자 수를 초과했습니다.');
