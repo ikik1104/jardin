@@ -45,10 +45,6 @@ public class UserLayoutController {
 		MainBannerDto mbdto2 = amServ.selectMainBanners();
 		model.addAttribute("mbdto", mbdto2);
 		//플롯 메뉴 위시리스트  가져오기
-		String m_num = (String) session.getAttribute("userNum");
-		if(m_num != null) {
-			//아직 구현중
-		}
 		return response_path+"main";
 	}
 	
