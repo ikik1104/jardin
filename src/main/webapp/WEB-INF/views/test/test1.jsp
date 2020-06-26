@@ -30,6 +30,34 @@
 
 </head>
 <body>
+								<input type="hidden" name="originStart" value="${coupon_info.utildto.str1 }">
+								<input type="hidden" name="originEnd" value="${coupon_info.utildto.str2 }">
+
+<script>
+	if(inputform.str1.value==null || inputform.str1.value==undefined || inputform.str1.value=='' || inputform.str1.value==inputform.originStart.value){
+		//시작일 수정 안 할 경우
+		inputform.str1.value=inputform.originStart.value;
+	}
+	if(inputform.str2.value==null || inputform.str2.value==undefined || inputform.str2.value==''){
+		//종료일 수정 안 할 경우
+		inputform.str2.value=inputform.originEnd.value;
+	}
+	if(inputform.co_expiry.value==null || inputform.co_expiry.value==undefined || inputform.co_expiry.value=='' || inputform.co_expiry.value=='-'){
+		//유효기간 수정 안 할 경우
+		inputform.co_expiry.value=inputform.originExpiry.value;
+	}	
+	if(inputform.co_type.value=='none' || inputform.co_type.value== inputform.coType.value ){
+		//쿠폰타입 수정 안 할 경우
+		inputform.co_type.value=inputform.coType.value;
+	}	
+	if(inputform.co_product.value=='0' || inputform.co_product.value==0 || inputform.co_product.value==inputform.originProduct.value){
+		//적용상품 수정 안 할 경우
+		inputform.co_product.value=inputform.originProduct.value;
+	}	
+
+</script>
+
+
 
 					<!-- 등록된 1:1문의 없을 경우 -->
 					<c:if test="${mtm_list.size()==0 }">

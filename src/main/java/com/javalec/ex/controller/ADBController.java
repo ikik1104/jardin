@@ -230,20 +230,28 @@ public class ADBController {
 	//이벤트 새글 1개 등록
 	@PostMapping("event_insert")
 	public String event_insert(Model model, UtilDto utilDto, MultipartFile content_img, MultipartFile thumb_img) throws IOException{
-		String alerttext="";
+		System.out.println(content_img);
+		System.out.println(thumb_img);
 		
+		String alerttext="";
+		System.out.println("머가 문제니1");
 		utilDto.setStr3(utils.FileUploaderCDN(thumb_img, "event/"));
 		
 		//관리자가 등록 안 한 이미지 처리
 		if(content_img.isEmpty()==false) {
+			System.out.println("머가 문제니2");
 		utilDto.setStr4(utils.FileUploaderCDN(content_img, "event/"));
 		}
 		
 		if(utilDto.getStr8()==null || utilDto.getStr8().equals("")) {
 			//쿠폰 등록 안 할 때
+			System.out.println("머가 문제니3");
 			utilDto.setStr8("null");
 		}
+		System.out.println("머가 문제니4");
 		int success = adbservice.insertEventBoard(utilDto);
+		System.out.println("머가 문제니5");
+		System.out.println(success);
 		
 		if(success==0) alerttext="alert('새 글을 등록하지 못했습니다. 다시 시도해 주세요.'); history.go(-1);";
 		if(success==1) alerttext="alert('새 글을 등록했습니다.'); location.href='event_list';";
@@ -276,6 +284,10 @@ public class ADBController {
 			@RequestParam("original_content") String original_content,
 			MultipartFile new_thumb, MultipartFile new_content
 			)  throws IOException{	
+		
+		System.out.println("들어옴");
+		System.out.println("new_thumb:"+new_thumb);
+		System.out.println( "new_content:"+new_content);
 		
 		//수정하지 않은 항목 있을 경우 기존값 넣어주기
 		if(new_thumb.isEmpty()==true) {

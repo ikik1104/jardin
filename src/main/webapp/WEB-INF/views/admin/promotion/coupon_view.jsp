@@ -59,11 +59,11 @@
 			if(val=="product"){//상품 쿠폰일 경우 상품 선택창 출력
 				$("#product_1").show();	
 				$("#product_0").hide();	
-				$( 'input#is_product').val('1');					
+				//$( 'input#is_product').val('1');					
 			}else if(val!="product"){//배송비, 장바구니 쿠폰일 경우
 				$("#product_1").hide();	
 				$("#product_0").show();	
-				$( 'input#is_product').val('0');			
+				//$( 'input#is_product').val('0');			
 			}
 		}		
 		
@@ -176,13 +176,17 @@
 						<tr id="original">
 								<td>기존 쿠폰 사용 기간</td>
 								<td id="original_date">${coupon_info.utildto.str1 } ~ ${coupon_info.utildto.str2 }</td>
-								<td  id="original_expiry">다운로드 일부터 ${coupon_info.utildto.str3 }일 까지</td>				
+								<td  id="original_expiry">다운로드 일부터 ${coupon_info.utildto.str3 }일 까지	
+								<input type="hidden" name="originStart" value="${coupon_info.utildto.str1 }">
+								<input type="hidden" name="originEnd" value="${coupon_info.utildto.str2 }">
+								</td>
 						</tr>						
 						<tr>
 							<td>쿠폰 사용기간 유형 변경</td>
 							<td>
 								<input type="radio" name="co_select" value="expiry_1" onchange="radio(this.value)" > 쿠폰을 다운로드 한 날짜부터의 유효기간을 지정합니다.<br>
 								<input type="radio" name="co_select" value="expiry_0" onchange="radio(this.value)" > 쿠폰 사용 종요일을 최종 사용일로 지정합니다.(사용 기간 쿠폰종료일 까지)
+								
 							</td>
 						</tr>		
 						<tr>
@@ -190,7 +194,9 @@
 								<fmt:formatDate var="sys" value="${sysdate}" pattern="yyyy-MM-dd"/>
 								<td id="date_set">시작일 : <input type="date" name="str1"  value="${sys}" onchange="date_chk1()"> ~ 
 								종료일 : <input type="date" name="str2" onchange="date_chk1()" ></td>
-								<td  id="expiry_set">다운로드 일부터 <textarea  maxlength="3" name="co_expiry" >${coupon_info.utildto.str3 }</textarea>일 까지</td>
+								<td  id="expiry_set">다운로드 일부터 <textarea  maxlength="3" name="co_expiry" >${coupon_info.utildto.str3 }</textarea>일 까지
+								<input type="hidden" name="originExpiry" value="${coupon_info.utildto.str3 }">
+								</td>
 						</tr>
 						<tr >
 							<td> 기존 쿠폰 타입</td>
@@ -220,12 +226,18 @@
 									[${coupon_info.coupondto.co_product }]${coupon_info.productdto.p_name }
 								</td>
 							</c:if>							
-						</tr>								
+						</tr>				
+						<script>
+							function checkProChange(){
+								inputform.pro_change_sign.value='on';
+							}
+							
+						</script>				
 						<tr>
 							<td  id="product_select">적용 상품 변경</td>
 							<td id="product_0">지정 안 함</td>
 							<td  id="product_1">
-								<select name="co_product">
+								<select name="co_product" onclick="checkProChange()">
 									<option value="0">선택 안 함</option>
 									<c:forEach var="product_list" items="${product_list }">
 										<option value=${product_list.productdto.p_num }>[${product_list.productdto.p_num}]${product_list.productdto.p_name }</option>
@@ -233,6 +245,8 @@
 								</select>
 							</td>
 						</tr>						
+						
+						
 						<tr >
 							<td>할인금액</td>
 							<td><textarea maxlength="5" name="co_discount">${coupon_info.coupondto.co_discount }</textarea>원 할인</td>
@@ -248,11 +262,48 @@
 						
 					<div id="btn_div">
 						<button type="button" onclick="location.href='ad_coupon_list'">목록</button>
-						<button type="submit">수정</button>	
+						<button type="button" onclick="submitCheck()" >수정</button>	
 						<button type="button" onclick="del_check(${coupon_info.coupondto.co_num})">삭제</button>							
 					</div>
 				</div>
+				
+				<c:if test="${coupon_info.coupondto.co_product==0 ||  coupon_info.coupondto.co_product==null}">
+					<input type="hidden" name="originProduct" value="0"  id="originProduct" >									
+				</c:if>
+				<c:if test="${coupon_info.coupondto.co_product!=0 ||  coupon_info.coupondto.co_product!=null}">
+					<input type="hidden" name="originProduct" value="${coupon_info.coupondto.co_product}"  id="originProduct" >									
+				</c:if>	
+				
 			</form>
+			<script type="text/javascript">
+				function submitCheck(){
+					if(inputform.str1.value==null || inputform.str1.value==undefined || inputform.str1.value=='' || inputform.str1.value==inputform.originStart.value){
+						//시작일 수정 안 할 경우
+						inputform.str1.value=inputform.originStart.value;
+					}
+					
+					if(inputform.str2.value==null || inputform.str2.value==undefined || inputform.str2.value==''){
+						//종료일 수정 안 할 경우
+						inputform.str2.value=inputform.originEnd.value;
+					}
+					if(inputform.co_expiry.value==null || inputform.co_expiry.value==undefined || inputform.co_expiry.value=='' || inputform.co_expiry.value=='-'){
+						//유효기간 수정 안 할 경우
+						inputform.co_expiry.value=inputform.originExpiry.value;
+					}	
+					if(inputform.co_type.value=='none' || inputform.co_type.value== inputform.coType.value ){
+						//쿠폰타입 수정 안 할 경우
+						inputform.co_type.value=inputform.coType.value;
+					}	
+					if(inputform.co_product.value==0 || inputform.co_product.value=='0' || inputform.co_product.value== inputform.originProduct.value){
+						//적용상품 수정 안 할 경우
+						inputform.co_product.value=$('#originProduct').val();
+						
+					}	
+					
+					inputform.submit();
+					
+				}
+			</script>
 	</section>
 	</body>
 </html>

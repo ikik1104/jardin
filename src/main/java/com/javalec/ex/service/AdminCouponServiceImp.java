@@ -53,21 +53,25 @@ public class AdminCouponServiceImp implements AdminCouponService {
 
 	//유효기간만 설정된 상품 쿠폰 수정
 	public int modifyExpiryProCoupon(CouponDto couponDto) {
+		System.out.println("유효기간 상품 쿠폰");
 		return admincoupondao.modifyExpiryProCoupon(couponDto);
 	}
 
 	//유효기간만 설정된 미상품 쿠폰 수정
 	public int modifyExpiryCoupon(CouponDto couponDto) {
+		System.out.println("유효기간 미상품 쿠폰");
 		return admincoupondao.modifyExpiryCoupon(couponDto);
 	}
 
 	//사용 시작일, 종료일 설정된 상품 쿠폰 수정
 	public int modifyDateProCoupon(CouponDto couponDto, UtilDto utilDto) {
+		System.out.println("기간제 상품 쿠폰");
 		return admincoupondao.modifyDateProCoupon(couponDto, utilDto);
 	}
 
 	//사용 시작일, 종료일 설정된 미상품 쿠폰 수정
 	public int modifyDateCoupon(CouponDto couponDto, UtilDto utilDto) {
+		System.out.println("기간제 미상품 쿠폰");
 		return admincoupondao.modifyDateCoupon(couponDto, utilDto);
 	}
 

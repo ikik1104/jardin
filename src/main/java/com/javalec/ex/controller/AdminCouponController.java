@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -82,27 +83,46 @@ public class AdminCouponController {
 	}
 	
 	//쿠폰 1개 수정
-	@RequestMapping("coupon_modify")
-	public String coupon_modify(CouponDto couponDto, UtilDto utilDto,
-			@RequestParam("co_select") String co_select, @RequestParam("is_product") int is_product,
-			@RequestParam("coType") String coType,
+	@PostMapping("coupon_modify")
+	public String coupon_modify(UtilDto utilDto,
+			@RequestParam("co_name") String co_name, @RequestParam("co_select") String co_select,
+			@RequestParam("co_expiry") String co_expiry, @RequestParam("co_type") String co_type, 
+			@RequestParam("co_product") String co_product, @RequestParam("co_discount") String co_discount,
+			@RequestParam("co_condition") String co_condition, @RequestParam("is_product") String is_product, 
+			@RequestParam("co_num") int co_num,
 			Model model) {
-		//수정 안 한 항목 체크
-		if(couponDto.getCo_type().equals("none")) couponDto.setCo_type(coType);//쿠폰 타입
+		CouponDto couponDto = new CouponDto();
+		
+		System.out.println(utilDto.getStr1());System.out.println(utilDto.getStr2());
+		
+		//변수 형변환, couponDto에 주입
+		couponDto.setCo_name(co_name);
+		
+		if(!(co_expiry.equals("-"))) {
+		couponDto.setCo_expiry(Integer.parseInt(co_expiry));
+		}
+		couponDto.setCo_type(co_type);
+		couponDto.setCo_product(Integer.parseInt(co_product));
+		couponDto.setCo_discount(Integer.parseInt(co_discount));
+		couponDto.setCo_condition(Integer.parseInt(co_condition));
+		couponDto.setCo_num(co_num);
+		
+		System.out.println("co_select : "+co_select);System.out.println("is_product : "+is_product);
+	
 		
 		int success = 0;
-		if(co_select.equals("expiry_1")&&is_product==1) {//유효기간만 설정된 상품 쿠폰 등록
+		if(co_select.equals("expiry_1")&&!(co_product.equals("0"))) {//유효기간만 설정된 상품 쿠폰 등록
 			System.out.println("유효기간만 설정된 상품 쿠폰 등록");
 			success = cpservice.modifyExpiryProCoupon(couponDto);}
-		if(co_select.equals("expiry_1")&&is_product==0) { //유효기간만 설정된 미상품 쿠폰 등록
+		if(co_select.equals("expiry_1")&&co_product.equals("0")) { //유효기간만 설정된 미상품 쿠폰 등록
 			System.out.println("유효기간만 설정된 미상품 쿠폰 등록");
 			success = cpservice.modifyExpiryCoupon(couponDto);}
-		if(co_select.equals("expiry_0")&&is_product==1) {//사용 시작일, 종료일 설정된 상품 쿠폰 등록
+		if(co_select.equals("expiry_0")&&!(co_product.equals("0"))) {//사용 시작일, 종료일 설정된 상품 쿠폰 등록
 			System.out.println("사용 시작일, 종료일 설정된 상품 쿠폰 등록");
 			System.out.println(couponDto.getCo_name());
 			System.out.println(utilDto.getStr1());
 			success = cpservice.modifyDateProCoupon(couponDto, utilDto);		}
-		if(co_select.equals("expiry_0")&&is_product==0) {//사용 시작일, 종료일 설정된 미상품 쿠폰 등록
+		if(co_select.equals("expiry_0")&&co_product.equals("0")) {//사용 시작일, 종료일 설정된 미상품 쿠폰 등록
 			System.out.println("사용 시작일, 종료일 설정된 미상품 쿠폰 등록");
 			success = cpservice.modifyDateCoupon(couponDto, utilDto);	}			
 		
