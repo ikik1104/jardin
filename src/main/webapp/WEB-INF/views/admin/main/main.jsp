@@ -85,6 +85,7 @@
     <style>
     .banners{ width: 100px;}
     .bannerImg{margin-top: 41px;}
+    .small_box{border-bottom : 1px solid #e2e2e2; margin-bottom: 20px; padding-bottom: 20px;}
     </style>
 </head>
 <body>
@@ -93,7 +94,7 @@
     <section>
         <h1>메인 디자인 관리</h1>
         <div id="main_list">
-            <div id="roll_bann">
+            <div id="roll_bann" class="small_box">
                 <h2>메인 롤배너</h2>
                     <form id="main_banner" method="post" enctype="multipart/form-data" action="">
                         <input type="hidden" id="config1" name="config" value="config1"><br>
@@ -114,17 +115,19 @@
                         <img class="banners" src="${ mbdto.getB_4() }">
                     </div>
             </div>
-            <div id="middle_bann">
-                <h2>중간배너 - 왼</h2>
-                <form id="middle_banner" method="post" enctype="multipart/form-data" action="">
-                    <input type="hidden" id="config2" name="config" value="config2"><br>
-                    <input type="file" id="mid_left" name="mid_left">
-                    <a href="javascript:uploadFile_mid();">등록</a>
-                    <div class="bannerImg">
-                        <span>왼쪽배너</span>
-                        <img class="banners" src="${ left }">
-                    </div>
-                </form>
+            <div id="middle_bann" class="small_box">
+                <div class="small_box">
+                    <h2>중간배너 - 왼</h2>
+                    <form id="middle_banner" method="post" enctype="multipart/form-data" action="">
+                        <input type="hidden" id="config2" name="config" value="config2"><br>
+                        <input type="file" id="mid_left" name="mid_left">
+                        <a href="javascript:uploadFile_mid();">등록</a>
+                        <div class="bannerImg">
+                            <span>왼쪽배너</span>
+                            <img class="banners" src="${ left }">
+                        </div>
+                    </form>
+                </div>
                 <h2>중간배너 - 오</h2>
                 <form id="middle_banner2" method="post" enctype="multipart/form-data" action="">
                     <input type="hidden" id="config3" name="config" value="config3"><br>
