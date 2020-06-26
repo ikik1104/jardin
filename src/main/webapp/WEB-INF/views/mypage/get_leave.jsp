@@ -160,7 +160,7 @@ $(document).ready(function() {
 
 		<div id="location">
 			<ol>
-				<li><a href="#">HOME</a></li>
+				<li><a href="main">HOME</a></li>
 				<li><a href="#">MY PAGE</a></li>
 				<li class="last">회원 탈퇴</li>
 			</ol>

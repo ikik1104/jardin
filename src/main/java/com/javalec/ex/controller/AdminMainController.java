@@ -37,6 +37,9 @@ public class AdminMainController {
 		//중간왼쪽배너
 		String file_name = amServ.selectMl();
 		model.addAttribute("left", file_name);
+		//중간오른쪽배너
+		String file_name2 = amServ.selectMr();
+		model.addAttribute("right", file_name2);
 		return "admin/main/main";
 	}
 	

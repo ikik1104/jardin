@@ -116,7 +116,7 @@ $(document).ready(function() {
 
 		<div id="location">
 			<ol>
-				<li><a href="#">HOME</a></li>
+				<li><a href="main">HOME</a></li>
 				<li><a href="#">MY PAGE</a></li>
 				<li class="last">주문/배송 조회</li>
 			</ol>
@@ -162,7 +162,9 @@ $(document).ready(function() {
                                     <c:forEach var="plist" items="${ plist }">
                                         <tr>
                                             <td class="left">
+                                            <a href="product_detail?p_num=${ plist.P_NUM }">
                                                 ${ plist.P_NAME }
+                                            </a>
                                             </td>
                                             <td class="pnone">${ plist.OL_AMT } 개</td>
                                             <td class="pnone">${ plist.P_PRICE } 원</td>

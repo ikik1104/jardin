@@ -101,7 +101,7 @@ $(document).ready(function() {
 
 		<div id="location">
 			<ol>
-				<li><a href="#">HOME</a></li>
+				<li><a href="main">HOME</a></li>
 				<li><a href="#">비회원 주문조회</a></li>
 				<li class="last">반품/교환 현황</li>
 			</ol>
@@ -111,7 +111,7 @@ $(document).ready(function() {
 			<div id="left">
 				<div id="title">비회원<br/>주문조회</div>
 				<ul>	
-					<li><a href="nonmember_ordercheck?orderNum=${ rtrflist[0].OL_ORDER_NUM }&orderName=${ orderer }" id="leftNavi1">비회원 주문조회</a></li>
+					<li><a href="nonmember_ordercheck?orderNum=${ orderNum }&orderName=${ orderer }" id="leftNavi1">비회원 주문조회</a></li>
 					<li class="last"><a href="#" id="leftNavi2">반품/교환 현황</a></li>
 				</ul>			
 			</div><script type="text/javascript">initSubmenu(2,0);</script>
@@ -147,7 +147,7 @@ $(document).ready(function() {
                                         <tr>
                                             <td>
                                                 <p class="day">${ rtrf.RT_RECEIPT_DATE }</p>
-                                                <a href="my_order_statement?ol_order_num=${ rtrf.OL_ORDER_NUM }"><p class="orderNum">${ rtrf.OL_ORDER_NUM }</p></a>
+                                                <a href="non_order_statement?ol_order_num=${ rtrf.OL_ORDER_NUM }&orderer=${ orderer }"><p class="orderNum">${ rtrf.OL_ORDER_NUM }</p></a>
                                             </td>
                                             <td class="tnone"><span class="heavygray">${ rtrf.RT_SORT }</span></td>
                                             <td class="left">
