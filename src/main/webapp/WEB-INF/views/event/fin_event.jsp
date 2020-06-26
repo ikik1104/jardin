@@ -109,9 +109,9 @@ $(document).ready(function() {
 			<div id="left">
 				<div id="title2">EVENT<span>이벤트</span></div>
 				<ul>	
-					<li><a href="#" id="leftNavi1">진행중 이벤트</a></li>
-					<li><a href="#" id="leftNavi2">종료된 이벤트</a></li>
-					<li class="last"><a href="#" id="leftNavi3">당첨자 발표</a></li>
+					<li style="cursor:pointer;"><a href="event" id="leftNavi1">진행중 이벤트</a></li>
+					<li style="cursor:pointer;"><a href="fin_event" id="leftNavi2">종료된 이벤트</a></li>
+					<li class="last" style="cursor:pointer;"><a href="prizewinner" id="leftNavi3">당첨자 발표</a></li>
 				</ul>			
 			</div><script type="text/javascript">initSubmenu(2,0);</script>
 
@@ -125,49 +125,26 @@ $(document).ready(function() {
 					<div class="eventList">
 						<ul>
 							<!-- 반복 -->
-							<li>
-								<div class="img">
-									<a href="#"><img src="user/images/img/sample_event.jpg" alt="진행중 이벤트" /></a>
-								</div>
-								<div class="txt">
-									<div class="subject">
-										<span class="finishbtn">종료</span>&nbsp;
-										까페모리 봄바람 커피한잔 30% 할인 이벤트!!까페모리 봄바람 커피한잔 30% 할인 이벤트!!
-									</div>
-									<div class="day">이벤트 기간 : 2014-04-01 ~ 2014-04-29</div>
-								</div>
-							</li>
+							<c:if test="${list_size==0 }">
+								<li style="text-align:center; font-size:16px;">종료된 이벤트가 없습니다.</li>
+							</c:if>
+							<c:if test="${list_size!=0 }">
+								<c:forEach var="fin_event_list" items="${fin_event_list }">
+									<li>
+										<div class="img">
+											<a href="fin_event_view?e_num=${fin_event_list.eventdto.e_num }"><img src="tempUpload/${fin_event_list.eventdto.e_thumb_img }" alt="진행중 이벤트" /></a>
+										</div>
+										<div class="txt">
+											<div class="subject">
+												<span class="finishbtn">종료</span>&nbsp;
+												${fin_event_list.eventdto.e_title }
+											</div>
+											<div class="day">이벤트 기간 : ${fin_event_list.utildto.str1 } ~ ${fin_event_list.utildto.str2 }</div>
+										</div>
+									</li>							
+								</c:forEach>
+							</c:if>
 							<!-- //반복 -->
-
-							<li>
-								<div class="img">
-									<a href="#"><img src="user/images/img/sample_event.jpg" alt="진행중 이벤트" /></a>
-								</div>
-								<div class="txt">
-									<div class="subject"><span class="finishbtn">종료</span>&nbsp;까페모리 봄바람 커피한잔 30% 할인 이벤트!!</div>
-									<div class="day">이벤트 기간 : 2014-04-01 ~ 2014-04-29</div>
-								</div>
-							</li>
-
-							<li>
-								<div class="img">
-									<a href="#"><img src="user/images/img/sample_event.jpg" alt="진행중 이벤트" /></a>
-								</div>
-								<div class="txt">
-									<div class="subject"><span class="finishbtn">종료</span>&nbsp;까페모리 봄바람 커피한잔 30% 할인 이벤트!!</div>
-									<div class="day">이벤트 기간 : 2014-04-01 ~ 2014-04-29</div>
-								</div>
-							</li>
-
-							<li>
-								<div class="img">
-									<a href="#"><img src="user/images/img/sample_event.jpg" alt="진행중 이벤트" /></a>
-								</div>
-								<div class="txt">
-									<div class="subject"><span class="finishbtn">종료</span>&nbsp;까페모리 봄바람 커피한잔 30% 할인 이벤트!!</div>
-									<div class="day">이벤트 기간 : 2014-04-01 ~ 2014-04-29</div>
-								</div>
-							</li>
 						</ul>
 					</div>
 					<!-- //list -->

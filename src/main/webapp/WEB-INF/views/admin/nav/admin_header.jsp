@@ -51,12 +51,12 @@
 	            </li>
 	            <li id="ca_board"><a href="board.jsp"><span></span>게시판</a>
 	            	<ul class="sub_list">
-	            	<li><a href="#">1:1문의</a></li>
-	            	<li><a href="#">공지사항</a></li>
+	            	<li><a href="mtm_list">1:1문의</a></li>
+	            	<li><a href="notice_list">공지사항</a></li>
 	            	<li><a href="getQnaList">상품문의</a></li>
 	            	<li><a href="getReveiw">상품후기</a></li>
 	            	<li><a href="enjoy_allList">ENJOY COFFEE</a></li>
-	            	<li><a href="#">이벤트</a></li>
+	            	<li><a href="event_list">이벤트</a></li>
 	            	<li><a href="faq_allList">FAQ</a></li>
 	           		 </ul>
 	            </li>

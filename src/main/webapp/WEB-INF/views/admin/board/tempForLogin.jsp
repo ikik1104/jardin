@@ -8,11 +8,11 @@
 </head>
 <body>
 <h2>로그인 됨</h2>
-<% session.setAttribute("adNum", 1); 
+<% session.setAttribute("adminNum", 1); 
 session.setAttribute("adminId", "inquiryadmin");
 session.setAttribute("adminGrade", "문의담당자");%>
 
-${adNum }<br>
+${adminNum }<br>
 ${adminId }<br>
 ${adminGrade }<br>
 

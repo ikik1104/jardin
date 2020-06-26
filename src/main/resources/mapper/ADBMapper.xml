@@ -17,8 +17,25 @@
 	    <collection property="coupondto" resultMap="CouponDto"/>	 
 	    <collection property="e_commentdto" resultMap="E_CommentDto"/>	
 	    <collection property="memberdto" resultMap="MemberDto"/>	
-	    <collection property="winboarddto" resultMap="WinBoardDto"/>		               	    	    	     
+	    <collection property="winboarddto" resultMap="WinBoardDto"/>		            
+	    <collection property="utildto" resultMap="UtilDto"/>		
 	</resultMap>	
+	
+	<resultMap type="com.javalec.ex.dto.UtilDto" id="UtilDto">
+	    <result column="str1" property="str1"/>	
+	    <result column="str2" property="str2"/>  
+	    <result column="str3" property="str3"/>  	
+	    <result column="str4" property="str4"/> 	  
+	    <result column="str5" property="str5"/> 	    
+	    <result column="str6" property="str6"/> 	    	   
+	    <result column="str7" property="str7"/> 	   	  
+	    <result column="str8" property="str8"/> 		      
+	    <result column="time1" property="time1"/> 	 	    
+	    <result column="time2" property="time2"/> 	 	    
+	    <result column="time2" property="time3"/> 	    
+	    <result column="temp_int" property="temp_int"/>	    
+	    <result column="temp_int2" property="temp_int2"/>	              
+	</resultMap>
 	
 	<resultMap type="com.javalec.ex.dto.MtmUserDto" id="MtmUserDto">
 	    <result column="rownum" property="rownum"/>	
@@ -68,8 +85,6 @@
 	    <result column="ia_content" property="ia_content"/>
 	    <result column="ia_date" property="ia_date"/>    
 	</resultMap>
-	
-
 		
 	<resultMap type="com.javalec.ex.dto.NoticeDto" id="NoticeDto">
 	    <result column="rownum" property="rownum"/>		
@@ -131,14 +146,13 @@
 	    <result column="wb_date" property="wb_date"/>	  		     
 	</resultMap>		
 	
-	
-	
-	
 	<!--  1:1문의 전체 리스트 불러오기-->
 	<select id="getAllBoards" resultMap="AllDto">
-		select rownum, mem.m_id, iu_title, iu_date, iu_status, iu_num, iu_sort, iu_content, iu_img
-		from mtm_inqury_user_tb mtm, member_tb mem 
-		where mem.m_num=mtm.m_num order by iu_num desc
+		select rownum, fintb.* from
+        (select m_id, mtm.*, to_char(iu_Date, 'yy-MM-dd') str1 from 
+        (select * from mtm_inqury_user_tb order by iu_num desc) mtm,
+        member_tb mem
+        where mem.m_num=mtm.m_num) fintb
 	</select>
 
 	<!-- 1:1문의 글 삭제 -->
@@ -146,11 +160,23 @@
 		delete from mtm_inqury_user_tb where iu_num=#{param1}
 	</delete>	
 	
+	<!-- 1:1 문의글 1개 불러오기 -->
+	<select id="getMtmUserBoard" resultMap="AllDto">
+        select * from
+        (select m_id, mtm.*, to_char(iu_Date, 'yy-MM-dd') str1 from 
+        (select * from mtm_inqury_user_tb order by iu_num desc) mtm,
+        member_tb mem
+        where mem.m_num=mtm.m_num)
+       where m_num=#{m_num} and iu_num=#{iu_num}
+	</select>
+	
 	<!-- 1:1 답변 1개 불러오기 -->
 	<select id="getAnswerBoard" resultMap="AllDto">
-		select ia_num, ia_content, ia_date, ad.ad_num, ad.ad_id, ad.ad_grade 
-		from mtm_inqury_answer_tb mtm, admin_tb ad
-		where mtm.ad_num=ad.ad_num and mtm.iu_num=#{iu_num}
+		select * from
+        (select  ad_id, ad_grade, ad_name, ia.*, to_char(ia_date, 'yy-MM-dd') str1 from
+        (select * from mtm_inqury_answer_tb order by ia_num desc) ia,
+        admin_tb ad where ia.ad_num=ad.ad_num)
+        where iu_num=#{iu_num}
 	</select>
 	
 	<!-- 1:1 답변 1개 등록 -->
@@ -167,7 +193,15 @@
 	<delete id="deleteAnswerBoard">
 		delete from mtm_inqury_answer_tb where ia_num=#{ia_num}
 	</delete>
-
+	
+	<!-- 선택한 1:1문의 일괄 삭제 -->
+	<delete id="deleteSomeMtms" parameterType="HashMap">
+		delete from mtm_inqury_user_tb where iu_num in
+		<foreach collection="chkArray" item="item" open="(" close=")" separator=",">
+ 			#{item}
+		</foreach>		
+	</delete>
+	
 	<!-- 1:1 문의글 상태 '답변대기'로 바꾸기 -->
 	<update id="updateStatusWait">
 		update mtm_inqury_user_tb set iu_status='답변대기' where iu_num=#{iu_num}
@@ -181,9 +215,21 @@
 	<!-- 공지사항 전체 리스트 불러오기 -->
 
 	<select id="getAllNoticeBoards" resultMap="AllDto">
-		select rownum, ad_id, ad_grade, ad.ad_num, no_num, no_title, no_content, no_date, no_hit 
-		from admin_tb ad, notice_tb no where ad.ad_num=no.ad_num order by no_num desc
+		select rownum, fintb.* from
+        (select ad_id, ad_grade, notb.* from
+        (select ntb.*, to_char(no_Date, 'yy-MM-dd') str1 from 
+        (select * from notice_tb order by no_num desc) ntb) notb,
+        admin_tb ad
+        where ad.ad_num=notb.ad_num) fintb	
 	</select>	
+
+	<!-- 선택한 공지글 일괄 삭제 -->
+	<delete id="deleteSomeNotice" parameterType="HashMap">
+		delete from notice_tb where no_num in
+		<foreach collection="chkArray" item="item" open="(" close=")" separator=",">
+ 			#{item}
+		</foreach>		
+	</delete>
 
 	<!-- 공지사항 새글 1개 등록 -->
 	<insert id="insertNoticeBoard">
@@ -193,9 +239,13 @@
 	
 	<!-- 공지글 1개 불러오기 -->
 	<select id="getNoticeBoard" resultMap="AllDto">
-		select no_title, no_content, no_num, ad.ad_num, ad.ad_id, ad.ad_grade 
-		from notice_tb noti, admin_tb ad
-		where noti.ad_num=ad.ad_num and noti.no_num=#{no_num}		
+		select * from
+        (select ad.ad_id, ad.ad_grade, ntb.* from
+        (select no.*, to_char(no_date, 'yy-MM-dd') str1 from
+        (select * from notice_tb) no) ntb,
+        admin_tb ad
+        where ntb.ad_num=ad.ad_num)
+        where no_num=#{no_num}	
 	</select>
 	
 	<!-- 공지글 1개 수정 -->
@@ -210,47 +260,79 @@
 	
 	<!-- 이벤트 전체 리스트 불러오기 -->
 	<select id="getAllEventBoards" resultMap="AllDto">
-         <![CDATA[select rownum, ad.ad_num,
-        ad.ad_id, ad.ad_grade, e_num, e_title, e_start_day, e_end_day,
-		e_thumb_img,e_content_img,e_content, e_sysdate,
-		co_num, e_win_day,
-        case when e_start_day <=sysdate and e_end_day>=sysdate then '진행중'
-        when e_start_day>sysdate then '시작전'
-        when e_end_day < sysdate then '종료' end e_status
-		from event_tb ev, admin_tb ad 
-		where ev.ad_num=ad.ad_num order by e_num desc]]>
+         <![CDATA[select rownum, fintb.* from
+        (select ad_id, ad_grade, etb.* from
+        (select event.*,
+        case when str1<=to_char(sysdate,'yy-MM-dd') and str2>=to_char(sysdate,'yy-MM-dd') then '진행중'
+        when str1>to_char(sysdate,'yy-MM-dd') then '시작전'
+        when str2<to_char(sysdate,'yy-MM-dd') then '종료' end str4
+        from
+        (select ev.*, to_char(e_start_day, 'yy-MM-dd') str1,
+        to_char(e_end_day, 'yy-MM-dd') str2, to_char(e_win_day, 'yy-MM-dd') str3,
+        to_char(e_sysdate, 'yy-MM-dd') str5 from
+        (select * from event_tb order by e_num desc) ev) event) etb,
+        admin_tb ad 
+        where ad.ad_num=etb.ad_num) fintb]]>
 	</select>	
 	
 	<!-- 이벤트 새 글 1개 등록 -->
 	<insert id="insertEventBoard">
- 		insert into event_tb values(e_seq.nextval, #{e_title}, #{e_start_day}, #{e_end_day}, #{e_thumb_img}, #{e_content_img},
- 		#{e_content}, sysdate, #{co_num}, #{e_win_day}, #{ad_num}, '페이지용')
+ 		insert into event_tb values(e_seq.nextval, #{str1}, #{str5}, #{str6}, #{str3 ,jdbcType=VARCHAR}, #{str4 ,jdbcType=VARCHAR},
+ 		#{str2}, sysdate, ${str8}, #{str7}, #{temp_int}, '페이지용')
 	</insert>
 	
 	<!-- 특정 이벤트글 1개 가져오기 -->
 	<select id="getEventBoard" resultMap="AllDto">
-         <![CDATA[select ad.ad_id, ad.ad_grade, e_num, e_title, e_start_day, e_end_day,
-		e_thumb_img,e_content_img,e_content, e_sysdate, 
-		ev.co_num, e_win_day, co_name,
-        case when e_start_day <=sysdate and e_end_day>=sysdate then '진행중'
-        when e_start_day>sysdate then '시작전'
-        when e_end_day < sysdate then '종료' end e_status
-		from event_tb ev, admin_tb ad , coupon_tb co
-		where ev.ad_num=ad.ad_num and ev.co_num = co.co_num and e_num=#{e_num}]]>		
+         <![CDATA[        select * from
+        (select distinct ftb.*, case when ftb.co_num is null then null else co_name end co_name from
+        (select rownum, fintb.* from
+        (select ad_id, ad_grade, etb.* from
+        (select event.*,
+        case when str1<=to_char(sysdate,'yy-MM-dd') and str2>=to_char(sysdate,'yy-MM-dd') then '진행중'
+        when str1>to_char(sysdate,'yy-MM-dd') then '시작전'
+        when str2<to_char(sysdate,'yy-MM-dd') then '종료' end str4
+        from
+        (select ev.*, to_char(e_start_day, 'yy-MM-dd') str1,
+        to_char(e_end_day, 'yy-MM-dd') str2, to_char(e_win_day, 'yy-MM-dd') str3,
+        to_char(e_sysdate, 'yy-MM-dd') str5 from
+        (select * from event_tb order by e_num desc) ev) event) etb,
+        admin_tb ad 
+        where ad.ad_num=etb.ad_num) fintb) ftb,
+        coupon_tb co
+        where co.co_num=ftb.co_num or ftb.co_num is null)
+        where e_num=#{e_num}]]>		
 	</select>
+	
+	<!-- 선택한 이벤트글 일괄 삭제 -->
+	<delete id="deleteSomeEvents" parameterType="HashMap">
+		delete from event_tb where e_num in
+		<foreach collection="chkArray" item="item" open="(" close=")" separator=",">
+ 			#{item}
+		</foreach>		
+	</delete>
+	
+	<!-- 선택한 신청자 일괄 삭제 -->
+	<delete id="deleteSomeApplicants" parameterType="HashMap">
+		delete from ecomment_tb where ec_num in
+		<foreach collection="chkArray" item="item" open="(" close=")" separator=",">
+ 			#{item}
+		</foreach>		
+	</delete>
 	
 	<!-- 특정 이벤트에 달린 댓글들 가져오기 -->
 	<select id="getEventComments" resultMap="AllDto">
-		select mem.m_id, ec_content, ec_pw, ec_sysdate
-		from member_tb mem, ecomment_tb ec
-		where ec.m_num=mem.m_num and ec.e_num=#{e_num} order by ec_num desc
+		select eco.*, m_id from
+        (select ec.*, to_char(ec_sysdate, 'yy-MM-dd') str1 from
+        (select * from ecomment_tb order by ec_num desc) ec) eco,
+        member_tb mem
+        where mem.m_num=eco.m_num
 	</select>		
 	
 	<!-- 이벤트 1개 수정 -->
 	<update id="modifyEventBoard">
-		update event_tb set e_title=#{e_title}, e_start_day=#{e_start_day}, e_end_day=#{e_end_day},
-		e_win_day=#{e_win_day}, e_content=#{e_content}, co_num=#{co_num} where e_num=#{e_num}
-	
+		update event_tb set e_title=#{e_title}, e_start_day=#{str2}, e_end_day=#{str3},
+		e_win_day=#{str4}, e_content=#{e_content}, co_num=#{str1}, E_THUMB_IMG=#{str5},
+		E_CONTENT_IMG=#{str6} where e_num=#{e_num}
 	</update>
 	
 	<!-- 이벤트글 1개 삭제 -->
@@ -258,21 +340,35 @@
 		delete from event_tb where e_num=#{e_num}
 	</delete>
 	
+	<!-- 댓글 1개 삭제 -->
+	<delete id="deleteTheEcomment">
+		delete from ecomment_tb where ec_num=#{ec_num}
+	</delete>
+	
 	<!-- 이벤트 신청자 리스트 불러오기 -->
 	<select id="getApplicants" resultMap="AllDto">
-        <![CDATA[select * from
-        (select rownum, applicants.* from 
-		(select e_title, ev.e_num,
-		case when e_start_day <=sysdate and e_end_day>=sysdate then '진행중'
-        when e_start_day>sysdate then '시작전'
-        when e_end_day < sysdate then '종료' end e_status, 
-		ec_sysdate, ec_status, ec_num,
-		m_id, m_name
-		from event_tb ev, ecomment_tb ec, member_tb mem
-		where ev.e_num = ec.e_num and ec.m_num=mem.m_num
-		order by ec_num desc) applicants )
-		order by rownum desc]]>
+        <![CDATA[select rownum, fintb.* from
+        (select eco.*, m_id from
+        (select ectb.*, e_title, 
+        case when to_char(e_start_day, 'yy-MM-dd')<=to_char(sysdate, 'yy-MM-dd') and to_char(e_end_day, 'yy-MM-dd')>=to_char(sysdate, 'yy-MM-dd') then '진행중' 
+        when to_char(e_start_day, 'yy-MM-dd')>to_char(sysdate, 'yy-MM-dd') then '시작전'
+        when to_char(e_end_day, 'yy-MM-dd')<to_char(sysdate, 'yy-MM-dd') then '종료' end
+        e_status from
+        (select ec.*, to_char(ec_sysdate, 'yy-MM-dd') str1 from
+        (select * from ecomment_tb order by ec_num desc) ec) ectb,
+        event_tb evtb
+        where evtb.e_num=ectb.e_num) eco,
+        member_tb mem
+        where mem.m_num=eco.m_num) fintb]]>
 	</select>
+	
+	<!-- 선택 신청자 일괄 당첨/미당첨 처리 -->
+	<update id="WinSomeApplicants">
+		update ecomment_tb set ec_status=case when ec_status='미당첨' then '당첨' when ec_status='당첨' then '미당첨' end  where ec_num in
+		<foreach collection="chkArray" item="item" open="(" close=")" separator=",">
+ 			#{item}
+		</foreach>	
+	</update>
 	
 	<!-- 신청자 당첨 처리 -->
 	<update id="winApplicant">
@@ -286,12 +382,15 @@
 	
 	<!-- 당첨자 게시글 전체 리스트 불러오기 -->
 	<select id="getAllWinBoards" resultMap="AllDto">
-		select rownum, finaltb.* from
-		(select ewtb.* , ad.ad_id, ad.ad_grade, ad.ad_name from 
-		(select wtb.*, etb.e_title from win_board_tb wtb, event_tb etb
-		where wtb.e_num=etb.e_num order by wb_num desc) ewtb,
-		admin_tb ad
-		where ad.ad_num=ewtb.ad_num) finaltb
+		select rownum, fintb.* from
+        (select wbtb.*, e_title from
+        (select wbt.*, ad_id, ad_grade, ad_name from
+        (select wb.*, to_char(wb_date, 'yy-MM-dd') str1 from
+        (select * from win_board_tb order by wb_num desc) wb) wbt,
+        admin_tb ad 
+        where ad.ad_num=wbt.ad_num) wbtb,
+        event_tb ev
+        where ev.e_num=wbtb.e_num) fintb
 	</select>
 	
 	<!-- 당첨자 게시글 1개 불러오기 -->
@@ -302,14 +401,17 @@
 		where ad.ad_num=ewtb.ad_num		
 	</select>
 	
+	<!-- 당첨자 게시글 1개 수정 -->
 	<update id="modifyWinBoard">
 		update win_board_tb set e_num=#{e_num}, wb_title=#{wb_title}, wb_content=#{wb_content} where wb_num=#{wb_num}
 	</update>
 	
+	<!-- 당첨자 게시글 1개 삭제 -->
 	<delete id="deleteWinBoard">
 		delete from win_board_tb where wb_num=#{wb_num}
 	</delete>
 	
+	<!-- 당첨자 게시글 1개 등록 -->
 	<insert id="insertWinBoard">
 		insert into win_board_tb values(
 		wb_seq.nextval, #{ad_num}, #{e_num},

@@ -46,6 +46,11 @@ public class ADBServiceImp implements ADBService {
 		return success;
 	}
 	
+	//1:1문의 글 1개 불러오기
+	public AllDto getMtmUserBoard(MtmUserDto mtmUserDto) {
+		return adbmtmdao.getMtmUserBoard(mtmUserDto) ;
+	}
+	
 	//1:1 답변 1개 불러오기
 	@Override
 	public AllDto getAnswerBoard(int iu_num) {
@@ -192,6 +197,36 @@ public class ADBServiceImp implements ADBService {
 	//당첨자 게시글 1개 등록
 	public int insertWinBoard(WinBoardDto winBoardDto) {
 		return adbmtmdao.insertWinBoard(winBoardDto);
+	}
+
+	//선택한 1:1문의 일괄 삭제
+	public int deleteSomeMtms(int[] chkArray) {
+		return adbmtmdao.deleteSomeMtms(chkArray);
+	}
+
+	//선택한 공지글 일괄 삭제
+	public int deleteSomeNotice(int[] chkArray) {
+		return adbmtmdao.deleteSomeNotice(chkArray);
+	}
+
+	//선택한 이벤트글 일괄 삭제
+	public int deleteSomeEvents(int[] chkArray) {
+		return adbmtmdao.deleteSomeEvents(chkArray);
+	}
+
+	//선택한 신청자 일괄 삭제
+	public int deleteSomeApplicants(int[] chkArray) {
+		return adbmtmdao.deleteSomeApplicants(chkArray);
+	}
+
+	//선택 신청자 일괄 당첨/당첨 취소
+	public int WinSomeApplicants(int[] chkArray) {
+		return adbmtmdao.WinSomeApplicants(chkArray);
+	}
+
+	//댓글 1개 삭제
+	public int deleteTheEcomment(int ec_num) {
+		return adbmtmdao.deleteTheEcomment(ec_num);
 	}
 	
 	

@@ -8,11 +8,15 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Insert title here</title>
+		<title>이벤트 관리</title>
 		<link rel="stylesheet" type="text/css" href="admin/css/admin_main.css">
 		<script type="text/javascript" src="admin/js/jquery-3.4.1.min.js"></script>
         <script type="text/javascript" src="admin/js/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="admin/js/prefixfree.dynamic-dom.min.js"></script>
+        <script type="text/javascript" src="admin/js/prefixfree.dynamic-dom.min.js"></script>  
+        <!-- 기능, css 수정  -->
+        <script type="text/javascript" src="admin/js/admin_board.js"></script>    
+		<link rel="stylesheet" type="text/css" href="admin/css/list_button.css">    
+		<link rel="stylesheet" type="text/css" href="admin/css/a_setting.css">	          
 		<style type="text/css">
 			
 			#search_form table{
@@ -31,6 +35,9 @@
 			#search_date td button{
 				border: 1px solid black;
 				padding: 4px;
+			}			
+			.user_title{
+				width:30%; overflow:hidden; text-overflow:ellipsis;
 			}
 		</style>
 		<script type="text/javascript">
@@ -107,8 +114,8 @@
 		<h1>상품 리스트</h1>
 		<div id="main_list">
 			<div id="main_user_list">
-				<h2>임시로 놔두기</h2>
-				<div class="list_count">임시로 놔두기(총 게시물 수 등등 표시?)</div>
+				<h2>게시글 검색</h2>
+				<div class="list_count">총 게시글 수 : ${AllDtos.size() }</div>
 				<div id="search_form">
 					<form name="inputform" method="get" onsubmit="return false;">
 					<table border="1">
@@ -149,19 +156,25 @@
 					
 				</div>
 				<div>
-					<button type="button" onclick="location.href='event_applicants'">
+					<button type="button" onclick="location.href='event_applicants'" class="new_insert_btn">
 						신청자 리스트
 					</button>
-					<button type="button" onclick="location.href='event_write'">
+					<button type="button" onclick="location.href='event_write'" class="new_insert_btn">
 						새 글 등록
 					</button>					
 				</div>				
 				<div>
+					<!-- 등록된 이벤트글 없을 경우 -->
+					<c:if test="${AllDtos.size()==0 }">
+						등록된 이벤트글이 없습니다.
+					</c:if>
+					<!-- 등록된 1:1문의 있을 경우 -->
+					<c:if test="${AllDtos.size()!=0 }">			
 					<table border="1" id="event_list">
 						<tr>
-							<th><input type="checkbox" ></th>						
+							<th><input type="checkbox"  id="check_all"  ></th>						
 							<th>번호</th>
-							<th>제목</th>
+							<th class="user_title">제목</th>
 							<th>작성자</th>
 							<th>등록일</th>
 							<th>시작일</th>
@@ -173,36 +186,39 @@
 						</tr>
 						<c:forEach var="AllDtos" items="${AllDtos }">
 						<tr>
-							<td><input type="checkbox"></td>
+							<td><input type="checkbox" name="chk_ids"  value="${AllDtos.eventdto.e_num}"></td>
 							<td>${AllDtos.eventdto.rownum }</td>
 							<td>
-								<a href="event_view?e_num=${AllDtos.eventdto.e_num}"> 
+								<a lass="user_title" href="event_view?e_num=${AllDtos.eventdto.e_num}"> 
 									${AllDtos.eventdto.e_title }
 								</a>
 							</td>
 							<td>${AllDtos.admindto.ad_grade }(${AllDtos.admindto.ad_id })</td>
-							<td>${AllDtos.eventdto.e_sysdate }</td>
-							<td>${AllDtos.eventdto.e_start_day }</td>
-							<td>${AllDtos.eventdto.e_end_day }</td>		
-							<c:if test="${AllDtos.eventdto.co_num!=null }">
+							<td>${AllDtos.utildto.str5 }</td>
+							<td>${AllDtos.utildto.str1 }</td>
+							<td>${AllDtos.utildto.str2 }</td>		
+							<c:if test="${AllDtos.eventdto.co_num!=0 }">
 								<td>있음</td>
 							</c:if>			
-							<c:if test="${AllDtos.eventdto.co_num==null }">
+							<c:if test="${AllDtos.eventdto.co_num==0 }">
 								<td>없음</td>
 							</c:if>								
-							<td>${AllDtos.eventdto.e_win_day }</td>
-							<td>${ AllDtos.eventdto.e_status}</td>
+							<td>${AllDtos.utildto.str3 }</td>
+							<td>${ AllDtos.utildto.str4}</td>
 							<td>
 								<button type="button" onclick="location.href='event_view?e_num=${AllDtos.eventdto.e_num}'">
 									수정
 								</button>
-								<button type="button" onclick="del_check(${AllDtos.eventdto.e_num})">삭제</button>
+								<button type="button" onclick="event_del_check(${AllDtos.eventdto.e_num})">삭제</button>
 							</td>
 						</tr>
 						</c:forEach>						
 					</table>
-					<div class="detail_btn">
-						<a href="#">임시버튼</a>
+					</c:if>
+					<div class="detail_btn" style="text-align:left; cursor:pointer;">
+						<a onclick="eventSomeDelete()">선택 삭제</a>
+						<!-- 선택된 체크박스 값 체크용 -->
+						<input type="hidden" name="hiddenValue" id="hiddenValue" value=""/>						
 					</div>
 				</div>
 			</div>

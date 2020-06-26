@@ -46,38 +46,24 @@ public class UserMemberController {
 	//로그인 페이지 접속
 	@RequestMapping("login")
 	public String login(Model model, HttpServletRequest request) {
-		String backpath_input = request.getParameter("backpath");
-		String backpathSlash_input = request.getParameter("backpathSlash");
-		String backpath="";
+		String backpath = request.getParameter("backpath");
 		
-		if(backpath_input!=null && backpathSlash_input!=null) {
-			if(!(backpath_input.equals("none")) && backpathSlash_input.equals("none")) {
-				//로그인 후 redirect할 컨트롤러 매핑어노테이션값에 '/'가 들어가지 않을 경우
-				if(backpath_input.contains(".")) {
-					String[] trims = backpath_input.split(".");
-					backpath=trims[0];
-				} else {
-					backpath=backpath_input;
-				}
-				model.addAttribute("backpath", backpath);
-			}
-			if(backpath_input.equals("none") && !(backpathSlash_input.equals("none"))) {
-				//로그인 후 redirect할 컨트롤러 매핑어노테이션값에 '/'가 들어갈 경우		
-				String[] backpath_trims=backpath_input.split("/");			
-				String backpath_stillDot=backpath_trims[backpath_trims.length-1];
-				
-				if(backpath_stillDot.contains(".")) {
-					String[] trims = backpath_stillDot.split(".");
-					backpath=trims[0];
-				}else {
-					backpath=backpath_input;
-				}						
-				model.addAttribute("backpath", backpath);
-			} else {
-				//backpath와 backpathSlash를 둘다 넘겼거나, 둘다 없을 경우
-				//backpath를 model로 넘기지 않음
+		if(backpath!=null && !(backpath.equals(""))) {
+			//경로값 넘겼을 때 경로값에서 맨 앞의 '/' 제거
+
+			if(backpath.indexOf("/")==0) {
+				backpath=backpath.substring(1, backpath.length()-1);
 			}
 		}
+		
+		   if(backpath==null || backpath==""){
+			//경로값을 안 넘겼을 경우
+			model.addAttribute("backpath", null);
+		   } else  if(backpath!=null && backpath!=""){
+			   //경로값 넘겼을 경우
+			   model.addAttribute("backpath", backpath);
+		   }
+		
 		return response_path+"login";
 	}
 	
@@ -85,14 +71,31 @@ public class UserMemberController {
 	@ResponseBody
 	@RequestMapping("logout")
 	public int login(HttpSession session ) {
-		session.removeAttribute("userNum");
-		session.removeAttribute("userID");
-		int success = 0;
-		if(session.getAttribute("userNum")==null ) {
-			if(session.getAttribute("userID")==null ) {
-				success=1;
-			}
+		int success = 0;		
+		//회원 로그아웃
+		if(session.getAttribute("userNum")!=null ) {	
+			session.removeAttribute("userNum");
+			session.removeAttribute("userID");
+			//로그아웃 잘 됐는지 확인
+			if(session.getAttribute("userNum")==null ) {
+				if(session.getAttribute("userID")==null ) {
+					success=1;
+				}
+			}			
 		}
+		
+		//비회원 로그아웃
+		if(session.getAttribute("orderNum")!=null ) {	
+			session.removeAttribute("orderNum");
+			session.removeAttribute("orderName");
+			//로그아웃 잘 됐는지 확인
+			if(session.getAttribute("orderNum")==null ) {
+				if(session.getAttribute("orderName")==null ) {
+					success=1;
+				}
+			}					
+		}		
+		
 		return success;
 	}
 	
@@ -100,8 +103,9 @@ public class UserMemberController {
 	//회원 로그인
 	@ResponseBody
 	@PostMapping("member_login")
-	public int member_login(MemberDto memberDto, HttpSession session, @RequestParam("backpath") String backpath, Model model) {
-		int success=-99; String alerttext=""; 
+	public int member_login(MemberDto memberDto, HttpSession session, HttpServletRequest request, Model model) {
+		int success=-99; 
+		String backpath = request.getParameter("backpath");
 		
 		AllDto alldto_fromDB =  mservice.memberLogin(memberDto);
 		
@@ -119,13 +123,20 @@ public class UserMemberController {
 			System.out.println("id, pw 둘다 일치"); 
 			session.setAttribute("userID", alldto_fromDB.getMemberdto().getM_id()); 
 			session.setAttribute("userNum", alldto_fromDB.getMemberdto().getM_num()); 
+			if(session.getAttribute("orderNum")!=null || session.getAttribute("orderName")!=null) {
+				//비회원으로 로그인 되어 있을 경우 비회원 자동 로그아웃
+				session.removeAttribute("orderNum");
+				session.removeAttribute("orderName");			
+			}
+			
+			if(backpath==null || backpath.equals("")) {
+				//돌아갈 경로 지정 안 했을 경우
+			} else if(backpath!=null && backpath!="") {
+				//돌아갈 경로 지정했을 경우
+				success=-2;			
+			}
 		}
-		System.out.println(backpath);
-		if(backpath!=null) {
-			//로그인 뒤 돌아갈 경로를 지정했을 경우
-			success=-2;
-		}
-		System.out.println(success);
+		
 		return success;
 		
 

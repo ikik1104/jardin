@@ -19,7 +19,9 @@
 	    <collection property="e_commentdto" resultMap="E_CommentDto"/>	
 	    <collection property="memberdto" resultMap="MemberDto"/>	
 	    <collection property="winboarddto" resultMap="WinBoardDto"/>
-	    <collection property="utildto" resultMap="UtilDto"/>	    			    	    	     
+	    <collection property="utildto" resultMap="UtilDto"/>	    		
+	    <collection property="productdto" resultMap="ProductDto"/>	    
+	    <collection property="cou_issuedto" resultMap="Cou_IssueDto"/>	    		    		    	    	    	     
 	</resultMap>	
 	
 	<resultMap type="com.javalec.ex.dto.UtilDto" id="UtilDto">
@@ -61,8 +63,6 @@
 	    <result column="ad_name" property="ad_name"/> 	     	      
 	    <result column="ad_grade" property="ad_grade"/>  		      
 	</resultMap>
-	
-		
 	
 	<resultMap type="com.javalec.ex.dto.EventDto" id="EventDto">
 	    <result column="rownum" property="rownum"/>		
@@ -114,31 +114,68 @@
 	    <result column="wb_date" property="wb_date"/>	  		     
 	</resultMap>		
 	
-	<!-- 이벤트 전체 리스트 가져오기 -->
+	<resultMap type="com.javalec.ex.dto.ProductDto" id="ProductDto">
+	    <result column="rownum" property="rownum"/>
+	    <result column="p_num" property="p_num"/>	 
+	    <result column="p_step1" property="p_step1"/>
+	    <result column="p_step2" property="p_step2"/>
+	    <result column="p_name" property="p_name"/>	    
+	    <result column="p_price" property="p_price"/>	    
+	    <result column="p_point" property="p_point"/>	 	    
+	    <result column="p_producer" property="p_producer"/>	 	
+	    <result column="p_expiry" property="p_expiry"/>
+	    <result column="p_type" property="p_type"/>	 
+	    <result column="p_capacity" property="p_capacity"/>	    
+	    <result column="p_detail" property="p_detail"/>	 	    
+	    <result column="p_location" property="p_location"/>	 	
+	    <result column="p_gene" property="p_gene"/>
+	    <result column="p_import" property="p_import"/>	 	   
+	    <result column="p_stock" property="p_stock"/>	    
+	    <result column="p_thumb_img1" property="p_thumb_img1"/>	 	    
+	    <result column="p_thumb_img2" property="p_thumb_img2"/>	 	
+	    <result column="p_thumb_img3" property="p_thumb_img3"/>
+	    <result column="p_content_img" property="p_content_img"/>	 	    
+	    <result column="p_sysdate" property="p_sysdate"/>	    
+	    <result column="p_update" property="p_update"/>	 	    
+	</resultMap>	
+	
+		<resultMap type="com.javalec.ex.dto.Cou_IssueDto" id="Cou_IssueDto">
+	    <result column="rownum" property="rownum"/>
+	    <result column="ci_num" property="ci_num"/>	 
+	    <result column="m_num" property="m_num"/>
+	    <result column="co_num" property="co_num"/>
+	    <result column="ci_issue_day" property="ci_issue_day"/>	    
+	    <result column="ci_end_day" property="ci_end_day"/>	    
+	    <result column="ci_use_day" property="ci_use_day"/>	 	
+	</resultMap>	
+	
+	<!-- 진행중 이벤트 전체 리스트 가져오기 -->
 	<select id="getAllEvents" resultMap="AllDto">
          <![CDATA[select rownum, fintb.* from
      	 (select * from
-         (select etb.*, to_char(e_start_day, 'yyyy-MM-dd') str1, to_char(e_start_day, 'yyyy-MM-dd')str2, 
-         case when e_end_day<sysdate then '종료'
-         when e_start_day>sysdate then '시작전'
-         when e_start_day<=sysdate and e_end_day>=sysdate then '진행중' end str3
+         (select etb.*, to_char(e_start_day, 'yyyy-MM-dd') str1, to_char(e_end_day, 'yyyy-MM-dd')str2, 
+         case when to_char(e_end_day, 'yy/MM/dd')<to_char(sysdate, 'yy/MM/dd') then '종료'
+         when to_char(e_start_day, 'yy/MM/dd')>to_char(sysdate, 'yy/MM/dd') then '시작전'
+         when to_char(e_start_day, 'yy/MM/dd')<=to_char(sysdate, 'yy/MM/dd') and to_char(e_end_day, 'yy/MM/dd')>=to_char(sysdate, 'yy/MM/dd') then '진행중' end str3
          from
          (select * from event_tb order by e_num desc) etb)
          where str3='진행중') fintb]]> 
 	</select>
 	
-	<!-- 이벤트 1개 불러오기 -->
+	<!-- 진행중 이벤트 1개 불러오기 -->
 	<select id="getEventBoard" resultMap="AllDto">
           <![CDATA[ select eventtb.*, total str4 from
-         (select etb.*, to_char(e_start_day, 'yyyy-MM-dd') str1, to_char(e_start_day, 'yyyy-MM-dd')str2,
-        case when e_end_day<sysdate then '종료'
-         when e_start_day>sysdate then '시작전'
-         when e_start_day<=sysdate and e_end_day>=sysdate then '진행중' end str3 from        
+         (select etb.*, to_char(e_start_day, 'yyyy-MM-dd') str1, to_char(e_end_day, 'yyyy-MM-dd')str2, 
+         case when to_char(e_end_day, 'yy/MM/dd')<to_char(sysdate, 'yy/MM/dd') then '종료'
+         when to_char(e_start_day, 'yy/MM/dd')>to_char(sysdate, 'yy/MM/dd') then '시작전'
+         when to_char(e_start_day, 'yy/MM/dd')<=to_char(sysdate, 'yy/MM/dd') and to_char(e_end_day, 'yy/MM/dd')>=to_char(sysdate, 'yy/MM/dd') then '진행중' end str3
+         from       
          (select * from event_tb where e_num=#{e_num}) etb) eventtb,
-         ( select count(*) total from ecomment_tb where e_num=#{e_num}) cnt	]]> 	
+         ( select count(*) total from ecomment_tb where e_num=#{e_num}) cnt	
+         where str3='진행중']]> 	
 	</select>
 	
-	<!-- 해당 이벤트 댓글 전체 리스트 불러오기 -->
+	<!-- 해당 진행중 이벤트 댓글 전체 리스트 불러오기 -->
 	<select id="getTheEComments" resultMap="AllDto">
          select etb.*, m_id from
          (select ectb.*, to_char(ec_sysdate, 'yyyy-MM-dd') str1, to_char(ec_sysdate, 'hh24:mm:ss') str2 from
@@ -147,7 +184,7 @@
          where mtb.m_num=etb.m_num	
 	</select>
 	
-	<!-- 댓글 pw 체크 -->
+	<!-- 진행중 이벤트 댓글 pw 체크 -->
 	<select id="checkECommentPW" resultMap="E_CommentDto">
         select * from
         (select ec_pw from ecomment_tb where ec_pw=#{ec_pw} and m_num=#{m_num}  and e_num=#{e_num}
@@ -156,8 +193,150 @@
         where ec_pw!='-' or rownum =1
 	</select>
 	
-	<!-- 댓글 새로 1개 등록 -->
+	<!-- 진행중 이벤트 댓글 새로 1개 등록 -->
 	<insert id="insertEComment">
-insert into ecomment_tb values(ec_seq.nextval, #{m_num},#{e_num},#{ec_content},#{ec_pw},sysdate,'미당첨')
+		insert into ecomment_tb values(ec_seq.nextval, #{m_num},#{e_num},#{ec_content},#{ec_pw},sysdate,'미당첨')
 	</insert>
+	
+	<!-- 진행중 이벤트 회원 로그인 사용자 댓글 1개 수정 -->
+	<update id="modifyEComment">
+		update ecomment_tb set ec_content=#{ec_content}, ec_pw=#{ec_pw} where ec_num=#{ec_num} and e_num=#{e_num} and m_num=#{m_num}
+	</update>
+	
+	<!--진행중 이벤트  회원 로그인 사용자 댓글 1개 삭제 -->
+	<delete id="deleteUserEcomment">
+		delete  ecomment_tb where ec_num=#{ec_num}
+	</delete>
+	
+	<!-- 진행중 이벤트 쿠폰 가져오기 -->
+	<select id="getTheCoupon" resultMap="AllDto">
+		 <![CDATA[ select rownum, finaltb.* from
+		(select * from
+		(select * from
+		(select coupon.*, product.p_name from
+		(select etb.e_num, ctb.*
+		from
+		(select e_num, co_num from event_tb where to_char(e_start_day, 'yy/MM/dd')<=to_char(sysdate, 'yy/MM/dd') and to_char(e_end_day, 'yy/MM/dd')>=to_char(sysdate, 'yy/MM/dd') and co_num is not null) etb,
+		(select co_num, co_name, co_start_day, co_end_day, co_type, co_discount, co_sysdate,  co_condition,
+		case when co_expiry is null then -99 else co_expiry end co_expiry,
+		case when co_product is null then -99 else co_product end co_product
+		from coupon_tb) ctb
+		where etb.co_num=ctb.co_num) coupon
+		left join
+		product_tb product on product.p_num=coupon.co_product)
+		where e_num=#{e_num}
+		union
+		select -99 e_num, -99 co_num, '-' co_name, null co_start_day, null co_end_day, '-' co_type, -99 co_discount, null co_sysdate, -99 co_condition, -99 co_expiry, -99 co_product, '-' p_name from dual)
+		fintb order by e_num desc) finaltb
+		where e_num!=-99 or rownum=1]]> 	
+	</select>
+	
+	<!-- 회원 사용자 유효기간 쿠폰 다운로드 -->
+	<insert id="downloadExCoupon">
+		<![CDATA[ insert into c_issue_tb values(ci_seq.nextval, #{m_num}, #{co_num}, sysdate, sysdate+#{co_expiry}, '')]]> 
+	</insert>
+	
+	<!-- 회원 사용자 기간제 쿠폰 다운로드 -->
+	<insert id="downloadPeriodCoupon">
+		insert into c_issue_tb values(ci_seq.nextval, #{m_num}, #{co_num}, sysdate, #{co_end_day}, '')
+	</insert>	
+	
+	<!-- 로그인 사용자의 쿠폰 발급내역 확인 -->
+	<select id="checkUserCoupon" resultMap="Cou_IssueDto">
+		select * from
+		(select * from
+		(select * from c_issue_tb where m_num=#{m_num} and co_num=#{co_num}
+		union
+		select -99 ci_num, -99 m_num, -99 co_num, null ci_issue_day, null ci_end_day, null ci_use_day from dual)
+		order by ci_num desc)
+		where ci_num!=-99 or rownum=1
+	</select>
+	
+	<!-- 종료된 이벤트 전체 리스트 가져오기 -->
+	<select id="getAllFinEvents" resultMap="AllDto">
+		<![CDATA[select rownum, fintb.* from
+     	 (select * from
+         (select etb.*, to_char(e_start_day, 'yyyy-MM-dd') str1, to_char(e_end_day, 'yyyy-MM-dd')str2, 
+         case when to_char(e_end_day, 'yy/MM/dd')<to_char(sysdate, 'yy/MM/dd') then '종료'
+         when to_char(e_start_day, 'yy/MM/dd')>to_char(sysdate, 'yy/MM/dd') then '시작전'
+         when to_char(e_start_day, 'yy/MM/dd')<=to_char(sysdate, 'yy/MM/dd') and to_char(e_end_day, 'yy/MM/dd')>=to_char(sysdate, 'yy/MM/dd') then '진행중' end str3
+         from
+         (select * from event_tb order by e_num desc) etb)
+         where str3='종료') fintb	]]> 	
+	</select>
+	
+	<!-- 종료된 이벤트 1개 불러오기 -->
+	<select id="getFinEventBoard" resultMap="AllDto">
+<![CDATA[select eventtb.*, total str4 from
+         (select etb.*, to_char(e_start_day, 'yyyy-MM-dd') str1, to_char(e_end_day, 'yyyy-MM-dd')str2, 
+         case when to_char(e_end_day, 'yy/MM/dd')<to_char(sysdate, 'yy/MM/dd') then '종료'
+         when to_char(e_start_day, 'yy/MM/dd')>to_char(sysdate, 'yy/MM/dd') then '시작전'
+         when to_char(e_start_day, 'yy/MM/dd')<=to_char(sysdate, 'yy/MM/dd') and to_char(e_end_day, 'yy/MM/dd')>=to_char(sysdate, 'yy/MM/dd') then '진행중' end str3
+         from       
+         (select * from event_tb where e_num=#{e_num}) etb) eventtb,
+         ( select count(*) total from ecomment_tb where e_num=#{e_num}) cnt	
+         where str3='종료'	]]> 	
+	</select>
+	
+	<!-- 종료된 이벤트 쿠폰 가져오기 -->
+	<select id="getFinEventCoupon"  resultMap="AllDto">
+	<![CDATA[select rownum, finaltb.* from
+		(select * from
+		(select * from
+		(select coupon.*, product.p_name from
+		(select etb.e_num, ctb.*
+		from
+		(select e_num, co_num from event_tb where to_char(e_end_day, 'yy/MM/dd')<to_char(sysdate, 'yy/MM/dd') and co_num is not null) etb,
+		(select co_num, co_name, co_start_day, co_end_day, co_type, co_discount, co_sysdate,  co_condition,
+		case when co_expiry is null then -99 else co_expiry end co_expiry,
+		case when co_product is null then -99 else co_product end co_product
+		from coupon_tb) ctb
+		where etb.co_num=ctb.co_num) coupon
+		left join
+		product_tb product on product.p_num=coupon.co_product)
+		where e_num=#{e_num}
+		union
+		select -99 e_num, -99 co_num, '-' co_name, null co_start_day, null co_end_day, '-' co_type, -99 co_discount, null co_sysdate, -99 co_condition, -99 co_expiry, -99 co_product, '-' p_name from dual)
+		fintb order by e_num desc) finaltb
+		where e_num!=-99 or rownum=1]]> 	
+	</select>
+	
+	<!-- 당첨자 발표글 전체 리스트 불러오기 -->
+	<select id="getAllWinBoard" resultMap="AllDto">
+		select rownum, wbtb.* from
+		(select wb.*, to_char(wb_date, 'yy-MM-dd')str1 from
+		(select * from win_board_tb order by wb_num desc) wb) wbtb
+	</select>
+	
+	<!-- 당첨자 발표글 1개 불러오기 -->
+
+	<select id="getTheWinboard" resultMap="AllDto">
+		select * from
+		(select wb.*, to_char(wb_date, 'yy-MM-dd')str1 from
+		(select * from win_board_tb order by wb_num desc) wb)
+        where wb_num=#{wb_num}
+	</select>
+	
+	<!-- 당첨자 발표글 1개 조회수 1 올리기 -->
+	<update id="updateWinHit">
+		update win_board_tb set wb_hit=wb_hit+1 where wb_num=#{wb_num}
+	</update>
+	
+	<!-- 당첨자 발표글 1개 조회수 1 낮추기 -->
+	<update id="downWinHit">
+		update win_board_tb set wb_hit=wb_hit-1 where wb_num=#{wb_num}
+	</update>	
+	
+	<!-- 삭제 예정 -->
+	<select id="comment_List" resultMap="E_CommentDto" >
+		select * from ecomment_tb
+	</select>
+	
+	<!-- 삭제 예정2 -->
+	<delete id="comment_delete">
+		delete from ecomment_tb where ec_num=#{ec_num}
+	</delete>
+	
+	
+		
 </mapper>		

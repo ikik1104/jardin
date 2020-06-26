@@ -1,0 +1,7 @@
+@charset "UTF-8";
+button{
+border:1px solid black; padding:3px;	
+}
+.new_insert_btn{
+	margin-bottom:10px;
+}
