@@ -366,8 +366,8 @@
 
 		<div id="location">
 			<ol>
-				<li><a href="#">HOME</a></li>
-				<li><a href="#">MY PAGE</a></li>
+				<li><a href="home">HOME</a></li>
+				<li><a href="ordercheck">MY PAGE</a></li>
 				<li class="last">장바구니</li>
 			</ol>
 		</div>

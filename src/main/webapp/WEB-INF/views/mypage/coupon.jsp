@@ -98,8 +98,8 @@ $(document).ready(function() {
 
 		<div id="location">
 			<ol>
-				<li><a href="#">HOME</a></li>
-				<li><a href="#">MY PAGE</a></li>
+				<li><a href="main">HOME</a></li>
+				<li><a href="ordercheck">MY PAGE</a></li>
 				<li class="last">나의 쿠폰</li>
 			</ol>
 		</div>
