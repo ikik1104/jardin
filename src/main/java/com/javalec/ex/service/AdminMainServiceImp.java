@@ -41,6 +41,37 @@ public class AdminMainServiceImp implements AdminMainService {
 		amdao.updateMainBanner(mbdto);
 	}
 
+	@Override
+	public String selectMl() {
+		String selectml = amdao.selectMl();
+		return selectml;
+	}
+
+	@Override
+	public int insertMl(String file_name) {
+		return amdao.insertMl(file_name);
+	}
+
+	@Override
+	public int updateMl(String file_name) {
+		return amdao.updateMl(file_name);
+	}
+
+	@Override
+	public String selectMr() {
+		return amdao.selectMr();
+	}
+
+	@Override
+	public int insertMr(String file_name) {
+		return amdao.insertMr(file_name);
+	}
+
+	@Override
+	public int updateMr(String file_name) {
+		return amdao.updateMr(file_name);
+	}
+
 
 
 }
