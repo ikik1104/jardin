@@ -26,8 +26,6 @@
     <script type="text/javascript">$(function(){$(".detailTab ul li a:eq(${initVal})").click();});</script>
     <script type="text/javascript">
     $(document).ready(function() {
-    	
-		alert(${userNum});
 
     });
 
