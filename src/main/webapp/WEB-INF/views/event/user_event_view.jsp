@@ -15,6 +15,7 @@
 <link rel="stylesheet" type="text/css" href="user/css/reset.css?v=Y" />
 <link rel="stylesheet" type="text/css" href="user/css/layout.css?v=Y" />
 <link rel="stylesheet" type="text/css" href="user/css/content.css?v=Y" />
+<link rel="stylesheet" type="text/css" href="user/css/coupon_style.css" />
 <script type="text/javascript" src="user/js/jquery.min.js"></script>
 <script type="text/javascript" src="user/js/top_navi.js"></script>
 <script type="text/javascript" src="user/js/left_navi.js"></script>
@@ -53,10 +54,13 @@
              background-color: rgb(0,0,0); /* Fallback color */
             background-color: rgba(0,0,0,0.4); /* Black w/ opacity */           
 		}
-
+		/*버튼*/
+		.rebtn{ cursor:pointer; }
+		
 </style>
 </head>
 <body>
+<!-- 모달창 띄울 때 화면 어둡게 하는 효과 -->
 <div  id="backbody"></div>
 
 
@@ -114,18 +118,20 @@
 <div id="allwrap">
 <div id="wrap">
 
+
+
 <!-- 로그인 시 session에서 사용자 아이디, 회원 번호 저장 -->
 	<input type="hidden" value="${userNum }" id="userNum" name="m_num"> 
 	<input type="hidden" value="${userID }"  id="userID" name="m_id"> 
 
 
 <!-- 비밀번호 모달창 -->
-<div id="layerWrap">
-	<form action="ec_pw_check" name="pwInputForm" id="pwInputForm" method="post">
+<div id="layerWrap" >
+	<form action="ec_pw_check" name="pwInputForm" id="pwInputForm" method="post" >
 		<!-- 함께 보내줄 데이터-->
 		<input type="hidden"  name="m_num" id="pwMnum">	
 		<input type="hidden" name="mode" id="pwMode">
-		<input type="hidden" name="e_num" >	
+		<input type="hidden" name="e_num"  value="${event_info.eventdto.e_num } " > 	
 		
 		<div class="inputWrap">
 			<div class="inputBody">
@@ -135,11 +141,11 @@
 				<p class="popalert">비밀번호를 입력해주세요.</p>
 				<div class="inputBox">					
 					<ul>
-						<li><label for="">비밀번호</label><input type="password" class="w348" name="ec_pw" id="ec_pw"/></li>
+						<li><label for="">비밀번호</label><input type="password" class="w348" name="ec_pw" id="ec_pw" /></li>
 					</ul>
 				</div>
 				<div class="centerbrn">
-					<a  onclick="submitCheck()" style="cursor:pointer;">확인</a>
+					<a  onclick="submitCheck()" style="cursor:pointer;" >확인</a>
 				</div>
 			</div>
 			<!-- 같이 태워 보낼 데이터 -->
@@ -152,6 +158,7 @@
 <jsp:include page="../header.jsp" />
 
 	<!-- container -->
+	
 	<div id="container">
 
 		<div id="location">
@@ -166,9 +173,9 @@
 			<div id="left">
 				<div id="title2">EVENT<span>이벤트</span></div>
 				<ul>	
-					<li style="cursor:default;"><a id="leftNavi1"  style="cursor:default;">진행중 이벤트</a></li>
-					<li><a href="#" id="leftNavi2">종료된 이벤트</a></li>
-					<li class="last"><a href="#" id="leftNavi3"><span>당첨자 발표</span></a></li>
+					<li style="cursor:pointer;"><a id="leftNavi1"  href="event" >진행중 이벤트</a></li>
+					<li><a href="fin_event" id="leftNavi2">종료된 이벤트</a></li>
+					<li class="last"><a href="prizewinner" id="leftNavi3"><span>당첨자 발표</span></a></li>
 				</ul>			
 			</div><script type="text/javascript">initSubmenu(1,0);</script>
 
@@ -191,12 +198,46 @@
 						</div>
 
 						<div class="viewContents">
-							<img src="tempUpload/${event_info.eventdto.e_content_img }" alt="" />
+							<img style="width:100%" src="${event_info.eventdto.e_content_img }" alt="" />
+							<pre style="white-space:pre-wrap; margin-top:10px;" >
+${event_info.eventdto.e_content }							
+							</pre>
+							<c:if test="${coupon_info.coupondto.co_name!='-' }">
+								<div id="coupon_wrap" >
+									<!-- 쿠폰 다운로드에 필요한 데이터들 -->
+									<input type="hidden" value="${userNum}" id="cp_mNum">
+									<input type="hidden" value="${coupon_info.coupondto.co_num  }" id="cp_coNum">
+									<input type="hidden" value="${ coupon_info.coupondto.co_expiry }" id="cp_expiry">
+									<input type="hidden" value="${ coupon_info.coupondto.co_start_day}" id="cp_startDay">
+									<input type="hidden" value="${coupon_info.coupondto.co_end_day  }" id="cp_endDay">								
+								
+									<div style="width:320px; height:162px; background : url('tempUpload/coupon_image.jpg')no-repeat;" id="coupon_img_area"onclick="coupon_download()">
+											<c:if test="${coupon_info.coupondto.co_type=='cart' }"><p id="coupon_type">장바구니</p> </c:if>
+											<c:if test="${coupon_info.coupondto.co_type=='delivery' }"><p id="coupon_type">배송비</p></c:if>
+											<c:if test="${coupon_info.coupondto.co_type=='product' }"><p id="coupon_type">상품</p></c:if>					
+											<p id="coupon_money" style="margin-top:15px;">
+												<fmt:formatNumber type="number" maxFractionDigits="3" value="${coupon_info.coupondto.co_discount }" />원
+											</p><!-- 할인가 표시 -->
+											<c:if test="${coupon_info.coupondto.co_condition!=0 }" >
+												<p id="coupon_condition" >
+													※ <fmt:formatNumber type="number" maxFractionDigits="3" value="${coupon_info.coupondto.co_condition }" />원
+													 이상 구매 시
+												</p><!-- 쿠폰 사용 최소금액 표시 -->
+											</c:if>
+											<!-- 상품명 길이 길어질 때 ...으로 처리 -->
+											<c:if test="${coupon_info.productdto.p_name!=null }">
+												<p id="coupon_condition" >
+													FEAT. ${coupon_info.productdto.p_name } 
+												</p><!-- 쿠폰 사용 상품명 표시 -->												
+											</c:if>
+									</div>
+								</div>
+							</c:if>
 						</div>
 					</div>
 
 
-					<!-- 이전다음글 -->
+					<!-- 이전다음글 
 					<div class="pnDiv web">
 						<table summary="이전다음글을 선택하여 보실 수 있습니다." class="preNext" border="1" cellspacing="0">
 							<caption>이전다음글</caption>
@@ -219,7 +260,7 @@
 								</tr>
 							</tbody>
 						</table>
-					</div>
+					</div>-->
 					<!-- //이전다음글 -->
 
 
@@ -234,9 +275,9 @@
 								<li class="in">
 									<p class="txt">총 <span class="orange">${event_info.utildto.str4 }</span> 개의 댓글이 달려있습니다.</p>
 									<p class="password">비밀번호&nbsp;&nbsp;<input type="password" class="replynum" name="ec_pw" id="ec_pw_check" onclick="checkComment()"/></p>
-									<textarea class="replyType" name="ec_content" id="ec_content" onclick="checkComment()"></textarea>
+									<textarea class="replyType" name="ec_content" id="insert_ec_content" onclick="checkComment()"></textarea>
 								</li>
-								<li class="btn"  ><a class="replyBtn" onclick="submitComment()" style="cursor:pointer;">등록</a></li>
+								<li class="btn"  ><a class="replyBtn" onclick="submitComment()" style="cursor:pointer;" id="pwSubmitBtn">등록</a></li>
 							</ul>
 							<p class="ntic">※ 댓글을 등록하시면 자동으로 이벤트 신청이 완료됩니다.</p>
 						</div>
@@ -277,12 +318,12 @@
 											banSign();
 										</script>
 										<!-- 로그인 사용자 자기 댓글 확인창 -->
-										<ul id="originalReply">
-											<li class="name">${ecomment_list.memberdto.m_id }(나의 댓글) <span>[${ecomment_list.utildto.str1 }&nbsp;&nbsp;${ecomment_list.utildto.str2 }]</span></li>
-											<li class="txt">${ecomment_list.e_commentdto.ec_content }</li>
+										<ul id="originalReply" >
+											<li class="name" id="forUserOriginalShow">${ecomment_list.memberdto.m_id }(나의 댓글) <span>[${ecomment_list.utildto.str1 }&nbsp;&nbsp;${ecomment_list.utildto.str2 }]</span></li>
+											<li class="txt" id="originalContent">${ecomment_list.e_commentdto.ec_content }</li>
 											<li class="btn">
-												<a class="rebtn" onclick="showModify()">수정</a>
-												<a href="#" class="rebtn">삭제</a>
+												<a class="rebtn" onclick="showUserModify()" id="modifybtn">수정</a>
+												<a href="#" class="rebtn" onclick="user_del_check(${ecomment_list.e_commentdto.ec_num })">삭제</a>
 											</li>
 										</ul>		
 										<!-- 로그인 사용자 비밀댓글창 -->
@@ -291,20 +332,27 @@
 											<li class="txt" onclick="openPW(${ecomment_list.e_commentdto.m_num }, 'myOriginal')" style="cursor:pointer;">※비밀 댓글입니다.(조회하려면 클릭하세요)</li>
 											<li class="btn">
 												<a class="rebtn" onclick="openPW(${ecomment_list.e_commentdto.m_num }, 'myModify')">수정</a>
-												<a href="#" class="rebtn">삭제</a>
+												<a href="#" class="rebtn" onclick="user_del_check(${ecomment_list.e_commentdto.ec_num })">삭제</a>
 											</li>
 										</ul>		
 										<!-- 로그인 사용자 댓글 수정창 -->
+										<form  action="modify_ecomment" method="post" name="modify_ecomment" id="modify_ecomment" >
+										<!-- 같이 보내줄 데이터 -->
+										<input type="hidden"  name="m_num" value="${userNum }">	
+										<input type="hidden" name="e_num"  value="${event_info.eventdto.e_num } " > 	
+										<input type="hidden"  name="ec_num" value="${ecomment_list.e_commentdto.ec_num}">											
+										
 										<ul id="modifyReply">
 											<li class="name">${ecomment_list.memberdto.m_id } <span>[${ecomment_list.utildto.str1 }&nbsp;&nbsp;${ecomment_list.utildto.str2 }]</span></li>
-											<li class="txt"><textarea class="replyType">${ecomment_list.e_commentdto.ec_content }</textarea></li>
-											<li><p class="password">비밀번호&nbsp;&nbsp;<input type="password" name="ec_pw_modify"/></p></li>
+											<li class="txt"><textarea class="replyType" name="ec_content" id="modifyContent">${ecomment_list.e_commentdto.ec_content }</textarea></li>
+											<li><p class="password">비밀번호&nbsp;&nbsp;<input type="password" name="ec_pw"/></p></li>
 											<li class="btn">
-												<a href="#" class="rebtn" onclick="showOriginal()">확인</a>											
-												<a href="#" class="rebtn">수정</a>
-												<a href="#" class="rebtn">삭제</a>
+												<a href="#" class="rebtn" onclick="showUserOriginal()">취소</a>											
+												<a href="#" class="rebtn" onclick="submitUserModify()">수정</a>
+												<a href="#" class="rebtn" onclick="user_del_check(${ecomment_list.e_commentdto.ec_num })">삭제</a>
 											</li>
-										</ul>							
+										</ul>			
+										</form>
 									</c:if>
 								</c:forEach>
 								<!-- //사용자 댓글 맨 위에 출력 -->
@@ -333,7 +381,7 @@
 					<div class="btnArea">
 						<div class="bRight">
 							<ul>
-								<li><a href="#" class="sbtnMini mw">목록</a></li>
+								<li><a href="event" class="sbtnMini mw">목록</a></li>
 							</ul>
 						</div>
 					</div>

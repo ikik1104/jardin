@@ -31,12 +31,16 @@ public class AdminMainController {
 	public String admin_main(Model model) {
 //		List<MainBannerDto> mbdtos = amServ.selectMainBanners();
 //		model.addAttribute("mbdtos", mbdtos);
+		//롤배너
 		MainBannerDto mbdto2 = amServ.selectMainBanners();
 		model.addAttribute("mbdto", mbdto2);
+		//중간왼쪽배너
+		String file_name = amServ.selectMl();
+		model.addAttribute("left", file_name);
 		return "admin/main/main";
 	}
 	
-	
+	//롤배너
 	@ResponseBody
 	@RequestMapping("admin_file")
 	public int admin_file(MainBannerDto mbdto, MultipartFile banner1, MultipartFile banner2, MultipartFile banner3, MultipartFile banner4, String config, Model model) throws IOException  {
@@ -71,18 +75,44 @@ public class AdminMainController {
 			}
 			amServ.updateMainBanner(mbdto_up); //업데이트
 		}
-		
 		MainBannerDto mbdto2 = amServ.selectMainBanners();
 		model.addAttribute("mbdto", mbdto2);
-		
-//		if(banner1 != null) {
-//			if(amServ.countMainBanners()==0) {
-//				mbdto.setB_1(utils.FileUploaderCDN(banner2, "main/"));
-//			} else {
-//				mbdto.
-//			}
-//		}
-//		
+		return result;
+	}
+	
+	//중간배너 - left
+	@ResponseBody
+	@RequestMapping("middle_left")
+	public int middle_left(MainBannerDto mbdto, MultipartFile mid_left, String config, Model model) throws IOException  {
+		int result = 0;
+		String file_name = amServ.selectMl();
+		System.out.println(file_name);
+		if(file_name==null) {
+			//유효성으로 input에 아무것도 없이 등록 누르면 경고창 띄우기
+			file_name = utils.FileUploaderCDN(mid_left, "main/");
+			amServ.insertMl(file_name);
+		} else {
+			file_name = utils.FileUploaderCDN(mid_left, "main/");
+			int update = amServ.updateMl(file_name);
+		}
+		return result;
+	}
+	
+	//중간배너 - right
+	@ResponseBody
+	@RequestMapping("middle_right")
+	public int middle_right(MainBannerDto mbdto, MultipartFile mid_right, String config, Model model) throws IOException  {
+		int result = 0;
+		String file_name = amServ.selectMr();
+		System.out.println(file_name);
+		if(file_name==null) {
+			//유효성으로 input에 아무것도 없이 등록 누르면 경고창 띄우기
+			file_name = utils.FileUploaderCDN(mid_right, "main/");
+			amServ.insertMr(file_name);
+		} else {
+			file_name = utils.FileUploaderCDN(mid_right, "main/");
+			int update = amServ.updateMr(file_name);
+		}
 		return result;
 	}
 	

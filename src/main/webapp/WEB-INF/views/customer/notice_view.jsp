@@ -91,7 +91,7 @@ $(document).ready(function() {
 <div id="allwrap">
 <div id="wrap">
 
-	<div id="header">
+	<!--  <div id="header">
 		
 		<div id="snbBox">
 			<h1><img src="user/images/txt/logo.gif" alt="JARDIN SHOP" /></h1>
@@ -118,7 +118,7 @@ $(document).ready(function() {
 				</div>
 			</div>
 		</div>
-	</div>
+	</div>-->
 
 
 	<jsp:include page="../header.jsp" />
@@ -138,10 +138,10 @@ $(document).ready(function() {
 			<div id="left">
 				<div id="title2">CUSTOMER<span>고객센터</span></div>
 				<ul>	
-					<li><a href="#" id="leftNavi1">NOTICE</a></li>
-					<li><a href="#" id="leftNavi2">1:1문의</a></li>
-					<li><a href="#" id="leftNavi3">FAQ</span></a></li>
-					<li class="last"><a href="#" id="leftNavi4">이용안내</a></li>
+					<li><a href="notice" id="leftNavi1">NOTICE</a></li>
+					<li><a href="inquiryform" id="leftNavi2">1:1문의</a></li>
+					<li><a href="faq_all" id="leftNavi3">FAQ</span></a></li>
+					<!--  <li class="last"><a href="#" id="leftNavi4">이용안내</a></li>-->
 				</ul>			
 			</div><script type="text/javascript">initSubmenu(1,0);</script>
 
@@ -164,7 +164,7 @@ $(document).ready(function() {
 						</div>
 
 						<div class="viewContents">
-							<pre style="white-space:pre-warp">
+							<pre style="white-space:pre-wrap">
 ${notice_info.noticedto.no_content }								
 							</pre>
 						
@@ -172,7 +172,7 @@ ${notice_info.noticedto.no_content }
 					</div>
 
 
-					<!-- 이전다음글 -->
+					<!-- 이전다음글
 					<div class="pnDiv web">
 						<table summary="이전다음글을 선택하여 보실 수 있습니다." class="preNext" border="1" cellspacing="0">
 							<caption>이전다음글</caption>
@@ -192,7 +192,7 @@ ${notice_info.noticedto.no_content }
 								</tr>
 							</tbody>
 						</table>
-					</div>
+					</div> -->
 					<!-- //이전다음글 -->
 
 

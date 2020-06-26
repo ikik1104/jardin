@@ -12,19 +12,19 @@
 				<div id="mnaviClose"><img src="user/images/btn/btn_mnavi_close.gif" width="44" height="43" alt="메뉴닫기" /></div>
 				<ul>
 					<li><a href="event">EVENT</a></li>
-					<li><a href="notice_Ulist">CUSTOMER</a></li>
+					<li><a href="notice">CUSTOMER</a></li>
 					<li><a href="review_list?ru_type=일반">COMMUNITY</a></li>
 				</ul>
 			</div>
 			<div id="snb">
 				<ul>
-					<c:if test="${userID==null  }"><!-- 로그인 안 되어 있을 때 -->
+					<c:if test="${userID==null }"><!-- 회원 로그인 안 되어 있을 때 -->
 						<li><a href="login"  style="cursor:pointer;">LOGIN</a></li>
 					</c:if>
-					<c:if test="${userID!=null }">
+					<c:if test="${userID!=null }"><!-- 회원 로그인 되어 있을 때 -->
 						<li><a onclick="user_logout()" style="cursor:pointer;">LOGOUT</a></li>						
 					</c:if>
-					<li><a href="#">JOIN</a></li>
+					<li><a href="step01">JOIN</a></li>
 					<li><a href="ordercheck">MY PAGE</a></li>
 					<li><a href="cart">CART</a></li>
 				</ul>

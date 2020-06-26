@@ -389,7 +389,7 @@ $(document).ready(function() {
 
 			<!-- quickmenu -->
 			<div id="quick">
-				<div class="cart"><a href="#">장바구니</a></div>
+				<div class="cart"><a href="cart">장바구니</a></div>
 				<div class="wish">
 					<p class="title">위시 리스트</p>
 					

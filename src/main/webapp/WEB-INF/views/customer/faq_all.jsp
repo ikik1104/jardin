@@ -128,10 +128,10 @@ $(document).ready(function() {
 			<div id="left">
 				<div id="title2">CUSTOMER<span>고객센터</span></div>
 				<ul>	
-					<li><a href="#" id="leftNavi1">NOTICE</a></li>
-					<li><a href="#" id="leftNavi2">1:1문의</a></li>
-					<li><a href="#" id="leftNavi3">FAQ</span></a></li>
-					<li class="last"><a href="#" id="leftNavi4">이용안내</a></li>
+					<li><a href="notice" id="leftNavi1">NOTICE</a></li>
+					<li><a href="inquiryform" id="leftNavi2">1:1문의</a></li>
+					<li><a href="faq_all" id="leftNavi3">FAQ</span></a></li>
+					<!--  <li class="last"><a href="#" id="leftNavi4">이용안내</a></li>-->
 				</ul>			
 			</div><script type="text/javascript">initSubmenu(3,0);</script>
 
@@ -187,9 +187,9 @@ $(document).ready(function() {
 					</div>
 					<!-- //FAQ -->
 
-
+					<!--  
 					<div class="btnAreaList">
-						<!-- 페이징이동1 -->
+						 페이징이동1 
 						<div class="allPageMoving1">
 
 						<a href="#" class="n"><img src="user/images/btn/btn_pre2.gif" alt="처음으로"/></a><a href="#" class="pre"><img src="user/images/btn/btn_pre1.gif" alt="앞페이지로"/></a>
@@ -201,7 +201,7 @@ $(document).ready(function() {
 						<a href="#" class="next"><img src="user/images/btn/btn_next1.gif" alt="뒤페이지로"/></a><a href="#" class="n"><img src="user/images/btn/btn_next2.gif" alt="마지막페이지로"/></a>
 
 						</div>
-						<!-- //페이징이동1 -->
+						
 					</div>
 
 					<div class="searchWrap">
@@ -219,7 +219,7 @@ $(document).ready(function() {
 							</ul>
 						</div>
 					</div>
-
+					-->
 				</div>
 			</div>
 			<!-- //contents -->

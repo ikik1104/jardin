@@ -27,6 +27,40 @@
 		b_4=#{mbdto.b_4, jdbcType=VARCHAR}
 		where num=1
 	</update>
+	
+<!-- ============================중간배너 왼쪽=========================== -->
+
+	<select id="selectMl" resultType="String">
+		select nvl(file_name,0) from mid_left_tb
+	</select>
+	
+	<insert id="insertMl">
+		insert into mid_left_tb values (#{param1})
+	</insert>
+	
+	<update id="updateMl">
+		update mid_left_tb set file_name=#{param1}
+	</update>
+
+<!-- ============================중간배너 오른쪽=========================== -->
+
+	<select id="selectMr" resultType="String">
+		select nvl(file_name,0) from mid_right_tb
+	</select>
+	
+	<insert id="insertMr">
+		insert into mid_right_tb values (#{param1})
+	</insert>
+	
+	<update id="updateMr">
+		update mid_right_tb set file_name=#{param1}
+	</update>
+
+
+
+	
+	
+	
 <!-- 	<update id="updateMainBanner"> -->
 <!-- 		update main_banner_tb2 set  -->
 <!-- 	</update> -->

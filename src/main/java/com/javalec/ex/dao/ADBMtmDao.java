@@ -1,8 +1,10 @@
 package com.javalec.ex.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.javalec.ex.dto.AllDto;
@@ -32,6 +34,9 @@ public interface ADBMtmDao {
 	//1:1 문의 글 1개 삭제
 	int deleteUserBoard(int iu_num);
 
+	//1:1 문의글 1개 불러오기
+	AllDto getMtmUserBoard(MtmUserDto mtmUserDto);	
+	
 	//1:1 답변 1개 불러오기
 	AllDto getAnswerBoard(int iu_num);
 
@@ -105,6 +110,26 @@ public interface ADBMtmDao {
 	int deleteWinBoard(int wb_num);
 
 	//당첨자 게시글 1개 등록
-	int insertWinBoard(WinBoardDto winBoardDto);	
+	int insertWinBoard(WinBoardDto winBoardDto);
+
+	//선택한 1:1문의 일괄 삭제
+	int deleteSomeMtms(@Param("chkArray") int[] chkArray);
+
+	//선택한 공지글 일괄 삭제
+	int deleteSomeNotice(@Param("chkArray") int[] chkArray);
+
+	//선택한 이벤트글 일괄 삭제
+	int deleteSomeEvents(@Param("chkArray") int[] chkArray);
+
+	//선택한 신청자 일괄 삭제
+	int deleteSomeApplicants(@Param("chkArray") int[] chkArray);
+
+	//선택 신청자 일괄 당첨/당첨 취소
+	int WinSomeApplicants(@Param("chkArray") int[] chkArray);
+
+	//댓글 1개 삭제
+	int deleteTheEcomment(int ec_num);
+
+
 	
 }

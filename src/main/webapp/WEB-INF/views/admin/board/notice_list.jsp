@@ -9,11 +9,14 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Insert title here</title>
+		<title>공지사항 관리</title>
 		<link rel="stylesheet" type="text/css" href="admin/css/admin_main.css">
 		<script type="text/javascript" src="admin/js/jquery-3.4.1.min.js"></script>
         <script type="text/javascript" src="admin/js/jquery-ui.min.js"></script>
         <script type="text/javascript" src="admin/js/prefixfree.dynamic-dom.min.js"></script>
+        <script type="text/javascript" src="admin/js/admin_board.js"></script>      
+		<link rel="stylesheet" type="text/css" href="admin/css/list_button.css">    
+		<link rel="stylesheet" type="text/css" href="admin/css/a_setting.css">	             
 		<style type="text/css">
 			
 			#search_form table{
@@ -33,6 +36,10 @@
 				border: 1px solid black;
 				padding: 4px;
 			}
+			.user_title{
+				width:30%;
+				overflow:hidden; text-overflow:ellipsis;
+			}			
 		</style>
 		<script type="text/javascript">
 
@@ -129,7 +136,7 @@
 		<div id="main_list">
 			<div id="main_user_list">
 				<h2>게시글 검색</h2>
-				<div class="list_count">임시로 놔두기(총 게시물 수 등등 표시?)</div>
+				<div class="list_count">총 게시글 수 : ${notice_list.size() }</div>
 				<div id="search_form">
 					<form name="inputform" method="get" onsubmit="return false;">
 					<table border="1">
@@ -165,14 +172,20 @@
 					
 				</div>
 				<div>
-					<button type="button" onclick="location.href='notice_write'">
+					<button type="button" onclick="location.href='notice_write'" class="new_insert_btn">
 						새 글 등록
 					</button>
 				</div>
 				<div>
+					<!-- 등록된 공지글 없을 경우 -->
+					<c:if test="${notice_list.size()==0 }">
+						등록된 공지글이 없습니다.
+					</c:if>
+					<!-- 등록된 공지글 있을 경우 -->
+					<c:if test="${notice_list.size()!=0 }">			
 					<table border="1" id="event_list">
 						<tr>
-							<th><input type="checkbox" ></th>
+							<th><input type="checkbox"  id="check_all"  ></th>
 							<th>번호</th>
 							<th>제목</th>
 							<th>작성자</th>
@@ -182,15 +195,15 @@
 						</tr>
 						<c:forEach var="notice_list" items="${notice_list }">
 						<tr>
-							<td><input type="checkbox"></td>
+							<td><input type="checkbox" name="chk_ids" value="${notice_list.noticedto.no_num }"></td>
 							<td>${notice_list.noticedto.rownum }</td>
-							<td>
-								<a href="notice_view?no_num=${notice_list.noticedto.no_num }&rownum=${notice_list.noticedto.rownum }"> 
+							<td class="user_title">
+								<a href="notice_view?no_num=${notice_list.noticedto.no_num }"> 
 									${notice_list.noticedto.no_title }
 								</a>
 							</td>
 							<td>${notice_list.admindto.ad_grade }(${notice_list.admindto.ad_id })</td>
-							<td>${notice_list.noticedto.no_date }</td>
+							<td>${notice_list.utildto.str1 }</td>
 							<td>${notice_list.noticedto.no_hit }</td>
 							<td>
 								<button type="button" onclick="location.href='notice_view?no_num=${notice_list.noticedto.no_num}'">
@@ -200,11 +213,13 @@
 							</td>
 						</tr>
 						</c:forEach>
-						
-						
 					</table>
-					<div class="detail_btn">
-						<a href="#">임시버튼</a>
+					</c:if>
+					
+					<div class="detail_btn" style="text-align:left; cursor:pointer;">
+						<a onclick="noticeSomeDelete()">선택 삭제</a>
+						<!-- 선택된 체크박스 값 체크용 -->
+						<input type="hidden" name="hiddenValue" id="hiddenValue" value=""/>						
 					</div>
 				</div>
 			</div>

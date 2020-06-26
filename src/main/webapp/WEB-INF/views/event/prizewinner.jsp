@@ -108,10 +108,10 @@ $(document).ready(function() {
 			<div id="left">
 				<div id="title2">EVENT<span>이벤트</span></div>
 				<ul>	
-					<li><a href="#" id="leftNavi1">진행중 이벤트</a></li>
-					<li><a href="#" id="leftNavi2">종료된 이벤트</a></li>
-					<li class="last"><a href="#" id="leftNavi3">당첨자 발표</a></li>
-				</ul>			
+					<li style="cursor:pointer;"><a href="event" id="leftNavi1">진행중 이벤트</a></li>
+					<li style="cursor:pointer;"><a href="fin_event" id="leftNavi2">종료된 이벤트</a></li>
+					<li class="last" style="cursor:pointer;"><a href="prizewinner" id="leftNavi3">당첨자 발표</a></li>
+				</ul>						
 			</div><script type="text/javascript">initSubmenu(3,0);</script>
 
 
@@ -136,104 +136,37 @@ $(document).ready(function() {
 								<th scope="col" class="tnone">조회수</th>
 							</thead>
 							<tbody>
-								<tr>
-									<td class="tnone">1</td>
-									<td class="left">
-										<a href="#">까페모리 봄바람 커파힌잔 30% 할인 이벤트 당첨자 발표</a>
-										<img src="user/images/ico/ico_new.gif" alt="NEW" />
-									</td>
-									<td>14-01-28</td>
-									<td class="tnone right">9999</td>
-								</tr>
+								<c:if test="${win_list.size()==0 }">
+									<tr>
+										<td >당첨자 발표 게시글이 없습니다.</td>
+									</tr>													
+								</c:if>
+								<c:if test="${win_list.size()!=0 }">
+									<c:forEach var="win_list" items="${win_list }">
+										<tr>
+											<td class="tnone">${win_list.winboarddto.rownum }</td>
+											<td class="left">
+												<a href="prizewinner_view?wb_num=${win_list.winboarddto.wb_num }">${win_list.winboarddto.wb_title }</a>
+												<img src="user/images/ico/ico_new.gif" alt="NEW" />
+											</td>
+											<td>${win_list.utildto.str1 }</td>
+											<td class="tnone right">${win_list.winboarddto.wb_hit }</td>
+										</tr>								
+									</c:forEach>								
+								</c:if>
+							
 
-								<tr>
-									<td class="tnone">2</td>
-									<td class="left">
-										<a href="#" class="lightgray">[11월 체험단 발표] 까모리 홍차라떼 체험단</a>
-									</td>
-									<td>14-01-28</td>
-									<td class="tnone right">9999</td>
-								</tr>
 
-								<tr>
-									<td class="tnone">3</td>
-									<td class="left">
-										<a href="#" class="lightgray">[11월 체험단 발표] 까모리 홍차라떼 체험단</a>
-									</td>
-									<td>14-01-28</td>
-									<td class="tnone right">9999</td>
-								</tr>
 
-								<tr>
-									<td class="tnone">4</td>
-									<td class="left">
-										<a href="#" class="lightgray">[11월 체험단 발표] 까모리 홍차라떼 체험단</a>
-									</td>
-									<td>14-01-28</td>
-									<td class="tnone right">9999</td>
-								</tr>
-
-								<tr>
-									<td class="tnone">5</td>
-									<td class="left">
-										<a href="#" class="lightgray">[11월 체험단 발표] 까모리 홍차라떼 체험단</a>
-									</td>
-									<td>14-01-28</td>
-									<td class="tnone right">9999</td>
-								</tr>
-
-								<tr>
-									<td class="tnone">6</td>
-									<td class="left">
-										<a href="#" class="lightgray">[11월 체험단 발표] 까모리 홍차라떼 체험단</a>
-									</td>
-									<td>14-01-28</td>
-									<td class="tnone right">9999</td>
-								</tr>
-
-								<tr>
-									<td class="tnone">7</td>
-									<td class="left">
-										<a href="#" class="lightgray">[11월 체험단 발표] 까모리 홍차라떼 체험단</a>
-									</td>
-									<td>14-01-28</td>
-									<td class="tnone right">9999</td>
-								</tr>
-
-								<tr>
-									<td class="tnone">8</td>
-									<td class="left">
-										<a href="#" class="lightgray">[11월 체험단 발표] 까모리 홍차라떼 체험단</a>
-									</td>
-									<td>14-01-28</td>
-									<td class="tnone right">9999</td>
-								</tr>
-
-								<tr>
-									<td class="tnone">9</td>
-									<td class="left">
-										<a href="#" class="lightgray">[11월 체험단 발표] 까모리 홍차라떼 체험단</a>
-									</td>
-									<td>14-01-28</td>
-									<td class="tnone right">9999</td>
-								</tr>
-
-								<tr>
-									<td class="tnone">10</td>
-									<td class="left">
-										<a href="#" class="lightgray">[11월 체험단 발표] 까모리 홍차라떼 체험단</a>
-									</td>
-									<td>14-01-28</td>
-									<td class="tnone right">9999</td>
-								</tr>
+								
 							</tbody>
 						</table>
 					</div>
 						
 
 
-					<div class="btnAreaList">
-						<!-- 페이징이동1 -->
+					<!--<div class="btnAreaList">
+						 페이징이동1 
 						<div class="allPageMoving1">
 
 						<a href="#" class="n"><img src="user/images/btn/btn_pre2.gif" alt="처음으로"/></a><a href="#" class="pre"><img src="user/images/btn/btn_pre1.gif" alt="앞페이지로"/></a>
@@ -245,7 +178,7 @@ $(document).ready(function() {
 						<a href="#" class="next"><img src="user/images/btn/btn_next1.gif" alt="뒤페이지로"/></a><a href="#" class="n"><img src="user/images/btn/btn_next2.gif" alt="마지막페이지로"/></a>
 
 						</div>
-						<!-- //페이징이동1 -->
+						
 					</div>
 
 					<div class="searchWrap">
@@ -262,7 +195,7 @@ $(document).ready(function() {
 								<li class="mobile"><a href="#"><img src="user/images/btn/btn_search_m.gif" alt="검색" /></a></li>
 							</ul>
 						</div>
-					</div>
+					</div>-->
 					<!-- //포토 구매후기 -->
 
 

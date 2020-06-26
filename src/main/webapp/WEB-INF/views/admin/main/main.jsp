@@ -43,9 +43,30 @@
         	formData.append("config", $("#config2").val()); 
         	formData.append("mid_left", $("#mid_left")[0].files[0]);
 
+            $.ajax({
+                url : 'middle_left',
+                processData : false,
+                contentType : false,
+                enctype: 'multipart/form-data',
+                data : formData,
+                type : 'POST',
+                success : function(mbdtos) {
+                	alert("업로드 성공!!");
+                	location.reload();
+                },
+                error: function(){
+                    alert("데이터 가져오기 실패");
+                }
+            });
+        }
+
+        function uploadFile_mid2() {
+        	var formData = new FormData(); 
+        	formData.append("config", $("#config3").val()); 
+        	formData.append("mid_right", $("#mid_right")[0].files[0]);
 
             $.ajax({
-                url : 'admin_file',
+                url : 'middle_right',
                 processData : false,
                 contentType : false,
                 enctype: 'multipart/form-data',
@@ -91,15 +112,28 @@
                         <img class="banners" src="${ mbdto.getB_3() }">
                         <span>배너4</span>
                         <img class="banners" src="${ mbdto.getB_4() }">
-        
                     </div>
             </div>
             <div id="middle_bann">
-                <h2>중간배너</h2>
+                <h2>중간배너 - 왼</h2>
                 <form id="middle_banner" method="post" enctype="multipart/form-data" action="">
                     <input type="hidden" id="config2" name="config" value="config2"><br>
                     <input type="file" id="mid_left" name="mid_left">
                     <a href="javascript:uploadFile_mid();">등록</a>
+                    <div class="bannerImg">
+                        <span>왼쪽배너</span>
+                        <img class="banners" src="${ left }">
+                    </div>
+                </form>
+                <h2>중간배너 - 오</h2>
+                <form id="middle_banner2" method="post" enctype="multipart/form-data" action="">
+                    <input type="hidden" id="config3" name="config" value="config3"><br>
+                    <input type="file" id="mid_right" name="mid_right">
+                    <a href="javascript:uploadFile_mid2();">등록</a>
+                    <div class="bannerImg">
+                        <span>왼쪽배너</span>
+                        <img class="banners" src="${ right }">
+                    </div>
                 </form>
             </div>  
         </div>
