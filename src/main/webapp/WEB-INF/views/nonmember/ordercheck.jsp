@@ -167,7 +167,7 @@ h3{padding-top: 17px;}
 
 		<div id="location">
 			<ol>
-				<li><a href="#">HOME</a></li>
+				<li><a href="home">HOME</a></li>
 				<li><a href="#">비회원 주문조회</a></li>
 				<li class="last">비회원 주문조회</li>
 			</ol>
