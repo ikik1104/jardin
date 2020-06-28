@@ -420,7 +420,7 @@ function openIdCheck(){
 					<div class="btnArea">
 						<div class="bCenter">
 							<ul>
-								<li><a href="#" class="nbtnbig">취소하기</a></li>
+								<li><a class="nbtnbig" onclick="resetAll()" style="cursor:pointer;">취소하기</a></li>
 								<li  style="cursor:pointer" onclick="submitJoin()" > <a class="sbtnMini">가입하기 </a></li>
 							</ul>
 						</div>

@@ -166,7 +166,7 @@ $(document).ready(function() {
 						<div class="bCenter">
 							<ul>
 								<li><a href="main" class="nbtnbig">메인으로</a></li>
-								<li><a href="temp_login" class="sbtnMini">로그인</a></li>
+								<li><a href="login" class="sbtnMini">로그인</a></li>
 							</ul>
 						</div>
 					</div>

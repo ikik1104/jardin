@@ -113,7 +113,6 @@ function inputEmail2(){
 //'가입하기' 눌렀을 때
 function submitJoin(){
 	 
-	 alert('들어옴');
 	 var name=$('#m_name').val();
 	 var id=joinform.m_id.value;
 	 var pw=joinform.m_pw.value;
@@ -293,12 +292,23 @@ function submitJoin(){
 	 var birth = birth1.replace(' ', '')+'/'+birth2.replace(' ', '')+'/'+birth3.replace(' ', '');
 	 joinform.m_birth.value=birth;
 	
-	 alert('작동');	 
 	 joinform.submit();
 	 
 }
 
-
+//모든 내용 지우기
+function resetAll(){
+	 var m_email_ok=joinform.m_email_ok.value;	 
+	 
+	 var m_sms_ok=joinform.m_sms_ok.value;	 	
+	 
+	 var m_birth_sort=joinform.m_birth_sort.value;
+	 	
+	 $('input').val(null);
+	 $("#solar").prop("checked", true);
+	 $("#sms_yes").prop("checked", true);
+	 $("#receive_yes").prop("checked", true);
+}
 
 
 
