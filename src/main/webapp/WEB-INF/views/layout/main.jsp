@@ -102,6 +102,7 @@ $(document).ready(function() {
 .img_size{width:100%;}
 .img_size2{width:50%;}
 .img{background:white !important;}
+.saleimg{width:150px !important;}
 </style>
 </head>
 <body>
@@ -281,36 +282,14 @@ $(document).ready(function() {
 			<div class="mtitle"><h2>SALE</h2></div>
 			<div id="mainSale">
 				<div class="swiper-wrapper">
-					<div class="swiper-slide">
-						<div class="img"><a href="#"><img src="user/images/img/sample_sale.jpg" alt="sale 상품" /></a></div>
-						<div class="name">쟈뎅 바리스타 벨벳<br/>에스프레소 원두커피</div>
-						<div class="price">5,600원</div>
-						<div class="discount">20%</div>
-					</div>
-					<div class="swiper-slide">
-						<div class="img"><a href="#"><img src="user/images/img/sample_sale.jpg" alt="sale 상품" /></a></div>
-						<div class="name">쟈뎅 바리스타 벨벳<br/>에스프레소 원두커피</div>
-						<div class="price">5,000원</div>
-						<div class="discount">20%</div>
-					</div>
-					<div class="swiper-slide">
-						<div class="img"><a href="#"><img src="user/images/img/sample_sale.jpg" alt="sale 상품" /></a></div>
-						<div class="name">쟈뎅 바리스타 벨벳<br/>에스프레소 원두커피</div>
-						<div class="price">6,000원</div>
-						<div class="discount">20%</div>
-					</div>
-					<div class="swiper-slide">
-						<div class="img"><a href="#"><img src="user/images/img/sample_sale.jpg" alt="sale 상품" /></a></div>
-						<div class="name">쟈뎅 바리스타 벨벳<br/>에스프레소 원두커피</div>
-						<div class="price">6,000원</div>
-						<div class="discount">20%</div>
-					</div>
-					<div class="swiper-slide">
-						<div class="img"><a href="#"><img src="user/images/img/sample_sale.jpg" alt="sale 상품" /></a></div>
-						<div class="name">쟈뎅 바리스타 벨벳<br/>에스프레소 원두커피</div>
-						<div class="price">6,000원</div>
-						<div class="discount">20%</div>
-					</div>
+					<c:forEach var="mslist" items="${ mslist }">
+						<div class="swiper-slide">
+							<div class="img saleimg"><a href="product_detail?p_num=${ mslist.p_num }"><img src="${ mslist.p_thumb_img1 }" class="img_size" alt="sale 상품" /></a></div>
+							<div class="name">${ mslist.p_name }<br/></div>
+							<div class="price">${ mslist.p_price }원</div>
+							<div class="discount">20%</div>
+						</div>
+					</c:forEach>
 				</div>
 			</div>	
 			<div class="rollbtn">

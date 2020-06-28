@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.javalec.ex.dto.MainBannerDto;
 import com.javalec.ex.dto.MainJardinDto;
+import com.javalec.ex.dto.MainSaleDto;
 
 public interface AdminMainService {
 
@@ -25,6 +26,12 @@ public interface AdminMainService {
 	String selectMr();//중간배너 파일명 가져오기
 	int insertMr(String file_name);//저장
 	int updateMr(String file_name);
+	
+	//***************세일 상품************
+	MainSaleDto selectSale();
+	int countSale();
+	int insertSale(MainSaleDto sdto);
+	int updateSale(MainSaleDto sdto);
 	
 	//***************자뎅 브랜드 상품************
 	MainJardinDto selectJd();

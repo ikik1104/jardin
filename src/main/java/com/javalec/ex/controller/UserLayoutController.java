@@ -1,5 +1,6 @@
 package com.javalec.ex.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -18,6 +19,7 @@ import com.javalec.ex.dto.AllDto;
 import com.javalec.ex.dto.CouponDto;
 import com.javalec.ex.dto.MainBannerDto;
 import com.javalec.ex.dto.MainJardinDto;
+import com.javalec.ex.dto.MainSaleDto;
 import com.javalec.ex.dto.ProductDto;
 import com.javalec.ex.dto.UtilDto;
 import com.javalec.ex.dto.WishListDto;
@@ -61,6 +63,21 @@ public class UserLayoutController {
 			List<WishListDto> wlist = mpServ.getAllWish(m_num);
 			model.addAttribute("wlist", wlist);
 		}
+
+		//sale 상품 10개 가져오기
+		ArrayList<ProductDto> mslist = new ArrayList<ProductDto>();
+		MainSaleDto msdto = amServ.selectSale();
+		mslist.add(pServ.getProductInfo(msdto.getP1()));
+		mslist.add(pServ.getProductInfo(msdto.getP2()));
+		mslist.add(pServ.getProductInfo(msdto.getP3()));
+		mslist.add(pServ.getProductInfo(msdto.getP4()));
+		mslist.add(pServ.getProductInfo(msdto.getP5()));
+		mslist.add(pServ.getProductInfo(msdto.getP6()));
+		mslist.add(pServ.getProductInfo(msdto.getP7()));
+		mslist.add(pServ.getProductInfo(msdto.getP8()));
+		mslist.add(pServ.getProductInfo(msdto.getP9()));
+		mslist.add(pServ.getProductInfo(msdto.getP10()));
+		model.addAttribute("mslist", mslist);
 		
 		//쟈뎅 브랜드 상품 5개 가져오기
 		MainJardinDto mjdto = amServ.selectJd();

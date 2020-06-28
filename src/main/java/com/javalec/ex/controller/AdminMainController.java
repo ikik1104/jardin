@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.javalec.ex.CommonUtils;
 import com.javalec.ex.dto.MainBannerDto;
 import com.javalec.ex.dto.MainJardinDto;
+import com.javalec.ex.dto.MainSaleDto;
 import com.javalec.ex.service.AdminCouponService;
 import com.javalec.ex.service.AdminMainService;
 
@@ -124,13 +125,24 @@ public class AdminMainController {
 	}
 	
 	//sale
-//	@RequestMapping("admin_sale")
-//	public String ad_sale(Model model) {
-//		model.addAttribute("jb", amServ.selectJd()); //선택되어있는애들 가져오기...
-//		model.addAttribute("product_list", cpservice.getAllProducts());
-//		return "admin/main/sale";
-//	}
-//	
+	@RequestMapping("admin_sale")
+	public String ad_sale(Model model) {
+		model.addAttribute("sale", amServ.selectSale()); //선택되어있는애들 가져오기...
+		model.addAttribute("product_list", cpservice.getAllProducts());
+		return "admin/main/sale";
+	}
+	
+	@RequestMapping("sale_regi")
+	public String sale_regi(MainSaleDto mainSaleDto) {
+		//
+		if(amServ.countSale()==0) {
+			amServ.insertSale(mainSaleDto);
+		} else {
+			amServ.updateSale(mainSaleDto);
+		}
+		return "redirect:admin_sale";
+	}
+	
 	
 	//jardin brand
 	@RequestMapping("jardin_brand")

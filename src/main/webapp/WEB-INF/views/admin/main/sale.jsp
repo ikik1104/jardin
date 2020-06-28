@@ -10,12 +10,17 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
     $(document).ready(function () {
-    	console.log('${jb.getP1()}');
-    	$("#p1").val("${jb.getP1()}").attr("selected","selected");
-    	$("#p2").val("${jb.getP2()}").attr("selected","selected");
-    	$("#p3").val("${jb.getP3()}").attr("selected","selected");
-    	$("#p4").val("${jb.getP4()}").attr("selected","selected");
-    	$("#p5").val("${jb.getP5()}").attr("selected","selected");
+    	console.log('${sale.getP1()}');
+    	$("#p1").val("${sale.getP1()}").attr("selected","selected");
+    	$("#p2").val("${sale.getP2()}").attr("selected","selected");
+    	$("#p3").val("${sale.getP3()}").attr("selected","selected");
+    	$("#p4").val("${sale.getP4()}").attr("selected","selected");
+    	$("#p5").val("${sale.getP5()}").attr("selected","selected");
+    	$("#p6").val("${sale.getP6()}").attr("selected","selected");
+    	$("#p7").val("${sale.getP7()}").attr("selected","selected");
+    	$("#p8").val("${sale.getP8()}").attr("selected","selected");
+    	$("#p9").val("${sale.getP9()}").attr("selected","selected");
+    	$("#p10").val("${sale.getP10()}").attr("selected","selected");
 
     });
     </script>
@@ -34,7 +39,7 @@
             <div id="products" class="small_box">
 	            <div class="select_p">
 	            
-		            <form action="jardin_brand_regi" method="post" name="jardin_brand">
+		            <form action="sale_regi" method="post" name="jardin_brand">
 		                <span>상품1</span>
 		                <select name="p1" id="p1">
 							<option value="0">선택 안 함</option>
@@ -75,6 +80,49 @@
 							</c:forEach>
 						</select>
 						<br>
+		                <span>상품6</span>
+		                <select name="p6" id="p6">
+							<option value="0">선택 안 함</option>
+							<c:forEach var="product_list" items="${product_list }">
+								<option value=${product_list.productdto.p_num }>[${product_list.productdto.p_num}]${product_list.productdto.p_name }</option>
+							</c:forEach>
+						</select>
+						<br>
+		                <span>상품7</span>
+		                <select name="p7" id="p7">
+							<option value="0">선택 안 함</option>
+							<c:forEach var="product_list" items="${product_list }">
+								<option value=${product_list.productdto.p_num }>[${product_list.productdto.p_num}]${product_list.productdto.p_name }</option>
+							</c:forEach>
+						</select>
+						<br>
+		                <span>상품8</span>
+		                <select name="p8" id="p8">
+							<option value="0">선택 안 함</option>
+							<c:forEach var="product_list" items="${product_list }">
+								<option value=${product_list.productdto.p_num }>[${product_list.productdto.p_num}]${product_list.productdto.p_name }</option>
+							</c:forEach>
+						</select>
+						<br>
+		                <span>상품9</span>
+		                <select name="p9" id="p9">
+							<option value="0">선택 안 함</option>
+							<c:forEach var="product_list" items="${product_list }">
+								<option value=${product_list.productdto.p_num }>[${product_list.productdto.p_num}]${product_list.productdto.p_name }</option>
+							</c:forEach>
+						</select>
+						<br>
+		                <span>상품10</span>
+		                <select name="p10" id="p10">
+							<option value="0">선택 안 함</option>
+							<c:forEach var="product_list" items="${product_list }">
+								<option value=${product_list.productdto.p_num }>[${product_list.productdto.p_num}]${product_list.productdto.p_name }</option>
+							</c:forEach>
+						</select>
+						<br>
+						
+						
+						
 						<input type="submit" value="등록">
 						
 		            </form>
