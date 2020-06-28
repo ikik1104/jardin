@@ -65,6 +65,12 @@ public class UserMemberServiceImp implements UserMemberService {
 		return mdao.searchPW(memberDto);
 	}
 
+
+	//회원가입 아이디 중복 체크
+	public AllDto checkID(MemberDto memberDto) {
+		return mdao.checkID(memberDto);
+	}
+
 	
 
 

@@ -258,6 +258,25 @@ public class UserMemberController {
 		return realpath;
 	}
 	
+	//회원가입 시 아이디 중복 체크
+	@ResponseBody
+	@PostMapping("check_id")
+	public int check_id(MemberDto memberDto, Model model) {
+		System.out.println(memberDto.getM_id());
+		int success=0;
+		AllDto alldto = mservice.checkID(memberDto);
+		System.out.println(alldto.getMemberdto().getM_id());
+		if(alldto.getMemberdto().getM_id().equals(memberDto.getM_id())) {
+			//일치하는 아이디 있는 경우
+			success=0;
+		} else {
+			//일치하는 아이디 없을 경우
+			success=1;
+		}
+		System.out.println(success);
+		return success;
+	}
+	
 	//비밀번호 찾기
 	@PostMapping("search_pw")
 	public String search_pw(MemberDto memberDto, Model model) {
@@ -290,4 +309,10 @@ public class UserMemberController {
 		return response_path+"pwsearch_success";
 	}
 
+	//아이디 중복확인 창
+	@RequestMapping("idcheck")
+	public String idcheck() {
+		return response_path+"idcheck";
+	}
+	
 }

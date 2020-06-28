@@ -128,6 +128,30 @@ $(document).ready(function() {
      }
  
 </script>
+<!-- 우편번호 검색 -->
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+//우편번호 검색 창 열기
+function openSearch(){
+    new daum.Postcode({
+        oncomplete: function(data) {
+            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+            // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+        	//jQuery("#postcode1").val(data.postcode1);
+			//jQuery("#postcode2").val(data.postcode2);
+			jQuery("#zonecode").val(data.zonecode);
+			jQuery("#address").val(data.address);
+			jQuery("#address_etc").focus();
+			console.log(data);
+        }
+    }).open();
+} 
+
+//아이디 중복확인 창 열기
+function openIdCheck(){
+	window.open("idcheck", "아이디 중복확인", "width=600,height=600, resizable=no ");
+}
+</script>
 
 
 
@@ -161,7 +185,7 @@ $(document).ready(function() {
 				</ul>			
 			</div><script type="text/javascript">initSubmenu(2,0);</script>
 
-			<form action="member_join" method="post" name="joinform">
+			<form action="member_join" method="post" id="joinform" name="joinform">
 			<!-- form 넘길 때 이메일, 휴대폰, 유선전화, 생년월일 합친 값 넣는 부분 -->
 			<input type="hidden" name="m_email">
 			<input type="hidden" name="m_phone">
@@ -221,8 +245,8 @@ $(document).ready(function() {
 									<th scope="row"><span>아이디 *</span></th>
 									<td>
 										<ul class="pta">
-											<li class="r10"><input type="text" class="w134" name="m_id" /></li>
-											<li><a href="#" class="nbtnMini">중복확인</a></li>
+											<li class="r10"><input type="text" class="w134" id="m_id" name="m_id" readonly/></li>
+											<li><a onclick="openIdCheck()" class="nbtnMini" style="cursor:pointer;">중복확인</a></li>
 											<li class="pt5"><span class="mvalign">첫 글자는 영문으로 4~16자 까지 가능, 영문, 숫자와 특수기호(_)만 사용 가능</span></li>
 										</ul>
 									</td>
@@ -298,11 +322,11 @@ $(document).ready(function() {
 									<td>
 										<ul class="pta">
 											<li>
-												<input type="text" class="w134" name="m_zipcode" />&nbsp;
+												<input type="text" class="w134" name="m_zipcode" id="zonecode" readonly/>&nbsp;
 											</li>
-											<li><a href="zip.html" class="addressBtn"><span>우편번호 찾기</span></a></li>
-											<li class="pt5"><input type="text" class="addressType" name="m_address1"/></li>
-											<li class="pt5"><input type="text" class="addressType" name="m_address2"/></li>
+											<li><a class="addressBtn" onclick="openSearch()"style="cursor:pointer;" ><span>우편번호 찾기</span></a></li>
+											<li class="pt5"><input type="text" class="addressType" name="m_address1" id="address" readonly/></li>
+											<li class="pt5"><input type="text" class="addressType" name="m_address2" id="address_etc" maxlength="50" onkeyup="addrLenCheck()"/></li>
 											<li class="cb">
 												<span class="mvalign">※ 상품 배송 시 받으실 주소입니다. 주소를 정확히 적어 주세요.</span>
 											</li>
@@ -472,7 +496,7 @@ $(function(){
 	});
 	$("#"+firstchk).click();
 	
-
+/*
 	// popup
 	var winWidth = $(window).width();
 	if(winWidth > 767){
@@ -495,7 +519,7 @@ $(function(){
 	});
 
 
-});
+});*/
 </script>
 
 

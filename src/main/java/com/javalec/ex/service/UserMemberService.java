@@ -32,6 +32,9 @@ public interface UserMemberService {
 	//비밀번호 찾기
 	MemberDto searchPW(MemberDto memberDto);
 
+	//회원가입 아이디 중복체크
+	AllDto checkID(MemberDto memberDto);
+
 
 
 }
