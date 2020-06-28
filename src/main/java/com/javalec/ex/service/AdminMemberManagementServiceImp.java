@@ -51,5 +51,10 @@ public class AdminMemberManagementServiceImp implements AdminMemberManagementSer
 	public int modifyLevel(LevelDto levelDto) {
 		return managementdao.modifyLevel(levelDto);
 	}
+
+	//선택 등급 일괄 삭제
+	public int deleteSomeLevels(int[] chkArray) {
+		return managementdao.deleteSomeLevels(chkArray);
+	}
 	
 }

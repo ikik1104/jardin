@@ -62,10 +62,10 @@
 	            </li>
 	            <li id="ca_user"><a href="user.jsp"><span></span>회원</a>
 	            	<ul class="sub_list">
-		            	<li><a href="#">회원정보</a></li>
-		            	<li><a href="#">등급</a></li>
-		            	<li><a href="#">메일관리</a></li>
-		            	<li><a href="#">마일리지</a></li>
+		            	<li><a href="member_list">회원정보</a></li>
+		            	<!--  <li><a href="member_level_list">등급</a></li>-->
+		            	 <!--<li><a href="#">메일관리</a></li> -->
+		            	<!--<li><a href="#">마일리지</a></li> -->
 	           		 </ul>
 	            </li>
 	            <li id="ca_promotion"><a href="promotion.jsp"><span></span>프로모션</a>

@@ -10,6 +10,10 @@
 		<!-- 페이지 상단 또는 하단에 라이브러르 추가 --> 
 		<script type="text/javascript" src="se2/admin/js/HuskyEZCreator.js" charset="utf-8"></script> 
 		<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="admin/css/admin_view.css">	   
+		<link rel="stylesheet" type="text/css" href="admin/css/list_button.css">   
+		<link rel="stylesheet" type="text/css" href="admin/css/a_setting.css">		
+		
 		<!-- 페이지 로딩시 초기화 --> 
 		<script>
 	/*
@@ -136,15 +140,21 @@
 	</head>
 	<body>
 	<jsp:include page="../nav/admin_header.jsp"/>
-	<jsp:include page="../nav/board_nav.jsp"/>
+	<jsp:include page="../nav/member_nav.jsp"/>
 	<section>
 
 		<h1>회원정보 조회/수정</h1>
 		
 	<form action="member_modify" name="inputform" method="post">		
 		<div  id="input_form">
-			<h1>회원정보 조회/수정</h1>
-			<table border="1">
+			<h1>회원정보 조회/수정 <span style="font-size:15px; font-weight:normal;">* 수정 가능 항목</span></h1>
+			<table border="1" style="margin:0; width:1000px;">
+				<colgroup>
+					<col width="15%">
+					<col width="35%">
+					<col width="15%">
+					<col width="35%">
+				</colgroup>
 				<tr>
 					<th>회원번호</th>
 					<td colspan="3">${member_info.memberdto.m_num }</td>
@@ -156,9 +166,9 @@
 					<td>${member_info.memberdto.m_id }</td>				
 				</tr>					
 				<tr>
-					<th>비밀번호</th>
+					<th>비밀번호 *</th>
 					<td>
-						<textarea name="m_pw">
+						<textarea name="m_pw" style="overflow:hidden;">
 ${member_info.memberdto.m_pw }
 						</textarea>
 					</td>	
@@ -196,7 +206,7 @@ ${member_info.memberdto.m_pw }
 					<td>${member_info.memberdto.m_birth_sort }</td>				
 				</tr>					
 				<tr>
-					<th>등급</th>
+					<th>등급 *</th>
 					<td>	
 						<select name="m_level" id="level_select">
 							<option value="일반">일반</option>
@@ -213,11 +223,14 @@ ${member_info.memberdto.m_pw }
 			</table>
 			<input type="hidden" value=${member_info.memberdto.m_num } name="m_num">
 					
-			<div id="btn_div">
+			<div id="btn_div" style="width:1000px; margin-top:10px; margin-bottom:200px;">
+				<div id="btn_wrap" style="width:150px; float:right;">
 				<button type="button" onclick="location.href='member_list'">목록</button>
 				<button type="submit" >수정</button>
 				<button type="button" onclick="del_check(${member_info.memberdto.m_num })" >탈퇴 처리</button>						
-			</div>		
+				</div>
+			</div>	
+				
 		</div>
 		
 		<!-- 수정하지 않은 항목에 넣어줄 값들 -->

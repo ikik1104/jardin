@@ -65,7 +65,7 @@
 		<div id="main_list">
 			<div id="main_user_list">
 				<h2>회원 등급 검색</h2>
-				<div class="list_count">임시로 놔두기(총 게시물 수 등등 표시?)</div>
+				<div class="list_count">총 회원 수 : ${ member_list.size()}</div>
 				<div id="search_form">
 					<form name="inputform" method="get" onsubmit="return false;">
 					<table border="1">

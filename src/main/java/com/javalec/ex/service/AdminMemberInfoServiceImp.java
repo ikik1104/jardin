@@ -66,6 +66,31 @@ public class AdminMemberInfoServiceImp implements AdminMemberInfoService {
 	//탈퇴 회원 1명 영구 삭제
 	public int deleteForeverMember(int m_num) {
 		return infodao.deleteForeverMember(m_num);
+	}
+
+	//선택 회원 일괄 탈퇴 처리
+	public int deleteSomeMems(int[] chkArray) {
+		int success = 1;
+		int num=0;
+		for(int i=0; i<chkArray.length; i++) {
+			num = infodao.deleteMember(chkArray[i]);
+			 if(num==0) {
+				 success=0;
+			 }  
+		}
+		
+		return success;
+	}
+
+	//선택 탈퇴 회원 일괄 영구 삭제 처리
+	public int deleteSomeForeverMems(int[] chkArray) {
+		int success=1;
+		int num=0;
+		for(int i=0; i<chkArray.length; i++) {
+			num = infodao.deleteForeverMember(chkArray[i]);
+			if(num==0) success=0;
+		}
+		return success;
 	}	
 	
 	

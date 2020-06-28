@@ -130,5 +130,12 @@ public class AdminMemberManagementContoller {
 		model.addAttribute("alerttext", alerttext);		
 		return response_path+"level_view";
 	}
+	//선택 등급 일괄 삭제
+	@ResponseBody
+	@RequestMapping("level_some_delete")
+	public int level_some_delete(@RequestBody int[] chkArray) {
+		int success = managementservice.deleteSomeLevels(chkArray);
+		return success;
+	}		
 
 }

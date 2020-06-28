@@ -50,6 +50,80 @@
 
 		}
 		
+		//(회원 일괄 탈퇴용)선택 체크박스 값 배열에 넣기2
+		function arrayingCheckbox2(){
+			
+			
+
+			 var obj = $("[name=chk_ids]");
+		        var chkArray = new Array(); // 배열 선언
+		 
+		        $('input:checkbox[name=chk_ids]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
+		            chkArray.push(this.value);
+		        });
+		        
+		        if(chkArray.length==0){
+		        	//아무것도 체크 안 했을 경우
+		        	alert('항목을 체크해 주세요.');
+		        	return false;
+		        }			
+			
+		        if($('#win_lose_sign').val()=='on'){
+					return chkArray;
+		        }
+		        
+			if(confirm('일괄탈퇴 처리하시겠습니까?\n삭제한 데이터는 복구할 수 없습니다.')){
+				
+			        /*
+			        $('#hiddenValue').val(chkArray);
+			        
+			        alert($('#hiddenValue').val()); // 배열에 담긴 체크박스 값 확인
+				*/
+			   return chkArray;				
+			} else {
+				return false;
+			}
+			
+
+		}		
+		
+		//(회원 일괄 영구 삭제용)선택 체크박스 값 배열에 넣기3
+		function arrayingCheckbox3(){
+			
+			
+
+			 var obj = $("[name=chk_ids]");
+		        var chkArray = new Array(); // 배열 선언
+		 
+		        $('input:checkbox[name=chk_ids]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
+		            chkArray.push(this.value);
+		        });
+		        
+		        if(chkArray.length==0){
+		        	//아무것도 체크 안 했을 경우
+		        	alert('항목을 체크해 주세요.');
+		        	return false;
+		        }			
+			
+		        if($('#win_lose_sign').val()=='on'){
+					return chkArray;
+		        }
+		        
+			if(confirm('일괄 영구삭제 처리하시겠습니까?\n삭제한 데이터는 복구할 수 없습니다.')){
+				
+			        /*
+			        $('#hiddenValue').val(chkArray);
+			        
+			        alert($('#hiddenValue').val()); // 배열에 담긴 체크박스 값 확인
+				*/
+			   return chkArray;				
+			} else {
+				return false;
+			}
+			
+
+		}				
+		
 //[1:1문의]---------------------------------------------------------
 		
 //1:1문의 질문 삭제
@@ -619,6 +693,93 @@
                 }
              });
 		}				
+		
+//[회원]------------------------------------------------------------		
+
+//선택 회원 일괄 탈퇴 처리
+		function memSomeDelete(){
+			var chkArray = arrayingCheckbox2();//체크박스 값 배열에 넣기
+			
+			if(chkArray==false){
+				return false;
+			}
+		
+            $.ajax({
+                url : "mem_some_delete",
+                method : "POST",
+                data: JSON.stringify(chkArray),
+                dataType : "json",
+                contentType: "application/json",
+                success : function(val){
+                   if(val != 0){ //성공
+                      alert("일괄탈퇴처리 완료되었습니다.");
+                     location.reload();
+                   }else if(val==0){ // 0이면 실패
+                      alert("일괄탈퇴 실패.");
+                   }
+                },
+                error : function(){
+                   alert("서버통신실패");
+                }
+             });
+		}		
+	
+		
+//선택 탈퇴 회원 영구 삭제
+function memSomeForeverDelete(){
+	var chkArray = arrayingCheckbox3();//체크박스 값 배열에 넣기
+	
+	if(chkArray==false){
+		return false;
+	}
+
+    $.ajax({
+        url : "mem_some_forever_delete",
+        method : "POST",
+        data: JSON.stringify(chkArray),
+        dataType : "json",
+        contentType: "application/json",
+        success : function(val){
+           if(val != 0){ //성공
+              alert("일괄 영구삭제 처리 완료되었습니다.");
+             location.reload();
+           }else if(val==0){ // 0이면 실패
+              alert("일괄 영구삭제 실패.");
+           }
+        },
+        error : function(){
+           alert("서버통신실패");
+        }
+     });	
+}		
+		
+//선택 등급 일괄 삭제
+function levelSomeDelete(){
+	var chkArray = arrayingCheckbox();//체크박스 값 배열에 넣기
+	
+	if(chkArray==false){
+		return false;
+	}
+
+    $.ajax({
+        url : "level_some_delete",
+        method : "POST",
+        data: JSON.stringify(chkArray),
+        dataType : "json",
+        contentType: "application/json",
+        success : function(val){
+           if(val != 0){ //성공
+              alert("일괄삭제처리 완료되었습니다.");
+             location.reload();
+           }else if(val==0){ // 0이면 실패
+              alert("일괄삭제 실패.");
+           }
+        },
+        error : function(){
+           alert("서버통신실패");
+        }
+     });
+}
 		
 		
 		

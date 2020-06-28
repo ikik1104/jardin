@@ -101,4 +101,18 @@ public class AdminMemberInfoController {
 		return success;
 	}
 	
+	//선택 회원 일괄 탈퇴처리
+	@ResponseBody
+	@RequestMapping("mem_some_delete")
+	public int mem_some_delete(@RequestBody int[] chkArray) {
+		int success = infoservice.deleteSomeMems(chkArray);
+		return success;
+	}	
+	//선택 탈퇴 회원 일괄 영구삭제
+	@ResponseBody
+	@RequestMapping("mem_some_forever_delete")
+	public int mem_some_forever_delete(@RequestBody int[] chkArray) {
+		int success = infoservice.deleteSomeForeverMems(chkArray);
+		return success;
+	}		
 }

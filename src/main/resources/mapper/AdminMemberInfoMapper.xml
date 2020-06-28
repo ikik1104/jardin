@@ -104,4 +104,5 @@
 	<delete id="deleteForeverMember">
 		delete from member_tb where m_status='탈퇴' and m_num=#{m_num}		
 	</delete>
+
 </mapper>

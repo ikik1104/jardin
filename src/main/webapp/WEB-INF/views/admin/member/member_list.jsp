@@ -13,6 +13,9 @@
 		<script type="text/javascript" src="admin/js/jquery-3.4.1.min.js"></script>
         <script type="text/javascript" src="admin/js/jquery-ui.min.js"></script>
         <script type="text/javascript" src="admin/js/prefixfree.dynamic-dom.min.js"></script>
+        <script type="text/javascript" src="admin/js/admin_board.js"></script>    
+		<link rel="stylesheet" type="text/css" href="admin/css/list_button.css">      
+		<link rel="stylesheet" type="text/css" href="admin/css/a_setting.css">	      
 		<style type="text/css">
 			
 			#search_form table{
@@ -122,14 +125,14 @@
 	</head>
 	<body>
 	<jsp:include page="../nav/admin_header.jsp"/>
-	<jsp:include page="../nav/board_nav.jsp"/>
+	<jsp:include page="../nav/member_nav.jsp"/>
 	<section>
 		<h1>회원 관리</h1>
 		<div id="main_list">
 			<div id="main_user_list">
-				<h2>회원 검색</h2>
-				<div class="list_count">임시로 놔두기(총 게시물 수 등등 표시?)</div>
-				<div id="search_form">
+				<!-- <h2>회원 검색</h2> -->
+				<div class="list_count">총 회원 수 : ${member_list.size() }</div>
+				<!-- <div id="search_form">
 					<form name="inputform" method="get" onsubmit="return false;">
 					<table border="1">
 						<tr id="search_date">
@@ -171,12 +174,12 @@
 						</tr>
 					</table>
 				</form>
-			</div>
+			</div>-->
 			
 				<div>
 					<table border="1" id="event_list">
 						<tr>
-							<th><input type="checkbox" ></th>
+							<th><input type="checkbox"  id="check_all"   ></th>
 							<th>번호</th>
 							<th>아이디</th>
 							<th>이름</th>
@@ -189,7 +192,7 @@
 						</tr>
 						<c:forEach var="member_list" items="${member_list }">
 						<tr>
-							<td><input type="checkbox"></td>
+							<td><input type="checkbox" name="chk_ids"  value="${member_list.memberdto.m_num }"></td>
 							<td>${member_list.memberdto.rownum }</td>
 							<td>
 								<a href="member_view?m_num=${member_list.memberdto.m_num }">
@@ -204,8 +207,10 @@
 							<td>${member_list.memberdto.m_join_date }</td>
 							<td>${member_list.memberdto.m_level }</td>
 							<td>${member_list.memberdto.m_email_ok }</td>
-							<td>${member_list.memberdto.m_sms_ok }</td>		
-							<td>${member_list.memberdto.m_last_login }</td>					
+							<td>${member_list.memberdto.m_sms_ok }</td>	
+							
+							<c:if test="${member_list.memberdto.m_last_login!=null }"><td>${member_list.memberdto.m_last_login }</td></c:if>
+							<c:if test="${member_list.memberdto.m_last_login==null ||  member_list.memberdto.m_last_login==''}"><td>-</td></c:if>	
 							<td>
 								<button type="button" onclick="location.href='member_view?m_num=${member_list.memberdto.m_num}'">
 									수정
@@ -217,11 +222,11 @@
 						
 						
 					</table>
-					
-					<div>				
-						<button>선택 탈퇴처리</button>
-					</div>
-
+						<div class="detail_btn" style="text-align:left; cursor:pointer;">
+							<a onclick="memSomeDelete()">선택 탈퇴처리</a>
+							<!-- 선택된 체크박스 값 체크용 -->
+							 <input type="hidden" name="hiddenValue" id="hiddenValue" value=""/>
+						</div>		
 
 				</div>
 			</div>
