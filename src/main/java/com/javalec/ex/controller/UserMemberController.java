@@ -220,11 +220,13 @@ public class UserMemberController {
 	//회원가입
 	@PostMapping("member_join")
 	public String member_join(MemberDto memberDto, Model model) {
+		System.out.println("들어옴");
 		int success = mservice.memberJoin(memberDto);
 		String alerttext="";
 		if(success==0) alerttext="alert('회원가입에 실패했습니다. 다시 시도해 주세요.'); history.go(-1);"; 
 		if(success>=1) alerttext="alert('회원가입 되었습니다.'); location.href='step04';"; 		
 		model.addAttribute("alerttext", alerttext);	
+		System.out.println("나감");
 		return response_path+"step03";
 	}
 	

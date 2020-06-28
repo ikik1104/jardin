@@ -43,7 +43,7 @@ $(function(){
 		}
 	});
 
-	
+	/*
 	$.fn.extend({
 		searchStyle : function(options) {
 			this.each(function() {
@@ -70,7 +70,7 @@ $(function(){
 			
 		}
 	});
-	 
+	 */
 
 	$('select').searchStyle();
 

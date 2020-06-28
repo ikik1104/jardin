@@ -30,7 +30,11 @@
 <script type="text/javascript" src="user/js/jquery.easing.1.3.js"></script>
 <script type="text/javascript" src="user/js/idangerous.swiper-2.1.min.js"></script>
 <script type="text/javascript" src="user/js/jquery.anchor.js"></script>
-
+<script>
+window.onload=function(){
+	checkform.m_id.focus();
+}
+</script>
 <style>
 .w348{
 	margin-left:10px;
@@ -48,7 +52,7 @@ function id_Check(){
 	}
 	
 	//유효성 검사
-	var id_check = /^[a-zA-Z0-9]{5,20}$/;
+	var id_check = /^[a-z0-9]{5,20}$/;
 	
 	if(!(id_check.test(id))){
 		alert('아이디는 5~20자의 영문 소문자, 숫자를 조합해 공백 없이 입력해 주세요. ');
