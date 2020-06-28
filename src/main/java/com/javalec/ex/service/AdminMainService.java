@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.javalec.ex.dto.MainBannerDto;
+import com.javalec.ex.dto.MainJardinDto;
 
 public interface AdminMainService {
 
@@ -25,6 +26,12 @@ public interface AdminMainService {
 	int insertMr(String file_name);//저장
 	int updateMr(String file_name);
 	
+	//***************자뎅 브랜드 상품************
+	MainJardinDto selectJd();
+	int countJd();
+	int insertJardinBrand(MainJardinDto mjdto);
+	int updateJardinBrand(MainJardinDto mjdto);
+
 	void deleteMainBanner(String orders); //메인배너 이미지 삭제
 //	int insertMainBanner(Map<String, Object> map); //메인배너
 //	List<MainBannerDto> selectMainBanners();//메인배너들가져오기

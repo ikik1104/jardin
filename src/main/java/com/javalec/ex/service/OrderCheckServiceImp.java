@@ -115,7 +115,9 @@ public class OrderCheckServiceImp implements OrderCheckService {
 //	}
 	@Override
 	public int review_insert(MultipartFile ru_img_file, ReviewUserDto reviewUserDto) throws Exception {
-		reviewUserDto.setRu_img(utils.FileUploaderCDN(ru_img_file, "review/"));
+		if(ru_img_file != null) {
+			reviewUserDto.setRu_img(utils.FileUploaderCDN(ru_img_file, "review/"));
+		}
 		int check = orderCheckDao.review_insert(reviewUserDto); //db에 저장
 		return check;
 	}
@@ -158,6 +160,11 @@ public class OrderCheckServiceImp implements OrderCheckService {
 	@Override
 	public Map<String, Object> getShortInfo(String m_id) {
 		return orderCheckDao.getShortInfo(m_id);
+	}
+
+	@Override
+	public Map<String, Object> getOneReview(int ol_num) {
+		return orderCheckDao.getOneReview(ol_num);
 	}
 
 

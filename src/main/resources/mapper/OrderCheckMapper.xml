@@ -91,6 +91,13 @@
 		order by od.rnum
 	</select>
 	
+	<!-- 작성한 리뷰 한개 보기 -->
+	<select id="getOneReview" resultType="HashMap">
+		select * from review_user_tb rv 
+		left join product_tb pd on rv.p_num=pd.p_num
+		where ol_num=#{param1}
+	</select>
+	
 	<!-- 주문상태 변경 -->
 	<update id="updateStatus">
 		update orderlist_tb set ol_status=#{param2} where ol_order_num=#{param1} 
@@ -98,7 +105,7 @@
 	
 	<!-- 리뷰 등록 -->
 	<insert id="review_insert" parameterType="com.javalec.ex.dto.ReviewUserDto">
-		insert into review_user_tb values(ru_seq.nextval,#{p_num},#{m_num},#{ru_title},#{ru_content},#{ru_score},sysdate,0,'답변대기','노출',#{ru_img},#{ru_type},#{ol_num})
+		insert into review_user_tb values(ru_seq.nextval,#{p_num},#{m_num},#{ru_title},#{ru_content},#{ru_score},sysdate,0,'답변대기','노출',#{ru_img, jdbcType=VARCHAR},#{ru_type},#{ol_num})
 	</insert>
 	
 	<!-- 결제 취소시 환불접수 insert -->

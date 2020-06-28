@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.javalec.ex.dao.AdminMainDao;
 import com.javalec.ex.dto.MainBannerDto;
+import com.javalec.ex.dto.MainJardinDto;
 
 @Service
 public class AdminMainServiceImp implements AdminMainService {
@@ -70,6 +71,26 @@ public class AdminMainServiceImp implements AdminMainService {
 	@Override
 	public int updateMr(String file_name) {
 		return amdao.updateMr(file_name);
+	}
+
+	@Override
+	public int insertJardinBrand(MainJardinDto mjdto) {
+		return amdao.insertJardinBrand(mjdto);
+	}
+
+	@Override
+	public MainJardinDto selectJd() {
+		return amdao.selectJd();
+	}
+
+	@Override
+	public int countJd() {
+		return amdao.countJd();
+	}
+
+	@Override
+	public int updateJardinBrand(MainJardinDto mjdto) {
+		return amdao.updateJardinBrand(mjdto);
 	}
 
 

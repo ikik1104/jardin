@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.javalec.ex.dto.MainBannerDto;
+import com.javalec.ex.dto.MainJardinDto;
 
 @Repository
 public interface AdminMainDao {
@@ -25,6 +26,12 @@ public interface AdminMainDao {
 	String selectMr();//중간배너 왼쪽
 	int insertMr(String file_name);//저장
 	int updateMr(String file_name);
+	
+	//***************자뎅 브랜드 상품************
+	MainJardinDto selectJd();
+	int countJd();
+	int insertJardinBrand(@Param("mjdto") MainJardinDto mjdto);
+	int updateJardinBrand(@Param("mjdto") MainJardinDto mjdto);
 	
 	void deleteMainBanner(String orders); //메인배너 이미지 삭제
 

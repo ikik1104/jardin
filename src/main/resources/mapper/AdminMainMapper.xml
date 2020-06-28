@@ -56,9 +56,24 @@
 		update mid_right_tb set file_name=#{param1}
 	</update>
 
+<!-- ============================쟈뎅 브랜드=========================== -->
 
-
+	<select id="countJd" resultType="Integer">
+		select count(*) from main_jardinbrand_tb 
+	</select>
 	
+	<select id="selectJd" resultType="com.javalec.ex.dto.MainJardinDto">
+		select * from main_jardinbrand_tb 
+	</select>
+
+	<insert id="insertJardinBrand">
+		insert into main_jardinbrand_tb values
+		(#{mjdto.p1}, #{mjdto.p2}, #{mjdto.p3}, #{mjdto.p4}, #{mjdto.p5})
+	</insert>
+
+	<update id="updateJardinBrand">
+		update main_jardinbrand_tb set p1=#{mjdto.p1}, p2=#{mjdto.p2}, p3=#{mjdto.p3}, p4=#{mjdto.p4}, p5=#{mjdto.p5}
+	</update>
 	
 	
 <!-- 	<update id="updateMainBanner"> -->

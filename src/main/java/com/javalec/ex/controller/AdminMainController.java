@@ -17,6 +17,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.javalec.ex.CommonUtils;
 import com.javalec.ex.dto.MainBannerDto;
+import com.javalec.ex.dto.MainJardinDto;
+import com.javalec.ex.service.AdminCouponService;
 import com.javalec.ex.service.AdminMainService;
 
 @Controller
@@ -26,6 +28,8 @@ public class AdminMainController {
 	AdminMainService amServ;
 	@Autowired
 	CommonUtils utils;
+	@Autowired
+	AdminCouponService cpservice;
 	
 	@RequestMapping("admin_main")
 	public String admin_main(Model model) {
@@ -119,6 +123,33 @@ public class AdminMainController {
 		return result;
 	}
 	
+	//sale
+//	@RequestMapping("admin_sale")
+//	public String ad_sale(Model model) {
+//		model.addAttribute("jb", amServ.selectJd()); //선택되어있는애들 가져오기...
+//		model.addAttribute("product_list", cpservice.getAllProducts());
+//		return "admin/main/sale";
+//	}
+//	
+	
+	//jardin brand
+	@RequestMapping("jardin_brand")
+	public String ad_jardin_brand(Model model) {
+		model.addAttribute("jb", amServ.selectJd()); //선택되어있는애들 가져오기...
+		model.addAttribute("product_list", cpservice.getAllProducts());
+		return "admin/main/jardin_brand";
+	}
+	
+	@RequestMapping("jardin_brand_regi")
+	public String jardin_brand_regi(MainJardinDto mainJardinDto) {
+		//
+		if(amServ.countJd()==0) {
+			amServ.insertJardinBrand(mainJardinDto);
+		} else {
+			amServ.updateJardinBrand(mainJardinDto);
+		}
+		return "redirect:jardin_brand";
+	}
 	
 	
 	

@@ -119,7 +119,7 @@ $(function() {
                                 </td>
                                 
                                 <td class="pnone">
-                                    <a href="#" class="submit_color" id="btn2${ status2.index }"> 작성글보기 </a>
+                                    <a href="my_review_view?ol_num=${ listEnd.O_NUM }" class="submit_color" id="btn2${ status2.index }"> 작성글보기 </a>
                                 </td>
                             </tr>
                             </c:forEach>
