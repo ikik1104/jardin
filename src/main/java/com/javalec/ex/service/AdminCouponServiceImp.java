@@ -80,6 +80,11 @@ public class AdminCouponServiceImp implements AdminCouponService {
 		return admincoupondao.deleteCoupon(co_num);
 	}
 
+	//선택 쿠폰 일괄 삭제
+	public int deleteSomeCoupons(int[] chkArray) {
+		return admincoupondao.deleteSomeCoupons(chkArray);
+	}
+
 
 	
 }

@@ -590,9 +590,35 @@
 		}
 		
 		
+//[프로모션-쿠폰]-----------------------------------------------------		
 		
+//선택 쿠폰 일괄 삭제
+		function couponSomeDelete(){
+			var chkArray = arrayingCheckbox();//체크박스 값 배열에 넣기
+			
+			if(chkArray==false){
+				return false;
+			}
 		
-		
+            $.ajax({
+                url : "coupon_some_delete",
+                method : "POST",
+                data: JSON.stringify(chkArray),
+                dataType : "json",
+                contentType: "application/json",
+                success : function(val){
+                   if(val != 0){ //성공
+                      alert("일괄삭제처리 완료되었습니다.");
+                     location.reload();
+                   }else if(val==0){ // 0이면 실패
+                      alert("일괄삭제 실패.");
+                   }
+                },
+                error : function(){
+                   alert("서버통신실패");
+                }
+             });
+		}				
 		
 		
 		

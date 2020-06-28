@@ -164,7 +164,7 @@
 				<ul>	
 					<li style="cursor:pointer;"><a href="event" id="leftNavi1">진행중 이벤트</a></li>
 					<li style="cursor:pointer;"><a href="fin_event" id="leftNavi2">종료된 이벤트</a></li>
-					<li class="last" style="cursor:pointer;"><a href="prizewinner" id="leftNavi3">당첨자 발표</a></li>
+					<!--<li class="last" style="cursor:pointer;"><a href="prizewinner" id="leftNavi3">당첨자 발표</a></li>  -->
 				</ul>			
 			</div><script type="text/javascript">initSubmenu(2,0);</script>
 
@@ -249,7 +249,7 @@ ${event_info.eventdto.e_content }
 					<!-- //이전다음글 -->
 
 					<!-- 댓글 전체 리스트 출력 -->
-					<p class="txt">총 <span class="orange">${ecomment_list.size() }</span> 개의 댓글이 달려있습니다.</p>
+					<p class="txt" style="margin-bottom:5px;">총 <span class="orange">${ecomment_list.size() }</span> 개의 댓글이 달려있습니다.</p>
 					<div class="replyBox"> <a href='anchor'></a>
 							
 							<!-- 등록된 댓글 없을 경우 -->

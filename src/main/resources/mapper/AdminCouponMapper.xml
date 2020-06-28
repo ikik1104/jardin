@@ -192,4 +192,12 @@
 		delete from coupon_tb where co_num=#{co_num}
 	</delete>
 	
+	<!-- 선택 쿠폰 일괄 삭제 -->
+	<delete id="deleteSomeCoupons" parameterType="HashMap">
+		delete from coupon_tb where co_num in
+		<foreach collection="chkArray" item="item" open="(" close=")" separator=",">
+	 		#{item}
+		</foreach>		
+	</delete>
+	
 </mapper>		

@@ -114,9 +114,9 @@
 		<h1>당첨자 게시글 관리</h1>
 		<div id="main_list">
 			<div id="main_user_list">
-				<h2>게시글 검색</h2>
+				<!-- <h2>게시글 검색</h2> -->
 				<div class="list_count">총 게시글 수 : ${win_board_list.size() }</div>
-				<div id="search_form">
+				<!--  <div id="search_form">
 					<form name="inputform" method="get" onsubmit="return false;">
 					<table border="1">
 						<tr id="search_date">
@@ -137,7 +137,7 @@
 							<td>이벤트명</td>
 							<td><select name="keysort">
 							<!-- 이벤트명 들어가게 코딩 ㄱㄱ -->
-							</select>
+							<!-- </select>
 							<input type="text" name="keyword">
 							</td>
 						</tr>						
@@ -157,7 +157,7 @@
 					</table>
 					</form>
 					
-				</div>
+				</div>-->
 				<div>
 					<button type="button" onclick="location.href='win_board_write'">
 						새 글 등록

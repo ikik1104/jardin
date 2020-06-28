@@ -111,7 +111,7 @@ $(document).ready(function() {
 				<ul>	
 					<li style="cursor:pointer;"><a href="event" id="leftNavi1">진행중 이벤트</a></li>
 					<li style="cursor:pointer;"><a href="fin_event" id="leftNavi2">종료된 이벤트</a></li>
-					<li class="last" style="cursor:pointer;"><a href="prizewinner" id="leftNavi3">당첨자 발표</a></li>
+					<!--<li class="last" style="cursor:pointer;"><a href="prizewinner" id="leftNavi3">당첨자 발표</a></li>  -->
 				</ul>			
 			</div><script type="text/javascript">initSubmenu(2,0);</script>
 

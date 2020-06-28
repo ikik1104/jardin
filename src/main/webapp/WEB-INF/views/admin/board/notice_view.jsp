@@ -173,7 +173,7 @@
 							<td>${AllDto2.utildto.str1 }</td>
 						</tr>								
 						<tr >
-							<th class="notice_th"  >* 제목</th>
+							<th class="notice_th"  >제목 *</th>
 							<td >
 							<textarea  id="notice_modify_title" class="modify_textarea" onkeyup="resize(this)" name="no_title" maxlength="85" style="overflow:hidden;margin:0; padding-top:10px; height:33px;">${AllDto2.noticedto.no_title }</textarea>
 							<p class="byte_area"><span id="byte_alert">※최대 입력 글자 수를 초과했습니다. </span><span id="present_byte"></span> /85 byte</p>
@@ -181,7 +181,7 @@
 							</td>
 						</tr>									
 						<tr>
-							<th class="notice_th">* 내용</th>
+							<th class="notice_th">내용 *</th>
 							<td>
 								<!-- 텍스트에디터로 변경?★★★★★★★★★ -->
 								<textarea   class="modify_textarea2" onkeyup="resize2(this)" wrap="hard" name="no_content" id="smartEditor" style="width:100%; height: 412px;">

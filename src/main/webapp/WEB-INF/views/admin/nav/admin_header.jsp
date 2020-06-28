@@ -70,7 +70,7 @@
 	            </li>
 	            <li id="ca_promotion"><a href="promotion.jsp"><span></span>프로모션</a>
 	            	<ul class="sub_list">
-	            	<li><a href="ad_notice_list.html">쿠폰</a></li>
+	            	<li><a href="ad_coupon_list">쿠폰</a></li>
 	           		 </ul>
 	           	</li>
 			</ul>

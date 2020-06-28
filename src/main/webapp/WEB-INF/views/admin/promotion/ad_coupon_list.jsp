@@ -13,6 +13,9 @@
 		<script type="text/javascript" src="admin/js/jquery-3.4.1.min.js"></script>
         <script type="text/javascript" src="admin/js/jquery-ui.min.js"></script>
         <script type="text/javascript" src="admin/js/prefixfree.dynamic-dom.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="admin/css/list_button.css">   
+		<link rel="stylesheet" type="text/css" href="admin/css/a_setting.css">		
+		<script type="text/javascript" src="admin/js/admin_board.js"></script>		 	
 		<style type="text/css">
 			
 			#search_form table{
@@ -78,14 +81,14 @@
 	</head>
 	<body>
 	<jsp:include page="../nav/admin_header.jsp"/>
-	<jsp:include page="../nav/board_nav.jsp"/>
+	<jsp:include page="../nav/promotion_nav.jsp"/>
 	<section>
 		<h1>쿠폰 관리</h1>
 		<div id="main_list">
 			<div id="main_user_list">
-				<h2>쿠폰 검색</h2>
-				<div class="list_count">임시로 놔두기(총 게시물 수 등등 표시?)</div>
-				<div>
+				<!--  <h2>쿠폰 검색</h2>-->
+				<div class="list_count">총 쿠폰 수 : ${coupon_list.size() }</div>
+				<div style="margin-bottom:5px;">
 					<button onclick="location.href='coupon_write'">새 쿠폰 추가</button>
 				</div>
 			
@@ -117,9 +120,9 @@
 							<c:if test="${coupon_list.coupondto.co_type=='delivery' }"><td>배송</td></c:if>
 							<c:if test="${coupon_list.coupondto.co_type=='cart' }"><td>장바구니</td></c:if>							
 							<c:if test="${coupon_list.coupondto.co_type=='product' }"><td>상품</td></c:if>	
-							<td>${coupon_list.coupondto.co_discount }</td>
+							<td><fmt:formatNumber type="number" maxFractionDigits="3" value="${coupon_list.coupondto.co_discount }" /></td>
 							<td>${coupon_list.productdto.p_name }</td>
-							<td>${coupon_list.coupondto.co_condition }</td>				
+							<td><fmt:formatNumber type="number" maxFractionDigits="3" value="${coupon_list.coupondto.co_condition }" /></td>				
 							<td>${coupon_list.utildto.str1 }</td>											
 							<td>${coupon_list.utildto.str2 }</td>
 							<td>${coupon_list.utildto.str3}</td>				
@@ -132,11 +135,12 @@
 						</tr>
 						</c:forEach>
 					</table>
-					
-					<div>				
-						<button>선택 삭제</button>
-					</div>
 				
+				<div class="detail_btn" style="text-align:left; cursor:pointer;">
+							<a onclick="couponSomeDelete()">선택 삭제</a>
+							<!-- 선택된 체크박스 값 체크용 -->
+							 <input type="hidden" name="hiddenValue" id="hiddenValue" value=""/>
+				</div>				
 				</div>
 			</div>
 				</div>

@@ -13,6 +13,10 @@
 		<!-- 페이지 상단 또는 하단에 라이브러르 추가 --> 
 		<script type="text/javascript" src="admin/se2/js/HuskyEZCreator.js" charset="utf-8"></script> 
 		<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="admin/css/admin_view.css">	
+		<link rel="stylesheet" type="text/css" href="admin/css/a_setting.css">	
+        <script type="text/javascript" src="admin/js/admin_board.js"></script>		
+		<link rel="stylesheet" type="text/css" href="admin/css/list_button.css">      
 		<!-- 페이지 로딩시 초기화 --> 
 		<script>
 		/*
@@ -115,27 +119,27 @@
 		<h1>쿠폰 입력</h1>
 			<form action="coupon_insert" name="inputform" method="post">
 				<div id="input_form">
-					<table border="1">
+					<table border="1" style="width:1000px; margin:0;">
 						<tr>
-							<td>쿠폰명</td>
-							<td><input type="text" name="co_name"></td>
+							<th>쿠폰명</th>
+							<td><input type="text" name="co_name" style="font-size:15px; height:33px; width:800px; min-width:200px; border:none; background:inherit;"></td>
 						</tr>
 						<tr>
-							<td>쿠폰 사용기간 선택</td>
+							<th>쿠폰 사용기간 선택</th>
 							<td>
 								<input type="radio" name="co_select" value="expiry_1" onchange="radio(this.value)" checked> 쿠폰을 다운로드 한 날짜부터의 유효기간을 지정합니다.<br>
 								<input type="radio" name="co_select" value="expiry_0" onchange="radio(this.value)" > 쿠폰 사용 종요일을 최종 사용일로 지정합니다.(사용 기간 쿠폰종료일 까지)
 							</td>
 						</tr>
 						<tr>
-							<td>쿠폰 사용 기간</td>
+							<th>쿠폰 사용 기간</th>
 							<fmt:formatDate var="sys" value="${sysdate}" pattern="yyyy-MM-dd"/>
 							<td id="date_set">시작일 : <input type="date" name="str1"  value="${sys}" onchange="date_chk1()"> ~ 
 							종료일 : <input type="date" name="str2" onchange="date_chk1()" ></td>
-							<td  id="expiry_set">다운로드 일부터 <textarea maxlength="3" name="co_expiry" >0</textarea>일 까지</td>
+							<td  id="expiry_set" style="height:33px; line-height:42px;">다운로드 일부터 <textarea maxlength="3" name="co_expiry"  style="border:1px solid rgb(118, 118, 118); overflow:hidden;padding-left:5px; margin:0; width:100px; height:20px; background:inherit; block:inline-block;">0</textarea>일 까지</td>
 						</tr>
 						<tr >
-							<td>쿠폰 타입</td>
+							<th>쿠폰 타입</th>
 							<td>
 								<select name="co_type" onchange="pro_chk(this.value)">
 									<option value="">선택 안 함</option>
@@ -146,7 +150,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td  id="product_select">상품 선택</td>
+							<th  id="product_select">상품 선택</th>
 							<td id="product_0">지정 안 함</td>
 							<td  id="product_1">
 								<select name="co_product">
@@ -158,18 +162,20 @@
 							</td>
 						</tr>						
 						<tr >
-							<td>할인금액</td>
+							<th>할인금액</th>
 							<td><input type="text" maxlength="5" name="co_discount">원 할인</td>
 						</tr>
 						<tr >
-							<td>사용 가능 주문금액</td>
+							<th>사용 가능 주문금액</th>
 							<td>주문금액 최소 <input type="text" maxlength="5" name="co_condition">원 이상</td>
 						</tr>						
 					</table>
 							<input type="hidden" name="is_product" id="is_product"><!-- 상품 유무 전송값 -->					
-					<div id="btn_div">
-						<button type="button" onclick="location.href='ad_coupon_list'">취소</button>
-						<button type="submit">등록</button>
+					<div id="btn_div" style="margin-top:10px; width:1000px; margin-bottom:300px;">
+						<div id="btn_wrap" style="width:80px; float:right;">
+							<button type="button" onclick="location.href='ad_coupon_list'">목록</button>
+							<button type="submit">등록</button>
+						</div>
 					</div>
 				</div>
 			</form>

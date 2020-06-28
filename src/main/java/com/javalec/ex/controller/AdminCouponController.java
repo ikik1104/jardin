@@ -143,6 +143,13 @@ public class AdminCouponController {
 		int success = cpservice.deleteCoupon(co_num);
 		return success;
 	}
+	//선택 쿠폰 일괄 삭제
+	@ResponseBody
+	@RequestMapping("coupon_some_delete")
+	public int coupon_some_delete(@RequestBody int[] chkArray) {
+		int success = cpservice.deleteSomeCoupons(chkArray);
+		return success;
+	}
 
 	
 }

@@ -175,7 +175,7 @@
 				<ul>	
 					<li style="cursor:pointer;"><a id="leftNavi1"  href="event" >진행중 이벤트</a></li>
 					<li><a href="fin_event" id="leftNavi2">종료된 이벤트</a></li>
-					<li class="last"><a href="prizewinner" id="leftNavi3"><span>당첨자 발표</span></a></li>
+					<!--<li class="last" style="cursor:pointer;"><a href="prizewinner" id="leftNavi3">당첨자 발표</a></li>  -->
 				</ul>			
 			</div><script type="text/javascript">initSubmenu(1,0);</script>
 

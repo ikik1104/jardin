@@ -133,9 +133,9 @@
 		<h1>1:1문의 관리</h1>
 		<div id="main_list">
 			<div id="main_user_list">
-				<h2>게시글 검색</h2>
+				<!-- <h2>게시글 검색</h2> -->
 				<div class="list_count"> 총 게시글 수 : ${ mtm_list.size()}</div>
-				<div id="search_form">
+				<!--  <div id="search_form">
 					<form name="inputform" method="get" onsubmit="return false;">
 					<table border="1">
 						<tr id="search_date">
@@ -178,7 +178,7 @@
 					</table>
 					</form>
 					
-				</div>
+				</div>-->
 				<div>
 					<!-- 등록된 1:1문의 없을 경우 -->
 					<c:if test="${mtm_list.size()==0 }">
@@ -202,7 +202,7 @@
 							<tr>
 								<td><input type="checkbox" name="chk_ids"  value="${mtm_list.mtmuserdto.iu_num }"></td>
 								<td>${mtm_list.mtmuserdto.rownum }</td>
-								<td>
+								<td style="overflow:hidden; text-overflow:ellipsis; ">
 									<a href="mtm_view?m_num=${mtm_list.memberdto.m_num }&iu_num=${mtm_list.mtmuserdto.iu_num}"> 
 										${mtm_list.mtmuserdto.iu_title }
 									</a>								

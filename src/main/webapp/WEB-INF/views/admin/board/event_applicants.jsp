@@ -112,9 +112,9 @@
 		<h1>이벤트 신청자 관리</h1>
 		<div id="main_list">
 			<div id="main_user_list">
-				<h2>신청자 검색</h2>
+				<!-- <h2>신청자 검색</h2> -->
 				<div class="list_count">총 신청자 수 : ${apply_list.size() }</div>
-				<div id="search_form">
+				<!--<div id="search_form">
 					<form name="inputform" method="get" onsubmit="return false;">
 					<table border="1">
 						<tr id="search_date">
@@ -146,7 +146,7 @@
 								<select name="keysort">
 									<option>전체</option>
 									<!-- 이벤트 명 넣어주기 -->
-								</select>
+								<!--  </select>
 								<input type="text" name="keyword">
 							</td>							
 						</tr>
@@ -166,7 +166,7 @@
 					</table>
 				</form>
 					
-				</div>
+				</div>-->
 				
 				<div class="detail_btn" style="text-align:left; cursor:pointer; margin-bottom:10px;">
 					<button onclick="location.href='event_list'">이벤트 리스트</button>											
@@ -180,6 +180,16 @@
 					<!-- 등록된 1:1문의 있을 경우 -->
 					<c:if test="${apply_list.size()!=0 }">
 					<table border="1" id="event_list" >
+						<colgroup>
+							<col>
+							<col>
+							<col>
+							<col>
+							<col width="30%">
+							<col>
+							<col>
+							<col>
+						</colgroup>
 						<tr>
 							<th><input type="checkbox"  id="check_all" ></th>
 							<th>번호</th>
@@ -199,7 +209,7 @@
 							</td>
 							<td>${apply_list.memberdto.m_id }</td>
 							<td>${apply_list.utildto.str1 }</td>
-							<td class="user_title">
+							<td class="user_title" >
 								<a class="user_title" href="event_view?e_num=${apply_list.eventdto.e_num }">
 									${apply_list.eventdto.e_title }
 								</a>
