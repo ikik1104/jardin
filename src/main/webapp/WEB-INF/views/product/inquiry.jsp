@@ -28,11 +28,12 @@ $(function() {
 		$.ajax({
 			  type: 'post',
 			  url:"./inquiry_insert",
-			  data: $("#updateReview").serialize(), // form에 있는 input값을 controller전송
+			  data: $("#inquiry").serialize(), // form에 있는 input값을 controller전송
 			  contentType: "application/x-www-form-urlencoded;charset=UTF-8",
 			  success:function(data){
 			   if(data==1){
 			    alert("질문 등록이 완료되었습니다.");
+// 			    location.href='product_detail?p_num='+${p_num}+'&initVal=3';
 			    parent.$.fancybox.close();
 			   }
 			   

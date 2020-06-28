@@ -7,4 +7,5 @@ import com.javalec.ex.dto.CommentDto;
 public interface CommentService {
 
 	ArrayList<CommentDto> comment_list();
+
 }

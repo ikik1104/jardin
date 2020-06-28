@@ -20,6 +20,7 @@ import com.javalec.ex.dto.MemberDto;
 import com.javalec.ex.dto.MtmUserDto;
 import com.javalec.ex.dto.QnrAnswerDto;
 import com.javalec.ex.dto.QnrUserDto;
+import com.javalec.ex.dto.ReviewAnswerDto;
 import com.javalec.ex.dto.ReviewUserDto;
 
 @Service
@@ -163,6 +164,37 @@ public class AdminBoardServiceImp implements AdminBoardService {
 	public HashMap<String, Object> getReviewDetail(int ru_num) {
 		return abDao.getReviewDetail(ru_num);
 	}
+	
+	
+	//후기 답글달기
+	@Override
+	public int review_answer_insert(ReviewAnswerDto raDto) {
+		
+		int result = abDao.review_answer_insert(raDto);
+		if(result == 1){
+			result = abDao.review_status_update(raDto.getRu_num());
+		}
+		return result;
+		
+	}
+	
+	//후기 답글 수정
+	@Override
+	public int review_answer_update(ReviewAnswerDto raDto) {
+		return abDao.review_answer_update(raDto);
+	}
+	
+	//후기 답글 삭제
+	@Override
+	public int review_answer_delete(int ru_num) {
+		int result = abDao.review_answer_delete(ru_num);
+		if(result == 1){
+			result = abDao.review_status_update(ru_num);
+		}
+		return result;
+	}
+
+	
 
 
 	//QnA-------------------------------------------------------------
@@ -227,7 +259,6 @@ public class AdminBoardServiceImp implements AdminBoardService {
 		return abDao.getSearchQna(map);
 	}
 
-	
 	
 
 	

@@ -193,7 +193,7 @@
 						</tr>
 						<c:forEach items="${enjoy_coffee}" var="list">
 						<tr>
-							<td>${list.rownum}</td>
+							<td>${list.rnum}</td>
 							<td>${list.ej_num}</td>
 							<td>${list.ej_title}</td>
 							<td>${list.ej_content}</td>

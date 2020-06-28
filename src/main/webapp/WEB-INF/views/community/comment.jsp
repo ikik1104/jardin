@@ -170,11 +170,18 @@ function search() {
 								<c:forEach var="list" items="${list}">
 								<tr>
 									<td class="tnone">${list.RNUM}</td>
-									<td>${list.P_NAME}</td>
-									<td class="left">
+									<td>
+										${list.P_NAME}</td>
+									<td class="left" style="text-overflow:ellipsis;overflow:hidden;white-space: nowrap; ">
 										<a href="review_detail?ru_num=${list.RU_NUM}&rownum=${list.RNUM}&ru_type=${list.RU_TYPE}&page=${ paging.getPage()}">
+											<c:if test="${list.RU_TYPE eq '포토'}">
+												<img src="${list.RU_IMG}" width="70px" height="50px">
+											</c:if>
 											${list.RU_TITLE}
 											<img src="user/images/ico/ico_new.gif" alt="new" />
+											<c:if test="${list.RU_STATUS eq '답변완료'}">
+											(1)
+											</c:if>
 										</a>
 									</td>
 									<td>${list.M_ID}</td>

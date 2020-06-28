@@ -148,7 +148,7 @@
  				display : none;
 			}
 		#list_div{
-			height: 500px;
+			height: 1200px;
 			overflow: scroll;
 		}
 		.top_cnt{
@@ -291,10 +291,9 @@
 							<td>${pro.p_price}</td>
 							<td>${pro.p_point}</td>
 							<td>${pro.p_stock}</td>
-							<td>${pro.p_sysdate}</td>
-							<td>${pro.p_update}</td>
+							<td><fmt:formatDate value="${pro.p_sysdate}" pattern="yyyy-MM-dd"/> </td>
+							<td><fmt:formatDate value="${pro.p_update}" pattern="yyyy_MM-dd"/> </td>
 							<td>${pro.p_delflag}</td>
-<!-- 							<td><button type="button" onclick="스크립트()">수정</button></td> -->
 							<td>
 							<button type="button" onclick="location.href='product_updateForm?p_num=${pro.p_num}'">수정</button>
 							<button type="button" onclick="delProduct(${pro.p_num})">삭제</button>

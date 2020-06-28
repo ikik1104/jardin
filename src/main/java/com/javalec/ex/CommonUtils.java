@@ -79,7 +79,7 @@ public class CommonUtils {
 
 		Map params = ObjectUtils.asMap("public_id", folderName + storedFileName);
 
-		File convFile = new File("Z://"+ storedFileName);
+		File convFile = new File("D://"+ storedFileName);
 
 		mFile.transferTo(convFile);
 

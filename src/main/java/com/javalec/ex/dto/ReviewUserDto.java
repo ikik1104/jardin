@@ -3,7 +3,7 @@ package com.javalec.ex.dto;
 import java.sql.Timestamp;
 
 public class ReviewUserDto {
-	private int rownum;		//DB에서 가져오는 rownum
+	private int rnum;		//DB에서 가져오는 rownum
 	private int ru_num;     //리뷰 고유번호
 	private int  p_num;     //리뷰 제품 고유번호
 	private int m_num;     //회원 고유번호(작성자)
@@ -20,10 +20,11 @@ public class ReviewUserDto {
 	
 	public ReviewUserDto() {}
 
-	public ReviewUserDto(int rownum, int ru_num, int p_num, int m_num, String ru_title, String ru_content, int ru_score,
-			Timestamp ru_date, int ru_hit, String ru_status, String ru_visility, String ru_img, String ru_type) {
+	public ReviewUserDto(int rnum, int ru_num, int p_num, int m_num, String ru_title, String ru_content, int ru_score,
+			Timestamp ru_date, int ru_hit, String ru_status, String ru_visility, String ru_img, String ru_type,
+			int ol_num) {
 		super();
-		this.rownum = rownum;
+		this.rnum = rnum;
 		this.ru_num = ru_num;
 		this.p_num = p_num;
 		this.m_num = m_num;
@@ -36,16 +37,15 @@ public class ReviewUserDto {
 		this.ru_visility = ru_visility;
 		this.ru_img = ru_img;
 		this.ru_type = ru_type;
+		this.ol_num = ol_num;
 	}
 
-	
-	
-	public int getRownum() {
-		return rownum;
+	public int getRnum() {
+		return rnum;
 	}
 
-	public void setRownum(int rownum) {
-		this.rownum = rownum;
+	public void setRnum(int rnum) {
+		this.rnum = rnum;
 	}
 
 	public int getRu_num() {
@@ -151,6 +151,6 @@ public class ReviewUserDto {
 	public void setOl_num(int ol_num) {
 		this.ol_num = ol_num;
 	}
-	
+
 	
 }

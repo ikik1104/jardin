@@ -123,12 +123,12 @@ $(document).ready(function() {
 							<c:forEach items="${list}" var="list">
 							<!-- List -->
 							<li>
-								<div class="img"><img src="${list.ej_img}" width="155" height="160" alt="" /></div>
+								<div class="img"><img src="${list.ej_img}" width="155" height="160" /></div>
 								<div class="txt">
 									<div class="subject">
-										<a href="enjoy_view?ej_num=${list.ej_num}&rownum=${list.rownum}&page=${paging.getPage()}" >${list.ej_title}</a>
+										<a href="enjoy_view?ej_num=${list.ej_num}&rownum=${list.rnum}&page=${paging.getPage()}" >${list.ej_title}</a>
 									</div>
-									<div class="conf">
+									<div class="conf" style="text-overflow:ellipsis;overflow:hidden;white-space: nowrap; ">
 										${list.ej_content}
 									</div>
 									<div class="data">

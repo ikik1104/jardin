@@ -177,7 +177,8 @@ $(document).ready(function() {
 					<c:set var="p" value="pro_count" />
 					<li>
 						<a href="product_detail?p_num=${product.p_num}">
-							<div class="img"><img src="user/images/img/sample_brand.jpg" alt="제품이미지" /></div>
+							<div class="img"><img src="${product.p_thumb_img1}" alt="제품이미지" /></div>
+							<div class="step2 name" style="font-weight: bold;">${product.p_step2	}</div>
 							<div class="name">${product.p_name}</div>
 							<div class="price">
 							<fmt:formatNumber value="${product.p_price}" type="number"/>

@@ -195,8 +195,8 @@ function updateReview(ru_num) {
 						</div>
 
 						<div class="viewContents" style="text-align: center;">
-							<c:if test="${not empty dto.ru_img}">
-								<img src="${not empty dto.ru_img}">
+							<c:if test="${not empty dto.RU_IMG}">
+								<div style="text-align: center; margin-bottom: 50px;"><img src="${dto.RU_IMG}"  width="550px;"></div>
 							</c:if>
 							${dto.RU_CONTENT}
 						</div>

@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -50,7 +53,7 @@
 
 		<h1>enjoy Coffee 수정</h1>
 
-			<form action="enjoy_update" name="inputform" method="post">
+			<form action="enjoy_update" name="inputform" method="post" enctype="multipart/form-data">
 				<div id="input_form">
 					<table border="1">
 						<tr>
@@ -66,9 +69,27 @@
 							<td><textarea name="ej_content" id="smartEditor" style="width:100%; height: 412px;">${enjoy.ej_content}</textarea></td>
 						</tr>
 						<tr>
-							<td>첨부 이미지</td>
-<!-- 							<td><input type="file" name="file"></td> -->
-							<td><input type="text" name="ej_img" value="${enjoy.ej_img}"></td>
+							<td>썸네일 이미지</td>
+							<td>
+								<img src="${enjoy.ej_img}" width="80px" height="40px"><br>
+								수정 이미지 <input type="file" name="enjoy_img" >
+								<input type="hidden" name="ej_img" value="${enjoy.ej_img}">
+							</td>
+						</tr>
+						<tr>
+							<td>상세보기 이미지</td>
+							<td>
+								<c:if test="${not empty enjoy.ej_img2}">
+									<img src="${enjoy.ej_img2}" width="80px" height="40px">
+								</c:if>
+								<c:if test="${empty enjoy.ej_img2}">
+									(첨부 이미지 없음)
+								</c:if>
+								<br>
+								수정 이미지 
+								<input type="file" name="enjoy_img2" >
+								<input type="hidden" name="ej_img2" value="${enjoy.ej_img2}">
+							</td>
 						</tr>
 					</table>
 					<div id="btn_div">
