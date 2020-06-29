@@ -103,6 +103,10 @@ $(document).ready(function() {
 .img_size2{width:50%;}
 .img{background:white !important;}
 .saleimg{width:150px !important;}
+.heightCtrl{height:90%;}
+.marginCtrl{margin: 0px !important;}
+.borderCtrl{border: 0px !important;}
+#mainReview{margin-bottom: 0px !important;}
 </style>
 </head>
 <body>
@@ -197,7 +201,7 @@ $(document).ready(function() {
 		<div id="mainContents">
 
 			<!-- Best seller -->
-			<div class="mtitle"><h2>JARDIN BEST SELLER</h2></div>
+			<div class="mtitle backCtrl"><h2>JARDIN BEST SELLER</h2></div>
 			<div id="bestseller">
 				<div class="swiper-wrapper">
 					<div class="swiper-slide">
@@ -242,15 +246,14 @@ $(document).ready(function() {
 			<div id="mainReview">
 				<ul>
 					<li class="roast">
-						<a href="#"><img src="user/images/img/img_fresh_roast_bean.jpg" alt="FRESH ROAST BEAN" /></a>
+						<a href="#"><img src="${ left }" class="img_size heightCtrl" alt="FRESH ROAST BEAN" /></a>
 						<p class="title">FRESH ROAST<br/>BEAN</p>
 					</li>
-					<li class="review"><a href="#"><img src="user/images/img/img_review.jpg" alt="REVIEW" /></a></li>
-					<li class="last">
-						<a href="#">
-							<p class="title">SPECIALTY<br/>COFFEE<span>스페셜티 커피 전문점 커피 휘엘</span></p>
-							<div class="fiel"><img src="user/images/img/img_coffee_fiel.jpg" alt="THE COFFEE CREAOR SINCE 1984" /></div>
-						</a>
+					<li class="review"><a href="#"><img src="user/images/img/middle3.PNG" class="img_size marginCtrl" alt="REVIEW" /></a></li>
+					<li class="last borderCtrl">
+						<a href="#"><img src="${ right }" class="img_size heightCtrl" alt="THE COFFEE CREAOR SINCE 1984" /></a>
+						<p class="title">SPECIALTY<br/>COFFEE<span>스페셜티 커피 전문점 커피 휘엘</span></p>
+<!-- 							<div class="fiel"></div> -->
 					</li>
 				</ul>
 			</div>

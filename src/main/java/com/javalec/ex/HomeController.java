@@ -74,7 +74,17 @@ public class HomeController {
 			int m_num = (Integer)session.getAttribute("userNum");
 			model.addAttribute("allWishlist", mp1Service.getAllWish(m_num));
 			model.addAttribute("chkLogin", 1);
-		}		
+		}
+
+		//중간왼쪽배너
+		String file_name = amServ.selectMl();
+		model.addAttribute("left", file_name);
+		System.out.println(file_name);
+		
+		//중간오른쪽배너
+		String file_name2 = amServ.selectMr();
+		model.addAttribute("right", file_name2);
+		
 		
 		return "layout/main";
 	}

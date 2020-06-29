@@ -116,6 +116,8 @@ public class AdminMainServiceImp implements AdminMainService {
 	@Override
 	public int updateSale(MainSaleDto sdto) {
 		return amdao.updateSale(sdto);
+	}
+	
 	public List<ProductDto> getProductList() {
 		return amdao.getProductList();
 	}
@@ -159,6 +161,7 @@ public class AdminMainServiceImp implements AdminMainService {
 	public int updateMD(int p_num,String explain,int pNum) {
 		return amdao.updateMD(p_num, explain, pNum);
 	}
+
 
 
 

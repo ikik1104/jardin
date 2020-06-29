@@ -105,6 +105,15 @@ public class UserLayoutController {
 			model.addAttribute("chkLogin", 1);
 		}
 		
+		System.out.println("뭐야 왜안돼");
+		//중간왼쪽배너
+		String file_name = amServ.selectMl();
+		model.addAttribute("left", file_name);
+		System.out.println(file_name);
+		//중간오른쪽배너
+		String file_name2 = amServ.selectMr();
+		model.addAttribute("right", file_name2);
+		
 		return response_path+"main";
 	}
 	

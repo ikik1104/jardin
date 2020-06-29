@@ -28,6 +28,7 @@
 		where num=1
 	</update>
 	
+
 <!-- ============================중간배너 왼쪽=========================== -->
 
 	<select id="selectMl" resultType="String">
