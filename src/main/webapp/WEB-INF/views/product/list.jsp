@@ -167,7 +167,7 @@ $(document).ready(function() {
 				</c:if>
 				<c:if test="${p_step1 eq '용품'}">
 					<li><a href="u_product_list?p_step1=용품">전체</a></li>
-						<li><a href="u_product_list?p_step2=용품&p_step2=커피용품">커피용품</a></li>
+						<li><a href="u_product_list?p_step1=용품&p_step2=커피용품">커피용품</a></li>
 				</c:if>
 				</ul>
 				

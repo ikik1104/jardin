@@ -201,7 +201,7 @@
 							<td>${list.ej_title}</td>
 							<td>${list.ej_content}</td>
 							<td><img alt="이미지" src="${list.ej_img}"></td>
-							<td>${list.ej_date}</td>
+							<td><fmt:formatDate value="${list.ej_date}" pattern="yyyy-MM-dd"/></td>
 							<td>${list.ej_hit}</td>
 							<td>
 								<button type="button" onclick="location.href='enjoy_updateForm?ej_num=${list.ej_num}'">수정</button>

@@ -115,25 +115,28 @@ public class ProductController {
 	@RequestMapping("product_update")
 	public String product_update(Model model,ProductDto pdto,MultipartFile thumb_img1, MultipartFile thumb_img2,MultipartFile thumb_img3,MultipartFile content_img)throws IOException {
 		
-			//필수로 파일이 첨부되어야 하는 이미지들
+			//필수로 파일이 첨부되어야 하는 이미지
 			if(thumb_img1.isEmpty()==false){ //이미지가 새로 입력이 되면
 				System.out.println("썸넿1 업로드");
 				pdto.setP_thumb_img1(utils.FileUploaderCDN(thumb_img1, "product/"));
 			}
+			
+			if(content_img.isEmpty()==false){
+				System.out.println("content 업로드");
+				pdto.setP_content_img(utils.FileUploaderCDN(content_img, "product/"));
+			}
+			
+			
+			
 			//null 가능한 이미지들
 			if(thumb_img2.isEmpty()==false){ //이미지가 새로 입력이 되면 & null가능 컬럼
 				System.out.println("섬넬2 업로드");
 				pdto.setP_thumb_img2(utils.FileUploaderCDN(thumb_img2, "product/"));
 			}
-			if(thumb_img3.isEmpty()==false) {
+			//null 가능한 이미지들
+			if(thumb_img3.isEmpty()==false) { //이미지가 새로 입력이 되면 & null가능 컬럼
 				System.out.println("섬넿 3 업로드");
 				pdto.setP_thumb_img3(utils.FileUploaderCDN(thumb_img3, "product/"));
-			}
-			//null 가능한 이미지들
-			
-			if(content_img.isEmpty()==false){ //이미지가 새로 입력이 되면 & null가능 컬럼
-				System.out.println("content 업로드");
-				pdto.setP_content_img(utils.FileUploaderCDN(content_img, "product/"));
 			}
 		
 		pService.updateProduct(pdto);
@@ -328,6 +331,7 @@ public class ProductController {
 	@RequestMapping("search_sort")
 	public String search_sort(String keyword, String sort,  Model model) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
+		System.out.println("sort : "+sort);
 		map.put("keyword", keyword);
 		map.put("sort", sort);
 		

@@ -115,11 +115,16 @@ public class ProductServiceImpl implements ProductService {
 	//제품 검색 정렬
 	@Override
 	public List<ProductDto> search_sort(HashMap<String, Object> map) {
+		System.out.println(map.get("sort"));
+		
 			if(map.get("sort").equals("new")) {
+				System.out.println("new 탑니다.");
 				return pDao.search_sort_new(map);
 			}else if(map.get("sort").equals("high")) {
+				System.out.println("high 탑니다.");
 				return pDao.search_sort_high(map);
 			}else {
+				System.out.println("low 탑니다.");
 				return pDao.search_sort_low(map);
 			}
 			
