@@ -144,8 +144,8 @@ $(document).ready(function() {
 						</div>
 
 						<div class="viewContents" style="text-align: center;">
-							<img class="contentimg" alt="내용 이미지" src="${enjoy.ej_img}">
-							<div class="contenttext">${enjoy.ej_content}</div>
+							<div style="text-align: center; margin-bottom: 50px;"><img alt="내용 이미지" src="${enjoy.ej_img2}" width="680px;" style="margin: 0px;"></div>
+							${enjoy.ej_content}
 						</div>
 					</div>
 

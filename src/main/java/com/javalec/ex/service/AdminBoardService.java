@@ -13,6 +13,7 @@ import com.javalec.ex.dto.MtmUserDto;
 import com.javalec.ex.dto.ProductDto;
 import com.javalec.ex.dto.QnrAnswerDto;
 import com.javalec.ex.dto.QnrUserDto;
+import com.javalec.ex.dto.ReviewAnswerDto;
 import com.javalec.ex.dto.ReviewUserDto;
 
 public interface AdminBoardService {
@@ -84,6 +85,14 @@ public interface AdminBoardService {
 
 		//후기 상세보기
 		HashMap<String, Object> getReviewDetail(int ru_num);
+		
+		//후기 답글달기
+		int review_answer_insert(ReviewAnswerDto raDto);
+		//후기 답글 수정
+		int review_answer_update(ReviewAnswerDto raDto);
+		//후기 답글 삭제
+		int review_answer_delete(int ru_num);
+
 
 		//QnA-------------------------------------------------------------
 		//qna 전체 리스트
@@ -106,6 +115,7 @@ public interface AdminBoardService {
 
 		//답변 검색
 		List<Object> getSearchQna(HashMap<String, Object> map);
+		
 
 	
 

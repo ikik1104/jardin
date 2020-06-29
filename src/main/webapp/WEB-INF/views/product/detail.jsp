@@ -254,17 +254,25 @@ function addWishlist(p_num){
                     <div class="imgSlide">
                         <div class="img">
                             <ul>
-                                <li><img src="user/images/img/sample_brand.jpg" alt="제품이미지" /></li>
-                                <li><img src="user/images/img/sample_brand.jpg" alt="제품이미지" /></li>
-                                <li><img src="user/images/img/sample_brand.jpg" alt="제품이미지" /></li>
+                                <li style="padding: 0px;"><img src="${pdto.p_thumb_img1}" width="350px" alt="제품이미지" /></li>
+                                <c:if test="${not empty pdto.p_thumb_img2}">
+	                                <li style="padding: 0px;"><img src="${pdto.p_thumb_img2}" width="350px"  alt="제품이미지" /></li>
+                                </c:if>
+                                <c:if test="${not empty pdto.p_thumb_img3}">
+	                                <li style="padding: 0px;"><img src="${pdto.p_thumb_img3}" width="350px"  alt="제품이미지" /></li>
+                                </c:if>
                             </ul>
                         </div>
 
                         <div class="thum">
                             <ul>
-                                <li><img src="user/images/img/sample_brand.jpg" alt="썸네일 제품이미지" /></li>
-                                <li><img src="user/images/img/sample_brand.jpg" alt="썸네일 제품이미지" /></li>
-                                <li><img src="user/images/img/sample_brand.jpg" alt="썸네일 제품이미지" /></li>
+                                <li><img src="${pdto.p_thumb_img1}" width="350px"  alt="썸네일 제품이미지" /></li>
+                                <c:if test="${not empty pdto.p_thumb_img2}">
+	                                <li><img src="${pdto.p_thumb_img2}" width="350px"  alt="썸네일 제품이미지" /></li>
+                                </c:if>
+                                <c:if test="${not empty pdto.p_thumb_img3}">
+	                                <li><img src="${pdto.p_thumb_img3}" width="350px"  alt="썸네일 제품이미지" /></li>
+                                </c:if>
                             </ul>
                         </div>
                     </div>
@@ -359,8 +367,8 @@ function addWishlist(p_num){
 
                     <!-- detail info -->
                     <div class="detailInfo disnone">
-                        <img src="user/images/img/sample_detail_info.jpg" class="web" alt="제품상세 정보" />
-                        <img src="user/images/img/sample_detail_info_m.jpg" class="mobile" alt="제품상세 정보" />
+                        <img src="${pdto.p_content_img}" width="900px" class="web" alt="제품상세 정보" />
+                        <img src="${pdto.p_content_img}" class="mobile" alt="제품상세 정보" />
                         <div class="checkInfoDiv">
                             <table summary="제품의 정보를 알 수 있는 표로 제품명, 내용량, 제조원, 포장재질, 유통기한, 고객상담실, 식품의 유형, 유통전문판매원, 영양성분, 원재료명 및 함량, 업소명 및 소재지 순으로 나열되어 있습니다." class="checkTable" border="1" cellspacing="0">
                                 <caption>제품의 정보</caption>
@@ -482,9 +490,12 @@ function addWishlist(p_num){
                     <div class="goodsReview disnone">
                         <div class="headTitle">
                             <strong>포토 상품평&nbsp;</strong> 포토 상품평 작성자 중 우수상품평을 선정해 소정의 선물을 드립니다.
-                            <c:if test="${not empty userNum}">
-	                        	<p class="btn"><a href="ordercheck" >포토 상품평 작성</a></p>
-                            </c:if>
+                             <c:if test="${empty userNum}">
+	                        	<p class="btn"><a href="login" >구매 후기 작성</a></p>
+	                        </c:if>
+	                        <c:if test="${not empty userNum}">
+	                        	<p class="btn"><a href="ordercheck" >구매 후기 작성</a></p>
+	                        </c:if>
                         </div>
 
 
@@ -569,7 +580,10 @@ function addWishlist(p_num){
                         <!-- //포토 구매후기 -->
                         <div class="headTitle depth">
                             <strong>상품리뷰&nbsp;</strong>상품리뷰는 상품 구매 후 작성하실 수 있습니다.
-                            <c:if test="${not empty userNum}">
+                            <c:if test="${empty userNum}">
+	                        	<p class="btn"><a href="login" >구매 후기 작성</a></p>
+	                        </c:if>
+	                        <c:if test="${not empty userNum}">
 	                        	<p class="btn"><a href="ordercheck" >구매 후기 작성</a></p>
 	                        </c:if>
                         </div>
@@ -684,6 +698,9 @@ function addWishlist(p_num){
                     <div class="goodsQna disnone">
                         <div class="headTitle depth">
                             <strong>질문과 답변&nbsp;</strong>상품과 관련된 문의와 답변을 하는 공간입니다.
+                            <c:if test="${empty userNum}">
+	                            <p class="btn"><a href="login">문의하기</a></p>
+                            </c:if>
                             <c:if test="${not empty userNum}">
 	                            <p class="btn"><a href="inquiry_form?p_num=${pdto.p_num}" class="popBtn">문의하기</a></p>
                             </c:if>
@@ -703,7 +720,12 @@ function addWishlist(p_num){
                                                     <div class="writer">[${qna.M_ID}]</div>
                                                     <div class="day">
                                                         <p><fmt:formatDate value="${qna.QU_DATE}" pattern="yyyy-MM-dd"/></p>
-                                                        <p><span class="obtnMini iw70">${qna.QU_STATUS}</span></p>
+                                                        <c:if test="${qna.QU_STATUS eq '답변대기'}">
+	                                                        <p><span class="nbtnMini iw70">${qna.QU_STATUS}</span></p>
+                                                        </c:if>
+                                                        <c:if test="${qna.QU_STATUS eq '답변완료'}">
+	                                                        <p><span class="obtnMini iw70">${qna.QU_STATUS}</span></p>
+                                                        </c:if>
                                                     </div>
                                                 </div>
 
@@ -711,7 +733,7 @@ function addWishlist(p_num){
                                                     <div class="bodyArea">
                                                             ${qna.QU_CONTENT}
                                                     </div>
-
+                                                    
                                                     <!-- 답변 -->
                                                     <c:if test="${not empty qna.QA_NUM}">
                                                         <div class="answer">
@@ -723,6 +745,7 @@ function addWishlist(p_num){
                                                                 <div class="atxt">
                                                                         ${qna.QA_CONTENT}
                                                                 </div>
+                                                                
                                                             </div>
                                                         </div>
                                                     </c:if>
@@ -881,101 +904,113 @@ function addWishlist(p_num){
 
 
 
-
-                <script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-                <script type="text/javascript" src="user/js/jquery.fancybox-1.3.4.pack.js"></script>
-                <link rel="stylesheet" type="text/css" href="user/css/jquery.fancybox-1.3.4.css" />
-                <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-                <style type="text/css">
-                    .ui-corner-all{border-bottom-right-radius:0 !important; border-bottom-left-radius:0 !important; border-top-left-radius:0 !important; border-top-right-radius:0 !important;}
-                    .ui-widget-content{border:0;}
-                    .ui-spinner-input{width:70px; margin:0; border:1px #ddd solid; padding:2px 0 2px 5px; font-family:'Nanum Gothic' !important; font-size:12px !important;}
-                </style>
-
-                <script type="text/javascript">
-                    $(document).ready(function() {
-
-                        // spinner
-                        var spinner = $( "#spinner" ).spinner({ min: 1 });
-
-
-                        // rolling
-                        function widthChk(){
-                            var winWidth = $(window).width();
-                            if(winWidth > 983){var twidth = 348;
-                            }else if(winWidth < 983 && winWidth > 767){var twidth = 298;
-                            }else{var twidth = 248;}
-                            return twidth
-                        }
-
-                        function slideChk(){
-                            var ulchk = widthChk() * $(".img ul li").size();
-                            $(".img ul").css("width",ulchk);
-                        }
-
-                        $(".thum ul li").click(function(){
-                            var winWidth = $(window).width();
-                            var thumNum = $(".thum ul li").index(this);
-                            var ulLeft = widthChk() * thumNum ;
-                            $(".thum ul li").removeClass("hover");
-                            $(this).addClass("hover");
-                            $(".img ul").stop().animate({"left": - ulLeft}, 500);
-                        });
-
-
-                        // goods relation last margin
-                        function relationChk(){
-                            var winWidth = $(window).width();
-                            if(winWidth > 767){
-                                $(".relationList li").css("margin","0 20px 0 0");
-                                $(".relationList li:eq(4)").css("margin","0");
-                            }else if(winWidth < 768 && winWidth > 360){
-                                $(".relationList li").css("margin","0 10px 10px 0");
-                                $(".relationList li:eq(4)").css("margin","0");
-                            }else{
-                                $(".relationList li").css("margin","0 10px 10px 0");
-                                $(".relationList li:nth-child(2n)").css("margin","0 0 10px 0");
-                            }
-                        }
-
-                        // layer popup
-                        var winWidth = $(window).width();
-                        if(winWidth > 767){
-                            var layerCheck = 540;
-                            var popCheck = 768;
-                        }else{
-                            var layerCheck = 320;
-                            var popCheck = 320;
-                        }
-
-                        $(".popBtn").fancybox({
-                            'autoDimensions'    : false,
-                            'showCloseButton'   : false,
-                            'width' : popCheck,
-                            'padding' : 0,
-                            'type'         : 'iframe',
-                            'onComplete' : function() {
-                                $('#fancybox-frame').load(function() { // wait for frame to load and then gets it's height
-                                    $('#fancybox-content').height($(this).contents().find('body').height());
-                                });
-                            }
-                        });
-
-
-                        // resize
-                        $(window).resize(function(){
-                            $(".thum ul li:eq(0)").click();
-                            slideChk();
-                            relationChk();
-                        });
-
-
-                        $(".thum ul li:eq(0)").click();
-                        slideChk();
-                        relationChk();
-
-                    });
-                </script>
+		
+		<script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+		<script type="text/javascript" src="user/js/jquery.fancybox-1.3.4.pack.js"></script>
+		<link rel="stylesheet" type="text/css" href="user/css/jquery.fancybox-1.3.4.css" />
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+		<style type="text/css">
+		.ui-corner-all{border-bottom-right-radius:0 !important; border-bottom-left-radius:0 !important; border-top-left-radius:0 !important; border-top-right-radius:0 !important;}
+		.ui-widget-content{border:0;}
+		.ui-spinner-input{width:70px; margin:0; border:1px #ddd solid; padding:2px 0 2px 5px; font-family:'Nanum Gothic' !important; font-size:12px !important;}
+		</style>
+		
+		<script type="text/javascript">
+		$(document).ready(function() {
+		
+			// spinner
+			var spinner = $( "#spinner" ).spinner({ min: 1 });
+			
+		
+			// rolling
+			function widthChk(){
+				var winWidth = $(window).width();
+				if(winWidth > 983){var twidth = 348;
+				}else if(winWidth < 983 && winWidth > 767){var twidth = 298;
+				}else{var twidth = 248;}
+				return twidth
+			}
+		
+			function slideChk(){
+				var ulchk = widthChk() * $(".img ul li").size();
+				$(".img ul").css("width",ulchk);
+			}
+			
+			$(".thum ul li").click(function(){
+				var winWidth = $(window).width();
+				var thumNum = $(".thum ul li").index(this);	
+				var ulLeft = widthChk() * thumNum ;
+				$(".thum ul li").removeClass("hover");
+				$(this).addClass("hover");
+				$(".img ul").stop().animate({"left": - ulLeft}, 500);
+			});
+			
+		
+			// goods relation last margin
+			function relationChk(){
+				var winWidth = $(window).width();
+				if(winWidth > 767){
+					$(".relationList li").css("margin","0 20px 0 0");
+					$(".relationList li:eq(4)").css("margin","0");
+				}else if(winWidth < 768 && winWidth > 360){
+					$(".relationList li").css("margin","0 10px 10px 0");
+					$(".relationList li:eq(4)").css("margin","0");
+				}else{
+					$(".relationList li").css("margin","0 10px 10px 0");
+					$(".relationList li:nth-child(2n)").css("margin","0 0 10px 0");
+				}
+			}
+		
+			// layer popup
+			var winWidth = $(window).width();
+			if(winWidth > 767){
+				var layerCheck = 540;
+				var popCheck = 768;
+			}else{
+				var layerCheck = 320;
+				var popCheck = 320;
+			}
+			$(".passbtn").fancybox({
+				'autoDimensions'    : false,
+				'showCloseButton'	: false,
+				'width' : layerCheck,
+				'padding' : 0,
+				'type'			: 'iframe',
+				'onComplete' : function() {
+					$('#fancybox-frame').load(function() { // wait for frame to load and then gets it's height
+					$('#fancybox-content').height($(this).contents().find('body').height());
+					});
+				}
+			});
+		
+			$(".popBtn").fancybox({
+				'autoDimensions'    : false,
+				'showCloseButton'	: false,
+				'width' : popCheck,
+				'padding' : 0,
+				'type'			: 'iframe',
+				'onComplete' : function() {
+					$('#fancybox-frame').load(function() { // wait for frame to load and then gets it's height
+					$('#fancybox-content').height($(this).contents().find('body').height());
+					});
+				}
+			});
+		
+		
+			// resize
+			$(window).resize(function(){
+				$(".thum ul li:eq(0)").click();
+				slideChk();
+				relationChk();
+			});
+		
+		
+			$(".thum ul li:eq(0)").click();
+			slideChk();
+			relationChk();
+		
+		});
+		</script>
 
 
 

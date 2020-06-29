@@ -16,22 +16,22 @@
 		<!-- 페이지 로딩시 초기화 --> 
 		<script>
 		
-		function checkForm() {
-			var regexp = /^[0-9]*$/;
+// 		function checkForm() {
+// 			var regexp = /^[0-9]*$/;
 			
-			if(regexp.test(inputform.p_price.value){
-				alert("가격을 숫자만 입력 가능합니다.");
-				return false;
-			}
+// 			if(regexp.test(inputform.p_price.value){
+// 				alert("가격은 숫자만 입력 가능합니다.");
+// 				return false;
+// 			}
 			
-			if(regexp.test(inputform.p_stock.value){
-				alert("재고는 숫자만 입력 가능합니다.");
-				return false;
-			}
+// 			if(regexp.test(inputform.p_stock.value){
+// 				alert("재고는 숫자만 입력 가능합니다.");
+// 				return false;
+// 			}
 			
-			inputform.submit()==true;
+// 			inputform.submit()==true;
 			
-		}
+// 		}
 		
 		function aa(val) {
 		//step1의 value와 step2의 id와 일치한 애들을 class를 빼준다.(일단 전부 넣어주고 나서)
@@ -150,6 +150,7 @@
 						<tr>
 							<td>가격</td>
 							<td><input type="text" name="p_price" onchange="point_change(this.value)" max="9999999" required></td>
+						 
 						</tr>
 						<tr>
 							<td>포인트</td>

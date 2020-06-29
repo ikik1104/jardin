@@ -66,8 +66,12 @@
 							<td><textarea name="ej_content" id="smartEditor" style="width:100%; height: 412px;"></textarea></td>
 						</tr>
 						<tr>
-							<td>첨부 이미지</td>
-							<td><input type="file" name="enjoy_img"></td>
+							<td>썸네일 첨부 이미지</td>
+							<td><input type="file" name="enjoy_img" required></td>
+						</tr>
+						<tr>
+							<td>상세보기 첨부 이미지</td>
+							<td><input type="file" name="enjoy_img2"></td>
 						</tr>
 					</table>
 					<div id="btn_div">

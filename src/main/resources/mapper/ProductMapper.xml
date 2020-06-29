@@ -23,7 +23,7 @@
 	<update id="updateProduct" parameterType="com.javalec.ex.dto.ProductDto">
 		update product_tb set p_step1=#{p_step1},p_step2=#{p_step2},p_name=#{p_name},p_price=#{p_price},p_point=#{p_point},p_producer=#{p_producer},p_expiry=#{p_expiry},p_type=#{p_type},
 		p_capacity=#{p_capacity},p_detail=#{p_detail},p_location=#{p_location},p_gene=#{p_gene},p_import=#{p_import},p_stock=#{p_stock},
-		p_thumb_img1=#{p_thumb_img1},p_thumb_img2=#{p_thumb_img2},p_thumb_img3=#{p_thumb_img3},p_content_img=#{p_content_img},p_update=sysdate where p_num = #{p_num}
+		p_thumb_img1=#{p_thumb_img1},p_thumb_img2=#{p_thumb_img2,jdbcType=VARCHAR},p_thumb_img3=#{p_thumb_img3,jdbcType=VARCHAR},p_content_img=#{p_content_img},p_update=sysdate where p_num = #{p_num}
 	</update>
 
 	<!-- 제품 삭제처리 -->

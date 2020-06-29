@@ -20,7 +20,10 @@ import com.javalec.ex.dto.EnjoyCoffeeDto;
 import com.javalec.ex.dto.FaqDto;
 import com.javalec.ex.dto.QnrAnswerDto;
 import com.javalec.ex.dto.QnrUserDto;
+import com.javalec.ex.dto.ReviewAnswerDto;
 import com.javalec.ex.service.AdminBoardService;
+import com.javalec.ex.service.CommentService;
+import com.javalec.ex.service.CommunityService;
 import com.javalec.ex.service.ProductService;
 
 @Controller
@@ -28,6 +31,8 @@ public class AdminBoardController {
 	//연지언니랑 겹쳐서 오류날까봐 따로 만들어용
 	@Autowired
 	private AdminBoardService abService;
+	@Autowired
+	private CommunityService cmService;
 	@Autowired
 	CommonUtils utils;
 	
@@ -46,6 +51,9 @@ public class AdminBoardController {
 	//faq 작성
 	@RequestMapping("faq_insert")
 	public String faq_insert(FaqDto fdto, Model model) {
+		
+		fdto.setF_content(fdto.getF_content().replace("\r\n","<br>"));
+		
 		abService.insertFaq(fdto);
 		
 		return "redirect:faq_allList";
@@ -55,7 +63,10 @@ public class AdminBoardController {
 	@RequestMapping("faq_updateForm")
 	public String faq_updateForm(int f_num, Model model) {
 		
-		model.addAttribute("faq", abService.faqInfo(f_num));
+		FaqDto fdto = abService.faqInfo(f_num);
+		fdto.setF_content(fdto.getF_content().replace("<br>", "\r\n"));
+		
+		model.addAttribute("faq", fdto);
 		
 		return "admin/board/faq_update";
 	}
@@ -63,7 +74,7 @@ public class AdminBoardController {
 	//faq 수정
 	@RequestMapping("faq_update")
 	public String faq_update(FaqDto fdto, Model model) {
-			
+		fdto.setF_content(fdto.getF_content().replace("\r\n","<br>"));
 		abService.updateFaq(fdto);
 		
 		return "redirect:faq_allList";
@@ -116,9 +127,12 @@ public class AdminBoardController {
 	
 	//enjoy coffee insert
 	@RequestMapping("enjoy_insert")
-	public String enjoy_insert(EnjoyCoffeeDto ecDto, MultipartFile enjoy_img, Model model) throws IOException {
+	public String enjoy_insert(EnjoyCoffeeDto ecDto, MultipartFile enjoy_img,MultipartFile enjoy_img2,Model model) throws IOException {
 		ecDto.setEj_img(utils.FileUploaderCDN(enjoy_img, "enjoy/"));
 
+		if(enjoy_img2.isEmpty()==false){
+			ecDto.setEj_img2(utils.FileUploaderCDN(enjoy_img2, "enjoy/"));
+		}
 		abService.enjoy_insert(ecDto);
 		
 		return "redirect:enjoy_allList";
@@ -136,11 +150,17 @@ public class AdminBoardController {
 	
 	//enjoy coffee update
 	@RequestMapping("enjoy_update")
-	public String enjoy_update(EnjoyCoffeeDto ecDto, Model model) {
+	public String enjoy_update(EnjoyCoffeeDto ecDto, MultipartFile enjoy_img, MultipartFile enjoy_img2, Model model) throws IOException {
+		//둘다 새로 첨부한 이미지가 있으면, 없으면 hidden에 넘어간 값을 다시 저장시킨다. (현재 이전 사진의 정보 dto에 담겨있음)
+		if(enjoy_img.isEmpty()==false){
+			ecDto.setEj_img(utils.FileUploaderCDN(enjoy_img, "enjoy/"));
+		}
+		if(enjoy_img2.isEmpty()==false){
+			ecDto.setEj_img2(utils.FileUploaderCDN(enjoy_img2, "enjoy/"));
+		}
 		
 		int result = abService.enjoy_update(ecDto);
 		
-		System.out.println(result);
 		
 		return "redirect:enjoy_allList";
 	}
@@ -229,6 +249,58 @@ public class AdminBoardController {
 			
 		return "admin/board/review_view";
 	}
+	
+	//리뷰 답글달기 창(팝업으로 이동)
+		@RequestMapping("insertReviewAnswerForm")
+		public String insertReviewAnswerForm(String ru_content,int ru_num, Model model) {
+			
+			model.addAttribute("dto",abService.getReviewDetail(ru_num));
+			
+			return "admin/board/review_comment_pop";
+		}
+		
+		//리뷰 답글달기
+		@ResponseBody
+		@RequestMapping("review_answer_insert")
+		public int review_answer_insert(@RequestBody String[] values ,Model model) {
+			ReviewAnswerDto raDto = new ReviewAnswerDto();
+			raDto.setRu_num(Integer.parseInt(values[0]));
+			raDto.setRa_content(values[1]);
+			
+			return abService.review_answer_insert(raDto);
+		}
+		
+		//리뷰 답글 수정 form으로 이동
+		@RequestMapping("updateReviewAnswerForm")
+		public String updateReviewAnswerForm(int ru_num ,Model model) {
+			
+			//qu_num으로 답변정보 빼오기
+			model.addAttribute("dto", cmService.review_detail(ru_num));
+			
+			return "admin/board/review_comment_update_pop";
+		}
+		
+		//리뷰 답글 수정하기
+		@ResponseBody
+		@RequestMapping("review_answer_update")
+		public int review_answer_update(@RequestBody String[] values ,Model model) {
+			ReviewAnswerDto raDto = new ReviewAnswerDto();
+			raDto.setRa_num(Integer.parseInt(values[0]));
+			raDto.setRa_content(values[1]);
+			
+			return abService.review_answer_update(raDto);
+		}
+		
+		
+		//리뷰 답글 삭제(답변대기상태로 돌아간)
+		@ResponseBody
+		@RequestMapping("review_answer_delete")
+		public int review_answer_delete(@RequestBody int ru_num ,Model model) {
+				
+			return abService.review_answer_delete(ru_num);
+		}
+	
+	
 	
 	//qna-------------------------------------------------------------------------------------
 	

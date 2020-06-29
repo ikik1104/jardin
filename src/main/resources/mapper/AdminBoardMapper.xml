@@ -62,7 +62,7 @@
 	
 	<!-- enjoy coffee insert -->
 	<insert id="enjoy_insert" parameterType="com.javalec.ex.dto.EnjoyCoffeeDto">
-		insert into enjoy_coffee_tb values(ej_seq.nextval,#{ad_num},#{ej_title},#{ej_content},sysdate,#{ej_img},0)
+		insert into enjoy_coffee_tb values(ej_seq.nextval,#{ad_num},#{ej_title},#{ej_content},sysdate,#{ej_img},0,#{ej_img2,jdbcType=VARCHAR})
 	</insert>
 	
 	<!-- enjoy coffee 한개의 정보 (상세보기, 수정에 쓰임) -->
@@ -73,7 +73,7 @@
 	<!-- enjoy coffee update -->
 	<update id="enjoy_update" parameterType="com.javalec.ex.dto.EnjoyCoffeeDto" >
 		update enjoy_coffee_tb set ad_num=#{ad_num}, ej_title=#{ej_title} ,ej_content=#{ej_content},
-		ej_img=#{ej_img} where ej_num = #{ej_num}
+		ej_img=#{ej_img}, ej_img2=#{ej_img2,jdbcType=VARCHAR} where ej_num = #{ej_num}
 	</update>
 	
 	
@@ -97,7 +97,9 @@
 	<!-- ================================== 후기 ====================================== -->
 	<!-- 후기 전체리스트 -->
 	<select id="getAllReveiw" resultType="map" parameterType="String">
-		select rownum,ru.*,p.p_name from review_user_tb ru left join product_tb p on p.p_num = ru.p_num where ru_type = #{ru_type}
+		select rownum rnum,ru.*,p.p_name from review_user_tb ru left join product_tb p on p.p_num = ru.p_num 
+		where ru_type = #{ru_type}
+		order by ru.ru_num desc
 	</select>
 	
 	<!-- 후기 상태 변경 -->
@@ -111,8 +113,13 @@
 	</update>
 	
 	<!-- 답글 달리면 답변완료로 변경 -->
-	<update id="updateStatus" parameterType="Integer">
-		update review_user_tb set ru_status = '답변완료' where ru_num = #{ru_num}
+	<update id="review_status_update" parameterType="Integer">
+		update review_user_tb set 
+		ru_status = case 
+		when ru_status = '답변대기' then '답변완료' 
+		when ru_status = '답변완료' then '답변대기'
+		end
+		where ru_num = #{ru_num}
 	</update>
 	
 	
@@ -127,6 +134,23 @@
 	<select id="getReviewDetail" parameterType="Integer" resultType="map">
 		 select ru.*,p.p_name from review_user_tb ru left join product_tb p on p.p_num = ru.p_num where ru.ru_num = #{ru_num}
 	</select>
+	
+	<!-- 후기 답변 insert -->
+	<insert id="review_answer_insert" parameterType="com.javalec.ex.dto.ReviewAnswerDto">
+		insert into review_answer_tb values(qa_seq.nextval,#{ru_num},1,#{ra_content},sysdate)
+	</insert>
+	
+	<!-- 후기답변 수정  -->
+	<update id="review_answer_update" parameterType="com.javalec.ex.dto.ReviewAnswerDto">
+		update review_answer_tb set ra_content = #{ra_content} where ra_num = #{ra_num}
+	</update>
+	
+	<!-- 후기답변 삭제 (다시 대기 상태로) -->
+	<delete id="review_answer_delete" parameterType="Integer">
+		delete from review_answer_tb where ru_num = #{ru_num}
+	</delete>
+	
+	
 	
 	<!-- QnA -->
 	<!-- QnA전체 리스트 -->

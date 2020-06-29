@@ -3,7 +3,7 @@ package com.javalec.ex.dto;
 import java.sql.Timestamp;
 
 public class EnjoyCoffeeDto {
-	private int rownum;		//DB에서 가져오는 rownum
+	private int rnum;		//DB에서 가져오는 rownum
 	private int ej_num;     //인조이커피 고유번호
 	private int ad_num;     //관리자 고유번호(작성자)
 	private String ej_title;     //제목
@@ -11,28 +11,18 @@ public class EnjoyCoffeeDto {
 	private Timestamp ej_date;     //등록일
 	private String ej_img;     //썸네일 이미지
 	private int ej_hit;     //조회수
+	private String ej_img2; //상세보기 이미지
 
 	public EnjoyCoffeeDto() {}
 
-	public EnjoyCoffeeDto(int ej_num, int ad_num, String ej_title, String ej_content, Timestamp ej_date, String ej_img,
-			int ej_hit) {
-		super();
-		this.ej_num = ej_num;
-		this.ad_num = ad_num;
-		this.ej_title = ej_title;
-		this.ej_content = ej_content;
-		this.ej_date = ej_date;
-		this.ej_img = ej_img;
-		this.ej_hit = ej_hit;
+	public int getRnum() {
+		return rnum;
 	}
 
-	public int getRownum() {
-		return rownum;
+	public void setRnum(int rnum) {
+		this.rnum = rnum;
 	}
 
-	public void setRownum(int rownum) {
-		this.rownum = rownum;
-	}		
 	public int getEj_num() {
 		return ej_num;
 	}
@@ -88,6 +78,29 @@ public class EnjoyCoffeeDto {
 	public void setEj_hit(int ej_hit) {
 		this.ej_hit = ej_hit;
 	}
+
+	public String getEj_img2() {
+		return ej_img2;
+	}
+
+	public void setEj_img2(String ej_img2) {
+		this.ej_img2 = ej_img2;
+	}
+
+	public EnjoyCoffeeDto(int rnum, int ej_num, int ad_num, String ej_title, String ej_content, Timestamp ej_date,
+			String ej_img, int ej_hit, String ej_img2) {
+		super();
+		this.rnum = rnum;
+		this.ej_num = ej_num;
+		this.ad_num = ad_num;
+		this.ej_title = ej_title;
+		this.ej_content = ej_content;
+		this.ej_date = ej_date;
+		this.ej_img = ej_img;
+		this.ej_hit = ej_hit;
+		this.ej_img2 = ej_img2;
+	}
+
 	
 	
 	

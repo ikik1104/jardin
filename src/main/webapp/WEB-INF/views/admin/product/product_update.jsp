@@ -25,7 +25,9 @@
 			    if($(this).val()=="${pdto.p_step1}"){ //이 옵션의 값이 넘어온 값과 같다면
 			      $(this).attr("selected","selected"); // attr적용안될경우 prop으로 
 			      $(".step2").css("display", "none");
-					$("#${pdto.p_step1}").css("display", "block");
+			      var option = document.getElementById("${pdto.p_step1}");
+					$(option).css("display", "block");
+					$(option).attr("name", "p_step2");
 			    }
 			});
 			
@@ -71,6 +73,9 @@
 				width: 100px;
 				height: 30px;
 			}
+			td{
+				height: 90px;	
+			}
 			#btn_div{
 			 text-align: center;
 			}
@@ -84,56 +89,56 @@
 	<jsp:include page="../nav/product_nav.jsp"/>
 	<section>
 		<h1>제품 수정</h1>
-			<form action="product_update" name="inputform" method="get" enctype="multipart/form-data">
+			<form action="product_update" name="inputform" method="post" enctype="multipart/form-data">
 				<div id="input_form">
 					<table border="1">
 						<tr>
 							<td>분류 1</td>
 							<td>
-							<select name="p_step1" id="p_step1" onchange="aa(this.value)">
+							<select name="p_step1" onchange="aa(this.value)" id="p_step1">
 								<option value="원두">원두</option>
-								<option value="원두커피백">원두커피백</option>
-								<option value="인스턴트">인스턴트</option>
-								<option value="커피용품">커피용품</option>
+								<option value="인스턴트 커피">인스턴트 커피</option>
+								<option value="차">차</option>
+								<option value="음료/커피/티">음료/커피/티</option>
 								<option value="선물세트">선물세트</option>
-								<option value="대량구매">대량구매</option>
+								<option value="브랜드관">브랜드관</option>
+								<option value="용품">용품</option>
 							</select>
 							</td>
 						</tr>
 						<tr>
 							<td>분류 2</td>
 							<td>
-							<select id="원두" name="p_step2" class="step2" style="display: inline;">
+							<select id="원두" class="step2" style="display: inline;">
 								<option value="클래스">클래스</option>
-								<option value="로스터리샵">로스터리샵</option>	
-								<option value="커피휘엘">커피휘엘</option>	
-								<option value="산지별생두">산지별 생두</option>	
+								<option value="바리스타">바리스타</option>	
+								<option value="미스터즈">미스터즈</option>	
+								<option value="쟈뎅">쟈뎅</option>	
 							</select>
-							<select  id="원두커피백" class="step2">
-								<option value="드립커피로스트">드립커피 로스트</option>
-								<option value="오리지널커피백">오리지널 커피백</option>	
-								<option value="마일드커피백">마일드 커피백</option>	
+							<select  id="인스턴트 커피" class="step2">
+								<option value="카페모리">오리지널 카페모리</option>	
+								<option value="에스프레소 스틱">에스프레소 스틱 커피백</option>	
 							</select>
-							<select  id="인스턴트" class="step2">
-								<option value="카페모리">카페모리</option>
-								<option value="홈스타일카페모리">홈스타일카페모리</option>	
-								<option value="포타제">포타제</option>	
+							<select  id="차" class="step2">
+								<option value="아워티(티백)">아워티(티백)</option>	
 							</select>
-							<select  id="음료" class="step2">
-								<option value="카페리얼">카페리얼</option>
-								<option value="워터커피">워터커피</option>	
-								<option value="모히또">모히또</option>	
-							</select>
-							<select  id="커피용품" class="step2">
-								<option value="종이컵">종이컵</option>
-								<option value="커피필터">커피필터</option>	
-								<option value="기타">종이 등</option>	
+							<select  id="음료/커피/티" class="step2">
+								<option value="시그니처">시그니처</option>
+								<option value="카페리얼">카페리얼</option>	
+								<option value="아워티(음료)">아워티(음료)</option>	
 							</select>
 							<select  id="선물세트" class="step2">
-								<option value="선물세트">"선물세트"</option>
+								<option value="선물세트">선물세트</option>
+								<option value="DIY선물세트">DIY 선물세트</option>	
 							</select>
-							<select  id="대량구매" class="step2">
-								<option value="대량구매">대량구매</option>
+							<select  id="브랜드관" class="step2">
+								<option value="GS">GS</option>
+								<option value="투썸">투썸</option>
+								<option value="드롭탑">드롭탑</option>
+								<option value="요거프레소">요거프레소</option>
+							</select>
+							<select  id="용품" class="step2">
+								<option value="커피용품">커피용품</option>
 							</select>
 							</td>
 						</tr>
@@ -193,23 +198,48 @@
 						</tr>
 						<tr>
 							<td>제품 대표이미지</td>
-							<td><input type="file" name="thumb_img1" value="${pdto.p_thumb_img1}"></td>
-<%-- 							<td><input type="text" name="p_thumb_img1" value="${pdto.p_thumb_img1}"></td> --%>
+							<td>
+								<img src="${pdto.p_thumb_img1}" width="150" ><br>
+								수정 이미지 <input type="file" name="thumb_img1">
+								<input type="hidden" name="p_thumb_img1" value="${pdto.p_thumb_img1}">
+							</td>
 						</tr>
 						<tr>
 							<td>제품 이미지1</td>
-							<td><input type="file" name="thumb_img2" value="${pdto.p_thumb_img2}"></td>
-<%-- 							<td><input type="text" name="p_thumb_img2" value="${pdto.p_thumb_img2}"></td> --%>
+							<td>
+								<c:if test="${not empty pdto.p_thumb_img2}">
+								 <img src="${pdto.p_thumb_img2}" width="150">
+								</c:if>
+								<c:if test="${empty pdto.p_thumb_img2}">
+									(기존 첨부 이미지 없음)
+								</c:if>
+								<br>
+								수정이미지 <input type="file" name="thumb_img2">
+								<input type="hidden" name="p_thumb_img2" value="${pdto.p_thumb_img2}">
+							</td>
 						</tr>
 						<tr>
 							<td>제품 이미지2</td>
-							<td><input type="file" name="thumb_img3" value="${pdto.p_thumb_img3}"></td>
-<%-- 							<td><input type="text" name="p_thumb_img3" value="${pdto.p_thumb_img3}"></td> --%>
+							<td>
+								<c:if test="${not empty pdto.p_thumb_img3}">
+								 <img src="${pdto.p_thumb_img3}" width="150" >
+								</c:if>
+								<c:if test="${empty pdto.p_thumb_img3}">
+									(기존 첨부 이미지 없음)
+								</c:if>
+								<br>
+								수정 이미지 <input type="file" name="thumb_img3">
+								<input type="hidden" name="p_thumb_img3" value="${pdto.p_thumb_img3}">
+							</td>
 						</tr>
 						<tr>
 							<td>상세내용 이미지</td>
-							<td><input type="file" name="content_img" value="${pdto.p_content_img}"></td>
-<%-- 							<td><input type="text" name="p_content_img" value="${pdto.p_content_img}"></td> --%>
+							<td>
+								<img src="${pdto.p_content_img}" width="150">
+								<br>
+								수정 이미지 <input type="file" name="content_img" >
+								<input type="hidden" name="p_content_img" value="${pdto.p_content_img}">
+							</td>
 						</tr>
 					</table>
 					<div id="btn_div">

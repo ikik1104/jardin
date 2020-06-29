@@ -24,10 +24,6 @@
 				text-align: center;
 			}
 			
-			#event_list img{
-				width: 400px;
-				height: 250px;
-			}
 			#search_date td button{
 				border: 1px solid black;
 				padding: 4px;
@@ -110,6 +106,7 @@
 			
 		}
 		
+		
 		//구현 끝~! ㅋㅋ
 		function search_date(val){
 			var start = document.getElementById("e_start_day");
@@ -163,6 +160,43 @@
 			}//if
 		});
 		
+		function insertAnswer(num) { //답변달기
+			var url = "insertReviewAnswerForm?ru_num="+num;
+            var name = "insertAnswer";
+            var option = "width = 1200, height = 500, top = 100, left = 200, location = no"
+            window.open(url, name, option);
+			
+		}
+		
+		function UpdateAnswer(num) { //답변 수정하기
+			var url = "updateReviewAnswerForm?ru_num="+num;
+            var name = "updateAnswer";
+            var option = "width = 1200, height = 500, top = 100, left = 200, location = no"
+            window.open(url, name, option);
+		}
+		
+		function delAnswer(num) { //답변삭제하기
+			if(confirm("해당 답변을 삭제하시겠습니다? (상태는 '답변대기'상태로 변경됩니다.)")){
+				$.ajax({
+				      type : "POST",
+				      url : "review_answer_delete",
+				      dataType : "json",
+				      data: JSON.stringify(num),
+				      contentType: "application/json",
+				      success : function(val){
+				    	  if(val == 1){ //리턴값이 1이면 (=성공)
+					         alert("답변 삭제가 완료되었습니다.");
+					         location.reload();
+				    	  }else{ // 0이면 실패
+				    		  alert("답변삭제 실패.");
+				    	  }
+				      },
+				      error : function(){
+				         alert("서버통신실패");
+				      }
+				   });
+			}
+		}
 </script>
 	</head>
 	<body>
@@ -226,6 +260,7 @@
 							<th>조회수</th>
 							<th>답변상태</th>
 							<th>노출여부</th>
+							<th colspan="3">답변수정/삭제/추가</th>
 							<th></th>
 							<th></th>
 						</tr>
@@ -233,15 +268,24 @@
 						<tr>
 							<td>${list.ROWNUM}</td>
 							<td>${list.RU_NUM}</td>
-							<td><img src="${list.P_IMG}"></td>
+							<td><img src="${list.RU_IMG}" width="130" height="80"></td>
 							<td>${list.P_NAME}</td>
 							<td style="cursor: pointer;" onclick="location.href='getReviewDetail?ru_num=${list.RU_NUM}'">${list.RU_TITLE}</td>
 							<td>${list.RU_CONTENT}</td>
 							<td>${list.RU_SCORE}</td>
 							<td>${list.RU_DATE}</td>
 							<td>${list.RU_HIT}</td>
-							<td>${list.RU_STATUS}</td>
-							<td>${list.RU_VISILITY}</td>
+							<c:if test="${list.RU_STATUS eq '답변완료'}">
+								<td>${list.RU_STATUS}</td>
+								<td>${list.RU_VISILITY}</td>
+								<td><button type="button" onclick="UpdateAnswer('${list.RU_NUM}')">답변수정</button></td>
+								<td><button type="button" onclick="delAnswer('${list.RU_NUM}')">답변삭제</button></td>
+							</c:if>
+							<c:if test="${list.RU_STATUS eq '답변대기'}">
+								<td  style="color: red;">${list.RU_STATUS}</td>
+								<td>${list.RU_VISILITY}</td>
+								<td colspan="2"><button type="button" onclick="insertAnswer('${list.RU_NUM}')">답변달기</button></td>
+							</c:if>
 							<td><button type="button" onclick="visility_update('${list.RU_VISILITY}','${list.RU_NUM}')">노출상태 변경</button></td>
 							<td><button type="button" onclick="location.href='list_updateForm?f_num=${list.RU_NUM}'">삭제</button></td>
 						</tr>
