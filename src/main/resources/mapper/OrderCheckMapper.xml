@@ -193,7 +193,7 @@
 		select mm.m_num, m_name, m_id, m_point, nvl(ordercount,0) ordercount, nvl(coucount,0) coucount from member_tb mm
 		left join (select ol_orderer_id, count(distinct ol_order_num) ordercount from orderlist_tb group by ol_orderer_id) ol
 		on ol.ol_orderer_id=mm.m_id
-		left join (select m_num, count(ci_num) coucount from c_issue_tb group by m_num) ci
+		left join (select m_num, count(ci_num) coucount from c_issue_tb where <![CDATA[ci_end_day<sysdate]]> or ci_use_day is null group by m_num) ci
 		on ci.m_num=mm.m_num
 		where m_id=#{m_id}
 	</select>

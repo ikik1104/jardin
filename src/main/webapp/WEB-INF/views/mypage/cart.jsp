@@ -227,21 +227,21 @@
     		var p_num = sp[0];
 			var p_amt = $("#ipt_"+sp[0]).val();
 			var arrData = [p_num, p_amt];;
-			
-		$.ajax({
-	        	type:"POST",
-	        	url : "cartUpdate",
-	        	data: JSON.stringify(arrData),
-	         	contentType: "application/json",
-	            success : function(data){
-	                        if(data == 1){
-		    	       	}
-		        	  },
-			error:function(){
-					alert("서버통신실패");
-				  }
+				
+			$.ajax({
+		        	type:"POST",
+		        	url : "cartUpdate",
+		        	data: JSON.stringify(arrData),
+		         	contentType: "application/json",
+		            success : function(data){
+		                        if(data == 1){
+			    	       	}
+			        	  },
+				error:function(){
+						alert("서버통신실패");
+					  }
+			});
 		});
-	});
     	location.href="payment";
     }
 
@@ -450,7 +450,7 @@
 							</li>
 						</ul>
 						<ul class="total">
-							<li class="mileage">(적립 마일리지 <strong id="total_m"><c:out value="${sumpoint }"/></strong> Point) </li>
+							<li class="mileage">(적립 마일리지 <strong id="total_m"><fmt:formatNumber var="totalPoint" value="${sum*0.01 }" type="number"/>${totalPoint }</strong> Point) </li>
 							<li class="txt"><strong>결제 예정 금액</strong></li>
 							<c:if test="${sum < 30000 }">
 							<fmt:formatNumber var="totalPay" value="${sum+3000 }" type="number"/>

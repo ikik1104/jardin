@@ -367,7 +367,7 @@ $(document).ready(function() {
 									<c:if test="${orderInfo.dep_name=='' }">
 										<td></td>
 									</c:if>
-									<c:if test="${orderInfo.dep_name=='' }">
+									<c:if test="${orderInfo.dep_name!='' }">
 										<td>${orderInfo.bank}</td>
 									</c:if>
 								</tr>
@@ -391,7 +391,7 @@ $(document).ready(function() {
 
 					<!-- Btn Area -->
 					<div class="btnArea2">
-						<a href="main?m_num=${coupon_point.m_num }" class="nbtnbig iw0140">확인</a>
+						<a href="main" class="nbtnbig iw0140">확인</a>
 					</div>
 					<!-- //Btn Area -->
 
