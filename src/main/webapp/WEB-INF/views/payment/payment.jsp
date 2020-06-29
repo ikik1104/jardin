@@ -20,7 +20,7 @@
 <script type="text/javascript" src="user/js/top_navi.js"></script>
 <script type="text/javascript" src="user/js/left_navi.js"></script>
 <script type="text/javascript" src="user/js/main.js"></script>
-<script type="text/javascript" src="user/js/common.js"></script>
+<!-- <script type="text/javascript" src="user/js/common.js"></script> -->
 <script type="text/javascript" src="user/js/jquery.easing.1.3.js"></script>
 <script type="text/javascript" src="user/js/idangerous.swiper-2.1.min.js"></script>
 <script type="text/javascript" src="user/js/jquery.anchor.js"></script>
@@ -891,7 +891,7 @@
 					<div class="btnArea">
 						<div class="orderCenter">
 							<ul>
-								<li><a href="#" class="nbtnbig iw0140">뒤로가기</a></li>
+								<li><a href="cart" class="nbtnbig iw0140">뒤로가기</a></li>
 								<li><input type="submit" class="sbtnMini iw0140" value="주문 / 결제"></li>								
 							</ul>
 						</div>

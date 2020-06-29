@@ -53,7 +53,7 @@ public class PayController {
 			for(int i=0; i<tel.length; i++) {
 				model.addAttribute("tel"+(i+1), tel[i]);
 			}
-			
+			System.out.println(payService.getAllCart1(m_num).size());
 			model.addAttribute("cartlist", payService.getAllCart1(m_num));
 			model.addAttribute("memDto", memberDto);
 			model.addAttribute("p_couponCount", payService.p_couponCount(m_num));

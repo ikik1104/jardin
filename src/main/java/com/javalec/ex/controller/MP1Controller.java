@@ -127,7 +127,7 @@ public class MP1Controller {
 		if(session.getAttribute("userNum") != null) {
 			int m_num = (Integer)session.getAttribute("userNum");
 			//  payment_cart_tb 비우기
-			mp1Service.delPaymentCart(m_num);
+//			mp1Service.delPaymentCart(m_num);
 			// 장바구니 업데이트  (장바구니 -> 주문하기 넘어가는 경우만)
 			mp1Service.cartUpdate(m_num, info[0], info[1]);
 			// 주문하기로 넘어가는 제품 payment_cart_tb에 삽입 
