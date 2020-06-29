@@ -163,6 +163,15 @@
 		where ol.ol_order_num=#{ol_order_num}
 	</select>
 	
+		<!-- 비회원 결제, 배송지 정보 -->
+	<select id="nonOrderInfoDetail" resultType="HashMap">
+		select * from
+		(select ol_order_num, wm_concat(distinct ol_payment) ol_payment, wm_concat(distinct ol_date) ol_date, sum(ol_final_price)ol_final_sum from orderlist_tb
+		group by ol_order_num) ol
+		left join (select ol_order_num, m_name, re_name, re_zipcode, re_address1, re_address2, re_phone, re_tel, m_msg from orderer_receiver_tb) ort on ort.ol_order_num=ol.ol_order_num
+		where ol.ol_order_num=#{param1}
+	</select>
+	
 	<!-- 결제 취소 상품 정보 -->
 	<select id="cancelInfoDetail" resultType="HashMap">
 		select p_name, rf_price, rf_status from refund_tb 

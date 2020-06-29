@@ -46,7 +46,7 @@ public class NonMemController {
 	@RequestMapping("non_order_statement")
 	public String non_order_statement(@RequestParam("ol_order_num") String ol_order_num, @RequestParam("orderer") String orderer, Model model) {
 		List<Map<String, String>> plist = ocService.proInOneOrder(ol_order_num); //주문 상품 가져오기
-		Map<String, String> ilist = ocService.orderInfoDetail(ol_order_num); //결제, 배송지 정보 가져오기
+		Map<String, String> ilist = ocService.nonOrderInfoDetail(ol_order_num); //결제, 배송지 정보 가져오기
 		List<Map<String, String>> clist = ocService.cancelInfoDetail(ol_order_num); //취소 상품 가져오기
 		List<Map<String, String>> tflist = ocService.rtrfInfoDetail(ol_order_num); //반품 상품 가져오기
 		model.addAttribute("plist", plist);
@@ -104,8 +104,6 @@ public class NonMemController {
 		//반품리스트 인서트 //0 ol_num, [1] ol_amt(반품할 수량), [2]origin_amt(원래 수량), [3]ol_price(반품시 돌려받을 예상 금액), [4]p_name, [5]origin_price(원래금액)
 		int success = ocService.returnRq(Integer.parseInt(rtinfo[0]), rtinfo[1], rtinfo[2], Integer.parseInt(rtinfo[4]), rt_receipt_num, rtinfo[6], rtinfo[7], rtinfo[8]);
 		//주문리스트 수량, 제품최종결제금액(ol_final_price) 업데이트
-		System.out.println(rtinfo[8]+"비회원 이름");
-		System.out.println(rtinfo[7]+"이건 피넴");
 		int ol_amt = Integer.parseInt(rtinfo[3]) - Integer.parseInt(rtinfo[1]);
 		int ol_price = Integer.parseInt(rtinfo[5]) - Integer.parseInt(rtinfo[4]);
 		if(ol_amt == 0) {

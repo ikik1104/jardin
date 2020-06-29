@@ -167,6 +167,11 @@ public class OrderCheckServiceImp implements OrderCheckService {
 		return orderCheckDao.getOneReview(ol_num);
 	}
 
+	@Override
+	public Map<String, String> nonOrderInfoDetail(String ol_order_num) {
+		return orderCheckDao.nonOrderInfoDetail(ol_order_num);
+	}
+
 
 
 

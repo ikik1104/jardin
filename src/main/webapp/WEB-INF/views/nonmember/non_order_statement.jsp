@@ -275,7 +275,7 @@ $(document).ready(function() {
                                     </tr>
                                     <tr>
                                         <th scope="row" class="align_center"><span>결제총액</span></th>
-                                        <td>${ ilist.OC_FINAL_SUM }원</td>
+                                        <td>${ ilist.OL_FINAL_SUM }원</td>
                                     </tr>
                                     <tr>
                                         <th scope="row" class="align_center"><span>결제수단</span></th>

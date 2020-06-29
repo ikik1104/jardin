@@ -38,7 +38,10 @@ public interface OrderCheckDao {
 	int countReturnRefund(String m_id); //특정 회원의 전체 반품,환불 수
 	List<Map<String, String>> getAllRtrf(@Param("m_id")String m_id, @Param("pageDto")PageDto pageDto); // 특정 회원의 전체 반품, 환불리스트
 	List<Map<String, String>> proInOneOrder(String ol_order_num); // 특정 주문건의 주문상품들
+
 	Map<String, String> orderInfoDetail(String ol_order_num); // 결제 정보 및 배송지 정보
+	Map<String, String> nonOrderInfoDetail(String ol_order_num); // 결제 정보 및 배송지 정보
+	
 	List<Map<String, String>> cancelInfoDetail(String ol_order_num); // 결제 정보 및 배송지 정보
 	List<Map<String, String>> rtrfInfoDetail(String ol_order_num); // 결제 정보 및 배송지 정보
 	Map<String, Object> getShortInfo(String m_id); // 요약정보
