@@ -53,13 +53,6 @@
  					sum += Number(p_price)*Number(p_amt);
  				});
  				$('#sum1').text(commas(sum));
-// 		 		var count= $('input[name=chk]:checkbox').length;
-// 		 		for(var i=0; i<count; i++){
-// 						var p_price1 = $('.td1').eq(i).text();
-// 			 			var p_price2 = p_price1.substring(0,(p_price1.length-1));
-// 						sum += Number(p_price2);
-// 		 		}
-// 		 		$('#sum1').text(sum);
 				
  				if(sum>=30000 || sum==0){ 
  		 	 		$('#del_price').text("0");
@@ -95,15 +88,6 @@
 			}
 			
 		});
-		
-		// 전체 선택 버튼 클릭 시, 
-		$("#selectbtn").click(function(){
-				// 해당 화면에 있는 모든 checkbox들 체크
-				$('#checkAll').prop('checked', true);
-				$('input:checkbox[name="chk"]').each(function(){
-					$(this).prop('checked', true);
-				});
-		});
 	
 	});
 	
@@ -116,14 +100,6 @@
 	function itemSum(){
 		
 		var sum = 0;
-// 		var count = $('input[name=chk]:checkbox').length;
-// 		for(var i=0; i<count; i++ ){
-// 			if($('input[name=chk]:checkbox').eq(i).is(":checked")==true){
-// 				var p_price1 = $('.td1').eq(i).text();
-// 	 			var p_price2 = p_price1.substring(0,(p_price1.length-1));
-// 				sum += Number(p_price2);
-// 			}
-// 		}
 		$('input:checkbox[name=chk]:checked').each(function(){
 			var chk_value =$(this).attr('id');
 			var sp = chk_value.split("_");
@@ -143,12 +119,6 @@
  	 	}
  	 		var total_point = sum * 0.01;
  			$('#total_m').text(commas(total_point));
-// 		var deliv_price = Number($('#del_price').text());
-// 		var final_price = sum + deliv_price;
-// 		$('#sum2').text(commas(final_price));
-// 		var total_point = sum * 0.01;
-// 		$('#total_m').text(commas(total_point));
-		
 	}
 	
 	// 수량 변경에 따른 해당 제품 총합계 변경
@@ -158,6 +128,15 @@
 		
 		itemSum();
 	}	
+	
+	 // 전체 선택 버튼 클릭 시, 
+ 	function selectAll(){
+		$('#checkAll').prop('checked', true);
+		$('input:checkbox[name="chk"]').each(function(){
+			$(this).prop('checked', true);
+		});
+		itemSum();
+ 	}
 	
 	// 바로구매 
 	function buyNow(p_num){
@@ -214,9 +193,9 @@
 		    		var sp = chk_value.split("_");
 		    		var p_num = sp[0];
 			    	$.ajax({
-			        	type:"POST",
+			        	type: "POST",
 			        	url : "cart_del",
-			        	data: JSON.stringify(p_num),
+			        	data: p_num,
 			         	contentType: "application/json",
 			            success : function(data){
 			                        if(data == 1){
@@ -440,7 +419,7 @@
 					<div class="btnArea">
 						<div class="bRight">
 							<ul>
-								<li><a id="selectbtn" class="selectbtn">전체선택</a></li>
+								<li><a id="selectbtn" class="selectbtn" onclick="selectAll()">전체선택</a></li>
 <!-- 								<li><a href="#" class="selectbtn2">선택수정</a></li> -->
 								<li><a id="selectbtn2" class="selectbtn2" onclick="chk_del()">선택삭제</a></li>
 							</ul>

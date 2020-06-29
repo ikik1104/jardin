@@ -137,7 +137,7 @@
 					e_start_day : $("#e_start_day").val(),
 					e_end_day : $("#e_end_day").val(),
 					option: $("#sort").val(),
-					listName: "입금대기",// 페이지로 매개변수 값을 넘겨줄 때 사용
+					listName: "입금대기"// 페이지로 매개변수 값을 넘겨줄 때 사용
 				}
 			
 			$.ajax({
