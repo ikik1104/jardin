@@ -138,7 +138,7 @@ $(document).ready(function() {
 					<ul>
 						<li class="first"><a href="search_sort?keyword=${keyword}&sort='hot'" class="on" id="hot">인기도순</a></li>
 						<li><a href="search_sort?keyword=${keyword}&sort=new" id="new">신상품순</a></li>
-						<li><a href="search_sort?keyword=${keyword}&sort=higt" id="higt">높은 가격순</a></li>
+						<li><a href="search_sort?keyword=${keyword}&sort=high" id="higt">높은 가격순</a></li>
 						<li class="last"><a href="search_sort?keyword=${keyword}&sort=low" id="low">낮은 가격순</a></li>
 					</ul>
 				</div>
@@ -149,8 +149,8 @@ $(document).ready(function() {
 					<!-- 반복 -->
 					<c:forEach var="list" items="${list}">
 					<li>
-						<a href="#">
-							<div class="img"><img src="user/images/img/sample_brand.jpg" alt="제품이미지" /></div>
+						<a href="product_detail?p_num=${list.p_num}">
+							<div class="img"><img src="${list.p_thumb_img1}" alt="제품이미지" /></div>
 							<div class="name">[${list.p_step2}] ${list.p_name}</div>
 							<div class="price"><fmt:formatNumber value="${list.p_price}" type="number"/></div>
 						</a>

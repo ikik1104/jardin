@@ -259,8 +259,8 @@
 							<td><input type="checkbox"></td>
 							<td>${status.count}</td>
 							<td>${pro.p_num}</td>
-							<td>${pro.p_thumb_img1}${pro.p_thumb_img2}${pro.p_thumb_img3}
-<%-- 								<img alt="썸네일" src="${pro.p_thumb_img1}"> --%>
+							<td>
+								<img alt="썸네일" src="${pro.p_thumb_img1}">
 <%-- 								<img alt="상단이미지1" src="${pro.p_thumb_img2}"> --%>
 <%-- 								<img alt="상단이미지2" src="${pro.p_thumb_img3}"> --%>
 							</td>

@@ -118,6 +118,7 @@ public class AdminMainServiceImp implements AdminMainService {
 		return amdao.updateSale(sdto);
 	}
 	
+	@Override
 	public List<ProductDto> getProductList() {
 		return amdao.getProductList();
 	}

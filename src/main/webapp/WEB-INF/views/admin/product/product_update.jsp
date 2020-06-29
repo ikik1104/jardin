@@ -152,7 +152,7 @@
 						</tr>
 						<tr>
 							<td>포인트</td>
-							<td><input type="text" name="p_point" value="${pdto.p_point}" id="point" readonly>제품 가격의 10%</td>
+							<td><input type="text" name="p_point" value="${pdto.p_point}" id="point" readonly>제품 가격의 1%</td>
 						</tr>
 						<tr>
 							<td>제조원</td>

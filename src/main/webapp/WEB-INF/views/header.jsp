@@ -88,7 +88,7 @@
 				</li>
 				<li class="t2"><a href="u_product_list?p_step1=용품" id="topNavi8">용품</a>
 					<ul id="topSubm6">
-						<li><a href="u_product_list?p_step2=용품&p_step2=커피용품">커피용품</a></li>
+						<li><a href="u_product_list?p_step1=용품&p_step2=커피용품">커피용품</a></li>
 					</ul>
 				</li>
 			</ul>
