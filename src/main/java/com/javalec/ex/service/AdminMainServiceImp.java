@@ -11,6 +11,10 @@ import com.javalec.ex.dao.AdminMainDao;
 import com.javalec.ex.dto.MainBannerDto;
 import com.javalec.ex.dto.MainJardinDto;
 import com.javalec.ex.dto.MainSaleDto;
+import com.javalec.ex.dto.MainBsDto;
+import com.javalec.ex.dto.MainMDDto;
+import com.javalec.ex.dto.MainNewProductDto;
+import com.javalec.ex.dto.ProductDto;
 
 @Service
 public class AdminMainServiceImp implements AdminMainService {
@@ -112,6 +116,48 @@ public class AdminMainServiceImp implements AdminMainService {
 	@Override
 	public int updateSale(MainSaleDto sdto) {
 		return amdao.updateSale(sdto);
+	public List<ProductDto> getProductList() {
+		return amdao.getProductList();
+	}
+
+	@Override
+	public MainBsDto getBs() {
+		return amdao.getBs();
+	}
+	
+	@Override
+	public ProductDto getPname(int p_num) {
+		return amdao.getPname(p_num);
+	}
+	
+	@Override
+	public int insertBs(MainBsDto mainBsDto) {
+		return amdao.insertBs(mainBsDto);
+	}
+
+	@Override
+	public int updateBs(MainBsDto mainBsDto) {
+		return amdao.updateBs(mainBsDto);
+	}
+
+	@Override
+	public MainNewProductDto getNewPro() {
+		return amdao.getNewPro();
+	}
+
+	@Override
+	public int updateNewPro(MainNewProductDto mainNewProDto) {
+		return amdao.updateNewPro(mainNewProDto);
+	}
+
+	@Override
+	public List<MainMDDto> getMD() {
+		return amdao.getMD();
+	}
+
+	@Override
+	public int updateMD(int p_num,String explain,int pNum) {
+		return amdao.updateMD(p_num, explain, pNum);
 	}
 
 

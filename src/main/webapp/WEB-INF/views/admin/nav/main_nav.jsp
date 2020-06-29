@@ -7,9 +7,9 @@
 			<div class="tes_list">
 				<ul>
 					<li><a href="admin_main"><img src="admin/images/icon_title_left.png">메인 배너 관리</a></li>
-					<li><a href="#"><img src="admin/images/icon_title_left.png">베스트셀러</a></li>
-					<li><a href="#"><img src="admin/images/icon_title_left.png">신상품</a></li>
-					<li><a href="#"><img src="admin/images/icon_title_left.png">md choice</a></li>
+					<li><a href="admin_bestseller"><img src="admin/images/icon_title_left.png">베스트셀러</a></li>
+					<li><a href="admin_newProduct"><img src="admin/images/icon_title_left.png">신상품</a></li>
+					<li><a href="admin_mdChoice"><img src="admin/images/icon_title_left.png">md choice</a></li>
 					<li><a href="admin_main"><img src="admin/images/icon_title_left.png">중간배너</a></li>
 					<li><a href="admin_main"><img src="admin/images/icon_title_left.png">리뷰배너</a></li>
 					<li><a href="admin_sale"><img src="admin/images/icon_title_left.png">세일</a></li>

@@ -6,7 +6,7 @@
     <div id="header">
 		
 		<div id="snbBox">
-			<h1><img src="user/images/txt/logo.gif" alt="JARDIN SHOP" onclick="location.href='/ex/main'"/></h1>
+			<h1><img src="user/images/txt/logo.gif" alt="JARDIN SHOP" onclick="location.href='main'"/></h1>
 			<div id="quickmenu">
 				<div id="mnaviOpen"><img src="user/images/btn/btn_mnavi.gif" width="33" height="31" alt="메뉴열기" /></div>
 				<div id="mnaviClose"><img src="user/images/btn/btn_mnavi_close.gif" width="44" height="43" alt="메뉴닫기" /></div>

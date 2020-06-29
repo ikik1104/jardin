@@ -83,6 +83,64 @@
 	<select id="countJd" resultType="Integer">
 		select count(*) from main_jardinbrand_tb 
 	</select>
+<!-- ============================베스트셀러제품=========================== -->
+	<select id="getProductList" resultType="com.javalec.ex.dto.ProductDto">
+		select * from product_tb
+	</select>
+	
+	<select id="getBs" resultType="com.javalec.ex.dto.MainBsDto">
+		select * from main_bestseller_tb
+	</select>
+	
+	<select id="getPname" resultType="com.javalec.ex.dto.ProductDto">
+		select * from product_tb where p_num = #{param1}
+	</select>
+	
+	<insert id="insertBs" parameterType="com.javalec.ex.dto.MainBsDto">
+		insert into main_bestseller_tb values(#{product1},#{product2},#{product3},#{product4},#{product5})
+	</insert>
+
+	<update id="updateBs" parameterType="com.javalec.ex.dto.MainBsDto">
+		update main_bestseller_tb set product1 = #{product1}, product2 = #{product2}, product3 = #{product3}, product4 = #{product4}, product5 = #{product5}
+	</update>
+
+<!-- ============================신상품 & MD Choice=========================== -->	
+	<resultMap type="com.javalec.ex.dto.ProductDto" id="ProductDto">
+	    <result column="p_num" property="p_num"/>
+	    <result column="p_thumb_img1" property="p_thumb_img1"/>
+	    <result column="p_name" property="p_name"/>
+	    <result column="p_price" property="p_price"/>
+	</resultMap>
+
+	<resultMap type="com.javalec.ex.dto.MainNewProductDto" id="MNPDto">
+	    <result column="p_num" property="p_num"/>
+	    <result column="explain" property="explain"/>
+	    <collection property="pDto" resultMap="ProductDto"/>
+	</resultMap>
+	
+	<resultMap type="com.javalec.ex.dto.MainMDDto" id="MDDto">
+	    <result column="p_num" property="p_num"/>
+	    <result column="explain" property="explain"/>
+	    <collection property="pDto" resultMap="ProductDto"/>
+	</resultMap>
+
+
+	<select id="getNewPro" resultMap="MNPDto">
+		select p.p_num, p_thumb_img1, p_name, p_price, n.p_num, explain from product_tb p , main_new_product_tb n where n.p_num = p.p_num
+	</select>
+	
+	<update id="updateNewPro">
+		update main_new_product_tb set p_num=#{p_num}, explain=#{explain}
+	</update>
+	
+	<select id="getMD" resultMap="MDDto">
+		select p.p_num, p_thumb_img1, p_name, p_price, md.p_num, explain from product_tb p , main_md_tb md where md.p_num = p.p_num
+	</select>
+	
+	<update id="updateMD">
+		update main_md_tb set p_num=#{param1}, explain=#{param2} where p_num=#{param3}
+	</update>
+	
 	
 	<select id="selectJd" resultType="com.javalec.ex.dto.MainJardinDto">
 		select * from main_jardinbrand_tb 

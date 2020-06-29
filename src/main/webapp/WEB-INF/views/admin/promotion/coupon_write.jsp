@@ -93,9 +93,13 @@
 			table {
 				margin:0 auto;
 				 min-width: 1000px;
+				 border-collapse: collapse;
 			}
+			
+			table tr td{padding: 10px 0px 10px 10px;}
 			#btn_div{
 			 text-align: center;
+			 margin-top: 15px;
 			}
 			/*
 			#expiry_tr{
@@ -104,12 +108,15 @@
 			#date_set{
 				display:none;
 			}
+			
 			#expiry_set{
 				display:block;
-			}		
+			}
 			#product_1{
 				display:none;
-			}	
+			}
+			.btns {width: 65px; height: 30x; font-size:20px; margin-right: 20px;}
+			
 		</style>
 	</head>
 	<body>
@@ -128,7 +135,7 @@
 							<th>쿠폰 사용기간 선택</th>
 							<td>
 								<input type="radio" name="co_select" value="expiry_1" onchange="radio(this.value)" checked> 쿠폰을 다운로드 한 날짜부터의 유효기간을 지정합니다.<br>
-								<input type="radio" name="co_select" value="expiry_0" onchange="radio(this.value)" > 쿠폰 사용 종요일을 최종 사용일로 지정합니다.(사용 기간 쿠폰종료일 까지)
+								<input type="radio" name="co_select" value="expiry_0" onchange="radio(this.value)" > 쿠폰 사용 종료일을 최종 사용일로 지정합니다.(사용 기간 쿠폰종료일 까지)
 							</td>
 						</tr>
 						<tr>
@@ -156,7 +163,8 @@
 								<select name="co_product">
 									<option value="0">선택 안 함</option>
 									<c:forEach var="product_list" items="${product_list }">
-										<option value=${product_list.productdto.p_num }>[${product_list.productdto.p_num}]${product_list.productdto.p_name }</option>
+									<fmt:formatNumber var="p_pirce" value="${product_list.productdto.p_price }" type="number"/>
+										<option value=${product_list.productdto.p_num }>[${product_list.productdto.p_num}]${product_list.productdto.p_name } / ${p_pirce }원</option>
 									</c:forEach>
 								</select>
 							</td>

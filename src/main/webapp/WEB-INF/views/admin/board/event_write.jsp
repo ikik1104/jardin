@@ -237,7 +237,15 @@
 							<select name="str8"> <!-- model에 쿠폰 리스트 같이 보내서 ${coupon.name} , ${coupon.seq}사용 -->
 								<option value="">쿠폰없음</option>
 								<c:forEach var="AllDtos" items="${AllDtos }">
-									<option value="${AllDtos.coupondto.co_num}">${AllDtos.coupondto.co_name}</option>
+									<c:if test="${AllDtos.coupondto.co_type=='cart' }">
+										<option value="${AllDtos.coupondto.co_num}">[장바구니쿠폰]${AllDtos.coupondto.co_name}</option>
+									</c:if>
+									<c:if test="${AllDtos.coupondto.co_type=='delivery' }">
+										<option value="${AllDtos.coupondto.co_num}">[배송비쿠폰]${AllDtos.coupondto.co_name}</option>
+									</c:if>
+									<c:if test="${AllDtos.coupondto.co_type=='product' }">
+										<option value="${AllDtos.coupondto.co_num}">[제품쿠폰]${AllDtos.coupondto.co_name} / ${AllDtos.productdto.p_name}</option>
+									</c:if>
 								</c:forEach>
 							</select>
 							

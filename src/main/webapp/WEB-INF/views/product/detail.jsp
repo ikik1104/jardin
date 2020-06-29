@@ -69,7 +69,6 @@ function buyNow(){
 	         	contentType: "application/json",
 	            success : function(data){
 	                        if(data == 1){
-	                        	alert("데이터 성공");
 	                        	location.href="buynow_payment";
 		    	       	}
 		        	  },

@@ -201,20 +201,34 @@ $(document).ready(function() {
 			<div id="bestseller">
 				<div class="swiper-wrapper">
 					<div class="swiper-slide">
-						<div class="img"><a href="#"><img src="user/images/img/sample_best_seller.jpg" alt="Best seller 상품" /></a></div>
-						<div class="name">쟈뎅 바리스타 벨벳<br/>에스프레소 원두커피</div>
-						<div class="price">5,600원</div>
+						<div class="img"><a href="product_detail?p_num=${p1.p_num }"><img src="${p1.p_thumb_img1 }" alt="Best seller 상품" /></a></div>
+						<div class="name">${p1.p_name }</div>
+						<div class="price"><fmt:formatNumber var="p1_price" value="${p1.p_price }" type="number"/> ${p1_price}원</div>
 					</div>
 					<div class="swiper-slide">
-						<div class="img"><a href="#"><img src="user/images/img/sample_best_seller.jpg" alt="Best seller 상품" /></a></div>
-						<div class="name">쟈뎅 바리스타 벨벳<br/>에스프레소 원두커피</div>
-						<div class="price">5,000원</div>
+						<div class="img"><a href="product_detail?p_num=${p2.p_num }"><img src="${p2.p_thumb_img1 }" alt="Best seller 상품" /></a></div>
+						<div class="name">${p2.p_name }</div>
+						<div class="price"><fmt:formatNumber var="p2_price" value="${p2.p_price }" type="number"/> ${p2_price}원</div>
 					</div>
 					<div class="swiper-slide">
-						<div class="img"><a href="#"><img src="user/images/img/sample_best_seller.jpg" alt="Best seller 상품" /></a></div>
-						<div class="name">쟈뎅 바리스타 벨벳<br/>에스프레소 원두커피</div>
-						<div class="price">6,000원</div>
+						<div class="img"><a href="product_detail?p_num=${p3.p_num }"><img src="${p3.p_thumb_img1 }" alt="Best seller 상품" /></a></div>
+						<div class="name">${p3.p_name }</div>
+						<div class="price"><fmt:formatNumber var="p3_price" value="${p3.p_price }" type="number"/> ${p3_price}원</div>
 					</div>
+					<c:if test="${savedBS.product4!=0 }">
+					<div class="swiper-slide">
+						<div class="img"><a href="product_detail?p_num=${p4.p_num }"><img src="${p4.p_thumb_img1 }" alt="Best seller 상품" /></a></div>
+						<div class="name">${p4.p_name }</div>
+						<div class="price"><fmt:formatNumber var="p4_price" value="${p4.p_price }" type="number"/> ${p4_price}원</div>
+					</div>
+					</c:if>
+					<c:if test="${savedBS.product5!=0 }">
+					<div class="swiper-slide">
+						<div class="img"><a href="product_detail?p_num=${p5.p_num }"><img src="${p5.p_thumb_img1 }" alt="Best seller 상품" /></a></div>
+						<div class="name">${p5.p_name }</div>
+						<div class="price"><fmt:formatNumber var="p5_price" value="${p5.p_price }" type="number"/> ${p5_price}원</div>
+					</div>
+					</c:if>
 				</div>
 			</div>
 			<div class="rollbtn">
@@ -248,31 +262,35 @@ $(document).ready(function() {
 				<div class="newcoffee">
 					<h3>NEW COFFEE</h3>
 					<ul>
-						<li class="name">드립커피 로스트</li>
-						<li class="txt">종이컵 또는 작은 머그컵에 딱맞는 용량의 스틱 제품으로 다양한 커피 메뉴를 가정과 사무실에서만날 수 있습니다.</li>
-						<li class="price">5,600원</li>
+						<li class="name">${savedNewPro.pDto.p_name }</li>
+						<li class="txt">${savedNewPro.explain}</li>
+						<li class="price"><fmt:formatNumber var="price" value="${savedNewPro.pDto.p_price}" type="number"/>${price }원</li>
 					</ul>
-					<div class="abimg"><img src="user/images/img/img_newcoffee.png" alt="드립커피 로스트" /></div>
+					<div class="abimg"><img src="${savedNewPro.pDto.p_thumb_img1}" alt="드립커피 로스트" style="width: 280px;"/></div>
 				</div>
 
 				<div class="mdchoice">
 					<div class="one">
 						<h3>MD CHOICE</h3>
-						<ul>
-							<li class="name">쟈뎅 바리스타 벨벳 에스프레소원두커피</li>
-							<li class="txt">다크 초코렛을 연상시키는 달콤함이 입안에서 오래도록 지속되며, 풍부한 바디감을 느낄 수 있습니다.</li>
-							<li class="price">5,600원</li>
-						</ul>
-						<div class="img"><img src="user/images/img/img_md_choice01.jpg" alt="MD CHOICE 상품" /></div>
+						<c:forEach var="mdList" items="${mdList }" begin="0" end="0">
+							<ul>
+								<li class="name">${mdList.pDto.p_name }</li>
+								<li class="txt">${mdList.explain }</li>
+								<li class="price"><fmt:formatNumber var="price1" value="${mdList.pDto.p_price }" type="number"/>${price1 }원</li>
+							</ul>
+							<div class="img"><img src="${mdList.pDto.p_thumb_img1 }" alt="MD CHOICE 상품" style="width: 150px;"/></div>
+						</c:forEach>
 					</div>
 
 					<div class="two">
-						<ul>
-							<li class="name">쟈뎅 바리스타 벨벳 에스프레소원두커피</li>
-							<li class="txt">다크 초코렛을 연상시키는 달콤함이 입안에서 오래도록 지속되며, 풍부한 바디감을 느낄 수 있습니다.</li>
-							<li class="price">5,600원</li>
-						</ul>
-						<div class="img"><img src="user/images/img/img_md_choice02.jpg" alt="MD CHOICE 상품" /></div>
+						<c:forEach var="mdList" items="${mdList }" begin="1" end="1">
+							<ul>
+								<li class="name">${mdList.pDto.p_name }</li>
+								<li class="txt">${mdList.explain }</li>
+								<li class="price"><fmt:formatNumber var="price1" value="${mdList.pDto.p_price }" type="number"/>${price1 }원</li>
+							</ul>
+							<div class="img"><img src="${mdList.pDto.p_thumb_img1 }" alt="MD CHOICE 상품" style="width: 150px;"/></div>
+						</c:forEach>
 					</div>
 				</div>
 			</div>
@@ -379,10 +397,17 @@ $(document).ready(function() {
 					<p class="title">위시 리스트</p>
 					
 					<div class="list">
-						<ul>	
-							<c:forEach var="wlist" items="${ wlist }">
-								<li><a href="product_detail?p_num=${ wlist.pDto.p_num }"><img class="img_size" src="${ wlist.pDto.p_thumb_img1 }"></a>
-							</c:forEach>
+						<ul>
+							<c:if test="${chkLogin==1 }">
+								<c:forEach var="allWishlist" items="${allWishlist }">
+								<li><a href="wishlist"><img src="${allWishlist.pDto.p_thumb_img1}" alt="" style="width:78px;"/></a></li>
+								</c:forEach>	
+							</c:if>
+							<c:if test="${chkLogin==0 }">
+							<li><a href="login"><img src="user/images/img/sample_wish.gif" alt="" />
+							<span style="position: absolute; width: 78px; text-align: center; position: absolute; top: 30%; left: 0%; color:black;">
+							 회원전용<br>서비스</span></a></li>
+							</c:if>
 						</ul>
 					</div>
 

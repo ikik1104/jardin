@@ -103,7 +103,7 @@ public class MP1Controller {
 		if(session.getAttribute("userNum") != null) {
 			int m_num = (Integer)session.getAttribute("userNum");
 			int p_num = Integer.parseInt(pNum);
-			success = mp1Service.cart_del(p_num,m_num);
+			success = mp1Service.cart_del(p_num, m_num);
 		}else {
 			ArrayList<String> arr = (ArrayList<String>)(session.getAttribute("nonmem_cart"));
 			for(int i=0; i<arr.size(); i++) {
@@ -266,6 +266,8 @@ public class MP1Controller {
 			int p_num = cDto.get(i).getP_num();
 			if(p_num==pNum) {
 				count+=1; 
+				int p_amt = cDto.get(i).getCa_amount()+1;
+				success = mp1Service.cartUpdate(m_num, p_num, p_amt);
 			}
 		}
 		

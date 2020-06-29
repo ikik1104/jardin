@@ -21,6 +21,7 @@ import com.javalec.ex.dto.MainBannerDto;
 import com.javalec.ex.dto.MainJardinDto;
 import com.javalec.ex.dto.MainSaleDto;
 import com.javalec.ex.dto.ProductDto;
+import com.javalec.ex.dto.MainBsDto;
 import com.javalec.ex.dto.UtilDto;
 import com.javalec.ex.dto.WishListDto;
 import com.javalec.ex.service.AdminCouponService;
@@ -45,9 +46,10 @@ public class UserLayoutController {
 	@Autowired
 	AdminMainService amServ;
 	@Autowired
-	MP1Service mpServ;
-	@Autowired
 	ProductService pServ;
+	@Autowired
+	MP1Service mp1Service;
+
 	
 	
 	//메인 페이지 접속
@@ -55,14 +57,7 @@ public class UserLayoutController {
 	public String main(Model model, HttpSession session) {
 		//메인 슬라이드(롤)배너 가져오기
 		MainBannerDto mbdto2 = amServ.selectMainBanners();
-		model.addAttribute("mbdto", mbdto2);
-		
-		//플롯 메뉴 위시리스트  가져오기
-		if(session.getAttribute("userNum")!=null) {
-			int m_num = (Integer) session.getAttribute("userNum");
-			List<WishListDto> wlist = mpServ.getAllWish(m_num);
-			model.addAttribute("wlist", wlist);
-		}
+		model.addAttribute("mbdto", mbdto2);	
 
 		//sale 상품 10개 가져오기
 		ArrayList<ProductDto> mslist = new ArrayList<ProductDto>();
@@ -86,6 +81,29 @@ public class UserLayoutController {
 		model.addAttribute("jb3", pServ.getProductInfo(mjdto.getP3()));
 		model.addAttribute("jb4", pServ.getProductInfo(mjdto.getP4()));
 		model.addAttribute("jb5", pServ.getProductInfo(mjdto.getP5()));
+		
+		//베스트셀러 제품 가져오기
+		MainBsDto mbDto = amServ.getBs();
+		model.addAttribute("p1", amServ.getPname(mbDto.getProduct1()));
+		model.addAttribute("p2", amServ.getPname(mbDto.getProduct2()));
+		model.addAttribute("p3", amServ.getPname(mbDto.getProduct3()));
+		model.addAttribute("p4", amServ.getPname(mbDto.getProduct4()));
+		model.addAttribute("p5", amServ.getPname(mbDto.getProduct5()));
+		
+		//신상품 정보 가져오기
+		model.addAttribute("savedNewPro", amServ.getNewPro());
+		
+		//md choice 가져오기
+		model.addAttribute("mdList", amServ.getMD());
+		
+		//위시리스트 가져오기
+		if(session.getAttribute("userNum")==null) {
+			model.addAttribute("chkLogin", 0);
+		}else {
+			int m_num = (Integer)session.getAttribute("userNum");
+			model.addAttribute("allWishlist", mp1Service.getAllWish(m_num));
+			model.addAttribute("chkLogin", 1);
+		}
 		
 		return response_path+"main";
 	}

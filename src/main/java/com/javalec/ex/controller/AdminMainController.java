@@ -7,9 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.http.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +22,9 @@ import com.javalec.ex.dto.MainBannerDto;
 import com.javalec.ex.dto.MainJardinDto;
 import com.javalec.ex.dto.MainSaleDto;
 import com.javalec.ex.service.AdminCouponService;
+import com.javalec.ex.dto.MainBsDto;
+import com.javalec.ex.dto.MainMDDto;
+import com.javalec.ex.dto.MainNewProductDto;
 import com.javalec.ex.service.AdminMainService;
 
 @Controller
@@ -161,9 +166,67 @@ public class AdminMainController {
 			amServ.updateJardinBrand(mainJardinDto);
 		}
 		return "redirect:jardin_brand";
+	// 베스트셀러
+	@RequestMapping("admin_bestseller")
+	public String admin_bestseller(Model model) {
+		model.addAttribute("product_list", amServ.getProductList());
+		MainBsDto mbDto = amServ.getBs();
+		model.addAttribute("savedBS", mbDto);
+		model.addAttribute("p1", amServ.getPname(mbDto.getProduct1()));
+		model.addAttribute("p2", amServ.getPname(mbDto.getProduct2()));
+		model.addAttribute("p3", amServ.getPname(mbDto.getProduct3()));
+		model.addAttribute("p4", amServ.getPname(mbDto.getProduct4()));
+		model.addAttribute("p5", amServ.getPname(mbDto.getProduct5()));
+		return "admin/main/bestseller";
 	}
 	
+	// 베스트셀러 등록 & 변경
+	@ResponseBody
+	@RequestMapping("insert_bestseller")
+	public int insert_bestseller(@RequestBody MainBsDto mainBsDto) throws Exception{
+		int success=0;
+		if(amServ.getBs()==null) {
+			success = amServ.insertBs(mainBsDto);
+		}else {
+			success = amServ.updateBs(mainBsDto);
+		}
+		
+		return success;
+	}
 	
+	// 신제품
+	@RequestMapping("admin_newProduct")
+	public String admin_newProduct(Model model) {
+		model.addAttribute("product_list", amServ.getProductList());
+		model.addAttribute("savedNewPro", amServ.getNewPro());
+		return "admin/main/newProduct";
+	}
+	// 신제품 변경
+	@ResponseBody
+	@RequestMapping("update_newProduct")
+	public int update_newProduct(@RequestBody MainNewProductDto mainNewProDto)throws Exception{
+		System.out.println(mainNewProDto.getP_num());
+		int success = amServ.updateNewPro(mainNewProDto);
+		return success;
+	}
+	
+	// MD CHOICE
+	@RequestMapping("admin_mdChoice")
+	public String admin_mdChoice(Model model) {
+		model.addAttribute("product_list", amServ.getProductList());
+		model.addAttribute("mdList", amServ.getMD());
+		return "admin/main/mdChoice";
+	}
+	// MD CHOICE 변경
+	@ResponseBody
+	@RequestMapping("update_MD")
+	public int update_MD(@RequestBody String[] info)throws Exception{
+		int p_num = Integer.parseInt(info[0]);
+		String explain = info[1];
+		int pNum = Integer.parseInt(info[2]);
+		int success = amServ.updateMD(p_num,explain,pNum);
+		return success;
+	}	
 	
 //	@ResponseBody
 //	@RequestMapping("admin_file")

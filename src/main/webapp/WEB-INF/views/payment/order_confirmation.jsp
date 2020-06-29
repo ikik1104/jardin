@@ -132,7 +132,7 @@ $(document).ready(function() {
 							<c:forEach var="orderlist" items="${orderlist }">
 								<tr>
 									<td class="left">
-										<p class="img"><img src="user/images/img/sample_product.jpg" alt="상품" width="66" height="66" /></p>
+										<p class="img"><img src="${orderlist.pDto.p_thumb_img1 }" alt="상품" width="66" height="66" /></p>
 
 										<ul class="goods">
 											<li>
