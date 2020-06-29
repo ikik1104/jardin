@@ -144,7 +144,6 @@ public class OrderConfirmController {
 					int p_num = Integer.parseInt(sp[0]);
 					int p_amt = Integer.parseInt(sp[1]);
 					String ol_status = "";
-					System.out.println(map.get("ol_payment"));
 					if(map.get("ol_payment").equals("신용카드 결제")) {
 						ol_status="입금완료";
 					}else {
@@ -169,7 +168,7 @@ public class OrderConfirmController {
 					int p_num = Integer.parseInt(sp[0]);
 					int p_amt = Integer.parseInt(sp[1]);
 					String ol_status = "";
-					if(map.get("ol_payment")=="신용카드 결제") {
+					if(map.get("ol_payment").equals("신용카드 결제")) {
 						ol_status="입금완료";
 					}else {
 						ol_status="입금대기";
