@@ -165,7 +165,7 @@ public class AdminMainController {
 		} else {
 			amServ.updateJardinBrand(mainJardinDto);
 		}
-		return "redirect:jardin_brand";
+		return "redirect:jardin_brand";}
 	// 베스트셀러
 	@RequestMapping("admin_bestseller")
 	public String admin_bestseller(Model model) {
