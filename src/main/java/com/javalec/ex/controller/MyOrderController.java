@@ -95,7 +95,7 @@ public class MyOrderController {
 		
 		//관건은..리퀘스트로 과연 index 를 배열로 받아오느냐 아니냐..
 		//선택한 상품 객체의 인덱스를 배열로 넘겨받기
-		String[] indexArray = request.getParameterValues("index");
+		String[] indexArray = request.getParameterValues("chk");
 		for(int i=0; i<indexArray.length; i++) {
 			int ol_num = refundSetDto.getRefundDto().get(Integer.parseInt(indexArray[i])).getOl_num();
 			int rf_price = refundSetDto.getRefundDto().get(Integer.parseInt(indexArray[i])).getRf_price();
