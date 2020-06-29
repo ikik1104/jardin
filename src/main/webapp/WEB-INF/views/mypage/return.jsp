@@ -21,6 +21,13 @@
 <script type="text/javascript">
 $(function() {
 	
+	//자식창 닫고 상품상세가기
+	$(".gotodetail").click(function(){
+    	var p_num = $(this).attr('id');
+    	parent.location.href="product_detail?p_num="+p_num;
+  		parent.$.fancybox.close();
+    });
+	
 	//반품 수량 최소, 최대값 설정	
 	$(".spinner").each(function(){
     	var maxNum = $(this).val();
@@ -93,11 +100,11 @@ function return_req(ol_num, index){
                     <c:forEach items="${ list }" var="list" varStatus="status">
 					<tr id="${ status.index }" class="parents">
                         <td>
-							<p class="img"><img src="user/images/img/sample_product.jpg" alt="상품" width="66" height="66" /></p>
+							<p class="img"><img src="${ list.P_THUMB_IMG1 }" alt="상품" width="66" height="66" /></p>
 
 							<ul class="goods">
 								<li>
-									<a href="#" class="name${ status.index }">${ list.P_NAME }</a>
+									<a href="#" id="${ list.P_NUM }" class="name${ status.index } gotodetail">${ list.P_NAME }</a>
 								</li>
 							</ul>
 						</td>

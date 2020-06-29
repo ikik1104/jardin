@@ -31,6 +31,7 @@ import com.javalec.ex.dto.PageDto;
 import com.javalec.ex.dto.ProductDto;
 import com.javalec.ex.dto.QnrUserDto;
 import com.javalec.ex.dto.ReviewUserDto;
+import com.javalec.ex.dto.WishListDto;
 import com.javalec.ex.service.BService;
 import com.javalec.ex.service.CommunityService;
 import com.javalec.ex.service.MP1Service;
@@ -164,7 +165,7 @@ public class ProductController {
 	
 	//쟈뎅 제품뿌리기
 	@RequestMapping("u_product_list")
-	public String user_product_list(HttpServletRequest request ,  Model model) {
+	public String user_product_list(HttpServletRequest request ,  Model model, HttpSession session) {
 		String p_step1 = request.getParameter("p_step1");
 		String p_step2 = null;
 		
@@ -177,6 +178,14 @@ public class ProductController {
 		
 		model.addAttribute("p_step1", p_step1);
 		model.addAttribute("p_step2", p_step2);
+		
+		//floating menu wishlist
+		if(session.getAttribute("userNum")!=null) {
+			int m_num = (Integer) session.getAttribute("userNum");
+			System.out.println(m_num);
+			List<WishListDto> wlist = mp1Service.getAllWish(m_num);
+			model.addAttribute("wlist", wlist);
+		}
 		
 		return "product/list";
 	}

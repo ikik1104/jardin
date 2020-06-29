@@ -50,16 +50,21 @@ public class MyOrderController {
 		List<Map<String, String>> orderlist = ocService.getAllOrder(m_id, pageDto);
 		model.addAttribute("paging", pageDto); //페이지 담기
 		model.addAttribute("orderlist", orderlist); //주문리스트 담기
-		
 		return "mypage/ordercheck";
 	}
 	
 	//입금대기중 - 취소
 	@ResponseBody
 	@RequestMapping("cancel_order")
-	public int cancel_order(@RequestBody String ol_order_num) {
-		int success = ocService.deleteOrder(ol_order_num);
-		return success;
+	public Map<String, Object> cancel_order(@RequestBody String ol_order_num) {
+		int success = ocService.deleteOrder(ol_order_num);//주문테이블지우기
+		int success2 = ocService.deleteOrderCou(ol_order_num);
+		int success3 = ocService.deleteOrderRec(ol_order_num);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("success", success);
+		map.put("success2", success2);
+		map.put("success3", success3);
+		return map;
 	}
 	
 	//입금완료 - 결제취소
@@ -206,12 +211,22 @@ public class MyOrderController {
 		return "mypage/my_review_write";
 	}
 	
+	//리뷰가능 리스트에서 '작성글보기' 버튼 클릭시 작성한 글 보기 폼으로 이동시키는 메서드
+	@RequestMapping("my_review_view")
+	public String my_review_view(@RequestParam("ol_num") String ol_num, Model model) {
+		Map<String, Object> rudto = ocService.getOneReview(Integer.parseInt(ol_num));
+		model.addAttribute("dto", rudto);
+		return "mypage/my_review_view";
+	}
+	
+	
+	
 	//리뷰등록하기 **리뷰 등록시 주문 고유번호도 같이 등록시켜야함
 	@RequestMapping("my_review_insert")
 	public String my_review_insert(ReviewUserDto reviewUserDto, @RequestParam("ol_order_num") String ol_order_num, @RequestParam String ol_num, MultipartFile ru_img_file, HttpSession session, Model model) throws Exception {
 		reviewUserDto.setM_num((Integer)session.getAttribute("userNum")); //dto에 회원고유번호 넣기
 		reviewUserDto.setOl_num(Integer.parseInt(ol_num)); //dto에 ol_num 값 넣기
-		ocService.review_insert(ru_img_file, reviewUserDto); //리뷰 등록 메소드(파일첨부는 서비스에 넘겨서 구현)
+		int check = ocService.review_insert(ru_img_file, reviewUserDto); //리뷰 등록 메소드(파일첨부는 서비스에 넘겨서 구현)
 		pService.update_score(reviewUserDto.getP_num()); //제품의 스코어 업데이트(홍익구현 pservice 가져다씀)
 		return "redirect:my_review_list?ol_order_num="+ol_order_num; //리뷰가능리스트로 리다이렉트시키기
 	}

@@ -101,8 +101,8 @@ function wait_cancel(ol_order_num){
    		 data : ol_order_num,
    		 contentType : "application/json",
             dataType : "json",
-            success : function(val){
-           	 if(val == 1){
+            success : function(data){
+           	 if(data.success != 0 && data.success2 !=0 && data.success3 !=0){
            		 alert("주문이 취소되었습니다.");
            		 location.reload();
            	 } else{

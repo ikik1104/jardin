@@ -36,6 +36,13 @@ $(document).ready(function() {
 	$(".photo_btn").click(function(){
 		photo_rv_insert.submit();
 	});
+	//일반등록버튼
+	$(".normal_btn").click(function(){
+		var orderNum = $(".normal_btn").attr('id');
+		console.log(typeof orderNum);
+		console.log(orderNum);
+		normal_rv_insert.submit();
+	});
 	
 });
 </script>
@@ -174,7 +181,7 @@ $(document).ready(function() {
 						
 						<!-- normal review -->
 						<div class="normalReview disnone">
-							<form action="my_review_insert?ol_order_num=${ ol_order_num }&ol_num=${ol_num}" name="normal_rv_insert">
+							<form action="my_review_insert?ol_order_num=${ ol_order_num }&ol_num=${ol_num}" method="post" name="normal_rv_insert">
 								<table summary="분류, 구매여부, 작은이미지, 평가, 제목, 상세 내용 순으로 포토 구매후기를 작성 하실수 있습니다." class="checkTable" border="1" cellspacing="0">
 									<caption>일반 구매후기 작성</caption>
 									<colgroup>
@@ -184,7 +191,10 @@ $(document).ready(function() {
 									<tbody>
 										<tr>
 											<th scope="row"><span>구매상품</span></th>
-											<td>${ p_name }</td>
+											<td>
+												${ p_name }
+												<input type="hidden" name="p_num" value="${ p_num }"> 
+											</td>
 										</tr>
 										<tr>
 											<th scope="row"><span>평가</span></th>
@@ -257,7 +267,7 @@ $(document).ready(function() {
 									<div class="bCenter">
 										<ul>																
 											<li><a href="#" class="nbtnbig">취소</a></li>
-											<li><a href="#" class="sbtnMini normal_btn">확인</a></li>
+											<li><a href="#" class="sbtnMini normal_btn" id="${ ol_order_num }">확인</a></li>
 										</ul>
 									</div>
 								</div>

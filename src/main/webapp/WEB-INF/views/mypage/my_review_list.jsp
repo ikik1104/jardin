@@ -22,6 +22,12 @@
 $(function() {
 	
     $(".submit_color").css('color', '#f7703c');
+    
+    $(".gotodetail").click(function(){
+    	var p_num = $(this).attr('id');
+    	parent.location.href="product_detail?p_num="+p_num;
+  		parent.$.fancybox.close();
+    });
 	
 });
 
@@ -61,11 +67,11 @@ $(function() {
 		                    <c:forEach items="${ list }" var="list" varStatus="status">
 							<tr id="${ status.index }" class="parents">
 		                        <td>
-									<p class="img"><img src="user/images/img/sample_product.jpg" alt="상품" width="66" height="66" /></p>
+									<p class="img"><img src="${ list.P_THUMB_IMG1 }" alt="상품" width="66" height="66" /></p>
 		
 									<ul class="goods">
 										<li>
-											<a href="#" class="name${ status.index }">${ list.P_NAME }</a>
+											<a href="#" id="${ list.P_NUM }" class="name${ status.index } gotodetail">${ list.P_NAME }</a>
 										</li>
 									</ul>
 								</td>
@@ -103,17 +109,17 @@ $(function() {
                             <c:forEach items="${ listEnd }" var="listEnd" varStatus="status2">
                             <tr id="${ status2.index }" class="parents">
                                 <td>
-                                    <p class="img"><img src="user/images/img/sample_product.jpg" alt="상품" width="66" height="66" /></p>
+                                    <p class="img"><img src="${ listEnd.P_THUMB_IMG1 }" alt="상품" width="66" height="66" /></p>
         
                                     <ul class="goods">
                                         <li>
-                                            <a href="#" class="name${ status2.index }">${ listEnd.P_NAME }</a>
+                                            <a href="#" id="${ listEnd.P_NUM }" class="name${ status2.index } gotodetail">${ listEnd.P_NAME }</a>
                                         </li>
                                     </ul>
                                 </td>
                                 
                                 <td class="pnone">
-                                    <a href="#" class="submit_color" id="btn2${ status2.index }"> 작성글보기 </a>
+                                    <a href="my_review_view?ol_num=${ listEnd.O_NUM }" class="submit_color" id="btn2${ status2.index }"> 작성글보기 </a>
                                 </td>
                             </tr>
                             </c:forEach>

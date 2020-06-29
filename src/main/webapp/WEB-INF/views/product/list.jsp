@@ -34,6 +34,9 @@ $(document).ready(function() {
 
 });
 </script>
+<style>
+.wishThumb{width:80px;}
+</style>
 </head>
 <body>
 
@@ -190,27 +193,15 @@ $(document).ready(function() {
 
 			<!-- quickmenu -->
 			<div id="quick">
-				<div class="cart"><a href="#">장바구니</a></div>
+				<div class="cart"><a href="cart">장바구니</a></div>
 				<div class="wish">
 					<p class="title">위시 리스트</p>
 					
 					<div class="list">
-						<ul>	
-							<li><a href="#"><img src="user/images/img/sample_wish.gif" alt="" /></a>
-							<li><a href="#"><img src="user/images/img/sample_wish.gif" alt="" /></a>
-							<li><a href="#"><img src="user/images/img/sample_wish.gif" alt="" /></a>
-							<li><a href="#"><img src="user/images/img/sample_wish.gif" alt="" /></a>
-							<li><a href="#"><img src="user/images/img/sample_wish.gif" alt="" /></a>
-							<li><a href="#"><img src="user/images/img/sample_wish.gif" alt="" /></a>
-							<li><a href="#"><img src="user/images/img/sample_wish.gif" alt="" /></a>
-							<li><a href="#"><img src="user/images/img/sample_wish.gif" alt="" /></a>
-							<li><a href="#"><img src="user/images/img/sample_wish.gif" alt="" /></a>
-							<li><a href="#"><img src="user/images/img/sample_wish.gif" alt="" /></a>
-							<li><a href="#"><img src="user/images/img/sample_wish.gif" alt="" /></a>
-							<li><a href="#"><img src="user/images/img/sample_wish.gif" alt="" /></a>
-							<li><a href="#"><img src="user/images/img/sample_wish.gif" alt="" /></a>
-							<li><a href="#"><img src="user/images/img/sample_wish.gif" alt="" /></a>
-							<li><a href="#"><img src="user/images/img/sample_wish.gif" alt="" /></a>
+						<ul>
+							<c:forEach var="wlist" items="${ wlist }">
+								<li><a href="product_detail?p_num=${ wlist.pDto.p_num }"><img class="wishThumb" src="${ wlist.pDto.p_thumb_img1 }"></a>
+							</c:forEach>	
 						</ul>
 					</div>
 

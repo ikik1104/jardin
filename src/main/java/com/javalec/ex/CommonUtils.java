@@ -78,7 +78,6 @@ public class CommonUtils {
 		Map<String, Object> cloudinaryURL = null;
 
 		Map params = ObjectUtils.asMap("public_id", folderName + storedFileName);
-
 		File convFile = new File("Z://"+ storedFileName);
 
 		mFile.transferTo(convFile);

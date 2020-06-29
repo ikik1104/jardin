@@ -97,6 +97,13 @@ $(document).ready(function() {
 });
 
 </script>
+<style>
+#mainThum{left:46%; top:311px; margin:0px;}
+.img_size{width:100%;}
+.img_size2{width:50%;}
+.img{background:white !important;}
+.saleimg{width:150px !important;}
+</style>
 </head>
 <body>
 
@@ -275,36 +282,14 @@ $(document).ready(function() {
 			<div class="mtitle"><h2>SALE</h2></div>
 			<div id="mainSale">
 				<div class="swiper-wrapper">
-					<div class="swiper-slide">
-						<div class="img"><a href="#"><img src="user/images/img/sample_sale.jpg" alt="sale 상품" /></a></div>
-						<div class="name">쟈뎅 바리스타 벨벳<br/>에스프레소 원두커피</div>
-						<div class="price">5,600원</div>
-						<div class="discount">20%</div>
-					</div>
-					<div class="swiper-slide">
-						<div class="img"><a href="#"><img src="user/images/img/sample_sale.jpg" alt="sale 상품" /></a></div>
-						<div class="name">쟈뎅 바리스타 벨벳<br/>에스프레소 원두커피</div>
-						<div class="price">5,000원</div>
-						<div class="discount">20%</div>
-					</div>
-					<div class="swiper-slide">
-						<div class="img"><a href="#"><img src="user/images/img/sample_sale.jpg" alt="sale 상품" /></a></div>
-						<div class="name">쟈뎅 바리스타 벨벳<br/>에스프레소 원두커피</div>
-						<div class="price">6,000원</div>
-						<div class="discount">20%</div>
-					</div>
-					<div class="swiper-slide">
-						<div class="img"><a href="#"><img src="user/images/img/sample_sale.jpg" alt="sale 상품" /></a></div>
-						<div class="name">쟈뎅 바리스타 벨벳<br/>에스프레소 원두커피</div>
-						<div class="price">6,000원</div>
-						<div class="discount">20%</div>
-					</div>
-					<div class="swiper-slide">
-						<div class="img"><a href="#"><img src="user/images/img/sample_sale.jpg" alt="sale 상품" /></a></div>
-						<div class="name">쟈뎅 바리스타 벨벳<br/>에스프레소 원두커피</div>
-						<div class="price">6,000원</div>
-						<div class="discount">20%</div>
-					</div>
+					<c:forEach var="mslist" items="${ mslist }">
+						<div class="swiper-slide">
+							<div class="img saleimg"><a href="product_detail?p_num=${ mslist.p_num }"><img src="${ mslist.p_thumb_img1 }" class="img_size" alt="sale 상품" /></a></div>
+							<div class="name">${ mslist.p_name }<br/></div>
+							<div class="price">${ mslist.p_price }원</div>
+							<div class="discount">20%</div>
+						</div>
+					</c:forEach>
 				</div>
 			</div>	
 			<div class="rollbtn">
@@ -324,29 +309,29 @@ $(document).ready(function() {
 						</div>
 					</li>
 					<li class="left">
-						<div class="img"><a href="#"><img src="user/images/img/sample_main_brand.png" alt="Brand 상품" /></a></div>
-						<div class="name">쟈뎅 바리스타 벨벳<br/>에스프레소 원두커피</div>
-						<div class="price">6,000원</div>
+						<div class="img"><a href="product_detail?p_num=${ jb1.p_num }"><img src="${ jb1.p_thumb_img1 }" alt="Brand 상품" class="img_size2"/></a></div>
+						<div class="name">${ jb1.p_name }<br/>${ jb1.p_step1 } ${jb1.p_step2 }</div>
+						<div class="price">${ jb1.p_price }원</div>
 					</li>
 					<li class="right">
-						<div class="img"><a href="#"><img src="user/images/img/sample_main_brand.png" alt="Brand 상품" /></a></div>
-						<div class="name">쟈뎅 바리스타 벨벳<br/>에스프레소 원두커피</div>
-						<div class="price">6,000원</div>
+						<div class="img"><a href="product_detail?p_num=${ jb2.p_num }"><img src="${ jb2.p_thumb_img1 }" alt="Brand 상품" class="img_size2"/></a></div>
+						<div class="name">${ jb2.p_name }<br/>${ jb2.p_step1 } ${jb2.p_step2 }</div>
+						<div class="price">${ jb2.p_price }원</div>
 					</li>
 					<li class="nor">
-						<div class="img"><a href="#"><img src="user/images/img/sample_main_brand.png" alt="Brand 상품" /></a></div>
-						<div class="name">쟈뎅 바리스타 벨벳<br/>에스프레소 원두커피</div>
-						<div class="price">6,000원</div>
+						<div class="img"><a href="product_detail?p_num=${ jb3.p_num }"><img src="${ jb3.p_thumb_img1 }" alt="Brand 상품" class="img_size2"/></a></div>
+						<div class="name">${ jb3.p_name }<br/>${ jb3.p_step1 } ${jb3.p_step2 }</div>
+						<div class="price">${ jb3.p_price }원</div>
 					</li>
 					<li class="nor rewidth">
-						<div class="img"><a href="#"><img src="user/images/img/sample_main_brand.png" alt="Brand 상품" /></a></div>
-						<div class="name">쟈뎅 바리스타 벨벳<br/>에스프레소 원두커피</div>
-						<div class="price">6,000원</div>
+						<div class="img"><a href="product_detail?p_num=${ jb4.p_num }"><img src="${ jb4.p_thumb_img1 }" alt="Brand 상품" class="img_size2"/></a></div>
+						<div class="name">${ jb4.p_name }<br/>${ jb1.p_step1 } ${jb4.p_step2 }</div>
+						<div class="price">${ jb4.p_price }원</div>
 					</li>
 					<li class="nor fn">
-						<div class="img"><a href="#"><img src="user/images/img/sample_main_brand.png" alt="Brand 상품" /></a></div>
-						<div class="name">쟈뎅 바리스타 벨벳<br/>에스프레소 원두커피</div>
-						<div class="price">6,000원</div>
+						<div class="img"><a href="product_detail?p_num=${ jb5.p_num }"><img src="${ jb5.p_thumb_img1 }" alt="Brand 상품" class="img_size2" /></a></div>
+						<div class="name">${ jb5.p_name }<br/>${ jb5.p_step1 } ${jb5.p_step2 }</div>
+						<div class="price">${ jb5.p_price }원</div>
 					</li>
 				</ul>
 			</div>
@@ -395,21 +380,9 @@ $(document).ready(function() {
 					
 					<div class="list">
 						<ul>	
-							<li><a href="#"><img src="user/images/img/sample_wish.gif" alt="" /></a>
-							<li><a href="#"><img src="user/images/img/sample_wish.gif" alt="" /></a>
-							<li><a href="#"><img src="user/images/img/sample_wish.gif" alt="" /></a>
-							<li><a href="#"><img src="user/images/img/sample_wish.gif" alt="" /></a>
-							<li><a href="#"><img src="user/images/img/sample_wish.gif" alt="" /></a>
-							<li><a href="#"><img src="user/images/img/sample_wish.gif" alt="" /></a>
-							<li><a href="#"><img src="user/images/img/sample_wish.gif" alt="" /></a>
-							<li><a href="#"><img src="user/images/img/sample_wish.gif" alt="" /></a>
-							<li><a href="#"><img src="user/images/img/sample_wish.gif" alt="" /></a>
-							<li><a href="#"><img src="user/images/img/sample_wish.gif" alt="" /></a>
-							<li><a href="#"><img src="user/images/img/sample_wish.gif" alt="" /></a>
-							<li><a href="#"><img src="user/images/img/sample_wish.gif" alt="" /></a>
-							<li><a href="#"><img src="user/images/img/sample_wish.gif" alt="" /></a>
-							<li><a href="#"><img src="user/images/img/sample_wish.gif" alt="" /></a>
-							<li><a href="#"><img src="user/images/img/sample_wish.gif" alt="" /></a>
+							<c:forEach var="wlist" items="${ wlist }">
+								<li><a href="product_detail?p_num=${ wlist.pDto.p_num }"><img class="img_size" src="${ wlist.pDto.p_thumb_img1 }"></a>
+							</c:forEach>
 						</ul>
 					</div>
 
