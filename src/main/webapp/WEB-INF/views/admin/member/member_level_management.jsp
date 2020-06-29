@@ -13,6 +13,9 @@
 		<script type="text/javascript" src="admin/js/jquery-3.4.1.min.js"></script>
         <script type="text/javascript" src="admin/js/jquery-ui.min.js"></script>
         <script type="text/javascript" src="admin/js/prefixfree.dynamic-dom.min.js"></script>
+        <script type="text/javascript" src="admin/js/admin_board.js"></script> 
+		<link rel="stylesheet" type="text/css" href="admin/css/list_button.css">      
+		<link rel="stylesheet" type="text/css" href="admin/css/a_setting.css">	     
 		<style type="text/css">
 			
 			#search_form table{
@@ -81,14 +84,14 @@
 	</head>
 	<body>
 	<jsp:include page="../nav/admin_header.jsp"/>
-	<jsp:include page="../nav/board_nav.jsp"/>
+	<jsp:include page="../nav/member_nav.jsp"/>
 	<section>
 		<h1>회원 등급 관리</h1>
 		<div id="main_list">
 			<div id="main_user_list">
-				<h2>회원 등급 검색</h2>
-				<div class="list_count">임시로 놔두기(총 게시물 수 등등 표시?)</div>
-				<div>
+				<!--  <h2>회원 등급 검색</h2>-->
+				<div class="list_count">총 등급 수 : ${level_list.size() }</div>
+				<div style="margin-bottom:5px;">
 					<button onclick="location.href='level_write'">새 등급 추가</button>
 				</div>
 			
@@ -117,7 +120,7 @@
 							</td>
 							<td>${level_list.utildto.temp_int }</td>
 							<td>${level_list.leveldto.lv_des }</td>
-							<td>${level_list.leveldto.lv_sort_money }</td>
+							<td><fmt:formatNumber type="number" maxFractionDigits="3" value="${level_list.leveldto.lv_sort_money }" /></td>
 							<td>${level_list.leveldto.lv_benefit }</td>		
 							<td>${level_list.leveldto.lv_date }</td>	
 							<td>
@@ -130,10 +133,12 @@
 						</c:forEach>
 					</table>
 					
-					<div>				
-						<button>선택 삭제</button>
-					</div>
-				
+					
+						<div class="detail_btn" style="text-align:left; cursor:pointer;">
+							<a onclick="levelSomeDelete()">선택 삭제</a>
+							<!-- 선택된 체크박스 값 체크용 -->
+							 <input type="hidden" name="hiddenValue" id="hiddenValue" value=""/>
+						</div>	
 				</div>
 			</div>
 				</div>

@@ -10,6 +10,10 @@
 		<!-- 페이지 상단 또는 하단에 라이브러르 추가 --> 
 		<script type="text/javascript" src="se2/admin/js/HuskyEZCreator.js" charset="utf-8"></script> 
 		<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+		 <!-- css, 기능 수정 -->
+ 		<link rel="stylesheet" type="text/css" href="admin/css/admin_view.css">	 
+        <script type="text/javascript" src="admin/js/admin_board.js"></script>	 		  
+		<link rel="stylesheet" type="text/css" href="admin/css/a_setting.css">
 		<!-- 페이지 로딩시 초기화 --> 
 		<script>
 		$(document).ready(function(){
@@ -51,12 +55,29 @@
 			<form action="level_insert" name="inputform" method="post">
 				<div id="input_form">
 					<h1>등급 작성</h1>
-					<table border="1">
+					<table border="1" style="width:1000px; margin:0;">
+						<colgroup>
+							<col width="20%">
+							<col width="30%">
+							<col width="20%">
+							<col width="30%">
+						</colgroup>
+						<script>
+							function submit(){
+								var order = inputform.lv_order.value;
+								var direct = inputform.directOrder.value;
+								if(order==-99 || order=='-99'){
+									//선택 안 했을 경우
+									inputform.lv_order.value=direct;
+								}
+								inputform.submit();
+							}
+						</script>
 						<tr>
-							<td>등급 순서</td>
+							<th>등급 순서</th>
 							<td>
 								<select name="lv_order">
-									<option value="-1">선택안함</option>
+									<option value="-1">선택 안함</option>
 									<c:forEach var="level_list" items="${level_list }">
 										<option value="${level_list.leveldto.lv_order }">${level_list.leveldto.lv_order }</option>
 									</c:forEach>
@@ -64,18 +85,18 @@
 								</select>
 								<input type="text" name="directOrder">
 							</td>
-							<td>등급명</td>
+							<th>등급명</th>
 							<td><input type="text" name="lv_name"></td>
 						</tr>									
 						<tr>
-							<td>등급 분류 기준 금액</td>
+							<th>등급 분류 기준 금액</th>
 							<td><input type="text" name="lv_sort_money"><button>없음</button></td>
-							<td>혜택</td>
+							<th>혜택</th>
 							<td><input type="text" name="lv_benefit"><button>미정</button></td>
 						</tr>
 						<tr>	
-							<td>등급 분류 기준 설명</td>
-							<td>
+							<th>등급 분류 기준 설명</th>
+							<td colspan="3">
 								<textarea name="lv_des"></textarea>
 							</td>
 						</tr>

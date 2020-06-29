@@ -131,9 +131,18 @@
 		delete from level_tb where lv_num=#{lv_num}
 	</delete>
 		
+	<!-- 등급 1개 수정 -->	
 	<update id="modifyLevel">
 		update level_tb set lv_order=#{lv_order}, lv_name=#{lv_name}, lv_sort_money=#{lv_sort_money},
 		lv_benefit=#{lv_benefit}, lv_des=#{lv_des} where lv_num=#{lv_num}
 	</update>	
+	
+	<!-- 선택 등급 일괄 삭제 -->
+	<delete id="deleteSomeLevels" parameterType="HashMap">
+		delete from level_tb where lv_num in
+		<foreach collection="chkArray" item="item" open="(" close=")" separator=",">
+ 			#{item}
+		</foreach>		
+	</delete>
 		
 </mapper>

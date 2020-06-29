@@ -29,5 +29,8 @@ public interface AdminMemberManagementService {
 
 	//등급 1개 수정
 	public int modifyLevel(LevelDto levelDto);
+
+	//선택 등급 일괄 삭제
+	public int deleteSomeLevels(int[] chkArray);
 	
 }

@@ -10,6 +10,10 @@
 		<!-- 페이지 상단 또는 하단에 라이브러르 추가 --> 
 		<script type="text/javascript" src="se2/admin/js/HuskyEZCreator.js" charset="utf-8"></script> 
 		<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="admin/css/admin_view.css">	
+		<link rel="stylesheet" type="text/css" href="admin/css/a_setting.css">	
+        <script type="text/javascript" src="admin/js/admin_board.js"></script>	
+		<link rel="stylesheet" type="text/css" href="admin/css/list_button.css">    
 		<!-- 페이지 로딩시 초기화 --> 
 		<script>
 		$(document).ready(function(){
@@ -74,42 +78,47 @@
 		<h1>당첨자 게시글 조회/수정</h1>
 			<form action="win_board_modify" name="inputform" method="post">
 				<div id="input_form">
-					<h1>당첨자 게시글 조회/수정</h1>
-					<table border="1">
+					<h1>당첨자 게시글 조회/수정 <span style="font-size:15px; font-weight:normal;">* 수정 가능 항목</span></h1>
+					<table border="1" style="margin:0; width:1000px;">
+						<colgroup>
+							<col width="15%">
+							<col  width="35%">
+							<col width="15%">
+							<col width="35%">
+						</colgroup>.
 						<tr>
-							<td>작성자</td>
+							<th>작성자</th>
 							<td>${win_board_list.admindto.ad_grade }(${win_board_list.admindto.ad_id })</td>
-							<td>조회수</td>
+							<th>조회수</th>
 							<td>${win_board_list.winboarddto.wb_hit }</td>
 						</tr>			
 						<tr>
-							<td>제목</td>
-							<td colspan="3">
-							<textarea name="wb_title">${win_board_list.winboarddto.wb_title }</textarea>
+							<th>제목 *</th>
+							<td colspan="3" style="height:33px;">
+							<textarea name="wb_title"  style="height:20px;">${win_board_list.winboarddto.wb_title }</textarea>
 							</td>
 						</tr>									
 						<tr>
-							<td>등록일</td>
+							<th>등록일</th>
 							<td colspan="3">${win_board_list.winboarddto.wb_date }</td>
 						</tr>									
 						<tr>
-							<td>이벤트명</td>
+							<th>이벤트명</th>
 							<td colspan="3">${win_board_list.eventdto.e_title }</td>
 						</tr>
 						<tr>
-							<td>이벤트 변경</td>
+							<th>이벤트 변경 *</th>
 							<td colspan="3">
-								<select name="e_num">
+								<select name="e_num" style="height:20px;">
 									<option value="0">변경 안 함</option>
 									<c:forEach var="event_list" items="${event_list }">
 										<option value="${event_list.eventdto.e_num }">${event_list.eventdto.e_title }</option>
 									</c:forEach>
 								</select>
-								<input type="text" name="event_title">
 							</td>
 						</tr>						
 						<tr>
-							<td>내용</td>
+							<th>내용  *</th>
 							<td colspan="3">
 								<!-- 텍스트에디터로 변경?★★★★★★★★★ -->
 								<textarea wrap="hard" name="wb_content" id="smartEditor" style="width:100%; height: 412px;">
@@ -121,10 +130,12 @@ ${win_board_list.winboarddto.wb_content }
 					<input type="hidden" value=${win_board_list.winboarddto.wb_num } name="wb_num">
 					<input type="hidden" value=${win_board_list.winboarddto.e_num } name="eNum">					
 					
-					<div id="btn_div">
+					<div id="btn_div" style="width:1000px; margin-top:10px; margin-bottom:200px;">
+						<div id="btn_wrap" style="width:120px; float:right;">
 						<button type="button" onclick="location.href='win_list'">목록</button>
 						<button type="submit" >수정</button>
 						<button type="button" onclick="del_check(${win_board_list.winboarddto.wb_num })" >삭제</button>						
+						</div>
 					</div>		
 				</div>
 			</form>

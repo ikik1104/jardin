@@ -186,11 +186,10 @@
 							<c:if test="${mtm_user_info.mtmuserdto.iu_img=='없음' || mtm_user_info.mtmuserdto.iu_img==null}">
 							</c:if>
 							<c:if test="${mtm_user_info.mtmuserdto.iu_img!='없음' && mtm_user_info.mtmuserdto.iu_img!=null}">
-							<img src="tempUpload/${mtm_user_info.mtmuserdto.iu_img }" alt="${ MtmUserDto.iu_img}">
+								<img src="${mtm_user_info.mtmuserdto.iu_img }" alt="${ MtmUserDto.iu_img}" style="padding:10px 10px;">
 							</c:if>								
-							<pre style="white-space:pre-wrap; word-break:break-all; width:1000px;">
-${mtm_user_info.mtmuserdto.iu_content }
-							</pre>							
+							<pre style="white-space:pre-wrap; word-break:break-all; width:1000px; padding:0 10px; " >
+${mtm_user_info.mtmuserdto.iu_content }</pre>							
 						</td>
 					</tr>
 					</tbody>

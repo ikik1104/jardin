@@ -111,12 +111,12 @@
 	<jsp:include page="../nav/admin_header.jsp"/>
 	<jsp:include page="../nav/board_nav.jsp"/>
 	<section>
-		<h1>상품 리스트</h1>
+		<h1>이벤트 리스트</h1>
 		<div id="main_list">
 			<div id="main_user_list">
-				<h2>게시글 검색</h2>
+				<!--  <h2>게시글 검색</h2>-->
 				<div class="list_count">총 게시글 수 : ${AllDtos.size() }</div>
-				<div id="search_form">
+				<!--<div id="search_form">
 					<form name="inputform" method="get" onsubmit="return false;">
 					<table border="1">
 						<tr>
@@ -133,7 +133,7 @@
 							<td>기간검색</td>
 							<td>
 						<!--  <fmt:formatDate var="sys" value="${sysdate}" pattern="yyyy-MM-dd"/>-->	
-							<select name="****미정****" >
+							<!-- <select name="****미정****" >
 								<option>등록일</option>
 								<option>수정일</option>
 							</select>
@@ -154,7 +154,7 @@
 					</table>
 					</form>
 					
-				</div>
+				</div>-->
 				<div>
 					<button type="button" onclick="location.href='event_applicants'" class="new_insert_btn">
 						신청자 리스트
@@ -171,6 +171,19 @@
 					<!-- 등록된 1:1문의 있을 경우 -->
 					<c:if test="${AllDtos.size()!=0 }">			
 					<table border="1" id="event_list">
+						<colgroup>
+							<col>						
+							<col>	
+							<col width="35%">	
+							<col width="10%">	
+							<col>	
+							<col>	
+							<col>	
+							<col>	
+							<col>	
+							<col>	
+							<col>		
+						</colgroup>
 						<tr>
 							<th><input type="checkbox"  id="check_all"  ></th>						
 							<th>번호</th>
@@ -201,9 +214,10 @@
 								<td>있음</td>
 							</c:if>			
 							<c:if test="${AllDtos.eventdto.co_num==0 }">
-								<td>없음</td>
+								<td>-</td>
 							</c:if>								
-							<td>${AllDtos.utildto.str3 }</td>
+							<c:if test="${AllDtos.utildto.str3!=null }"><td>${AllDtos.utildto.str3 }</td></c:if>
+							<c:if test="${AllDtos.utildto.str3==null ||  AllDtos.utildto.str3==''}"><td>-</td></c:if>
 							<td>${ AllDtos.utildto.str4}</td>
 							<td>
 								<button type="button" onclick="location.href='event_view?e_num=${AllDtos.eventdto.e_num}'">

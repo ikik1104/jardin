@@ -222,13 +222,13 @@
 						<tr>
 							<th class="notice_th">썸네일 이미지</th>
 							<td><!--  <input type="file" name="e_thumb_img">-->
-								<input type="file" name="thumb_img" value="sample_event.jpg" style="width:800px; padding:5px 0;">
+								<input type="file" name="thumb_img" style="width:800px; padding:5px 0;">
 							</td>
 						</tr>
 						<tr>
 							<th class="notice_th">내용 이미지</th>
 							<td><!-- <input type="file" name="e_content_img"> -->
-								<input type="file" name="content_img" value="sample_event_view.jpg" style="width:800px; padding:5px 0;">												
+								<input type="file" name="content_img" style="width:800px; padding:5px 0;">												
 							</td>
 						</tr>
 						<tr>
@@ -246,7 +246,7 @@
 						<tr>
 							<th class="notice_th">당첨자 발표일</th>
 							<td>
-							<input type="date" name="str7" onchange="date_chk2(this.value)" >
+							<input type="date" name="str7" >
 							</td>
 						</tr>
 					</table>

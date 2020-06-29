@@ -38,4 +38,10 @@ public interface AdminMemberInfoService {
 	
 	//탈퇴 회원 1명 영구삭제
 	int deleteForeverMember(int m_num);
+
+	//선택 회원 일괄 탈퇴처리
+	int deleteSomeMems(int[] chkArray);
+
+	//선택 탈퇴 회원 일괄 영구 삭제 처리
+	int deleteSomeForeverMems(int[] chkArray);
 }

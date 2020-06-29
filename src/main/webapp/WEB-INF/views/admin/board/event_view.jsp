@@ -258,7 +258,8 @@
 	<input  type="hidden" id="origin_end" value="${AllDto.utildto.str2 }">	
 
 		<h1>이벤트 조회/수정 </h1>
-	<form runat="server" action="event_modify" name="inputform" method="post"  enctype="multipart/form-data" >		
+	<form action="event_modify" name="inputform" method="post"  enctype="multipart/form-data" >		
+<!-- 	<form runat="server" action="event_modify" name="inputform" method="post"  enctype="multipart/form-data" >		 -->	
 		<!-- 수정하지 않은 항목에 넣어줄 값들 -->
 		<input type="hidden" name="start" value=${AllDto.utildto.str1 }>
 		<input type="hidden" name="end" value=${AllDto.utildto.str2 }>

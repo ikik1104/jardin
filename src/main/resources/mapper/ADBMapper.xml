@@ -321,11 +321,25 @@
 	
 	<!-- 특정 이벤트에 달린 댓글들 가져오기 -->
 	<select id="getEventComments" resultMap="AllDto">
-		select eco.*, m_id from
+		<!-- select eco.*, m_id from
         (select ec.*, to_char(ec_sysdate, 'yy-MM-dd') str1 from
         (select * from ecomment_tb order by ec_num desc) ec) eco,
         member_tb mem
-        where mem.m_num=eco.m_num
+        where mem.m_num=eco.m_num-->
+         <![CDATA[select rownum, finfin.* from
+        (select fintb.* from
+        (select eco.*, m_id from
+        (select ectb.*, e_title, 
+        case when to_char(e_start_day, 'yy-MM-dd')<=to_char(sysdate, 'yy-MM-dd') and to_char(e_end_day, 'yy-MM-dd')>=to_char(sysdate, 'yy-MM-dd') then '진행중' 
+        when to_char(e_start_day, 'yy-MM-dd')>to_char(sysdate, 'yy-MM-dd') then '시작전'
+        when to_char(e_end_day, 'yy-MM-dd')<to_char(sysdate, 'yy-MM-dd') then '종료' end
+        e_status from
+        (select ec.*, to_char(ec_sysdate, 'yy-MM-dd') str1 from
+        (select * from ecomment_tb order by ec_num desc) ec) ectb,
+        event_tb evtb
+        where evtb.e_num=ectb.e_num) eco,
+        member_tb mem
+        where mem.m_num=eco.m_num) fintb where e_num=#{e_num}) finfin ]]>		
 	</select>		
 	
 	<!-- 이벤트 1개 수정 -->

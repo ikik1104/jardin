@@ -111,7 +111,7 @@ $(document).ready(function() {
 				<ul>	
 					<li style="cursor:pointer;"><a href="event" id="leftNavi1">진행중 이벤트</a></li>
 					<li style="cursor:pointer;"><a href="fin_event" id="leftNavi2">종료된 이벤트</a></li>
-					<li class="last" style="cursor:pointer;"><a href="prizewinner" id="leftNavi3">당첨자 발표</a></li>
+					<!--<li class="last" style="cursor:pointer;"><a href="prizewinner" id="leftNavi3">당첨자 발표</a></li>  -->
 				</ul>			
 			</div><script type="text/javascript">initSubmenu(2,0);</script>
 
@@ -135,9 +135,8 @@ $(document).ready(function() {
 											<a href="fin_event_view?e_num=${fin_event_list.eventdto.e_num }"><img src="${fin_event_list.eventdto.e_thumb_img }"  alt="진행중 이벤트" /></a>
 										</div>
 										<div class="txt">
-											<div class="subject">
-												<span class="finishbtn">종료</span>&nbsp;
-												${fin_event_list.eventdto.e_title }
+											<div class="subject" >
+												<p  style="text-align:left;overflow:hidden; width:420px;text-overflow:ellipsis;white-space:pre;"><span class="finishbtn" >종료</span>&nbsp;${fin_event_list.eventdto.e_title }</p>
 											</div>
 											<div class="day">이벤트 기간 : ${fin_event_list.utildto.str1 } ~ ${fin_event_list.utildto.str2 }</div>
 										</div>

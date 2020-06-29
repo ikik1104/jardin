@@ -14,29 +14,21 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scaleable=no" />
 <link rel="stylesheet" type="text/css" href="user/css/reset.css?v=Y" />
 <link rel="stylesheet" type="text/css" href="user/css/layout.css?v=Y" />
-<link rel="stylesheet" type="text/css" href="user/css/content.css?v=Y" />
+ <link rel="stylesheet" type="text/css" href="user/css/content.css?v=Y" /> 
 <script type="text/javascript" src="user/js/jquery.min.js"></script>
 <script type="text/javascript" src="user/js/top_navi.js"></script>
 <script type="text/javascript" src="user/js/left_navi.js"></script>
 <script type="text/javascript" src="user/js/main.js"></script>
-<script type="text/javascript" src="user/js/common.js"></script>
+<script type="text/javascript" src="user/js/user_join_common.js"></script>
 <script type="text/javascript" src="user/js/jquery.easing.1.3.js"></script>
 <script type="text/javascript" src="user/js/idangerous.swiper-2.1.min.js"></script>
 <script type="text/javascript" src="user/js/jquery.anchor.js"></script>
+<script type="text/javascript" src="user/js/user_join.js"></script>
 <!--[if lt IE 9]>
 <script type="text/javascript" src="user/js/html5.js"></script>
 <script type="text/javascript" src="user/js/respond.min.js"></script>
 <![endif]-->
-<script type="text/javascript">
 
-$(document).ready(function() {
-
-
-});
-
-
-
-</script>
 </head>
 <body>
 
@@ -69,14 +61,15 @@ $(document).ready(function() {
      });
 
      var msiecheck = function () {
+    	 
          var browser = navigator.userAgent.toLowerCase();
          if (browser.indexOf('msie 6') != -1 ||
                 browser.indexOf('msie 7') != -1 ||
 				 browser.indexOf('msie 8') != -1) {
-             msieshow();			 
+             msieshow();	 
          }
          else {
-             msiehide();
+             msiehide(); 
          }
      }
 
@@ -90,43 +83,22 @@ $(document).ready(function() {
         clearTimeout(msietimer);
      }
    
-     function submitJoin(){
-    	 
-    	 alert('들어옴');
-    	 //이메일값 합치기
-    	 var email = joinform.email1.value+'@'+joinform.email2.value;
-    	 joinform.m_email.value=email;
-    	 
-    	 //휴대폰값 합치기
-    	 var phone =  joinform.phone1.value+'-'+joinform.phone2.value+'-'+joinform.phone3.value;
-    	 joinform.m_phone.value=phone;
-    
-    	 
-    	 //유선전화 합치기
-    	  var tel =  joinform.tel1.value+'-'+joinform.tel2.value+'-'+joinform.tel3.value;
-    	 joinform.m_tel.value=tel;
-    	
-    	 //생년월일 합치기
-    	 var birth = joinform.birth1.value+'/'+joinform.birth2.value+'/'+joinform.birth3.value;
-    	 joinform.m_birth.value=birth;
-    	
-    	 //공백제거
-    	 member_join.m_name.replace(" ", "");
-    	 member_join.m_id.replace(" ", "");  
-    	 member_join.m_pw.replace(" ", "");    	 
-    	 member_join.m_email.replace(" ", "");    	 
-    	 member_join.m_zipcode.replace(" ", "");    	 
-    	 member_join.m_phone.replace(" ", "");    	 
-    	 member_join.m_tel.replace(" ", "");    	 
-    	 
-    	 joinform.submit();
-    	 
-     }
+
      
      window.onload=function(){
     	 ${alerttext}
      }
  
+</script>
+<!-- 우편번호 검색 -->
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+
+
+//아이디 중복확인 창 열기
+function openIdCheck(){
+	window.open("idcheck", "아이디 중복확인", "width=600,height=600, resizable=no ");
+}
 </script>
 
 
@@ -161,7 +133,7 @@ $(document).ready(function() {
 				</ul>			
 			</div><script type="text/javascript">initSubmenu(2,0);</script>
 
-			<form action="member_join" method="post" name="joinform">
+			<form action="member_join" method="post" id="joinform" name="joinform">
 			<!-- form 넘길 때 이메일, 휴대폰, 유선전화, 생년월일 합친 값 넣는 부분 -->
 			<input type="hidden" name="m_email">
 			<input type="hidden" name="m_phone">
@@ -215,15 +187,15 @@ $(document).ready(function() {
 							<tbody>
 								<tr>
 									<th scope="row"><span >이름 *</span></th>
-									<td><input type="text"name="m_name"></td>
+									<td><input type="text"name="m_name" id="m_name"  maxlength="50" onkeydown="nameLenCheck()"></td>
 								</tr>
 								<tr>
 									<th scope="row"><span>아이디 *</span></th>
 									<td>
 										<ul class="pta">
-											<li class="r10"><input type="text" class="w134" name="m_id" /></li>
-											<li><a href="#" class="nbtnMini">중복확인</a></li>
-											<li class="pt5"><span class="mvalign">첫 글자는 영문으로 4~16자 까지 가능, 영문, 숫자와 특수기호(_)만 사용 가능</span></li>
+											<li class="r10"><input type="text" class="w134" id="m_id" name="m_id" readonly/></li>
+											<li><a onclick="openIdCheck()" class="nbtnMini" style="cursor:pointer;">중복확인</a></li>
+											<li class="pt5"><span class="mvalign">※ 영문 소문자/숫자 혼용으로 공백 없이 5~20자 까지 입력해 주세요.</span></li>
 										</ul>
 									</td>
 								</tr>
@@ -231,8 +203,8 @@ $(document).ready(function() {
 									<th scope="row"><span>비밀번호 *</span></th>
 									<td>
 										<ul class="pta">
-											<li class="r10"><input type="password" class="w134" name="m_pw" /></li>
-											<li><span class="mvalign">※ 영문 / 숫자 혼용으로 4~20자 까지 가능.</span></li>
+											<li class="r10"><input type="password" class="w134" name="m_pw" maxlength="20"/></li>
+											<li><span class="mvalign">※ 영문 / 숫자 혼용으로 공백 없이 4~20자 까지 가능.</span></li>
 										</ul>
 									</td>
 								</tr>
@@ -240,10 +212,10 @@ $(document).ready(function() {
 									<th scope="row"><span>비밀번호 확인 *</span></th>
 									<td>
 										<ul class="pta">
-											<li class="r10"><input type="password" class="w134" name="m_pw2"  /></li>
+											<li class="r10"><input type="password" class="w134" name="m_pw2" onblur="checkPW2()" maxlength="20"/></li>
 											<li>
-												<span class="mvalign black">* 비밀번호가 일치입니다.</span>
-												<span class="mvalign orange">* 비밀번호가 일치하지 않습니다.</span>
+												<span class="mvalign black" id="pw2_yes"></span>
+												<span class="mvalign orange"id="pw2_no"></span>
 											</li>
 										</ul>
 									</td>
@@ -252,12 +224,12 @@ $(document).ready(function() {
 									<th scope="row"><span>이메일</span></th>
 									<td>
 										<ul class="pta">
-											<li><input type="text" class="w134" name="email1" /></li>
+											<li><input type="text" class="w134" name="email1" maxlength="20"/></li>
 											<li><span class="valign">&nbsp;@&nbsp;</span></li>
-											<li class="r10"><input type="text" class="w134"  name="email2"  /></li>
+											<li class="r10"><input type="text" class="w134"  name="email2"  id="email2"  maxlength="30"/></li>
 											<li>
-												<select id="emailList">
-													<option value="#" selected="selected">직접입력</option>
+												<select id="emailList" onchange="inputEmail2()" style="height:20px;"name="emailList" >
+													<option value="" >직접입력</option>
 													<option value="naver.com">naver.com</option>
 													<option value="daum.net">daum.net</option>
 													<option value="hanmail.net">hanmail.net</option>
@@ -298,11 +270,11 @@ $(document).ready(function() {
 									<td>
 										<ul class="pta">
 											<li>
-												<input type="text" class="w134" name="m_zipcode" />&nbsp;
+												<input type="text" class="w134" name="m_zipcode" id="zonecode" readonly/>&nbsp;
 											</li>
-											<li><a href="zip.html" class="addressBtn"><span>우편번호 찾기</span></a></li>
-											<li class="pt5"><input type="text" class="addressType" name="m_address1"/></li>
-											<li class="pt5"><input type="text" class="addressType" name="m_address2"/></li>
+											<li><a class="addressBtn" onclick="openSearch()"style="cursor:pointer;" ><span>우편번호 찾기</span></a></li>
+											<li class="pt5"><input type="text" class="addressType" name="m_address1" id="address" readonly/></li>
+											<li class="pt5"><input type="text" class="addressType" name="m_address2" id="address_etc" maxlength="50" onkeydown="addrLenCheck()"/></li>
 											<li class="cb">
 												<span class="mvalign">※ 상품 배송 시 받으실 주소입니다. 주소를 정확히 적어 주세요.</span>
 											</li>
@@ -314,7 +286,7 @@ $(document).ready(function() {
 									<td>
 										<ul class="pta">
 											<li>
-												<select name="phone1">
+												<select name="phone1" style="height:20px;"> 
 													<option value="010" selected="selected">010</option>
 													<option value="011">011</option>
 													<option value="016">016</option>
@@ -345,7 +317,7 @@ $(document).ready(function() {
 									<td>
 										<ul class="pta">
 											<li>
-												<select name="tel1">
+												<select name="tel1" style="height:20px;">
 													<option value="02" selected="selected">02</option>
 													<option value="031">031</option>
 													<option value="032">032</option>
@@ -376,7 +348,7 @@ $(document).ready(function() {
 									<td>
 										<ul class="pta">
 											<li>
-												<select name="birth1">
+												<select name="birth1" style="height:20px;">
 													<option value='' selected="selected">선택하세요</option>
 													<script type="text/javascript">
 													//<![CDATA[
@@ -389,7 +361,7 @@ $(document).ready(function() {
 											</li>
 											<li>&nbsp;<span class="valign">년</span>&nbsp;&nbsp;&nbsp;</li>
 											<li>
-												<select name="birth2">
+												<select name="birth2" style="height:20px;">
 													<option value='' selected="selected">선택하세요</option>
 													<script type="text/javascript">
 													//<![CDATA[
@@ -406,7 +378,7 @@ $(document).ready(function() {
 											</li>
 											<li>&nbsp;<span class="valign">월</span>&nbsp;&nbsp;&nbsp;</li>
 											<li>
-												<select name="birth3">
+												<select name="birth3" style="height:20px;">
 													<option value='' selected="selected">선택하세요</option>
 													<script type="text/javascript">
 													//<![CDATA[
@@ -448,7 +420,7 @@ $(document).ready(function() {
 					<div class="btnArea">
 						<div class="bCenter">
 							<ul>
-								<li><a href="#" class="nbtnbig">취소하기</a></li>
+								<li><a class="nbtnbig" onclick="resetAll()" style="cursor:pointer;">취소하기</a></li>
 								<li  style="cursor:pointer" onclick="submitJoin()" > <a class="sbtnMini">가입하기 </a></li>
 							</ul>
 						</div>
@@ -457,52 +429,13 @@ $(document).ready(function() {
 					
 
 <script type="text/javascript" src="user/js/jquery.fancybox-1.3.4.pack.js"></script>
-<link rel="stylesheet" type="text/css" href="user/css/jquery.fancybox-1.3.4.css" />
-<script type="text/javascript">
-$(function(){
 
-	// business input
-	var firstchk = $("input:radio[name=business]:checked").attr("id");
-	$(".businessTy").css("display","none");
-	$("#partner").click(function(){
-		$(".businessTy").css("display","block");
-	});
-	$("#general").click(function(){
-		$(".businessTy").css("display","none");
-	});
-	$("#"+firstchk).click();
-	
-
-	// popup
-	var winWidth = $(window).width();
-	if(winWidth > 767){
-		var layerCheck = 540;
-	}else{
-		var layerCheck = 320;
-	}
-
-	$(".addressBtn").fancybox({
-		'autoDimensions'    : false,
-		'showCloseButton'	: false,
-		'width' : layerCheck,
-		'padding' : 0,
-		'type'			: 'iframe',
-		'onComplete' : function() {
-			$('#fancybox-frame').load(function() { // wait for frame to load and then gets it's height
-			$('#fancybox-content').height($(this).contents().find('body').height());
-			});
-		}
-	});
-
-
-});
-</script>
 
 
 				</div>
+			</form>
 			</div>
 			<!-- //contents -->
-			</form>
 
 		</div>
 	</div>
@@ -516,6 +449,6 @@ $(function(){
 
 
 </div>
-</div>
+<!--</div>  -->
 </body>
 </html>

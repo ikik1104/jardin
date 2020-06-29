@@ -220,11 +220,13 @@ public class UserMemberController {
 	//회원가입
 	@PostMapping("member_join")
 	public String member_join(MemberDto memberDto, Model model) {
+		System.out.println("들어옴");
 		int success = mservice.memberJoin(memberDto);
 		String alerttext="";
 		if(success==0) alerttext="alert('회원가입에 실패했습니다. 다시 시도해 주세요.'); history.go(-1);"; 
 		if(success>=1) alerttext="alert('회원가입 되었습니다.'); location.href='step04';"; 		
 		model.addAttribute("alerttext", alerttext);	
+		System.out.println("나감");
 		return response_path+"step03";
 	}
 	
@@ -256,6 +258,25 @@ public class UserMemberController {
 		model.addAttribute("alerttext", alerttext);
 		model.addAttribute("m_id", meminfo.getM_id());
 		return realpath;
+	}
+	
+	//회원가입 시 아이디 중복 체크
+	@ResponseBody
+	@PostMapping("check_id")
+	public int check_id(MemberDto memberDto, Model model) {
+		System.out.println(memberDto.getM_id());
+		int success=0;
+		AllDto alldto = mservice.checkID(memberDto);
+		System.out.println(alldto.getMemberdto().getM_id());
+		if(alldto.getMemberdto().getM_id().equals(memberDto.getM_id())) {
+			//일치하는 아이디 있는 경우
+			success=0;
+		} else {
+			//일치하는 아이디 없을 경우
+			success=1;
+		}
+		System.out.println(success);
+		return success;
 	}
 	
 	//비밀번호 찾기
@@ -290,4 +311,10 @@ public class UserMemberController {
 		return response_path+"pwsearch_success";
 	}
 
+	//아이디 중복확인 창
+	@RequestMapping("idcheck")
+	public String idcheck() {
+		return response_path+"idcheck";
+	}
+	
 }

@@ -33,6 +33,9 @@ public interface AdminMemberManagementDao {
 
 	//등급 1개 수정
 	int modifyLevel(LevelDto levelDto);
+
+	//선택 등급 일괄 삭제
+	int deleteSomeLevels(@Param("chkArray") int[] chkArray);
 	
 	
 }

@@ -7,7 +7,7 @@
 			<div class="tes_list">
 				<ul>
 					<li><a href="mtm_list"><img src="admin/images/icon_title_left.png">리스트</a></li>
-					<li><a href="mtm_list"><img src="admin/images/icon_title_left.png">글보기</a></li>
+					<li><a href="mtm_list"><img src="admin/images/icon_title_left.png">글 조회/답변</a></li>
 				</ul>
 			</div>
 		</div>
@@ -17,7 +17,7 @@
 				<ul>
 					<li><a href="notice_list"><img src="admin/images/icon_title_left.png">리스트</a></li>
 					<li><a href="notice_write"><img src="admin/images/icon_title_left.png">글쓰기</a></li>
-					<li><a href="notice_list"><img src="admin/images/icon_title_left.png">글수정</a></li>
+					<li><a href="notice_list"><img src="admin/images/icon_title_left.png">글 조회/수정</a></li>
 				</ul>
 			</div>
 		</div>
@@ -55,8 +55,9 @@
 				<ul>
 					<li><a href="event_list"><img src="admin/images/icon_title_left.png">리스트</a></li>
 					<li><a href="event_write"><img src="admin/images/icon_title_left.png">글쓰기</a></li>
+					<li><a href="event_list"><img src="admin/images/icon_title_left.png">글 조회/수정</a></li>
 					<li><a href="event_applicants"><img src="admin/images/icon_title_left.png">신청자 리스트</a></li>
-					<li><a href="win_list"><img src="admin/images/icon_title_left.png">당첨자 발표 게시판</a></li>				
+					<!--  <li><a href="win_list"><img src="admin/images/icon_title_left.png">당첨자 발표 게시판</a></li>	-->			
 				</ul>
 			</div>
 		</div>

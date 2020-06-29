@@ -48,4 +48,7 @@ public interface AdminCouponService {
 
 	//쿠폰 1개 삭제
 	int deleteCoupon(int co_num);
+
+	//선택 쿠폰 일괄 삭제
+	int deleteSomeCoupons(int[] chkArray);
 }

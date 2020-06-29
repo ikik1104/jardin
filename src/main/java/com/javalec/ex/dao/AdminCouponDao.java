@@ -53,6 +53,9 @@ public interface AdminCouponDao {
 	//쿠폰 1개 삭제
 	int deleteCoupon(int co_num);
 
+	//선택 쿠폰 일괄 삭제
+	int deleteSomeCoupons(@Param("chkArray") int[] chkArray);
+
 
 
 	

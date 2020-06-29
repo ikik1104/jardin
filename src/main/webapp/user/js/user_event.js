@@ -290,7 +290,7 @@ function submitComment(){
        success : function(val){
            if(val ==1 ){//1이면 성공
            alert('댓글을 등록했습니다.');                      	    
-           location.reload();
+          location.reload();
            }else{ // 0이면 실패
               alert("비밀번호가 일치하지 않습니다. 다시 시도해 주세요.");
            }
