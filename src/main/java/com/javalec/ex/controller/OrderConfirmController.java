@@ -78,7 +78,8 @@ public class OrderConfirmController {
 				olDto.setOl_amt(ol_amt);
 				olDto.setCo_num(ci_num);
 				olDto.setOl_orderer_id(m_id);
-				if(map.get("ol_payment")=="신용카드 결제") {
+				System.out.println(map.get("ol_payment"));
+				if(map.get("ol_payment").equals("신용카드 결제")) {
 					olDto.setOl_status("입금완료");
 				}else {
 					olDto.setOl_status("입금대기");
@@ -143,7 +144,8 @@ public class OrderConfirmController {
 					int p_num = Integer.parseInt(sp[0]);
 					int p_amt = Integer.parseInt(sp[1]);
 					String ol_status = "";
-					if(map.get("ol_payment")=="신용카드 결제") {
+					System.out.println(map.get("ol_payment"));
+					if(map.get("ol_payment").equals("신용카드 결제")) {
 						ol_status="입금완료";
 					}else {
 						ol_status="입금대기";
@@ -194,6 +196,8 @@ public class OrderConfirmController {
 			model.addAttribute("orderInfo", orderConfirmService.getOrReInfo(ol_order_num));
 			System.out.println(map.get("bank"));
 			System.out.println(map.get("dep_name"));
+			
+			i +=1;
 			
 			page = "nonmember/order_confirmation";
 		}

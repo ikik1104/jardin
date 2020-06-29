@@ -235,7 +235,6 @@
 		         	contentType: "application/json",
 		            success : function(data){
 		                        if(data == 1){
-		                        	alert("성공");
 			    	       	}
 			        	  },
 				error:function(){
