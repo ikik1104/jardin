@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>    
 <script type="text/javascript" src="user/js/common.js"></script>
+<script type="text/javascript" src="user/js/user_join_common.js"></script>
   <!-- 헤더 -->  
     <div id="header">
 		
