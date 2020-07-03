@@ -275,9 +275,9 @@ public class UserMemberController {
 			 try {                                                       
 			        MimeMessage message = mailSender.createMimeMessage();
 			        MimeMessageHelper messageHelper = new MimeMessageHelper(message,true,"UTF-8");
-			        messageHelper.setTo(memberDto.getM_email());//보낼 메일주소
+			        messageHelper.setTo(email);//보낼 메일주소
 			        messageHelper.setSubject("[JARDIN] 쟈뎅 아이디찾기  "); //메일 제목/
-			        messageHelper.setText(mail_text(id),true);  //메일내용 true가 있어야 html이라고 인식해준데영~~
+			        messageHelper.setText(mail_text_id(id),true);  //메일내용 true가 있어야 html이라고 인식해준데영~~
 			        
 			        mailSender.send(message); //보낸다.
 		        } catch(Exception e){
@@ -325,29 +325,56 @@ public class UserMemberController {
 			realpath=response_path+"idsearch";
 		} else {
 			//일치하는 비밀번호 찾았을 경우
+			// 임시 비번번호 (랜덤) 20.07.03 홍익 메일링 수정중-------------------------------------------------------
+			 String password = "";
+			  for(int i = 0; i < 8; i++){
+			   //char upperStr = (char)(Math.random() * 26 + 65);
+			   char lowerStr = (char)(Math.random() * 26 + 97);
+			   if(i%2 == 0){
+			    password += (int)(Math.random() * 10);
+			   }else{
+			    password += lowerStr;
+			   }
+			  }
+			  System.out.println("*** 만들어진 임시 비밀번호 = "+password);
+			 
+			  try {                                                       
+			        MimeMessage message = mailSender.createMimeMessage();
+			        MimeMessageHelper messageHelper = new MimeMessageHelper(message,true,"UTF-8");
+			        messageHelper.setTo(memberDto.getM_email());//보낼 메일주소
+			        messageHelper.setSubject("[JARDIN] 쟈뎅 임시 비밀번호를 발송해 드립니다.  "); //메일 제목
+			        messageHelper.setText(mail_text_pw(password),true);  //메일내용 true가 있어야 html이라고 인식해준데영~~
+			        
+			        memberDto.setM_pw(password);
+			        System.out.println(memberDto.getM_pw());
+			        System.out.println(memberDto.getM_id());
+			        
+			        mailSender.send(message); //보낸다.
+			        mservice.updateMailPw(memberDto); //임시 비밀번호로 비밀번호를 변경한다. (아 where num말고 where id로 회원 찾아서 수정함..)
+		        } catch(Exception e){
+		        	System.out.println("에러났거든???");
+		            System.out.println(e);
+		        }
+			 
+			  
+			 // 임시번호를 메일로 전송하고 나서 임시번호로 비밀번로를 update해줘야 함
+			  
+			  
+			  
+			  
+			  
+			  
+			 //임시 비번번호 (랜덤) 20.07.03 홍익 메일링 수정중-------------------------------------------------------
+			
+			
 			realpath="redirect:pwsearch_success";
+			
 		}
 		model.addAttribute("alerttext", alerttext);
 		model.addAttribute("m_pw", meminfo.getM_pw());
 		return realpath;
 		
-		/* 임시 비번번호 (랜덤) 20.07.03 홍익 메일링 수정중-------------------------------------------------------
-		 String password = "";
-		  for(int i = 0; i < 8; i++){
-		   //char upperStr = (char)(Math.random() * 26 + 65);
-		   char lowerStr = (char)(Math.random() * 26 + 97);
-		   if(i%2 == 0){
-		    password += (int)(Math.random() * 10);
-		   }else{
-		    password += lowerStr;
-		   }
-		  }
-		  System.out.println("만들어진 임시 비밀번호 = "+password);
-		  
-		 // 임시번호를 메일로 전송하고 나서 임시번호로 비밀번로를 update해줘야 함
-		  
-		  임시 비번번호 (랜덤) 20.07.03 홍익 메일링 수정중-------------------------------------------------------
-		 */
+		
 		 
 	}	
 	
@@ -372,59 +399,60 @@ public class UserMemberController {
 	}
 	
 	
-	//너무 기니까 빼자~~~~
-	public String mail_text (String id) {
+	//아이디 찾기 메일content
+	public String mail_text_id (String id) {
 		String aa = "";
-        
 		
         aa += "<html><body bgcolor='#FFFFFF' leftmargin='0' topmargin='0' marginwidth='0' marginheight='0' style='margin:0 auto; padding:0; font:normal 12px/1.5 돋움;'>";
         aa += "<table width='700' cellpadding='0' cellspacing='0' align='center'>";
-        aa += "<tr>";
-		aa += "<td style='width:700px;height:175px;padding:0;margin:0;vertical-align:top;font-size:0;line-height:0;'>";
+		aa += "<tr><td style='width:700px;height:175px;padding:0;margin:0;vertical-align:top;font-size:0;line-height:0;'>";
 		aa += "<img src='https://res.cloudinary.com/hongik/image/upload/v1593758746/mail/img_email_top_jtuwwr.jpg' alt='JARDIN' />";			
-		aa += "</td>";
-		aa += "</tr>";
-		aa += "<tr>";
-		aa += "<td style='width:700px;height:78px;padding:0;margin:0;vertical-align:top;'>";
+		aa += "</td></tr><tr><td style='width:700px;height:78px;padding:0;margin:0;vertical-align:top;'>";
 		aa += "<p style='width:620px;margin:50px 0 40px 38px;text-align:center;font-size:0;line-height:0;'><img src='https://res.cloudinary.com/hongik/image/upload/v1593758723/mail/img_txt_id01_pzivzf.jpg' alt='원두커피의 名家, JARDIN 문의하신 회원님 ID를 발송해 드립니다.' /></p>";
-		aa += "</td>";
-		aa += "</tr>";
-		aa += "<tr>";
-		aa += "<td style='width:700px;height:179px;padding:0;margin:0;vertical-align:top;'>";
-		aa += "<table width='618';height='177' cellpadding='0' cellspacing='0' align='center' style='margin:0 0 0 40px;border:1px #d9d9d9 solid;'>";
-		aa += "<tr>";
+		aa += "</td></tr><tr><td style='width:700px;height:179px;padding:0;margin:0;vertical-align:top;'>";
+		aa += "<table width='618';height='177' cellpadding='0' cellspacing='0' align='center' style='margin:0 0 0 40px;border:1px #d9d9d9 solid;'><tr>";
 		aa += "	<td style='width:618px;height:177px;padding:0;margin:0;vertical-align:top;font-size:0;line-height:0;background:#f9f9f9;'>";
 		aa += "	<p style='width:620px;margin:30px 0 0 0;padding:0;text-align:center;'><img src='https://res.cloudinary.com/hongik/image/upload/v1593758724/mail/img_txt_id02_tnqbuz.jpg' alt='쟈뎅샵에서 ID찾기를 요청하셨습니다.' /></p>";
 		aa += "	<p style='width:620px;margin:30px 0 0 0;padding:0;text-align:center;color:#666666;font-size:12px;line-height:1;'><strong>ID : <span style='color:#f7703c;line-height:1;'>"+id+"</span></strong></p>";
 		aa += "	<p style='width:620px;margin:30px 0 0 0;padding:0;text-align:center;color:#888888;font-size:12px;line-height:1.4;'>쟈뎅샵에서는 고객님께 보다 나은 서비스를 제공하기 위해 항상 노력하고 있습니다.<br/>앞으로 많은 관심 부탁드립니다.</p>";
-		aa += "	</td>";
-		aa += "</tr>";
-		aa += "	</table>";
-		aa += "	</td>";
-		aa += " </tr>";
-		aa += " <tr>";
+		aa += "	</td></tr></table></td></tr><tr>";
 		aa += "<td style='width:700px;height:120px;padding:0;margin:0;vertical-align:top;'>";
 		aa += "<p style='width:700px;margin:30px 0 50px 0;text-align:center;'><a href='http://localhost:8181/ex/login'><img src='https://res.cloudinary.com/hongik/image/upload/v1593758722/mail/btn_jardin_fxt7y5.jpg' alt='JARDIN 바로가기' /></a></p>";
-		aa += "</td>";
-		aa += "</tr>";
-		aa += "<tr>";
-		aa += "<td style='width:700px;height:50px;padding:0;vertical-align:top;font-size:0;line-height:0;text-align:center;'>";
+		aa += "</td></tr><tr><td style='width:700px;height:50px;padding:0;vertical-align:top;font-size:0;line-height:0;text-align:center;'>";
 		aa += "	<img src='https://res.cloudinary.com/hongik/image/upload/v1593758724/mail/img_email_bottom_pd9yuq.jpg' alt='' />";
-		aa += "</td>";
-		aa += " </tr>";
-		aa += "<tr>";
-		aa += "	<td style='width:700px;height:140px;padding:0;margin:0;vertical-align:top;background-color:#5a524c;'>";
+		aa += "	</td></tr><tr><td style='width:700px;height:140px;padding:0;margin:0;vertical-align:top;background-color:#5a524c;'>";
 		aa += "	<p style='width:620px;margin:20px 0 0 40px;padding:0;text-align:center;line-height:1.5;color:#b2aeac;'>메일수신을 원치 않으시는 분은 로그인 후. <span style='color:#ffffff'>메일 수신 여부</span>를 변경해주시기 바랍니다.<br/>IF YOU DO NOT WISH TO RECEIVE EMAILS FROM US, PLEASE LOG-IN AND UPDATE<br/> YOUR MEMBERSHIP INFORMATION.</p>";
-
 		aa += "	<p style='width:620px;margin:15px 0 0 40px;padding:0;text-align:center;line-height:1.5;color:#b2aeac;'><span style='color:#ffffff'>본 메일에 관한 문의사항은 사이트 내 고객센터를 이용해주시기 바랍니다.</span><br/>COPYRIGHT ©  2014 JARDIN ALL RIGHTS RESERVED.</p>";
-		aa += "</td>";
-		aa += " </tr>";
-		aa += "</table>";
-		aa += "</div>";
-		aa += "</body></html>";
-		
+		aa += "</td></tr></table></div></body></html>";
 		return aa;
 	}
 	
+	public String mail_text_pw (String pw) {
+		String aa = "";
+		
+		aa += "<body bgcolor='#FFFFFF' leftmargin='0' topmargin='0' marginwidth='0' marginheight='0' style='margin:0; padding:0; font:normal 12px/1.5 돋움;'>";
+		aa += "<table width='700' cellpadding='0' cellspacing='0' align='center'>";
+		aa += "<tr><td style='width:700px;height:175px;padding:0;margin:0;vertical-align:top;font-size:0;line-height:0;'>";
+		aa += "<img src='https://res.cloudinary.com/hongik/image/upload/v1593758746/mail/img_email_top_jtuwwr.jpg' alt='JARDIN' />";			
+		aa += "</td></tr><tr><td style='width:700px;height:78px;padding:0;margin:0;vertical-align:top;'>";
+		aa += "<p style='width:620px;margin:50px 0 40px 38px;text-align:center;font-size:0;line-height:0;'><img src='https://res.cloudinary.com/hongik/image/upload/v1593758726/mail/img_txt_password01_t5yfyo.jpg' alt='원두커피의 名家, JARDIN 임시 비밀번호가 발급되었습니다.' /></p>";
+		aa += "</td></tr><tr><td style='width:700px;height:196px;padding:0;margin:0;vertical-align:top;'>";
+		aa += "<table width='618' height='194' cellpadding='0' cellspacing='0' align='center' style='margin:0 0 0 40px;border:1px #d9d9d9 solid;'>";
+		aa += "<tr><td style='width:618px;height:194px;padding:0;margin:0;vertical-align:top;font-size:0;line-height:0;background:#f9f9f9;'>";
+		aa += "<p style='width:620px;margin:30px 0 0 0;padding:0;text-align:center;'><img src='https://res.cloudinary.com/hongik/image/upload/v1593758727/mail/img_txt_password02_lps7rj.jpg' alt='JARDIN에서 비밀번호 찾기를 요청하셨습니다.' /></p>";
+		aa += "<p style='width:620px;margin:10px 0 0 0;padding:0;text-align:center;color:#888888;font-size:12px;line-height:1;'>아래의 PASSWORD는 임시 PASSWORD이므로 홈페이지 로그인 후 다시 수정해 주십시오.</p>";
+		aa += "<p style='width:620px;margin:28px 0 0 0;padding:0;text-align:center;color:#666666;font-size:12px;line-height:1;'><strong>임시 패스워드 : <span style='color:#f7703c;line-height:1;'>"+pw+"</span></strong></p>";
+		aa += "<p style='width:620px;margin:30px 0 0 0;padding:0;text-align:center;color:#888888;font-size:12px;line-height:1.4;'>쟈뎅샵에서는 고객님께 보다 나은 서비스를 제공하기 위해 항상 노력하고 있습니다.<br/>앞으로 많은 관심 부탁드립니다.</p>";
+		aa += "</td></tr></table></td></tr><tr><td style='width:700px;height:120px;padding:0;margin:0;vertical-align:top;'>";
+		aa += "<p style='width:700px;margin:30px 0 50px 0;text-align:center;'><a href='#'><img src='https://res.cloudinary.com/hongik/image/upload/v1593758722/mail/btn_jardin_fxt7y5.jpg' alt='JARDIN 바로가기' /></a></p>";
+		aa += "</td></tr><tr><td style='width:700px;height:50px;padding:0;vertical-align:top;font-size:0;line-height:0;text-align:center;'>";
+		aa += "<img src='https://res.cloudinary.com/hongik/image/upload/v1593758724/mail/img_email_bottom_pd9yuq.jpg' alt='' />";
+		aa += "</td></tr><tr><td style='width:700px;height:140px;padding:0;margin:0;vertical-align:top;background-color:#5a524c;'>";
+		aa += "<p style='width:620px;margin:20px 0 0 40px;padding:0;text-align:center;line-height:1.5;color:#b2aeac;'>메일수신을 원치 않으시는 분은 로그인 후. <span style='color:#ffffff'>메일 수신 여부</span>를 변경해주시기 바랍니다.<br/>IF YOU DO NOT WISH TO RECEIVE EMAILS FROM US, PLEASE LOG-IN AND UPDATE<br/> YOUR MEMBERSHIP INFORMATION.</p>";
+		aa += "<p style='width:620px;margin:15px 0 0 40px;padding:0;text-align:center;line-height:1.5;color:#b2aeac;'><span style='color:#ffffff'>본 메일에 관한 문의사항은 사이트 내 고객센터를 이용해주시기 바랍니다.</span><br/>COPYRIGHT ©  2014 JARDIN ALL RIGHTS RESERVED.</p>";
+		aa += "</td></tr></table></div></body>";
+		
+		return aa;
+	}
 	
 }

@@ -71,6 +71,13 @@ public class UserMemberServiceImp implements UserMemberService {
 		return mdao.checkID(memberDto);
 	}
 
+
+	//비밀번호를 임시 비번으로 변경
+	@Override
+	public int updateMailPw(MemberDto memberDto) {
+		return mdao.updateMailPw(memberDto);
+	}
+
 	
 
 

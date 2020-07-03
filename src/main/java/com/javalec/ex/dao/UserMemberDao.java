@@ -42,6 +42,8 @@ public interface UserMemberDao {
 	//비밀번호 찾기
 	MemberDto searchPW(MemberDto memberDto);	
 	
+	//비밀번호를 임시 비번으로 변경
+	int updateMailPw(MemberDto memberDto);
 	
 
 

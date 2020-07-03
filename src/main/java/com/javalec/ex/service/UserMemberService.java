@@ -34,6 +34,9 @@ public interface UserMemberService {
 
 	//회원가입 아이디 중복체크
 	AllDto checkID(MemberDto memberDto);
+	
+	//비밀번호를 임시 비번으로 변경
+	int updateMailPw(MemberDto memberDto);
 
 
 
