@@ -5,10 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,6 +45,8 @@ public class UserMemberController {
 	UserMemberService mservice;
 	@Autowired
 	NonMemService nmService;
+	@Autowired
+	private JavaMailSenderImpl mailSender;
 	
 	//로그인 페이지 접속
 	@RequestMapping("login")
@@ -253,10 +258,40 @@ public class UserMemberController {
 			realpath=response_path+"idsearch";
 		} else {
 			//일치하는 아이디 찾았을 경우
+			
+//20.07.03 홍익 메일링 수정 중 ---------------------------------------
+			String id = meminfo.getM_id();
+			String email = memberDto.getM_email();
+			
+			/*
+			 * 
+			 * 1. pom.xml에 메일 관련 추가 확인
+			 * 2. root-context 메일 전송관련 bean추가
+			 * 3. controller 메일관련 @Autowired 추가
+			 * 4. 하단에 메일 내용 html넣어둔 메소드 있어요~
+			 * 
+			 * */
+			
+			 try {                                                       
+			        MimeMessage message = mailSender.createMimeMessage();
+			        MimeMessageHelper messageHelper = new MimeMessageHelper(message,true,"UTF-8");
+			        messageHelper.setTo(memberDto.getM_email());//보낼 메일주소
+			        messageHelper.setSubject("[JARDIN] 쟈뎅 아이디찾기  "); //메일 제목/
+			        messageHelper.setText(mail_text(id),true);  //메일내용 true가 있어야 html이라고 인식해준데영~~
+			        
+			        mailSender.send(message); //보낸다.
+		        } catch(Exception e){
+		        	System.out.println("에러났거든???");
+		            System.out.println(e);
+		        }
+			 
+//20.07.03 홍익 메일링 수정 중 ---------------------------------------
+			
 			realpath="redirect:idsearch_success";
 		}
 		model.addAttribute("alerttext", alerttext);
 		model.addAttribute("m_id", meminfo.getM_id());
+		
 		return realpath;
 	}
 	
@@ -295,6 +330,25 @@ public class UserMemberController {
 		model.addAttribute("alerttext", alerttext);
 		model.addAttribute("m_pw", meminfo.getM_pw());
 		return realpath;
+		
+		/* 임시 비번번호 (랜덤) 20.07.03 홍익 메일링 수정중-------------------------------------------------------
+		 String password = "";
+		  for(int i = 0; i < 8; i++){
+		   //char upperStr = (char)(Math.random() * 26 + 65);
+		   char lowerStr = (char)(Math.random() * 26 + 97);
+		   if(i%2 == 0){
+		    password += (int)(Math.random() * 10);
+		   }else{
+		    password += lowerStr;
+		   }
+		  }
+		  System.out.println("만들어진 임시 비밀번호 = "+password);
+		  
+		 // 임시번호를 메일로 전송하고 나서 임시번호로 비밀번로를 update해줘야 함
+		  
+		  임시 비번번호 (랜덤) 20.07.03 홍익 메일링 수정중-------------------------------------------------------
+		 */
+		 
 	}	
 	
 	//아이디 찾기 성공 페이지 접속
@@ -316,5 +370,61 @@ public class UserMemberController {
 	public String idcheck() {
 		return response_path+"idcheck";
 	}
+	
+	
+	//너무 기니까 빼자~~~~
+	public String mail_text (String id) {
+		String aa = "";
+        
+		
+        aa += "<html><body bgcolor='#FFFFFF' leftmargin='0' topmargin='0' marginwidth='0' marginheight='0' style='margin:0 auto; padding:0; font:normal 12px/1.5 돋움;'>";
+        aa += "<table width='700' cellpadding='0' cellspacing='0' align='center'>";
+        aa += "<tr>";
+		aa += "<td style='width:700px;height:175px;padding:0;margin:0;vertical-align:top;font-size:0;line-height:0;'>";
+		aa += "<img src='https://res.cloudinary.com/hongik/image/upload/v1593758746/mail/img_email_top_jtuwwr.jpg' alt='JARDIN' />";			
+		aa += "</td>";
+		aa += "</tr>";
+		aa += "<tr>";
+		aa += "<td style='width:700px;height:78px;padding:0;margin:0;vertical-align:top;'>";
+		aa += "<p style='width:620px;margin:50px 0 40px 38px;text-align:center;font-size:0;line-height:0;'><img src='https://res.cloudinary.com/hongik/image/upload/v1593758723/mail/img_txt_id01_pzivzf.jpg' alt='원두커피의 名家, JARDIN 문의하신 회원님 ID를 발송해 드립니다.' /></p>";
+		aa += "</td>";
+		aa += "</tr>";
+		aa += "<tr>";
+		aa += "<td style='width:700px;height:179px;padding:0;margin:0;vertical-align:top;'>";
+		aa += "<table width='618';height='177' cellpadding='0' cellspacing='0' align='center' style='margin:0 0 0 40px;border:1px #d9d9d9 solid;'>";
+		aa += "<tr>";
+		aa += "	<td style='width:618px;height:177px;padding:0;margin:0;vertical-align:top;font-size:0;line-height:0;background:#f9f9f9;'>";
+		aa += "	<p style='width:620px;margin:30px 0 0 0;padding:0;text-align:center;'><img src='https://res.cloudinary.com/hongik/image/upload/v1593758724/mail/img_txt_id02_tnqbuz.jpg' alt='쟈뎅샵에서 ID찾기를 요청하셨습니다.' /></p>";
+		aa += "	<p style='width:620px;margin:30px 0 0 0;padding:0;text-align:center;color:#666666;font-size:12px;line-height:1;'><strong>ID : <span style='color:#f7703c;line-height:1;'>"+id+"</span></strong></p>";
+		aa += "	<p style='width:620px;margin:30px 0 0 0;padding:0;text-align:center;color:#888888;font-size:12px;line-height:1.4;'>쟈뎅샵에서는 고객님께 보다 나은 서비스를 제공하기 위해 항상 노력하고 있습니다.<br/>앞으로 많은 관심 부탁드립니다.</p>";
+		aa += "	</td>";
+		aa += "</tr>";
+		aa += "	</table>";
+		aa += "	</td>";
+		aa += " </tr>";
+		aa += " <tr>";
+		aa += "<td style='width:700px;height:120px;padding:0;margin:0;vertical-align:top;'>";
+		aa += "<p style='width:700px;margin:30px 0 50px 0;text-align:center;'><a href='http://localhost:8181/ex/login'><img src='https://res.cloudinary.com/hongik/image/upload/v1593758722/mail/btn_jardin_fxt7y5.jpg' alt='JARDIN 바로가기' /></a></p>";
+		aa += "</td>";
+		aa += "</tr>";
+		aa += "<tr>";
+		aa += "<td style='width:700px;height:50px;padding:0;vertical-align:top;font-size:0;line-height:0;text-align:center;'>";
+		aa += "	<img src='https://res.cloudinary.com/hongik/image/upload/v1593758724/mail/img_email_bottom_pd9yuq.jpg' alt='' />";
+		aa += "</td>";
+		aa += " </tr>";
+		aa += "<tr>";
+		aa += "	<td style='width:700px;height:140px;padding:0;margin:0;vertical-align:top;background-color:#5a524c;'>";
+		aa += "	<p style='width:620px;margin:20px 0 0 40px;padding:0;text-align:center;line-height:1.5;color:#b2aeac;'>메일수신을 원치 않으시는 분은 로그인 후. <span style='color:#ffffff'>메일 수신 여부</span>를 변경해주시기 바랍니다.<br/>IF YOU DO NOT WISH TO RECEIVE EMAILS FROM US, PLEASE LOG-IN AND UPDATE<br/> YOUR MEMBERSHIP INFORMATION.</p>";
+
+		aa += "	<p style='width:620px;margin:15px 0 0 40px;padding:0;text-align:center;line-height:1.5;color:#b2aeac;'><span style='color:#ffffff'>본 메일에 관한 문의사항은 사이트 내 고객센터를 이용해주시기 바랍니다.</span><br/>COPYRIGHT ©  2014 JARDIN ALL RIGHTS RESERVED.</p>";
+		aa += "</td>";
+		aa += " </tr>";
+		aa += "</table>";
+		aa += "</div>";
+		aa += "</body></html>";
+		
+		return aa;
+	}
+	
 	
 }

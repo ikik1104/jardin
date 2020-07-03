@@ -8,7 +8,7 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 		<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
 	        <property name="driverClassName" value="oracle.jdbc.OracleDriver"/>
-	        <property name="jdbcUrl" value="jdbc:oracle:thin:@gongsam.dlinkddns.com:2222:orcl"/>
+	        <property name="jdbcUrl" value="jdbc:oracle:thin:@192.168.0.125:1521:orcl"/>
 	        <property name="username" value="jardin_team2"/>
 	        <property name="password" value="1234"/>
    		 </bean>
@@ -34,5 +34,22 @@
 	<bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
 		<property name="contentType" value="application/json;charset=UTF-8"/>
 	</bean>
+   	
+   	<!-- mail bean -->
+	 <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	  <property name="host" value="smtp.gmail.com"/>  <!--  수정 x -->
+	  <property name="port" value="587"/> <!--  수정 x -->
+	  <property name="username" value="hongik1996"/> <!-- 구글 아이디 -->
+	  <property name="password" value="xezzaxsbhbrcrltc"/> <!-- 구글 비번/ 로그인 오류 뜰 경우, 2차비밀번호(보안) 사용해야함-->
+	  <property name="javaMailProperties"> <!--  수정 x -->
+	   <props>
+	    <prop key="mail.smtp.auth">true</prop>
+	    <prop key="mail.smtp.starttls.enable">true</prop>
+	    <prop key="mail.smtp.timeout">8500</prop>
+	    <prop key="mail.debug">true</prop>
+	  </props>
+	  </property>
+	 </bean>
+   	
    	
 </beans>
