@@ -107,6 +107,7 @@ $(function(){
 		}
 	});
 
+	/*
 	// Accordion list
 	$(".accbtn").click(function () {
 		if( $(this).parent().is(".hover") ){			
@@ -119,6 +120,9 @@ $(function(){
 		}
 	});
 
+*/
+	
+	
 	// 위시리스트
 	var wishnum = $('.wish ul li').size();
 	var sum = Math.ceil(wishnum / 3);
