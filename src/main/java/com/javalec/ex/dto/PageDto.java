@@ -1,4 +1,4 @@
-package com.javalec.ex.dto;
+7package com.javalec.ex.dto;
 
 public class PageDto {
 
