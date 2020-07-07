@@ -27,10 +27,12 @@
 	   <property name="maxUploadSize" value="100000000" />
 	   <property name="maxInMemorySize" value="100000000" />
 	 </bean>
+
    	 
    	 <!-- base-package 에 정의된 package 내 클래스 및 xml을 SQL 처리를 위한 mapper로 인식-->
      <mybatis-spring:scan base-package="com.javalec.ex.dao. " />
      
+     <!-- ajax & json -->
 	<bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
 		<property name="contentType" value="application/json;charset=UTF-8"/>
 	</bean>

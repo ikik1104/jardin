@@ -138,11 +138,14 @@
 		    <artifactId>mybatis-spring</artifactId>
 		    <version>2.0.4</version>
 		</dependency>
+		
 		<dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-jdbc</artifactId>
 		    <version>5.2.4.RELEASE</version>
 		</dependency>
+		
+		<!-- 복붙대신 -->
 		<dependency>
 		    <groupId>com.oracle</groupId>
 		    <artifactId>ojdbc6</artifactId>

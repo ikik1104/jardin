@@ -101,12 +101,12 @@ $(function() {
 });
 
 function submit(){
-	var html ="";
-	$('input:checkbox[name=chk]:checked').each(function(){
-		var index = $(this).closest(".parents").attr('id');
-		html += '<input type="hidden" name="index" value="'+ index +'">'; 
-	});
-	$(".hidden_array").html(html);
+// 	var html ="";
+// 	$('input:checkbox[name=chk]:checked').each(function(){
+// 		var index = $(this).closest(".parents").attr('id');
+// 		html += '<input type="hidden" name="index" value="'+ index +'">'; 
+// 	});
+// 	$(".hidden_array").html(html);
 	
 	refund_request.submit();
 }
@@ -151,7 +151,7 @@ function submit(){
     				<tbody>
                         <c:forEach items="${ list }" var="list" varStatus="status">
     					<tr id="${ status.index }" class="parents">
-                            <td><input type="checkbox" class="chk" name="chk" id="chk${ status.index }"></td>
+                            <td><input type="checkbox" class="chk" name="chk" id="chk${ status.index }" value="${ status.index }"></td>
                             <td>
     							<p class="img"><img src="${ list.P_THUMB_IMG1 }" alt="상품" width="66" height="66" /></p>
     

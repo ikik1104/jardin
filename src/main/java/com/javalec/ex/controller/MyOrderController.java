@@ -94,8 +94,9 @@ public class MyOrderController {
 		//배열 랭스만큼  포문 돌리고  그 배열 값을 i 자리에 넣어서 처리하면 되지 않을까?
 		
 		//관건은..리퀘스트로 과연 index 를 배열로 받아오느냐 아니냐..
+		//아니야 체크박스 인풋의 value에 index를 줘서 그걸 배열로 받음 되지~~
 		//선택한 상품 객체의 인덱스를 배열로 넘겨받기
-		String[] indexArray = request.getParameterValues("index");
+		String[] indexArray = request.getParameterValues("chk");
 		for(int i=0; i<indexArray.length; i++) {
 			int ol_num = refundSetDto.getRefundDto().get(Integer.parseInt(indexArray[i])).getOl_num();
 			int rf_price = refundSetDto.getRefundDto().get(Integer.parseInt(indexArray[i])).getRf_price();
