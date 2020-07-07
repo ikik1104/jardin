@@ -110,11 +110,13 @@ $(function(){
 	// Accordion list
 	$(".accbtn").click(function () {
 		if( $(this).parent().is(".hover") ){			
-			$(this).parent().removeClass("hover")
+			$(this).parent().removeClass("hover");
 			$(".hideArea").hide(300)
+//			$(this).parent().siblings(".hideArea").hide(300)
 		}else{
 			$(".hideArea").hide(300)
 			$(".accbtn").parent().removeClass("hover")
+//			$(this).siblings(".hideArea").show(300).parent().addClass("hover");
 			$(this).parent().addClass("hover").parent().siblings(".hideArea").show(300);
 		}
 	});

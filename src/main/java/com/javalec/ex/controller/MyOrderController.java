@@ -94,8 +94,9 @@ public class MyOrderController {
 		//배열 랭스만큼  포문 돌리고  그 배열 값을 i 자리에 넣어서 처리하면 되지 않을까?
 		
 		//관건은..리퀘스트로 과연 index 를 배열로 받아오느냐 아니냐..
+		//아니야 체크박스 인풋의 value에 index를 줘서 그걸 배열로 받음 되지~~
 		//선택한 상품 객체의 인덱스를 배열로 넘겨받기
-		String[] indexArray = request.getParameterValues("index");
+		String[] indexArray = request.getParameterValues("chk");
 		for(int i=0; i<indexArray.length; i++) {
 			int ol_num = refundSetDto.getRefundDto().get(Integer.parseInt(indexArray[i])).getOl_num();
 			int rf_price = refundSetDto.getRefundDto().get(Integer.parseInt(indexArray[i])).getRf_price();
@@ -227,6 +228,7 @@ public class MyOrderController {
 		reviewUserDto.setM_num((Integer)session.getAttribute("userNum")); //dto에 회원고유번호 넣기
 		reviewUserDto.setOl_num(Integer.parseInt(ol_num)); //dto에 ol_num 값 넣기
 		int check = ocService.review_insert(ru_img_file, reviewUserDto); //리뷰 등록 메소드(파일첨부는 서비스에 넘겨서 구현)
+		System.out.println();
 		pService.update_score(reviewUserDto.getP_num()); //제품의 스코어 업데이트(홍익구현 pservice 가져다씀)
 		return "redirect:my_review_list?ol_order_num="+ol_order_num; //리뷰가능리스트로 리다이렉트시키기
 	}

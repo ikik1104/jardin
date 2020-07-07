@@ -135,9 +135,9 @@ $(document).ready(function() {
 			<div id="contents">
 				<div id="member">
 					<h2><strong>아이디/비밀번호 찾기</strong><span>회원님께서 가입하신 아이디와 비밀번호를 찾아드립니다.</span></h2>
-					<p style="font-size:18px; text-align:center;"> 회원님의 아이디는 <span style="font-size:20px; font-weight:bold;">${m_id }</span>입니다. </p>
-					<div class="btn_area">
-						<button onclick="location.href='main'">메인으로</button><button onclick="location.href='idsearch'">비밀번호 찾기</button>
+					<p style="font-size:18px; text-align:center; margin-bottom: 100px; margin-top: 100px; line-height: 50px;"> 입력하신 이메일로 아이디를 발송했습니다 . 이메일을 확인 해주세요 </p>
+					<div class="btn_area" style="text-align: center;">
+						<button onclick="location.href='main'" style="margin-right: 15px;" >메인으로</button><button onclick="location.href='idsearch'">비밀번호 찾기</button>
 					</div>
 					
 				</div>

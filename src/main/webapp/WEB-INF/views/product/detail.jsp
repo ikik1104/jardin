@@ -308,14 +308,14 @@ function addWishlist(p_num){
                                         <input type="hidden"  name="p_num" id="p_num" value="${pdto.p_num}">
                                     </li>
                                     <li>
-                                        <div class="stit">평점</div>
+                                        <div class="stit">평점${pdto.p_score}</div>
                                         <div>
-                                            <c:forEach begin="1" end="${pdto.p_score}">
-                                                <img src="user/images/ico/ico_star.gif" alt="별점" />
-                                            </c:forEach>
-                                            <c:forEach begin="1" end="${5-pdto.p_score}">
-                                                <img src="user/images/ico/ico_star_off.gif" alt="별점" />
-                                            </c:forEach>
+                                            <c:forEach begin="1" end="${pdto.p_score}" >
+		                                       <img src="user/images/ico/ico_star.gif" alt="별점" />
+		                                    </c:forEach>
+		                                     <c:forEach begin="1" end="${5-pdto.p_score}">
+		                                       <img src="user/images/ico/ico_star_off.gif" alt="별점" />
+		                                     </c:forEach>
                                         </div>
                                     </li>
                                 </ul>

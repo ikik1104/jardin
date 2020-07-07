@@ -153,4 +153,12 @@
 	    select '-' as m_pw from dual)
 	    where m_pw!='-' or rownum=1		
 	</select>
+	
+	
+	<!-- 임시 비밀번호로 비밀번호를 변경 -->
+	<update id="updateMailPw">
+		update member_tb set m_pw = #{m_pw} where m_id = #{m_id}
+	</update>
+
+
 </mapper>		
