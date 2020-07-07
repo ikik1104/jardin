@@ -26,54 +26,24 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 
 
-
 @Component
-
 public class CommonUtils {
-
-
 
 	Logger logger = LoggerFactory.getLogger(this.getClass());
 
-
-
 	// Cloudinary cloud_name, API_Key and API_Secret
-
 	private static final String CLOUDINARY_CLOUD_NAME = "hongik";
-
 	private static final String CLOUDINARY_API_KEY = "485992929882614";
-
 	private static final String CLOUDINARY_API_SECRET = "d5C80voQTeAFkAokPwA2BjUJcrI";
 
-
-
-	private static final String SAVE_PATH = "C:\\upload\\";
-
-	private static final String PREFIX_URL = "/upload/";
-
-
 	// 파일업로드(클라우드)
-
 	public String FileUploaderCDN(MultipartFile mFile, String folderName) throws IOException {
-
-//		String fileExtension = ".jpg";
-
-//		if (!mFile.getOriginalFilename().equals("blob")) {
-
-//			fileExtension = mFile.getOriginalFilename().substring(mFile.getOriginalFilename().lastIndexOf("."));
-
-//		}
-
 
 		String storedFileName = UUID.randomUUID().toString().replaceAll("-", "");
 		System.out.println(storedFileName);
 
-
 		Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap("cloud_name", CLOUDINARY_CLOUD_NAME, "api_key",
-
 				CLOUDINARY_API_KEY, "api_secret", CLOUDINARY_API_SECRET, "secure", true));
-
-
 
 		Map<String, Object> cloudinaryURL = null;
 
@@ -82,24 +52,13 @@ public class CommonUtils {
 
 		mFile.transferTo(convFile);
 
-
-
 		try {
-
 			Map<String, Object> result = (Map<String, Object>) cloudinary.uploader().upload(convFile, params);
-
 			cloudinaryURL = result;
-
 		} catch (Exception e) {
-
 			e.printStackTrace();
-
 		}
-
-
-
 		return (String) (cloudinaryURL.get("url"));
-
 	}
 
 

@@ -21,6 +21,7 @@ public class OrderCheckServiceImp implements OrderCheckService {
 
 	@Autowired
 	OrderCheckDao orderCheckDao;
+	
 	@Autowired
 	CommonUtils utils;
 

@@ -220,7 +220,7 @@ public class MyOrderController {
 		return "mypage/my_review_view";
 	}
 	
-	
+	//2132
 	
 	//리뷰등록하기 **리뷰 등록시 주문 고유번호도 같이 등록시켜야함
 	@RequestMapping("my_review_insert")

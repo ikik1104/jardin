@@ -259,7 +259,6 @@ public class UserMemberController {
 		} else {
 			//일치하는 아이디 찾았을 경우
 			
-//20.07.03 홍익 메일링 수정 중 ---------------------------------------
 			String id = meminfo.getM_id();
 			String email = memberDto.getM_email();
 			
@@ -268,7 +267,6 @@ public class UserMemberController {
 			 * 1. pom.xml에 메일 관련 추가 확인
 			 * 2. root-context 메일 전송관련 bean추가
 			 * 3. controller 메일관련 @Autowired 추가
-			 * 4. 하단에 메일 내용 html넣어둔 메소드 있어요~
 			 * 
 			 * */
 			
@@ -276,16 +274,16 @@ public class UserMemberController {
 			        MimeMessage message = mailSender.createMimeMessage();
 			        MimeMessageHelper messageHelper = new MimeMessageHelper(message,true,"UTF-8");
 			        messageHelper.setTo(email);//보낼 메일주소
-			        messageHelper.setSubject("[JARDIN] 쟈뎅 아이디찾기  "); //메일 제목/
-			        messageHelper.setText(mail_text_id(id),true);  //메일내용 true가 있어야 html이라고 인식해준데영~~
+			        messageHelper.setSubject("[JARDIN] 쟈뎅 아이디찾기  "); //메일 제목
+			        messageHelper.setText(mail_text_id(id),true);  //메일내용
 			        
 			        mailSender.send(message); //보낸다.
 		        } catch(Exception e){
-		        	System.out.println("에러났거든???");
+		        	System.out.println("에러");
 		            System.out.println(e);
 		        }
 			 
-//20.07.03 홍익 메일링 수정 중 ---------------------------------------
+			 
 			
 			realpath="redirect:idsearch_success";
 		}
@@ -352,7 +350,7 @@ public class UserMemberController {
 			        mailSender.send(message); //보낸다.
 			        mservice.updateMailPw(memberDto); //임시 비밀번호로 비밀번호를 변경한다. (아 where num말고 where id로 회원 찾아서 수정함..)
 		        } catch(Exception e){
-		        	System.out.println("에러났거든???");
+		        	System.out.println("에러");
 		            System.out.println(e);
 		        }
 			 
