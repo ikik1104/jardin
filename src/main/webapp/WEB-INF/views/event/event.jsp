@@ -144,25 +144,50 @@ $(document).ready(function() {
 					</div>
 					<!-- //list -->
 
-					  <!-- 
-					<div class="btnAreaList"> -->
-						<!-- 페이징이동1 -->
-						 <!-- <div class="allPageMoving1">
-
-						<a href="#" class="n"><img src="user/images/btn/btn_pre2.gif" alt="처음으로"/></a><a href="#" class="pre"><img src="user/images/btn/btn_pre1.gif" alt="앞페이지로"/></a>
-						<strong>1</strong>
-						<a href="#">2</a>
-						<a href="#">3</a>
-						<a href="#">4</a>
-						<a href="#">5</a>
-						<a href="#" class="next"><img src="user/images/btn/btn_next1.gif" alt="뒤페이지로"/></a><a href="#" class="n"><img src="user/images/btn/btn_next2.gif" alt="마지막페이지로"/></a>
-
-						</div> -->
-						<!-- //페이징이동1 -->
-					<!--</div>-->
+					  
+<c:if test="${page_info ne null}">  
+						<div class="btnAreaList"> 
+							<!-- 페이징이동1 -->
+							 <div class="allPageMoving1">
+							<!-- 제일 첫번째 페이지로 이동 -->
+							<c:if test="${page_info.page ne 1 }">
+								<a href="event?page=1" class="n"><img src="user/images/btn/btn_pre2.gif" alt="처음으로"/></a>							
+							</c:if>
+							<!-- 제일 첫번째 페이지로 이동 -->
+							<!-- 전 페이지로 이동 -->
+							<c:if test="${page_info.page ne 1 }">
+								<a href="event?page=${page_info.page-1 }" class="pre"><img src="user/images/btn/btn_pre1.gif" alt="앞페이지로"/></a>
+							</c:if>
+							<!-- 전 페이지로 이동 -->
+							<!-- 페이지열 -->
+							<c:forEach var="i" begin="${page_info.startPage }" end="${page_info.endPage }"> 
+								<c:if test="${page_info.page eq i }">
+									<strong>${i }</strong>
+								</c:if>
+								<c:if test="${page_info.page ne i }">
+									<a href="event?page=${i }">${i }</a>
+								</c:if>							
+							</c:forEach>
+							<!-- 페이지열 -->
+							<!-- 다음페이지로 이동 -->
+							<c:if test="${page_info.page ne page_info.lastPage }">
+								<a href="event?page=${page_info.page+1 }" class="next"><img src="user/images/btn/btn_next1.gif" alt="뒤페이지로"/></a>
+							</c:if>
+							<!-- 다음페이지로 이동 -->
+							<!-- 제일 끝페이지로 이동 -->
+							<c:if test="${page_info.page ne page_info.lastPage }">
+								<a href="event?page=${page_info.lastPage }" class="n"><img src="user/images/btn/btn_next2.gif" alt="마지막페이지로"/></a>							
+							</c:if>
+							<!-- 제일 끝페이지로 이동 -->
+							
+	
+							</div> 
+							<!-- //페이징이동1 -->
+						</div>
+					</c:if>
 					
 					<!-- 검색 -->
-					<!--<div class="searchWrap">
+					<div class="searchWrap">
 						<div class="search">
 							<ul>
 								<li class="web"><img src="user/images/txt/txt_search.gif" alt="search" /></li>
@@ -176,7 +201,7 @@ $(document).ready(function() {
 								<li class="mobile"><a href="#"><img src="user/images/btn/btn_search_m.gif" alt="검색" /></a></li>
 							</ul>
 						</div>
-					</div>-->
+					</div>
 					<!-- //검색 -->
 
 				</div>

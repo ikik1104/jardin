@@ -27,6 +27,7 @@ import com.javalec.ex.dto.EventDto;
 import com.javalec.ex.dto.MemberDto;
 import com.javalec.ex.dto.MtmUserDto;
 import com.javalec.ex.dto.NoticeDto;
+import com.javalec.ex.dto.PageDto;
 import com.javalec.ex.dto.ReceiverDto;
 import com.javalec.ex.dto.UtilDto;
 import com.javalec.ex.dto.WinBoardDto;
@@ -58,10 +59,28 @@ public class UserEventController {
 	
 	//진행중 이벤트 전체 리스트 불러오기
 	@RequestMapping("event")
-	public String event(Model model) {
-		List<AllDto> list= eservice.getAllEvents();
+	public String event(Model model, PageDto pageDto) {
+		//전체 리스트 가져오기
+		List<AllDto> list= eservice.getAllEvents();		
+		
+		//페이징
+		int cntPerPage = 10;//한 페이지당 게시글 수
+		int page = pageDto.getPage();//현재 페이지
+		int range = 5;//페이지 레인지
+				
+		if(page==0) {//페이지 값 안 넘어올 때
+			pageDto.setPage(1);
+			page=1;
+		}
+		pageDto.calcLastPage(list.size(), cntPerPage);//마지막페이지 계산
+		pageDto.calcStartEndPage(page, range);//현재 페이지 레인지의 첫번째, 마지막 페이지 숫자 계산
+		pageDto.calcRownum2(page, cntPerPage, list.size());//페이지 내에서 rownum 첫번호 끝번호				
+		
+
 		model.addAttribute("list_size", list.size());		
 		model.addAttribute("event_list", list);
+		model.addAttribute("page_info", pageDto);
+
 		return response_path+"event";
 	}
 	
