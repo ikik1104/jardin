@@ -151,15 +151,17 @@
 	
 	<!-- 진행중 이벤트 전체 리스트 가져오기 -->
 	<select id="getAllEvents" resultMap="AllDto">
-         <![CDATA[select rownum, fintb.* from
-     	 (select * from
+         <![CDATA[select  rownum, fintb.* from
+		(select * from        
+		(select * from
          (select etb.*, to_char(e_start_day, 'yyyy-MM-dd') str1, to_char(e_end_day, 'yyyy-MM-dd')str2, 
          case when to_char(e_end_day, 'yy/MM/dd')<to_char(sysdate, 'yy/MM/dd') then '종료'
          when to_char(e_start_day, 'yy/MM/dd')>to_char(sysdate, 'yy/MM/dd') then '시작전'
          when to_char(e_start_day, 'yy/MM/dd')<=to_char(sysdate, 'yy/MM/dd') and to_char(e_end_day, 'yy/MM/dd')>=to_char(sysdate, 'yy/MM/dd') then '진행중' end str3
          from
          (select * from event_tb order by e_num desc) etb)
-         where str3='진행중') fintb]]> 
+         where str3='진행중')
+         ${whereSql}]]> 
 	</select>
 	
 	<!-- 진행중 이벤트 1개 불러오기 -->

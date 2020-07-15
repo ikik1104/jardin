@@ -23,6 +23,7 @@
 <script type="text/javascript" src="user/js/jquery.easing.1.3.js"></script>
 <script type="text/javascript" src="user/js/idangerous.swiper-2.1.min.js"></script>
 <script type="text/javascript" src="user/js/jquery.anchor.js"></script>
+<script type="text/javascript" src="user/js/user_event2.js"></script>
 <!--[if lt IE 9]>
 <script type="text/javascript" src="user/js/html5.js"></script>
 <script type="text/javascript" src="user/js/respond.min.js"></script>
@@ -125,19 +126,26 @@ $(document).ready(function() {
 					<div class="eventList">
 						<ul>
 							<c:if test="${list_size==0 }">
-								<li style="text-align:center; font-size:16px;">진행중 이벤트가 없습니다.</li>
+								<c:if test="${search_keyword ne null && search_keyword ne '' }">
+									<li style="text-align:center; font-size:16px;">검색 결과가 없습니다.</li>
+								</c:if>
+								<c:if test="${search_keyword eq null || search_keyword eq '' }">
+									<li style="text-align:center; font-size:16px;">진행중 이벤트가 없습니다.</li>
+								</c:if>
 							</c:if>
 							<c:if test="${list_size!=0 }">							
 								<c:forEach var="event_list" items="${event_list }">
-								<li>
-									<div class="img">
-										<a href="user_event_view?e_num=${event_list.eventdto.e_num }"><img style="width:668px; height:198px;" src="${event_list.eventdto.e_thumb_img }" alt="진행중 이벤트" /></a>
-									</div>
-									<div class="txt">
-										<div class="subject"  style="overflow:hidden; text-overflow:ellipsis; width:420px; white-space:pre;">${event_list.eventdto.e_title }</div>
-										<div class="day">이벤트 기간 : ${event_list.utildto.str1 } ~ ${event_list.utildto.str2 }</div>
-									</div>
-								</li>						
+								<c:if test="${event_list.eventdto.rownum>=page_info.startRow && event_list.eventdto.rownum<=page_info.endRow }">
+									<li>
+										<div class="img">
+											<a style="color:black;" href="user_event_view?e_num=${event_list.eventdto.e_num }&page=${page_info.page}&search_type=${search_type}&search_keyword=${search_keyword}"><img style="width:668px; height:198px;" src="${event_list.eventdto.e_thumb_img }" alt="진행중 이벤트" /></a>
+										</div>
+										<div class="txt">
+											<div class="subject"  style="overflow:hidden; text-overflow:ellipsis; width:420px; white-space:pre;"><a  style="color:black;" href="user_event_view?e_num=${event_list.eventdto.e_num }&page=${page_info.page}&search_type=${search_type}&search_keyword=${search_keyword}">${event_list.eventdto.e_title }</a></div>
+											<div class="day">이벤트 기간 : ${event_list.utildto.str1 } ~ ${event_list.utildto.str2 }</div>
+										</div>
+									</li>									
+								</c:if>
 								</c:forEach>
 							</c:if>
 						</ul>
@@ -145,18 +153,18 @@ $(document).ready(function() {
 					<!-- //list -->
 
 					  
-<c:if test="${page_info ne null}">  
+					<c:if test="${page_info ne null}">  
 						<div class="btnAreaList"> 
 							<!-- 페이징이동1 -->
 							 <div class="allPageMoving1">
 							<!-- 제일 첫번째 페이지로 이동 -->
 							<c:if test="${page_info.page ne 1 }">
-								<a href="event?page=1" class="n"><img src="user/images/btn/btn_pre2.gif" alt="처음으로"/></a>							
+								<a href="event?page=1&search_type=${search_type}&search_keyword=${search_keyword}"  class="n"><img src="user/images/btn/btn_pre2.gif" alt="처음으로"/></a>							
 							</c:if>
 							<!-- 제일 첫번째 페이지로 이동 -->
 							<!-- 전 페이지로 이동 -->
 							<c:if test="${page_info.page ne 1 }">
-								<a href="event?page=${page_info.page-1 }" class="pre"><img src="user/images/btn/btn_pre1.gif" alt="앞페이지로"/></a>
+								<a href="event?page=${page_info.page-1 }&search_type=${search_type}&search_keyword=${search_keyword}"  class="pre"><img src="user/images/btn/btn_pre1.gif" alt="앞페이지로"/></a>
 							</c:if>
 							<!-- 전 페이지로 이동 -->
 							<!-- 페이지열 -->
@@ -165,18 +173,18 @@ $(document).ready(function() {
 									<strong>${i }</strong>
 								</c:if>
 								<c:if test="${page_info.page ne i }">
-									<a href="event?page=${i }">${i }</a>
+									<a href="event?page=${i }&search_type=${search_type}&search_keyword=${search_keyword}">${i }</a>
 								</c:if>							
 							</c:forEach>
 							<!-- 페이지열 -->
 							<!-- 다음페이지로 이동 -->
 							<c:if test="${page_info.page ne page_info.lastPage }">
-								<a href="event?page=${page_info.page+1 }" class="next"><img src="user/images/btn/btn_next1.gif" alt="뒤페이지로"/></a>
+								<a href="event?page=${page_info.page+1 }&search_type=${search_type}&search_keyword=${search_keyword}" class="next"><img src="user/images/btn/btn_next1.gif" alt="뒤페이지로"/></a>
 							</c:if>
 							<!-- 다음페이지로 이동 -->
 							<!-- 제일 끝페이지로 이동 -->
 							<c:if test="${page_info.page ne page_info.lastPage }">
-								<a href="event?page=${page_info.lastPage }" class="n"><img src="user/images/btn/btn_next2.gif" alt="마지막페이지로"/></a>							
+								<a href="event?page=${page_info.lastPage }&search_type=${search_type}&search_keyword=${search_keyword}"class="n"><img src="user/images/btn/btn_next2.gif" alt="마지막페이지로"/></a>							
 							</c:if>
 							<!-- 제일 끝페이지로 이동 -->
 							
@@ -185,23 +193,43 @@ $(document).ready(function() {
 							<!-- //페이징이동1 -->
 						</div>
 					</c:if>
+					 
 					
 					<!-- 검색 -->
+					<form action="event" method="get" name="searchForm">
 					<div class="searchWrap">
-						<div class="search">
+						<div class="search" style="width:400px;">
 							<ul>
 								<li class="web"><img src="user/images/txt/txt_search.gif" alt="search" /></li>
 								<li class="se">
-									<select>
-										<option value="" />제목</option>
+									<select name="search_type" id="search_type">
+									    <c:if test="${search_type eq 'title' }">
+									    	<option value="title" selected>제목</option>
+									    </c:if>
+									    <c:if test="${search_type ne 'title' }">
+									    	<option value="title" >제목</option>
+									    </c:if>			
+									    <c:if test="${search_type eq 'content' }">
+									    	<option value="content" selected>내용</option>
+									    </c:if>
+									    <c:if test="${search_type ne 'content' }">
+									    	<option value="content" >내용</option>
+									    </c:if>										    						    
+									    <c:if test="${search_type eq 'title_content' }">
+									    	<option value="title_content" selected>제목+내용</option>
+									    </c:if>
+									    <c:if test="${search_type ne 'title_content' }">
+									    	<option value="title_content" >제목+내용</option>
+									    </c:if>								
 									</select>
 								</li>
-								<li><input type="text" class="searchInput" /></li>
-								<li class="web"><a href="#"><img src="user/images/btn/btn_search.gif" alt="검색" /></a></li>
-								<li class="mobile"><a href="#"><img src="user/images/btn/btn_search_m.gif" alt="검색" /></a></li>
+								<li><input type="text" class="searchInput" name="search_keyword" id="search_keyword" value="${search_keyword }"/></li>
+								<li class="web"><a onclick="searchForm.submit()"><img src="user/images/btn/btn_search.gif" alt="검색" /></a></li>
+								<li class="mobile"><a onclick="searchForm.submit()"><img src="user/images/btn/btn_search_m.gif" alt="검색" /></a></li>
 							</ul>
 						</div>
 					</div>
+					</form>
 					<!-- //검색 -->
 
 				</div>

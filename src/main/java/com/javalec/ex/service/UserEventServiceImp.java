@@ -35,8 +35,8 @@ public class UserEventServiceImp implements UserEventService {
 	UserEventDao edao;
 
 	//진행중 이벤트 전체리스트 가져오기
-	public List<AllDto> getAllEvents() {
-		return edao.getAllEvents();
+	public List<AllDto> getAllEvents(String whereSql) {
+		return edao.getAllEvents(whereSql);
 	}
 
 	//진행중 이벤트 1개 불러오기
