@@ -77,7 +77,7 @@ public class UserEventController {
 		List<AllDto> list= eservice.getAllEvents(whereSql);		
 		
 		//페이징
-		int cntPerPage = 10;//한 페이지당 게시글 수
+		int cntPerPage = 2;//한 페이지당 게시글 수
 		int page = pageDto.getPage();//현재 페이지
 		int range = 5;//페이지 레인지
 				
