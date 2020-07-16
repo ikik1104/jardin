@@ -25,7 +25,7 @@ public interface UserEventService {
 	 * */
 	
 	//진행중 이벤트 전체 리스트 가져오기
-	List<AllDto> getAllEvents();
+	List<AllDto> getAllEvents(String whereSql);
 
 	//진행중 이벤트 1개 불러오기
 	AllDto getEventBoard(EventDto eventDto);

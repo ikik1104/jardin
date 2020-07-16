@@ -27,6 +27,7 @@ import com.javalec.ex.dto.EventDto;
 import com.javalec.ex.dto.MemberDto;
 import com.javalec.ex.dto.MtmUserDto;
 import com.javalec.ex.dto.NoticeDto;
+import com.javalec.ex.dto.PageDto;
 import com.javalec.ex.dto.ReceiverDto;
 import com.javalec.ex.dto.UtilDto;
 import com.javalec.ex.dto.WinBoardDto;
@@ -58,19 +59,59 @@ public class UserEventController {
 	
 	//진행중 이벤트 전체 리스트 불러오기
 	@RequestMapping("event")
-	public String event(Model model) {
-		List<AllDto> list= eservice.getAllEvents();
+	public String event(Model model, PageDto pageDto, 
+			@RequestParam(value="search_type", defaultValue="") String sh_type,
+			@RequestParam(value="search_keyword", defaultValue="") String sh_keyword			
+			) {
+		//검색
+		String whereSql = ") fintb";
+		if(!sh_keyword.equals("")) {//검색했을 경우
+			switch(sh_type) {
+			case "title" : whereSql="where e_title like '%"+sh_keyword+"%') fintb";  break;
+			case "content" : whereSql="where e_content like '%"+sh_keyword+"%') fintb"; break;
+			case "title_content" : whereSql="where e_title like '%"+sh_keyword+"%' or e_content like '%"+sh_keyword+"%') fintb"; break;
+			}			
+		}
+		
+		//전체 리스트 가져오기
+		List<AllDto> list= eservice.getAllEvents(whereSql);		
+		
+		//페이징
+		int cntPerPage = 10;//한 페이지당 게시글 수
+		int page = pageDto.getPage();//현재 페이지
+		int range = 5;//페이지 레인지
+				
+		if(page==0) {//페이지 값 안 넘어올 때
+			pageDto.setPage(1);
+			page=1;
+		}
+		pageDto.calcLastPage(list.size(), cntPerPage);//마지막페이지 계산
+		pageDto.calcStartEndPage(page, range);//현재 페이지 레인지의 첫번째, 마지막 페이지 숫자 계산
+		pageDto.calcRownum2(page, cntPerPage, list.size());//페이지 내에서 rownum 첫번호 끝번호				
+		
+
 		model.addAttribute("list_size", list.size());		
 		model.addAttribute("event_list", list);
+		model.addAttribute("page_info", pageDto);
+		model.addAttribute("search_type", sh_type);
+		model.addAttribute("search_keyword", sh_keyword);
+
 		return response_path+"event";
 	}
 	
 	//이벤트 1개 불러오기
 	@RequestMapping("user_event_view")
-	public String user_event_view(EventDto eventDto, Model model, HttpServletRequest request) {
+	public String user_event_view(EventDto eventDto, Model model, HttpServletRequest request, PageDto pageDto, 
+			@RequestParam(value="search_type", defaultValue="") String sh_type,
+			@RequestParam(value="search_keyword", defaultValue="") String sh_keyword	) {
 		model.addAttribute("event_info", eservice.getEventBoard(eventDto));
 		model.addAttribute("ecomment_list", eservice.getTheEComments(eventDto));	
 		model.addAttribute("coupon_info", eservice.getTheCoupon(eventDto));
+		
+		//패이지&검색
+		model.addAttribute("page", pageDto.getPage());
+		model.addAttribute("search_type", sh_type);
+		model.addAttribute("search_keyword", sh_keyword);	
 		
 		return response_path+"user_event_view";
 	}
